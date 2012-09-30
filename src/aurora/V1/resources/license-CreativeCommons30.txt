@@ -1,0 +1,21 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}Copyright ${date?date?string("yyyy")} ${project.organization!user}.
+${licensePrefix?replace(" +$", "", "r")}
+${licensePrefix}This work is licensed under the 
+${licensePrefix}Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
+${licensePrefix}To view a copy of this license, visit 
+${licensePrefix?replace(" +$", "", "r")}
+${licensePrefix}     http://creativecommons.org/licenses/by-nc-nd/3.0/
+${licensePrefix?replace(" +$", "", "r")}
+${licensePrefix}or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+${licensePrefix}Mountain View, California, 94041, USA.
+${licensePrefix}Unless required by applicable law or agreed to in writing, software
+${licensePrefix}distributed under the License is distributed on an "AS IS" BASIS,
+${licensePrefix}WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+${licensePrefix}See the License for the specific language governing permissions and
+${licensePrefix}limitations under the License.
+<#if licenseLast??>
+${licenseLast}
+</#if>

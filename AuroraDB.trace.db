@@ -1,0 +1,64 @@
+08-18 23:29:25 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+08-18 23:29:26 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+08-18 23:29:27 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+08-18 23:29:27 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+08-18 23:29:28 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+08-18 23:29:28 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+08-18 23:29:29 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+08-18 23:29:29 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+08-18 23:29:29 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+08-18 23:29:29 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+08-18 23:29:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Statement was canceled or the session timed out; SQL statement:
+SELECT FILE_NAME FROM AuroraTable WHERE GAME_NAME LIKE '%Counter Strike SourceHalf life%' [57014-167]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.message.DbException.get(DbException.java:135)
+	at org.h2.engine.Session.checkCanceled(Session.java:884)
+	at org.h2.command.Prepared.checkCanceled(Prepared.java:274)
+	at org.h2.command.Prepared.setCurrentRowNumber(Prepared.java:332)
+	at org.h2.command.dml.Select.queryFlat(Select.java:514)
+	at org.h2.command.dml.Select.queryWithoutCache(Select.java:618)
+	at org.h2.command.dml.Query.query(Query.java:307)
+	at org.h2.command.dml.Query.query(Query.java:277)
+	at org.h2.command.dml.Query.query(Query.java:36)
+	at org.h2.command.CommandContainer.query(CommandContainer.java:86)
+	at org.h2.command.Command.executeQuery(Command.java:191)
+	at org.h2.jdbc.JdbcPreparedStatement.executeQuery(JdbcPreparedStatement.java:109)
+	at aurora.engine.V1.Logic.aSimpleDB.searchAprox(aSimpleDB.java:838)
+	at aurora.V1.core.GameSearch.searchGame(GameSearch.java:219)
+	at aurora.V1.core.GameSearch.run(GameSearch.java:302)
+	at java.lang.Thread.run(Thread.java:662)
+08-18 23:29:34 jdbc[10]: null
+org.h2.message.DbException: The connection was not closed by the application and is garbage collected [90018-167]
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.message.DbException.get(DbException.java:135)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:174)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:121)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:94)
+	at org.h2.Driver.connect(Driver.java:72)
+	at java.sql.DriverManager.getConnection(DriverManager.java:582)
+	at java.sql.DriverManager.getConnection(DriverManager.java:207)
+	at aurora.engine.V1.Logic.aSimpleDB.searchAprox(aSimpleDB.java:828)
+	at aurora.V1.core.GameSearch.searchGame(GameSearch.java:219)
+	at aurora.V1.core.GameSearch.run(GameSearch.java:302)
+	at java.lang.Thread.run(Thread.java:662)
+Caused by: org.h2.jdbc.JdbcSQLException: The connection was not closed by the application and is garbage collected [90018-167]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	... 13 more
+08-18 23:30:04 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+08-18 23:30:04 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
