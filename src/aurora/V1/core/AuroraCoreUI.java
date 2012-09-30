@@ -17,7 +17,7 @@
  */
 package aurora.V1.core;
 
-import aurora.engine.V1.Logic.aResourceManager;
+import aurora.engine.V1.Logic.aSurface;
 import aurora.engine.V1.Logic.aXAVI;
 import aurora.engine.V1.UI.*;
 import java.awt.*;
@@ -101,7 +101,7 @@ public class AuroraCoreUI {
     private int SIZE_btnMinWidth;
     private int SIZE_btnMinHeight;
     private Font FontBold;
-    private aResourceManager resource;
+    private aSurface resource;
     private int SIZE_ScreenWidth;
     private int SIZE_ScreenHeight;
     private MinimizeListener MinimizeHandler;
@@ -117,7 +117,7 @@ public class AuroraCoreUI {
         frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        resource = new aResourceManager("");
+        resource = new aSurface("");
 
     }
 
@@ -927,11 +927,11 @@ public class AuroraCoreUI {
         return System.getProperty("os.name");
     }
 
-    public void setResource(aResourceManager resource) {
+    public void setSurface(aSurface resource) {
         this.resource = resource;
     }
 
-    public aResourceManager getResource() {
+    public aSurface getResource() {
         return resource;
     }
 

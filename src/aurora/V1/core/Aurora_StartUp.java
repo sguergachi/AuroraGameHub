@@ -19,7 +19,7 @@ package aurora.V1.core;
 
 import aurora.engine.V1.Logic.aFileManager;
 import aurora.engine.V1.Logic.aPostHandler;
-import aurora.engine.V1.Logic.aResourceManager;
+import aurora.engine.V1.Logic.aSurface;
 import aurora.engine.V1.Logic.aXAVI;
 import aurora.engine.V1.UI.aButton;
 import aurora.engine.V1.UI.aProgressWheel;
@@ -72,7 +72,7 @@ public final class Aurora_StartUp implements Runnable {
     private JPanel loadingPane;
     private aFileManager FileIO;
     private AuroraStorage auroraStorage;
-    private aResourceManager resource;
+    private aSurface resource;
     ///
     private Thread login;
     private boolean isTransisioning = false;

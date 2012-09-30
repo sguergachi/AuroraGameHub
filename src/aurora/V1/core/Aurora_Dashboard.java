@@ -17,7 +17,7 @@
  */
 package aurora.V1.core;
 
-import aurora.engine.V1.Logic.aResourceManager;
+import aurora.engine.V1.Logic.aSurface;
 import aurora.engine.V1.Logic.aXAVI;
 import aurora.engine.V1.UI.*;
 import aurora.engine.V1.UI.aCarouselTitle.Title;
@@ -84,7 +84,7 @@ public class Aurora_Dashboard extends AuroraApp{
     aCarouselPane settingsPane;
     aCarouselPane profilePane;
     aCarouselPane auroraNetPane;
-    private final aResourceManager ressource;
+    private final aSurface ressource;
     private AuroraStorage storage;
     private StartLoader loader;
     private aImage titleAuroraNetNorm;
@@ -100,7 +100,7 @@ public class Aurora_Dashboard extends AuroraApp{
 
         //.......Load New Main Pane Config
         ui = AUI;
-        ressource = new aResourceManager("");
+        ressource = new aSurface("");
         this.storage = StartUp_Obj.getAuroraStorage();
 
 //        try {

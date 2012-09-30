@@ -84,7 +84,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     private AuroraStorage storage;
     private int SIZE_TOPPANE_COMP;
     private int SIZE_BottomPaneHeight;
-    private final String rootCoverDBPath = "http://auroragm.sourceforge.net/GameCover/GameCases/";
+    private final String rootCoverDBPath = "https://s3.amazonaws.com/CoverArtDB/";
     private PlayButtonListener playButtonListener;
 
     public Game() {
