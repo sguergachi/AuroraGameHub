@@ -43,5 +43,24 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+<<<<<<< HEAD
 /build/
 /dist/
+=======
+<<<<<<< HEAD
+
+
+# Java Generated Files #
+#######################
+
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+=======
+/build/
+/dist/
+>>>>>>> origin/dev
+>>>>>>> origin/master
