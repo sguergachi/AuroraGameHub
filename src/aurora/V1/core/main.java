@@ -17,7 +17,7 @@
  */
 package aurora.V1.core;
 
-import aurora.engine.V1.Logic.aResourceManager;
+import aurora.engine.V1.Logic.aSurface;
 import aurora.engine.V1.UI.aDialog;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -34,7 +34,7 @@ public class main {
 
     private static aDialog err;
     private static Font FontRegular;
-    private static aResourceManager ressource = null;
+    private static aSurface ressource = null;
     private static boolean startMini = false;
 
     public static void main(String[] args) throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException, FontFormatException {
@@ -63,7 +63,7 @@ public class main {
 
 
         } else {
-            ressource = new aResourceManager("");
+            ressource = new aSurface("");
             try {
                 FontRegular = Font.createFont(Font.TRUETYPE_FONT, new URL(ressource.getSurfacePath() + "/aurora/V1/resources/AGENCYR.TTF").openStream());
             } catch (Exception ex) {

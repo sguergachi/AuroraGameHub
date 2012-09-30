@@ -43,3 +43,14 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+
+
+# Java Generated Files #
+#######################
+
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
