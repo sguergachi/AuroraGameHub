@@ -43,3 +43,5 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+/build/
+/dist/
