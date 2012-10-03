@@ -16,8 +16,15 @@
  * limitations under the License.
  */
 
-package aurora.V1.core;
+package aurora.V1.core.screen_ui;
 
+import aurora.V1.core.AuroraApp;
+import aurora.V1.core.AuroraApp;
+import aurora.V1.core.AuroraApp;
+import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.screen_ui.Dashboard_UI;
 import aurora.engine.V1.UI.aRadioButtonManager;
 import aurora.engine.V1.UI.aButton;
 import aurora.engine.V1.UI.aImage;
@@ -34,7 +41,7 @@ import javax.swing.*;
  * Settings GUI
  * @author Sammy
  */
-public class Aurora_Settings extends AuroraApp {
+public class Settings_UI extends AuroraApp {
 
     private aImagePane imgSettingsBG;
     private int SIZE_BigFont;
@@ -47,7 +54,7 @@ public class Aurora_Settings extends AuroraApp {
     private JLabel lblKeyAction;
 
 
-    public Aurora_Settings(Aurora_Dashboard dash_obj, AuroraCoreUI ui) {
+    public Settings_UI(Dashboard_UI dash_obj, AuroraCoreUI ui) {
 
         this.dash_Obj = dash_obj;
         this.ui = ui;

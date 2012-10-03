@@ -17,7 +17,8 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.Aurora_GameLibrary.MoveToGirdLastGrid;
+import aurora.V1.core.screen_ui.GameLibrary_UI;
+import aurora.V1.core.screen_ui.GameLibrary_UI.MoveToGirdLastGrid;
 import aurora.engine.V1.Logic.aFileManager;
 import aurora.engine.V1.UI.aButton;
 import aurora.engine.V1.UI.aGridPanel;
@@ -60,14 +61,14 @@ public class InputHandler {
 
     }
 
-    class RemoveSearchHandler implements ActionListener {
+    public class RemoveSearchHandler implements ActionListener {
 
-        private final Aurora_GameLibrary Library;
+        private final GameLibrary_UI Library;
         private final JTextField SearchBar;
         private final aButton SearchButton;
         private final GridSearch Search;
 
-        public RemoveSearchHandler(Aurora_GameLibrary Obj_library) {
+        public RemoveSearchHandler(GameLibrary_UI Obj_library) {
             this.Library = Obj_library;
             this.SearchBar = Library.getSearchBar();
             this.SearchButton = Library.getSearchButton();
@@ -96,12 +97,12 @@ public class InputHandler {
     //////Search Library Bar//////////
     ///What to do if Click on Search Box
     //TODO add aCarousel Handlers
-    class searchSelectHandler implements MouseListener {
+   public class searchSelectHandler implements MouseListener {
 
         private GridSearch Search;
-        private Aurora_GameLibrary Library;
+        private GameLibrary_UI Library;
 
-        public searchSelectHandler(Aurora_GameLibrary Obj_library) {
+        public searchSelectHandler(GameLibrary_UI Obj_library) {
             this.Library = Obj_library;
             this.Search = Library.getSearch();
         }
@@ -136,13 +137,13 @@ public class InputHandler {
         }
     }
 
-    class searchButtonHandler implements ActionListener {
+   public class searchButtonHandler implements ActionListener {
         //Handles the Search Button Besides the Search Box
 
-        private Aurora_GameLibrary Library;
+        private GameLibrary_UI Library;
         private GridSearch Search;
 
-        public searchButtonHandler(Aurora_GameLibrary Obj_library) {
+        public searchButtonHandler(GameLibrary_UI Obj_library) {
             this.Library = Obj_library;
             this.Search = Library.getSearch();
         }
@@ -164,11 +165,11 @@ public class InputHandler {
 
     class searchLostFocusHandler implements FocusListener {
 
-        private Aurora_GameLibrary Library;
+        private GameLibrary_UI Library;
         private GridSearch Search;
         private JTextField SearchBar;
 
-        public searchLostFocusHandler(Aurora_GameLibrary Obj_library) {
+        public searchLostFocusHandler(GameLibrary_UI Obj_library) {
             this.Library = Obj_library;
             this.Search = Library.getSearch();
             this.SearchBar = Library.getSearchBar();
@@ -184,14 +185,14 @@ public class InputHandler {
         }
     }
 
-    class searchFocusHandler implements FocusListener {
+   public class searchFocusHandler implements FocusListener {
 
         private JTextField SearchBar;
         private JButton SearchButton;
-        private Aurora_GameLibrary Library;
+        private GameLibrary_UI Library;
         private final GridSearch Search;
 
-        public searchFocusHandler(Aurora_GameLibrary Obj_library) {
+        public searchFocusHandler(GameLibrary_UI Obj_library) {
             this.Library = Obj_library;
             this.SearchBar = Library.getSearchBar();
             this.SearchButton = Library.getSearchButton();
@@ -281,13 +282,13 @@ public class InputHandler {
         }
     }
 
-    class searchBoxHandler implements KeyListener {
+   public class searchBoxHandler implements KeyListener {
         //Handles Typing In Search Box, when it is in focus
 
-        private Aurora_GameLibrary Library;
+        private GameLibrary_UI Library;
         private GridSearch Search;
 
-        public searchBoxHandler(Aurora_GameLibrary Obj_Library) {
+        public searchBoxHandler(GameLibrary_UI Obj_Library) {
             this.Library = Obj_Library;
             this.Search = Library.getSearch();
         }
@@ -357,17 +358,17 @@ public class InputHandler {
         }
     }
 
-    class searchRefocusListener implements KeyListener {
+   public class searchRefocusListener implements KeyListener {
         //Handles When User Starts Typing While Components other than the
         //Search Box are in focus.
         //Must get first key typed and put it in the searchbox
         //Then set focus to the searchbox
 
         private JTextField SearchBar;
-        private final Aurora_GameLibrary Library;
+        private final GameLibrary_UI Library;
         private final GridSearch Search;
 
-        public searchRefocusListener(Aurora_GameLibrary Obj_Library) {
+        public searchRefocusListener(GameLibrary_UI Obj_Library) {
             this.Library = Obj_Library;
             this.SearchBar = Library.getSearchBar();
             this.Search = Library.getSearch();
@@ -441,13 +442,13 @@ public class InputHandler {
     }
 
     /////////////////////////////////////////////////////////////
-    class addGameSearchBoxHandler implements KeyListener {
+   public class addGameSearchBoxHandler implements KeyListener {
         //Handles Typing In Search Box, when it is in focus
 
-        private Aurora_GameLibrary Library;
+        private GameLibrary_UI Library;
         private GameSearch Search;
 
-        public addGameSearchBoxHandler(Aurora_GameLibrary Obj_Library) {
+        public addGameSearchBoxHandler(GameLibrary_UI Obj_Library) {
             this.Library = Obj_Library;
             this.Search = Library.getGameSearch();
         }
@@ -518,12 +519,12 @@ public class InputHandler {
 
     ////Add Game UI////////
     //For when you select the Textfield in the add Game UI
-    class addGameMouseHandler implements MouseListener {
+   public class addGameMouseHandler implements MouseListener {
 
         private GameSearch Search;
-        private Aurora_GameLibrary Library;
+        private GameLibrary_UI Library;
 
-        public addGameMouseHandler(Aurora_GameLibrary Obj_library) {
+        public addGameMouseHandler(GameLibrary_UI Obj_library) {
             this.Library = Obj_library;
             Search = Library.getGameSearch();
         }
@@ -557,12 +558,12 @@ public class InputHandler {
         }
     }
 
-    class addGameFocusHandler implements FocusListener {
+   public class addGameFocusHandler implements FocusListener {
 
-        private Aurora_GameLibrary Library;
+        private GameLibrary_UI Library;
         private GameSearch Search;
 
-        public addGameFocusHandler(Aurora_GameLibrary Obj_library) {
+        public addGameFocusHandler(GameLibrary_UI Obj_library) {
             this.Library = Obj_library;
             Search = this.Library.getGameSearch();
 
@@ -598,11 +599,11 @@ public class InputHandler {
         }
     }
 
-    class HideGameAddUIHandler implements ActionListener {
+  public  class HideGameAddUIHandler implements ActionListener {
 
-        private Aurora_GameLibrary library;
+        private GameLibrary_UI library;
 
-        public HideGameAddUIHandler(Aurora_GameLibrary library) {
+        public HideGameAddUIHandler(GameLibrary_UI library) {
             this.library = library;
         }
 
@@ -612,12 +613,12 @@ public class InputHandler {
         }
     }
 
-    class ExecutableChooserHandler implements ActionListener {
+   public class ExecutableChooserHandler implements ActionListener {
 
-        private Aurora_GameLibrary library;
+        private GameLibrary_UI library;
         private JFileChooser gameLocator;
 
-        public ExecutableChooserHandler(Aurora_GameLibrary library, JFileChooser locator) {
+        public ExecutableChooserHandler(GameLibrary_UI library, JFileChooser locator) {
             this.library = library;
             gameLocator = locator;
         }
@@ -636,7 +637,7 @@ public class InputHandler {
         }
     }
 
-    class ExecutableFilterHandler extends FileFilter {
+   public class ExecutableFilterHandler extends FileFilter {
 
         private AuroraCoreUI ui;
 
@@ -677,9 +678,9 @@ public class InputHandler {
         }
     }
 
-    class AddToLibraryHandler implements ActionListener {
+   public class AddToLibraryHandler implements ActionListener {
 
-        private Aurora_GameLibrary library;
+        private GameLibrary_UI library;
         private GridManager GridSplit;
         private JPanel GameBack;
         private GameSearch GameSearch;
@@ -687,7 +688,7 @@ public class InputHandler {
         private AuroraStorage storage;
         private String currentPath;
 
-        public AddToLibraryHandler(Aurora_GameLibrary library) {
+        public AddToLibraryHandler(GameLibrary_UI library) {
             this.library = library;
             currentPath = library.getCurrentPath();
             GridSplit = library.getGridSplit();
@@ -721,15 +722,15 @@ public class InputHandler {
         }
     }
 
-    class SelectListHandler implements ListSelectionListener {
+   public class SelectListHandler implements ListSelectionListener {
 
-        private Aurora_GameLibrary library;
+        private GameLibrary_UI library;
         private JList gamesList;
         private DefaultListModel listModel;
         private JTextField gameSearchBar;
         private GameSearch gameSearch;
 
-        public SelectListHandler(Aurora_GameLibrary library) {
+        public SelectListHandler(GameLibrary_UI library) {
             this.library = library;
             gamesList = library.getGamesList();
             listModel = library.getListModel();
@@ -752,11 +753,11 @@ public class InputHandler {
         }
     }
 
-    class AddGameHandler implements ActionListener {
+   public class AddGameHandler implements ActionListener {
 
-        private Aurora_GameLibrary library;
+        private GameLibrary_UI library;
 
-        public AddGameHandler(Aurora_GameLibrary library) {
+        public AddGameHandler(GameLibrary_UI library) {
             this.library = library;
         }
 
@@ -770,7 +771,7 @@ public class InputHandler {
 
     //Prevents from clicking Through the Aurora Add Game UI and select Games in the
     //Background
-    class EmptyMouseHandler implements MouseListener {
+    public class EmptyMouseHandler implements MouseListener {
 
         public EmptyMouseHandler() {
         }
@@ -798,7 +799,7 @@ public class InputHandler {
 
     public class HoverButtonLeft implements MouseListener {
 
-        private Aurora_GameLibrary library;
+        private GameLibrary_UI library;
         private AuroraCoreUI ui;
         private GridManager GridSplit;
         private JPanel GameBack;
@@ -807,7 +808,7 @@ public class InputHandler {
         private aImage imgFavorite;
         private GridAnimation GridAnimate;
 
-        public HoverButtonLeft(Aurora_GameLibrary library, AuroraCoreUI ui) {
+        public HoverButtonLeft(GameLibrary_UI library, AuroraCoreUI ui) {
             this.library = library;
             this.ui = ui;
             GridSplit = library.getGridSplit();
@@ -865,7 +866,7 @@ public class InputHandler {
                     try {
                         library.load(currentIndex - 1);
                     } catch (MalformedURLException ex) {
-                        Logger.getLogger(Aurora_GameLibrary.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(GameLibrary_UI.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
                     
@@ -918,7 +919,7 @@ public class InputHandler {
 
     public class HoverButtonRight implements MouseListener {
 
-        private Aurora_GameLibrary library;
+        private GameLibrary_UI library;
         private AuroraCoreUI ui;
         private GridManager GridSplit;
         private JPanel GameBack;
@@ -928,7 +929,7 @@ public class InputHandler {
         private aImage imgBlank;
         private GridAnimation GridAnimate;
 
-        public HoverButtonRight(Aurora_GameLibrary library, AuroraCoreUI ui) {
+        public HoverButtonRight(GameLibrary_UI library, AuroraCoreUI ui) {
             this.library = library;
             this.ui = ui;
 
@@ -965,7 +966,7 @@ public class InputHandler {
                     try {
                         library.load(library.getCurrentIndex() + 1);
                     } catch (MalformedURLException ex) {
-                        Logger.getLogger(Aurora_GameLibrary.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(GameLibrary_UI.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
 
@@ -1014,14 +1015,14 @@ public class InputHandler {
     }
 
     //Handler for the Navigation using Keyboard
-    class GameLibraryKeyListener implements KeyListener {
+   public class GameLibraryKeyListener implements KeyListener {
 
-        private Aurora_GameLibrary library;
+        private GameLibrary_UI library;
         private AuroraCoreUI ui;
         private GridManager GridSplit;
         private JPanel GameBack;
 
-        public GameLibraryKeyListener(Aurora_GameLibrary library, AuroraCoreUI ui) {
+        public GameLibraryKeyListener(GameLibrary_UI library, AuroraCoreUI ui) {
             this.library = library;
             this.ui = ui;
             //GridSplit = library.getGridSplit();
@@ -1352,12 +1353,12 @@ public class InputHandler {
         }
     }
 
-    class GridMouseWheelListener implements MouseWheelListener {
+   public class GridMouseWheelListener implements MouseWheelListener {
 
-        private Aurora_GameLibrary library;
+        private GameLibrary_UI library;
         private GridManager GridSplit;
 
-        public GridMouseWheelListener(Aurora_GameLibrary library) {
+        public GridMouseWheelListener(GameLibrary_UI library) {
             this.library = library;
         }
 

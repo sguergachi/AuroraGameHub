@@ -15,8 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package aurora.V1.core;
+package aurora.V1.core.screen_ui;
 
+import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.AuroraMini;
+import aurora.V1.core.AuroraStorage;
+import aurora.V1.core.StartLoader;
 import aurora.engine.V1.Logic.aFileManager;
 import aurora.engine.V1.Logic.aPostHandler;
 import aurora.engine.V1.Logic.aSurface;
@@ -53,7 +57,7 @@ import javax.swing.JPanel;
  * @author Sammy
  * @version 0.4
  */
-public final class Aurora_StartUp implements Runnable {
+public final class StartScreen_UI implements Runnable {
 
     private JFrame frame;
     private aPrompter Display;
@@ -80,13 +84,13 @@ public final class Aurora_StartUp implements Runnable {
     private boolean isLoaded = false;
     private int SIZE_DisplayFont;
 
-    public Aurora_StartUp(Boolean startMini) {
+    public StartScreen_UI(Boolean startMini) {
 
 
         /////////////////
         //Load Components///////////////////////////////////////
         /////////////////
-        Aurora_StartUp.START_WITH_MINI = startMini;
+        StartScreen_UI.START_WITH_MINI = startMini;
 
         //fast load
         frame = new JFrame("Aurora Game Manager ~ V1");
@@ -103,7 +107,7 @@ public final class Aurora_StartUp implements Runnable {
                 frame.setIconImage(new ImageIcon(getClass().getResource("/aurora/V1/resources/icon.png")).getImage());
 
             } catch (Exception exx) {
-                Logger.getLogger(Aurora_StartUp.class.getName()).log(Level.SEVERE, null, exx);
+                Logger.getLogger(StartScreen_UI.class.getName()).log(Level.SEVERE, null, exx);
             }
         }
 
@@ -114,15 +118,15 @@ public final class Aurora_StartUp implements Runnable {
         try {
             buildGUI();
         } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(Aurora_StartUp.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartScreen_UI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(Aurora_StartUp.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartScreen_UI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (LineUnavailableException ex) {
-            Logger.getLogger(Aurora_StartUp.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartScreen_UI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
-            Logger.getLogger(Aurora_StartUp.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartScreen_UI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FontFormatException ex) {
-            Logger.getLogger(Aurora_StartUp.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartScreen_UI.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -400,7 +404,7 @@ public final class Aurora_StartUp implements Runnable {
 
             }
         } catch (MalformedURLException ex) {
-            Logger.getLogger(Aurora_StartUp.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartScreen_UI.class.getName()).log(Level.SEVERE, null, ex);
 
         }
 

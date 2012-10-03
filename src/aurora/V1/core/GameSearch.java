@@ -17,6 +17,7 @@
  */
 package aurora.V1.core;
 
+import aurora.V1.core.screen_ui.GameLibrary_UI;
 import aurora.engine.V1.Logic.aSimpleDB;
 import aurora.engine.V1.UI.aImagePane;
 import java.net.MalformedURLException;
@@ -33,7 +34,7 @@ import java.util.logging.Logger;
 public class GameSearch implements Runnable {
 
     private AuroraCoreUI ui;
-    private Aurora_GameLibrary Library;
+    private GameLibrary_UI Library;
     private aSimpleDB db;
     private ArrayList foundGameList;
     private char typed;
@@ -49,7 +50,7 @@ public class GameSearch implements Runnable {
     //////////////////////////
     ////////Constructor//////
     ////////////////////////
-    public GameSearch(Aurora_GameLibrary GameLibrary, aSimpleDB db, AuroraStorage storage) {
+    public GameSearch(GameLibrary_UI GameLibrary, aSimpleDB db, AuroraStorage storage) {
         this.ui = GameLibrary.ui;
         this.db = db;
         this.storage = storage;

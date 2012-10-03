@@ -17,6 +17,8 @@
  */
 package aurora.V1.core;
 
+import aurora.V1.core.screen_ui.StartScreen_UI;
+import aurora.V1.core.screen_ui.Dashboard_UI;
 import aurora.engine.V1.UI.aImage;
 import aurora.engine.V1.UI.aImagePane;
 import aurora.engine.V1.UI.aProgressWheel;
@@ -52,15 +54,15 @@ public class StartLoader implements Runnable {
     private int TopHeight;
     private int CenterHeight;
     private JFrame Frame;
-    private Aurora_StartUp StartUp_Obj;
+    private StartScreen_UI StartUp_Obj;
     private AuroraCoreUI ui;
     private aProgressWheel progress;
-    private Aurora_Dashboard mainWin;
+    private Dashboard_UI mainWin;
     private final int SIZE_TopHeight;
     private final int SIZE_ImageWidth;
     private final int SIZE_ImageHeight;
 
-    public StartLoader(AuroraCoreUI AUI, Aurora_StartUp Obj) {
+    public StartLoader(AuroraCoreUI AUI, StartScreen_UI Obj) {
         this.StartUp_Obj = Obj;
         this.ui = AUI;
         HexPanes = StartUp_Obj.getHexAnimation();
@@ -179,7 +181,7 @@ public class StartLoader implements Runnable {
 
         ui.getFrame().add(progress);
         ui.getFrame().repaint();
-        mainWin = new Aurora_Dashboard(this, ui, StartUp_Obj);
+        mainWin = new Dashboard_UI(this, ui, StartUp_Obj);
         loadDashboard load = new loadDashboard();
 
     }
@@ -265,7 +267,7 @@ public class StartLoader implements Runnable {
         return Scale;
     }
 
-    public Aurora_StartUp getStartUp_Obj() {
+    public StartScreen_UI getStartUp_Obj() {
         return StartUp_Obj;
     }
 

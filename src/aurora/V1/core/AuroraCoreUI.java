@@ -948,7 +948,7 @@ public class AuroraCoreUI {
         }
     }
 
-    class MinimizeListener implements ActionListener {
+   public class MinimizeListener implements ActionListener {
 
         private AuroraCoreUI ui;
         private String arg;

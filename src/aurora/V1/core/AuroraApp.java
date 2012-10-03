@@ -17,6 +17,7 @@
  */
 package aurora.V1.core;
 
+import aurora.V1.core.screen_ui.Dashboard_UI;
 import aurora.engine.V1.UI.aButton;
 import aurora.engine.V1.UI.aProgressWheel;
 import java.awt.BorderLayout;
@@ -47,7 +48,7 @@ public abstract class AuroraApp implements Runnable {
 
     public JFrame frame;
     public AuroraCoreUI ui;
-    public Aurora_Dashboard dash_Obj;
+    public Dashboard_UI dash_Obj;
     private int SIZE_TopPadding;
     private Thread loadApp;
     private aProgressWheel progress;

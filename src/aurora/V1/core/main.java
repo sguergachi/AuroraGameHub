@@ -17,6 +17,7 @@
  */
 package aurora.V1.core;
 
+import aurora.V1.core.screen_ui.StartScreen_UI;
 import aurora.engine.V1.Logic.aSurface;
 import aurora.engine.V1.UI.aDialog;
 import java.awt.Font;
@@ -52,14 +53,14 @@ public class main {
             //Initiate The LoginWindow
             System.out.println("Running Java Version: " + System.getProperty("java.version"));
             System.out.println("OS: " + System.getProperty("os.name"));
-            Aurora_StartUp aurora_StartUp = new Aurora_StartUp(startMini);
+            StartScreen_UI aurora_StartUp = new StartScreen_UI(startMini);
 
 
         } else if (Double.parseDouble(System.getProperty("java.version").substring(0, 3)) == 1.7) {
             //Initiate The LoginWindow
             System.out.println("Running Java Version: " + System.getProperty("java.version"));
             System.out.println("OS: " + System.getProperty("os.name"));
-            Aurora_StartUp aurora_StartUp = new Aurora_StartUp(startMini);
+            StartScreen_UI aurora_StartUp = new StartScreen_UI(startMini);
 
 
         } else {

@@ -16,9 +16,16 @@
  * limitations under the License.
  */
 
-package aurora.V1.core;
+package aurora.V1.core.screen_ui;
 
 
+import aurora.V1.core.AuroraApp;
+import aurora.V1.core.AuroraApp;
+import aurora.V1.core.AuroraApp;
+import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.screen_ui.Dashboard_UI;
 import aurora.engine.V1.Logic.aXAVI;
 import aurora.engine.V1.UI.aImagePane;
 import java.awt.BorderLayout;
@@ -36,7 +43,7 @@ import javax.swing.JPanel;
  * @author Sammy
  * @version 0.2
  */
-public class Aurora_GamerProfile extends AuroraApp {
+public class GamerProfile_UI extends AuroraApp {
 
     private aImagePane imgGamerProfileBG;
     private JPanel ProfileHeader;
@@ -125,7 +132,7 @@ public class Aurora_GamerProfile extends AuroraApp {
     private int SIZE_HeaderFont;
   
 
-    public Aurora_GamerProfile(Aurora_Dashboard dash_obj, AuroraCoreUI ui) {
+    public GamerProfile_UI(Dashboard_UI dash_obj, AuroraCoreUI ui) {
 
         this.dash_Obj = dash_obj;
         this.ui = ui;

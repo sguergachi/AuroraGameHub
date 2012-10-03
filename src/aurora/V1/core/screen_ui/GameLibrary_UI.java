@@ -15,33 +15,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package aurora.V1.core;
+package aurora.V1.core.screen_ui;
 
+import aurora.V1.core.AuroraApp;
+import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.AuroraStorage;
+import aurora.V1.core.Game;
+import aurora.V1.core.GameSearch;
+import aurora.V1.core.GridAnimation;
+import aurora.V1.core.GridManager;
+import aurora.V1.core.GridSearch;
+import aurora.V1.core.InputHandler;
 import aurora.V1.core.InputHandler.AddGameHandler;
 import aurora.V1.core.InputHandler.HoverButtonLeft;
 import aurora.V1.core.InputHandler.HoverButtonRight;
 import aurora.V1.core.InputHandler.searchBoxHandler;
 import aurora.V1.core.InputHandler.searchFocusHandler;
 import aurora.V1.core.InputHandler.searchRefocusListener;
+import aurora.V1.core.screen_ui.Dashboard_UI;
 import aurora.engine.V1.Logic.aAnimate;
-import aurora.engine.V1.Logic.aFileManager;
 import aurora.engine.V1.Logic.aPostHandler;
 import aurora.engine.V1.Logic.aSimpleDB;
 import aurora.engine.V1.UI.aButton;
-import aurora.engine.V1.UI.aGridPanel;
 import aurora.engine.V1.UI.aHoverButton;
 import aurora.engine.V1.UI.aImage;
 import aurora.engine.V1.UI.aImagePane;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.io.File;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
@@ -49,16 +50,13 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileFilter;
 
 /**
  *
  * @author Sammy, Carlos
  * @version 0.5
  */
-public class Aurora_GameLibrary extends AuroraApp {
+public class GameLibrary_UI extends AuroraApp {
 
     private aButton ZoomP;
     private aButton ZoomM;
@@ -151,7 +149,7 @@ public class Aurora_GameLibrary extends AuroraApp {
     private boolean isGameLibraryKeyListenerAdded;
     private int SIZE_SearchBarWidth;
 
-    public Aurora_GameLibrary(AuroraStorage storage, Aurora_Dashboard dash_obj, AuroraCoreUI ui) {
+    public GameLibrary_UI(AuroraStorage storage, Dashboard_UI dash_obj, AuroraCoreUI ui) {
         this.storage = storage;
         this.dash_Obj = dash_obj;
         this.ui = ui;
@@ -369,65 +367,65 @@ public class Aurora_GameLibrary extends AuroraApp {
 
 
         ui.getFrame().addKeyListener(KeyHandler.new searchRefocusListener(this));
-       // ui.getFrame().addKeyListener(new Aurora_GameLibrary.GameLibraryKeyListener());
+       // ui.getFrame().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
         ui.getFrame().addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
-      //  ui.getFrame().addMouseWheelListener(new Aurora_GameLibrary.GridMouseWheelListener());
+      //  ui.getFrame().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
         ui.getFrame().addMouseWheelListener(KeyHandler.new GridMouseWheelListener(this));
 
         ui.getPnlBackground().addKeyListener(KeyHandler.new searchRefocusListener(this));
-        //ui.getPnlBackground().addKeyListener(new Aurora_GameLibrary.GameLibraryKeyListener());
+        //ui.getPnlBackground().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
         ui.getPnlBackground().addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
-      //  ui.getPnlBackground().addMouseWheelListener(new Aurora_GameLibrary.GridMouseWheelListener());
+      //  ui.getPnlBackground().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
         ui.getPnlBackground().addMouseWheelListener(KeyHandler.new GridMouseWheelListener(this));
 
         ui.getPnlBottom().addKeyListener(KeyHandler.new searchRefocusListener(this));
-       // ui.getPnlBottom().addKeyListener(new Aurora_GameLibrary.GameLibraryKeyListener());
+       // ui.getPnlBottom().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
         ui.getPnlBottom().addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
-      //  ui.getPnlBottom().addMouseWheelListener(new Aurora_GameLibrary.GridMouseWheelListener());
+      //  ui.getPnlBottom().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
         ui.getPnlBottom().addMouseWheelListener(KeyHandler.new GridMouseWheelListener(this));
 
         ui.getPnlCenter().addKeyListener(KeyHandler.new searchRefocusListener(this));
-       // ui.getPnlCenter().addKeyListener(new Aurora_GameLibrary.GameLibraryKeyListener());
+       // ui.getPnlCenter().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
         ui.getPnlCenter().addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
-       // ui.getPnlCenter().addMouseWheelListener(new Aurora_GameLibrary.GridMouseWheelListener());
+       // ui.getPnlCenter().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
         ui.getPnlCenter().addMouseWheelListener(KeyHandler.new GridMouseWheelListener(this));
 
         ui.getPnlSouthFromTop().addKeyListener(KeyHandler.new searchRefocusListener(this));
-        //ui.getPnlSouthFromTop().addKeyListener(new Aurora_GameLibrary.GameLibraryKeyListener());
+        //ui.getPnlSouthFromTop().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
         ui.getPnlSouthFromTop().addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
-      //  ui.getPnlSouthFromTop().addMouseWheelListener(new Aurora_GameLibrary.GridMouseWheelListener());
+      //  ui.getPnlSouthFromTop().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
         ui.getPnlSouthFromTop().addMouseWheelListener(KeyHandler.new GridMouseWheelListener(this));
 
         ui.getPnlFrameControl().addKeyListener(KeyHandler.new searchRefocusListener(this));
-      //  ui.getPnlFrameControl().addKeyListener(new Aurora_GameLibrary.GameLibraryKeyListener());
+      //  ui.getPnlFrameControl().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
         ui.getPnlFrameControl().addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
-      //  ui.getPnlFrameControl().addMouseWheelListener(new Aurora_GameLibrary.GridMouseWheelListener());
+      //  ui.getPnlFrameControl().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
         ui.getPnlFrameControl().addMouseWheelListener(KeyHandler.new GridMouseWheelListener(this));
 
         ui.getPnlTop().addKeyListener(KeyHandler.new searchRefocusListener(this));
-      //  ui.getPnlTop().addKeyListener(new Aurora_GameLibrary.GameLibraryKeyListener());
+      //  ui.getPnlTop().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
         ui.getPnlTop().addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
-      //  ui.getPnlTop().addMouseWheelListener(new Aurora_GameLibrary.GridMouseWheelListener());
+      //  ui.getPnlTop().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
         ui.getPnlTop().addMouseWheelListener(KeyHandler.new GridMouseWheelListener(this));
 
         this.btnAddGame.addKeyListener(KeyHandler.new searchRefocusListener(this));
-      //  this.btnAddGame.addKeyListener(new Aurora_GameLibrary.GameLibraryKeyListener());
+      //  this.btnAddGame.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
         this.btnAddGame.addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
 
         this.GameBack.addKeyListener(KeyHandler.new searchRefocusListener(this));
-      //  this.GameBack.addKeyListener(new Aurora_GameLibrary.GameLibraryKeyListener());
+      //  this.GameBack.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
         this.GameBack.addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
 
         this.imgSelectedGamePane.addKeyListener(KeyHandler.new searchRefocusListener(this));
-      //  this.imgSelectedGamePane.addKeyListener(new Aurora_GameLibrary.GameLibraryKeyListener());
+      //  this.imgSelectedGamePane.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
         this.imgSelectedGamePane.addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
 
         this.imgGameLeft.addKeyListener(KeyHandler.new searchRefocusListener(this));
-      //  this.imgGameLeft.addKeyListener(new Aurora_GameLibrary.GameLibraryKeyListener());
+      //  this.imgGameLeft.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
         this.imgGameLeft.addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
 
         this.imgGameRight.addKeyListener(KeyHandler.new searchRefocusListener(this));
-     //   this.imgGameRight.addKeyListener(new Aurora_GameLibrary.GameLibraryKeyListener())
+     //   this.imgGameRight.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener())
         this.imgGameRight.addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
 
 
@@ -457,7 +455,7 @@ public class Aurora_GameLibrary extends AuroraApp {
         try {
             CoverDB = new aSimpleDB("AuroraDB", "AuroraTable", false);
         } catch (SQLException ex) {
-            Logger.getLogger(Aurora_GameLibrary.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GameLibrary_UI.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         GridSplit = new GridManager(2, 4, ui);
@@ -573,7 +571,7 @@ public class Aurora_GameLibrary extends AuroraApp {
                 game.addKeyListener(KeyHandler.new searchRefocusListener(this));
 
                 for (int j = 0; j < game.getKeyListeners().length; j++) {
-                  //  if (game.getKeyListeners()[j] instanceof Aurora_GameLibrary.GameLibraryKeyListener) {
+                  //  if (game.getKeyListeners()[j] instanceof GameLibrary_UI.GameLibraryKeyListener) {
                 	if (game.getKeyListeners()[j] instanceof InputHandler.GameLibraryKeyListener) {
                         isGameLibraryKeyListenerAdded = true;
                         break;
@@ -582,7 +580,7 @@ public class Aurora_GameLibrary extends AuroraApp {
 
                 if (!isGameLibraryKeyListenerAdded) {
                     System.out.println("ADDING GAMELIBRARYLISTENER TO " + game.getName());
-                  //  game.addKeyListener(new Aurora_GameLibrary.GameLibraryKeyListener());
+                  //  game.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
                     game.addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
                 }
 
@@ -606,7 +604,7 @@ public class Aurora_GameLibrary extends AuroraApp {
                     game = (Game) GridSplit.getGrid(currentPanel + 1).getArray().get(i);
 
                     for (int j = 0; j < game.getKeyListeners().length; j++) {
-                     //   if (game.getKeyListeners()[j] instanceof Aurora_GameLibrary.GameLibraryKeyListener) {
+                     //   if (game.getKeyListeners()[j] instanceof GameLibrary_UI.GameLibraryKeyListener) {
                     	if (game.getKeyListeners()[j] instanceof InputHandler.GameLibraryKeyListener) {
                             isGameLibraryKeyListenerAdded = true;
                             break;
@@ -615,7 +613,7 @@ public class Aurora_GameLibrary extends AuroraApp {
 
                     if (!isGameLibraryKeyListenerAdded) {
                         System.out.println("ADDING GAMELIBRARYLISTENER TO" + game.getName());
-                       // game.addKeyListener(new Aurora_GameLibrary.GameLibraryKeyListener());
+                       // game.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
                         game.addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
                     }
                     if (!game.isLoaded()) {
@@ -750,13 +748,13 @@ public class Aurora_GameLibrary extends AuroraApp {
 //            try {
 //                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //            } catch (ClassNotFoundException ex) {
-//                Logger.getLogger(Aurora_GameLibrary.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(GameLibrary_UI.class.getName()).log(Level.SEVERE, null, ex);
 //            } catch (InstantiationException ex) {
-//                Logger.getLogger(Aurora_GameLibrary.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(GameLibrary_UI.class.getName()).log(Level.SEVERE, null, ex);
 //            } catch (IllegalAccessException ex) {
-//                Logger.getLogger(Aurora_GameLibrary.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(GameLibrary_UI.class.getName()).log(Level.SEVERE, null, ex);
 //            } catch (UnsupportedLookAndFeelException ex) {
-//                Logger.getLogger(Aurora_GameLibrary.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(GameLibrary_UI.class.getName()).log(Level.SEVERE, null, ex);
 //            }
 
             //Set up File Chooser
@@ -1001,7 +999,7 @@ public class Aurora_GameLibrary extends AuroraApp {
 
     //Transisions towards the Last Grid in the library
     //To show game added (apple iOS style :P )
-    class MoveToGirdLastGrid implements Runnable {
+   public class MoveToGirdLastGrid implements Runnable {
 
         private Thread mover;
 
@@ -1030,7 +1028,7 @@ public class Aurora_GameLibrary extends AuroraApp {
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(Aurora_GameLibrary.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(GameLibrary_UI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -1075,7 +1073,7 @@ public class Aurora_GameLibrary extends AuroraApp {
                 try {
                     load(currentIndex - 1);
                 } catch (MalformedURLException ex) {
-                    Logger.getLogger(Aurora_GameLibrary.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(GameLibrary_UI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -1115,7 +1113,7 @@ public class Aurora_GameLibrary extends AuroraApp {
                 try {
                     load(currentIndex + 1);
                 } catch (MalformedURLException ex) {
-                    Logger.getLogger(Aurora_GameLibrary.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(GameLibrary_UI.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
 
@@ -1394,7 +1392,7 @@ public class Aurora_GameLibrary extends AuroraApp {
         return loadedPanels;
     }
 
-    public Aurora_Dashboard getObj() {
+    public Dashboard_UI getObj() {
         return dash_Obj;
     }
 

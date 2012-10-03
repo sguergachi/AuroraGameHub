@@ -17,6 +17,9 @@
  */
 package aurora.V1.core;
 
+import aurora.V1.core.screen_ui.StartScreen_UI;
+import aurora.V1.core.screen_ui.GameLibrary_UI;
+import aurora.V1.core.screen_ui.Dashboard_UI;
 import aurora.engine.V1.UI.aButton;
 import aurora.engine.V1.UI.aDialog;
 import aurora.engine.V1.UI.aImagePane;
@@ -70,7 +73,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     private JPanel PlayButtonPane;
     private JPanel InfoButtonPane;
     private JPanel FavoriteButtonPane;
-    private Aurora_Dashboard dashObj;
+    private Dashboard_UI dashObj;
     private JPanel GameBarPane;
     private aDialog dbErrr;
     private boolean isRemoved = false;
@@ -90,7 +93,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     public Game() {
     }
 
-    public Game(GridManager manager, AuroraCoreUI ui, Aurora_Dashboard obj) {
+    public Game(GridManager manager, AuroraCoreUI ui, Dashboard_UI obj) {
 
 
         this.dashObj = obj;
@@ -114,7 +117,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
     }
 
-    public Game(GridManager manager, AuroraCoreUI ui, Aurora_Dashboard obj, AuroraStorage storage) {
+    public Game(GridManager manager, AuroraCoreUI ui, Dashboard_UI obj, AuroraStorage storage) {
         this.dashObj = obj;
         this.ui = ui;
         this.storage = storage;
@@ -152,7 +155,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
     }
 
-    public Game(String CoverURL, Aurora_Dashboard obj) {
+    public Game(String CoverURL, Dashboard_UI obj) {
 
 
         this.setOpaque(false);
@@ -172,7 +175,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
     }
 
-    public Game(Aurora_Dashboard obj) {
+    public Game(Dashboard_UI obj) {
 
 
         this.setOpaque(false);
@@ -338,7 +341,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
                 try {
 
-                    if (Aurora_StartUp.Online) {
+                    if (StartScreen_UI.Online) {
                         dbErrr = null;
                         System.out.println(coverURL);
                         coverImg.setImageURL(rootCoverDBPath + coverURL);
@@ -573,7 +576,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         showRemove();
         GameBar.setVisible(true);
         selected();
-        Aurora_GameLibrary.lblGameName.setText(getName());
+        GameLibrary_UI.lblGameName.setText(getName());
 
 
     }
@@ -689,7 +692,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         return TimePlayed;
     }
 
-    public Aurora_Dashboard getDashObj() {
+    public Dashboard_UI getDashObj() {
         return this.dashObj;
     }
 
@@ -714,7 +717,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         this.LastPlayed = LastPlayed;
     }
 
-    public void setDashObj(Aurora_Dashboard DashObj) {
+    public void setDashObj(Dashboard_UI DashObj) {
         this.dashObj = DashObj;
     }
 
