@@ -123,7 +123,7 @@ public class Dashboard_UI extends AuroraApp{
     public void loadGUI() {
         
                 
-
+ setSizes();
         ui.getImgLogo().setImgURl("Aurora_Header2.png"); 
         ui.getImgLogo().setImageSize(SIZE_ImageWidth, SIZE_ImageHeight);
 
@@ -180,7 +180,7 @@ public class Dashboard_UI extends AuroraApp{
    
 
     public void buildGUI() throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException, FontFormatException {
-        setSizes();
+       
         
         
         ui.getLblInfo().setText(".: Loading :.");
