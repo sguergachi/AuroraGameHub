@@ -862,21 +862,15 @@ public class GameLibrary_UI extends AuroraApp {
             ////////////
 
 
-            //btnCloseAddUI.addActionListener(new HideGameAddUIHandler());
             btnCloseAddUI.addActionListener(handler.new HideGameAddUIHandler(this));
 
-            // addGamePane.addMouseListener(new EmptyMouseHandler()); //so that you dont select behind the Panel
             addGamePane.addMouseListener(handler.new EmptyMouseHandler()); //so that you dont select behind the Panel
             gameSearchBar.addFocusListener(handler.new addGameFocusHandler(this));
             gameSearchBar.addMouseListener(handler.new addGameMouseHandler(this));
             gameSearchBar.addKeyListener(handler.new addGameSearchBoxHandler(this));
-            //gamesList.addListSelectionListener(new SelectListHandler());
             gamesList.addListSelectionListener(handler.new SelectListHandler(this));
-            //gameLocator.setFileFilter(new ExecutableFilterHandler());
             gameLocator.setFileFilter(handler.new ExecutableFilterHandler(ui));
-            //gameLocator.addActionListener(new ExecutableChooserHandler());
             gameLocator.addActionListener(handler.new ExecutableChooserHandler(this, gameLocator));
-            //addGameToLibButton.addActionListener(new AddToLibraryHandler());
             addGameToLibButton.addActionListener(handler.new AddToLibraryHandler(this));
 
             ////////////

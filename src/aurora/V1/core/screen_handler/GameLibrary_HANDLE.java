@@ -65,8 +65,6 @@ import javax.swing.filechooser.FileFilter;
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class GameLibrary_HANDLE {
-    
-     
 
     public class RemoveSearchHandler implements ActionListener {
 
@@ -104,7 +102,7 @@ public class GameLibrary_HANDLE {
     //////Search Library Bar//////////
     ///What to do if Click on Search Box
     //TODO add aCarousel Handlers
-   public class searchSelectHandler implements MouseListener {
+    public class searchSelectHandler implements MouseListener {
 
         private GridSearch Search;
         private GameLibrary_UI ui;
@@ -144,7 +142,7 @@ public class GameLibrary_HANDLE {
         }
     }
 
-   public class searchButtonHandler implements ActionListener {
+    public class searchButtonHandler implements ActionListener {
         //Handles the Search Button Besides the Search Box
 
         private GameLibrary_UI ui;
@@ -173,7 +171,6 @@ public class GameLibrary_HANDLE {
     public class searchLostFocusHandler implements FocusListener {
 
         private GameLibrary_UI ui;
-        
 
         public searchLostFocusHandler(GameLibrary_UI Obj_library) {
             this.ui = Obj_library;
@@ -188,10 +185,8 @@ public class GameLibrary_HANDLE {
             ui.getSearchBarBG().setImage("SearchBar.png");
         }
     }
-    
-    
 
-   public class searchFocusHandler implements FocusListener {
+    public class searchFocusHandler implements FocusListener {
 
         private JTextField SearchBar;
         private JButton SearchButton;
@@ -288,7 +283,7 @@ public class GameLibrary_HANDLE {
         }
     }
 
-   public class searchBoxHandler implements KeyListener {
+    public class searchBoxHandler implements KeyListener {
         //Handles Typing In Search Box, when it is in focus
 
         private GameLibrary_UI Library;
@@ -364,7 +359,7 @@ public class GameLibrary_HANDLE {
         }
     }
 
-   public class searchRefocusListener implements KeyListener {
+    public class searchRefocusListener implements KeyListener {
         //Handles When User Starts Typing While Components other than the
         //Search Box are in focus.
         //Must get first key typed and put it in the searchbox
@@ -448,7 +443,7 @@ public class GameLibrary_HANDLE {
     }
 
     /////////////////////////////////////////////////////////////
-   public class addGameSearchBoxHandler implements KeyListener {
+    public class addGameSearchBoxHandler implements KeyListener {
         //Handles Typing In Search Box, when it is in focus
 
         private GameLibrary_UI Library;
@@ -525,7 +520,7 @@ public class GameLibrary_HANDLE {
 
     ////Add Game UI////////
     //For when you select the Textfield in the add Game UI
-   public class addGameMouseHandler implements MouseListener {
+    public class addGameMouseHandler implements MouseListener {
 
         private GameSearch Search;
         private GameLibrary_UI Library;
@@ -564,7 +559,7 @@ public class GameLibrary_HANDLE {
         }
     }
 
-   public class addGameFocusHandler implements FocusListener {
+    public class addGameFocusHandler implements FocusListener {
 
         private GameLibrary_UI Library;
         private GameSearch Search;
@@ -605,7 +600,7 @@ public class GameLibrary_HANDLE {
         }
     }
 
-  public  class HideGameAddUIHandler implements ActionListener {
+    public class HideGameAddUIHandler implements ActionListener {
 
         private GameLibrary_UI library;
 
@@ -619,7 +614,7 @@ public class GameLibrary_HANDLE {
         }
     }
 
-   public class ExecutableChooserHandler implements ActionListener {
+    public class ExecutableChooserHandler implements ActionListener {
 
         private GameLibrary_UI library;
         private JFileChooser gameLocator;
@@ -643,7 +638,7 @@ public class GameLibrary_HANDLE {
         }
     }
 
-   public class ExecutableFilterHandler extends FileFilter {
+    public class ExecutableFilterHandler extends FileFilter {
 
         private AuroraCoreUI ui;
 
@@ -684,9 +679,9 @@ public class GameLibrary_HANDLE {
         }
     }
 
-   public class AddToLibraryHandler implements ActionListener {
+    public class AddToLibraryHandler implements ActionListener {
 
-        private GameLibrary_UI library;
+        private GameLibrary_UI ui;
         private GridManager GridSplit;
         private JPanel GameBack;
         private GameSearch GameSearch;
@@ -695,7 +690,14 @@ public class GameLibrary_HANDLE {
         private String currentPath;
 
         public AddToLibraryHandler(GameLibrary_UI ui) {
-            this.library = ui;
+            this.ui = ui;
+
+
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
             currentPath = ui.getCurrentPath();
             GridSplit = ui.getGridSplit();
             GameBack = ui.getGameBack();
@@ -703,13 +705,8 @@ public class GameLibrary_HANDLE {
             GridMove = ui.getGridMove();
             storage = ui.getStorage();
 
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
             GameSearch.getFoundGameCover().setGamePath(currentPath);
-            GameSearch.getFoundGameCover().setCoverSize(library.getSIZE_GameCoverWidth(), library.getSIZE_GameCoverHeight());
+            GameSearch.getFoundGameCover().setCoverSize(ui.getSIZE_GameCoverWidth(), ui.getSIZE_GameCoverHeight());
             GameSearch.getFoundGameCover().reAddInteractive();
             if (!GridSplit.isDupicate(GameSearch.getFoundGameCover())) {
                 storage.getStoredLibrary().SaveGame(GameSearch.getFoundGameCover());
@@ -717,18 +714,18 @@ public class GameLibrary_HANDLE {
 
             }
             GridSplit.addGame(GameSearch.getFoundGameCover());
-            GridSplit.finalizeGrid(library.getAddGameHandler(), library.getSIZE_GameCoverWidth(), library.getSIZE_GameCoverHeight());
-            library.hideAddGameUI();
+            GridSplit.finalizeGrid(ui.getAddGameHandler(), ui.getSIZE_GameCoverWidth(), ui.getSIZE_GameCoverHeight());
+            ui.hideAddGameUI();
             //reset
             GameSearch.resetCover();
 
-            library.setCurrentIndex(GridSplit.getArray().indexOf(GameBack.getComponent(1)));
+            ui.setCurrentIndex(GridSplit.getArray().indexOf(GameBack.getComponent(1)));
             //Transition towards to left most grid to see the game added
             GridMove.runMover();
         }
     }
 
-   public class SelectListHandler implements ListSelectionListener {
+    public class SelectListHandler implements ListSelectionListener {
 
         private GameLibrary_UI library;
         private JList gamesList;
@@ -758,9 +755,8 @@ public class GameLibrary_HANDLE {
             }
         }
     }
-    
-    
-     public class AddGameHandler implements ActionListener {
+
+    public class AddGameHandler implements ActionListener {
 
         private GameLibrary_UI library;
 
@@ -785,11 +781,9 @@ public class GameLibrary_HANDLE {
 
         public MoveToLastGrid(GameLibrary_UI ui) {
             this.ui = ui;
-            
-            
+
+
         }
-        
-        
 
         public void runMover() {
             mover = null;
@@ -808,7 +802,7 @@ public class GameLibrary_HANDLE {
             while (Thread.currentThread() == mover) {
                 if (ui.getCurrentIndex() < ui.getGridSplit().getFullGrids()) {
 
-                     ui.getMoveLibraryRightHandler().mouseClicked(null);
+                    ui.getMoveLibraryRightHandler().mouseClicked(null);
 
                 } else if (ui.getCurrentIndex() >= ui.getGridSplit().getFullGrids()) {
                     break;
@@ -822,7 +816,7 @@ public class GameLibrary_HANDLE {
 
         }
     }
-    
+
     //Prevents from clicking Through the Aurora Add Game UI and select Games in the
     //Background
     public class EmptyMouseHandler implements MouseListener {
