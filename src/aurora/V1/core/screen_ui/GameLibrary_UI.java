@@ -17,31 +17,18 @@
  */
 package aurora.V1.core.screen_ui;
 
-import aurora.V1.core.AuroraApp;
-import aurora.V1.core.AuroraCoreUI;
-import aurora.V1.core.AuroraStorage;
-import aurora.V1.core.Game;
-import aurora.V1.core.GameSearch;
-import aurora.V1.core.GridAnimation;
-import aurora.V1.core.GridManager;
-import aurora.V1.core.GridSearch;
-import aurora.V1.core.InputHandler;
-import aurora.V1.core.InputHandler.AddGameHandler;
-import aurora.V1.core.InputHandler.HoverButtonLeft;
-import aurora.V1.core.InputHandler.HoverButtonRight;
-import aurora.V1.core.InputHandler.searchBoxHandler;
-import aurora.V1.core.InputHandler.searchFocusHandler;
-import aurora.V1.core.InputHandler.searchRefocusListener;
-import aurora.V1.core.screen_ui.Dashboard_UI;
-import aurora.engine.V1.Logic.aAnimate;
-import aurora.engine.V1.Logic.aPostHandler;
-import aurora.engine.V1.Logic.aSimpleDB;
-import aurora.engine.V1.UI.aButton;
-import aurora.engine.V1.UI.aHoverButton;
-import aurora.engine.V1.UI.aImage;
-import aurora.engine.V1.UI.aImagePane;
+import aurora.V1.core.*;
+import aurora.V1.core.screen_handler.GameLibrary_HANDLE;
+import aurora.V1.core.screen_handler.GameLibrary_HANDLE.AddGameHandler;
+import aurora.V1.core.screen_handler.GameLibrary_HANDLE.GameLibraryKeyListener;
+import aurora.V1.core.screen_handler.GameLibrary_HANDLE.HoverButtonLeft;
+import aurora.V1.core.screen_handler.GameLibrary_HANDLE.HoverButtonRight;
+import aurora.V1.core.screen_handler.GameLibrary_HANDLE.MoveToLastGrid;
+import aurora.V1.core.screen_handler.GameLibrary_HANDLE.searchBoxHandler;
+import aurora.V1.core.screen_handler.GameLibrary_HANDLE.searchFocusHandler;
+import aurora.engine.V1.Logic.*;
+import aurora.engine.V1.UI.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
@@ -95,12 +82,10 @@ public class GameLibrary_UI extends AuroraApp {
     private JPanel SearchContainer;
     private JPanel ButtonPane;
     private int SIZE_FramePanePadding;
-    private InputHandler handler;
+    private GameLibrary_HANDLE handler;
     private GridSearch Search;
-    private InputHandler KeyHandler;
     private aImage imgBlank;
     private aSimpleDB CoverDB;
-    private Game Trine;
     private AddGameHandler addGameHandler;
     private aImagePane addGamePane;
     private aAnimate addGameAnimator;
@@ -129,7 +114,6 @@ public class GameLibrary_UI extends AuroraApp {
     private JPanel RightBottomCenter;
     private JPanel ContentPane;
     private GameSearch GameSearch;
-    private searchRefocusListener searchRefocus;
     private searchBoxHandler searchBoxHandler;
     private searchFocusHandler searchFocusHandler;
     private boolean addGameUI_Visible = false;
@@ -144,15 +128,17 @@ public class GameLibrary_UI extends AuroraApp {
     private AuroraStorage storage;
     private HoverButtonLeft MoveLibraryLeftHandler;
     private HoverButtonRight MoveLibraryRightHandler;
-    private MoveToGirdLastGrid GridMove;
+    private MoveToLastGrid GridMove;
     private boolean isAddGameUILoaded = false;
     private boolean isGameLibraryKeyListenerAdded;
     private int SIZE_SearchBarWidth;
+    private aButton removeSearchButton;
 
     public GameLibrary_UI(AuroraStorage storage, Dashboard_UI dash_obj, AuroraCoreUI ui) {
         this.storage = storage;
         this.dash_Obj = dash_obj;
         this.ui = ui;
+        this.handler = new GameLibrary_HANDLE();
         this.clearUI_Forwards();
         isGameLibraryKeyListenerAdded = false;
 
@@ -215,14 +201,13 @@ public class GameLibrary_UI extends AuroraApp {
         imgFavorite = new aImage("Aurora_Favorite.png");
         imgBlank = new aImage("Aurora_Blank.png");
 
-        KeyHandler = new InputHandler();
 
-        MoveLibraryLeftHandler = KeyHandler.new HoverButtonLeft(this, ui);
-        MoveLibraryRightHandler = KeyHandler.new HoverButtonRight(this, ui);
+        MoveLibraryLeftHandler = handler.new HoverButtonLeft(this, ui);
+        MoveLibraryRightHandler = handler.new HoverButtonRight(this, ui);
 
         imgGameRight = new aHoverButton(MoveLibraryRightHandler, 3, "Aurora_RightLib_normal.png", "Aurora_RightLib_over.png");
         imgGameLeft = new aHoverButton(MoveLibraryLeftHandler, 3, "Aurora_LeftLib_normal.png", "Aurora_LeftLib_over.png");
-        GridMove = new MoveToGirdLastGrid();
+        GridMove = handler.new MoveToLastGrid(this);
 
         //...Zoom Buttons
         ZoomP = new aButton("Aurora_ZoomP_normal.png", "Aurora_ZoomP_down.png", "Aurora_ZoomP_over.png", 0, SIZE_ZoomButtonHeight);
@@ -275,7 +260,7 @@ public class GameLibrary_UI extends AuroraApp {
         //TODO needs a container
         JPanel container = new JPanel(new BorderLayout());
         container.setOpaque(false);
-        addGameHandler = KeyHandler.new AddGameHandler(this);
+        addGameHandler = handler.new AddGameHandler(this);
 
         btnAddGame = new aButton("Aurora_Add_normal.png", "Aurora_Add_down.png", "Aurora_Add_over.png", SIZE_AddGameWidth, SIZE_AddGameHeight);
         btnAddGame.addActionListener(addGameHandler);
@@ -297,10 +282,12 @@ public class GameLibrary_UI extends AuroraApp {
 
         //Search Bar
 
-      //  KeyHandler = new InputHandler();
 
         SearchBarBG = new aImagePane("SearchBar_inactive.png", new BorderLayout());
         SearchBarBG.setPreferredSize(new Dimension(SIZE_SearchBarWidth, 50));
+
+        removeSearchButton = new aButton("SearchButtonBack_up.png", "SearchButtonBack_down.png", "SearchButtonBack_over.png");
+        removeSearchButton.setPreferredSize(new Dimension(70, 51));
 
         gridSearchBar = new JTextField("Start Typing To Search...");
         gridSearchBar.setOpaque(false);
@@ -314,7 +301,7 @@ public class GameLibrary_UI extends AuroraApp {
 
         SearchButton = new aButton("SearchButton_up.png", "SearchButton_down.png", "SearchButton_over.png");
         SearchButton.setPreferredSize(new Dimension(70, 51));
-        SearchButton.addActionListener(KeyHandler.new searchButtonHandler(this));
+        SearchButton.addActionListener(handler.new searchButtonHandler(this));
 
         SearchButtonBG = new aImagePane("SearchButtonBG.png", new BorderLayout());
         SearchButtonBG.setPreferredSize(new Dimension(70, 51));
@@ -359,74 +346,74 @@ public class GameLibrary_UI extends AuroraApp {
         Search = new GridSearch(ui, this, GridSplit);
 
         //Handle Search Queries 
-        searchBoxHandler = KeyHandler.new searchBoxHandler(this);
-        searchFocusHandler = KeyHandler.new searchFocusHandler(this);
+        searchBoxHandler = handler.new searchBoxHandler(this);
+        searchFocusHandler = handler.new searchFocusHandler(this);
         gridSearchBar.addKeyListener(searchBoxHandler);
         gridSearchBar.addFocusListener(searchFocusHandler);
-        gridSearchBar.addMouseListener(KeyHandler.new searchSelectHandler(this));
+        gridSearchBar.addMouseListener(handler.new searchSelectHandler(this));
 
 
-        ui.getFrame().addKeyListener(KeyHandler.new searchRefocusListener(this));
-       // ui.getFrame().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
-        ui.getFrame().addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
-      //  ui.getFrame().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
-        ui.getFrame().addMouseWheelListener(KeyHandler.new GridMouseWheelListener(this));
+        ui.getFrame().addKeyListener(handler.new searchRefocusListener(this));
+        // ui.getFrame().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
+        ui.getFrame().addKeyListener(handler.new GameLibraryKeyListener(this, ui));
+        //  ui.getFrame().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
+        ui.getFrame().addMouseWheelListener(handler.new GridMouseWheelListener(this));
 
-        ui.getPnlBackground().addKeyListener(KeyHandler.new searchRefocusListener(this));
+        ui.getPnlBackground().addKeyListener(handler.new searchRefocusListener(this));
         //ui.getPnlBackground().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
-        ui.getPnlBackground().addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
-      //  ui.getPnlBackground().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
-        ui.getPnlBackground().addMouseWheelListener(KeyHandler.new GridMouseWheelListener(this));
+        ui.getPnlBackground().addKeyListener(handler.new GameLibraryKeyListener(this, ui));
+        //  ui.getPnlBackground().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
+        ui.getPnlBackground().addMouseWheelListener(handler.new GridMouseWheelListener(this));
 
-        ui.getPnlBottom().addKeyListener(KeyHandler.new searchRefocusListener(this));
-       // ui.getPnlBottom().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
-        ui.getPnlBottom().addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
-      //  ui.getPnlBottom().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
-        ui.getPnlBottom().addMouseWheelListener(KeyHandler.new GridMouseWheelListener(this));
+        ui.getPnlBottom().addKeyListener(handler.new searchRefocusListener(this));
+        // ui.getPnlBottom().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
+        ui.getPnlBottom().addKeyListener(handler.new GameLibraryKeyListener(this, ui));
+        //  ui.getPnlBottom().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
+        ui.getPnlBottom().addMouseWheelListener(handler.new GridMouseWheelListener(this));
 
-        ui.getPnlCenter().addKeyListener(KeyHandler.new searchRefocusListener(this));
-       // ui.getPnlCenter().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
-        ui.getPnlCenter().addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
-       // ui.getPnlCenter().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
-        ui.getPnlCenter().addMouseWheelListener(KeyHandler.new GridMouseWheelListener(this));
+        ui.getPnlCenter().addKeyListener(handler.new searchRefocusListener(this));
+        // ui.getPnlCenter().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
+        ui.getPnlCenter().addKeyListener(handler.new GameLibraryKeyListener(this, ui));
+        // ui.getPnlCenter().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
+        ui.getPnlCenter().addMouseWheelListener(handler.new GridMouseWheelListener(this));
 
-        ui.getPnlSouthFromTop().addKeyListener(KeyHandler.new searchRefocusListener(this));
+        ui.getPnlSouthFromTop().addKeyListener(handler.new searchRefocusListener(this));
         //ui.getPnlSouthFromTop().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
-        ui.getPnlSouthFromTop().addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
-      //  ui.getPnlSouthFromTop().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
-        ui.getPnlSouthFromTop().addMouseWheelListener(KeyHandler.new GridMouseWheelListener(this));
+        ui.getPnlSouthFromTop().addKeyListener(handler.new GameLibraryKeyListener(this, ui));
+        //  ui.getPnlSouthFromTop().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
+        ui.getPnlSouthFromTop().addMouseWheelListener(handler.new GridMouseWheelListener(this));
 
-        ui.getPnlFrameControl().addKeyListener(KeyHandler.new searchRefocusListener(this));
-      //  ui.getPnlFrameControl().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
-        ui.getPnlFrameControl().addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
-      //  ui.getPnlFrameControl().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
-        ui.getPnlFrameControl().addMouseWheelListener(KeyHandler.new GridMouseWheelListener(this));
+        ui.getPnlFrameControl().addKeyListener(handler.new searchRefocusListener(this));
+        //  ui.getPnlFrameControl().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
+        ui.getPnlFrameControl().addKeyListener(handler.new GameLibraryKeyListener(this, ui));
+        //  ui.getPnlFrameControl().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
+        ui.getPnlFrameControl().addMouseWheelListener(handler.new GridMouseWheelListener(this));
 
-        ui.getPnlTop().addKeyListener(KeyHandler.new searchRefocusListener(this));
-      //  ui.getPnlTop().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
-        ui.getPnlTop().addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
-      //  ui.getPnlTop().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
-        ui.getPnlTop().addMouseWheelListener(KeyHandler.new GridMouseWheelListener(this));
+        ui.getPnlTop().addKeyListener(handler.new searchRefocusListener(this));
+        //  ui.getPnlTop().addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
+        ui.getPnlTop().addKeyListener(handler.new GameLibraryKeyListener(this, ui));
+        //  ui.getPnlTop().addMouseWheelListener(new GameLibrary_UI.GridMouseWheelListener());
+        ui.getPnlTop().addMouseWheelListener(handler.new GridMouseWheelListener(this));
 
-        this.btnAddGame.addKeyListener(KeyHandler.new searchRefocusListener(this));
-      //  this.btnAddGame.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
-        this.btnAddGame.addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
+        this.btnAddGame.addKeyListener(handler.new searchRefocusListener(this));
+        //  this.btnAddGame.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
+        this.btnAddGame.addKeyListener(handler.new GameLibraryKeyListener(this, ui));
 
-        this.GameBack.addKeyListener(KeyHandler.new searchRefocusListener(this));
-      //  this.GameBack.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
-        this.GameBack.addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
+        this.GameBack.addKeyListener(handler.new searchRefocusListener(this));
+        //  this.GameBack.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
+        this.GameBack.addKeyListener(handler.new GameLibraryKeyListener(this, ui));
 
-        this.imgSelectedGamePane.addKeyListener(KeyHandler.new searchRefocusListener(this));
-      //  this.imgSelectedGamePane.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
-        this.imgSelectedGamePane.addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
+        this.imgSelectedGamePane.addKeyListener(handler.new searchRefocusListener(this));
+        //  this.imgSelectedGamePane.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
+        this.imgSelectedGamePane.addKeyListener(handler.new GameLibraryKeyListener(this, ui));
 
-        this.imgGameLeft.addKeyListener(KeyHandler.new searchRefocusListener(this));
-      //  this.imgGameLeft.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
-        this.imgGameLeft.addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
+        this.imgGameLeft.addKeyListener(handler.new searchRefocusListener(this));
+        //  this.imgGameLeft.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
+        this.imgGameLeft.addKeyListener(handler.new GameLibraryKeyListener(this, ui));
 
-        this.imgGameRight.addKeyListener(KeyHandler.new searchRefocusListener(this));
-     //   this.imgGameRight.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener())
-        this.imgGameRight.addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
+        this.imgGameRight.addKeyListener(handler.new searchRefocusListener(this));
+        //   this.imgGameRight.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener())
+        this.imgGameRight.addKeyListener(handler.new GameLibraryKeyListener(this, ui));
 
 
         //Add to Volatile Listeners Array List
@@ -568,11 +555,11 @@ public class GameLibrary_UI extends AuroraApp {
             Game game = new Game(GridSplit, ui, dash_Obj);
             try {
                 game = (Game) GridSplit.getGrid(currentPanel).getArray().get(i);
-                game.addKeyListener(KeyHandler.new searchRefocusListener(this));
+                game.addKeyListener(handler.new searchRefocusListener(this));
 
                 for (int j = 0; j < game.getKeyListeners().length; j++) {
-                  //  if (game.getKeyListeners()[j] instanceof GameLibrary_UI.GameLibraryKeyListener) {
-                	if (game.getKeyListeners()[j] instanceof InputHandler.GameLibraryKeyListener) {
+                    //  if (game.getKeyListeners()[j] instanceof GameLibrary_UI.GameLibraryKeyListener) {
+                    if (game.getKeyListeners()[j] instanceof GameLibraryKeyListener) {
                         isGameLibraryKeyListenerAdded = true;
                         break;
                     }
@@ -580,8 +567,8 @@ public class GameLibrary_UI extends AuroraApp {
 
                 if (!isGameLibraryKeyListenerAdded) {
                     System.out.println("ADDING GAMELIBRARYLISTENER TO " + game.getName());
-                  //  game.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
-                    game.addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
+                    //  game.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
+                    game.addKeyListener(handler.new GameLibraryKeyListener(this, ui));
                 }
 
 
@@ -604,8 +591,8 @@ public class GameLibrary_UI extends AuroraApp {
                     game = (Game) GridSplit.getGrid(currentPanel + 1).getArray().get(i);
 
                     for (int j = 0; j < game.getKeyListeners().length; j++) {
-                     //   if (game.getKeyListeners()[j] instanceof GameLibrary_UI.GameLibraryKeyListener) {
-                    	if (game.getKeyListeners()[j] instanceof InputHandler.GameLibraryKeyListener) {
+                        //   if (game.getKeyListeners()[j] instanceof GameLibrary_UI.GameLibraryKeyListener) {
+                        if (game.getKeyListeners()[j] instanceof GameLibraryKeyListener) {
                             isGameLibraryKeyListenerAdded = true;
                             break;
                         }
@@ -613,8 +600,8 @@ public class GameLibrary_UI extends AuroraApp {
 
                     if (!isGameLibraryKeyListenerAdded) {
                         System.out.println("ADDING GAMELIBRARYLISTENER TO" + game.getName());
-                       // game.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
-                        game.addKeyListener(KeyHandler.new GameLibraryKeyListener(this, ui));
+                        // game.addKeyListener(new GameLibrary_UI.GameLibraryKeyListener());
+                        game.addKeyListener(handler.new GameLibraryKeyListener(this, ui));
                     }
                     if (!game.isLoaded()) {
                         game.update();
@@ -876,21 +863,21 @@ public class GameLibrary_UI extends AuroraApp {
 
 
             //btnCloseAddUI.addActionListener(new HideGameAddUIHandler());
-            btnCloseAddUI.addActionListener(KeyHandler.new HideGameAddUIHandler(this));
-            
-           // addGamePane.addMouseListener(new EmptyMouseHandler()); //so that you dont select behind the Panel
-            addGamePane.addMouseListener(KeyHandler.new EmptyMouseHandler()); //so that you dont select behind the Panel
-            gameSearchBar.addFocusListener(KeyHandler.new addGameFocusHandler(this));
-            gameSearchBar.addMouseListener(KeyHandler.new addGameMouseHandler(this));
-            gameSearchBar.addKeyListener(KeyHandler.new addGameSearchBoxHandler(this));
+            btnCloseAddUI.addActionListener(handler.new HideGameAddUIHandler(this));
+
+            // addGamePane.addMouseListener(new EmptyMouseHandler()); //so that you dont select behind the Panel
+            addGamePane.addMouseListener(handler.new EmptyMouseHandler()); //so that you dont select behind the Panel
+            gameSearchBar.addFocusListener(handler.new addGameFocusHandler(this));
+            gameSearchBar.addMouseListener(handler.new addGameMouseHandler(this));
+            gameSearchBar.addKeyListener(handler.new addGameSearchBoxHandler(this));
             //gamesList.addListSelectionListener(new SelectListHandler());
-            gamesList.addListSelectionListener(KeyHandler.new SelectListHandler(this));
+            gamesList.addListSelectionListener(handler.new SelectListHandler(this));
             //gameLocator.setFileFilter(new ExecutableFilterHandler());
-            gameLocator.setFileFilter(KeyHandler.new ExecutableFilterHandler(ui));
+            gameLocator.setFileFilter(handler.new ExecutableFilterHandler(ui));
             //gameLocator.addActionListener(new ExecutableChooserHandler());
-            gameLocator.addActionListener(KeyHandler.new ExecutableChooserHandler(this, gameLocator));
+            gameLocator.addActionListener(handler.new ExecutableChooserHandler(this, gameLocator));
             //addGameToLibButton.addActionListener(new AddToLibraryHandler());
-            addGameToLibButton.addActionListener(KeyHandler.new AddToLibraryHandler(this));
+            addGameToLibButton.addActionListener(handler.new AddToLibraryHandler(this));
 
             ////////////
             //Finalize//
@@ -971,68 +958,6 @@ public class GameLibrary_UI extends AuroraApp {
         gridSearchBar.requestFocus();
         ui.getFrame().requestFocus();
 
-    }
-
-    class AddToLibraryHandler implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            GameSearch.getFoundGameCover().setGamePath(currentPath);
-            GameSearch.getFoundGameCover().setCoverSize(SIZE_GameCoverWidth, SIZE_GameCoverHeight);
-            GameSearch.getFoundGameCover().reAddInteractive();
-            if (!GridSplit.isDupicate(GameSearch.getFoundGameCover())) {
-                storage.getStoredLibrary().SaveGame(GameSearch.getFoundGameCover());
-
-            }
-            GridSplit.addGame(GameSearch.getFoundGameCover());
-            GridSplit.finalizeGrid(addGameHandler, SIZE_GameCoverWidth, SIZE_GameCoverHeight);
-            hideAddGameUI();
-            //reset
-            GameSearch.resetCover();
-
-
-            currentIndex = GridSplit.getArray().indexOf(GameBack.getComponent(1));
-            //Transition towards to left most grid to see the game added
-            GridMove.runMover();
-        }
-    }
-
-    //Transisions towards the Last Grid in the library
-    //To show game added (apple iOS style :P )
-   public class MoveToGirdLastGrid implements Runnable {
-
-        private Thread mover;
-
-        public void runMover() {
-            mover = null;
-
-            if (mover == null) {
-                mover = new Thread(this);
-            }
-            mover.setName("Mover Thread");
-            //Start Loader
-            System.out.println("Starting Mover Thread");
-            mover.start();
-        }
-
-        @Override
-        public void run() {
-            while (Thread.currentThread() == mover) {
-                if (currentIndex < GridSplit.getFullGrids()) {
-
-                    MoveLibraryRightHandler.mouseClicked(null);
-
-                } else if (currentIndex >= GridSplit.getFullGrids()) {
-                    break;
-                }
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(GameLibrary_UI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-        }
     }
 
     public void moveGridLeft() {
@@ -1140,6 +1065,47 @@ public class GameLibrary_UI extends AuroraApp {
     }
 
     //GETTER AND SETTERS
+    public aAnimate getAddGameAnimator() {
+        return addGameAnimator;
+    }
+
+    public HoverButtonLeft getMoveLibraryLeftHandler() {
+        return MoveLibraryLeftHandler;
+    }
+
+    public HoverButtonRight getMoveLibraryRightHandler() {
+        return MoveLibraryRightHandler;
+    }
+    
+
+    public aButton getAddGameToLibButton() {
+        return addGameToLibButton;
+    }
+
+    public aAnimate getAddGameToLibButtonAnimator() {
+        return addGameToLibButtonAnimator;
+    }
+
+    public JPanel getAddSearchContainer() {
+        return addSearchContainer;
+    }
+
+    public JPanel getBottomCenterPane() {
+        return BottomCenterPane;
+    }
+
+    public JFileChooser getGameLocator() {
+        return gameLocator;
+    }
+
+    public GameLibrary_HANDLE getHandler() {
+        return handler;
+    }
+
+    public aButton getRemoveSearchButton() {
+        return removeSearchButton;
+    }
+
     public JTextField getGameSearchBar() {
         return gameSearchBar;
     }
@@ -1155,9 +1121,9 @@ public class GameLibrary_UI extends AuroraApp {
     public JList getGamesList() {
         return gamesList;
     }
-    
-    public MoveToGirdLastGrid getGridMove() {
-    	return GridMove;
+
+    public MoveToLastGrid getGridMove() {
+        return GridMove;
     }
 
     public JScrollPane getListScrollPane() {
@@ -1175,9 +1141,9 @@ public class GameLibrary_UI extends AuroraApp {
     public aImagePane getAddGamePane() {
         return addGamePane;
     }
-    
+
     public AddGameHandler getAddGameHandler() {
-    	return addGameHandler;
+        return addGameHandler;
     }
 
     public aImagePane getCoverPane() {
@@ -1234,10 +1200,6 @@ public class GameLibrary_UI extends AuroraApp {
 
     public GridManager getGridSplit() {
         return GridSplit;
-    }
-
-    public InputHandler getKeyHandler() {
-        return KeyHandler;
     }
 
     public int getSIZE_AddGameHeight() {
@@ -1307,9 +1269,9 @@ public class GameLibrary_UI extends AuroraApp {
     public JPanel getSelectedGameContainer() {
         return SelectedGameContainer;
     }
-    
+
     public AuroraStorage getStorage() {
-    	return storage;
+        return storage;
     }
 
     public JPanel getTextPane() {
@@ -1335,37 +1297,33 @@ public class GameLibrary_UI extends AuroraApp {
     public int getCurrentIndex() {
         return currentIndex;
     }
-    
+
     public void setCurrentIndex(int index) {
-    	currentIndex = index;
+        currentIndex = index;
     }
 
     public int getCurrentPanel() {
         return currentPanel;
     }
-    
+
     public String getCurrentPath() {
-    	return currentPath;
+        return currentPath;
     }
-    
+
     public void setCurrentPath(String path) {
-    	currentPath = path;
+        currentPath = path;
     }
 
     public ArrayList<aImagePane> getGameCover() {
         return gameCover;
     }
 
-    public InputHandler getHandler() {
-        return handler;
-    }
-
     public aImage getImgFavorite() {
         return imgFavorite;
     }
-    
+
     public aImage getImgBlank() {
-    	return imgBlank;
+        return imgBlank;
     }
 
     public aHoverButton getImgGameLeft() {

@@ -41,7 +41,7 @@ import javax.swing.JPanel;
  * @author Sammy
  * @version 0.3
  */
-public class Dashboard_UI extends AuroraApp{
+public class Dashboard_UI extends AuroraApp {
 
     private aCarousel Carousel;
     private aButton btnLogout;
@@ -89,7 +89,6 @@ public class Dashboard_UI extends AuroraApp{
     aCarouselPane settingsPane;
     aCarouselPane profilePane;
     aCarouselPane auroraNetPane;
-    private final aSurface ressource;
     private AuroraStorage storage;
     private StartLoader loader;
     private aImage titleAuroraNetNorm;
@@ -99,13 +98,11 @@ public class Dashboard_UI extends AuroraApp{
     private int SIZE_CarouselButtonHeight;
     private JPanel pnlInfo;
 
-    public Dashboard_UI(StartLoader loader, AuroraCoreUI AUI, StartScreen_UI Obj) throws UnsupportedAudioFileException {
+    public Dashboard_UI(StartLoader loader, AuroraCoreUI AUI, StartScreen_UI Obj) {
         this.loader = loader;
         this.StartUp_Obj = Obj;
 
-        //.......Load New Main Pane Config
         ui = AUI;
-        ressource = new aSurface("");
         this.storage = StartUp_Obj.getAuroraStorage();
 
 
@@ -121,10 +118,11 @@ public class Dashboard_UI extends AuroraApp{
     }
 
     public void loadGUI() {
+
+        //Initialize Sizes
+        setSizes();
         
-                
- setSizes();
-        ui.getImgLogo().setImgURl("Aurora_Header2.png"); 
+        ui.getImgLogo().setImgURl("Aurora_Header2.png");
         ui.getImgLogo().setImageSize(SIZE_ImageWidth, SIZE_ImageHeight);
 
         ui.getPnlBottom().setPreferredSize(new Dimension(ui.getPnlBottom().getWidth(), SIZE_BottomPaneHeightAdjust));
@@ -177,12 +175,10 @@ public class Dashboard_UI extends AuroraApp{
         ui.getFrame().add(ui.getPnlBackground());
     }
 
-   
-
     public void buildGUI() throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException, FontFormatException {
-       
-        
-        
+
+
+
         ui.getLblInfo().setText(".: Loading :.");
 
         ////........ Create new Components
@@ -209,18 +205,18 @@ public class Dashboard_UI extends AuroraApp{
         imgProfile.setImageSize(SIZE_CarouselImageWidth, SIZE_CarouselImageHeight);
         imgNet.setImageSize(SIZE_CarouselImageWidth, SIZE_CarouselImageHeight);
 
-        if (storage.getStoredLibrary().getGameNames() == null || storage.getStoredLibrary().getGameNames().isEmpty()) {
+        if (storage.getStoredLibrary().getBoxArtPath() == null || storage.getStoredLibrary().getBoxArtPath().isEmpty()) {
 
             aImagePane blank = new aImagePane("Blank-Case.png", SIZE_GameCoverWidth, SIZE_GameCoverHeight);
             imgGame = blank; //Name change for carousel
 
         } else {
             Random rand = new Random();
-            System.out.println("Storage Size " + storage.getStoredLibrary().getGameNames().size());
 
             int randomNum = rand.nextInt(storage.getStoredLibrary().getGameNames().size());
 
             System.out.println("Random Num " + randomNum);
+            System.out.println("Storage size " + storage.getStoredLibrary().getBoxArtPath());
 
             Game = new Game(storage.getStoredLibrary().getBoxArtPath().get(randomNum), this);
             Game.setCoverSize(SIZE_GameCoverWidth, SIZE_GameCoverHeight);
@@ -236,11 +232,11 @@ public class Dashboard_UI extends AuroraApp{
 
         String URL = "HexPane.png";
         Carousel = new aCarousel(URL, SIZE_CarouselWidth, SIZE_CarouselHeight, Toolkit.getDefaultToolkit().getScreenSize().width);
-        
+
         settingsPane = new aCarouselPane(URL, (int) SIZE_CarouselWidth + 25, SIZE_CarouselHeight - 25, true, titleSetting, "Setting Pane");
         settingsPane.setName("settingsPane");
         settingsPane.addKeyListener(new Dashboard_UI.CarouselKeyListener());
-        
+
 
         profilePane = new aCarouselPane(URL, (int) SIZE_CarouselWidth + 25, SIZE_CarouselHeight - 25, true, titleGamer, "gamer pane");
         profilePane.setName("profilePane");
@@ -290,7 +286,7 @@ public class Dashboard_UI extends AuroraApp{
         btnCarouselRight.addActionListener(new Dashboard_UI.RightListener());
         btnCarouselRight.addKeyListener(new Dashboard_UI.CarouselKeyListener());
 
-        
+
 
         //Info Bar
 
@@ -352,7 +348,7 @@ public class Dashboard_UI extends AuroraApp{
 
         //Finished loading so change text
         ui.getLblInfo().setText(" Dashboard ");
-        
+
         //Finalize
         ui.getFrame().getContentPane().addKeyListener(new Dashboard_UI.CarouselKeyListener());
         ui.getFrame().addKeyListener(new Dashboard_UI.CarouselKeyListener());
@@ -413,8 +409,8 @@ public class Dashboard_UI extends AuroraApp{
         }
 
     }
-    
-     public aImage getTitleGamerGlow() {
+
+    public aImage getTitleGamerGlow() {
         return titleGamerGlow;
     }
 
@@ -812,7 +808,6 @@ public class Dashboard_UI extends AuroraApp{
 
     @Override
     public void createGUI() {
-        
     }
 
     class RightListener implements ActionListener {
@@ -1001,4 +996,3 @@ public class Dashboard_UI extends AuroraApp{
         }
     }
 }
-

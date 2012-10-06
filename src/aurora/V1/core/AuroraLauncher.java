@@ -171,7 +171,7 @@ public class AuroraLauncher implements Runnable {
                 if (ui.getOS().equals("Windows 7") || osName.equals("Windows XP") || ui.getOS().equals("Windows Vista")) {
 
 
-
+                    System.out.println(game.getGamePath());
                     if (game.getGamePath().endsWith("exe")) {
                         //Get the directory
                         ProcessBuilder processBuild = new ProcessBuilder(game.getGamePath());
