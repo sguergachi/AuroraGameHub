@@ -17,8 +17,8 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_ui.StartScreen_UI;
 import aurora.V1.core.screen_ui.Dashboard_UI;
+import aurora.V1.core.screen_ui.StartScreen_UI;
 import aurora.engine.V1.UI.aImage;
 import aurora.engine.V1.UI.aImagePane;
 import aurora.engine.V1.UI.aProgressWheel;
@@ -224,7 +224,7 @@ public class StartLoader implements Runnable {
                 } catch (FontFormatException ex) {
                     Logger.getLogger(StartLoader.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                mainWin.setObject(mainWin);
+//                mainWin.setObject(mainWin);
 
                 //Remove from memory
                 System.gc();

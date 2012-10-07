@@ -159,7 +159,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
 
         this.setOpaque(false);
-        this.ui = obj.getUI();
+        this.ui = obj.getCoreUI();
         this.dashObj = obj;
         this.coverURL = CoverURL;
 
@@ -180,7 +180,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
         this.setOpaque(false);
         this.dashObj = obj;
-        this.ui = obj.getUI();
+        this.ui = obj.getCoreUI();
 
         //DEFAULT CASE
         this.setImage("Blank-Case.png", height, width);
