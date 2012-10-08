@@ -78,7 +78,6 @@ public class Dashboard_UI extends AuroraApp {
     private int SIZE_BottomPaneHeightAdjust;
     private int SIZE_TopPaneHeighAdjust;
     private final StartScreen_UI StartUp_Obj;
-    //carlos
     private aCarouselTitle titleGamer;
     private aCarouselTitle titleSetting;
     private aCarouselTitle titleLibrary;

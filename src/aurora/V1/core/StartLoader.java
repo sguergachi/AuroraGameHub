@@ -224,7 +224,6 @@ public class StartLoader implements Runnable {
                 } catch (FontFormatException ex) {
                     Logger.getLogger(StartLoader.class.getName()).log(Level.SEVERE, null, ex);
                 }
-//                mainWin.setObject(mainWin);
 
                 //Remove from memory
                 System.gc();

@@ -21,6 +21,9 @@ import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraMini;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.StartLoader;
+import aurora.V1.core.screen_handler.StartScreen_HANDLE;
+import aurora.V1.core.screen_handler.StartScreen_HANDLE.FrameKeyListener;
+import aurora.V1.core.screen_handler.StartScreen_HANDLE.StartListener;
 import aurora.engine.V1.Logic.aFileManager;
 import aurora.engine.V1.Logic.aPostHandler;
 import aurora.engine.V1.Logic.aSurface;
@@ -34,10 +37,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -69,7 +68,6 @@ public final class StartScreen_UI implements Runnable {
     private int SIZE_Display;
     public static boolean Online = false;
     private StartLoader trans = null;
-    private FrameKeyListener startKeyHandler;
     private String path = "AuroraData";
     private JPanel pnlUserButton;
     private aButton btnGo;
@@ -83,6 +81,8 @@ public final class StartScreen_UI implements Runnable {
     public static boolean START_WITH_MINI = false;
     private boolean isLoaded = false;
     private int SIZE_DisplayFont;
+    private final StartScreen_HANDLE handler;
+    private FrameKeyListener startKeyHandler;
 
     public StartScreen_UI(Boolean startMini) {
 
@@ -95,7 +95,7 @@ public final class StartScreen_UI implements Runnable {
         //fast load
         frame = new JFrame("Aurora Game Manager ~ V1");
         ui = new AuroraCoreUI(this.frame);
-
+        handler = new StartScreen_HANDLE(this);
 
 
 
@@ -144,8 +144,6 @@ public final class StartScreen_UI implements Runnable {
         setSizes();
 
 
-
-
         //Option to start with AuroraMini
         if (START_WITH_MINI) {
             ui.getMinimizeHandler().setArg(AuroraMini.LOADING_MODE);
@@ -157,7 +155,7 @@ public final class StartScreen_UI implements Runnable {
         /////////////////////
 
 
-        //ui.sfxTheme.Play();
+        //TODO add Background Sound
 
 
         ///////////////////////
@@ -170,7 +168,7 @@ public final class StartScreen_UI implements Runnable {
 
 
         btnGo = new aButton("Aurora_User_normal.png", "Aurora_User_down.png", "Aurora_User_over.png");
-        btnGo.addActionListener(new StartListener());
+        btnGo.addActionListener(handler.new StartListener());
         btnGo.setVisible(false);
 
         // add button
@@ -193,7 +191,7 @@ public final class StartScreen_UI implements Runnable {
         HexAnimation.StartLoop();
 
         //Add Escape Key Listener to frame
-        this.startKeyHandler = new FrameKeyListener();
+        this.startKeyHandler = handler.new FrameKeyListener();
         frame.addKeyListener(startKeyHandler);
         frame.requestFocus();
 
@@ -249,9 +247,11 @@ public final class StartScreen_UI implements Runnable {
     public void doneLogin() {
         //add button panel to UI
         ui.getPnlUserSpace().removeAll();
+        
+        
 //        btnGo.setVisible(true);
-//        btnGo.setVisible(false);
-        StartListener start = new StartListener();
+        
+        StartListener start = handler.new StartListener();
         start.actionPerformed(null);
         ui.getPnlUserSpace().add(pnlUserButton);
         ui.getPnlUserSpace().revalidate();
@@ -452,37 +452,8 @@ public final class StartScreen_UI implements Runnable {
         ui.getPnlUserSpace().setVisible(false);
     }
 
-    /**
-     * Transitions to the Main_Window
-     */
-    class StartListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            startTransision();
-        }
-    }
-
-    class FrameKeyListener implements KeyListener {
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-
-            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                if (isLoaded && !isTransisioning) {
-
-                    startTransision();
-                }
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-        }
+    public FrameKeyListener getStartKeyHandler(){
+        return startKeyHandler;
     }
 
     public aFileManager getFileIO() {
@@ -493,9 +464,15 @@ public final class StartScreen_UI implements Runnable {
         return Online;
     }
 
-    public FrameKeyListener getStartKeyHandler() {
-        return startKeyHandler;
+  
+    public boolean isLoaded() {
+        return isLoaded;
     }
+
+    public boolean isTransisioning() {
+        return isTransisioning;
+    }
+        
 
     public aScrollingImage getHexAnimation() {
         return HexAnimation;
