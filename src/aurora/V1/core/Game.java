@@ -40,63 +40,62 @@ import javax.swing.JPanel;
  */
 public class Game extends aImagePane implements Serializable, Runnable, Cloneable {
 
-    private boolean mouseover;
-    private String Name;
-    private String coverURL;
-    private String gamePATH;
-    private String TimePlayed;
-    private String LastPlayed;
-    private int NumberTimesPlayed;
-    private String GameType;
-    private boolean Favorite;
-    private Thread GameCoverThread;
-    private boolean loaded = false;
-    private aProgressWheel progress;
+    private String name;
+    private String coverUrl;
+    private String gamePath;
+    private String timePlayed;
+    private String lastPlayed;
+    private String gameType;
+    private int numberTimesPlayed;
     private int width;
     private int height;
-    private aImagePane coverImg;
-    private aImagePane Blank;
-    private boolean selected;
-    private aImagePane Glow;
-    private aImagePane FavoriteIcon;
-    private JPanel InteractivePane;
-    private JPanel TopPane;
-    private aImagePane GameBar;
-    private aButton RemoveButton;
-    private aButton FavoriteButton;
-    private aButton InfoButton;
-    private aButton PlayButton;
-    private GridManager manager;
-    private JPanel BottomPane;
-    private aImagePane RemovePane;
-    private AuroraCoreUI ui;
-    private JPanel PlayButtonPane;
-    private JPanel InfoButtonPane;
-    private JPanel FavoriteButtonPane;
-    private Dashboard_UI dashObj;
-    private JPanel GameBarPane;
-    private aDialog dbErrr;
-    private boolean isRemoved = false;
-    private aImagePane imgConfirmPrompt;
-    private JLabel lblYes;
-    private JLabel lblNo;
-    private aButton btnConfirm;
-    private aButton btnDeny;
-    private JPanel ConfirmPane;
-    private JPanel DenyPane;
-    private AuroraStorage storage;
     private int SIZE_TOPPANE_COMP;
-    private int SIZE_BottomPaneHeight;
+    private int SIZE_BottomPaneHeight;    
+    private Thread gameCoverThread;
+    private boolean isFavorite;
+    private boolean isLoaded = false;
+    private boolean isSelected;
+    private boolean isRemoved = false;
+    private aProgressWheel progressWheel;
+    private aImagePane coverImagePane;
+    private aImagePane blankImagePane;
+    private aImagePane glowImagePane;
+    private aImagePane favoriteIconImagePane;
+    private aImagePane gameBarImagePane;
+    private aImagePane removeImagePane;
+    private aImagePane imgConfirmPromptImagePane;
+    private JPanel interactivePanel;
+    private JPanel topPanel;
+    private JPanel playButtonPanel;
+    private JPanel infoButtonPanel;
+    private JPanel favoriteButtonPanel;
+    private JPanel bottomPanel;
+    private JPanel gameBarPanel;
+    private JPanel confirmPanel;
+    private JPanel denyPanel;
+    private aButton removeButton;
+    private aButton favoriteButton;
+    private aButton infoButton;
+    private aButton playButton;
+    private aButton confirmButton;
+    private aButton denyButton;
+    private aDialog dbErrorDialog;
+    private JLabel yesLabel;
+    private JLabel noLabel;
+    private GridManager manager;
+    private AuroraCoreUI ui;
+    private Dashboard_UI dashboardUi;
+    private AuroraStorage storage;
     private final String rootCoverDBPath = "https://s3.amazonaws.com/CoverArtDB/";
     private PlayButtonListener playButtonListener;
 
     public Game() {
     }
 
-    public Game(GridManager manager, AuroraCoreUI ui, Dashboard_UI obj) {
+    public Game(final GridManager manager, final AuroraCoreUI ui, final Dashboard_UI obj) {
 
 
-        this.dashObj = obj;
+        this.dashboardUi = obj;
         this.ui = ui;
         this.manager = manager;
         this.setOpaque(false);
@@ -117,8 +116,8 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
     }
 
-    public Game(GridManager manager, AuroraCoreUI ui, Dashboard_UI obj, AuroraStorage storage) {
-        this.dashObj = obj;
+    public Game(final GridManager manager, final AuroraCoreUI ui, final Dashboard_UI obj, final AuroraStorage storage) {
+        this.dashboardUi = obj;
         this.ui = ui;
         this.storage = storage;
         this.manager = manager;
@@ -134,13 +133,13 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
     }
 
-    public Game(GridManager manager, AuroraCoreUI ui, String CoverURL) {
+    public Game(final GridManager manager, final AuroraCoreUI ui, final String CoverURL) {
 
         this.ui = ui;
         this.manager = manager;
         this.setOpaque(false);
         this.setDoubleBuffered(true);
-        this.coverURL = CoverURL;
+        this.coverUrl = CoverURL;
         // this.setSize();
 
         //DEFAULT CASE
@@ -155,13 +154,13 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
     }
 
-    public Game(String CoverURL, Dashboard_UI obj) {
+    public Game(final String CoverURL, final Dashboard_UI obj) {
 
 
         this.setOpaque(false);
         this.ui = obj.getCoreUI();
-        this.dashObj = obj;
-        this.coverURL = CoverURL;
+        this.dashboardUi = obj;
+        this.coverUrl = CoverURL;
 
         //DEFAULT CASE
         this.setImage("Blank-Case.png", height, width);
@@ -175,11 +174,11 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
     }
 
-    public Game(Dashboard_UI obj) {
+    public Game(final Dashboard_UI obj) {
 
 
         this.setOpaque(false);
-        this.dashObj = obj;
+        this.dashboardUi = obj;
         this.ui = obj.getCoreUI();
 
         //DEFAULT CASE
@@ -194,14 +193,14 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
     }
 
-    public void update() throws MalformedURLException {
+    public final void update() throws MalformedURLException {
 
 
-        InteractivePane = new JPanel(new BorderLayout());
-        InteractivePane.setOpaque(false);
-        InteractivePane.addMouseListener(new Game.InteractiveListener());
+        interactivePanel = new JPanel(new BorderLayout());
+        interactivePanel.setOpaque(false);
+        interactivePanel.addMouseListener(new Game.InteractiveListener());
         this.addMouseListener(new Game.InteractiveListener());
-        this.add(InteractivePane);
+        this.add(interactivePanel);
         this.revalidate();
 
         this.setLayout(new BorderLayout());
@@ -209,188 +208,159 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
 
         //Create Overlay UI Components//
+        coverImagePane = new aImagePane();
+        blankImagePane = new aImagePane();
+        glowImagePane = new aImagePane("Glow-Case.png", width + 10, height + 10);
+        favoriteIconImagePane = new aImagePane("FavoriteIcon.png", 100, 32);
+        favoriteIconImagePane.setPreferredSize(new Dimension(100, 32));
+		removeButton = new aButton("RemoveGame_up.png", "RemoveGame_down.png", "RemoveGame_over.png");
+        removeButton.addActionListener(new RemoveButtonListener());
 
-        coverImg = new aImagePane();
-        Blank = new aImagePane();
-        Glow = new aImagePane("Glow-Case.png", width + 10, height + 10);
-        FavoriteIcon = new aImagePane("FavoriteIcon.png", 100, 32);
-        FavoriteIcon.setPreferredSize(new Dimension(100, 32));
-        RemoveButton = new aButton("RemoveGame_up.png", "RemoveGame_down.png", "RemoveGame_over.png");
-        RemoveButton.addActionListener(new RemoveButtonListener());
+        gameBarImagePane = new aImagePane("GameIconBar.png", width - 30, 55);
+        gameBarImagePane.setOpaque(false);
+        gameBarImagePane.setPreferredSize(new Dimension(width - 30, 55));
+        gameBarImagePane.setLayout(new BorderLayout());
+        gameBarImagePane.setBackground(Color.blue);
 
-        GameBar = new aImagePane("GameIconBar.png", width - 30, 55);
-        GameBar.setOpaque(false);
-        GameBar.setPreferredSize(new Dimension(width - 30, 55));
-        GameBar.setLayout(new BorderLayout());
-        GameBar.setBackground(Color.blue);
-
-        GameBarPane = new JPanel();
-        GameBarPane.setOpaque(false);
-        GameBarPane.setBackground(Color.red);
-        GameBarPane.setLayout(new BoxLayout(GameBarPane, BoxLayout.X_AXIS));
-
-
+        gameBarPanel = new JPanel();
+        gameBarPanel.setOpaque(false);
+        gameBarPanel.setBackground(Color.red);
+        gameBarPanel.setLayout(new BoxLayout(gameBarPanel, BoxLayout.X_AXIS));
 
         //Game Bar Elements//
+        favoriteButton = new aButton("StarGame_up.png", "StarGame_down.png", "StarGame_over.png");
+        favoriteButton.addActionListener(new Game.FavoriteButtonListener());
+        favoriteButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        favoriteButtonPanel.setPreferredSize(new Dimension(30, 40));
+        favoriteButtonPanel.add(favoriteButton);
+        favoriteButtonPanel.setOpaque(false);
+        
+        infoButton = new aButton("GameInfo_up.png", "GameInfo_down.png", "GameInfo_over.png");
+        infoButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        infoButtonPanel.setPreferredSize(new Dimension(80, 40));
+        infoButtonPanel.add(infoButton);
+        infoButtonPanel.setOpaque(false);
 
-        FavoriteButton = new aButton("StarGame_up.png", "StarGame_down.png", "StarGame_over.png");
-        FavoriteButton.addActionListener(new Game.FavoriteButtonListener());
-
-        FavoriteButtonPane = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-        FavoriteButtonPane.setPreferredSize(new Dimension(30, 40));
-        FavoriteButtonPane.add(FavoriteButton);
-        FavoriteButtonPane.setOpaque(false);
-
-
-        InfoButton = new aButton("GameInfo_up.png", "GameInfo_down.png", "GameInfo_over.png");
-
-        InfoButtonPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        InfoButtonPane.setPreferredSize(new Dimension(80, 40));
-        InfoButtonPane.add(InfoButton);
-        InfoButtonPane.setOpaque(false);
-
-
-        PlayButton = new aButton("PlayGame_up.png", "PlayGame_down.png", "PlayGame_over.png");
-        PlayButton.setPreferredSize(new Dimension(40, 40));
-        PlayButton.setOpaque(false);
+        playButton = new aButton("PlayGame_up.png", "PlayGame_down.png", "PlayGame_over.png");
+        playButton.setPreferredSize(new Dimension(40, 40));
+        playButton.setOpaque(false);
         playButtonListener = new Game.PlayButtonListener();
-        PlayButton.addActionListener(playButtonListener);
+        playButton.addActionListener(playButtonListener);
 
+        gameBarPanel.add(favoriteButtonPanel);
+        gameBarPanel.add(playButton);
+        gameBarPanel.add(infoButtonPanel);
 
-        GameBarPane.add(FavoriteButtonPane);
-        GameBarPane.add(PlayButton);
-        GameBarPane.add(InfoButtonPane);
+        gameBarImagePane.setVisible(false);
+        gameBarImagePane.add(gameBarPanel);
 
-        GameBar.setVisible(false);
-        GameBar.add(GameBarPane);
+        //Set up interactive pane
+        topPanel = new JPanel(new BorderLayout());
+        topPanel.setOpaque(false);
+        topPanel.setPreferredSize(new Dimension(width, 55));
 
+        bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setOpaque(false);
+        bottomPanel.setPreferredSize(new Dimension(width - 10, SIZE_BottomPaneHeight));
 
-        //Set up inteteractive pane
+        removeButton.setVisible(false);
+        favoriteIconImagePane.setVisible(false);
 
-        TopPane = new JPanel(new BorderLayout());
-        TopPane.setOpaque(false);
-        TopPane.setPreferredSize(new Dimension(width, 55));
+        topPanel.add(removeButton, BorderLayout.EAST);
+        topPanel.add(favoriteIconImagePane, BorderLayout.WEST);
+        topPanel.validate();
 
-        BottomPane = new JPanel(new BorderLayout());
-        BottomPane.setOpaque(false);
-        BottomPane.setPreferredSize(new Dimension(width - 10, SIZE_BottomPaneHeight));
+        bottomPanel.add(gameBarImagePane, BorderLayout.NORTH);
+        gameBarImagePane.validate();
 
-        RemoveButton.setVisible(false);
-        FavoriteIcon.setVisible(false);
+        interactivePanel.add(topPanel, BorderLayout.PAGE_START);
+        interactivePanel.add(bottomPanel, BorderLayout.SOUTH);
 
-        TopPane.add(RemoveButton, BorderLayout.EAST);
-        TopPane.add(FavoriteIcon, BorderLayout.WEST);
-        TopPane.validate();
-
-        BottomPane.add(GameBar, BorderLayout.NORTH);
-        GameBar.validate();
-
-        InteractivePane.add(TopPane, BorderLayout.PAGE_START);
-        InteractivePane.add(BottomPane, BorderLayout.SOUTH);
-
-
-
-        BottomPane.validate();
-        TopPane.validate();
-        InteractivePane.validate();
+        bottomPanel.validate();
+        topPanel.validate();
+        interactivePanel.validate();
 
         //Loading Thread
-        GameCoverThread = null;
+        gameCoverThread = null;
 
-        if (GameCoverThread == null) {
-            GameCoverThread = new Thread(this);
+        if (gameCoverThread == null) {
+            gameCoverThread = new Thread(this);
         }
-        GameCoverThread.setName("Game Cover Thread");
+        gameCoverThread.setName("Game Cover Thread");
         //Start Loader
-        GameCoverThread.start();
+        gameCoverThread.start();
 
-        FavoriteButtonPane.revalidate();
+        favoriteButtonPanel.revalidate();
 
         System.out.println("pane width " + width);
 
     }
 
     @Override
-    public void run() {
+	public final void run() {
 
-        if (Thread.currentThread() == GameCoverThread) {
-
-
-            progress = new aProgressWheel("Aurora_Loader.png");
-            progress.setPreferredSize(this.getPreferredSize());
-            this.add(progress, BorderLayout.NORTH);
+        if (Thread.currentThread() == gameCoverThread) {
+            progressWheel = new aProgressWheel("Aurora_Loader.png");
+            progressWheel.setPreferredSize(this.getPreferredSize());
+            this.add(progressWheel, BorderLayout.NORTH);
             //Mouse handlers
-
-
-            if (dashObj.getStartUp_Obj().getFileIO().findImg("Game Data", coverURL) != null) {
+            if (dashboardUi.getStartUp_Obj().getFileIO().findImg("Game Data", coverUrl) != null) {
                 //Get Image
-
-                coverImg.setImage(dashObj.getStartUp_Obj().getFileIO().findImg("Game Data", coverURL), width, height);
-                coverImg.setImageSize(width, height);
-                coverImg.setPreferredSize(new Dimension(width, height));
-                coverImg.setDoubleBuffered(true);
-                this.remove(progress);
-                this.setImage(coverImg);
-                this.add(InteractivePane);
+                coverImagePane.setImage(dashboardUi.getStartUp_Obj().getFileIO().findImg("Game Data", coverUrl), width, height);
+                coverImagePane.setImageSize(width, height);
+                coverImagePane.setPreferredSize(new Dimension(width, height));
+                coverImagePane.setDoubleBuffered(true);
+                this.remove(progressWheel);
+                this.setImage(coverImagePane);
+                this.add(interactivePanel);
                 this.revalidate();
                 this.repaint();
             } else {
-
                 //Load Image
-
                 try {
 
                     if (StartScreen_UI.Online) {
-                        dbErrr = null;
-                        System.out.println(coverURL);
-                        coverImg.setImageURL(rootCoverDBPath + coverURL);
+                        dbErrorDialog = null;
+                        System.out.println(coverUrl);
+                        coverImagePane.setImageURL(rootCoverDBPath + coverUrl);
 
-                        //Set Background acordingly
-                        coverImg.setImageSize(width, height);
-                        coverImg.setPreferredSize(new Dimension(width, height));
-                        if (coverImg.getImgIcon().getIconHeight() == -1) {
-                            if (dbErrr == null) {
-                                dbErrr = new aDialog(aDialog.aDIALOG_ERROR, "AuroraDB Error! Can't Access BoxArt", ui.getFontBold());
-                                dbErrr.showDialog();
+                        //Set Background accordingly
+                        coverImagePane.setImageSize(width, height);
+                        coverImagePane.setPreferredSize(new Dimension(width, height));
+                        if (coverImagePane.getImgIcon().getIconHeight() == -1) {
+                            if (dbErrorDialog == null) {
+                                dbErrorDialog = new aDialog(aDialog.aDIALOG_ERROR, "AuroraDB Error! Can't Access BoxArt", ui.getFontBold());
+                                dbErrorDialog.showDialog();
 
                             }
-                            dbErrr.setVisible(true);
+                            dbErrorDialog.setVisible(true);
                         } else {
-                            dashObj.getStartUp_Obj().getFileIO().writeImage(coverImg, coverURL, "Game Data");
+                            dashboardUi.getStartUp_Obj().getFileIO().writeImage(coverImagePane, coverUrl, "Game Data");
 
-                            this.remove(progress);
+                            this.remove(progressWheel);
 
                             //Add Image To GameCover Cover
-
-                            this.setImage(coverImg);
-                            this.add(InteractivePane);
+                            this.setImage(coverImagePane);
+                            this.add(interactivePanel);
                             this.revalidate();
                             this.repaint();
                         }
                     } else {
-                        this.remove(progress);
-                        this.add(InteractivePane);
+                        this.remove(progressWheel);
+                        this.add(interactivePanel);
                         this.revalidate();
                     }
 
-
-
                 } catch (MalformedURLException ex) {
-
                     Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-
             }
-
-
         }
         //End of Loading
-        InteractivePane.setPreferredSize(new Dimension(width, height));
-        InteractivePane.setSize(new Dimension(width, height));
+        interactivePanel.setPreferredSize(new Dimension(width, height));
+        interactivePanel.setSize(new Dimension(width, height));
 
-        loaded = true;
+        isLoaded = true;
 
         //Finalize
         afterLoad();
@@ -398,99 +368,87 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     }
 
     //To be called when we want to re add the Overlay on the Game Covers
-    public void reAddInteractive() {
+    public final void reAddInteractive() {
 
         isRemoved = false;
         setSize();
-        InteractivePane.setVisible(true);
+        interactivePanel.setVisible(true);
 
-        Glow = new aImagePane("Glow-Case.png", width + 10, height + 10);
-        FavoriteIcon = new aImagePane("FavoriteIcon.png", 100, 32);
-        FavoriteIcon.setPreferredSize(new Dimension(100, 32));
-        RemoveButton = new aButton("RemoveGame_up.png", "RemoveGame_down.png", "RemoveGame_over.png");
-        RemoveButton.addActionListener(new RemoveButtonListener());
+        glowImagePane = new aImagePane("Glow-Case.png", width + 10, height + 10);
+        favoriteIconImagePane = new aImagePane("FavoriteIcon.png", 100, 32);
+        favoriteIconImagePane.setPreferredSize(new Dimension(100, 32));
+        removeButton = new aButton("RemoveGame_up.png", "RemoveGame_down.png", "RemoveGame_over.png");
+        removeButton.addActionListener(new RemoveButtonListener());
 
-        GameBar = new aImagePane("GameIconBar.png", width - 30, 55);
-        GameBar.setOpaque(false);
-        GameBar.setPreferredSize(new Dimension(width - 30, 55));
-        GameBar.setLayout(new BorderLayout());
-        GameBar.setBackground(Color.blue);
+        gameBarImagePane = new aImagePane("GameIconBar.png", width - 30, 55);
+        gameBarImagePane.setOpaque(false);
+        gameBarImagePane.setPreferredSize(new Dimension(width - 30, 55));
+        gameBarImagePane.setLayout(new BorderLayout());
+        gameBarImagePane.setBackground(Color.blue);
 
-        GameBarPane = new JPanel();
-        GameBarPane.setOpaque(false);
-        GameBarPane.setLayout(new BoxLayout(GameBarPane, BoxLayout.X_AXIS));
-
-
+        gameBarPanel = new JPanel();
+        gameBarPanel.setOpaque(false);
+        gameBarPanel.setLayout(new BoxLayout(gameBarPanel, BoxLayout.X_AXIS));
 
         //Game Bar Elements//
+        favoriteButton = new aButton("StarGame_up.png", "StarGame_down.png", "StarGame_over.png");
+        favoriteButton.addActionListener(new Game.FavoriteButtonListener());
 
-        FavoriteButton = new aButton("StarGame_up.png", "StarGame_down.png", "StarGame_over.png");
-        FavoriteButton.addActionListener(new Game.FavoriteButtonListener());
+        favoriteButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        favoriteButtonPanel.setPreferredSize(new Dimension(30, 40));
+        favoriteButtonPanel.add(favoriteButton);
+        favoriteButtonPanel.setOpaque(false);
 
+        infoButton = new aButton("GameInfo_up.png", "GameInfo_down.png", "GameInfo_over.png");
 
-        FavoriteButtonPane = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        FavoriteButtonPane.setPreferredSize(new Dimension(30, 40));
-        FavoriteButtonPane.add(FavoriteButton);
-        FavoriteButtonPane.setOpaque(false);
+        infoButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        infoButtonPanel.setPreferredSize(new Dimension(80, 40));
+        infoButtonPanel.add(infoButton);
+        infoButtonPanel.setOpaque(false);
 
-
-        InfoButton = new aButton("GameInfo_up.png", "GameInfo_down.png", "GameInfo_over.png");
-
-        InfoButtonPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        InfoButtonPane.setPreferredSize(new Dimension(80, 40));
-        InfoButtonPane.add(InfoButton);
-        InfoButtonPane.setOpaque(false);
-
-
-        PlayButton = new aButton("PlayGame_up.png", "PlayGame_down.png", "PlayGame_over.png");
-        PlayButton.setPreferredSize(new Dimension(40, 40));
-        PlayButton.setOpaque(false);
+        playButton = new aButton("PlayGame_up.png", "PlayGame_down.png", "PlayGame_over.png");
+        playButton.setPreferredSize(new Dimension(40, 40));
+        playButton.setOpaque(false);
         playButtonListener = new Game.PlayButtonListener();
-        PlayButton.addActionListener(playButtonListener);
+        playButton.addActionListener(playButtonListener);
 
+        gameBarPanel.add(favoriteButtonPanel);
+        gameBarPanel.add(playButton);
+        gameBarPanel.add(infoButtonPanel);
+        gameBarPanel.validate();
 
-        GameBarPane.add(FavoriteButtonPane);
-        GameBarPane.add(PlayButton);
-        GameBarPane.add(InfoButtonPane);
-        GameBarPane.validate();
+        gameBarImagePane.setVisible(false);
+        gameBarImagePane.add(gameBarPanel);
+        gameBarImagePane.setOpaque(false);
+        gameBarImagePane.validate();
 
-        GameBar.setVisible(false);
-        GameBar.add(GameBarPane);
-        GameBar.setOpaque(false);
-        GameBar.validate();
+        //Set up interactive pane
 
+        topPanel = new JPanel(new BorderLayout());
+        topPanel.setOpaque(false);
+        topPanel.setPreferredSize(new Dimension(width, 55));
 
+        bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setOpaque(false);
+        bottomPanel.setPreferredSize(new Dimension(width - 10, SIZE_BottomPaneHeight));
 
-        //Set up inteteractive pane
+        removeButton.setVisible(false);
+        favoriteIconImagePane.setVisible(false);
 
-        TopPane = new JPanel(new BorderLayout());
-        TopPane.setOpaque(false);
-        TopPane.setPreferredSize(new Dimension(width, 55));
+        topPanel.add(removeButton, BorderLayout.EAST);
+        topPanel.add(favoriteIconImagePane, BorderLayout.WEST);
+        topPanel.validate();
 
-        BottomPane = new JPanel(new BorderLayout());
-        BottomPane.setOpaque(false);
-        BottomPane.setPreferredSize(new Dimension(width - 10, SIZE_BottomPaneHeight));
+        bottomPanel.add(gameBarImagePane, BorderLayout.NORTH);
 
+        interactivePanel.add(topPanel, BorderLayout.PAGE_START);
+        interactivePanel.add(bottomPanel, BorderLayout.SOUTH);
 
-        RemoveButton.setVisible(false);
-        FavoriteIcon.setVisible(false);
-
-        TopPane.add(RemoveButton, BorderLayout.EAST);
-        TopPane.add(FavoriteIcon, BorderLayout.WEST);
-        TopPane.validate();
-
-        BottomPane.add(GameBar, BorderLayout.NORTH);
-
-
-        InteractivePane.add(TopPane, BorderLayout.PAGE_START);
-        InteractivePane.add(BottomPane, BorderLayout.SOUTH);
-
-
-        TopPane.validate();
-        InteractivePane.revalidate();
+        topPanel.validate();
+        interactivePanel.revalidate();
 
         if (isFavorite()) {
-            favorite();
+            setFavorite();
         }
 
         this.repaint();
@@ -508,7 +466,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         System.out.println("OVERLAY HEIGHT " + SIZE_BottomPaneHeight);
     }
 
-    public void removePreviousSelected() {
+    public final void removePreviousSelected() {
         if (manager != null) {
             manager.unselectPrevious();
         }
@@ -516,230 +474,232 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     }
 
     private void afterLoad() {
-        if (loaded) {
+        if (isLoaded) {
 
-            if (selected) {
+            if (isSelected) {
                 selected();
             }
 
-            if (Favorite) {
-                favorite();
+            if (isFavorite) {
+                setFavorite();
             }
         }
 
     }
 
-    public boolean isLoaded() {
-        return loaded;
+    public final boolean isLoaded() {
+        return isLoaded;
     }
 
-    public void setCoverSize(int width, int height) {
+    public final void setCoverSize(final int width, final int height) {
         this.width = width;
         this.height = height;
         this.setImageSize(width, height);
         setSize();
     }
 
-    public void selected() {
-        selected = true;
-        if (loaded) {
-            this.add(Glow);
+    public final void selected() {
+        isSelected = true;
+        if (isLoaded) {
+            this.add(glowImagePane);
             this.repaint();
             this.validate();
         }
 
     }
 
-    public void unselected() {
-        if (selected) {
-            selected = false;
-            RemoveButton.setVisible(false);
-            InteractivePane.revalidate();
-            this.remove(Glow);
+    public final void unselected() {
+        if (isSelected) {
+            isSelected = false;
+            removeButton.setVisible(false);
+            interactivePanel.revalidate();
+            this.remove(glowImagePane);
             this.repaint();
             this.revalidate();
 
         }
     }
 
-    public void hideInteractiveComponents() {
+    // Future method to be used to set isSelected variable 
+    public void setSelected(boolean selected) {
+    	isSelected = selected;
+    }
+
+    public final void hideInteractiveComponents() {
         hideInteraction();
-        GameBar.setVisible(false);
+        gameBarImagePane.setVisible(false);
         unselected();
     }
 
-    public void displayInteractiveComponents() {
+    public final void displayInteractiveComponents() {
 
-        InteractivePane.setSize(width + 47, height + 28);
-        System.out.println("INTERACTIVE SIZE " + InteractivePane.getWidth() + " " + InteractivePane.getHeight());
+        interactivePanel.setSize(width + 47, height + 28);
+        System.out.println("INTERACTIVE SIZE " + interactivePanel.getWidth() + " " + interactivePanel.getHeight());
         
         showRemove();
-        GameBar.setVisible(true);
+        gameBarImagePane.setVisible(true);
         selected();
         GameLibrary_UI.lblGameName.setText(getName());
 
 
     }
 
-    public void favorite() {
-        Favorite = true;
-        if (loaded) {
-            FavoriteIcon.setVisible(true);
-            InteractivePane.revalidate();
+    public final void setFavorite() {
+        isFavorite = true;
+        if (isLoaded) {
+            favoriteIconImagePane.setVisible(true);
+            interactivePanel.revalidate();
         }
 
     }
 
-    public void unfavorite() {
-        if (Favorite) {
-            Favorite = false;
-            FavoriteIcon.setVisible(false);
-            InteractivePane.revalidate();
+    public final void unfavorite() {
+        if (isFavorite) {
+            isFavorite = false;
+            favoriteIconImagePane.setVisible(false);
+            interactivePanel.revalidate();
         }
     }
 
-    public void showRemove() {
+    public final void showRemove() {
 
-        if (loaded) {
-            RemoveButton.setVisible(true);
-            InteractivePane.revalidate();
+        if (isLoaded) {
+            removeButton.setVisible(true);
+            interactivePanel.revalidate();
         }
     }
 
-    public void hideInteraction() {
-        if (loaded) {
-            RemoveButton.setVisible(false);
-            InteractivePane.revalidate();
+    public final void hideInteraction() {
+        if (isLoaded) {
+            removeButton.setVisible(false);
+            interactivePanel.revalidate();
         }
     }
 
-    public void removeInteraction() {
-        this.remove(InteractivePane);
+    public final void removeInteraction() {
+        this.remove(interactivePanel);
         this.isRemoved = true;
     }
 
     ////Getters and Setters
-    public AuroraStorage getStorage() {
+    public final AuroraStorage getStorage() {
         return storage;
     }
     
-    public ActionListener getPlayHandler(){
+    public final ActionListener getPlayHandler(){
         return playButtonListener;
     }
 
-    public void setStorage(AuroraStorage storage) {
+    public final void setStorage(final AuroraStorage storage) {
         this.storage = storage;
     }
 
-    public aButton getFavoriteButton() {
-        return FavoriteButton;
+    public final aButton getFavoriteButton() {
+        return favoriteButton;
     }
 
-    public void setFavoriteButton(aButton FavoriteButton) {
-        this.FavoriteButton = FavoriteButton;
+    public final void setFavoriteButton(final aButton favoriteButton) {
+        this.favoriteButton = favoriteButton;
     }
 
-    public String getBoxArtURL() {
-        return coverURL;
+    public final String getBoxArtUrl() {
+        return coverUrl;
     }
 
-    public JPanel getInteractivePane() {
-        return InteractivePane;
+    public final JPanel getInteractivePane() {
+        return interactivePanel;
     }
 
-    public aImagePane getGameBar() {
-        return GameBar;
+    public final aImagePane getGameBar() {
+        return gameBarImagePane;
     }
 
-    public boolean isSelected() {
-        return selected;
+    public final boolean isSelected() {
+        return isSelected;
     }
 
-    public boolean isFavorite() {
-        return Favorite;
-
-    }
-
-    public String getGameType() {
-        return GameType;
+    public final boolean isFavorite() {
+        return isFavorite;
 
     }
 
-    public String getLastPlayed() {
-        return LastPlayed;
+    public final String getGameType() {
+        return gameType;
+
+    }
+
+    public final String getLastPlayed() {
+        return lastPlayed;
     }
 
     @Override
-    public int getWidth() {
+	public final int getWidth() {
         return width;
     }
 
     @Override
-    public int getHeight() {
+	public final int getHeight() {
         return height;
     }
 
     @Override
-    public String getName() {
-        return Name;
+	public final String getName() {
+        return name;
     }
 
-    public int getNumberTimesPlayed() {
-        return NumberTimesPlayed;
+    public final int getNumberTimesPlayed() {
+        return numberTimesPlayed;
     }
 
-    public String getTimePlayed() {
-        return TimePlayed;
+    public final String getTimePlayed() {
+        return timePlayed;
     }
 
-    public Dashboard_UI getDashObj() {
-        return this.dashObj;
+    public final Dashboard_UI getDashObj() {
+        return this.dashboardUi;
     }
 
-    public void setCoverURL(String CoverURL) throws MalformedURLException {
-        this.coverURL = CoverURL;
+    public final void setCoverUrl(final String coverUrl) throws MalformedURLException {
+        this.coverUrl = coverUrl;
     }
 
-    public void setFavorite(boolean Favorite) {
-        this.Favorite = Favorite;
+    public final void setFavorite(final boolean favorite) {
+        this.isFavorite = favorite;
 
-        if (Favorite) {
-            favorite();
+        if (favorite) {
+            setFavorite();
         }
     }
 
-    public void setGameType(String GameType) {
-        this.GameType = GameType;
-
+    public final void setGameType(final String gameType) {
+        this.gameType = gameType;
     }
 
-    public void setLastPlayed(String LastPlayed) {
-        this.LastPlayed = LastPlayed;
+    public final void setLastPlayed(final String lastPlayed) {
+        this.lastPlayed = lastPlayed;
     }
 
-    public void setDashObj(Dashboard_UI DashObj) {
-        this.dashObj = DashObj;
+    public final void setDashObj(final Dashboard_UI dashboardUi) {
+        this.dashboardUi = dashboardUi;
     }
 
-    public void setGameName(String Name) {
-        this.Name = Name;
-
+    public final void setGameName(final String name) {
+        this.name = name;
     }
 
-    public String getGameName() {
-        return Name;
+    public final String getGameName() {
+        return name;
     }
 
-    public void setNumberTimesPlayed(int NumberTimesPlayed) {
-        this.NumberTimesPlayed = NumberTimesPlayed;
-
+    public final void setNumberTimesPlayed(final int numberTimesPlayed) {
+        this.numberTimesPlayed = numberTimesPlayed;
     }
 
-    public void setTimePlayed(String TimePlayed) {
-        this.TimePlayed = TimePlayed;
+    public final void setTimePlayed(final String timePlayed) {
+        this.timePlayed = timePlayed;
     }
 
-    public Game copy() {
+    public final Game copy() {
         try {
             return (Game) this.clone();
         } catch (CloneNotSupportedException ex) {
@@ -748,29 +708,29 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         }
     }
 
-    public Game thisGame() {
+    public final Game thisGame() {
         return this;
     }
 
-    public void setGamePath(String path) {
+    public final void setGamePath(final String path) {
         System.out.println("Game path = " + path);
-        this.gamePATH = path;
+        this.gamePath = path;
     }
 
-    public String getGamePath() {
-        return this.gamePATH;
+    public final String getGamePath() {
+        return this.gamePath;
     }
 
     class FavoriteButtonListener implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(final ActionEvent e) {
             System.out.println("Favourite button pressed.");
-            if (Favorite) {
+            if (isFavorite) {
                 unfavorite();
                 storage.getStoredLibrary().SaveFavState(thisGame());
             } else {
-                favorite();
+                setFavorite();
                 storage.getStoredLibrary().SaveFavState(thisGame());
             }
         }
@@ -780,7 +740,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     class PlayButtonListener implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(final ActionEvent e) {
 
             System.out.println("Play button pressed.");
             new AuroraLauncher(copy(), ui).createUI();
@@ -791,58 +751,56 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     class RemoveButtonListener implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(final ActionEvent e) {
 
-            TopPane.remove(RemoveButton);
-            imgConfirmPrompt = new aImagePane("GameDelete_ConfirmOverlay.png");
-            imgConfirmPrompt.setPreferredSize(new Dimension(imgConfirmPrompt.getImgIcon().getImage().getWidth(null) + SIZE_TOPPANE_COMP, imgConfirmPrompt.getImgIcon().getImage().getHeight(null)));
-            TopPane.add(imgConfirmPrompt, BorderLayout.EAST);
-            TopPane.revalidate();
+            topPanel.remove(removeButton);
+            imgConfirmPromptImagePane = new aImagePane("GameDelete_ConfirmOverlay.png");
+            imgConfirmPromptImagePane.setPreferredSize(new Dimension(imgConfirmPromptImagePane.getImgIcon().getImage().getWidth(null) + SIZE_TOPPANE_COMP, imgConfirmPromptImagePane.getImgIcon().getImage().getHeight(null)));
+            topPanel.add(imgConfirmPromptImagePane, BorderLayout.EAST);
+            topPanel.revalidate();
 
-            GameBarPane.removeAll();
-            lblYes = new JLabel("Yes");
-            lblNo = new JLabel("No");
-            btnConfirm = new aButton("GameDelete_Accept.png", "GameDelete_Accept_down.png", "GameDelete_Accept_over.png");
-            btnConfirm.addActionListener(new RemoveGameHandler());
-            btnDeny = new aButton("GameDelete_Deny.png", "GameDelete_Deny_down.png", "GameDelete_Deny_over.png");
-            btnDeny.addActionListener(new ActionListener() {
+            gameBarPanel.removeAll();
+            yesLabel = new JLabel("Yes");
+            noLabel = new JLabel("No");
+            confirmButton = new aButton("GameDelete_Accept.png", "GameDelete_Accept_down.png", "GameDelete_Accept_over.png");
+            confirmButton.addActionListener(new RemoveGameHandler());
+            denyButton = new aButton("GameDelete_Deny.png", "GameDelete_Deny_down.png", "GameDelete_Deny_over.png");
+            denyButton.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    InteractivePane.removeAll();
-                    InteractivePane.setVisible(false);
-                    remove(Glow);
-                    selected = true;
+                public void actionPerformed(final ActionEvent e) {
+                    interactivePanel.removeAll();
+                    interactivePanel.setVisible(false);
+                    remove(glowImagePane);
+                    isSelected = true;
                     reAddInteractive();
                     showRemove();
                     selected();
-                    GameBar.setVisible(true);
-
-
+                    gameBarImagePane.setVisible(true);
                 }
             });
-            lblYes.setFont(ui.getDefaultFont().deriveFont(Font.PLAIN, 20));
-            lblYes.setForeground(Color.yellow);
+            yesLabel.setFont(ui.getDefaultFont().deriveFont(Font.PLAIN, 20));
+            yesLabel.setForeground(Color.yellow);
 
-            lblNo.setFont(ui.getDefaultFont().deriveFont(Font.PLAIN, 20));
-            lblNo.setForeground(Color.yellow);
+            noLabel.setFont(ui.getDefaultFont().deriveFont(Font.PLAIN, 20));
+            noLabel.setForeground(Color.yellow);
 
-            DenyPane = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            DenyPane.setPreferredSize(new Dimension(30, 40));
-            DenyPane.add(lblNo);
-            DenyPane.setOpaque(false);
+            denyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            denyPanel.setPreferredSize(new Dimension(30, 40));
+            denyPanel.add(noLabel);
+            denyPanel.setOpaque(false);
 
-            ConfirmPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            ConfirmPane.setPreferredSize(new Dimension(90, 40));
-            ConfirmPane.add(lblYes);
-            ConfirmPane.setOpaque(false);
+            confirmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            confirmPanel.setPreferredSize(new Dimension(90, 40));
+            confirmPanel.add(yesLabel);
+            confirmPanel.setOpaque(false);
 
-            GameBarPane.add(DenyPane);
-            GameBarPane.add(btnDeny);
-            GameBarPane.add(btnConfirm);
-            GameBarPane.add(ConfirmPane);
-            GameBar.revalidate();
+            gameBarPanel.add(denyPanel);
+            gameBarPanel.add(denyButton);
+            gameBarPanel.add(confirmButton);
+            gameBarPanel.add(confirmPanel);
+            gameBarImagePane.revalidate();
             unselected();
-            GameBar.setVisible(true);
+            gameBarImagePane.setVisible(true);
 
         }
     }
@@ -850,11 +808,11 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     class RemoveGameHandler implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(final ActionEvent e) {
             System.out.println("Remove button pressed for " + Game.this.getName());
-            AuroraStorage storage = dashObj.getStorage();
+            AuroraStorage storage = dashboardUi.getStorage();
             StoredLibrary library = storage.getStoredLibrary();
-            library.search(Name);
+            library.search(name);
             library.removeGame(Game.this);
             manager.removeGame(Game.this);
         }
@@ -864,17 +822,16 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     class InteractiveListener implements MouseListener {
 
         @Override
-        public void mouseClicked(MouseEvent e) {
-//            
+        public void mouseClicked(final MouseEvent e) {            
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {
+        public void mousePressed(final MouseEvent e) {
             if (!isRemoved) {
                 requestFocus();
                 if (isSelected()) {
                     hideInteraction();
-                    GameBar.setVisible(false);
+                    gameBarImagePane.setVisible(false);
                     unselected();
                     System.out.println("GAME UNSELECTED");
                 } else {
@@ -884,15 +841,14 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
                 }
             }
 
-
         }
 
         @Override
-        public void mouseReleased(MouseEvent e) {
+        public void mouseReleased(final MouseEvent e) {
         }
 
         @Override
-        public void mouseEntered(MouseEvent e) {
+        public void mouseEntered(final MouseEvent e) {
 
             if (e.getModifiers() == MouseEvent.BUTTON1_MASK) {
 
@@ -900,7 +856,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
                     requestFocus();
                     if (isSelected()) {
                         hideInteraction();
-                        GameBar.setVisible(false);
+                        gameBarImagePane.setVisible(false);
                         unselected();
                     } else {
                         removePreviousSelected();
@@ -911,7 +867,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         }
 
         @Override
-        public void mouseExited(MouseEvent e) {
+        public void mouseExited(final MouseEvent e) {
         }
     }
 }

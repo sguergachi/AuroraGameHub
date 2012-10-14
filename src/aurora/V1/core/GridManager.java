@@ -130,7 +130,7 @@ public class GridManager {
             for (int a = 0; a < Grids.get(i).getArray().size(); a++) {
                 if (Grids.get(i).getArray().get(a) instanceof GamePlaceholder == false) {
                     Game cover = (Game) Grids.get(i).getArray().get(a);
-                    if (cover.getBoxArtURL().equals(game.getBoxArtURL())) {
+                    if (cover.getBoxArtUrl().equals(game.getBoxArtUrl())) {
                         return true;
                     }
                 }
@@ -151,7 +151,7 @@ public class GridManager {
             for (int a = 0; a < Grids.get(i).getArray().size(); a++) {
                 if (Grids.get(i).getArray().get(a) instanceof GamePlaceholder == false) {
                     Game cover = (Game) Grids.get(i).getArray().get(a);
-                    if (cover.getBoxArtURL().equals(game.getBoxArtURL())) {
+                    if (cover.getBoxArtUrl().equals(game.getBoxArtUrl())) {
                         return cover;
                     }
                 }

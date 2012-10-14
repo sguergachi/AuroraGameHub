@@ -91,7 +91,7 @@ public class StoredLibrary extends aStore {
                     Game game = (Game) Library.getGridSplit().getGrid(a).getArray().get(b);
                     GameName   = game.getGameName();
                     GamePath   = game.getGamePath();
-                    BoxArtPath = game.getBoxArtURL();
+                    BoxArtPath = game.getBoxArtUrl();
                     Favestate  = game.isFavorite();
 
                 }
@@ -130,11 +130,11 @@ public class StoredLibrary extends aStore {
             System.out.println("Saving To Library");
             GameName   = game.getGameName().replace("'", "''");
             GamePath   = game.getGamePath();
-            BoxArtPath = game.getBoxArtURL().replace("'", "''");
+            BoxArtPath = game.getBoxArtUrl().replace("'", "''");
 
 
             System.out.println("Saved Game ");
-            System.out.println(game.getGameName() + " " + game.getBoxArtURL() + " " + game.getGamePath());
+            System.out.println(game.getGameName() + " " + game.getBoxArtUrl() + " " + game.getGamePath());
 
 
             GameNames.add(GameName);
@@ -156,7 +156,7 @@ public class StoredLibrary extends aStore {
     	String gameName = game.getGameName().replace("'", "''");
     	GameNames.remove(gameName);
     	GamePaths.remove(game.getGamePath());
-    	BoxArtPaths.remove(game.getBoxArtURL());
+    	BoxArtPaths.remove(game.getBoxArtUrl());
         
         removeFromDatabase(gameName);
     }

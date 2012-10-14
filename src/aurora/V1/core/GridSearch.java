@@ -248,7 +248,7 @@ public class GridSearch {
                 libUI.getGridSplit().findGameName(name)[1]));
 
         //Set Up New Cover
-        foundGame = new Game(SearchManager, ui, GameOriginal.getBoxArtURL());
+        foundGame = new Game(SearchManager, ui, GameOriginal.getBoxArtUrl());
         //manually copying it over
         foundGame.setFavorite(GameOriginal.isFavorite());
         foundGame.setGameName(GameOriginal.getName());
@@ -383,7 +383,7 @@ public class GridSearch {
             if (game.isFavorite()) {
                 original.unfavorite();
             } else {
-                original.favorite();
+                original.setFavorite();
             }
         }
     }

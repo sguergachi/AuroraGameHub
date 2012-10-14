@@ -178,7 +178,7 @@ public class GameSearch implements Runnable {
             //Create the new GameCover object
             foundGameCover = new Game(Library.getGridSplit(), ui, Library.dash_Obj, storage);
             try {
-                foundGameCover.setCoverURL(foundGame);
+                foundGameCover.setCoverUrl(foundGame);
             } catch (MalformedURLException ex) {
                 Logger.getLogger(GameSearch.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -265,7 +265,7 @@ public class GameSearch implements Runnable {
                 //Set up GameCover object with First Database item found
                 foundGameCover = new Game(Library.getGridSplit(), ui, Library.dash_Obj, storage);
                 try {
-                    foundGameCover.setCoverURL(foundGame); //use seperate string
+                    foundGameCover.setCoverUrl(foundGame); //use seperate string
                 } catch (MalformedURLException ex) {
                     Logger.getLogger(GameSearch.class.getName()).log(Level.SEVERE, null, ex);
                 }

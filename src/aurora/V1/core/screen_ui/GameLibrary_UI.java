@@ -474,7 +474,7 @@ public class GameLibrary_UI extends AuroraApp {
                 Game Game = new Game(GridSplit, ui, dash_Obj, storage);
                 if (storage.getStoredLibrary().getFaveStates().get(i)) {
                     Game.setGameName(storage.getStoredLibrary().getGameNames().get(i));
-                    Game.setCoverURL(storage.getStoredLibrary().getBoxArtPath().get(i));
+                    Game.setCoverUrl(storage.getStoredLibrary().getBoxArtPath().get(i));
                     //Handle appostrophese in game path
                     Game.setGamePath(storage.getStoredLibrary().getGamePath().get(i).replace("'", "''"));
                     Game.setFavorite(storage.getStoredLibrary().getFaveStates().get(i));
@@ -491,7 +491,7 @@ public class GameLibrary_UI extends AuroraApp {
                 Game Game = new Game(GridSplit, ui, dash_Obj, storage);
                 if (!storage.getStoredLibrary().getFaveStates().get(i)) {
                     Game.setGameName(storage.getStoredLibrary().getGameNames().get(i));
-                    Game.setCoverURL(storage.getStoredLibrary().getBoxArtPath().get(i));
+                    Game.setCoverUrl(storage.getStoredLibrary().getBoxArtPath().get(i));
                     //Handle appostrophese in game path
                     Game.setGamePath(storage.getStoredLibrary().getGamePath().get(i).replace("'", "''"));
                     Game.setFavorite(storage.getStoredLibrary().getFaveStates().get(i));
