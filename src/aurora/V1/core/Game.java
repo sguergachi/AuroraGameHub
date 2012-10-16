@@ -107,12 +107,6 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         this.setPreferredSize(new Dimension(width, height));
 
 
-//        InteractivePane = new JPanel(new BorderLayout());
-//        InteractivePane.setOpaque(false);
-//        InteractivePane.setPreferredSize(new Dimension(width, height));
-//        this.add(InteractivePane);
-//        this.revalidate();
-
 
     }
 
@@ -146,11 +140,6 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         this.setImage("Blank-Case.png", height, width);
         this.setPreferredSize(new Dimension(width, height));
 
-//        InteractivePane = new JPanel(new BorderLayout());
-//        InteractivePane.setOpaque(false);
-//        InteractivePane.setPreferredSize(new Dimension(width, height));
-//        this.add(InteractivePane);
-//        this.revalidate();
 
     }
 
@@ -166,11 +155,6 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         this.setImage("Blank-Case.png", height, width);
         this.setPreferredSize(new Dimension(width, height));
 
-//        InteractivePane = new JPanel(new BorderLayout());
-//        InteractivePane.setOpaque(false);
-//        InteractivePane.setPreferredSize(new Dimension(width, height));
-//        InteractivePane.setVisible(false);
-//        this.revalidate();
 
     }
 
@@ -185,11 +169,6 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         this.setImage("Blank-Case.png", height, width);
         this.setPreferredSize(new Dimension(width, height));
 
-//        InteractivePane = new JPanel(new BorderLayout());
-//        InteractivePane.setOpaque(false);
-//        InteractivePane.setPreferredSize(new Dimension(width, height));
-//        InteractivePane.setVisible(false);
-//        this.revalidate();
 
     }
 
