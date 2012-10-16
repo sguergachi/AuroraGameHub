@@ -17,7 +17,7 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_ui.GameLibrary_UI;
+import aurora.V1.core.screen_ui.GameLibraryUI;
 import aurora.engine.V1.Logic.aSimpleDB;
 import aurora.engine.V1.Logic.aStore;
 import java.sql.SQLException;
@@ -32,7 +32,7 @@ import java.util.logging.Logger;
  */
 public class StoredLibrary extends aStore {
 
-    private GameLibrary_UI Library;
+    private GameLibraryUI Library;
     private ArrayList<String> GameNames;
     private ArrayList<String> GamePaths;
     private ArrayList<String> BoxArtPaths;
@@ -79,7 +79,7 @@ public class StoredLibrary extends aStore {
     /*
      * Do not use
      */
-    public void SaveLibrary(GameLibrary_UI library) {
+    public void SaveLibrary(GameLibraryUI library) {
 
 
         this.Library = library;

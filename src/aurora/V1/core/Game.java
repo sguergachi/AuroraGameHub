@@ -17,9 +17,9 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_ui.StartScreen_UI;
-import aurora.V1.core.screen_ui.GameLibrary_UI;
-import aurora.V1.core.screen_ui.Dashboard_UI;
+import aurora.V1.core.screen_ui.StartScreenUI;
+import aurora.V1.core.screen_ui.GameLibraryUI;
+import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.engine.V1.UI.aButton;
 import aurora.engine.V1.UI.aDialog;
 import aurora.engine.V1.UI.aImagePane;
@@ -84,7 +84,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     private JLabel noLabel;
     private GridManager manager;
     private AuroraCoreUI ui;
-    private Dashboard_UI dashboardUi;
+    private DashboardUI dashboardUi;
     private AuroraStorage storage;
     private final String rootCoverDBPath = "https://s3.amazonaws.com/CoverArtDB/";
     private PlayButtonListener playButtonListener;
@@ -92,7 +92,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     public Game() {
     }
 
-    public Game(final GridManager manager, final AuroraCoreUI ui, final Dashboard_UI obj) {
+    public Game(final GridManager manager, final AuroraCoreUI ui, final DashboardUI obj) {
 
 
         this.dashboardUi = obj;
@@ -110,7 +110,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
     }
 
-    public Game(final GridManager manager, final AuroraCoreUI ui, final Dashboard_UI obj, final AuroraStorage storage) {
+    public Game(final GridManager manager, final AuroraCoreUI ui, final DashboardUI obj, final AuroraStorage storage) {
         this.dashboardUi = obj;
         this.ui = ui;
         this.storage = storage;
@@ -143,7 +143,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
     }
 
-    public Game(final String CoverURL, final Dashboard_UI obj) {
+    public Game(final String CoverURL, final DashboardUI obj) {
 
 
         this.setOpaque(false);
@@ -158,7 +158,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
     }
 
-    public Game(final Dashboard_UI obj) {
+    public Game(final DashboardUI obj) {
 
 
         this.setOpaque(false);
@@ -298,7 +298,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
                 //Load Image
                 try {
 
-                    if (StartScreen_UI.Online) {
+                    if (StartScreenUI.Online) {
                         dbErrorDialog = null;
                         System.out.println(coverUrl);
                         coverImagePane.setImageURL(rootCoverDBPath + coverUrl);
@@ -518,7 +518,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         showRemove();
         gameBarImagePane.setVisible(true);
         selected();
-        GameLibrary_UI.lblGameName.setText(getName());
+        GameLibraryUI.lblGameName.setText(getName());
 
 
     }
@@ -634,7 +634,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         return timePlayed;
     }
 
-    public final Dashboard_UI getDashObj() {
+    public final DashboardUI getDashObj() {
         return this.dashboardUi;
     }
 
@@ -658,7 +658,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         this.lastPlayed = lastPlayed;
     }
 
-    public final void setDashObj(final Dashboard_UI dashboardUi) {
+    public final void setDashObj(final DashboardUI dashboardUi) {
         this.dashboardUi = dashboardUi;
     }
 

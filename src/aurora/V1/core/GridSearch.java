@@ -17,8 +17,8 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_handler.GameLibrary_HANDLE;
-import aurora.V1.core.screen_ui.GameLibrary_UI;
+import aurora.V1.core.screen_handler.GameLibraryHandler;
+import aurora.V1.core.screen_ui.GameLibraryUI;
 import aurora.engine.V1.UI.aImage;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -39,7 +39,7 @@ public class GridSearch {
     private char typed; // This is the character user types
     private String AppendedName = ""; //This is the concatination of all characters
     private AuroraCoreUI ui; // The is the UI object
-    private GameLibrary_UI libUI; // This is the Library View Object
+    private GameLibraryUI libUI; // This is the Library View Object
     private aImage sideSearchImage; // The Image To The Side of The Grid that says: Search
     private GridManager SearchManager = null; // The Grid Manager For the Manager
     private ArrayList<Game> foundGameList; //List of all games found
@@ -47,13 +47,13 @@ public class GridSearch {
     private Game foundGame; //Current found game
     private Game GameOriginal; //Original GameCover for copying purpouses
     private FavListener FaveListener;
-    private final GameLibrary_HANDLE handler;
+    private final GameLibraryHandler handler;
     private GridAnimation SearchGridAnimator;
 
     //////////////////////////
     ////////Constructor//////
     ////////////////////////
-    public GridSearch(AuroraCoreUI ui, GameLibrary_UI Obj_Library, GridManager manager) {
+    public GridSearch(AuroraCoreUI ui, GameLibraryUI Obj_Library, GridManager manager) {
         this.ui = ui;
         this.libUI = Obj_Library;
         this.handler = libUI.getHandler();
