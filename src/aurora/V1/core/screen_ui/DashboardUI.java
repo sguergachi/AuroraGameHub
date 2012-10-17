@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 Sardonix Creative.
  *
- * This work is licensed under the 
+ * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
- * To view a copy of this license, visit 
+ * To view a copy of this license, visit
  *
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+ * or send a letter to Creative Commons, 444 Castro Street, Suite 900,
  * Mountain View, California, 94041, USA.
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,14 +24,24 @@ import aurora.V1.core.Game;
 import aurora.V1.core.StartLoader;
 import aurora.V1.core.screen_handler.DashboardHandler;
 import aurora.engine.V1.Logic.aXAVI;
-import aurora.engine.V1.UI.*;
+import aurora.engine.V1.UI.aButton;
+import aurora.engine.V1.UI.aCarousel;
+import aurora.engine.V1.UI.aCarouselPane;
+import aurora.engine.V1.UI.aCarouselTitle;
 import aurora.engine.V1.UI.aCarouselTitle.Title;
-import java.awt.*;
-import java.io.IOException;
+import aurora.engine.V1.UI.aImage;
+import aurora.engine.V1.UI.aImagePane;
+import aurora.engine.V1.UI.aInfoFeed;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Random;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -77,7 +87,7 @@ public class DashboardUI extends AuroraApp {
     private int SIZE_FramePadding;
     private int SIZE_BottomPaneHeightAdjust;
     private int SIZE_TopPaneHeighAdjust;
-    private final StartScreenUI StartUp_Obj;
+    private final StartScreenUI startUI;
     private aCarouselTitle titleGamer;
     private aCarouselTitle titleSetting;
     private aCarouselTitle titleLibrary;
@@ -96,23 +106,25 @@ public class DashboardUI extends AuroraApp {
     private JPanel pnlInfo;
     private  DashboardHandler handler;
 
-    public DashboardUI(StartLoader loader, AuroraCoreUI coreUI, StartScreenUI Obj) {
-        this.loader = loader;
-        this.StartUp_Obj = Obj;
+      
+    public DashboardUI(StartLoader startLoader, AuroraCoreUI auroraCoreUi, StartScreenUI startScreenUi) {
+        this.loader = startLoader;
+        this.startUI = startScreenUi;
 
         this.handler = new DashboardHandler(this);
-        this.coreUI = coreUI;
-        this.storage = StartUp_Obj.getAuroraStorage();
+        this.coreUI = auroraCoreUi;
+        this.storage = startUI.getAuroraStorage();
 
 
     }
 
     public StartScreenUI getStartUp_Obj() {
-        return StartUp_Obj;
+        return startUI;
     }
 
 
-    public void loadGUI() {
+    @Override
+    public  void loadUI() {
 
         //Initialize Sizes
         setSizes();
@@ -166,11 +178,11 @@ public class DashboardUI extends AuroraApp {
         titleAuroraNet = new aCarouselTitle(titleAuroraNetNorm, titleAuroraNetGlow);
 
 
-        coreUI.getFrame().removeKeyListener(StartUp_Obj.getStartKeyHandler());
+        coreUI.getFrame().removeKeyListener(startUI.getStartKeyHandler());
         coreUI.getFrame().add(coreUI.getPnlBackground());
     }
 
-    public void buildGUI() throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException, FontFormatException {
+    public void buildUI()  {
 
 
 
@@ -334,7 +346,11 @@ public class DashboardUI extends AuroraApp {
 
         //Load GameCover Cover
         if (Game != null) {
-            Game.update();
+            try {
+                Game.update();
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(DashboardUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             Game.removeInteraction();
             Game.getInteractivePane().addMouseListener(handler.new CarouselLibraryMouseListener());
         }
@@ -778,9 +794,6 @@ public class DashboardUI extends AuroraApp {
         return coreUI;
     }
 
-    public DashboardUI getMainWin() {
-        return dash_Obj;
-    }
 
     public aButton getBtnCarouselLeft() {
         return btnCarouselLeft;
@@ -794,8 +807,6 @@ public class DashboardUI extends AuroraApp {
         return this.coreUI;
     }
 
-    @Override
-    public void createGUI() {
-    }
+
 
 }

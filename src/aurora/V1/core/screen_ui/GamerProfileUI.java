@@ -15,9 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package aurora.V1.core.screen_ui;
-
 
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
@@ -28,24 +26,24 @@ import aurora.V1.core.AuroraCoreUI;
  * @version 0.2
  */
 public class GamerProfileUI extends AuroraApp {
+    private final DashboardUI dashboardUI;
+    private final AuroraCoreUI coreUI;
+    public GamerProfileUI(DashboardUI dahsboardUi, AuroraCoreUI auroraCoreUi) {
 
-
-  
-
-    public GamerProfileUI(DashboardUI dash_obj, AuroraCoreUI ui) {
-
-        this.dash_Obj = dash_obj;
-        this.ui = ui;
+        this.dashboardUI = dahsboardUi;
+        this.coreUI = auroraCoreUi;
         this.clearUI_Forwards();
     }
 
     @Override
-    public void createGUI() {
-        
-        
+    public void loadUI() {
+    }
+
+    @Override
+    public void buildUI() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void setSize() {
-       
     }
 }

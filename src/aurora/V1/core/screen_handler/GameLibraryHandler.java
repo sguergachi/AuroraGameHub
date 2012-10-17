@@ -68,16 +68,16 @@ public class GameLibraryHandler {
 
     public class RemoveSearchHandler implements ActionListener {
 
-        private final GameLibraryUI Library;
+        private final GameLibraryUI libraryUI;
         private final JTextField SearchBar;
         private final aButton SearchButton;
         private final GridSearch Search;
 
-        public RemoveSearchHandler(GameLibraryUI Obj_library) {
-            this.Library = Obj_library;
-            this.SearchBar = Library.getSearchBar();
-            this.SearchButton = Library.getSearchButton();
-            this.Search = Library.getSearch();
+        public RemoveSearchHandler(GameLibraryUI gameLibraryUI) {
+            this.libraryUI = gameLibraryUI;
+            this.SearchBar = libraryUI.getSearchBar();
+            this.SearchButton = libraryUI.getSearchButton();
+            this.Search = libraryUI.getSearch();
         }
 
         @Override
@@ -89,13 +89,13 @@ public class GameLibraryHandler {
             }
             Search.resetAppendedName();
             SearchBar.setText("Start Typing To Search...");
-            Library.getSearchBar().setForeground(Color.darkGray);
-            Library.getSearchBar().setFont(Library.ui.getDefaultFont().deriveFont(Font.BOLD, 40));
-            Library.getSearchBarBG().setImage("SearchBar_inactive.png");
-            Library.getSearchButtonBG().removeAll();
-            Library.getSearchButtonBG().add(Library.getSearchButton(), BorderLayout.NORTH);
-            Library.ui.getFrame().requestFocus();
-            Library.getGameBack().revalidate();
+            libraryUI.getSearchBar().setForeground(Color.darkGray);
+            libraryUI.getSearchBar().setFont(libraryUI.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 40));
+            libraryUI.getSearchBarBG().setImage("SearchBar_inactive.png");
+            libraryUI.getSearchButtonBG().removeAll();
+            libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(), BorderLayout.NORTH);
+            libraryUI.getCoreUI().getFrame().requestFocus();
+            libraryUI.getGameBack().revalidate();
         }
     }
 
@@ -105,11 +105,11 @@ public class GameLibraryHandler {
     public class searchSelectHandler implements MouseListener {
 
         private GridSearch Search;
-        private GameLibraryUI ui;
+        private GameLibraryUI libraryUI;
 
-        public searchSelectHandler(GameLibraryUI Obj_library) {
-            this.ui = Obj_library;
-            this.Search = ui.getSearch();
+        public searchSelectHandler(GameLibraryUI gameLibraryUI) {
+            this.libraryUI = gameLibraryUI;
+            this.Search = libraryUI.getSearch();
         }
 
         @Override
@@ -118,13 +118,13 @@ public class GameLibraryHandler {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            if (ui.getSearchBar().getText().equals("Start Typing To Search...")) {
-                ui.getSearchBar().setText("");
-                ui.getSearchBar().setForeground(Color.darkGray);
-                ui.getSearchBar().setFont(ui.ui.getDefaultFont().deriveFont(Font.BOLD, 44));
-                ui.getSearchBarBG().setImage("SearchBar.png");
-                ui.getSearchButtonBG().removeAll();
-                ui.getSearchButtonBG().add(ui.getRemoveSearchButton(), BorderLayout.NORTH);
+            if (libraryUI.getSearchBar().getText().equals("Start Typing To Search...")) {
+                libraryUI.getSearchBar().setText("");
+                libraryUI.getSearchBar().setForeground(Color.darkGray);
+                libraryUI.getSearchBar().setFont(libraryUI.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 44));
+                libraryUI.getSearchBarBG().setImage("SearchBar.png");
+                libraryUI.getSearchButtonBG().removeAll();
+                libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(), BorderLayout.NORTH);
                 Search.resetAppendedName();
             }
         }
@@ -160,7 +160,7 @@ public class GameLibraryHandler {
             ui.getSearchBar().requestFocus();
             ui.getSearchBar().setText("");
             ui.getSearchBar().setForeground(Color.darkGray);
-            ui.getSearchBar().setFont(ui.ui.getDefaultFont().deriveFont(Font.BOLD, 44));
+            ui.getSearchBar().setFont(ui.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 44));
             ui.getSearchBarBG().setImage("SearchBar.png");
             ui.getSearchButtonBG().removeAll();
             ui.getSearchButtonBG().add(ui.getRemoveSearchButton(), BorderLayout.NORTH);
@@ -190,14 +190,14 @@ public class GameLibraryHandler {
 
         private JTextField SearchBar;
         private JButton SearchButton;
-        private GameLibraryUI ui;
+        private GameLibraryUI libraryUI;
         private final GridSearch Search;
 
         public searchFocusHandler(GameLibraryUI Obj_library) {
-            this.ui = Obj_library;
-            this.SearchBar = ui.getSearchBar();
-            this.SearchButton = ui.getSearchButton();
-            this.Search = ui.getSearch();
+            this.libraryUI = Obj_library;
+            this.SearchBar = libraryUI.getSearchBar();
+            this.SearchButton = libraryUI.getSearchButton();
+            this.Search = libraryUI.getSearch();
 
         }
 
@@ -205,16 +205,16 @@ public class GameLibraryHandler {
         //If Focus was not gained thru the search button, then 
         //reset text and append string
         public void focusGained(FocusEvent e) {
-            if (ui.getSearchBar().getText().equals("Start Typing To Search...")) {
+            if (libraryUI.getSearchBar().getText().equals("Start Typing To Search...")) {
                 if (e.getOppositeComponent() == SearchButton) {
                     SearchBar.setText("");
                     Search.resetAppendedName();
-                    ui.getSearchBar().setForeground(Color.darkGray);
-                    ui.getSearchBar().setFont(ui.ui.getDefaultFont().deriveFont(Font.BOLD, 44));
-                    ui.getSearchBarBG().setImage("SearchBar.png");
-                    ui.getSearchButtonBG().removeAll();
-                    ui.getSearchButtonBG().add(ui.getRemoveSearchButton(), BorderLayout.NORTH);
-                    ui.getRemoveSearchButton().addActionListener(new RemoveSearchHandler(ui));
+                    libraryUI.getSearchBar().setForeground(Color.darkGray);
+                    libraryUI.getSearchBar().setFont(libraryUI.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 44));
+                    libraryUI.getSearchBarBG().setImage("SearchBar.png");
+                    libraryUI.getSearchButtonBG().removeAll();
+                    libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(), BorderLayout.NORTH);
+                    libraryUI.getRemoveSearchButton().addActionListener(new RemoveSearchHandler(libraryUI));
                 }
             }
         }
@@ -222,7 +222,7 @@ public class GameLibraryHandler {
         @Override
         public void focusLost(FocusEvent e) {
 
-            if (ui.getSearchBar().getText().equals("")) {
+            if (libraryUI.getSearchBar().getText().equals("")) {
 
                 //Make sure Search button had no effect
                 if (e.getOppositeComponent() != SearchButton) {
@@ -237,33 +237,33 @@ public class GameLibraryHandler {
                                         System.out.println(e.getOppositeComponent());
                                         //Attempt to restore to GameCover Library Grid
                                         try {
-                                            ui.getSearch().restoreGrid();
+                                            libraryUI.getSearch().restoreGrid();
                                         } catch (MalformedURLException ex) {
                                             Logger.getLogger(GameLibraryHandler.class.getName()).log(Level.SEVERE, null, ex);
                                         }
                                         //reset Search Box and append string
-                                        ui.getSearch().resetAppendedName();
+                                        libraryUI.getSearch().resetAppendedName();
 
                                     }
                                 }
                             }
                         }
                     } catch (NullPointerException ex) {
-                        for (int i = 0; i < ui.getGridSplit().getArray().size(); i++) {
-                            for (int j = 0; j < ui.getGridSplit().getGrid(i).getArray().size(); j++) {
+                        for (int i = 0; i < libraryUI.getGridSplit().getArray().size(); i++) {
+                            for (int j = 0; j < libraryUI.getGridSplit().getGrid(i).getArray().size(); j++) {
                                 //If the focus was not lost due to a GameCover Obj in the Search Grid
 
                                 if (e.getOppositeComponent() instanceof GamePlaceholder) {
-                                    if (e.getOppositeComponent() != (Game) ui.getGridSplit().getGrid(i).getArray().get(j)) {
+                                    if (e.getOppositeComponent() != (Game) libraryUI.getGridSplit().getGrid(i).getArray().get(j)) {
                                         System.out.println(e.getOppositeComponent());
                                         //Attempt to restore to GameCover Library Grid
                                         try {
-                                            ui.getSearch().restoreGrid();
+                                            libraryUI.getSearch().restoreGrid();
                                         } catch (MalformedURLException exx) {
                                             Logger.getLogger(GameLibraryHandler.class.getName()).log(Level.SEVERE, null, exx);
                                         }
                                         //reset Search Box and append string
-                                        ui.getSearch().resetAppendedName();
+                                        libraryUI.getSearch().resetAppendedName();
 
                                     }
                                 }
@@ -273,11 +273,11 @@ public class GameLibraryHandler {
                     }
 
                     SearchBar.setText("Start Typing To Search...");
-                    ui.getSearchBar().setForeground(Color.darkGray);
-                    ui.getSearchBar().setFont(ui.ui.getDefaultFont().deriveFont(Font.BOLD, 40));
-                    ui.getSearchBarBG().setImage("SearchBar_inactive.png");
-                    ui.getSearchButtonBG().removeAll();
-                    ui.getSearchButtonBG().add(ui.getSearchButton(), BorderLayout.NORTH);
+                    libraryUI.getSearchBar().setForeground(Color.darkGray);
+                    libraryUI.getSearchBar().setFont(libraryUI.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 40));
+                    libraryUI.getSearchBarBG().setImage("SearchBar_inactive.png");
+                    libraryUI.getSearchButtonBG().removeAll();
+                    libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(), BorderLayout.NORTH);
                 }
             }
         }
@@ -286,12 +286,12 @@ public class GameLibraryHandler {
     public class searchBoxHandler implements KeyListener {
         //Handles Typing In Search Box, when it is in focus
 
-        private GameLibraryUI Library;
+        private GameLibraryUI libraryUI;
         private GridSearch Search;
 
         public searchBoxHandler(GameLibraryUI Obj_Library) {
-            this.Library = Obj_Library;
-            this.Search = Library.getSearch();
+            this.libraryUI = Obj_Library;
+            this.Search = libraryUI.getSearch();
         }
 
         @Override
@@ -306,10 +306,10 @@ public class GameLibraryHandler {
         public void keyReleased(KeyEvent e) {
             //this activates for any letter number or space key
 
-            Library.getSearchBar().setForeground(Color.darkGray);
-            Library.getSearchBar().setFont(Library.ui.getDefaultFont().deriveFont(Font.BOLD, 44));
-            Library.getSearchBarBG().setImage("SearchBar.png");
-            if (!Library.isAddGameUI_Visible()) {
+            libraryUI.getSearchBar().setForeground(Color.darkGray);
+            libraryUI.getSearchBar().setFont(libraryUI.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 44));
+            libraryUI.getSearchBarBG().setImage("SearchBar.png");
+            if (!libraryUI.isAddGameUI_Visible()) {
                 if (e.getKeyCode() == KeyEvent.VK_A
                         || e.getKeyCode() == KeyEvent.VK_B
                         || e.getKeyCode() == KeyEvent.VK_C
@@ -366,13 +366,13 @@ public class GameLibraryHandler {
         //Then set focus to the searchbox
 
         private JTextField SearchBar;
-        private final GameLibraryUI ui;
+        private final GameLibraryUI libraryUI;
         private final GridSearch Search;
 
-        public searchRefocusListener(GameLibraryUI Obj_Library) {
-            this.ui = Obj_Library;
-            this.SearchBar = ui.getSearchBar();
-            this.Search = ui.getSearch();
+        public searchRefocusListener(GameLibraryUI gameLibraryUI) {
+            this.libraryUI = gameLibraryUI;
+            this.SearchBar = libraryUI.getSearchBar();
+            this.Search = libraryUI.getSearch();
         }
 
         @Override
@@ -386,7 +386,7 @@ public class GameLibraryHandler {
         @Override
         public void keyReleased(KeyEvent e) {
             //pressing any Number or Letter can activate this
-            if (!ui.isAddGameUI_Visible()) {
+            if (!libraryUI.isAddGameUI_Visible()) {
                 if (//e.getKeyCode() == KeyEvent.VK_A
                         e.getKeyCode() == KeyEvent.VK_B
                         || e.getKeyCode() == KeyEvent.VK_C
@@ -431,12 +431,12 @@ public class GameLibraryHandler {
                     Search.typedChar(e.getKeyChar()); // Pass to search engine first character
                     SearchBar.requestFocus(); // Get focus of Search Box
 
-                    ui.getSearchBar().setForeground(Color.darkGray);
-                    ui.getSearchBar().setFont(ui.ui.getDefaultFont().deriveFont(Font.BOLD, 44));
-                    ui.getSearchBarBG().setImage("SearchBar.png");
-                    ui.getSearchButtonBG().removeAll();
-                    ui.getSearchButtonBG().add(ui.getRemoveSearchButton(), BorderLayout.NORTH);
-                    ui.getRemoveSearchButton().addActionListener(new RemoveSearchHandler(ui));
+                    libraryUI.getSearchBar().setForeground(Color.darkGray);
+                    libraryUI.getSearchBar().setFont(libraryUI.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 44));
+                    libraryUI.getSearchBarBG().setImage("SearchBar.png");
+                    libraryUI.getSearchButtonBG().removeAll();
+                    libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(), BorderLayout.NORTH);
+                    libraryUI.getRemoveSearchButton().addActionListener(new RemoveSearchHandler(libraryUI));
                 }
             }
         }
@@ -446,12 +446,12 @@ public class GameLibraryHandler {
     public class addGameSearchBoxHandler implements KeyListener {
         //Handles Typing In Search Box, when it is in focus
 
-        private GameLibraryUI Library;
+        private GameLibraryUI libraryUI;
         private GameSearch Search;
 
-        public addGameSearchBoxHandler(GameLibraryUI Obj_Library) {
-            this.Library = Obj_Library;
-            this.Search = Library.getGameSearch();
+        public addGameSearchBoxHandler(GameLibraryUI gameLibraryUI) {
+            this.libraryUI = gameLibraryUI;
+            this.Search = libraryUI.getGameSearch();
         }
 
         @Override
@@ -466,9 +466,9 @@ public class GameLibraryHandler {
         public void keyReleased(KeyEvent e) {
             //this activates for any letter number or space key
 
-            Library.getSearchBar().setForeground(Color.darkGray);
-            Library.getSearchBar().setFont(Library.ui.getDefaultFont().deriveFont(Font.BOLD, 44));
-            Library.getSearchBarBG().setImage("SearchBar.png");
+            libraryUI.getSearchBar().setForeground(Color.darkGray);
+            libraryUI.getSearchBar().setFont(libraryUI.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 44));
+            libraryUI.getSearchBarBG().setImage("SearchBar.png");
 
             if (e.getKeyCode() == KeyEvent.VK_A
                     || e.getKeyCode() == KeyEvent.VK_B
@@ -523,11 +523,11 @@ public class GameLibraryHandler {
     public class addGameMouseHandler implements MouseListener {
 
         private GameSearch Search;
-        private GameLibraryUI Library;
+        private GameLibraryUI libraryUI;
 
-        public addGameMouseHandler(GameLibraryUI Obj_library) {
-            this.Library = Obj_library;
-            Search = Library.getGameSearch();
+        public addGameMouseHandler(GameLibraryUI gameLibraryUI) {
+            this.libraryUI = gameLibraryUI;
+            Search = libraryUI.getGameSearch();
         }
 
         @Override
@@ -537,12 +537,12 @@ public class GameLibraryHandler {
         @Override
         public void mousePressed(MouseEvent e) {
 
-            if (Library.getSearchText().getText().equals("Search For Game To Add...")) {
-                Library.getSearchText().requestFocus();
-                Library.getSearchText().setText("");
+            if (libraryUI.getSearchText().getText().equals("Search For Game To Add...")) {
+                libraryUI.getSearchText().requestFocus();
+                libraryUI.getSearchText().setText("");
                 Search.resetCover();
-                Library.getSearchText().setForeground(Color.black);
-                Library.getSearchArrow().setImage("AddGame_SearchArrow_dark.png");
+                libraryUI.getSearchText().setForeground(Color.black);
+                libraryUI.getSearchArrow().setImage("AddGame_SearchArrow_dark.png");
             }
         }
 
@@ -561,22 +561,22 @@ public class GameLibraryHandler {
 
     public class addGameFocusHandler implements FocusListener {
 
-        private GameLibraryUI Library;
+        private GameLibraryUI libraryUI;
         private GameSearch Search;
 
         public addGameFocusHandler(GameLibraryUI Obj_library) {
-            this.Library = Obj_library;
-            Search = this.Library.getGameSearch();
+            this.libraryUI = Obj_library;
+            Search = this.libraryUI.getGameSearch();
 
         }
 
         @Override
         public void focusGained(FocusEvent e) {
-            if (Library.getSearchText().getText().equals("Search For Game To Add...")) {
-                Library.getSearchText().setText("");
+            if (libraryUI.getSearchText().getText().equals("Search For Game To Add...")) {
+                libraryUI.getSearchText().setText("");
                 Search.resetCover();
-                Library.getSearchText().setForeground(Color.black);
-                Library.getSearchArrow().setImage("AddGame_SearchArrow_dark.png");
+                libraryUI.getSearchText().setForeground(Color.black);
+                libraryUI.getSearchArrow().setImage("AddGame_SearchArrow_dark.png");
             }
 
         }
@@ -586,14 +586,14 @@ public class GameLibraryHandler {
 
             if (e.getOppositeComponent() instanceof JList || e.getOppositeComponent() instanceof JFileChooser == false) {
                 try {
-                    Library.getSearch().restoreGrid();
+                    libraryUI.getSearch().restoreGrid();
                 } catch (MalformedURLException ex) {
                     Logger.getLogger(GameLibraryHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                if (Library.getSearchText().getText().length() <= 1) {
-                    Library.getSearchText().setText("Search For Game To Add...");
-                    Library.getSearchText().setForeground(Color.DARK_GRAY);
-                    Library.getSearchArrow().setImage("AddGame_SearchArrow_light.png");
+                if (libraryUI.getSearchText().getText().length() <= 1) {
+                    libraryUI.getSearchText().setText("Search For Game To Add...");
+                    libraryUI.getSearchText().setForeground(Color.DARK_GRAY);
+                    libraryUI.getSearchArrow().setImage("AddGame_SearchArrow_light.png");
                 }
 
             }
@@ -602,25 +602,25 @@ public class GameLibraryHandler {
 
     public class HideGameAddUIHandler implements ActionListener {
 
-        private GameLibraryUI library;
+        private GameLibraryUI libraryUI;
 
-        public HideGameAddUIHandler(GameLibraryUI library) {
-            this.library = library;
+        public HideGameAddUIHandler(GameLibraryUI gameLibraryUI) {
+            this.libraryUI = gameLibraryUI;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            library.hideAddGameUI();
+            libraryUI.hideAddGameUI();
         }
     }
 
     public class ExecutableChooserHandler implements ActionListener {
 
-        private GameLibraryUI library;
+        private GameLibraryUI libraryUI;
         private JFileChooser gameLocator;
 
-        public ExecutableChooserHandler(GameLibraryUI library, JFileChooser locator) {
-            this.library = library;
+        public ExecutableChooserHandler(GameLibraryUI gameLibraryUi, JFileChooser locator) {
+            this.libraryUI = gameLibraryUi;
             gameLocator = locator;
         }
 
@@ -628,22 +628,22 @@ public class GameLibraryHandler {
         public void actionPerformed(ActionEvent e) {
 
             if (gameLocator.getSelectedFile() != null) {
-                library.setCurrentPath(gameLocator.getSelectedFile().getPath());
-                library.getStepTwo().setImgURl("AddGame_step2_green.png");
-                library.checkNotifiers();
-                System.out.println(library.getCurrentPath());
+                libraryUI.setCurrentPath(gameLocator.getSelectedFile().getPath());
+                libraryUI.getStepTwo().setImgURl("AddGame_step2_green.png");
+                libraryUI.checkNotifiers();
+                System.out.println(libraryUI.getCurrentPath());
             } else {
-                library.getStepTwo().setImgURl("AddGame_step2_red.png");
+                libraryUI.getStepTwo().setImgURl("AddGame_step2_red.png");
             }
         }
     }
 
     public class ExecutableFilterHandler extends FileFilter {
 
-        private AuroraCoreUI ui;
+        private AuroraCoreUI coreUI;
 
-        public ExecutableFilterHandler(AuroraCoreUI ui) {
-            this.ui = ui;
+        public ExecutableFilterHandler(AuroraCoreUI auroraCoreUI) {
+            this.coreUI = auroraCoreUI;
         }
 
         @Override
@@ -665,7 +665,7 @@ public class GameLibraryHandler {
                     return false;
 
                 }
-            } else if (ui.getOS().indexOf("nix") >= 0 || ui.getOS().indexOf("nux") >= 0) {
+            } else if (coreUI.getOS().indexOf("nix") >= 0 || coreUI.getOS().indexOf("nux") >= 0) {
 
                 return true;
             }
@@ -681,7 +681,7 @@ public class GameLibraryHandler {
 
     public class AddToLibraryHandler implements ActionListener {
 
-        private GameLibraryUI ui;
+        private GameLibraryUI libraryUI;
         private GridManager GridSplit;
         private JPanel GameBack;
         private GameSearch GameSearch;
@@ -689,8 +689,8 @@ public class GameLibraryHandler {
         private AuroraStorage storage;
         private String currentPath;
 
-        public AddToLibraryHandler(GameLibraryUI ui) {
-            this.ui = ui;
+        public AddToLibraryHandler(GameLibraryUI gameLibraryUI) {
+            this.libraryUI = gameLibraryUI;
 
 
         }
@@ -698,28 +698,34 @@ public class GameLibraryHandler {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            currentPath = ui.getCurrentPath();
-            GridSplit = ui.getGridSplit();
-            GameBack = ui.getGameBack();
-            GameSearch = ui.getGameSearch();
-            GridMove = ui.getGridMove();
-            storage = ui.getStorage();
+            currentPath = libraryUI.getCurrentPath();
+            GridSplit = libraryUI.getGridSplit();
+            GameBack = libraryUI.getGameBack();
+            GameSearch = libraryUI.getGameSearch();
+            GridMove = libraryUI.getGridMove();
+            storage = libraryUI.getStorage();
 
             GameSearch.getFoundGameCover().setGamePath(currentPath);
-            GameSearch.getFoundGameCover().setCoverSize(ui.getSIZE_GameCoverWidth(), ui.getSIZE_GameCoverHeight());
+            GameSearch.getFoundGameCover()
+                    .setCoverSize(libraryUI.getSIZE_GameCoverWidth()
+                    , libraryUI.getSIZE_GameCoverHeight());
             GameSearch.getFoundGameCover().reAddInteractive();
             if (!GridSplit.isDupicate(GameSearch.getFoundGameCover())) {
-                storage.getStoredLibrary().SaveGame(GameSearch.getFoundGameCover());
+                storage.getStoredLibrary()
+                        .SaveGame(GameSearch.getFoundGameCover());
 
 
             }
             GridSplit.addGame(GameSearch.getFoundGameCover());
-            GridSplit.finalizeGrid(ui.getAddGameHandler(), ui.getSIZE_GameCoverWidth(), ui.getSIZE_GameCoverHeight());
-            ui.hideAddGameUI();
+            GridSplit.finalizeGrid(libraryUI.getAddGameHandler()
+                    , libraryUI.getSIZE_GameCoverWidth()
+                    , libraryUI.getSIZE_GameCoverHeight());
+            libraryUI.hideAddGameUI();
             //reset
             GameSearch.resetCover();
 
-            ui.setCurrentIndex(GridSplit.getArray().indexOf(GameBack.getComponent(1)));
+            libraryUI.setCurrentIndex(
+                    GridSplit.getArray().indexOf(GameBack.getComponent(1)));
             //Transition towards to left most grid to see the game added
             GridMove.runMover();
         }
@@ -967,8 +973,8 @@ public class GameLibraryHandler {
 
     public class HoverButtonRight implements MouseListener {
 
-        private GameLibraryUI library;
-        private AuroraCoreUI ui;
+        private GameLibraryUI libraryUI;
+        private AuroraCoreUI coreUI;
         private GridManager GridSplit;
         private JPanel GameBack;
         private aHoverButton imgGameLeft;
@@ -977,42 +983,42 @@ public class GameLibraryHandler {
         private aImage imgBlank;
         private GridAnimation GridAnimate;
 
-        public HoverButtonRight(GameLibraryUI library, AuroraCoreUI ui) {
-            this.library = library;
-            this.ui = ui;
+        public HoverButtonRight(GameLibraryUI gameLibraryUI, AuroraCoreUI auroraCoreUI) {
+            this.libraryUI = gameLibraryUI;
+            this.coreUI = auroraCoreUI;
 
             //GridSplit = library.getGridSplit();
-            GameBack = library.getGameBack();
-            imgGameLeft = library.getImgGameLeft();
-            imgGameRight = library.getImgGameRight();
-            imgFavorite = library.getImgFavorite();
-            imgBlank = library.getImgBlank();
-            GridAnimate = library.getGridAnimate();
+            GameBack = gameLibraryUI.getGameBack();
+            imgGameLeft = gameLibraryUI.getImgGameLeft();
+            imgGameRight = gameLibraryUI.getImgGameRight();
+            imgFavorite = gameLibraryUI.getImgFavorite();
+            imgBlank = gameLibraryUI.getImgBlank();
+            GridAnimate = gameLibraryUI.getGridAnimate();
         }
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            GridSplit = library.getGridSplit();
+            GridSplit = libraryUI.getGridSplit();
 
             if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate.getAnimator2().isAnimating()) {
 
-                library.setCurrentIndex(GridSplit.getArray().indexOf(GameBack.getComponent(1)));
+                libraryUI.setCurrentIndex(GridSplit.getArray().indexOf(GameBack.getComponent(1)));
 
-                if (library.getCurrentIndex() < GridSplit.getArray().size() - 1) {
+                if (libraryUI.getCurrentIndex() < GridSplit.getArray().size() - 1) {
 
                     GameBack.remove(0);
-                    GameBack.add(library.getImgGameLeft(), BorderLayout.WEST, 0);
+                    GameBack.add(libraryUI.getImgGameLeft(), BorderLayout.WEST, 0);
 
                     GameBack.add(imgGameRight, BorderLayout.EAST, 2);
 
-                    GridAnimate.moveRight(library.getCurrentIndex());
+                    GridAnimate.moveRight(libraryUI.getCurrentIndex());
 
                     //carlos
                     // GridSplit.incrementVisibleGridIndex();
 
 
                     try {
-                        library.load(library.getCurrentIndex() + 1);
+                        libraryUI.load(libraryUI.getCurrentIndex() + 1);
                     } catch (MalformedURLException ex) {
                         Logger.getLogger(GameLibraryUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -1020,16 +1026,16 @@ public class GameLibraryHandler {
 
 
                     //of on last Grid then dont show right arrow button
-                    if (!(library.getCurrentIndex() + 1 < GridSplit.getArray().size() - 1)) {
+                    if (!(libraryUI.getCurrentIndex() + 1 < GridSplit.getArray().size() - 1)) {
 
-                        GameBack.remove(library.getImgGameRight());
+                        GameBack.remove(libraryUI.getImgGameRight());
                         GameBack.add(imgBlank, BorderLayout.EAST, 2);
                         imgGameRight.mouseExit();
                     }
                 }
 
-                ui.getPnlCenter().removeAll();
-                ui.getPnlCenter().add(BorderLayout.CENTER, library.getGameBack());
+                coreUI.getPnlCenter().removeAll();
+                coreUI.getPnlCenter().add(BorderLayout.CENTER, libraryUI.getGameBack());
 
                 GameBack.repaint();
                 GameBack.revalidate();
@@ -1048,8 +1054,8 @@ public class GameLibraryHandler {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            GridAnimate = library.getGridAnimate();
-            imgGameRight = library.getImgGameRight();
+            GridAnimate = libraryUI.getGridAnimate();
+            imgGameRight = libraryUI.getImgGameRight();
 
             if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate.getAnimator2().isAnimating()) {
                 imgGameRight.mouseHover(e);
@@ -1070,11 +1076,11 @@ public class GameLibraryHandler {
         private GridManager GridSplit;
         private JPanel GameBack;
 
-        public GameLibraryKeyListener(GameLibraryUI library, AuroraCoreUI ui) {
-            this.library = library;
-            this.ui = ui;
+        public GameLibraryKeyListener(GameLibraryUI libraryUI, AuroraCoreUI auroraCoreUI) {
+            this.library = libraryUI;
+            this.ui = auroraCoreUI;
             //GridSplit = library.getGridSplit();
-            GameBack = library.getGameBack();
+            GameBack = libraryUI.getGameBack();
         }
 
         @Override

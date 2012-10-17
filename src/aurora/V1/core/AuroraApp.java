@@ -1,15 +1,15 @@
 /*
  * Copyright 2012 Sardonix Creative.
  *
- * This work is licensed under the 
+ * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
- * To view a copy of this license, visit 
+ * To view a copy of this license, visit
  *
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+ * or send a letter to Creative Commons, 444 Castro Street, ScoreUIte 900,
  * Mountain View, California, 94041, USA.
- * Unless required by applicable law or agreed to in writing, software
+ * Unless reqcoreUIred by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -18,23 +18,18 @@
 package aurora.V1.core;
 
 import aurora.V1.core.screen_ui.DashboardUI;
+import aurora.engine.V1.UI.AuroraScreenUI;
 import aurora.engine.V1.UI.aButton;
 import aurora.engine.V1.UI.aProgressWheel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FontFormatException;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelListener;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
@@ -44,11 +39,11 @@ import javax.swing.JFrame;
  * @author Sammy
  * @version 0.3
  */
-public abstract class AuroraApp implements Runnable {
+public abstract class AuroraApp implements Runnable, AuroraScreenUI {
 
-    public JFrame frame;
-    public AuroraCoreUI ui;
-    public DashboardUI dash_Obj;
+    private JFrame frame;
+    private AuroraCoreUI coreUI;
+    private DashboardUI dashboardUI;
     private int SIZE_TopPadding;
     private Thread loadApp;
     private aProgressWheel progress;
@@ -63,52 +58,38 @@ public abstract class AuroraApp implements Runnable {
 
     public AuroraApp() {
         ComponentsContainingListeners = new ArrayList<JComponent>();
-
+        
     }
-
-//    public void setStorage(AuroraStorage storage) {
-//        this.storage = storage;
-//    }
-    public abstract void createGUI();
 
     /**
      * Add to the list of items that will have their Listeners Removed when
-     * going back to dashboard
+     * going back to dashboard.
+     *
+     * @param component Any component
      */
-    public void addToVolatileListenerBank(JComponent component) {
+    public final void addToVolatileListenerBank(final JComponent component) {
         ComponentsContainingListeners.add(component);
     }
 
-    public void backToDashboard() {
+    public final void backToDashboard() {
         removeAllListeners();
         clearUI_Backwards();
 
 
-        try {
-            dash_Obj.buildGUI();
-            System.gc();
-        } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(AuroraApp.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(AuroraApp.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (LineUnavailableException ex) {
-            Logger.getLogger(AuroraApp.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(AuroraApp.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FontFormatException ex) {
-            Logger.getLogger(AuroraApp.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        dashboardUI.buildUI();
+        System.gc();
+
 
 
     }
 
     public void setUpSize() {
-        int Ratio = ui.getFrame().getWidth() / ui.getFrame().getHeight();
-        if (ui.isLargeScreen()) {
-            SIZE_TopPadding = ui.getPnlCenter().getHeight() / 5 + Ratio / 5;
+        int Ratio = coreUI.getFrame().getWidth() / coreUI.getFrame().getHeight();
+        if (coreUI.isLargeScreen()) {
+            SIZE_TopPadding = coreUI.getPnlCenter().getHeight() / 5 + Ratio / 5;
 
         } else {
-            SIZE_TopPadding = ui.getPnlCenter().getHeight() / 5 + Ratio / 10;
+            SIZE_TopPadding = coreUI.getPnlCenter().getHeight() / 5 + Ratio / 10;
         }
 
     }
@@ -116,37 +97,37 @@ public abstract class AuroraApp implements Runnable {
     public void clearUI_Backwards() {
 
         ///...Clear UI
-        ui.getPnlKeyToPress().removeAll();
+        coreUI.getPnlKeyToPress().removeAll();
 
-        ui.getPnlCenter().removeAll();
-        ui.getPnlUserSpace().removeAll();
+        coreUI.getPnlCenter().removeAll();
+        coreUI.getPnlUserSpace().removeAll();
 
-        ui.getPnlUserSpace().revalidate();
-        ui.getPnlKeyToPress().revalidate();
-
-
-
-        ui.getPnlCenterFromBottom().removeAll();
-        ui.getPnlCenterFromBottom().validate();
-        ui.getPnlCenterFromBottom().add(BorderLayout.NORTH, ui.getPnlHeaderOfCenterFromBottom());
-        ui.getPnlCenterFromBottom().revalidate();
-        ui.getPnlHeaderOfCenterFromBottom().setPreferredSize(new Dimension(ui.getFrame().getWidth(), ui.getPnlKeyToPress().getHeight()));
-
-        ui.getPnlSouthFromTop().setPreferredSize(new Dimension(ui.getPnlSouthFromTop().getWidth(), ui.getPnlSouthFromTop().getHeight()));
-        ui.getPnlCenter().setPreferredSize(new Dimension(ui.getPnlCenter().getWidth(), ui.getFrame().getHeight() - ui.getPnlBottom().getHeight() - ui.getPnlTop().getHeight()));
-        ui.getPnlCenter().setPreferredSize(new Dimension(ui.getPnlCenter().getWidth(), ui.getFrame().getHeight() - (ui.getFrame().getHeight() / 6 * 2)));
-        ui.getPnlBottom().setPreferredSize(new Dimension(ui.getPnlBottom().getWidth(), ui.getFrame().getHeight() / 6 + 25));
-        ui.getPnlBottom().setImageHeight(ui.getFrame().getHeight() / 6 + 25);
+        coreUI.getPnlUserSpace().revalidate();
+        coreUI.getPnlKeyToPress().revalidate();
 
 
-        ui.getPnlSouthFromTop().removeAll();
-        ui.getPnlSouthFromTop().add(BorderLayout.EAST, ui.getPnlFrameControlContainer());
-        ui.getPnlSouthFromTop().repaint();
 
-        ui.getPnlInfo().removeAll();
-        ui.getPnlInfo().add(BorderLayout.CENTER, ui.getLblInfo());
-        ui.getFrame().repaint();
-        ui.getFrame().getGlassPane().setVisible(false);
+        coreUI.getPnlCenterFromBottom().removeAll();
+        coreUI.getPnlCenterFromBottom().validate();
+        coreUI.getPnlCenterFromBottom().add(BorderLayout.NORTH, coreUI.getPnlHeaderOfCenterFromBottom());
+        coreUI.getPnlCenterFromBottom().revalidate();
+        coreUI.getPnlHeaderOfCenterFromBottom().setPreferredSize(new Dimension(coreUI.getFrame().getWidth(), coreUI.getPnlKeyToPress().getHeight()));
+
+        coreUI.getPnlSouthFromTop().setPreferredSize(new Dimension(coreUI.getPnlSouthFromTop().getWidth(), coreUI.getPnlSouthFromTop().getHeight()));
+        coreUI.getPnlCenter().setPreferredSize(new Dimension(coreUI.getPnlCenter().getWidth(), coreUI.getFrame().getHeight() - coreUI.getPnlBottom().getHeight() - coreUI.getPnlTop().getHeight()));
+        coreUI.getPnlCenter().setPreferredSize(new Dimension(coreUI.getPnlCenter().getWidth(), coreUI.getFrame().getHeight() - (coreUI.getFrame().getHeight() / 6 * 2)));
+        coreUI.getPnlBottom().setPreferredSize(new Dimension(coreUI.getPnlBottom().getWidth(), coreUI.getFrame().getHeight() / 6 + 25));
+        coreUI.getPnlBottom().setImageHeight(coreUI.getFrame().getHeight() / 6 + 25);
+
+
+        coreUI.getPnlSouthFromTop().removeAll();
+        coreUI.getPnlSouthFromTop().add(BorderLayout.EAST, coreUI.getPnlFrameControlContainer());
+        coreUI.getPnlSouthFromTop().repaint();
+
+        coreUI.getPnlInfo().removeAll();
+        coreUI.getPnlInfo().add(BorderLayout.CENTER, coreUI.getLblInfo());
+        coreUI.getFrame().repaint();
+        coreUI.getFrame().getGlassPane().setVisible(false);
     }
 
     public void clearUI_Forwards() {
@@ -168,35 +149,35 @@ public abstract class AuroraApp implements Runnable {
 //        //Start Loader
 //        loadApp.start();
 
-        ui.getLblInfo().setText("   Loading...   ");
+        coreUI.getLblInfo().setText("   Loading...   ");
 
-        ui.getPnlKeyToPress().removeAll();
-        ui.getPnlCenter().removeAll();
-        ui.getPnlUserSpace().removeAll();
+        coreUI.getPnlKeyToPress().removeAll();
+        coreUI.getPnlCenter().removeAll();
+        coreUI.getPnlUserSpace().removeAll();
 
-        ui.getPnlUserSpace().revalidate();
+        coreUI.getPnlUserSpace().revalidate();
 
 
-        ui.getPnlCenter().setPreferredSize(new Dimension(ui.getPnlCenter().getWidth(), ui.getFrame().getHeight() - (ui.getFrame().getHeight() / 6 * 2)));
-        ui.getPnlBottom().setPreferredSize(new Dimension(ui.getPnlBottom().getWidth(), ui.getFrame().getHeight() / 6 + 15));
-        ui.getPnlBottom().setImageHeight(ui.getFrame().getHeight() / 6 + 30);
+        coreUI.getPnlCenter().setPreferredSize(new Dimension(coreUI.getPnlCenter().getWidth(), coreUI.getFrame().getHeight() - (coreUI.getFrame().getHeight() / 6 * 2)));
+        coreUI.getPnlBottom().setPreferredSize(new Dimension(coreUI.getPnlBottom().getWidth(), coreUI.getFrame().getHeight() / 6 + 15));
+        coreUI.getPnlBottom().setImageHeight(coreUI.getFrame().getHeight() / 6 + 30);
 
         //Remove Content in Center
-        ui.getPnlCenterFromBottom().removeAll();
+        coreUI.getPnlCenterFromBottom().removeAll();
 
 
         //re-add Time
-        ui.getPnlCenterFromBottom().add(BorderLayout.NORTH, ui.getPnlHeaderOfCenterFromBottom());
-        ui.getPnlHeaderOfCenterFromBottom().setPreferredSize(new Dimension(ui.getFrame().getWidth(), ui.getPnlKeyToPress().getHeight()));
-        ui.getPnlHeaderOfCenterFromBottom().revalidate();
+        coreUI.getPnlCenterFromBottom().add(BorderLayout.NORTH, coreUI.getPnlHeaderOfCenterFromBottom());
+        coreUI.getPnlHeaderOfCenterFromBottom().setPreferredSize(new Dimension(coreUI.getFrame().getWidth(), coreUI.getPnlKeyToPress().getHeight()));
+        coreUI.getPnlHeaderOfCenterFromBottom().revalidate();
 
-        ui.getPnlCenter().revalidate();
-        ui.getPnlCenterFromBottom().revalidate();
+        coreUI.getPnlCenter().revalidate();
+        coreUI.getPnlCenterFromBottom().revalidate();
 
         //Change Back button
-        ui.getPnlSouthFromTop().removeAll();
-        ui.getPnlSouthFromTop().add(ui.getPnlFrameControlContainer(), BorderLayout.EAST);
-        ui.getPnlFrameControl().getComponent(0).addMouseListener(new MouseListener() {
+        coreUI.getPnlSouthFromTop().removeAll();
+        coreUI.getPnlSouthFromTop().add(coreUI.getPnlFrameControlContainer(), BorderLayout.EAST);
+        coreUI.getPnlFrameControl().getComponent(0).addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 removeAllListeners();
@@ -221,7 +202,7 @@ public abstract class AuroraApp implements Runnable {
             }
         });
 
-        ui.getFrame().getContentPane().addKeyListener(new KeyListener() {
+        coreUI.getFrame().getContentPane().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
 
@@ -242,16 +223,16 @@ public abstract class AuroraApp implements Runnable {
             }
         });
 
-        ui.getFrame().requestFocus();
+        coreUI.getFrame().requestFocus();
 
 
 
         //Finalize
-        ui.getPnlInfo().removeAll();
-        ui.getPnlInfo().add(BorderLayout.CENTER, ui.getLblInfo());
+        coreUI.getPnlInfo().removeAll();
+        coreUI.getPnlInfo().add(BorderLayout.CENTER, coreUI.getLblInfo());
 
         System.gc();
-        ui.getFrame().repaint();
+        coreUI.getFrame().repaint();
 
 
     }
@@ -302,22 +283,22 @@ public abstract class AuroraApp implements Runnable {
 
         //Only for the Frame!
 
-        FrameKeyListeners = ui.getFrame().getKeyListeners();
+        FrameKeyListeners = coreUI.getFrame().getKeyListeners();
 
         for (int i = 0; i < FrameKeyListeners.length; i++) {
-            ui.getFrame().removeKeyListener(FrameKeyListeners[i]);
+            coreUI.getFrame().removeKeyListener(FrameKeyListeners[i]);
         }
 
-        FrameMouseListeners = ui.getFrame().getMouseListeners();
+        FrameMouseListeners = coreUI.getFrame().getMouseListeners();
 
         for (int i = 0; i < FrameMouseListeners.length; i++) {
-            ui.getFrame().removeMouseListener(FrameMouseListeners[i]);
+            coreUI.getFrame().removeMouseListener(FrameMouseListeners[i]);
         }
 
-        FrameMouseWheelListeners = ui.getFrame().getMouseWheelListeners();
+        FrameMouseWheelListeners = coreUI.getFrame().getMouseWheelListeners();
 
         for (int i = 0; i < FrameMouseWheelListeners.length; i++) {
-            ui.getFrame().removeMouseWheelListener(FrameMouseWheelListeners[i]);
+            coreUI.getFrame().removeMouseWheelListener(FrameMouseWheelListeners[i]);
         }
 
 

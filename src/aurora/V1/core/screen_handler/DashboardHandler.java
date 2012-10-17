@@ -37,10 +37,10 @@ import java.awt.event.MouseWheelListener;
  */
 public class DashboardHandler {
 
-    private final DashboardUI ui;
+    private final DashboardUI dashboardUI;
 
-    public DashboardHandler(DashboardUI ui) {
-        this.ui = ui;
+    public DashboardHandler(DashboardUI dashboardUI) {
+        this.dashboardUI = dashboardUI;
     }
 
     public class RightListener implements ActionListener {
@@ -48,7 +48,7 @@ public class DashboardHandler {
 
         public void actionPerformed(ActionEvent e) {
 
-            ui.getCarousel().MoveLeft();
+            dashboardUI.getCarousel().MoveLeft();
 
 
         }
@@ -61,7 +61,7 @@ public class DashboardHandler {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            ui.getCarousel().MoveRight();
+            dashboardUI.getCarousel().MoveRight();
 
         }
     }
@@ -78,15 +78,15 @@ public class DashboardHandler {
 
 
             if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                ui.getCarousel().MoveRight();
+                dashboardUI.getCarousel().MoveRight();
             }
 
             if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                ui.getCarousel().MoveLeft();
+                dashboardUI.getCarousel().MoveLeft();
             }
 
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                ui.getCoreUI().showExitDilog();
+                dashboardUI.getCoreUI().showExitDilog();
             }
         }
 
@@ -94,19 +94,19 @@ public class DashboardHandler {
         public void keyReleased(KeyEvent e) {
 
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                aCarouselPane pane = ui.getCarousel().getCenterPane();
+                aCarouselPane pane = dashboardUI.getCarousel().getCenterPane();
 
-                if (pane == ui.getLibraryPane()) {
+                if (pane == dashboardUI.getLibraryPane()) {
                     //action on click right Panel
-                    GameLibraryUI library = new GameLibraryUI(ui.getStartUp_Obj().getAuroraStorage(), ui, ui.getCoreUI());
-                    library.createGUI();
-                } else if (pane == ui.getProfilePane()) {
-                    GamerProfileUI aObj_profile = new GamerProfileUI(ui, ui.getCoreUI());
-                    aObj_profile.createGUI();
-                } else if (pane == ui.getSettingsPane()) {
-                    SettingsUI aObj_settings = new SettingsUI(ui, ui.getCoreUI());
-                    aObj_settings.createGUI();
-                } else if (pane == ui.getAuroraNetPane()) {
+                    GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI.getStartUp_Obj().getAuroraStorage(), dashboardUI, dashboardUI.getCoreUI());
+                    libraryUI.loadUI();
+                } else if (pane == dashboardUI.getProfilePane()) {
+                    GamerProfileUI profileUI = new GamerProfileUI(dashboardUI, dashboardUI.getCoreUI());
+                    profileUI.loadUI();
+                } else if (pane == dashboardUI.getSettingsPane()) {
+                    SettingsUI settingsUI = new SettingsUI(dashboardUI, dashboardUI.getCoreUI());
+                    settingsUI.loadUI();
+                } else if (pane == dashboardUI.getAuroraNetPane()) {
                     // do nothing for now
                 }
             }
@@ -121,9 +121,9 @@ public class DashboardHandler {
         @Override
         public void mouseClicked(MouseEvent e) {
             System.out.println("CLICKED");
-            if (ui != null) {
-                GameLibraryUI library = new GameLibraryUI(ui.getStartUp_Obj().getAuroraStorage(), ui, ui.getCoreUI());
-                library.createGUI();
+            if (dashboardUI != null) {
+                GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI.getStartUp_Obj().getAuroraStorage(), dashboardUI, dashboardUI.getCoreUI());
+                libraryUI.loadUI();
             }
         }
 
@@ -153,24 +153,24 @@ public class DashboardHandler {
             System.out.println("CLICKED");
             aCarouselPane pane = (aCarouselPane) e.getComponent();
 
-            if (pane.getPointX() == ui.getCarousel().getRightX()) {
-                ui.getCarousel().MoveLeft();
-            } else if (pane.getPointX() == ui.getCarousel().getLeftX()) {
-                ui.getCarousel().MoveRight();
-            } else if (pane.getPointX() == ui.getCarousel().getCentX()) {
-                if (pane == ui.getLibraryPane()) {
+            if (pane.getPointX() == dashboardUI.getCarousel().getRightX()) {
+                dashboardUI.getCarousel().MoveLeft();
+            } else if (pane.getPointX() == dashboardUI.getCarousel().getLeftX()) {
+                dashboardUI.getCarousel().MoveRight();
+            } else if (pane.getPointX() == dashboardUI.getCarousel().getCentX()) {
+                if (pane == dashboardUI.getLibraryPane()) {
                     //action on click right Panel
-                    if (ui != null) {
-                        GameLibraryUI library = new GameLibraryUI(ui.getStartUp_Obj().getAuroraStorage(), ui, ui.getCoreUI());
-                        library.createGUI();
+                    if (dashboardUI != null) {
+                        GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI.getStartUp_Obj().getAuroraStorage(), dashboardUI, dashboardUI.getCoreUI());
+                        libraryUI.loadUI();
                     }
-                } else if (pane == ui.getProfilePane()) {
-                    GamerProfileUI aObj_profile = new GamerProfileUI(ui, ui.getCoreUI());
-                    aObj_profile.createGUI();
-                } else if (pane == ui.getSettingsPane()) {
-                    SettingsUI aObj_settings = new SettingsUI(ui, ui.getCoreUI());
-                    aObj_settings.createGUI();
-                } else if (pane == ui.getAuroraNetPane()) {
+                } else if (pane == dashboardUI.getProfilePane()) {
+                    GamerProfileUI profileUI = new GamerProfileUI(dashboardUI, dashboardUI.getCoreUI());
+                    profileUI.loadUI();
+                } else if (pane == dashboardUI.getSettingsPane()) {
+                    SettingsUI settingsUI = new SettingsUI(dashboardUI, dashboardUI.getCoreUI());
+                    settingsUI.loadUI();
+                } else if (pane == dashboardUI.getAuroraNetPane()) {
                     // do nothing for now
                 }
             }
@@ -204,9 +204,9 @@ public class DashboardHandler {
             System.out.println("Mouse wheel moved " + numberClicks);
 
             if (numberClicks < 0) {
-                ui.getCarousel().MoveLeft();
+                dashboardUI.getCarousel().MoveLeft();
             } else if (numberClicks > 0) {
-                ui.getCarousel().MoveRight();
+                dashboardUI.getCarousel().MoveRight();
             }
 
         }

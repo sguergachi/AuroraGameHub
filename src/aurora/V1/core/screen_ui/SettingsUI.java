@@ -27,18 +27,19 @@ import aurora.V1.core.AuroraCoreUI;
  */
 public class SettingsUI extends AuroraApp {
 
+    private final DashboardUI dashboardUI;
+    private final AuroraCoreUI coreUI;
 
 
+    public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
-    public SettingsUI(DashboardUI dash_obj, AuroraCoreUI ui) {
-
-        this.dash_Obj = dash_obj;
-        this.ui = ui;
+        this.dashboardUI = dashboardUI;
+        this.coreUI = auroraCoreUI;
         this.clearUI_Forwards();
     }
 
     @Override
-    public void createGUI() {
+    public void loadUI() {
         
         
         
@@ -47,5 +48,10 @@ public class SettingsUI extends AuroraApp {
     public void setSize() {
       
 
+    }
+
+    @Override
+    public void buildUI() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -192,7 +192,7 @@ public class StartLoader implements Runnable {
 
         public loadDashboard() {
 
-            mainWin.loadGUI();
+            mainWin.loadUI();
 
             //Loading Thread
             loadDashThread = null;
@@ -211,19 +211,8 @@ public class StartLoader implements Runnable {
             if (Thread.currentThread() == loadDashThread) {
 
 
-                try {
-                    mainWin.buildGUI();
-                } catch (UnsupportedAudioFileException ex) {
-                    Logger.getLogger(StartLoader.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(StartLoader.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (LineUnavailableException ex) {
-                    Logger.getLogger(StartLoader.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(StartLoader.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (FontFormatException ex) {
-                    Logger.getLogger(StartLoader.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                    mainWin.buildUI();
+
 
                 //Remove from memory
                 System.gc();
