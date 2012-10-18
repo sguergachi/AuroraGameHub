@@ -106,7 +106,27 @@ public class DashboardUI extends AuroraApp {
     private JPanel pnlInfo;
     private  DashboardHandler handler;
 
-      
+/**
+* .------------------------------------------------------------------------.
+* |    DashboardUI()
+* .------------------------------------------------------------------------.
+* |
+* | This is the main constructor for the DasboardUI
+* | It requires the startLoader that transitions from the StartScreenUI
+* | to the DashboardUI. It also takes the CoreUI
+* |
+* | 
+* | 
+* | 
+* | 
+* |
+* |
+* |
+* .........................................................................
+ * @param startLoader
+ * @param auroraCoreUi
+ * @param startScreenUi 
+ */
     public DashboardUI(StartLoader startLoader, AuroraCoreUI auroraCoreUi, StartScreenUI startScreenUi) {
         this.loader = startLoader;
         this.startUI = startScreenUi;
@@ -128,7 +148,7 @@ public class DashboardUI extends AuroraApp {
 
         //Initialize Sizes
         setSizes();
-        
+
         coreUI.getImgLogo().setImgURl("Aurora_Header2.png");
         coreUI.getImgLogo().setImageSize(SIZE_ImageWidth, SIZE_ImageHeight);
 
