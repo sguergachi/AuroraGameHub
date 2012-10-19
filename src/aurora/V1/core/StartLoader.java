@@ -181,7 +181,7 @@ public class StartLoader implements Runnable {
 
         ui.getFrame().add(progress);
         ui.getFrame().repaint();
-        mainWin = new DashboardUI(this, ui, StartUp_Obj);
+        mainWin = new DashboardUI(ui, StartUp_Obj);
         new loadDashboard();
 
     }
