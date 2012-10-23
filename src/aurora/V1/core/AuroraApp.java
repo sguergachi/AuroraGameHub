@@ -18,7 +18,7 @@
 package aurora.V1.core;
 
 import aurora.V1.core.screen_ui.DashboardUI;
-import aurora.engine.V1.UI.AuroraScreenUI;
+import aurora.engine.V1.UI.AuroraUI;
 import aurora.engine.V1.UI.aButton;
 import aurora.engine.V1.UI.aProgressWheel;
 import java.awt.BorderLayout;
@@ -39,7 +39,7 @@ import javax.swing.JFrame;
  * @author Sammy
  * @version 0.3
  */
-public abstract class AuroraApp implements Runnable, AuroraScreenUI {
+public abstract class AuroraApp implements Runnable, AuroraUI {
 
     private JFrame frame;
     private AuroraCoreUI coreUI;
@@ -58,7 +58,7 @@ public abstract class AuroraApp implements Runnable, AuroraScreenUI {
 
     public AuroraApp() {
         ComponentsContainingListeners = new ArrayList<JComponent>();
-        
+
     }
 
     /**
@@ -242,7 +242,7 @@ public abstract class AuroraApp implements Runnable, AuroraScreenUI {
         //For Components in the Volatile Bank!
         for (int i = 0; i < ComponentsContainingListeners.size(); i++) {
 
-            //Remove KeyListers 
+            //Remove KeyListers
             KeyListeners = ComponentsContainingListeners.get(i).getKeyListeners();
 
             for (int j = 0; j < KeyListeners.length; j++) {

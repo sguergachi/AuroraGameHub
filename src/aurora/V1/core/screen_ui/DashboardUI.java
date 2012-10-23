@@ -23,6 +23,7 @@ import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.Game;
 import aurora.V1.core.StartLoader;
 import aurora.V1.core.screen_handler.DashboardHandler;
+import aurora.V1.core.screen_logic.DashboardLogic;
 import aurora.engine.V1.Logic.aXAVI;
 import aurora.engine.V1.UI.aButton;
 import aurora.engine.V1.UI.aCarousel;
@@ -47,7 +48,7 @@ import javax.swing.JPanel;
 
 /**
  * .------------------------------------------------------------------------.
- * | DashboardUI :: Aurora Screen Class
+ * | DashboardUI :: Aurora App Class
  * .------------------------------------------------------------------------.
  * |
  * | This class contains the UI attached to an appropriate *Handler*
@@ -309,17 +310,34 @@ public class DashboardUI extends AuroraApp {
     private int SIZE_CarouselButtonHeight;
 
     /**
-     * The loader that does the transition animation and loads the DashboardUI
+     * The loader that does the transition animation and loads the DashboardUI.
      */
     private StartLoader loader;
 
-    private DashboardHandler handler;
-
+    /**
+     * This is the Local Storage Instance.
+     */
     private AuroraStorage storage;
 
+    /**
+     * This is the Previous Screen, which contains the Local Storage Instance.
+     */
     private final StartScreenUI startUI;
 
+    /**
+     * This is the CoreUI Canvas.
+     */
     private AuroraCoreUI coreUI;
+
+    /**
+     * This is the Handler for the DashboardUIs Actions.
+     */
+    private DashboardHandler handler;
+
+    /**
+     * This is the Logic for the DashboardUIs Processing.
+     */
+    private final DashboardLogic logic;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -339,11 +357,18 @@ public class DashboardUI extends AuroraApp {
      */
     public DashboardUI(final AuroraCoreUI auroraCoreUi,
                        final StartScreenUI startScreenUi) {
-        this.startUI = startScreenUi;
 
 
-        this.handler = new DashboardHandler(this);
+        // Core UI Canvas //
         this.coreUI = auroraCoreUi;
+
+
+        // The Dashboard Handler + Logic //
+        this.handler = new DashboardHandler(this);
+        this.logic = new DashboardLogic(this);
+
+        // All other core objects //
+        this.startUI = startScreenUi;
         this.storage = startUI.getAuroraStorage();
 
 
@@ -352,8 +377,51 @@ public class DashboardUI extends AuroraApp {
     @Override
     public final void loadUI() {
 
+        //* Indicate to User DashboardUI is loading. *//
+        coreUI.getLblInfo().setText(".: Loading :.");
+
         //Initialize Sizes
         setSizes();
+
+
+        keyArrows = new aImage("KeyboardKeys/arrows.png", coreUI.
+                getSIZE_KeyIconWidth(), coreUI.getSIZE_KeyIconHeight());
+        lblKeyAction = new JLabel(" Move ");
+
+
+        ///.......Titles To The carousel Panels
+        titleSettingGlow = new aImage("settings_glow.png");
+        titleSettingNorm = new aImage("settings_normal.png");
+
+        titleLibraryGlow = new aImage("gamelibrary_glow.png");
+        titleLibraryNorm = new aImage("gamelibrary_normal.png");
+
+        titleProfileGlow = new aImage("gamerprofile_glow.png");
+        titleProfileNorm = new aImage("gamerprofile_normal.png");
+
+        titleAuroraNetGlow = new aImage("auroranet_glow.png");
+        titleAuroraNetNorm = new aImage("auroranet_normal.png");
+
+        icoProfile = new aImage("Aurora_Profile.png");
+        icoSetting = new aImage("Aurora_Settings.png");
+        icoNet = new aImage("ComingSoon.png");
+
+        titleProfile = new aCarouselTitle(titleProfileNorm, titleProfileGlow);
+        titleSetting = new aCarouselTitle(titleSettingNorm, titleSettingGlow);
+        titleLibrary = new aCarouselTitle(titleLibraryNorm, titleLibraryGlow);
+        titleAuroraNet = new aCarouselTitle(titleAuroraNetNorm,
+                titleAuroraNetGlow);
+
+
+        coreUI.getFrame().removeKeyListener(startUI.getStartKeyHandler());
+        coreUI.getFrame().add(coreUI.getPnlBackground());
+    }
+
+    @Override
+    public final void buildUI() {
+
+
+        //* Configure CoreUI *//
 
         coreUI.getImgLogo().setImgURl("Aurora_Header2.png");
         coreUI.getImgLogo().setImageSize(SIZE_ImageWidth, SIZE_ImageHeight);
@@ -388,53 +456,6 @@ public class DashboardUI extends AuroraApp {
                 getPnlFrameControl().getHeight()));
         coreUI.getPnlSouthFromTop().revalidate();
 
-
-        ///.......Titles To The carousel Panels
-        titleSettingGlow = new aImage("settings_glow.png");
-        titleSettingNorm = new aImage("settings_normal.png");
-
-        titleLibraryGlow = new aImage("gamelibrary_glow.png");
-        titleLibraryNorm = new aImage("gamelibrary_normal.png");
-
-        titleProfileGlow = new aImage("gamerprofile_glow.png");
-        titleProfileNorm = new aImage("gamerprofile_normal.png");
-
-        titleAuroraNetGlow = new aImage("auroranet_glow.png");
-        titleAuroraNetNorm = new aImage("auroranet_normal.png");
-
-        icoProfile = new aImage("Aurora_Profile.png");
-        icoSetting = new aImage("Aurora_Settings.png");
-        icoNet = new aImage("ComingSoon.png");
-
-        titleProfile = new aCarouselTitle(titleProfileNorm, titleProfileGlow);
-
-        titleSetting = new aCarouselTitle(titleSettingNorm, titleSettingGlow);
-        titleLibrary = new aCarouselTitle(titleLibraryNorm, titleLibraryGlow);
-        titleAuroraNet = new aCarouselTitle(titleAuroraNetNorm,
-                titleAuroraNetGlow);
-
-
-        coreUI.getFrame().removeKeyListener(startUI.getStartKeyHandler());
-        coreUI.getFrame().add(coreUI.getPnlBackground());
-    }
-
-    @Override
-    public final void buildUI() {
-
-        coreUI.getLblInfo().setText(".: Loading :.");
-
-        ////........ Create new Components
-
-        //Key Actions Panel (lower left)
-
-        keyArrows = new aImage("KeyboardKeys/arrows.png", coreUI.
-                getSIZE_KeyIconWidth(), coreUI.getSIZE_KeyIconHeight());
-        lblKeyAction = new JLabel(" Move ");
-        lblKeyAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
-                coreUI.getSIZE_keysFont()));
-        lblKeyAction.setForeground(Color.YELLOW);
-
-
         //Press Enter Icons
         coreUI.getPnlKeyToPress().add(coreUI.getImgKeyIco());
         coreUI.getPnlKeyToPress().add(coreUI.getLblKeyAction());
@@ -442,6 +463,20 @@ public class DashboardUI extends AuroraApp {
         //Use Arrow Keys Icons
         coreUI.getPnlKeyToPress().add(keyArrows);
         coreUI.getPnlKeyToPress().add(lblKeyAction);
+
+
+
+        ////........ Create new Components
+
+        //Key Actions Panel (lower left)
+
+
+        lblKeyAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
+                coreUI.getSIZE_keysFont()));
+        lblKeyAction.setForeground(Color.YELLOW);
+
+
+
 
         //Images inside carousels
 
@@ -482,27 +517,27 @@ public class DashboardUI extends AuroraApp {
 
 //////////////CAROUSEL/////
 
-        String URL = "HexPane.png";
-        carousel = new aCarousel(URL, SIZE_CarouselWidth, SIZE_CarouselHeight,
+        String url = "HexPane.png";
+        carousel = new aCarousel(url, SIZE_CarouselWidth, SIZE_CarouselHeight,
                 Toolkit.getDefaultToolkit().getScreenSize().width);
 
-        paneSettings = new aCarouselPane(URL, (int) SIZE_CarouselWidth + 25,
+        paneSettings = new aCarouselPane(url, (int) SIZE_CarouselWidth + 25,
                 SIZE_CarouselHeight - 25, true, titleSetting, "Setting Pane");
         paneSettings.setName("settingsPane");
         paneSettings.addKeyListener(handler.new CarouselKeyListener());
 
 
-        paneProfile = new aCarouselPane(URL, (int) SIZE_CarouselWidth + 25,
+        paneProfile = new aCarouselPane(url, (int) SIZE_CarouselWidth + 25,
                 SIZE_CarouselHeight - 25, true, titleProfile, "gamer pane");
         paneProfile.setName("profilePane");
         paneProfile.addKeyListener(handler.new CarouselKeyListener());
 
-        paneLibrary = new aCarouselPane(URL, (int) SIZE_CarouselWidth + 25,
+        paneLibrary = new aCarouselPane(url, (int) SIZE_CarouselWidth + 25,
                 SIZE_CarouselHeight - 25, true, titleLibrary, "library pane");
         paneLibrary.setName("libraryPane");
         paneLibrary.addKeyListener(handler.new CarouselKeyListener());
 
-        paneNet = new aCarouselPane(URL, (int) SIZE_CarouselWidth + 25,
+        paneNet = new aCarouselPane(url, (int) SIZE_CarouselWidth + 25,
                 SIZE_CarouselHeight - 25, true, titleAuroraNet, "auroranet");
         paneNet.setName("auroraNetPane");
 
