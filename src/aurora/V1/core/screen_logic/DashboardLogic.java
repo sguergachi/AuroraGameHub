@@ -17,7 +17,11 @@
  */
 package aurora.V1.core.screen_logic;
 
+import aurora.V1.core.AuroraStorage;
+import aurora.V1.core.Game;
 import aurora.V1.core.screen_ui.DashboardUI;
+import aurora.engine.V1.UI.aImagePane;
+import java.util.Random;
 
 /**
  *
@@ -26,14 +30,60 @@ import aurora.V1.core.screen_ui.DashboardUI;
 public class DashboardLogic {
 
     private final DashboardUI dashboardUI;
+    private Game randomGame;
+    private aImagePane icon;
 
     /**
      *
-     * @param aThis
+     * @param dashboardUi DashboardUI instance
      */
-    public DashboardLogic(final DashboardUI dashboardUI) {
+    public DashboardLogic(final DashboardUI dashboardUi) {
 
-        this.dashboardUI = dashboardUI;
+        this.dashboardUI = dashboardUi;
+
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | getLibraryIcon()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method tries to generate a random game if the storage contains
+     * | any games.
+     * |
+     * | If no games are found it will return a simple blank case for the icon
+     * |
+     * .........................................................................
+     *
+     * @return an ArrayList with info
+     */
+    public aImagePane getLibraryIcon() {
+
+        if (dashboardUI.getStorage().getStoredLibrary().getBoxArtPath() == null || dashboardUI.getStorage().
+                getStoredLibrary().getBoxArtPath().isEmpty()) {
+
+            aImagePane blank = new aImagePane("Blank-Case.png",
+                    dashboardUI.getGameCoverWidth(), dashboardUI.getGameCoverHeight());
+            icon = blank; //Name change for carousel
+
+        } else {
+            Random rand = new Random();
+
+            int randomNum = rand.nextInt(dashboardUI.getStorage().getStoredLibrary().
+                    getGameNames().size());
+
+            System.out.println("Random Num " + randomNum);
+            System.out.println("Storage size " + dashboardUI.getStorage().getStoredLibrary().
+                    getBoxArtPath());
+
+            randomGame = new Game(dashboardUI.getStorage().getStoredLibrary().getBoxArtPath().
+                    get(randomNum), dashboardUI);
+            randomGame.setCoverSize(dashboardUI.getGameCoverWidth(), dashboardUI.getGameCoverHeight());
+
+            icon = randomGame; //Name change for carousel
+        }
+
+        return icon;
 
     }
 }

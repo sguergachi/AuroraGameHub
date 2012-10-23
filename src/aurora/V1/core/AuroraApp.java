@@ -34,7 +34,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 /**
- * A Super class to Sub menu app
+ * A Super class to Sub menu app.
  *
  * @author Sammy
  * @version 0.3

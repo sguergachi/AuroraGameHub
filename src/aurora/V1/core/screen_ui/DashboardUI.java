@@ -222,92 +222,92 @@ public class DashboardUI extends AuroraApp {
     /**
      * Size Constant.
      */
-    private int SIZE_btnLogoutWidth;
+    private int btnLogoutWidth;
 
     /**
      * Size Constant.
      */
-    private int SIZE_btnLogoutHeight;
+    private int btnLogoutHeight;
 
     /**
      * Size Constant.
      */
-    private double SIZE_CarouselWidth;
+    private double carouselWidth;
 
     /**
      * Size Constant.
      */
-    private int SIZE_CarouselHeight;
+    private int carouselHeight;
 
     /**
      * Size Constant.
      */
-    private int SIZE_GameCoverHeight;
+    private int gameCoverHeight;
 
     /**
      * Size Constant.
      */
-    private int SIZE_GameCoverWidth;
+    private int gameCoverWidth;
 
     /**
      * Size Constant.
      */
-    private int SIZE_CarouselImageWidth;
+    private int carouselImageWidth;
 
     /**
      * Size Constant.
      */
-    private int SIZE_CarouselImageHeight;
+    private int carouselImageHeight;
 
     /**
      * Size Constant.
      */
-    private int SIZE_ImageHeight;
+    private int logoHeight;
 
     /**
      * Size Constant.
      */
-    private int SIZE_InfobarWidth;
+    private int infobarWidth;
 
     /**
      * Size Constant.
      */
-    private int SIZE_InfobarHeight;
+    private int infobarHeight;
 
     /**
      * Size Constant.
      */
-    private int SIZE_FramePadding;
+    private int framePadding;
 
     /**
      * Size Constant.
      */
-    private int SIZE_BottomPaneHeightAdjust;
+    private int bottomPaneHeightAdjust;
 
     /**
      * Size Constant.
      */
-    private int SIZE_TopPaneHeighAdjust;
+    private int topPaneHeighAdjust;
 
     /**
      * Size Constant.
      */
-    private int SIZE_TopHeight;
+    private int topHeight;
 
     /**
      * Size Constant.
      */
-    private int SIZE_ImageWidth;
+    private int logoWidth;
 
     /**
      * Size Constant.
      */
-    private int SIZE_CarouselButtonWidth;
+    private int carouselButtonWidth;
 
     /**
      * Size Constant.
      */
-    private int SIZE_CarouselButtonHeight;
+    private int carouselButtonHeight;
 
     /**
      * The loader that does the transition animation and loads the DashboardUI.
@@ -383,6 +383,9 @@ public class DashboardUI extends AuroraApp {
         //Initialize Sizes
         setSizes();
 
+        btnBack = new aButton("Aurora_Logout_normal.png",
+                "Aurora_Logout_down.png", "Aurora_Logout_over.png",
+                btnLogoutWidth, btnLogoutHeight);
 
         keyArrows = new aImage("KeyboardKeys/arrows.png", coreUI.
                 getSIZE_KeyIconWidth(), coreUI.getSIZE_KeyIconHeight());
@@ -405,6 +408,7 @@ public class DashboardUI extends AuroraApp {
         icoProfile = new aImage("Aurora_Profile.png");
         icoSetting = new aImage("Aurora_Settings.png");
         icoNet = new aImage("ComingSoon.png");
+        icoLibrary = logic.getLibraryIcon();
 
         titleProfile = new aCarouselTitle(titleProfileNorm, titleProfileGlow);
         titleSetting = new aCarouselTitle(titleSettingNorm, titleSettingGlow);
@@ -412,9 +416,17 @@ public class DashboardUI extends AuroraApp {
         titleAuroraNet = new aCarouselTitle(titleAuroraNetNorm,
                 titleAuroraNetGlow);
 
+        carousel = new aCarousel(carouselWidth, carouselHeight,
+                Toolkit.getDefaultToolkit().getScreenSize().width);
 
-        coreUI.getFrame().removeKeyListener(startUI.getStartKeyHandler());
-        coreUI.getFrame().add(coreUI.getPnlBackground());
+        paneSettings = new aCarouselPane("HexPane.png", (int) carouselWidth + 25,
+                carouselHeight - 25, true, titleSetting, "Setting Pane");
+        paneProfile = new aCarouselPane("HexPane.png", (int) carouselWidth + 25,
+                carouselHeight - 25, true, titleProfile, "gamer pane");
+        paneLibrary = new aCarouselPane("HexPane.png", (int) carouselWidth + 25,
+                carouselHeight - 25, true, titleLibrary, "library pane");
+        paneNet = new aCarouselPane("HexPane.png", (int) carouselWidth + 25,
+                carouselHeight - 25, true, titleAuroraNet, "auroranet");
     }
 
     @Override
@@ -423,22 +435,24 @@ public class DashboardUI extends AuroraApp {
 
         //* Configure CoreUI *//
 
+        //Remove KeyListener attached to frame.
+        coreUI.getFrame().removeKeyListener(startUI.getStartKeyHandler());
+        //Re-add background panel
+
         coreUI.getImgLogo().setImgURl("Aurora_Header2.png");
-        coreUI.getImgLogo().setImageSize(SIZE_ImageWidth, SIZE_ImageHeight);
+        coreUI.getImgLogo().setImageSize(logoWidth, logoHeight);
 
         coreUI.getPnlBottom().setPreferredSize(new Dimension(coreUI.
-                getPnlBottom().getWidth(), SIZE_BottomPaneHeightAdjust));
-        coreUI.getPnlBottom().setImageHeight(SIZE_BottomPaneHeightAdjust);
+                getPnlBottom().getWidth(), bottomPaneHeightAdjust));
+        coreUI.getPnlBottom().setImageHeight(bottomPaneHeightAdjust);
 
-        coreUI.getPnlTop().setImageHeight(SIZE_TopHeight);
+        coreUI.getPnlTop().setImageHeight(topHeight);
         coreUI.getPnlTop().setPreferredSize(new Dimension(coreUI.getPnlTop().
                 getWidth(), coreUI.getPnlTop().getImageHeight() + coreUI.
                 getPnlFrameControl().getHeight()));
 
 
-        btnBack = new aButton("Aurora_Logout_normal.png",
-                "Aurora_Logout_down.png", "Aurora_Logout_over.png",
-                SIZE_btnLogoutWidth, SIZE_btnLogoutHeight);
+
         btnBack.setToolTipText("Back");
 
         coreUI.getPnlFrameControl().removeAll();
@@ -480,65 +494,35 @@ public class DashboardUI extends AuroraApp {
 
         //Images inside carousels
 
-        icoSetting.setImageSize(SIZE_CarouselImageWidth,
-                SIZE_CarouselImageHeight);
-        icoProfile.setImageSize(SIZE_CarouselImageWidth,
-                SIZE_CarouselImageHeight);
-        icoNet.setImageSize(SIZE_CarouselImageWidth, SIZE_CarouselImageHeight);
+        icoSetting.setImageSize(carouselImageWidth,
+                carouselImageHeight);
+        icoProfile.setImageSize(carouselImageWidth,
+                carouselImageHeight);
+        icoNet.setImageSize(carouselImageWidth, carouselImageHeight);
 
-        if (storage.getStoredLibrary().getBoxArtPath() == null || storage.
-                getStoredLibrary().getBoxArtPath().isEmpty()) {
-
-            aImagePane blank = new aImagePane("Blank-Case.png",
-                    SIZE_GameCoverWidth, SIZE_GameCoverHeight);
-            icoLibrary = blank; //Name change for carousel
-
-        } else {
-            Random rand = new Random();
-
-            int randomNum = rand.nextInt(storage.getStoredLibrary().
-                    getGameNames().size());
-
-            System.out.println("Random Num " + randomNum);
-            System.out.println("Storage size " + storage.getStoredLibrary().
-                    getBoxArtPath());
-
-            randomGame = new Game(storage.getStoredLibrary().getBoxArtPath().
-                    get(randomNum), this);
-            randomGame.setCoverSize(SIZE_GameCoverWidth, SIZE_GameCoverHeight);
-
-            icoLibrary = randomGame; //Name change for carousel
-        }
-
-
-        icoLibrary.setPreferredSize(new Dimension(SIZE_GameCoverWidth,
-                SIZE_GameCoverHeight));
+        icoLibrary.setPreferredSize(new Dimension(gameCoverWidth,
+                gameCoverHeight));
 
 
 //////////////CAROUSEL/////
 
-        String url = "HexPane.png";
-        carousel = new aCarousel(url, SIZE_CarouselWidth, SIZE_CarouselHeight,
-                Toolkit.getDefaultToolkit().getScreenSize().width);
 
-        paneSettings = new aCarouselPane(url, (int) SIZE_CarouselWidth + 25,
-                SIZE_CarouselHeight - 25, true, titleSetting, "Setting Pane");
+
+
+
         paneSettings.setName("settingsPane");
         paneSettings.addKeyListener(handler.new CarouselKeyListener());
 
 
-        paneProfile = new aCarouselPane(url, (int) SIZE_CarouselWidth + 25,
-                SIZE_CarouselHeight - 25, true, titleProfile, "gamer pane");
+
         paneProfile.setName("profilePane");
         paneProfile.addKeyListener(handler.new CarouselKeyListener());
 
-        paneLibrary = new aCarouselPane(url, (int) SIZE_CarouselWidth + 25,
-                SIZE_CarouselHeight - 25, true, titleLibrary, "library pane");
+
         paneLibrary.setName("libraryPane");
         paneLibrary.addKeyListener(handler.new CarouselKeyListener());
 
-        paneNet = new aCarouselPane(url, (int) SIZE_CarouselWidth + 25,
-                SIZE_CarouselHeight - 25, true, titleAuroraNet, "auroranet");
+
         paneNet.setName("auroraNetPane");
 
         paneSettings.addContent(icoSetting, Title.NORMAL);
@@ -568,20 +552,20 @@ public class DashboardUI extends AuroraApp {
 
         btnCarouselLeft = new aButton("Aurora_left_normal.png",
                 "Aurora_left_down.png", "Aurora_left_over.png",
-                SIZE_CarouselButtonWidth, SIZE_CarouselButtonHeight);
+                carouselButtonWidth, carouselButtonHeight);
         btnCarouselLeft.addActionListener(handler.new LeftListener());
         btnCarouselLeft.addKeyListener(handler.new CarouselKeyListener());
 
         btnCarouselRight = new aButton("Aurora_right_normal.png",
                 "Aurora_right_down.png", "Aurora_right_over.png",
-                SIZE_CarouselButtonWidth, SIZE_CarouselButtonHeight);
+                carouselButtonWidth, carouselButtonHeight);
         btnCarouselRight.addActionListener(handler.new RightListener());
         btnCarouselRight.addKeyListener(handler.new CarouselKeyListener());
 
         //Info Bar
 
-        infoFeed = new aInfoFeed("InfoBar.png", SIZE_InfobarWidth,
-                SIZE_InfobarHeight, createFeed(null));
+        infoFeed = new aInfoFeed("InfoBar.png", infobarWidth,
+                infobarHeight, createFeed(null));
         infoFeed.go();
 
         pnlInfoFeed = new JPanel(new BorderLayout());
@@ -712,52 +696,52 @@ public class DashboardUI extends AuroraApp {
                 getWidth());
 
         if (coreUI.isLargeScreen()) {
-            SIZE_TopHeight = coreUI.getPnlCenter().getHeight() / 8;
-            SIZE_btnLogoutWidth = 0;
-            SIZE_btnLogoutHeight = 0;
-            SIZE_CarouselWidth = (int) (coreUI.getFrame().getWidth() / 42) * 16;
-            SIZE_CarouselHeight = coreUI.getFrame().getHeight() - (coreUI.
+            topHeight = coreUI.getPnlCenter().getHeight() / 8;
+            btnLogoutWidth = 0;
+            btnLogoutHeight = 0;
+            carouselWidth = (int) (coreUI.getFrame().getWidth() / 42) * 16;
+            carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
                     getFrame().getWidth() / 6);
-            SIZE_GameCoverHeight = SIZE_CarouselHeight - (2 * SIZE_CarouselHeight / 6);
-            SIZE_GameCoverWidth = (int) SIZE_CarouselWidth - (int) (SIZE_CarouselWidth / 4);
-            SIZE_CarouselImageWidth = SIZE_CarouselHeight - (2 * SIZE_CarouselHeight / 6) - (Ratio / 8);
-            SIZE_CarouselImageHeight = (int) SIZE_CarouselWidth - (int) (SIZE_CarouselWidth / 4) - 20;
-            SIZE_ImageHeight = SIZE_TopHeight / 2 + 20;
-            SIZE_ImageWidth = coreUI.getFrame().getWidth() / 2 + 20;
+            gameCoverHeight = carouselHeight - (2 * carouselHeight / 6);
+            gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
+            carouselImageWidth = carouselHeight - (2 * carouselHeight / 6) - (Ratio / 8);
+            carouselImageHeight = (int) carouselWidth - (int) (carouselWidth / 4) - 20;
+            logoHeight = topHeight / 2 + 20;
+            logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
-            SIZE_BottomPaneHeightAdjust = coreUI.getSIZE_pnlBottom() / 2 + coreUI.
+            bottomPaneHeightAdjust = coreUI.getSIZE_pnlBottom() / 2 + coreUI.
                     getFrame().getHeight() / 50 + 25;
-            SIZE_TopPaneHeighAdjust = coreUI.getPnlCenter().getHeight() / 5 - Ratio / 10;
-            SIZE_CarouselButtonWidth = coreUI.getFrame().getWidth() / 12 + 10;
-            SIZE_CarouselButtonHeight = coreUI.getFrame().getHeight() / 15 + 10;
-            SIZE_InfobarWidth = coreUI.getFrame().getSize().width - (SIZE_CarouselButtonWidth * 2 + 65);
-            SIZE_InfobarHeight = 75;
+            topPaneHeighAdjust = coreUI.getPnlCenter().getHeight() / 5 - Ratio / 10;
+            carouselButtonWidth = coreUI.getFrame().getWidth() / 12 + 10;
+            carouselButtonHeight = coreUI.getFrame().getHeight() / 15 + 10;
+            infobarWidth = coreUI.getFrame().getSize().width - (carouselButtonWidth * 2 + 65);
+            infobarHeight = 75;
 
 
         } else {
-            SIZE_TopHeight = coreUI.getPnlCenter().getHeight() / 8;
-            SIZE_btnLogoutWidth = 30;
-            SIZE_btnLogoutHeight = 35;
-            SIZE_CarouselWidth = (int) (coreUI.getFrame().getWidth() / 40) * 16;
-            SIZE_CarouselHeight = coreUI.getFrame().getHeight() - (coreUI.
+            topHeight = coreUI.getPnlCenter().getHeight() / 8;
+            btnLogoutWidth = 30;
+            btnLogoutHeight = 35;
+            carouselWidth = (int) (coreUI.getFrame().getWidth() / 40) * 16;
+            carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
                     getFrame().getWidth() / 6);
-            SIZE_GameCoverHeight = SIZE_CarouselHeight - (2 * SIZE_CarouselHeight / 6);
-            SIZE_GameCoverWidth = (int) SIZE_CarouselWidth - (int) (SIZE_CarouselWidth / 4);
-            SIZE_CarouselImageWidth = (int) SIZE_CarouselWidth - (int) (400 / 2) - (Ratio * 2);
-            SIZE_CarouselImageHeight = (int) SIZE_CarouselHeight - (450 / 2) - (Ratio * 2) - 55;
-            SIZE_ImageHeight = SIZE_TopHeight / 2 + 20;
-            SIZE_ImageWidth = coreUI.getFrame().getWidth() / 2 + 20;
+            gameCoverHeight = carouselHeight - (2 * carouselHeight / 6);
+            gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
+            carouselImageWidth = (int) carouselWidth - (int) (400 / 2) - (Ratio * 2);
+            carouselImageHeight = (int) carouselHeight - (450 / 2) - (Ratio * 2) - 55;
+            logoHeight = topHeight / 2 + 20;
+            logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
-            SIZE_BottomPaneHeightAdjust = coreUI.getSIZE_pnlBottom() / 2 + coreUI.
+            bottomPaneHeightAdjust = coreUI.getSIZE_pnlBottom() / 2 + coreUI.
                     getFrame().getHeight() / 90 + 25;
-            SIZE_TopPaneHeighAdjust = coreUI.getPnlCenter().getHeight() / 5 - Ratio / 10;
-            SIZE_CarouselButtonWidth = coreUI.getFrame().getWidth() / 12;
-            SIZE_CarouselButtonHeight = coreUI.getFrame().getHeight() / 15;
-            SIZE_InfobarWidth = coreUI.getFrame().getSize().width - (SIZE_CarouselButtonWidth * 2 + 60);
-            SIZE_InfobarHeight = SIZE_CarouselButtonHeight - SIZE_BottomPaneHeightAdjust / 18;
+            topPaneHeighAdjust = coreUI.getPnlCenter().getHeight() / 5 - Ratio / 10;
+            carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
+            carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
+            infobarWidth = coreUI.getFrame().getSize().width - (carouselButtonWidth * 2 + 60);
+            infobarHeight = carouselButtonHeight - bottomPaneHeightAdjust / 18;
 
 
-            System.out.println("WIDTH " + SIZE_CarouselWidth);
+            System.out.println("WIDTH " + carouselWidth);
         }
 
     }
@@ -886,116 +870,116 @@ public class DashboardUI extends AuroraApp {
         this.infoArray = infoArray;
     }
 
-    public int getSIZE_btnLogoutWidth() {
-        return SIZE_btnLogoutWidth;
+    public int getBtnLogoutWidth() {
+        return btnLogoutWidth;
     }
 
-    public void setSIZE_btnLogoutWidth(int SIZE_btnLogoutWidth) {
-        this.SIZE_btnLogoutWidth = SIZE_btnLogoutWidth;
+    public void setBtnLogoutWidth(int btnLogoutWidth) {
+        this.btnLogoutWidth = btnLogoutWidth;
     }
 
-    public int getSIZE_btnLogoutHeight() {
-        return SIZE_btnLogoutHeight;
+    public int getBtnLogoutHeight() {
+        return btnLogoutHeight;
     }
 
-    public void setSIZE_btnLogoutHeight(int SIZE_btnLogoutHeight) {
-        this.SIZE_btnLogoutHeight = SIZE_btnLogoutHeight;
+    public void setBtnLogoutHeight(int btnLogoutHeight) {
+        this.btnLogoutHeight = btnLogoutHeight;
     }
 
-    public double getSIZE_CarouselWidth() {
-        return SIZE_CarouselWidth;
+    public double getCarouselWidth() {
+        return carouselWidth;
     }
 
-    public void setSIZE_CarouselWidth(double SIZE_CarouselWidth) {
-        this.SIZE_CarouselWidth = SIZE_CarouselWidth;
+    public void setCarouselWidth(double carouselWidth) {
+        this.carouselWidth = carouselWidth;
     }
 
-    public int getSIZE_CarouselHeight() {
-        return SIZE_CarouselHeight;
+    public int getCarouselHeight() {
+        return carouselHeight;
     }
 
-    public void setSIZE_CarouselHeight(int SIZE_CarouselHeight) {
-        this.SIZE_CarouselHeight = SIZE_CarouselHeight;
+    public void setCarouselHeight(int carouselHeight) {
+        this.carouselHeight = carouselHeight;
     }
 
-    public int getSIZE_GameCoverHeight() {
-        return SIZE_GameCoverHeight;
+    public int getGameCoverHeight() {
+        return gameCoverHeight;
     }
 
-    public void setSIZE_GameCoverHeight(int SIZE_GameCoverHeight) {
-        this.SIZE_GameCoverHeight = SIZE_GameCoverHeight;
+    public void setGameCoverHeight(int gameCoverHeight) {
+        this.gameCoverHeight = gameCoverHeight;
     }
 
-    public int getSIZE_GameCoverWidth() {
-        return SIZE_GameCoverWidth;
+    public int getGameCoverWidth() {
+        return gameCoverWidth;
     }
 
-    public void setSIZE_GameCoverWidth(int SIZE_GameCoverWidth) {
-        this.SIZE_GameCoverWidth = SIZE_GameCoverWidth;
+    public void setGameCoverWidth(int gameCoverWidth) {
+        this.gameCoverWidth = gameCoverWidth;
     }
 
-    public int getSIZE_CarouselImageWidth() {
-        return SIZE_CarouselImageWidth;
+    public int getCarouselImageWidth() {
+        return carouselImageWidth;
     }
 
-    public void setSIZE_CarouselImageWidth(int SIZE_CarouselImageWidth) {
-        this.SIZE_CarouselImageWidth = SIZE_CarouselImageWidth;
+    public void setCarouselImageWidth(int carouselImageWidth) {
+        this.carouselImageWidth = carouselImageWidth;
     }
 
-    public int getSIZE_CarouselImageHeight() {
-        return SIZE_CarouselImageHeight;
+    public int getCarouselImageHeight() {
+        return carouselImageHeight;
     }
 
-    public void setSIZE_CarouselImageHeight(int SIZE_CarouselImageHeight) {
-        this.SIZE_CarouselImageHeight = SIZE_CarouselImageHeight;
+    public void setCarouselImageHeight(int carouselImageHeight) {
+        this.carouselImageHeight = carouselImageHeight;
     }
 
-    public int getSIZE_ImageHeight() {
-        return SIZE_ImageHeight;
+    public int getImageHeight() {
+        return logoHeight;
     }
 
-    public void setSIZE_ImageHeight(int SIZE_ImageHeight) {
-        this.SIZE_ImageHeight = SIZE_ImageHeight;
+    public void setImageHeight(int imageHeight) {
+        this.logoHeight = imageHeight;
     }
 
-    public int getSIZE_InfobarWidth() {
-        return SIZE_InfobarWidth;
+    public int getInfobarWidth() {
+        return infobarWidth;
     }
 
-    public void setSIZE_InfobarWidth(int SIZE_InfobarWidth) {
-        this.SIZE_InfobarWidth = SIZE_InfobarWidth;
+    public void setInfobarWidth(int infobarWidth) {
+        this.infobarWidth = infobarWidth;
     }
 
-    public int getSIZE_InfobarHeight() {
-        return SIZE_InfobarHeight;
+    public int getInfobarHeight() {
+        return infobarHeight;
     }
 
-    public void setSIZE_InfobarHeight(int SIZE_InfobarHeight) {
-        this.SIZE_InfobarHeight = SIZE_InfobarHeight;
+    public void setInfobarHeight(int infobarHeight) {
+        this.infobarHeight = infobarHeight;
     }
 
-    public int getSIZE_FramePadding() {
-        return SIZE_FramePadding;
+    public int getFramePadding() {
+        return framePadding;
     }
 
-    public void setSIZE_FramePadding(int SIZE_FramePadding) {
-        this.SIZE_FramePadding = SIZE_FramePadding;
+    public void setFramePadding(int framePadding) {
+        this.framePadding = framePadding;
     }
 
-    public int getSIZE_BottomPaneHeightAdjust() {
-        return SIZE_BottomPaneHeightAdjust;
+    public int getBottomPaneHeightAdjust() {
+        return bottomPaneHeightAdjust;
     }
 
-    public void setSIZE_BottomPaneHeightAdjust(int SIZE_BottomPaneHeightAdjust) {
-        this.SIZE_BottomPaneHeightAdjust = SIZE_BottomPaneHeightAdjust;
+    public void setBottomPaneHeightAdjust(int bottomPaneHeightAdjust) {
+        this.bottomPaneHeightAdjust = bottomPaneHeightAdjust;
     }
 
-    public int getSIZE_TopPaneHeighAdjust() {
-        return SIZE_TopPaneHeighAdjust;
+    public int getTopPaneHeighAdjust() {
+        return topPaneHeighAdjust;
     }
 
-    public void setSIZE_TopPaneHeighAdjust(int SIZE_TopPaneHeighAdjust) {
-        this.SIZE_TopPaneHeighAdjust = SIZE_TopPaneHeighAdjust;
+    public void setTopPaneHeighAdjust(int topPaneHeighAdjust) {
+        this.topPaneHeighAdjust = topPaneHeighAdjust;
     }
 
     public aCarouselTitle getTitleGamer() {
@@ -1078,36 +1062,36 @@ public class DashboardUI extends AuroraApp {
         this.titleAuroraNetNorm = titleAuroraNetNorm;
     }
 
-    public int getSIZE_TopHeight() {
-        return SIZE_TopHeight;
+    public int getTopHeight() {
+        return topHeight;
     }
 
-    public void setSIZE_TopHeight(int SIZE_TopHeight) {
-        this.SIZE_TopHeight = SIZE_TopHeight;
+    public void setTopHeight(int topHeight) {
+        this.topHeight = topHeight;
     }
 
-    public int getSIZE_ImageWidth() {
-        return SIZE_ImageWidth;
+    public int getImageWidth() {
+        return logoWidth;
     }
 
-    public void setSIZE_ImageWidth(int SIZE_ImageWidth) {
-        this.SIZE_ImageWidth = SIZE_ImageWidth;
+    public void setImageWidth(int imageWidth) {
+        this.logoWidth = imageWidth;
     }
 
-    public int getSIZE_CarouselButtonWidth() {
-        return SIZE_CarouselButtonWidth;
+    public int getCarouselButtonWidth() {
+        return carouselButtonWidth;
     }
 
-    public void setSIZE_CarouselButtonWidth(int SIZE_CarouselButtonWidth) {
-        this.SIZE_CarouselButtonWidth = SIZE_CarouselButtonWidth;
+    public void setCarouselButtonWidth(int carouselButtonWidth) {
+        this.carouselButtonWidth = carouselButtonWidth;
     }
 
-    public int getSIZE_CarouselButtonHeight() {
-        return SIZE_CarouselButtonHeight;
+    public int getCarouselButtonHeight() {
+        return carouselButtonHeight;
     }
 
-    public void setSIZE_CarouselButtonHeight(int SIZE_CarouselButtonHeight) {
-        this.SIZE_CarouselButtonHeight = SIZE_CarouselButtonHeight;
+    public void setCarouselButtonHeight(int carouselButtonHeight) {
+        this.carouselButtonHeight = carouselButtonHeight;
     }
 
     public JPanel getPnlInfo() {

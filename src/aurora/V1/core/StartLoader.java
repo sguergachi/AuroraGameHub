@@ -213,45 +213,22 @@ public class StartLoader implements Runnable {
         ui.getFrame().add(progress);
         ui.getFrame().repaint();
         mainWin = new DashboardUI(ui, StartUp_Obj);
-        new loadDashboard();
-
+        loadDashboard();
     }
 
-    class loadDashboard implements Runnable {
+    public void loadDashboard() {
 
-        private Thread loadDashThread;
-
-        public loadDashboard() {
-
-            mainWin.loadUI();
-
-            //Loading Thread
-            loadDashThread = null;
-
-            if (loadDashThread == null) {
-                loadDashThread = new Thread(this);
-            }
-            loadDashThread.setName("load Dashboard Thread");
-            //Start Loader
-            loadDashThread.start();
-        }
-
-        @Override
-        public void run() {
-
-            if (Thread.currentThread() == loadDashThread) {
+        mainWin.loadUI();
+        mainWin.buildUI();
 
 
-                mainWin.buildUI();
+        //Remove from memory
+        System.gc();
+
+        FramePane.setVisible(true);
+        ui.getFrame().remove(progress);
 
 
-                //Remove from memory
-                System.gc();
-
-                FramePane.setVisible(true);
-            }
-            ui.getFrame().remove(progress);
-        }
     }
 
     public int getCenterHeight() {
