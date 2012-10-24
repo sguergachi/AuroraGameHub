@@ -43,46 +43,12 @@ import javax.swing.*;
  */
 public class AuroraCoreUI {
 
-    private final String Revision = "255";
-    private final String Version =
+    private final String revision = "255";
+    private final String version =
             "  //BUILD: " + getResourceBundleToken("BUILD")
-            + "  //REVISION: " + Revision
-            + "  //AURORA.ENGINE.VERSION = 0.1." + (Integer.parseInt(Revision) - 1)
+            + "  //REVISION: " + revision
+            + "  //AURORA.ENGINE.VERSION = 0.1." + (Integer.parseInt(revision) - 1)
             + "  //  -- ALPHA BUILT ON: 9/25/2012 --   //";
-    private JFrame frame;
-    private aImagePane backgroundImagePane;
-    private aImagePane topImagePane;
-    private aImagePane bottomImagePane;
-    private JPanel centerPanel;
-    private JPanel southFromTopPanel;
-    private JPanel screenLabelPanel;
-    private JPanel versionPanel;
-    private aImagePane frameControlImagePane;
-    private aImage logoImage;
-    private JLabel versionLabel;
-    private JLabel infoLabel;
-    public static aTimeLabel timeLabel;
-    private JButton exitButton;
-    private JButton minimizeButton;
-    final static ResourceBundle resourceBundle = ResourceBundle.getBundle("version");
-    private JPanel headerOfCenterFromBottomPanel;
-    private JPanel centerFromBottomPanel;
-    private aDialog warningDialog;
-    private aDialog errorDialog;
-//    public aSound sfxTheme;
-//    public aSound sfxClunk;
-//    private aSound sfxExit;
-//    private aSound sfxMinimize;
-//    private aSound sfxWarning;
-    private JPanel userSpacePanel;
-    private aXAVI vi;
-    private Font regularFont;
-    private JPanel keyToPressPanel;
-    private JLabel keyActionLabel;
-    private aImage keyIconImage;
-    private JPanel logoPanel;
-    private AuroraMini miniMode;
-    private boolean isLargeScreen;
     private int topPanelSize;
     private int centerPanelSize;
     private int bottomPanelSize;
@@ -100,15 +66,50 @@ public class AuroraCoreUI {
     private int exitButtonHeight;
     private int minimizeButtonWidth;
     private int minimizeButtonHeight;
-    private Font boldFont;
-    private aSurface resource;
     private int screenWidth;
     private int screenHeight;
-    private MinimizeListener minimizeHandler;
+    private boolean isLargeScreen;
+    private aDialog warningDialog;
+    private aDialog errorDialog;
+    private aImage logoImage;
+    private aImage keyIconImage;
+    private aImagePane backgroundImagePane;
+    private aImagePane bottomImagePane;
+    private aImagePane frameControlImagePane;
+    private aImagePane topImagePane;
+    private aSurface resource;
+    private aXAVI vi;
+    private Font regularFont;
+    private Font boldFont;
+    private JButton exitButton;
+    private JButton minimizeButton;    
+    private JFrame frame;
+    private JPanel centerPanel;
+    private JPanel keyToPressPanel;
+    private JPanel southFromTopPanel;
+    private JPanel logoPanel;
+    private JPanel screenLabelPanel;
+    private JPanel versionPanel;
+    private JPanel headerOfCenterFromBottomPanel;
+    private JPanel centerFromBottomPanel;
     private JPanel timePanel;
     private JPanel infoPanel;
     private JPanel frameControlContainerPanel;
-
+    private JPanel userSpacePanel;
+    private JLabel versionLabel;
+    private JLabel infoLabel;
+    private JLabel keyActionLabel;
+    private AuroraMini miniMode;
+    private MinimizeListener minimizeHandler;
+    public static aTimeLabel timeLabel;
+    final static ResourceBundle resourceBundle = ResourceBundle.getBundle("version");
+//    public aSound sfxTheme;
+//    public aSound sfxClunk;
+//    private aSound sfxExit;
+//    private aSound sfxMinimize;
+//    private aSound sfxWarning;
+    
+ 
     /**
     .------------------------------------------------------------------------.
     |     AuroraCoreUI() Method
@@ -352,7 +353,7 @@ public class AuroraCoreUI {
 
         /// Version Label
 
-        versionLabel = new JLabel(Version);
+        versionLabel = new JLabel(version);
         versionLabel.setOpaque(false);
         versionLabel.setForeground(Color.LIGHT_GRAY);
         versionLabel.setFont(regularFont.deriveFont(Font.PLAIN, versionFontSize));
@@ -695,7 +696,7 @@ public class AuroraCoreUI {
     }
 
     public String getRevision() {
-        return Revision;
+        return revision;
     }
 
     public void setFrame(JFrame frame) {
@@ -758,7 +759,7 @@ public class AuroraCoreUI {
     }
 
     public String getVersion() {
-        return Version;
+        return version;
     }
 
     public JPanel getScreenLabelPanel() {
