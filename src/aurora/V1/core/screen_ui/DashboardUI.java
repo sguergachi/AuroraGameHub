@@ -205,11 +205,6 @@ public class DashboardUI extends AuroraApp {
     private ArrayList<String> infoArray;
 
     /**
-     * The Panel that contains the InfoFeed component.
-     */
-    private JPanel pnlInfoFeed;
-
-    /**
      * Button in frame controls to go back to Dashboard.
      */
     private aButton btnBack;
@@ -353,6 +348,9 @@ public class DashboardUI extends AuroraApp {
     public DashboardUI(final AuroraCoreUI auroraCoreUi,
                        final StartScreenUI startScreenUi) {
 
+        //* Other core objects *//
+        this.startUI = startScreenUi;
+        this.storage = startUI.getAuroraStorage();
 
         //* Core UI Canvas *//
         this.coreUI = auroraCoreUi;
@@ -362,9 +360,7 @@ public class DashboardUI extends AuroraApp {
         this.handler = new DashboardHandler(this);
         this.logic = new DashboardLogic(this);
 
-        //* All other core objects *//
-        this.startUI = startScreenUi;
-        this.storage = startUI.getAuroraStorage();
+
 
 
     }
@@ -428,7 +424,6 @@ public class DashboardUI extends AuroraApp {
 
         infoFeed = new aInfoFeed("InfoBar.png", infobarWidth,
                 infobarHeight, logic.createFeed(null));
-        pnlInfoFeed = new JPanel(new BorderLayout());
         //------------------------------|||-----------------------------------//
 
 
@@ -527,8 +522,6 @@ public class DashboardUI extends AuroraApp {
         //----------------------------INFOFEED--------------------------------//
         infoFeed.go();
 
-        pnlInfoFeed.add(infoFeed, BorderLayout.SOUTH);
-        pnlInfoFeed.setOpaque(false);
 
         //------------------------------|||-----------------------------------//
 
@@ -536,31 +529,27 @@ public class DashboardUI extends AuroraApp {
 
         //----------------------------CORE UI---------------------------------//
 
-        //* Remove KeyListener attached to frame. *//
 
-        coreUI.getFrame().removeKeyListener(startUI.getStartKeyHandler());
 
+        //* Set bigger Logo to Header *//
         coreUI.getImgLogo().setImgURl("Aurora_Header2.png");
         coreUI.getImgLogo().setImageSize(logoWidth, logoHeight);
 
-        coreUI.getPnlBottom().setPreferredSize(new Dimension(coreUI.
-                getPnlBottom().getWidth(), bottomPaneHeightAdjust));
-        coreUI.getPnlBottom().setImageHeight(bottomPaneHeightAdjust);
+        //* Set bigger background image for Frame Control panel *//
+        coreUI.getPnlFrameControl().setImage("Aurora_FrameButton2.png");
 
+        //* Set size of Top panel in CoreUI *//
         coreUI.getPnlTop().setImageHeight(topHeight);
         coreUI.getPnlTop().setPreferredSize(new Dimension(coreUI.getPnlTop().
                 getWidth(), coreUI.getPnlTop().getImageHeight() + coreUI.
                 getPnlFrameControl().getHeight()));
 
-        coreUI.getPnlFrameControl().removeAll();
+        //* Set size of Bottom panel in CoreUI *//
+        coreUI.getPnlBottom().setPreferredSize(new Dimension(coreUI.
+                getPnlBottom().getWidth(), bottomPaneHeightAdjust));
+        coreUI.getPnlBottom().setImageHeight(bottomPaneHeightAdjust);
 
-
-        btnBack.setToolTipText("Back");
-
-        coreUI.getPnlFrameControl().add(coreUI.getBtnMin());
-        coreUI.getPnlFrameControl().add(coreUI.getBtnExit());
-        coreUI.getPnlFrameControl().setImage("Aurora_FrameButton2.png");
-
+        //* Set size of Top Panels *//
         coreUI.getPnlSouthFromTop().setPreferredSize(new Dimension(coreUI.
                 getPnlSouthFromTop().getWidth(), coreUI.getPnlFrameControl().
                 getHeight()));
@@ -569,7 +558,7 @@ public class DashboardUI extends AuroraApp {
                 getPnlFrameControl().getHeight()));
         coreUI.getPnlSouthFromTop().revalidate();
 
-
+        //* Set Font of Keyboard Action Label *//
         lblKeyAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
                 coreUI.getSIZE_keysFont()));
         lblKeyAction.setForeground(Color.YELLOW);
@@ -580,27 +569,33 @@ public class DashboardUI extends AuroraApp {
 
 
         //* Add Back Button to Frame Controls *//
-        coreUI.getPnlFrameControl().add(btnBack);
+        coreUI.getPnlFrameControl().add(btnBack, 0);
+        btnBack.setToolTipText("Back");
+
 
         //* Add Arrow Keys Icons *//
         coreUI.getPnlKeyToPress().add(keyArrows);
         coreUI.getPnlKeyToPress().add(lblKeyAction);
 
-
         //* Add Enter Key Icons *//
-
         coreUI.getPnlKeyToPress().add(coreUI.getImgKeyIco());
         coreUI.getPnlKeyToPress().add(coreUI.getLblKeyAction());
 
+        //* Add Carousel to Center Panel *//
         coreUI.getPnlCenter().add(BorderLayout.CENTER, carousel);
 
+        //* Add To Bottom Panel  InfoFeed and both Carousel Buttons*//
         coreUI.getPnlCenterFromBottom().add(BorderLayout.EAST, btnCarouselRight);
-        coreUI.getPnlCenterFromBottom().add(infoFeed, BorderLayout.CENTER);
+        coreUI.getPnlCenterFromBottom().add(BorderLayout.CENTER, infoFeed);
         coreUI.getPnlCenterFromBottom().add(BorderLayout.WEST, btnCarouselLeft);
 
 
-        //* Finalize CoreUI *//
+        //* CoreUI Listeners *//
 
+        //* Remove ENTER KeyListener attached to frame. *//
+        coreUI.getFrame().removeKeyListener(startUI.getStartKeyHandler());
+
+        //* Add Carousel KeyListener to Background *//
         coreUI.getFrame().getContentPane().
                 addKeyListener(handler.new CarouselKeyListener());
         coreUI.getFrame().addKeyListener(handler.new CarouselKeyListener());
@@ -610,16 +605,26 @@ public class DashboardUI extends AuroraApp {
         //* Finished loading so change text *//
         coreUI.getLblInfo().setText(" Dashboard ");
 
+        //* Final Refresh and Refocus *//
         coreUI.getFrame().repaint();
         coreUI.getFrame().requestFocus();
 
         //------------------------------|||-----------------------------------//
 
-
-
     }
 
-
+    /**
+     * .-----------------------------------------------------------------------.
+     * | setSizes()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method generates the initial size of each component in this UI
+     * |
+     * | The set size uses some trial and error based calculations to determine
+     * | sizes for large screens and for small screens. This method is not
+     * | Perfect but its an improvement on previous implementations
+     * |
+     */
     private void setSizes() {
 
         int Ratio = (coreUI.getFrame().getHeight() / coreUI.getFrame().
@@ -634,21 +639,21 @@ public class DashboardUI extends AuroraApp {
                     getFrame().getWidth() / 6);
             gameCoverHeight = carouselHeight - (2 * carouselHeight / 6);
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
-            carouselImageWidth = carouselHeight - (2 * carouselHeight / 6) -
-                                 (Ratio / 8);
-            carouselImageHeight = (int) carouselWidth -
-                                  (int) (carouselWidth / 4) - 20;
+            carouselImageWidth = carouselHeight - (2 * carouselHeight / 6)
+                                 - (Ratio / 8);
+            carouselImageHeight = (int) carouselWidth
+                                  - (int) (carouselWidth / 4) - 20;
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
             bottomPaneHeightAdjust = coreUI.getSIZE_pnlBottom() / 2 + coreUI.
                     getFrame().getHeight() / 50 + 25;
-            topPaneHeighAdjust = coreUI.getPnlCenter().getHeight() / 5 - Ratio /
-                                                                         10;
+            topPaneHeighAdjust = coreUI.getPnlCenter().getHeight() / 5 - Ratio
+                                                                         / 10;
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12 + 10;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15 + 10;
-            infobarWidth = coreUI.getFrame().getSize().width -
-                           (carouselButtonWidth * 2 + 65);
+            infobarWidth = coreUI.getFrame().getSize().width
+                           - (carouselButtonWidth * 2 + 65);
             infobarHeight = 75;
 
 
@@ -661,21 +666,21 @@ public class DashboardUI extends AuroraApp {
                     getFrame().getWidth() / 6);
             gameCoverHeight = carouselHeight - (2 * carouselHeight / 6);
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
-            carouselImageWidth = (int) carouselWidth - (int) (400 / 2) -
-                                 (Ratio * 2);
-            carouselImageHeight = (int) carouselHeight - (450 / 2) - (Ratio * 2) -
-                                  55;
+            carouselImageWidth = (int) carouselWidth - (int) (400 / 2) - (Ratio
+                                                                          * 2);
+            carouselImageHeight = (int) carouselHeight - (450 / 2) - (Ratio * 2)
+                                  - 55;
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
             bottomPaneHeightAdjust = coreUI.getSIZE_pnlBottom() / 2 + coreUI.
                     getFrame().getHeight() / 90 + 25;
-            topPaneHeighAdjust = coreUI.getPnlCenter().getHeight() / 5 - Ratio /
-                                                                         10;
+            topPaneHeighAdjust = coreUI.getPnlCenter().getHeight() / 5 - Ratio
+                                                                         / 10;
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
-            infobarWidth = coreUI.getFrame().getSize().width -
-                           (carouselButtonWidth * 2 + 60);
+            infobarWidth = coreUI.getFrame().getSize().width
+                           - (carouselButtonWidth * 2 + 60);
             infobarHeight = carouselButtonHeight - bottomPaneHeightAdjust / 18;
 
 
@@ -1038,14 +1043,6 @@ public class DashboardUI extends AuroraApp {
 
     public void setCarouselButtonHeight(int carouselButtonHeight) {
         this.carouselButtonHeight = carouselButtonHeight;
-    }
-
-    public JPanel getPnlInfo() {
-        return pnlInfoFeed;
-    }
-
-    public void setPnlInfo(JPanel pnlInfo) {
-        this.pnlInfoFeed = pnlInfo;
     }
 
     public aCarousel getCarousel() {
