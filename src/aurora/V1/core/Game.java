@@ -308,7 +308,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
                         coverImagePane.setPreferredSize(new Dimension(width, height));
                         if (coverImagePane.getImgIcon().getIconHeight() == -1) {
                             if (dbErrorDialog == null) {
-                                dbErrorDialog = new aDialog(aDialog.aDIALOG_ERROR, "AuroraDB Error! Can't Access BoxArt", ui.getFontBold());
+                                dbErrorDialog = new aDialog(aDialog.aDIALOG_ERROR, "AuroraDB Error! Can't Access BoxArt", ui.getBoldFont());
                                 dbErrorDialog.showDialog();
 
                             }

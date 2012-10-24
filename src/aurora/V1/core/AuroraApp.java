@@ -86,10 +86,10 @@ public abstract class AuroraApp implements Runnable, AuroraScreenUI {
     public void setUpSize() {
         int Ratio = coreUI.getFrame().getWidth() / coreUI.getFrame().getHeight();
         if (coreUI.isLargeScreen()) {
-            SIZE_TopPadding = coreUI.getPnlCenter().getHeight() / 5 + Ratio / 5;
+            SIZE_TopPadding = coreUI.getCenterPanel().getHeight() / 5 + Ratio / 5;
 
         } else {
-            SIZE_TopPadding = coreUI.getPnlCenter().getHeight() / 5 + Ratio / 10;
+            SIZE_TopPadding = coreUI.getCenterPanel().getHeight() / 5 + Ratio / 10;
         }
 
     }
@@ -97,35 +97,35 @@ public abstract class AuroraApp implements Runnable, AuroraScreenUI {
     public void clearUI_Backwards() {
 
         ///...Clear UI
-        coreUI.getPnlKeyToPress().removeAll();
+        coreUI.getKeyToPressPanel().removeAll();
 
-        coreUI.getPnlCenter().removeAll();
-        coreUI.getPnlUserSpace().removeAll();
+        coreUI.getCenterPanel().removeAll();
+        coreUI.getUserSpacePanel().removeAll();
 
-        coreUI.getPnlUserSpace().revalidate();
-        coreUI.getPnlKeyToPress().revalidate();
-
-
-
-        coreUI.getPnlCenterFromBottom().removeAll();
-        coreUI.getPnlCenterFromBottom().validate();
-        coreUI.getPnlCenterFromBottom().add(BorderLayout.NORTH, coreUI.getPnlHeaderOfCenterFromBottom());
-        coreUI.getPnlCenterFromBottom().revalidate();
-        coreUI.getPnlHeaderOfCenterFromBottom().setPreferredSize(new Dimension(coreUI.getFrame().getWidth(), coreUI.getPnlKeyToPress().getHeight()));
-
-        coreUI.getPnlSouthFromTop().setPreferredSize(new Dimension(coreUI.getPnlSouthFromTop().getWidth(), coreUI.getPnlSouthFromTop().getHeight()));
-        coreUI.getPnlCenter().setPreferredSize(new Dimension(coreUI.getPnlCenter().getWidth(), coreUI.getFrame().getHeight() - coreUI.getPnlBottom().getHeight() - coreUI.getPnlTop().getHeight()));
-        coreUI.getPnlCenter().setPreferredSize(new Dimension(coreUI.getPnlCenter().getWidth(), coreUI.getFrame().getHeight() - (coreUI.getFrame().getHeight() / 6 * 2)));
-        coreUI.getPnlBottom().setPreferredSize(new Dimension(coreUI.getPnlBottom().getWidth(), coreUI.getFrame().getHeight() / 6 + 25));
-        coreUI.getPnlBottom().setImageHeight(coreUI.getFrame().getHeight() / 6 + 25);
+        coreUI.getUserSpacePanel().revalidate();
+        coreUI.getKeyToPressPanel().revalidate();
 
 
-        coreUI.getPnlSouthFromTop().removeAll();
-        coreUI.getPnlSouthFromTop().add(BorderLayout.EAST, coreUI.getPnlFrameControlContainer());
-        coreUI.getPnlSouthFromTop().repaint();
 
-        coreUI.getPnlInfo().removeAll();
-        coreUI.getPnlInfo().add(BorderLayout.CENTER, coreUI.getLblInfo());
+        coreUI.getCenterFromBottomPanel().removeAll();
+        coreUI.getCenterFromBottomPanel().validate();
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.NORTH, coreUI.getHeaderOfCenterFromBottomPanel());
+        coreUI.getCenterFromBottomPanel().revalidate();
+        coreUI.getHeaderOfCenterFromBottomPanel().setPreferredSize(new Dimension(coreUI.getFrame().getWidth(), coreUI.getKeyToPressPanel().getHeight()));
+
+        coreUI.getSouthFromTopPanel().setPreferredSize(new Dimension(coreUI.getSouthFromTopPanel().getWidth(), coreUI.getSouthFromTopPanel().getHeight()));
+        coreUI.getCenterPanel().setPreferredSize(new Dimension(coreUI.getCenterPanel().getWidth(), coreUI.getFrame().getHeight() - coreUI.getBottomImagePane().getHeight() - coreUI.getTopImagePane().getHeight()));
+        coreUI.getCenterPanel().setPreferredSize(new Dimension(coreUI.getCenterPanel().getWidth(), coreUI.getFrame().getHeight() - (coreUI.getFrame().getHeight() / 6 * 2)));
+        coreUI.getBottomImagePane().setPreferredSize(new Dimension(coreUI.getBottomImagePane().getWidth(), coreUI.getFrame().getHeight() / 6 + 25));
+        coreUI.getBottomImagePane().setImageHeight(coreUI.getFrame().getHeight() / 6 + 25);
+
+
+        coreUI.getSouthFromTopPanel().removeAll();
+        coreUI.getSouthFromTopPanel().add(BorderLayout.EAST, coreUI.getFrameControlContainerPanel());
+        coreUI.getSouthFromTopPanel().repaint();
+
+        coreUI.getInfoPanel().removeAll();
+        coreUI.getInfoPanel().add(BorderLayout.CENTER, coreUI.getInfoLabel());
         coreUI.getFrame().repaint();
         coreUI.getFrame().getGlassPane().setVisible(false);
     }
@@ -149,35 +149,35 @@ public abstract class AuroraApp implements Runnable, AuroraScreenUI {
 //        //Start Loader
 //        loadApp.start();
 
-        coreUI.getLblInfo().setText("   Loading...   ");
+        coreUI.getInfoLabel().setText("   Loading...   ");
 
-        coreUI.getPnlKeyToPress().removeAll();
-        coreUI.getPnlCenter().removeAll();
-        coreUI.getPnlUserSpace().removeAll();
+        coreUI.getKeyToPressPanel().removeAll();
+        coreUI.getCenterPanel().removeAll();
+        coreUI.getUserSpacePanel().removeAll();
 
-        coreUI.getPnlUserSpace().revalidate();
+        coreUI.getUserSpacePanel().revalidate();
 
 
-        coreUI.getPnlCenter().setPreferredSize(new Dimension(coreUI.getPnlCenter().getWidth(), coreUI.getFrame().getHeight() - (coreUI.getFrame().getHeight() / 6 * 2)));
-        coreUI.getPnlBottom().setPreferredSize(new Dimension(coreUI.getPnlBottom().getWidth(), coreUI.getFrame().getHeight() / 6 + 15));
-        coreUI.getPnlBottom().setImageHeight(coreUI.getFrame().getHeight() / 6 + 30);
+        coreUI.getCenterPanel().setPreferredSize(new Dimension(coreUI.getCenterPanel().getWidth(), coreUI.getFrame().getHeight() - (coreUI.getFrame().getHeight() / 6 * 2)));
+        coreUI.getBottomImagePane().setPreferredSize(new Dimension(coreUI.getBottomImagePane().getWidth(), coreUI.getFrame().getHeight() / 6 + 15));
+        coreUI.getBottomImagePane().setImageHeight(coreUI.getFrame().getHeight() / 6 + 30);
 
         //Remove Content in Center
-        coreUI.getPnlCenterFromBottom().removeAll();
+        coreUI.getCenterFromBottomPanel().removeAll();
 
 
         //re-add Time
-        coreUI.getPnlCenterFromBottom().add(BorderLayout.NORTH, coreUI.getPnlHeaderOfCenterFromBottom());
-        coreUI.getPnlHeaderOfCenterFromBottom().setPreferredSize(new Dimension(coreUI.getFrame().getWidth(), coreUI.getPnlKeyToPress().getHeight()));
-        coreUI.getPnlHeaderOfCenterFromBottom().revalidate();
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.NORTH, coreUI.getHeaderOfCenterFromBottomPanel());
+        coreUI.getHeaderOfCenterFromBottomPanel().setPreferredSize(new Dimension(coreUI.getFrame().getWidth(), coreUI.getKeyToPressPanel().getHeight()));
+        coreUI.getHeaderOfCenterFromBottomPanel().revalidate();
 
-        coreUI.getPnlCenter().revalidate();
-        coreUI.getPnlCenterFromBottom().revalidate();
+        coreUI.getCenterPanel().revalidate();
+        coreUI.getCenterFromBottomPanel().revalidate();
 
         //Change Back button
-        coreUI.getPnlSouthFromTop().removeAll();
-        coreUI.getPnlSouthFromTop().add(coreUI.getPnlFrameControlContainer(), BorderLayout.EAST);
-        coreUI.getPnlFrameControl().getComponent(0).addMouseListener(new MouseListener() {
+        coreUI.getSouthFromTopPanel().removeAll();
+        coreUI.getSouthFromTopPanel().add(coreUI.getFrameControlContainerPanel(), BorderLayout.EAST);
+        coreUI.getFrameControlImagePane().getComponent(0).addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 removeAllListeners();
@@ -228,8 +228,8 @@ public abstract class AuroraApp implements Runnable, AuroraScreenUI {
 
 
         //Finalize
-        coreUI.getPnlInfo().removeAll();
-        coreUI.getPnlInfo().add(BorderLayout.CENTER, coreUI.getLblInfo());
+        coreUI.getInfoPanel().removeAll();
+        coreUI.getInfoPanel().add(BorderLayout.CENTER, coreUI.getInfoLabel());
 
         System.gc();
         coreUI.getFrame().repaint();

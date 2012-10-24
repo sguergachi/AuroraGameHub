@@ -110,18 +110,18 @@ public class AuroraLauncher implements Runnable {
 
         //Config Component
         progressWheelBG.add(progressWheel);
-        lblTitle.setFont(ui.getFontRegular().deriveFont(Font.PLAIN, 95));
+        lblTitle.setFont(ui.getRegularFont().deriveFont(Font.PLAIN, 95));
         lblTitle.setForeground(Color.green);
 
         //Gracefull Resizing
         if (lblGameName.getText().length() > 50) {
-            lblGameName.setFont(ui.getFontRegular().deriveFont(Font.PLAIN, 50));
+            lblGameName.setFont(ui.getRegularFont().deriveFont(Font.PLAIN, 50));
         } else if (lblGameName.getText().length() > 40) {
-            lblGameName.setFont(ui.getFontRegular().deriveFont(Font.PLAIN, 60));
+            lblGameName.setFont(ui.getRegularFont().deriveFont(Font.PLAIN, 60));
         } else if (lblGameName.getText().length() > 30) {
-            lblGameName.setFont(ui.getFontRegular().deriveFont(Font.PLAIN, 70));
+            lblGameName.setFont(ui.getRegularFont().deriveFont(Font.PLAIN, 70));
         } else {
-            lblGameName.setFont(ui.getFontRegular().deriveFont(Font.PLAIN, 95));
+            lblGameName.setFont(ui.getRegularFont().deriveFont(Font.PLAIN, 95));
         }
         lblGameName.setForeground(Color.lightGray);
         pnlTopCenter.add(titleBG);
@@ -261,7 +261,7 @@ public class AuroraLauncher implements Runnable {
 
                     //Tracker Data
                     game.setNumberTimesPlayed(game.getNumberTimesPlayed() + 1);
-                    game.setLastPlayed(ui.getLblTime().getText());
+                    game.setLastPlayed(ui.getTimeLabel().getText());
                 }
             } catch (IOException ex) {
                 aDialog error = new aDialog(aDialog.aDIALOG_ERROR, "Unable to find game.");
@@ -303,7 +303,7 @@ public class AuroraLauncher implements Runnable {
             System.out.println("Hours " + hoursDiff);
             System.out.println("Min " + minDiff);
 
-            lblGameName.setFont(ui.getFontRegular().deriveFont(Font.PLAIN, 95));
+            lblGameName.setFont(ui.getRegularFont().deriveFont(Font.PLAIN, 95));
             if (minDiff < 1 && hoursDiff < 1) {
                 lblGameName.setText("You Played: under 1 min  ");
             } else if (hoursDiff < 1) {

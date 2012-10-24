@@ -147,7 +147,7 @@ public final class StartScreenUI implements Runnable {
         //Option to start with AuroraMini
         if (START_WITH_MINI) {
             ui.getMinimizeHandler().setArg(AuroraMini.LOADING_MODE);
-            ui.auroraMinimize(AuroraMini.LOADING_MODE);
+            ui.minimizeAurora(AuroraMini.LOADING_MODE);
         }
 
         /////////////////////
@@ -174,11 +174,11 @@ public final class StartScreenUI implements Runnable {
         // add button
         pnlUserButton.add(BorderLayout.CENTER, btnGo);
 
-        ui.getPnlCenter().add(BorderLayout.CENTER, HexAnimation);
+        ui.getCenterPanel().add(BorderLayout.CENTER, HexAnimation);
 
 
         //Add AuroraUI to Frame
-        frame.getContentPane().add(ui.getPnlBackground());
+        frame.getContentPane().add(ui.getBackgroundImagePane());
 
         frame.setVisible(true);
 
@@ -211,7 +211,7 @@ public final class StartScreenUI implements Runnable {
         loadingPane.add(BorderLayout.SOUTH, progressWheel);
 
 
-        Display = new aPrompter(new Color(0, 127, 153), ui.getFontBold().deriveFont(Font.PLAIN,SIZE_DisplayFont));
+        Display = new aPrompter(new Color(0, 127, 153), ui.getBoldFont().deriveFont(Font.PLAIN,SIZE_DisplayFont));
         Display.add(ToDisplay);
         Display.setUp(SIZE_Display, Display.getWidth());
 
@@ -229,10 +229,10 @@ public final class StartScreenUI implements Runnable {
         loadingPane.add(BorderLayout.CENTER, Display);
         loadingPane.revalidate();
 
-        ui.getPnlUserSpace().add(loadingPane);
+        ui.getUserSpacePanel().add(loadingPane);
 
-        ui.getPnlUserSpace().revalidate();
-        ui.getPnlUserSpace().repaint();
+        ui.getUserSpacePanel().revalidate();
+        ui.getUserSpacePanel().repaint();
 
         login = null;
         login = new Thread(this);
@@ -246,15 +246,15 @@ public final class StartScreenUI implements Runnable {
 
     public void doneLogin() {
         //add button panel to UI
-        ui.getPnlUserSpace().removeAll();
+        ui.getUserSpacePanel().removeAll();
         
         
 //        btnGo.setVisible(true);
         
         StartListener start = handler.new StartListener();
         start.actionPerformed(null);
-        ui.getPnlUserSpace().add(pnlUserButton);
-        ui.getPnlUserSpace().revalidate();
+        ui.getUserSpacePanel().add(pnlUserButton);
+        ui.getUserSpacePanel().revalidate();
         //Notify Ready.
         isLoaded = true;
         if (START_WITH_MINI) {
@@ -333,7 +333,7 @@ public final class StartScreenUI implements Runnable {
                 FileIO.setPath(FileIO.getPath() + path);
             }
             if (!FirstTimeLoad && START_WITH_MINI) {
-                ui.auroraMinimize(AuroraMini.LOADING_MODE);
+                ui.minimizeAurora(AuroraMini.LOADING_MODE);
             }
 
             //Check if Online
@@ -381,10 +381,10 @@ public final class StartScreenUI implements Runnable {
 
         if (ui.isLargeScreen()) {
             SIZE_Display = 20;
-            SIZE_DisplayFont = ui.getSIZE_pnlBottom() / 10;
+            SIZE_DisplayFont = ui.getBottomPanelSize() / 10;
         } else {
             SIZE_Display = 10;
-            SIZE_DisplayFont = ui.getSIZE_pnlBottom() / 10;
+            SIZE_DisplayFont = ui.getBottomPanelSize() / 10;
 
         }
 
@@ -449,7 +449,7 @@ public final class StartScreenUI implements Runnable {
         isTransisioning = true;
         trans = new StartLoader(ui, this);
         trans.transitionToMain();
-        ui.getPnlUserSpace().setVisible(false);
+        ui.getUserSpacePanel().setVisible(false);
     }
 
     public FrameKeyListener getStartKeyHandler(){

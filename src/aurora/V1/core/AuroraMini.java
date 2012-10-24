@@ -87,7 +87,7 @@ public class AuroraMini {
             mini.setBackground(Color.BLACK);
             mini.setResizable(false);
             mini.setSize(300, 80);
-            mini.setLocation(ui.getSIZE_ScreenWidth() - 65, ui.getSIZE_ScreenHeight() - 160);
+            mini.setLocation(ui.getScreenWidth() - 65, ui.getScreenHeight() - 160);
 
             mini.setAlwaysOnTop(true);
 
@@ -169,7 +169,7 @@ public class AuroraMini {
         icon.setImgURl("icon.png");
 
         if (mode.equals("minimize")) {
-            mini.setLocation((ui.getSIZE_ScreenWidth() - 70) - 170, mini.getY()); //pop out
+            mini.setLocation((ui.getScreenWidth() - 70) - 170, mini.getY()); //pop out
             animateIN();                                                          //Animate in
             lblStatus.setText(" READY");
 
@@ -184,7 +184,7 @@ public class AuroraMini {
             pnlBackground.add(close);
 
         } else if (mode.equals("startup")) {
-            mini.setLocation((ui.getSIZE_ScreenWidth() - 70) - 150, mini.getY());
+            mini.setLocation((ui.getScreenWidth() - 70) - 150, mini.getY());
             animateIN();
             lblStatus.setText("LOADING");
             pnlBackground.add(new aProgressWheel("Aurora_wheel.png"));
@@ -253,7 +253,7 @@ public class AuroraMini {
 
             count++; //Accelerator
 
-            if (mini.getX() > (ui.getSIZE_ScreenWidth() - 70) - 170) {
+            if (mini.getX() > (ui.getScreenWidth() - 70) - 170) {
                 mini.setLocation(mini.getX() - 4 - count, mini.getY());
             } else {
                 timer.stop();
@@ -273,7 +273,7 @@ public class AuroraMini {
 
             count++; //Accelerator
 
-            if (mini.getX() < (ui.getSIZE_ScreenWidth() - 70)) {                //Stop Here
+            if (mini.getX() < (ui.getScreenWidth() - 70)) {                //Stop Here
                 mini.setLocation(mini.getX() + 4 + count, mini.getY());         //Animate
             } else {
                 timer.stop();

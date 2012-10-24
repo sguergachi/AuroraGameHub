@@ -66,13 +66,13 @@ public class StartLoader implements Runnable {
         this.StartUp_Obj = Obj;
         this.ui = AUI;
         HexPanes = StartUp_Obj.getHexAnimation();
-        HeaderPanel = ui.getPnlTop();
-        this.CenterPane = ui.getPnlCenter();
-        this.logo = ui.getImgLogo();
+        HeaderPanel = ui.getTopImagePane();
+        this.CenterPane = ui.getCenterPanel();
+        this.logo = ui.getLogoImage();
         Frame = ui.getFrame();
-        FramePane = ui.getPnlSouthFromTop();
+        FramePane = ui.getSouthFromTopPanel();
 
-        SIZE_TopHeight = ui.getPnlCenter().getHeight() / 8;
+        SIZE_TopHeight = ui.getCenterPanel().getHeight() / 8;
         SIZE_ImageHeight = SIZE_TopHeight / 2 + 20;
         SIZE_ImageWidth = ui.getFrame().getWidth() / 2 + 20;
 
@@ -176,8 +176,8 @@ public class StartLoader implements Runnable {
         System.out.println(CenterHeight);
         System.out.println(CenterPane.getWidth());
         progress = new aProgressWheel("Aurora_wheel.png");
-        ui.getPnlTop().add(BorderLayout.PAGE_END, ui.getPnlSouthFromTop());
-        ui.getPnlCenter().removeAll();
+        ui.getTopImagePane().add(BorderLayout.PAGE_END, ui.getSouthFromTopPanel());
+        ui.getCenterPanel().removeAll();
 
         ui.getFrame().add(progress);
         ui.getFrame().repaint();

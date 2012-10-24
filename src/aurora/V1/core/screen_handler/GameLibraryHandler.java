@@ -927,8 +927,8 @@ public class GameLibraryHandler {
                     GameBack.add(BorderLayout.EAST, imgGameRight);
                 }
 
-                ui.getPnlCenter().removeAll();
-                ui.getPnlCenter().add(BorderLayout.CENTER, GameBack);
+                ui.getCenterPanel().removeAll();
+                ui.getCenterPanel().add(BorderLayout.CENTER, GameBack);
 
                 GameBack.repaint();
                 GameBack.revalidate();
@@ -1034,8 +1034,8 @@ public class GameLibraryHandler {
                     }
                 }
 
-                coreUI.getPnlCenter().removeAll();
-                coreUI.getPnlCenter().add(BorderLayout.CENTER, libraryUI.getGameBack());
+                coreUI.getCenterPanel().removeAll();
+                coreUI.getCenterPanel().add(BorderLayout.CENTER, libraryUI.getGameBack());
 
                 GameBack.repaint();
                 GameBack.revalidate();
@@ -1397,7 +1397,7 @@ public class GameLibraryHandler {
                 }
 
             } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                ui.showExitDilog();
+                ui.showExitDialog();
             }
 
         }

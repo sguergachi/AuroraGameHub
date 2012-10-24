@@ -149,29 +149,29 @@ public class DashboardUI extends AuroraApp {
         //Initialize Sizes
         setSizes();
 
-        coreUI.getImgLogo().setImgURl("Aurora_Header2.png");
-        coreUI.getImgLogo().setImageSize(SIZE_ImageWidth, SIZE_ImageHeight);
+        coreUI.getLogoImage().setImgURl("Aurora_Header2.png");
+        coreUI.getLogoImage().setImageSize(SIZE_ImageWidth, SIZE_ImageHeight);
 
-        coreUI.getPnlBottom().setPreferredSize(new Dimension(coreUI.getPnlBottom().getWidth(), SIZE_BottomPaneHeightAdjust));
-        coreUI.getPnlBottom().setImageHeight(SIZE_BottomPaneHeightAdjust);
+        coreUI.getBottomImagePane().setPreferredSize(new Dimension(coreUI.getBottomImagePane().getWidth(), SIZE_BottomPaneHeightAdjust));
+        coreUI.getBottomImagePane().setImageHeight(SIZE_BottomPaneHeightAdjust);
 
-        coreUI.getPnlTop().setImageHeight(SIZE_TopHeight);
-        coreUI.getPnlTop().setPreferredSize(new Dimension(coreUI.getPnlTop().getWidth(), coreUI.getPnlTop().getImageHeight() + coreUI.getPnlFrameControl().getHeight()));
+        coreUI.getTopImagePane().setImageHeight(SIZE_TopHeight);
+        coreUI.getTopImagePane().setPreferredSize(new Dimension(coreUI.getTopImagePane().getWidth(), coreUI.getTopImagePane().getImageHeight() + coreUI.getFrameControlImagePane().getHeight()));
 
 
         btnLogout = new aButton("Aurora_Logout_normal.png", "Aurora_Logout_down.png", "Aurora_Logout_over.png", SIZE_btnLogoutWidth, SIZE_btnLogoutHeight);
         btnLogout.setToolTipText("Back");
 
-        coreUI.getPnlFrameControl().removeAll();
+        coreUI.getFrameControlImagePane().removeAll();
 
-        coreUI.getPnlFrameControl().add(btnLogout);
-        coreUI.getPnlFrameControl().add(coreUI.getBtnMin());
-        coreUI.getPnlFrameControl().add(coreUI.getBtnExit());
-        coreUI.getPnlFrameControl().setImage("Aurora_FrameButton2.png");
+        coreUI.getFrameControlImagePane().add(btnLogout);
+        coreUI.getFrameControlImagePane().add(coreUI.getMinimizeButton());
+        coreUI.getFrameControlImagePane().add(coreUI.getExitButton());
+        coreUI.getFrameControlImagePane().setImage("Aurora_FrameButton2.png");
 
-        coreUI.getPnlSouthFromTop().setPreferredSize(new Dimension(coreUI.getPnlSouthFromTop().getWidth(), coreUI.getPnlFrameControl().getHeight()));
-        coreUI.getPnlTop().setPreferredSize(new Dimension(coreUI.getPnlTop().getWidth(), coreUI.getPnlTop().getImageHeight() + coreUI.getPnlFrameControl().getHeight()));
-        coreUI.getPnlSouthFromTop().revalidate();
+        coreUI.getSouthFromTopPanel().setPreferredSize(new Dimension(coreUI.getSouthFromTopPanel().getWidth(), coreUI.getFrameControlImagePane().getHeight()));
+        coreUI.getTopImagePane().setPreferredSize(new Dimension(coreUI.getTopImagePane().getWidth(), coreUI.getTopImagePane().getImageHeight() + coreUI.getFrameControlImagePane().getHeight()));
+        coreUI.getSouthFromTopPanel().revalidate();
 
 
         ///.......Titles To The carousel Panels
@@ -199,32 +199,32 @@ public class DashboardUI extends AuroraApp {
 
 
         coreUI.getFrame().removeKeyListener(startUI.getStartKeyHandler());
-        coreUI.getFrame().add(coreUI.getPnlBackground());
+        coreUI.getFrame().add(coreUI.getBackgroundImagePane());
     }
 
     public void buildUI()  {
 
 
 
-        coreUI.getLblInfo().setText(".: Loading :.");
+        coreUI.getInfoLabel().setText(".: Loading :.");
 
         ////........ Create new Components
 
         //Key Actions Panel (lower left)        
 
-        imgKeyIco = new aImage("KeyboardKeys/arrows.png", coreUI.getSIZE_KeyIconWidth(), coreUI.getSIZE_KeyIconHeight());
+        imgKeyIco = new aImage("KeyboardKeys/arrows.png", coreUI.getKeyIconWidth(), coreUI.getKeyIconHeight());
         lblKeyAction = new JLabel(" Move ");
-        lblKeyAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN, coreUI.getSIZE_keysFont()));
+        lblKeyAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN, coreUI.getKeysFontSize()));
         lblKeyAction.setForeground(Color.YELLOW);
 
 
         //Press Enter Icons
-        coreUI.getPnlKeyToPress().add(coreUI.getImgKeyIco());
-        coreUI.getPnlKeyToPress().add(coreUI.getLblKeyAction());
+        coreUI.getKeyToPressPanel().add(coreUI.getKeyIconImage());
+        coreUI.getKeyToPressPanel().add(coreUI.getKeyActionLabel());
 
         //Use Arrow Keys Icons
-        coreUI.getPnlKeyToPress().add(imgKeyIco);
-        coreUI.getPnlKeyToPress().add(lblKeyAction);
+        coreUI.getKeyToPressPanel().add(imgKeyIco);
+        coreUI.getKeyToPressPanel().add(lblKeyAction);
 
         //Images inside carousels
 
@@ -358,11 +358,11 @@ public class DashboardUI extends AuroraApp {
         pnlInfo.add(info, BorderLayout.SOUTH);
         pnlInfo.setOpaque(false);
 
-        coreUI.getPnlCenter().add(BorderLayout.CENTER, Carousel);
+        coreUI.getCenterPanel().add(BorderLayout.CENTER, Carousel);
 
-        coreUI.getPnlCenterFromBottom().add(BorderLayout.EAST, btnCarouselRight);
-        coreUI.getPnlCenterFromBottom().add(info, BorderLayout.CENTER);
-        coreUI.getPnlCenterFromBottom().add(BorderLayout.WEST, btnCarouselLeft);
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.EAST, btnCarouselRight);
+        coreUI.getCenterFromBottomPanel().add(info, BorderLayout.CENTER);
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.WEST, btnCarouselLeft);
 
         //Load GameCover Cover
         if (Game != null) {
@@ -378,12 +378,12 @@ public class DashboardUI extends AuroraApp {
 
 
         //Finished loading so change text
-        coreUI.getLblInfo().setText(" Dashboard ");
+        coreUI.getInfoLabel().setText(" Dashboard ");
 
         //Finalize
         coreUI.getFrame().getContentPane().addKeyListener(handler.new CarouselKeyListener());
         coreUI.getFrame().addKeyListener(handler.new CarouselKeyListener());
-        coreUI.getPnlBackground().addKeyListener(handler.new CarouselKeyListener());
+        coreUI.getBackgroundImagePane().addKeyListener(handler.new CarouselKeyListener());
 
         coreUI.getFrame().repaint();
         coreUI.getFrame().requestFocus();
@@ -395,7 +395,7 @@ public class DashboardUI extends AuroraApp {
         int Ratio = (coreUI.getFrame().getHeight() / coreUI.getFrame().getWidth());
 
         if (coreUI.isLargeScreen()) {
-            SIZE_TopHeight = coreUI.getPnlCenter().getHeight() / 8;
+            SIZE_TopHeight = coreUI.getCenterPanel().getHeight() / 8;
             SIZE_btnLogoutWidth = 0;
             SIZE_btnLogoutHeight = 0;
             SIZE_CarouselWidth = (int) (coreUI.getFrame().getWidth() / 42) * 16;
@@ -407,8 +407,8 @@ public class DashboardUI extends AuroraApp {
             SIZE_ImageHeight = SIZE_TopHeight / 2 + 20;
             SIZE_ImageWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
-            SIZE_BottomPaneHeightAdjust = coreUI.getSIZE_pnlBottom() / 2 + coreUI.getFrame().getHeight() / 50 + 25;
-            SIZE_TopPaneHeighAdjust = coreUI.getPnlCenter().getHeight() / 5 - Ratio / 10;
+            SIZE_BottomPaneHeightAdjust = coreUI.getBottomPanelSize() / 2 + coreUI.getFrame().getHeight() / 50 + 25;
+            SIZE_TopPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5 - Ratio / 10;
             SIZE_CarouselButtonWidth = coreUI.getFrame().getWidth() / 12 + 10;
             SIZE_CarouselButtonHeight = coreUI.getFrame().getHeight() / 15 + 10;
             SIZE_InfobarWidth = coreUI.getFrame().getSize().width - (SIZE_CarouselButtonWidth * 2 + 65);
@@ -416,7 +416,7 @@ public class DashboardUI extends AuroraApp {
 
 
         } else {
-            SIZE_TopHeight = coreUI.getPnlCenter().getHeight() / 8;
+            SIZE_TopHeight = coreUI.getCenterPanel().getHeight() / 8;
             SIZE_btnLogoutWidth = 30;
             SIZE_btnLogoutHeight = 35;
             SIZE_CarouselWidth = (int) (coreUI.getFrame().getWidth() / 40) * 16;
@@ -428,8 +428,8 @@ public class DashboardUI extends AuroraApp {
             SIZE_ImageHeight = SIZE_TopHeight / 2 + 20;
             SIZE_ImageWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
-            SIZE_BottomPaneHeightAdjust = coreUI.getSIZE_pnlBottom() / 2 + coreUI.getFrame().getHeight() / 90 + 25;
-            SIZE_TopPaneHeighAdjust = coreUI.getPnlCenter().getHeight() / 5 - Ratio / 10;
+            SIZE_BottomPaneHeightAdjust = coreUI.getBottomPanelSize() / 2 + coreUI.getFrame().getHeight() / 90 + 25;
+            SIZE_TopPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5 - Ratio / 10;
             SIZE_CarouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             SIZE_CarouselButtonHeight = coreUI.getFrame().getHeight() / 15;
             SIZE_InfobarWidth = coreUI.getFrame().getSize().width - (SIZE_CarouselButtonWidth * 2 + 60);

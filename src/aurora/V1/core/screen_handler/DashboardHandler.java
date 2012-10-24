@@ -86,7 +86,7 @@ public class DashboardHandler {
             }
 
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                dashboardUI.getCoreUI().showExitDilog();
+                dashboardUI.getCoreUI().showExitDialog();
             }
         }
 
