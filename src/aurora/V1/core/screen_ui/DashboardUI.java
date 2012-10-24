@@ -688,19 +688,42 @@ public class DashboardUI extends AuroraApp {
         }
 
     }
+    
+    
+    //----------------------------GETTER & SETTER-----------------------------//
 
+
+    /**
+    * Get the DashboardLogic instance generated in DashboardUI.
+    */
     public DashboardLogic getDashboardLogic() {
         return logic;
     }
 
+    /**
+    * Get the DashboardHandler instance generated in DashboardUI.
+    */
     public DashboardHandler getDashboardHandler() {
         return handler;
     }
+    
+    /**
+    * Get the AuroraCoreUI passed to
+    */
+    public AuroraCoreUI getCoreUI() {
+        return this.coreUI;
+    }
 
+    /**
+    * Get the DashboardLogic instance generated in DashboardUI.
+    */
     public aImage getTitleGamerGlow() {
         return titleProfileGlow;
     }
 
+    /**
+    * Get the DashboardLogic instance generated in DashboardUI.
+    */
     public final StartScreenUI getStartUI() {
         return startUI;
     }
@@ -1073,7 +1096,6 @@ public class DashboardUI extends AuroraApp {
         return btnCarouselRight;
     }
 
-    public AuroraCoreUI getCoreUI() {
-        return this.coreUI;
-    }
+    
+    //------------------------------|||-----------------------------------//
 }
