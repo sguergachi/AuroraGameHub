@@ -98,7 +98,7 @@ public class DashboardHandler {
 
                 if (pane == dashboardUI.getLibraryPane()) {
                     //action on click right Panel
-                    GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI.getStartUp_Obj().getAuroraStorage(), dashboardUI, dashboardUI.getCoreUI());
+                    GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI.getStartUI().getAuroraStorage(), dashboardUI, dashboardUI.getCoreUI());
                     libraryUI.loadUI();
                 } else if (pane == dashboardUI.getProfilePane()) {
                     GamerProfileUI profileUI = new GamerProfileUI(dashboardUI, dashboardUI.getCoreUI());
@@ -122,7 +122,7 @@ public class DashboardHandler {
         public void mouseClicked(MouseEvent e) {
             System.out.println("CLICKED");
             if (dashboardUI != null) {
-                GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI.getStartUp_Obj().getAuroraStorage(), dashboardUI, dashboardUI.getCoreUI());
+                GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI.getStartUI().getAuroraStorage(), dashboardUI, dashboardUI.getCoreUI());
                 libraryUI.loadUI();
             }
         }
@@ -161,7 +161,7 @@ public class DashboardHandler {
                 if (pane == dashboardUI.getLibraryPane()) {
                     //action on click right Panel
                     if (dashboardUI != null) {
-                        GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI.getStartUp_Obj().getAuroraStorage(), dashboardUI, dashboardUI.getCoreUI());
+                        GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI.getStartUI().getAuroraStorage(), dashboardUI, dashboardUI.getCoreUI());
                         libraryUI.loadUI();
                     }
                 } else if (pane == dashboardUI.getProfilePane()) {

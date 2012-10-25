@@ -1,15 +1,15 @@
 /*
  * Copyright 2012 Sardonix Creative.
  *
- * This work is licensed under the 
+ * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
- * To view a copy of this license, visit 
+ * To view a copy of this license, visit
  *
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+ * or send a letter to Creative Commons, 444 Castro Street, Suite 900,
  * Mountain View, California, 94041, USA.
- * Unless required by applicable law or agreed to in writing, software 
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -59,29 +59,52 @@ import javax.swing.JPanel;
 public final class StartScreenUI implements Runnable {
 
     private JFrame frame;
+
     private aPrompter Display;
+
     private aProgressWheel progressWheel;
+
     private ArrayList<String> ToDisplay;
+
     private aScrollingImage HexAnimation;
+
     private AuroraCoreUI ui;
+
     private aXAVI AuroraVI;
+
     private int SIZE_Display;
+
     public static boolean Online = false;
+
     private StartLoader trans = null;
+
     private String path = "AuroraData";
+
     private JPanel pnlUserButton;
+
     private aButton btnGo;
+
     private JPanel loadingPane;
+
     private aFileManager FileIO;
+
     private AuroraStorage auroraStorage;
+
     private aSurface resource;
     ///
+
     private Thread login;
+
     private boolean isTransisioning = false;
+
     public static boolean START_WITH_MINI = false;
+
     private boolean isLoaded = false;
+
     private int SIZE_DisplayFont;
+
     private final StartScreenLogic handler;
+
     private FrameKeyListener startKeyHandler;
 
     public StartScreenUI(Boolean startMini) {
@@ -100,14 +123,18 @@ public final class StartScreenUI implements Runnable {
 
 
         try {
-            frame.setIconImage(new ImageIcon(new URL(ui.getResource().getSurfacePath() + "/aurora/V1/resources/icon.png")).getImage());
+            frame.setIconImage(new ImageIcon(new URL(ui.getResource().
+                    getSurfacePath() + "/aurora/V1/resources/icon.png")).
+                    getImage());
         } catch (MalformedURLException ex) {
             try {
 
-                frame.setIconImage(new ImageIcon(getClass().getResource("/aurora/V1/resources/icon.png")).getImage());
+                frame.setIconImage(new ImageIcon(getClass().getResource(
+                        "/aurora/V1/resources/icon.png")).getImage());
 
             } catch (Exception exx) {
-                Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE, null, exx);
+                Logger.getLogger(StartScreenUI.class.getName()).
+                        log(Level.SEVERE, null, exx);
             }
         }
 
@@ -118,20 +145,27 @@ public final class StartScreenUI implements Runnable {
         try {
             buildGUI();
         } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE,
+                    null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE,
+                    null, ex);
         } catch (LineUnavailableException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE,
+                    null, ex);
         } catch (InterruptedException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE,
+                    null, ex);
         } catch (FontFormatException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE,
+                    null, ex);
         }
 
     }
 
-    public void buildGUI() throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException, FontFormatException {
+    public void buildGUI() throws UnsupportedAudioFileException, IOException,
+                                  LineUnavailableException, InterruptedException,
+                                  FontFormatException {
 
 
 
@@ -167,7 +201,8 @@ public final class StartScreenUI implements Runnable {
         pnlUserButton.setOpaque(false);
 
 
-        btnGo = new aButton("Aurora_User_normal.png", "Aurora_User_down.png", "Aurora_User_over.png");
+        btnGo = new aButton("Aurora_User_normal.png", "Aurora_User_down.png",
+                "Aurora_User_over.png");
         btnGo.addActionListener(handler.new StartListener());
         btnGo.setVisible(false);
 
@@ -215,7 +250,8 @@ public final class StartScreenUI implements Runnable {
         Display.add(ToDisplay);
         Display.setUp(SIZE_Display, Display.getWidth());
 
-        Display.setPreferredSize(new Dimension(SIZE_Display, Display.getWidth()));
+        Display.
+                setPreferredSize(new Dimension(SIZE_Display, Display.getWidth()));
 
         Display.revalidate();
         Display.setIgnoreRepaint(true);
@@ -236,7 +272,7 @@ public final class StartScreenUI implements Runnable {
 
         login = null;
         login = new Thread(this);
-        
+
         login.setName("Login Thread");
 
         //Start Loader
@@ -247,10 +283,10 @@ public final class StartScreenUI implements Runnable {
     public void doneLogin() {
         //add button panel to UI
         ui.getUserSpacePanel().removeAll();
-        
-        
+
+
 //        btnGo.setVisible(true);
-        
+
         StartListener start = handler.new StartListener();
         start.actionPerformed(null);
         ui.getUserSpacePanel().add(pnlUserButton);
@@ -267,17 +303,21 @@ public final class StartScreenUI implements Runnable {
         if (checkUser()) {
             ArrayList<String> LoginDisplay = new ArrayList<String>();
 
-            LoginDisplay.add(AuroraVI.VI(aXAVI.inx_Greeting) + " " + FileIO.getUserName());
+            LoginDisplay.add(AuroraVI.VI(aXAVI.inx_Greeting) + " " + FileIO.
+                    getUserName());
             LoginDisplay.add(AuroraVI.VI(aXAVI.inx_WelcomeBack));
             return LoginDisplay;
         } else {
             ArrayList<String> LoginDisplay = new ArrayList<String>();
 
-            LoginDisplay.add(AuroraVI.VI(aXAVI.inx_Greeting) + " " + FileIO.getUserName());
+            LoginDisplay.add(AuroraVI.VI(aXAVI.inx_Greeting) + " " + FileIO.
+                    getUserName());
 
-            LoginDisplay.add(AuroraVI.VI(aXAVI.inx_Welcome) + " to Aurora Game Manager");
+            LoginDisplay.add(
+                    AuroraVI.VI(aXAVI.inx_Welcome) + " to Aurora Game Manager");
 
-            LoginDisplay.add(AuroraVI.VI(aXAVI.inx_Preparing) + " for First Time Use");
+            LoginDisplay.add(
+                    AuroraVI.VI(aXAVI.inx_Preparing) + " for First Time Use");
 
             LoginDisplay.add(AuroraVI.VI(aXAVI.inx_Please) + " Wait...");
             return LoginDisplay;
@@ -302,9 +342,12 @@ public final class StartScreenUI implements Runnable {
                 FileIO.createFolder("User Data");
                 FileIO.createFolder("Game Data");
                 //Load Databases
-                auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad, FileIO.getPath() + "/Game Data/");
-                auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad, FileIO.getPath() + "/User Data/");
-                auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad, FileIO.getPath() + "/User Data/");
+                auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad,
+                        FileIO.getPath() + "/Game Data/");
+                auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad,
+                        FileIO.getPath() + "/User Data/");
+                auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad,
+                        FileIO.getPath() + "/User Data/");
 
                 Display.add("Created New Profile");
 
@@ -317,18 +360,24 @@ public final class StartScreenUI implements Runnable {
                 FileIO.createFolder("Game Data");
 
                 //Load Databases
-                auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad, FileIO.getPath() + "/Game Data/");
-                auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad, FileIO.getPath() + "/User Data/");
-                auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad, FileIO.getPath() + "/User Data/");
+                auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad,
+                        FileIO.getPath() + "/Game Data/");
+                auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad,
+                        FileIO.getPath() + "/User Data/");
+                auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad,
+                        FileIO.getPath() + "/User Data/");
 
             } else if (!checkDBFiles()) {
                 FirstTimeLoad = true;
                 Display.add("Unable To Find a Data Files");
                 Display.add("Attempting to Create New Ones...");
                 //Load Databases
-                auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad, FileIO.getPath() + "/Game Data/");
-                auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad, FileIO.getPath() + "/User Data/");
-                auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad, FileIO.getPath() + "/User Data/");
+                auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad,
+                        FileIO.getPath() + "/Game Data/");
+                auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad,
+                        FileIO.getPath() + "/User Data/");
+                auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad,
+                        FileIO.getPath() + "/User Data/");
             } else {
                 FileIO.setPath(FileIO.getPath() + path);
             }
@@ -339,19 +388,26 @@ public final class StartScreenUI implements Runnable {
             //Check if Online
             if (!checkOnline("auroragm.sourceforge.net")) {
                 Online = false;
-                Display.add("I Can't Connect To AuroraDB, Let Me Try Again...", Color.RED);
+                Display.add("I Can't Connect To AuroraDB, Let Me Try Again...",
+                        Color.RED);
 
                 //Check if its the Users fault or the aurora severs are down
-                if (checkOnline("google.com") && !checkOnline("auroragm.sourceforge.net")) {
-                    Display.add("Well, It Seems Our Servers Are Down, Try Again In A Bit.", Color.RED);
+                if (checkOnline("google.com") && !checkOnline(
+                        "auroragm.sourceforge.net")) {
+                    Display.add(
+                            "Well, It Seems Our Servers Are Down, Try Again In A Bit.",
+                            Color.RED);
 
                     //The User is having internet problems
                 } else if (!checkOnline("google.com")) {
                     Display.add("Can't Connect To Google...");
-                    Display.add("Either The Universe Exploded OR You Don't Have Internet...", Color.RED);
+                    Display.add(
+                            "Either The Universe Exploded OR You Don't Have Internet...",
+                            Color.RED);
                     Display.add("Running In Offline Mode...");
                 } else {
-                    Display.add("I Seem To Have Finnally Esstablished Connection...");
+                    Display.add(
+                            "I Seem To Have Finnally Esstablished Connection...");
                 }
             } else {
                 Online = true;
@@ -361,11 +417,14 @@ public final class StartScreenUI implements Runnable {
 
             if (!FirstTimeLoad) {
                 //Load Databases
-                auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad, FileIO.getPath() + "/Game Data/");
+                auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad,
+                        FileIO.getPath() + "/Game Data/");
                 auroraStorage.getStoredLibrary().storeFromDatabase();
-                auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad, FileIO.getPath() + "/User Data/");
+                auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad,
+                        FileIO.getPath() + "/User Data/");
                 auroraStorage.getStoredProfile().storeFromDatabase();
-                auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad, FileIO.getPath() + "/User Data/");
+                auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad,
+                        FileIO.getPath() + "/User Data/");
                 auroraStorage.getStoredSettings().storeFromDatabase();
             }
 
@@ -404,7 +463,8 @@ public final class StartScreenUI implements Runnable {
 
             }
         } catch (MalformedURLException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE,
+                    null, ex);
 
         }
 
@@ -430,7 +490,8 @@ public final class StartScreenUI implements Runnable {
     }
 
     private boolean checkSubDir() {
-        if (FileIO.checkFile(FileIO.getPath() + path + "/User Data") && FileIO.checkFile(FileIO.getPath() + path + "/Game Data")) {
+        if (FileIO.checkFile(FileIO.getPath() + path + "/User Data") && FileIO.
+                checkFile(FileIO.getPath() + path + "/Game Data")) {
             return true;
         } else {
             return false;
@@ -438,7 +499,8 @@ public final class StartScreenUI implements Runnable {
     }
 
     private boolean checkDBFiles() {
-        if (FileIO.checkFile(FileIO.getPath() + path + "/User Data/User.h2.db") && FileIO.checkFile(FileIO.getPath() + path + "/Game Data/Games.h2.db")) {
+        if (FileIO.checkFile(FileIO.getPath() + path + "/User Data/User.h2.db") && FileIO.
+                checkFile(FileIO.getPath() + path + "/Game Data/Games.h2.db")) {
             return true;
         } else {
             return false;
@@ -452,7 +514,7 @@ public final class StartScreenUI implements Runnable {
         ui.getUserSpacePanel().setVisible(false);
     }
 
-    public FrameKeyListener getStartKeyHandler(){
+    public FrameKeyListener getStartKeyHandler() {
         return startKeyHandler;
     }
 
@@ -464,7 +526,6 @@ public final class StartScreenUI implements Runnable {
         return Online;
     }
 
-  
     public boolean isLoaded() {
         return isLoaded;
     }
@@ -472,7 +533,6 @@ public final class StartScreenUI implements Runnable {
     public boolean isTransisioning() {
         return isTransisioning;
     }
-        
 
     public aScrollingImage getHexAnimation() {
         return HexAnimation;

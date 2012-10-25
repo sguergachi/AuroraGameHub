@@ -283,9 +283,9 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
             progressWheel.setPreferredSize(this.getPreferredSize());
             this.add(progressWheel, BorderLayout.NORTH);
             //Mouse handlers
-            if (dashboardUi.getStartUp_Obj().getFileIO().findImg("Game Data", coverUrl) != null) {
+            if (dashboardUi.getStartUI().getFileIO().findImg("Game Data", coverUrl) != null) {
                 //Get Image
-                coverImagePane.setImage(dashboardUi.getStartUp_Obj().getFileIO().findImg("Game Data", coverUrl), width, height);
+                coverImagePane.setImage(dashboardUi.getStartUI().getFileIO().findImg("Game Data", coverUrl), width, height);
                 coverImagePane.setImageSize(width, height);
                 coverImagePane.setPreferredSize(new Dimension(width, height));
                 coverImagePane.setDoubleBuffered(true);
@@ -314,7 +314,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
                             }
                             dbErrorDialog.setVisible(true);
                         } else {
-                            dashboardUi.getStartUp_Obj().getFileIO().writeImage(coverImagePane, coverUrl, "Game Data");
+                            dashboardUi.getStartUI().getFileIO().writeImage(coverImagePane, coverUrl, "Game Data");
 
                             this.remove(progressWheel);
 

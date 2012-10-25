@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 Sardonix Creative.
  *
- * This work is licensed under the 
+ * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
- * To view a copy of this license, visit 
+ * To view a copy of this license, visit
  *
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+ * or send a letter to Creative Commons, 444 Castro Street, Suite 900,
  * Mountain View, California, 94041, USA.
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,25 +41,45 @@ import javax.swing.JPanel;
 public class StartLoader implements Runnable {
 
     private Thread runner;
+
     private aScrollingImage HexPanes;
+
     private int Scale = 0;
+
     private double smallScale = 0;
+
     private Graphics g;
+
     private Graphics2D g2d;
+
     private aImagePane HeaderPanel;
+
     private JLabel logo;
+
     private aImage ImgSlim;
+
     private JPanel FramePane;
+
     private JPanel CenterPane;
+
     private int TopHeight;
+
     private int CenterHeight;
+
     private JFrame Frame;
+
     private StartScreenUI StartUp_Obj;
+
     private AuroraCoreUI ui;
+
     private aProgressWheel progress;
+
     private DashboardUI mainWin;
+
     private final int SIZE_TopHeight;
+
     private final int SIZE_ImageWidth;
+
     private final int SIZE_ImageHeight;
 
     public StartLoader(AuroraCoreUI AUI, StartScreenUI Obj) {
@@ -127,34 +147,41 @@ public class StartLoader implements Runnable {
 
             TopHeight--;
             CenterHeight += 5;
-            HeaderPanel.setPreferredSize(new Dimension(HeaderPanel.getWidth(), TopHeight - 50));
+            HeaderPanel.setPreferredSize(new Dimension(HeaderPanel.getWidth(),
+                    TopHeight - 50));
             HeaderPanel.setImageHeight(TopHeight);
-            CenterPane.setPreferredSize(new Dimension(CenterPane.getWidth(), CenterHeight));
+            CenterPane.setPreferredSize(new Dimension(CenterPane.getWidth(),
+                    CenterHeight));
 
             HexPanes.revalidate();
 
             //5. Stop When Hex Panels Large
             if (Scale == 35) {
-                //Scale = Scale - 1;
                 pause();
                 try {
                     try {
                         try {
                             transition();
                         } catch (FontFormatException ex) {
-                            Logger.getLogger(StartLoader.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(StartLoader.class.getName()).
+                                    log(Level.SEVERE, null, ex);
                         }
                     } catch (InvocationTargetException ex) {
-                        Logger.getLogger(StartLoader.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(StartLoader.class.getName()).log(
+                                Level.SEVERE, null, ex);
                     }
                 } catch (UnsupportedAudioFileException ex) {
-                    Logger.getLogger(StartLoader.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(StartLoader.class.getName()).log(
+                            Level.SEVERE, null, ex);
                 } catch (IOException ex) {
-                    Logger.getLogger(StartLoader.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(StartLoader.class.getName()).log(
+                            Level.SEVERE, null, ex);
                 } catch (LineUnavailableException ex) {
-                    Logger.getLogger(StartLoader.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(StartLoader.class.getName()).log(
+                            Level.SEVERE, null, ex);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(StartLoader.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(StartLoader.class.getName()).log(
+                            Level.SEVERE, null, ex);
                 }
 
                 break;
@@ -172,7 +199,11 @@ public class StartLoader implements Runnable {
         runner = null;
     }
 
-    private void transition() throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException, InvocationTargetException, FontFormatException {
+    private void transition() throws UnsupportedAudioFileException, IOException,
+                                     LineUnavailableException,
+                                     InterruptedException,
+                                     InvocationTargetException,
+                                     FontFormatException {
         System.out.println(CenterHeight);
         System.out.println(CenterPane.getWidth());
         progress = new aProgressWheel("Aurora_wheel.png");
@@ -181,46 +212,23 @@ public class StartLoader implements Runnable {
 
         ui.getFrame().add(progress);
         ui.getFrame().repaint();
-        mainWin = new DashboardUI(this, ui, StartUp_Obj);
-        new loadDashboard();
-
+        mainWin = new DashboardUI(ui, StartUp_Obj);
+        loadDashboard();
     }
 
-    class loadDashboard implements Runnable {
+    public void loadDashboard() {
 
-        private Thread loadDashThread;
-
-        public loadDashboard() {
-
-            mainWin.loadUI();
-
-            //Loading Thread
-            loadDashThread = null;
-
-            if (loadDashThread == null) {
-                loadDashThread = new Thread(this);
-            }
-            loadDashThread.setName("load Dashboard Thread");
-            //Start Loader
-            loadDashThread.start();
-        }
-
-        @Override
-        public void run() {
-
-            if (Thread.currentThread() == loadDashThread) {
+        mainWin.loadUI();
+        mainWin.buildUI();
 
 
-                    mainWin.buildUI();
+        //Remove from memory
+        System.gc();
+
+        FramePane.setVisible(true);
+        ui.getFrame().remove(progress);
 
 
-                //Remove from memory
-                System.gc();
-
-                FramePane.setVisible(true);
-            }
-            ui.getFrame().remove(progress);
-        }
     }
 
     public int getCenterHeight() {
@@ -295,7 +303,8 @@ public class StartLoader implements Runnable {
         try {
             Thread.sleep(16);
         } catch (InterruptedException ex) {
-            Logger.getLogger(StartLoader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StartLoader.class.getName()).
+                    log(Level.SEVERE, null, ex);
         }
 
     }
