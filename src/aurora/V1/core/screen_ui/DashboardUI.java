@@ -438,7 +438,7 @@ public class DashboardUI extends AuroraApp {
                 btnLogoutWidth, btnLogoutHeight);
 
         keyArrows = new aImage("KeyboardKeys/arrows.png", coreUI.
-        		getKeyIconWidth(), coreUI.getKeyIconHeight());
+                getKeyIconWidth(), coreUI.getKeyIconHeight());
 
         lblKeyAction = new JLabel(" Move ");
         //------------------------------|||-----------------------------------//
@@ -522,7 +522,7 @@ public class DashboardUI extends AuroraApp {
         //----------------------------INFOFEED--------------------------------//
         infoFeed.go();
 
-        
+
         coreUI.getCenterPanel().add(BorderLayout.CENTER, carousel);
 
         //------------------------------|||-----------------------------------//
@@ -542,20 +542,23 @@ public class DashboardUI extends AuroraApp {
 
         //* Set size of Top panel in CoreUI *//
         coreUI.getTopImagePane().setImageHeight(topHeight);
-        coreUI.getTopImagePane().setPreferredSize(new Dimension(coreUI.getTopImagePane().
+        coreUI.getTopImagePane().setPreferredSize(new Dimension(coreUI
+                .getTopImagePane().
                 getWidth(), coreUI.getTopImagePane().getImageHeight() + coreUI.
                 getFrameControlImagePane().getHeight()));
 
         //* Set size of Bottom panel in CoreUI *//
         coreUI.getBottomImagePane().setPreferredSize(new Dimension(coreUI.
-        		getBottomImagePane().getWidth(), bottomPaneHeightAdjust));
+                getBottomImagePane().getWidth(), bottomPaneHeightAdjust));
         coreUI.getBottomImagePane().setImageHeight(bottomPaneHeightAdjust);
 
         //* Set size of Top Panels *//
         coreUI.getSouthFromTopPanel().setPreferredSize(new Dimension(coreUI.
-        		getSouthFromTopPanel().getWidth(), coreUI.getFrameControlImagePane().
+                getSouthFromTopPanel().getWidth(), coreUI
+                .getFrameControlImagePane().
                 getHeight()));
-        coreUI.getTopImagePane().setPreferredSize(new Dimension(coreUI.getTopImagePane().
+        coreUI.getTopImagePane().setPreferredSize(new Dimension(coreUI
+                .getTopImagePane().
                 getWidth(), coreUI.getTopImagePane().getImageHeight() + coreUI.
                 getFrameControlImagePane().getHeight()));
         coreUI.getSouthFromTopPanel().revalidate();
@@ -587,9 +590,11 @@ public class DashboardUI extends AuroraApp {
         coreUI.getCenterPanel().add(BorderLayout.CENTER, carousel);
 
         //* Add To Bottom Panel  InfoFeed and both Carousel Buttons*//
-        coreUI.getCenterFromBottomPanel().add(BorderLayout.EAST, btnCarouselRight);
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.EAST,
+                btnCarouselRight);
         coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, infoFeed);
-        coreUI.getCenterFromBottomPanel().add(BorderLayout.WEST, btnCarouselLeft);
+        coreUI.getCenterFromBottomPanel()
+                .add(BorderLayout.WEST, btnCarouselLeft);
 
 
         //* CoreUI Listeners *//
@@ -602,7 +607,7 @@ public class DashboardUI extends AuroraApp {
                 addKeyListener(handler.new CarouselKeyListener());
         coreUI.getFrame().addKeyListener(handler.new CarouselKeyListener());
         coreUI.getBackgroundImagePane().
-        		addKeyListener(handler.new CarouselKeyListener());
+                addKeyListener(handler.new CarouselKeyListener());
 
         //* Finished loading so change text *//
         coreUI.getInfoLabel().setText(" Dashboard ");
@@ -638,7 +643,7 @@ public class DashboardUI extends AuroraApp {
             btnLogoutHeight = 0;
             carouselWidth = (int) (coreUI.getFrame().getWidth() / 42) * 16;
             carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
-            		getFrame().getWidth() / 6);
+                    getFrame().getWidth() / 6);
             gameCoverHeight = carouselHeight - (2 * carouselHeight / 6);
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
             carouselImageWidth = carouselHeight - (2 * carouselHeight / 6)
@@ -649,9 +654,10 @@ public class DashboardUI extends AuroraApp {
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
             bottomPaneHeightAdjust = coreUI.getBottomPanelSize() / 2 + coreUI.
-            		getFrame().getHeight() / 50 + 25;
-            topPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5 - Ratio / 10;
-                                                          
+                    getFrame().getHeight() / 50 + 25;
+            topPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5 - Ratio
+                                                                           / 10;
+
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12 + 10;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15 + 10;
             infobarWidth = coreUI.getFrame().getSize().width
@@ -665,7 +671,7 @@ public class DashboardUI extends AuroraApp {
             btnLogoutHeight = 35;
             carouselWidth = (int) (coreUI.getFrame().getWidth() / 40) * 16;
             carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
-            		getFrame().getWidth() / 6);
+                    getFrame().getWidth() / 6);
             gameCoverHeight = carouselHeight - (2 * carouselHeight / 6);
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
             carouselImageWidth = (int) carouselWidth - (int) (400 / 2) - (Ratio
@@ -676,9 +682,10 @@ public class DashboardUI extends AuroraApp {
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
             bottomPaneHeightAdjust = coreUI.getBottomPanelSize() / 2 + coreUI.
-            		getFrame().getHeight() / 90 + 25;
-            topPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5 - Ratio / 10;
-                                                           
+                    getFrame().getHeight() / 90 + 25;
+            topPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5 - Ratio
+                                                                           / 10;
+
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
             infobarWidth = coreUI.getFrame().getSize().width
