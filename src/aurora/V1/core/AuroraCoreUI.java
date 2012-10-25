@@ -42,7 +42,6 @@ import javax.swing.*;
  * @version 0.3
  */
 public class AuroraCoreUI {
-
     private final String revision = "255";
     private final String version =
             "  //BUILD: " + getResourceBundleToken("BUILD")
