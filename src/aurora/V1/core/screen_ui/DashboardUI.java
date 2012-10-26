@@ -212,12 +212,12 @@ public class DashboardUI extends AuroraApp {
     /**
      * Size Constant.
      */
-    private int btnLogoutWidth;
+    private int btnBackWidth;
 
     /**
      * Size Constant.
      */
-    private int btnLogoutHeight;
+    private int btnBackHeight;
 
     /**
      * Size Constant.
@@ -257,17 +257,12 @@ public class DashboardUI extends AuroraApp {
     /**
      * Size Constant.
      */
-    private int infobarWidth;
+    private int infoFeedWidth;
 
     /**
      * Size Constant.
      */
-    private int infobarHeight;
-
-    /**
-     * Size Constant.
-     */
-    private int framePadding;
+    private int infoFeedHeight;
 
     /**
      * Size Constant.
@@ -382,8 +377,8 @@ public class DashboardUI extends AuroraApp {
         titleLibraryGlow = new aImage("gamelibrary_glow.png");
         titleLibraryNorm = new aImage("gamelibrary_normal.png");
 
-        titleProfileGlow = new aImage("gamerprofile_glow.png");
-        titleProfileNorm = new aImage("gamerprofile_normal.png");
+        titleProfileGlow = new aImage("Profileprofile_glow.png");
+        titleProfileNorm = new aImage("Profileprofile_normal.png");
 
         titleAuroraNetGlow = new aImage("auroranet_glow.png");
         titleAuroraNetNorm = new aImage("auroranet_normal.png");
@@ -402,7 +397,7 @@ public class DashboardUI extends AuroraApp {
         paneSettings = new aCarouselPane("HexPane.png", (int) carouselWidth + 25,
                 carouselHeight - 25, true, titleSetting, "Setting Pane");
         paneProfile = new aCarouselPane("HexPane.png", (int) carouselWidth + 25,
-                carouselHeight - 25, true, titleProfile, "gamer pane");
+                carouselHeight - 25, true, titleProfile, "Profile pane");
         paneLibrary = new aCarouselPane("HexPane.png", (int) carouselWidth + 25,
                 carouselHeight - 25, true, titleLibrary, "library pane");
         paneNet = new aCarouselPane("HexPane.png", (int) carouselWidth + 25,
@@ -422,8 +417,8 @@ public class DashboardUI extends AuroraApp {
 
         //----------------------------INFOFEED--------------------------------//
 
-        infoFeed = new aInfoFeed("InfoBar.png", infobarWidth,
-                infobarHeight, logic.createFeed(null));
+        infoFeed = new aInfoFeed("InfoBar.png", infoFeedWidth,
+                infoFeedHeight, logic.createFeed(null));
         //------------------------------|||-----------------------------------//
 
 
@@ -435,7 +430,7 @@ public class DashboardUI extends AuroraApp {
 
         btnBack = new aButton("Aurora_Logout_normal.png",
                 "Aurora_Logout_down.png", "Aurora_Logout_over.png",
-                btnLogoutWidth, btnLogoutHeight);
+                btnBackWidth, btnBackHeight);
 
         keyArrows = new aImage("KeyboardKeys/arrows.png", coreUI.
                 getKeyIconWidth(), coreUI.getKeyIconHeight());
@@ -639,8 +634,8 @@ public class DashboardUI extends AuroraApp {
 
         if (coreUI.isLargeScreen()) {
             topHeight = coreUI.getCenterPanel().getHeight() / 8;
-            btnLogoutWidth = 0;
-            btnLogoutHeight = 0;
+            btnBackWidth = 0;
+            btnBackHeight = 0;
             carouselWidth = (int) (coreUI.getFrame().getWidth() / 42) * 16;
             carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
                     getFrame().getWidth() / 6);
@@ -660,15 +655,15 @@ public class DashboardUI extends AuroraApp {
 
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12 + 10;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15 + 10;
-            infobarWidth = coreUI.getFrame().getSize().width
-                           - (carouselButtonWidth * 2 + 65);
-            infobarHeight = 75;
+            infoFeedWidth = coreUI.getFrame().getSize().width
+                            - (carouselButtonWidth * 2 + 65);
+            infoFeedHeight = 75;
 
 
         } else {
             topHeight = coreUI.getCenterPanel().getHeight() / 8;
-            btnLogoutWidth = 30;
-            btnLogoutHeight = 35;
+            btnBackWidth = 30;
+            btnBackHeight = 35;
             carouselWidth = (int) (coreUI.getFrame().getWidth() / 40) * 16;
             carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
                     getFrame().getWidth() / 6);
@@ -688,9 +683,9 @@ public class DashboardUI extends AuroraApp {
 
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
-            infobarWidth = coreUI.getFrame().getSize().width
-                           - (carouselButtonWidth * 2 + 60);
-            infobarHeight = carouselButtonHeight - bottomPaneHeightAdjust / 18;
+            infoFeedWidth = coreUI.getFrame().getSize().width
+                            - (carouselButtonWidth * 2 + 60);
+            infoFeedHeight = carouselButtonHeight - bottomPaneHeightAdjust / 18;
 
 
             System.out.println("WIDTH " + carouselWidth);
@@ -745,251 +740,514 @@ public class DashboardUI extends AuroraApp {
     }
 
     /**
-     * Set the Glow state of the Profile Pane title.
+     * Set the Normal state of the Profile Pane title.
      * <p/>
-     * @param titleGamerGlow
+     * @param aTitleProfileGlow aImage
      */
-    public final void setTitleProfileGlow(aImage titleGamerGlow) {
-        this.titleProfileGlow = titleGamerGlow;
+    public final void setTitleProfileGlow(final aImage aTitleProfileGlow) {
+        this.titleProfileGlow = aTitleProfileGlow;
     }
 
-    public final aImage getTitleimgGamerNorm() {
+    /**
+     * The Normal State of the Profile Pane title.
+     * <p/>
+     * @return aImage
+     */
+    public final aImage getTitleimgProfileNorm() {
         return titleProfileNorm;
     }
 
-    public final void setTitleimgGamerNorm(aImage titleimgGamerNorm) {
-        this.titleProfileNorm = titleimgGamerNorm;
+    /**
+     * Set the Normal state of the Profile Pane title.
+     * <p/>
+     * @param aTitleimgProfileNorm aImage
+     */
+    public final void setTitleimgProfileNorm(final aImage aTitleimgProfileNorm) {
+        this.titleProfileNorm = aTitleimgProfileNorm;
     }
 
+    /**
+     * The Glow State of the Settings Pane title.
+     * <p/>
+     * @return aImage
+     */
     public final aImage getTitleSettingGlow() {
         return titleSettingGlow;
     }
 
-    public final void setTitleSettingGlow(aImage titleSettingGlow) {
-        this.titleSettingGlow = titleSettingGlow;
+    /**
+     * Set the Glow state of the Settings Pane title.
+     * <p/>
+     * @param aTitleSettingGlow aImage
+     */
+    public final void setTitleSettingGlow(final aImage aTitleSettingGlow) {
+        this.titleSettingGlow = aTitleSettingGlow;
     }
 
+    /**
+     * The Normal State of the Settings Pane title.
+     * <p/>
+     * @return aImage
+     */
     public final aImage getTitleSettingNorm() {
         return titleSettingNorm;
     }
 
-    public final void setTitleSettingNorm(aImage titleSettingNorm) {
-        this.titleSettingNorm = titleSettingNorm;
+    /**
+     * Set the Normal state of the Settings Pane title.
+     * <p/>
+     * @param aTitleSettingNorm aImage
+     */
+    public final void setTitleSettingNorm(final aImage aTitleSettingNorm) {
+        this.titleSettingNorm = aTitleSettingNorm;
     }
 
+    /**
+     * The Glow State of the Library Pane title.
+     * <p/>
+     * @return aImage
+     */
     public final aImage getTitleLibraryGlow() {
         return titleLibraryGlow;
     }
 
-    public final void setTitleLibraryGlow(aImage titleLibraryGlow) {
-        this.titleLibraryGlow = titleLibraryGlow;
+    /**
+     * Set the Glow state of the Library Pane title.
+     * <p/>
+     * @param aTitleLibraryGlow aImage
+     */
+    public final void setTitleLibraryGlow(final aImage aTitleLibraryGlow) {
+        this.titleLibraryGlow = aTitleLibraryGlow;
     }
 
+    /**
+     * The Normal State of the Library Pane title.
+     * <p/>
+     * @return aImage
+     */
     public final aImage getTitleLibraryNorm() {
         return titleLibraryNorm;
     }
 
-    public final void setTitleLibraryNorm(aImage titleLibraryNorm) {
-        this.titleLibraryNorm = titleLibraryNorm;
+    /**
+     * Set the Normal state of the Library Pane title.
+     * <p/>
+     * @param aTitleLibraryNorm aImage
+     */
+    public final void setTitleLibraryNorm(final aImage aTitleLibraryNorm) {
+        this.titleLibraryNorm = aTitleLibraryNorm;
     }
 
+    /**
+     * The Glow State of the AuroraNet Pane title.
+     * <p/>
+     * @return aImage
+     */
     public final aImage getTitleAuroraNetGlow() {
         return titleAuroraNetGlow;
     }
 
-    public final void setTitleAuroraNetGlow(aImage titleAuroraNetGlow) {
-        this.titleAuroraNetGlow = titleAuroraNetGlow;
+    /**
+     * Set the Glow state of the AuroraNet Pane title.
+     * <p/>
+     * @param aTitleAuroraNetGlow aImage
+     */
+    public final void setTitleAuroraNetGlow(final aImage aTitleAuroraNetGlow) {
+        this.titleAuroraNetGlow = aTitleAuroraNetGlow;
     }
 
+    /**
+     * The Normal State of the AuroraNet Pane title.
+     * <p/>
+     * @return aImage
+     */
+    public final aImage getTitleAuroraNetNorm() {
+        return titleAuroraNetNorm;
+    }
+
+    /**
+     * Set the Normal state of the AuroraNet Pane title.
+     * <p/>
+     * @param aTitleAuroraNetNorm aImage
+     */
+    public final void setTitleAuroraNetNorm(final aImage aTitleAuroraNetNorm) {
+        this.titleAuroraNetNorm = aTitleAuroraNetNorm;
+    }
+
+    /**
+     * Get the Icon for the Profile Pane.
+     * <p/>
+     * @return aImage
+     */
     public final aImage getImgProfile() {
         return icoProfile;
     }
 
-    public final void setImgProfile(aImage imgProfile) {
-        this.icoProfile = imgProfile;
+    /**
+     * Set the Icon for the Profile Pane.
+     * <p/>
+     * @param aImgProfile aImage
+     */
+    public final void setImgProfile(final aImage aImgProfile) {
+        this.icoProfile = aImgProfile;
     }
 
+    /**
+     * Get the Icon for the Settings Pane.
+     * <p/>
+     * @return aImage
+     */
     public final aImage getImgSetting() {
         return icoSetting;
     }
 
-    public final void setImgSetting(aImage imgSetting) {
-        this.icoSetting = imgSetting;
+    /**
+     * Set the Icon for the Settings Pane.
+     * <p/>
+     * @param aImgSetting aImage
+     */
+    public final void setImgSetting(final aImage aImgSetting) {
+        this.icoSetting = aImgSetting;
     }
 
-    public final aImagePane getImgGame() {
+    /**
+     * Get the Icon for the Library Pane.
+     * <p/>
+     * @return aImage
+     */
+    public final aImagePane getImgLibrary() {
         return icoLibrary;
     }
 
-    public final void setImgGame(aImagePane imgGame) {
-        this.icoLibrary = imgGame;
+    /**
+     * Set the Icon for the Library Pane.
+     * <p/>
+     * @param aImgLibrary aImage
+     */
+    public final void setImgLibrary(final aImagePane aImgLibrary) {
+        this.icoLibrary = aImgLibrary;
     }
 
+    /**
+     * Get the Icon for the AuroraNet Pane.
+     * <p/>
+     * @return aImage
+     */
     public final aImage getImgNet() {
         return icoNet;
     }
 
-    public final void setImgNet(aImage imgNet) {
-        this.icoNet = imgNet;
+    /**
+     * Set the Icon for the AuroraNet Pane.
+     * <p/>
+     * @param aImgNet aImage
+     */
+    public final void setImgNet(final aImage aImgNet) {
+        this.icoNet = aImgNet;
     }
 
+    /**
+     * Get the Image representing the Key to press for an action.
+     * <p/>
+     * @return aImage
+     */
     public final aImage getImgKeyIco() {
         return keyArrows;
     }
 
-    public final void setImgKeyIco(aImage imgKeyIco) {
-        this.keyArrows = imgKeyIco;
+    /**
+     * Set the Image representing the Key to press for an action.
+     * <p/>
+     * @param aImgKeyIco aImage
+     */
+    public final void setImgKeyIco(final aImage aImgKeyIco) {
+        this.keyArrows = aImgKeyIco;
     }
 
+    /**
+     * Get the Label describing the action occurring when pressing a key.
+     * <p/>
+     * @return JLabel
+     */
     public final JLabel getLblKeyAction() {
         return lblKeyAction;
     }
 
-    public final void setLblKeyAction(JLabel lblKeyAction) {
-        this.lblKeyAction = lblKeyAction;
+    /**
+     * Set the Label describing the action occurring when pressing a key.
+     * <p/>
+     * @param aLblKeyAction JLabel
+     */
+    public final void setLblKeyAction(final JLabel aLblKeyAction) {
+        this.lblKeyAction = aLblKeyAction;
     }
 
-    public final aInfoFeed getInfo() {
+    /**
+     * Get the InfoFeed component instanced in DashboardUI.
+     * <p/>
+     * @return aInfoFeed
+     */
+    public final aInfoFeed getInfoFeed() {
         return infoFeed;
     }
 
-    public final void setInfo(aInfoFeed info) {
-        this.infoFeed = info;
+    /**
+     * Set the InfoFeed currently used in DashboardUI.
+     * <p/>
+     * @param anInfoFeed aInfoFeed
+     */
+    public final void setInfoFeed(final aInfoFeed anInfoFeed) {
+        this.infoFeed = anInfoFeed;
     }
 
-    public final ArrayList<String> getInfoArray() {
-        return infoArray;
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
+    public final int getBtnBackWidth() {
+        return btnBackWidth;
     }
 
-    public final void setInfoArray(ArrayList<String> infoArray) {
-        this.infoArray = infoArray;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theBtnBackWidth int
+     */
+    public final void setBtnBackWidth(final int theBtnBackWidth) {
+        this.btnBackWidth = theBtnBackWidth;
     }
 
-    public final int getBtnLogoutWidth() {
-        return btnLogoutWidth;
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
+    public final int getBtnBackHeight() {
+        return btnBackHeight;
     }
 
-    public final void setBtnLogoutWidth(int btnLogoutWidth) {
-        this.btnLogoutWidth = btnLogoutWidth;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theBtnBackHeight int
+     */
+    public final void setBtnLogoutHeight(final int theBtnBackHeight) {
+        this.btnBackHeight = theBtnBackHeight;
     }
 
-    public final int getBtnLogoutHeight() {
-        return btnLogoutHeight;
-    }
-
-    public final void setBtnLogoutHeight(int btnLogoutHeight) {
-        this.btnLogoutHeight = btnLogoutHeight;
-    }
-
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return double
+     */
     public final double getCarouselWidth() {
         return carouselWidth;
     }
 
-    public final void setCarouselWidth(double carouselWidth) {
-        this.carouselWidth = carouselWidth;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theCarouselWidth double
+     */
+    public final void setCarouselWidth(final double theCarouselWidth) {
+        this.carouselWidth = theCarouselWidth;
     }
 
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return double
+     */
     public final int getCarouselHeight() {
         return carouselHeight;
     }
 
-    public final void setCarouselHeight(int carouselHeight) {
-        this.carouselHeight = carouselHeight;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theCarouselHeight int
+     */
+    public final void setCarouselHeight(final int theCarouselHeight) {
+        this.carouselHeight = theCarouselHeight;
     }
 
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
     public final int getGameCoverHeight() {
         return gameCoverHeight;
     }
 
-    public final void setGameCoverHeight(int gameCoverHeight) {
-        this.gameCoverHeight = gameCoverHeight;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theGameCoverHeight int
+     */
+    public final void setGameCoverHeight(final int theGameCoverHeight) {
+        this.gameCoverHeight = theGameCoverHeight;
     }
 
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
     public final int getGameCoverWidth() {
         return gameCoverWidth;
     }
 
-    public final void setGameCoverWidth(int gameCoverWidth) {
-        this.gameCoverWidth = gameCoverWidth;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theGameCoverWidth int
+     */
+    public final void setGameCoverWidth(final int theGameCoverWidth) {
+        this.gameCoverWidth = theGameCoverWidth;
     }
 
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
     public final int getCarouselImageWidth() {
         return carouselImageWidth;
     }
 
-    public final void setCarouselImageWidth(int carouselImageWidth) {
-        this.carouselImageWidth = carouselImageWidth;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theCarouselImageWidth int
+     */
+    public final void setCarouselImageWidth(final int theCarouselImageWidth) {
+        this.carouselImageWidth = theCarouselImageWidth;
     }
 
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
     public final int getCarouselImageHeight() {
         return carouselImageHeight;
     }
 
-    public final void setCarouselImageHeight(int carouselImageHeight) {
-        this.carouselImageHeight = carouselImageHeight;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theCarouselImageHeight int
+     */
+    public final void setCarouselImageHeight(final int theCarouselImageHeight) {
+        this.carouselImageHeight = theCarouselImageHeight;
     }
 
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
     public final int getImageHeight() {
         return logoHeight;
     }
 
-    public final void setImageHeight(int imageHeight) {
-        this.logoHeight = imageHeight;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theImageHeight int
+     */
+    public final void setImageHeight(final int theImageHeight) {
+        this.logoHeight = theImageHeight;
     }
 
-    public final int getInfobarWidth() {
-        return infobarWidth;
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
+    public final int getInfoFeedWidth() {
+        return infoFeedWidth;
     }
 
-    public final void setInfobarWidth(int infobarWidth) {
-        this.infobarWidth = infobarWidth;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theInfoFeedWidth int
+     */
+    public final void setInfoFeedWidth(final int theInfoFeedWidth) {
+        this.infoFeedWidth = theInfoFeedWidth;
     }
 
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
     public final int getInfobarHeight() {
-        return infobarHeight;
+        return infoFeedHeight;
     }
 
-    public final void setInfobarHeight(int infobarHeight) {
-        this.infobarHeight = infobarHeight;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theInfoFeedHeight int
+     */
+    public final void setInfobarHeight(final int theInfoFeedHeight) {
+        this.infoFeedHeight = theInfoFeedHeight;
     }
 
-    public final int getFramePadding() {
-        return framePadding;
-    }
-
-    public final void setFramePadding(int framePadding) {
-        this.framePadding = framePadding;
-    }
-
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
     public final int getBottomPaneHeightAdjust() {
         return bottomPaneHeightAdjust;
     }
 
-    public final void setBottomPaneHeightAdjust(int bottomPaneHeightAdjust) {
-        this.bottomPaneHeightAdjust = bottomPaneHeightAdjust;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theBottomPaneHeightAdjust int
+     */
+    public final void setBottomPaneHeightAdjust(
+            final int theBottomPaneHeightAdjust) {
+        this.bottomPaneHeightAdjust = theBottomPaneHeightAdjust;
     }
 
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
     public final int getTopPaneHeighAdjust() {
         return topPaneHeighAdjust;
     }
 
-    public final void setTopPaneHeighAdjust(int topPaneHeighAdjust) {
-        this.topPaneHeighAdjust = topPaneHeighAdjust;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theTopPaneHeighAdjust int
+     */
+    public final void setTopPaneHeighAdjust(final int theTopPaneHeighAdjust) {
+        this.topPaneHeighAdjust = theTopPaneHeighAdjust;
     }
 
-    public final aCarouselTitle getTitleGamer() {
+    public final aCarouselTitle getTitleProfile() {
         return titleProfile;
     }
 
-    public final void setTitleGamer(aCarouselTitle titleGamer) {
-        this.titleProfile = titleGamer;
+    public final void setTitleProfile(final aCarouselTitle titleProfile) {
+        this.titleProfile = titleProfile;
     }
 
     public final aCarouselTitle getTitleSetting() {
         return titleSetting;
     }
 
-    public final void setTitleSetting(aCarouselTitle titleSetting) {
+    public final void setTitleSetting(final aCarouselTitle titleSetting) {
         this.titleSetting = titleSetting;
     }
 
@@ -997,7 +1255,7 @@ public class DashboardUI extends AuroraApp {
         return titleLibrary;
     }
 
-    public final void setTitleLibrary(aCarouselTitle titleLibrary) {
+    public final void setTitleLibrary(final aCarouselTitle titleLibrary) {
         this.titleLibrary = titleLibrary;
     }
 
@@ -1005,7 +1263,7 @@ public class DashboardUI extends AuroraApp {
         return titleAuroraNet;
     }
 
-    public final void setTitleAuroraNet(aCarouselTitle titleAuroraNet) {
+    public final void setTitleAuroraNet(final aCarouselTitle titleAuroraNet) {
         this.titleAuroraNet = titleAuroraNet;
     }
 
@@ -1013,7 +1271,7 @@ public class DashboardUI extends AuroraApp {
         return paneLibrary;
     }
 
-    public final void setLibraryPane(aCarouselPane libraryPane) {
+    public final void setLibraryPane(final aCarouselPane libraryPane) {
         this.paneLibrary = libraryPane;
     }
 
@@ -1021,7 +1279,7 @@ public class DashboardUI extends AuroraApp {
         return paneSettings;
     }
 
-    public final void setSettingsPane(aCarouselPane settingsPane) {
+    public final void setSettingsPane(final aCarouselPane settingsPane) {
         this.paneSettings = settingsPane;
     }
 
@@ -1029,7 +1287,7 @@ public class DashboardUI extends AuroraApp {
         return paneProfile;
     }
 
-    public final void setProfilePane(aCarouselPane profilePane) {
+    public final void setProfilePane(final aCarouselPane profilePane) {
         this.paneProfile = profilePane;
     }
 
@@ -1037,7 +1295,7 @@ public class DashboardUI extends AuroraApp {
         return paneNet;
     }
 
-    public final void setAuroraNetPane(aCarouselPane auroraNetPane) {
+    public final void setAuroraNetPane(final aCarouselPane auroraNetPane) {
         this.paneNet = auroraNetPane;
     }
 
@@ -1045,23 +1303,15 @@ public class DashboardUI extends AuroraApp {
         return loader;
     }
 
-    public final void setLoader(StartLoader loader) {
+    public final void setLoader(final StartLoader loader) {
         this.loader = loader;
-    }
-
-    public final aImage getTitleAuroraNetNorm() {
-        return titleAuroraNetNorm;
-    }
-
-    public final void setTitleAuroraNetNorm(aImage titleAuroraNetNorm) {
-        this.titleAuroraNetNorm = titleAuroraNetNorm;
     }
 
     public final int getTopHeight() {
         return topHeight;
     }
 
-    public final void setTopHeight(int topHeight) {
+    public final void setTopHeight(final int topHeight) {
         this.topHeight = topHeight;
     }
 
@@ -1069,7 +1319,7 @@ public class DashboardUI extends AuroraApp {
         return logoWidth;
     }
 
-    public final void setImageWidth(int imageWidth) {
+    public final void setImageWidth(final int imageWidth) {
         this.logoWidth = imageWidth;
     }
 
@@ -1077,7 +1327,7 @@ public class DashboardUI extends AuroraApp {
         return carouselButtonWidth;
     }
 
-    public final void setCarouselButtonWidth(int carouselButtonWidth) {
+    public final void setCarouselButtonWidth(final int carouselButtonWidth) {
         this.carouselButtonWidth = carouselButtonWidth;
     }
 
@@ -1085,7 +1335,7 @@ public class DashboardUI extends AuroraApp {
         return carouselButtonHeight;
     }
 
-    public final void setCarouselButtonHeight(int carouselButtonHeight) {
+    public final void setCarouselButtonHeight(final int carouselButtonHeight) {
         this.carouselButtonHeight = carouselButtonHeight;
     }
 

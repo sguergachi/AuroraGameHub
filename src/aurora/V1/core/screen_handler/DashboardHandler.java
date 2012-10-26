@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 Sardonix Creative.
  *
- * This work is licensed under the 
+ * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
- * To view a copy of this license, visit 
+ * To view a copy of this license, visit
  *
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+ * or send a letter to Creative Commons, 444 Castro Street, Suite 900,
  * Mountain View, California, 94041, USA.
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -45,7 +45,6 @@ public class DashboardHandler {
 
     public class RightListener implements ActionListener {
 
-
         public void actionPerformed(ActionEvent e) {
 
             dashboardUI.getCarousel().MoveLeft();
@@ -56,8 +55,6 @@ public class DashboardHandler {
 
     public class LeftListener implements ActionListener {
 
-
-
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -67,7 +64,6 @@ public class DashboardHandler {
     }
 
     public class CarouselKeyListener implements KeyListener {
-
 
         @Override
         public void keyTyped(KeyEvent e) {
@@ -98,13 +94,17 @@ public class DashboardHandler {
 
                 if (pane == dashboardUI.getLibraryPane()) {
                     //action on click right Panel
-                    GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI.getStartUI().getAuroraStorage(), dashboardUI, dashboardUI.getCoreUI());
+                    GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI
+                            .getStartUI().getAuroraStorage(), dashboardUI,
+                            dashboardUI.getCoreUI());
                     libraryUI.loadUI();
                 } else if (pane == dashboardUI.getProfilePane()) {
-                    GamerProfileUI profileUI = new GamerProfileUI(dashboardUI, dashboardUI.getCoreUI());
+                    GamerProfileUI profileUI = new GamerProfileUI(dashboardUI,
+                            dashboardUI.getCoreUI());
                     profileUI.loadUI();
                 } else if (pane == dashboardUI.getSettingsPane()) {
-                    SettingsUI settingsUI = new SettingsUI(dashboardUI, dashboardUI.getCoreUI());
+                    SettingsUI settingsUI = new SettingsUI(dashboardUI,
+                            dashboardUI.getCoreUI());
                     settingsUI.loadUI();
                 } else if (pane == dashboardUI.getAuroraNetPane()) {
                     // do nothing for now
@@ -117,12 +117,13 @@ public class DashboardHandler {
 
     public class CarouselLibraryMouseListener implements MouseListener {
 
-
         @Override
         public void mouseClicked(MouseEvent e) {
             System.out.println("CLICKED");
             if (dashboardUI != null) {
-                GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI.getStartUI().getAuroraStorage(), dashboardUI, dashboardUI.getCoreUI());
+                GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI
+                        .getStartUI().getAuroraStorage(), dashboardUI,
+                        dashboardUI.getCoreUI());
                 libraryUI.loadUI();
             }
         }
@@ -147,7 +148,6 @@ public class DashboardHandler {
     ///....Mouse Click Handlers...////////
     public class CarouselPaneMouseListener implements MouseListener {
 
-
         @Override
         public void mouseClicked(MouseEvent e) {
             System.out.println("CLICKED");
@@ -161,14 +161,18 @@ public class DashboardHandler {
                 if (pane == dashboardUI.getLibraryPane()) {
                     //action on click right Panel
                     if (dashboardUI != null) {
-                        GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI.getStartUI().getAuroraStorage(), dashboardUI, dashboardUI.getCoreUI());
+                        GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI
+                                .getStartUI().getAuroraStorage(), dashboardUI,
+                                dashboardUI.getCoreUI());
                         libraryUI.loadUI();
                     }
                 } else if (pane == dashboardUI.getProfilePane()) {
-                    GamerProfileUI profileUI = new GamerProfileUI(dashboardUI, dashboardUI.getCoreUI());
+                    GamerProfileUI profileUI = new GamerProfileUI(dashboardUI,
+                            dashboardUI.getCoreUI());
                     profileUI.loadUI();
                 } else if (pane == dashboardUI.getSettingsPane()) {
-                    SettingsUI settingsUI = new SettingsUI(dashboardUI, dashboardUI.getCoreUI());
+                    SettingsUI settingsUI = new SettingsUI(dashboardUI,
+                            dashboardUI.getCoreUI());
                     settingsUI.loadUI();
                 } else if (pane == dashboardUI.getAuroraNetPane()) {
                     // do nothing for now
@@ -194,7 +198,6 @@ public class DashboardHandler {
     }
 
     public class carouselPaneMouseWheelListener implements MouseWheelListener {
-
 
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
