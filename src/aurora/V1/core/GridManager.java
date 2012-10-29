@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 Sardonix Creative.
  *
- * This work is licensed under the 
+ * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
- * To view a copy of this license, visit 
+ * To view a copy of this license, visit
  *
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+ * or send a letter to Creative Commons, 444 Castro Street, Suite 900,
  * Mountain View, California, 94041, USA.
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,8 +17,8 @@
  */
 package aurora.V1.core;
 
-import aurora.engine.V1.UI.aDialog;
-import aurora.engine.V1.UI.aGridPanel;
+import aurora.engine.V1.UI.ADialog;
+import aurora.engine.V1.UI.AGridPanel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JComponent;
@@ -34,7 +34,7 @@ public class GridManager {
     private AuroraCoreUI ui;
     private int row;
     private int col;
-    private ArrayList<aGridPanel> Grids = new ArrayList<aGridPanel>();
+    private ArrayList<AGridPanel> Grids = new ArrayList<AGridPanel>();
     private int fullGrids;
     private GamePlaceholder blankAddGame;
     private ActionListener listener;
@@ -109,7 +109,7 @@ public class GridManager {
                     }
                 }
             } else {
-                aDialog info = new aDialog(aDialog.aDIALOG_WARNING, "Cannot Add Duplicate Box Art", ui.getDefaultFont());
+                ADialog info = new ADialog(ADialog.aDIALOG_WARNING, "Cannot Add Duplicate Box Art", ui.getDefaultFont());
                 info.showDialog();
                 info.setVisible(true);
                 echoGame(game).selected();
@@ -238,7 +238,7 @@ public class GridManager {
         }
     }
 
-    private void replacePlaceHolder(aGridPanel gridPanel, Game game, ActionListener addGameHandler) {
+    private void replacePlaceHolder(AGridPanel gridPanel, Game game, ActionListener addGameHandler) {
 
         //Replace placeholder with Game then add placeholder at the end
         //using finilize
@@ -291,7 +291,7 @@ public class GridManager {
         return false;
     }
 
-    private boolean containsPlaceHolders(aGridPanel gridPanel) {
+    private boolean containsPlaceHolders(AGridPanel gridPanel) {
 
         for (int i = 0; i < Grids.size(); i++) {
             for (Object game : gridPanel.getArray()) {
@@ -304,7 +304,7 @@ public class GridManager {
 
     }
 
-    private boolean containsAddPlaceHolders(aGridPanel gridPanel) {
+    private boolean containsAddPlaceHolders(AGridPanel gridPanel) {
 
         for (int i = 0; i < Grids.size(); i++) {
             for (Object obj : gridPanel.getArray()) {
@@ -385,7 +385,7 @@ public class GridManager {
         int index = gridLocation[0];
 
         // get the grid where the game is located
-        aGridPanel grid = this.getGrid(index);
+        AGridPanel grid = this.getGrid(index);
 
 
         // alternative to remove the game
@@ -395,8 +395,8 @@ public class GridManager {
 
         if ((Grids.size() - 1) > index) {
             for (int i = index; i < Grids.size() - 1; i++) {
-                aGridPanel currentGrid = this.getGrid(i);
-                aGridPanel nextGrid = this.getGrid(i + 1);
+                AGridPanel currentGrid = this.getGrid(i);
+                AGridPanel nextGrid = this.getGrid(i + 1);
                 Object o = nextGrid.getFirstComponent();
 
                 if (o.getClass().equals(game.getClass())) {
@@ -443,19 +443,19 @@ public class GridManager {
      *
      */
     public void createGrid(int row, int col, int index) {
-        aGridPanel GridPanel = new aGridPanel(row, col, true);
+        AGridPanel GridPanel = new AGridPanel(row, col, true);
 
         Grids.add(index, GridPanel);
     }
 
     /**
-     * Returns aGridPanel which may contain JComponents in a grid
+     * Returns AGridPanel which may contain JComponents in a grid
      *
      * @param PanelIndex
-     * @return aGridPanel
+     * @return AGridPanel
      *
      */
-    public aGridPanel getGrid(int panelIndex) {
+    public AGridPanel getGrid(int panelIndex) {
 
         return Grids.get(panelIndex);
 
@@ -464,7 +464,7 @@ public class GridManager {
     /**
      * check if any other cover was selected and sets it to unselected
      */
-    public aGridPanel getSelectedGrid() {
+    public AGridPanel getSelectedGrid() {
         for (int i = 0; i < Grids.size(); i++) {
             for (int j = 0; j < Grids.get(i).getArray().size(); j++) {
                 try {
@@ -481,7 +481,7 @@ public class GridManager {
     }
 
     /**
-     * Returns an Array filled with all aGridPanel's
+     * Returns an Array filled with all AGridPanel's
      *
      * @return Grid ArrayList
      *

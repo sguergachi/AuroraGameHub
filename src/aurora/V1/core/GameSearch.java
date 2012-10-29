@@ -18,8 +18,8 @@
 package aurora.V1.core;
 
 import aurora.V1.core.screen_ui.GameLibraryUI;
-import aurora.engine.V1.Logic.aSimpleDB;
-import aurora.engine.V1.UI.aImagePane;
+import aurora.engine.V1.Logic.ASimpleDB;
+import aurora.engine.V1.UI.AImagePane;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -35,13 +35,13 @@ public class GameSearch implements Runnable {
 
     private AuroraCoreUI ui;
     private GameLibraryUI libraryUI;
-    private aSimpleDB db;
+    private ASimpleDB db;
     private ArrayList foundGameList;
     private char typed;
     private String AppendedName = ""; //This is the concatination of all characters
     private String foundGame;
     private static Game foundGameCover;
-    private aImagePane notFound;
+    private AImagePane notFound;
     private Thread typeThread;
     private int sleep;
     private Object[] foundArray;
@@ -51,7 +51,7 @@ public class GameSearch implements Runnable {
     //////////////////////////
     ////////Constructor//////
     ////////////////////////
-    public GameSearch(GameLibraryUI gameLibraryUI, aSimpleDB database, AuroraStorage storage) {
+    public GameSearch(GameLibraryUI gameLibraryUI, ASimpleDB database, AuroraStorage storage) {
         this.ui = gameLibraryUI.getCoreUI();
         this.db = database;
         this.storage = storage;
@@ -163,7 +163,7 @@ public class GameSearch implements Runnable {
         //If not found show Placeholder and turn notification red
         if (foundGame == null) {
             libraryUI.getCoverPane().removeAll();
-            notFound = new aImagePane("NoGameFound.png", 220, 250);
+            notFound = new AImagePane("NoGameFound.png", 220, 250);
             libraryUI.getCoverPane().add(notFound);
             foundGameCover = null;
             libraryUI.getStepOne().setImgURl("AddGame_step1_red.png");
@@ -249,7 +249,7 @@ public class GameSearch implements Runnable {
             if (foundGame == null) {
 
                 libraryUI.getCoverPane().removeAll();
-                notFound = new aImagePane("NoGameFound.png", 220, 250);
+                notFound = new AImagePane("NoGameFound.png", 220, 250);
                 libraryUI.getCoverPane().add(notFound);
                 foundGameCover = null;
                 libraryUI.getStepOne().setImgURl("AddGame_step1_red.png");

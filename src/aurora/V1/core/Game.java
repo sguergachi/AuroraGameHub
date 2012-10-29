@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 Sardonix Creative.
  *
- * This work is licensed under the 
+ * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
- * To view a copy of this license, visit 
+ * To view a copy of this license, visit
  *
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+ * or send a letter to Creative Commons, 444 Castro Street, Suite 900,
  * Mountain View, California, 94041, USA.
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,10 +20,10 @@ package aurora.V1.core;
 import aurora.V1.core.screen_ui.StartScreenUI;
 import aurora.V1.core.screen_ui.GameLibraryUI;
 import aurora.V1.core.screen_ui.DashboardUI;
-import aurora.engine.V1.UI.aButton;
-import aurora.engine.V1.UI.aDialog;
-import aurora.engine.V1.UI.aImagePane;
-import aurora.engine.V1.UI.aProgressWheel;
+import aurora.engine.V1.UI.AButton;
+import aurora.engine.V1.UI.ADialog;
+import aurora.engine.V1.UI.AImagePane;
+import aurora.engine.V1.UI.AProgressWheel;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.Serializable;
@@ -38,7 +38,7 @@ import javax.swing.JPanel;
  *
  * @author Sammy
  */
-public class Game extends aImagePane implements Serializable, Runnable, Cloneable {
+public class Game extends AImagePane implements Serializable, Runnable, Cloneable {
 
     private String name;
     private String coverUrl;
@@ -50,20 +50,20 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     private int width;
     private int height;
     private int SIZE_TOPPANE_COMP;
-    private int SIZE_BottomPaneHeight;    
+    private int SIZE_BottomPaneHeight;
     private Thread gameCoverThread;
     private boolean isFavorite;
     private boolean isLoaded = false;
     private boolean isSelected;
     private boolean isRemoved = false;
-    private aProgressWheel progressWheel;
-    private aImagePane coverImagePane;
-    private aImagePane blankImagePane;
-    private aImagePane glowImagePane;
-    private aImagePane favoriteIconImagePane;
-    private aImagePane gameBarImagePane;
-    private aImagePane removeImagePane;
-    private aImagePane imgConfirmPromptImagePane;
+    private AProgressWheel progressWheel;
+    private AImagePane coverImagePane;
+    private AImagePane blankImagePane;
+    private AImagePane glowImagePane;
+    private AImagePane favoriteIconImagePane;
+    private AImagePane gameBarImagePane;
+    private AImagePane removeImagePane;
+    private AImagePane imgConfirmPromptImagePane;
     private JPanel interactivePanel;
     private JPanel topPanel;
     private JPanel playButtonPanel;
@@ -73,13 +73,13 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     private JPanel gameBarPanel;
     private JPanel confirmPanel;
     private JPanel denyPanel;
-    private aButton removeButton;
-    private aButton favoriteButton;
-    private aButton infoButton;
-    private aButton playButton;
-    private aButton confirmButton;
-    private aButton denyButton;
-    private aDialog dbErrorDialog;
+    private AButton removeButton;
+    private AButton favoriteButton;
+    private AButton infoButton;
+    private AButton playButton;
+    private AButton confirmButton;
+    private AButton denyButton;
+    private ADialog dbErrorDialog;
     private JLabel yesLabel;
     private JLabel noLabel;
     private GridManager manager;
@@ -187,15 +187,15 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
 
         //Create Overlay UI Components//
-        coverImagePane = new aImagePane();
-        blankImagePane = new aImagePane();
-        glowImagePane = new aImagePane("Glow-Case.png", width + 10, height + 10);
-        favoriteIconImagePane = new aImagePane("FavoriteIcon.png", 100, 32);
+        coverImagePane = new AImagePane();
+        blankImagePane = new AImagePane();
+        glowImagePane = new AImagePane("Glow-Case.png", width + 10, height + 10);
+        favoriteIconImagePane = new AImagePane("FavoriteIcon.png", 100, 32);
         favoriteIconImagePane.setPreferredSize(new Dimension(100, 32));
-		removeButton = new aButton("RemoveGame_up.png", "RemoveGame_down.png", "RemoveGame_over.png");
+		removeButton = new AButton("RemoveGame_up.png", "RemoveGame_down.png", "RemoveGame_over.png");
         removeButton.addActionListener(new RemoveButtonListener());
 
-        gameBarImagePane = new aImagePane("GameIconBar.png", width - 30, 55);
+        gameBarImagePane = new AImagePane("GameIconBar.png", width - 30, 55);
         gameBarImagePane.setOpaque(false);
         gameBarImagePane.setPreferredSize(new Dimension(width - 30, 55));
         gameBarImagePane.setLayout(new BorderLayout());
@@ -207,20 +207,20 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         gameBarPanel.setLayout(new BoxLayout(gameBarPanel, BoxLayout.X_AXIS));
 
         //Game Bar Elements//
-        favoriteButton = new aButton("StarGame_up.png", "StarGame_down.png", "StarGame_over.png");
+        favoriteButton = new AButton("StarGame_up.png", "StarGame_down.png", "StarGame_over.png");
         favoriteButton.addActionListener(new Game.FavoriteButtonListener());
         favoriteButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         favoriteButtonPanel.setPreferredSize(new Dimension(30, 40));
         favoriteButtonPanel.add(favoriteButton);
         favoriteButtonPanel.setOpaque(false);
-        
-        infoButton = new aButton("GameInfo_up.png", "GameInfo_down.png", "GameInfo_over.png");
+
+        infoButton = new AButton("GameInfo_up.png", "GameInfo_down.png", "GameInfo_over.png");
         infoButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         infoButtonPanel.setPreferredSize(new Dimension(80, 40));
         infoButtonPanel.add(infoButton);
         infoButtonPanel.setOpaque(false);
 
-        playButton = new aButton("PlayGame_up.png", "PlayGame_down.png", "PlayGame_over.png");
+        playButton = new AButton("PlayGame_up.png", "PlayGame_down.png", "PlayGame_over.png");
         playButton.setPreferredSize(new Dimension(40, 40));
         playButton.setOpaque(false);
         playButtonListener = new Game.PlayButtonListener();
@@ -279,7 +279,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 	public final void run() {
 
         if (Thread.currentThread() == gameCoverThread) {
-            progressWheel = new aProgressWheel("Aurora_Loader.png");
+            progressWheel = new AProgressWheel("Aurora_Loader.png");
             progressWheel.setPreferredSize(this.getPreferredSize());
             this.add(progressWheel, BorderLayout.NORTH);
             //Mouse handlers
@@ -308,7 +308,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
                         coverImagePane.setPreferredSize(new Dimension(width, height));
                         if (coverImagePane.getImgIcon().getIconHeight() == -1) {
                             if (dbErrorDialog == null) {
-                                dbErrorDialog = new aDialog(aDialog.aDIALOG_ERROR, "AuroraDB Error! Can't Access BoxArt", ui.getBoldFont());
+                                dbErrorDialog = new ADialog(ADialog.aDIALOG_ERROR, "AuroraDB Error! Can't Access BoxArt", ui.getBoldFont());
                                 dbErrorDialog.showDialog();
 
                             }
@@ -353,13 +353,13 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         setSize();
         interactivePanel.setVisible(true);
 
-        glowImagePane = new aImagePane("Glow-Case.png", width + 10, height + 10);
-        favoriteIconImagePane = new aImagePane("FavoriteIcon.png", 100, 32);
+        glowImagePane = new AImagePane("Glow-Case.png", width + 10, height + 10);
+        favoriteIconImagePane = new AImagePane("FavoriteIcon.png", 100, 32);
         favoriteIconImagePane.setPreferredSize(new Dimension(100, 32));
-        removeButton = new aButton("RemoveGame_up.png", "RemoveGame_down.png", "RemoveGame_over.png");
+        removeButton = new AButton("RemoveGame_up.png", "RemoveGame_down.png", "RemoveGame_over.png");
         removeButton.addActionListener(new RemoveButtonListener());
 
-        gameBarImagePane = new aImagePane("GameIconBar.png", width - 30, 55);
+        gameBarImagePane = new AImagePane("GameIconBar.png", width - 30, 55);
         gameBarImagePane.setOpaque(false);
         gameBarImagePane.setPreferredSize(new Dimension(width - 30, 55));
         gameBarImagePane.setLayout(new BorderLayout());
@@ -370,7 +370,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         gameBarPanel.setLayout(new BoxLayout(gameBarPanel, BoxLayout.X_AXIS));
 
         //Game Bar Elements//
-        favoriteButton = new aButton("StarGame_up.png", "StarGame_down.png", "StarGame_over.png");
+        favoriteButton = new AButton("StarGame_up.png", "StarGame_down.png", "StarGame_over.png");
         favoriteButton.addActionListener(new Game.FavoriteButtonListener());
 
         favoriteButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -378,14 +378,14 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         favoriteButtonPanel.add(favoriteButton);
         favoriteButtonPanel.setOpaque(false);
 
-        infoButton = new aButton("GameInfo_up.png", "GameInfo_down.png", "GameInfo_over.png");
+        infoButton = new AButton("GameInfo_up.png", "GameInfo_down.png", "GameInfo_over.png");
 
         infoButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         infoButtonPanel.setPreferredSize(new Dimension(80, 40));
         infoButtonPanel.add(infoButton);
         infoButtonPanel.setOpaque(false);
 
-        playButton = new aButton("PlayGame_up.png", "PlayGame_down.png", "PlayGame_over.png");
+        playButton = new AButton("PlayGame_up.png", "PlayGame_down.png", "PlayGame_over.png");
         playButton.setPreferredSize(new Dimension(40, 40));
         playButton.setOpaque(false);
         playButtonListener = new Game.PlayButtonListener();
@@ -499,7 +499,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         }
     }
 
-    // Future method to be used to set isSelected variable 
+    // Future method to be used to set isSelected variable
     public void setSelected(boolean selected) {
     	isSelected = selected;
     }
@@ -514,7 +514,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
 
         interactivePanel.setSize(width + 47, height + 28);
         System.out.println("INTERACTIVE SIZE " + interactivePanel.getWidth() + " " + interactivePanel.getHeight());
-        
+
         showRemove();
         gameBarImagePane.setVisible(true);
         selected();
@@ -564,7 +564,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     public final AuroraStorage getStorage() {
         return storage;
     }
-    
+
     public final ActionListener getPlayHandler(){
         return playButtonListener;
     }
@@ -573,11 +573,11 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         this.storage = storage;
     }
 
-    public final aButton getFavoriteButton() {
+    public final AButton getFavoriteButton() {
         return favoriteButton;
     }
 
-    public final void setFavoriteButton(final aButton favoriteButton) {
+    public final void setFavoriteButton(final AButton favoriteButton) {
         this.favoriteButton = favoriteButton;
     }
 
@@ -589,7 +589,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         return interactivePanel;
     }
 
-    public final aImagePane getGameBar() {
+    public final AImagePane getGameBar() {
         return gameBarImagePane;
     }
 
@@ -733,7 +733,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
         public void actionPerformed(final ActionEvent e) {
 
             topPanel.remove(removeButton);
-            imgConfirmPromptImagePane = new aImagePane("GameDelete_ConfirmOverlay.png");
+            imgConfirmPromptImagePane = new AImagePane("GameDelete_ConfirmOverlay.png");
             imgConfirmPromptImagePane.setPreferredSize(new Dimension(imgConfirmPromptImagePane.getImgIcon().getImage().getWidth(null) + SIZE_TOPPANE_COMP, imgConfirmPromptImagePane.getImgIcon().getImage().getHeight(null)));
             topPanel.add(imgConfirmPromptImagePane, BorderLayout.EAST);
             topPanel.revalidate();
@@ -741,9 +741,9 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
             gameBarPanel.removeAll();
             yesLabel = new JLabel("Yes");
             noLabel = new JLabel("No");
-            confirmButton = new aButton("GameDelete_Accept.png", "GameDelete_Accept_down.png", "GameDelete_Accept_over.png");
+            confirmButton = new AButton("GameDelete_Accept.png", "GameDelete_Accept_down.png", "GameDelete_Accept_over.png");
             confirmButton.addActionListener(new RemoveGameHandler());
-            denyButton = new aButton("GameDelete_Deny.png", "GameDelete_Deny_down.png", "GameDelete_Deny_over.png");
+            denyButton = new AButton("GameDelete_Deny.png", "GameDelete_Deny_down.png", "GameDelete_Deny_over.png");
             denyButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(final ActionEvent e) {
@@ -801,7 +801,7 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     class InteractiveListener implements MouseListener {
 
         @Override
-        public void mouseClicked(final MouseEvent e) {            
+        public void mouseClicked(final MouseEvent e) {
         }
 
         @Override

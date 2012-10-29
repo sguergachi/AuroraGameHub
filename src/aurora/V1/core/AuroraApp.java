@@ -19,8 +19,8 @@ package aurora.V1.core;
 
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.engine.V1.UI.AuroraUI;
-import aurora.engine.V1.UI.aButton;
-import aurora.engine.V1.UI.aProgressWheel;
+import aurora.engine.V1.UI.AButton;
+import aurora.engine.V1.UI.AProgressWheel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
@@ -42,18 +42,31 @@ import javax.swing.JFrame;
 public abstract class AuroraApp implements Runnable, AuroraUI {
 
     private JFrame frame;
+
     private AuroraCoreUI coreUI;
+
     private DashboardUI dashboardUI;
+
     private int SIZE_TopPadding;
+
     private Thread loadApp;
-    private aProgressWheel progress;
+
+    private AProgressWheel progress;
+
     private ArrayList<JComponent> ComponentsContainingListeners;
+
     private KeyListener[] KeyListeners;
+
     private ActionListener[] ActionListeners;
+
     private MouseListener[] MouseListeners;
+
     private MouseWheelListener[] MouseWheelListeners;
+
     private KeyListener[] FrameKeyListeners;
+
     private MouseListener[] FrameMouseListeners;
+
     private MouseWheelListener[] FrameMouseWheelListeners;
 
     public AuroraApp() {
@@ -84,12 +97,14 @@ public abstract class AuroraApp implements Runnable, AuroraUI {
     }
 
     public void setUpSize() {
-        int Ratio = coreUI.getFrame().getWidth() / coreUI.getFrame().getHeight();
-        if (coreUI.isLargeScreen()) {
-            SIZE_TopPadding = coreUI.getCenterPanel().getHeight() / 5 + Ratio / 5;
+        int Ratio = getCoreUI().getFrame().getWidth() / getCoreUI().getFrame().getHeight();
+        if (getCoreUI().isLargeScreen()) {
+            SIZE_TopPadding = getCoreUI().getCenterPanel().getHeight() / 5 + Ratio
+                                                                        / 5;
 
         } else {
-            SIZE_TopPadding = coreUI.getCenterPanel().getHeight() / 5 + Ratio / 10;
+            SIZE_TopPadding = getCoreUI().getCenterPanel().getHeight() / 5 + Ratio
+                                                                        / 10;
         }
 
     }
@@ -97,37 +112,52 @@ public abstract class AuroraApp implements Runnable, AuroraUI {
     public void clearUI_Backwards() {
 
         ///...Clear UI
-        coreUI.getKeyToPressPanel().removeAll();
+        getCoreUI().getKeyToPressPanel().removeAll();
 
-        coreUI.getCenterPanel().removeAll();
-        coreUI.getUserSpacePanel().removeAll();
+        getCoreUI().getCenterPanel().removeAll();
+        getCoreUI().getUserSpacePanel().removeAll();
 
-        coreUI.getUserSpacePanel().revalidate();
-        coreUI.getKeyToPressPanel().revalidate();
-
-
-
-        coreUI.getCenterFromBottomPanel().removeAll();
-        coreUI.getCenterFromBottomPanel().validate();
-        coreUI.getCenterFromBottomPanel().add(BorderLayout.NORTH, coreUI.getHeaderOfCenterFromBottomPanel());
-        coreUI.getCenterFromBottomPanel().revalidate();
-        coreUI.getHeaderOfCenterFromBottomPanel().setPreferredSize(new Dimension(coreUI.getFrame().getWidth(), coreUI.getKeyToPressPanel().getHeight()));
-
-        coreUI.getSouthFromTopPanel().setPreferredSize(new Dimension(coreUI.getSouthFromTopPanel().getWidth(), coreUI.getSouthFromTopPanel().getHeight()));
-        coreUI.getCenterPanel().setPreferredSize(new Dimension(coreUI.getCenterPanel().getWidth(), coreUI.getFrame().getHeight() - coreUI.getBottomImagePane().getHeight() - coreUI.getTopImagePane().getHeight()));
-        coreUI.getCenterPanel().setPreferredSize(new Dimension(coreUI.getCenterPanel().getWidth(), coreUI.getFrame().getHeight() - (coreUI.getFrame().getHeight() / 6 * 2)));
-        coreUI.getBottomImagePane().setPreferredSize(new Dimension(coreUI.getBottomImagePane().getWidth(), coreUI.getFrame().getHeight() / 6 + 25));
-        coreUI.getBottomImagePane().setImageHeight(coreUI.getFrame().getHeight() / 6 + 25);
+        getCoreUI().getUserSpacePanel().revalidate();
+        getCoreUI().getKeyToPressPanel().revalidate();
 
 
-        coreUI.getSouthFromTopPanel().removeAll();
-        coreUI.getSouthFromTopPanel().add(BorderLayout.EAST, coreUI.getFrameControlContainerPanel());
-        coreUI.getSouthFromTopPanel().repaint();
 
-        coreUI.getInfoPanel().removeAll();
-        coreUI.getInfoPanel().add(BorderLayout.CENTER, coreUI.getInfoLabel());
-        coreUI.getFrame().repaint();
-        coreUI.getFrame().getGlassPane().setVisible(false);
+        getCoreUI().getCenterFromBottomPanel().removeAll();
+        getCoreUI().getCenterFromBottomPanel().validate();
+        getCoreUI().getCenterFromBottomPanel().add(BorderLayout.NORTH, getCoreUI()
+                .getHeaderOfCenterFromBottomPanel());
+        getCoreUI().getCenterFromBottomPanel().revalidate();
+        getCoreUI().getHeaderOfCenterFromBottomPanel()
+                .setPreferredSize(new Dimension(getCoreUI().getFrame().getWidth(),
+                getCoreUI().getKeyToPressPanel().getHeight()));
+
+        getCoreUI().getSouthFromTopPanel().setPreferredSize(new Dimension(getCoreUI()
+                .getSouthFromTopPanel().getWidth(), getCoreUI()
+                .getSouthFromTopPanel().getHeight()));
+        getCoreUI().getCenterPanel().setPreferredSize(new Dimension(getCoreUI()
+                .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
+                                              - getCoreUI().getBottomImagePane()
+                .getHeight() - getCoreUI().getTopImagePane().getHeight()));
+        getCoreUI().getCenterPanel().setPreferredSize(new Dimension(getCoreUI()
+                .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
+                                              - (getCoreUI().getFrame().getHeight()
+                                                 / 6 * 2)));
+        getCoreUI().getBottomImagePane().setPreferredSize(new Dimension(getCoreUI()
+                .getBottomImagePane().getWidth(), getCoreUI().getFrame().getHeight()
+                                                  / 6 + 25));
+        getCoreUI().getBottomImagePane().setImageHeight(getCoreUI().getFrame().getHeight()
+                                                   / 6 + 25);
+
+
+        getCoreUI().getSouthFromTopPanel().removeAll();
+        getCoreUI().getSouthFromTopPanel().add(BorderLayout.EAST, getCoreUI()
+                .getFrameControlContainerPanel());
+        getCoreUI().getSouthFromTopPanel().repaint();
+
+        getCoreUI().getInfoPanel().removeAll();
+        getCoreUI().getInfoPanel().add(BorderLayout.CENTER, getCoreUI().getInfoLabel());
+        getCoreUI().getFrame().repaint();
+        getCoreUI().getFrame().getGlassPane().setVisible(false);
     }
 
     public void clearUI_Forwards() {
@@ -149,35 +179,46 @@ public abstract class AuroraApp implements Runnable, AuroraUI {
 //        //Start Loader
 //        loadApp.start();
 
-        coreUI.getInfoLabel().setText("   Loading...   ");
+        getCoreUI().getInfoLabel().setText("   Loading...   ");
 
-        coreUI.getKeyToPressPanel().removeAll();
-        coreUI.getCenterPanel().removeAll();
-        coreUI.getUserSpacePanel().removeAll();
+        getCoreUI().getKeyToPressPanel().removeAll();
+        getCoreUI().getCenterPanel().removeAll();
+        getCoreUI().getUserSpacePanel().removeAll();
 
-        coreUI.getUserSpacePanel().revalidate();
+        getCoreUI().getUserSpacePanel().revalidate();
 
 
-        coreUI.getCenterPanel().setPreferredSize(new Dimension(coreUI.getCenterPanel().getWidth(), coreUI.getFrame().getHeight() - (coreUI.getFrame().getHeight() / 6 * 2)));
-        coreUI.getBottomImagePane().setPreferredSize(new Dimension(coreUI.getBottomImagePane().getWidth(), coreUI.getFrame().getHeight() / 6 + 15));
-        coreUI.getBottomImagePane().setImageHeight(coreUI.getFrame().getHeight() / 6 + 30);
+        getCoreUI().getCenterPanel().setPreferredSize(new Dimension(getCoreUI()
+                .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
+                                              - (getCoreUI().getFrame().getHeight()
+                                                 / 6 * 2)));
+        getCoreUI().getBottomImagePane().setPreferredSize(new Dimension(getCoreUI()
+                .getBottomImagePane().getWidth(), getCoreUI().getFrame().getHeight()
+                                                  / 6 + 15));
+        getCoreUI().getBottomImagePane().setImageHeight(getCoreUI().getFrame().getHeight()
+                                                   / 6 + 30);
 
         //Remove Content in Center
-        coreUI.getCenterFromBottomPanel().removeAll();
+        getCoreUI().getCenterFromBottomPanel().removeAll();
 
 
         //re-add Time
-        coreUI.getCenterFromBottomPanel().add(BorderLayout.NORTH, coreUI.getHeaderOfCenterFromBottomPanel());
-        coreUI.getHeaderOfCenterFromBottomPanel().setPreferredSize(new Dimension(coreUI.getFrame().getWidth(), coreUI.getKeyToPressPanel().getHeight()));
-        coreUI.getHeaderOfCenterFromBottomPanel().revalidate();
+        getCoreUI().getCenterFromBottomPanel().add(BorderLayout.NORTH, getCoreUI()
+                .getHeaderOfCenterFromBottomPanel());
+        getCoreUI().getHeaderOfCenterFromBottomPanel()
+                .setPreferredSize(new Dimension(getCoreUI().getFrame().getWidth(),
+                getCoreUI().getKeyToPressPanel().getHeight()));
+        getCoreUI().getHeaderOfCenterFromBottomPanel().revalidate();
 
-        coreUI.getCenterPanel().revalidate();
-        coreUI.getCenterFromBottomPanel().revalidate();
+        getCoreUI().getCenterPanel().revalidate();
+        getCoreUI().getCenterFromBottomPanel().revalidate();
 
         //Change Back button
-        coreUI.getSouthFromTopPanel().removeAll();
-        coreUI.getSouthFromTopPanel().add(coreUI.getFrameControlContainerPanel(), BorderLayout.EAST);
-        coreUI.getFrameControlImagePane().getComponent(0).addMouseListener(new MouseListener() {
+        getCoreUI().getSouthFromTopPanel().removeAll();
+        getCoreUI().getSouthFromTopPanel()
+                .add(getCoreUI().getFrameControlContainerPanel(), BorderLayout.EAST);
+        getCoreUI().getFrameControlImagePane().getComponent(0)
+                .addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 removeAllListeners();
@@ -202,7 +243,7 @@ public abstract class AuroraApp implements Runnable, AuroraUI {
             }
         });
 
-        coreUI.getFrame().getContentPane().addKeyListener(new KeyListener() {
+        getCoreUI().getFrame().getContentPane().addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
 
@@ -223,16 +264,16 @@ public abstract class AuroraApp implements Runnable, AuroraUI {
             }
         });
 
-        coreUI.getFrame().requestFocus();
+        getCoreUI().getFrame().requestFocus();
 
 
 
         //Finalize
-        coreUI.getInfoPanel().removeAll();
-        coreUI.getInfoPanel().add(BorderLayout.CENTER, coreUI.getInfoLabel());
+        getCoreUI().getInfoPanel().removeAll();
+        getCoreUI().getInfoPanel().add(BorderLayout.CENTER, getCoreUI().getInfoLabel());
 
         System.gc();
-        coreUI.getFrame().repaint();
+        getCoreUI().getFrame().repaint();
 
 
     }
@@ -243,28 +284,34 @@ public abstract class AuroraApp implements Runnable, AuroraUI {
         for (int i = 0; i < ComponentsContainingListeners.size(); i++) {
 
             //Remove KeyListers
-            KeyListeners = ComponentsContainingListeners.get(i).getKeyListeners();
+            KeyListeners = ComponentsContainingListeners.get(i)
+                    .getKeyListeners();
 
             for (int j = 0; j < KeyListeners.length; j++) {
-                ComponentsContainingListeners.get(i).removeKeyListener(KeyListeners[j]);
+                ComponentsContainingListeners.get(i)
+                        .removeKeyListener(KeyListeners[j]);
 
             }
 
 
             //Remove Mouse Listeners
-            MouseListeners = ComponentsContainingListeners.get(i).getMouseListeners();
+            MouseListeners = ComponentsContainingListeners.get(i)
+                    .getMouseListeners();
 
             for (int j = 0; j < MouseListeners.length; j++) {
-                ComponentsContainingListeners.get(i).removeMouseListener(MouseListeners[j]);
+                ComponentsContainingListeners.get(i)
+                        .removeMouseListener(MouseListeners[j]);
 
             }
 
 
             //Remove Mouse Wheel Listeners
-            MouseWheelListeners = ComponentsContainingListeners.get(i).getMouseWheelListeners();
+            MouseWheelListeners = ComponentsContainingListeners.get(i)
+                    .getMouseWheelListeners();
 
             for (int j = 0; j < MouseWheelListeners.length; j++) {
-                ComponentsContainingListeners.get(i).removeMouseWheelListener(MouseWheelListeners[j]);
+                ComponentsContainingListeners.get(i)
+                        .removeMouseWheelListener(MouseWheelListeners[j]);
 
             }
 
@@ -272,9 +319,11 @@ public abstract class AuroraApp implements Runnable, AuroraUI {
 
             //Maybe its a buttom remove its action Listeners.
             try {
-                ActionListeners = ((aButton) ComponentsContainingListeners.get(i)).getActionListeners();
+                ActionListeners = ((AButton) ComponentsContainingListeners
+                        .get(i)).getActionListeners();
                 for (int j = 0; j < ActionListeners.length; j++) {
-                    ((aButton) ComponentsContainingListeners.get(i)).removeActionListener(ActionListeners[j]);
+                    ((AButton) ComponentsContainingListeners.get(i))
+                            .removeActionListener(ActionListeners[j]);
                 }
             } catch (Exception e) {
                 //maybe its not a Button
@@ -283,22 +332,23 @@ public abstract class AuroraApp implements Runnable, AuroraUI {
 
         //Only for the Frame!
 
-        FrameKeyListeners = coreUI.getFrame().getKeyListeners();
+        FrameKeyListeners = getCoreUI().getFrame().getKeyListeners();
 
         for (int i = 0; i < FrameKeyListeners.length; i++) {
-            coreUI.getFrame().removeKeyListener(FrameKeyListeners[i]);
+            getCoreUI().getFrame().removeKeyListener(FrameKeyListeners[i]);
         }
 
-        FrameMouseListeners = coreUI.getFrame().getMouseListeners();
+        FrameMouseListeners = getCoreUI().getFrame().getMouseListeners();
 
         for (int i = 0; i < FrameMouseListeners.length; i++) {
-            coreUI.getFrame().removeMouseListener(FrameMouseListeners[i]);
+            getCoreUI().getFrame().removeMouseListener(FrameMouseListeners[i]);
         }
 
-        FrameMouseWheelListeners = coreUI.getFrame().getMouseWheelListeners();
+        FrameMouseWheelListeners = getCoreUI().getFrame().getMouseWheelListeners();
 
         for (int i = 0; i < FrameMouseWheelListeners.length; i++) {
-            coreUI.getFrame().removeMouseWheelListener(FrameMouseWheelListeners[i]);
+            getCoreUI().getFrame()
+                    .removeMouseWheelListener(FrameMouseWheelListeners[i]);
         }
 
 
@@ -315,5 +365,19 @@ public abstract class AuroraApp implements Runnable, AuroraUI {
         }
 
 
+    }
+
+    /**
+     * @return the coreUI
+     */
+    public AuroraCoreUI getCoreUI() {
+        return coreUI;
+    }
+
+    /**
+     * @param coreUI the coreUI to set
+     */
+    public void setCoreUI(AuroraCoreUI coreUI) {
+        this.coreUI = coreUI;
     }
 }

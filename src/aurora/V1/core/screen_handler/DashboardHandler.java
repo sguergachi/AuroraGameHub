@@ -17,35 +17,109 @@
  */
 package aurora.V1.core.screen_handler;
 
+import aurora.V1.core.screen_logic.DashboardLogic;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.GameLibraryUI;
 import aurora.V1.core.screen_ui.GamerProfileUI;
 import aurora.V1.core.screen_ui.SettingsUI;
-import aurora.engine.V1.UI.aCarouselPane;
+import aurora.engine.V1.UI.ACarouselPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 /**
+ * .------------------------------------------------------------------------.
+ * | DashboardHandler :: Aurora App Class
+ * .------------------------------------------------------------------------.
+ * |
+ * | This class contains all Listeners/Handlers attached to UI elements
+ * | found in DashboardUI. The handlers may access the logic or simply
+ * | make simple processing within each Handler/Listeners.
+ * |
+ * | Each Handler is attached to UI components to listen for different actions
+ * | The actions can be processed or handled internally or within th Logic
+ * | of the Screen.
+ * |
+ * |
+ * .........................................................................
  *
- * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author sammy <sguergachi@gmail.com> carlos <camachado@gmail.com>
+ *
  */
 public class DashboardHandler {
 
+    /**
+     * The DashboardUI instance passed to the handler.
+     */
     private final DashboardUI dashboardUI;
 
-    public DashboardHandler(DashboardUI dashboardUI) {
-        this.dashboardUI = dashboardUI;
+    /**
+     * The DashboardLogic instance obtained from the DashboardUI instance.
+     */
+    private DashboardLogic dashboardLogic;
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | DashboardHandler(DashboardUI)
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This is the Constructor of the Dashboard Handler class.
+     * |
+     * | The Constructor of the Handler class needs to UI class to be able to
+     * | first get the logic from it, and second to be able to manipulate the UI
+     * | within the actual Handlers.
+     * |
+     * .........................................................................
+     * <p/>
+     * @param aDashboardUI DashboardUI
+     */
+    public DashboardHandler(final DashboardUI aDashboardUI) {
+
+        /* Make local UI and Logic variables */
+
+        this.dashboardUI = aDashboardUI;
+
     }
 
-    public class RightListener implements ActionListener {
+    /**
+     * .-----------------------------------------------------------------------.
+     * | setLogic(DashboardLogic)
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Pass the Logic Instanced in the DashboardUI
+     * | For the Handler to work the Logic *MUST* be passed using this method
+     * |
+     * |
+     * .........................................................................
+     * <p/>
+     * @param aDashboardLogic DashboardLogic
+     */
+    public final void setLogic(final DashboardLogic aDashboardLogic) {
+        this.dashboardLogic = aDashboardLogic;
+    }
 
-        public void actionPerformed(ActionEvent e) {
+    /**
+     * .-----------------------------------------------------------------------.
+     * | RightButtonListener
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Right Listener is the Action Listener attached to the Right Carousel
+     * | Button.
+     * | It makes the Carousel move Right 1 step.
+     * |
+     * |
+     */
+    public class RightButtonListener implements ActionListener {
+
+        @Override
+        public final void actionPerformed(final ActionEvent e) {
 
             dashboardUI.getCarousel().MoveLeft();
 
@@ -53,25 +127,47 @@ public class DashboardHandler {
         }
     }
 
-    public class LeftListener implements ActionListener {
+    /**
+     * .-----------------------------------------------------------------------.
+     * | LeftButtonListener
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Left Listener is the Action Listener attached to the Left Carousel
+     * | Button.
+     * | It makes the Carousel move Left 1 step.
+     * |
+     * |
+     */
+    public class LeftButtonListener implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public final void actionPerformed(final ActionEvent e) {
 
             dashboardUI.getCarousel().MoveRight();
 
         }
     }
 
-    public class CarouselKeyListener implements KeyListener {
+    /**
+     * .-----------------------------------------------------------------------.
+     * | DashboardlKeyListener
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This Keyboard Listener is supposed to listen to a keyboard press
+     * | to find out if the following is pressed to do the following:
+     * |
+     * | - Right Key >>> Move Carousel to the Right 1
+     * | - Left Key >>> Move Carousel to the Left 1
+     * | - Escape Key >>> Launch Exit Dialog
+     * | - Enter Key >>> Launch the current Carousel Pane in the center
+     * |
+     */
+    public class DashboardlKeyListener extends KeyAdapter {
 
         @Override
-        public void keyTyped(KeyEvent e) {
-        }
+        public final void keyPressed(final KeyEvent e) {
 
-        @Override
-        public void keyPressed(KeyEvent e) {
-
+            /* More responsive put here */
 
             if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                 dashboardUI.getCarousel().MoveRight();
@@ -87,120 +183,111 @@ public class DashboardHandler {
         }
 
         @Override
-        public void keyReleased(KeyEvent e) {
+        public final void keyReleased(final KeyEvent e) {
 
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                aCarouselPane pane = dashboardUI.getCarousel().getCenterPane();
 
-                if (pane == dashboardUI.getLibraryPane()) {
-                    //action on click right Panel
-                    GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI
-                            .getStartUI().getAuroraStorage(), dashboardUI,
-                            dashboardUI.getCoreUI());
-                    libraryUI.loadUI();
-                } else if (pane == dashboardUI.getProfilePane()) {
-                    GamerProfileUI profileUI = new GamerProfileUI(dashboardUI,
-                            dashboardUI.getCoreUI());
-                    profileUI.loadUI();
-                } else if (pane == dashboardUI.getSettingsPane()) {
-                    SettingsUI settingsUI = new SettingsUI(dashboardUI,
-                            dashboardUI.getCoreUI());
-                    settingsUI.loadUI();
-                } else if (pane == dashboardUI.getAuroraNetPane()) {
-                    // do nothing for now
-                }
+                /* Check which Pane is current Center pane. Then Launch     */
+                /* the appropriate AuroraApp assosiated to that Center Pane */
+
+                ACarouselPane pane = dashboardUI.getCarousel().getCenterPane();
+
+                dashboardLogic.launchAuroraApp(pane);
+
             }
 
 
         }
     }
 
-    public class CarouselLibraryMouseListener implements MouseListener {
+    /**
+     * .-----------------------------------------------------------------------.
+     * | CarouselLibraryMouseListener
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This Mouse Listener is attached to the Game Icon specifically for the
+     * | Library Pane to allow clicking on the Game Icon to launch the Library:
+     * |
+     * |
+     */
+    public class CarouselLibraryMouseListener extends MouseAdapter {
 
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public final void mouseClicked(final MouseEvent e) {
             System.out.println("CLICKED");
             if (dashboardUI != null) {
-                GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI
-                        .getStartUI().getAuroraStorage(), dashboardUI,
-                        dashboardUI.getCoreUI());
-                libraryUI.loadUI();
+                dashboardLogic.navigateCarousel(dashboardUI.getLibraryPane());
+            }
+        }
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | CarouselPaneMouseListener
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This Mouse Listener handles the Mouse Navigation of the Carousel
+     * | It is Attached to Each Carousel Pane
+     * |
+     * |
+     */
+    public class CarouselPaneMouseListener extends MouseAdapter {
+
+        private ACarouselPane pane;
+
+        /**
+         * .-------------------------------------------------------------------.
+         * | CarouselPaneMouseListener(ACarouselPane)
+         * .-------------------------------------------------------------------.
+         * |
+         * | This Constructor allows for a Custom ACarouselPane to be passed to
+         * | be used as reference for navigating the Carousel.
+         * | if a null value is passed then CarouselPaneMouseListener will use
+         * | the MouseEvent source to determine what Carousel Pane was selected.
+         * |
+         * .....................................................................
+         * <p/>
+         * @param aCarouselPane ACarouselPane
+         */
+        public CarouselPaneMouseListener(final ACarouselPane aCarouselPane) {
+
+            if (aCarouselPane != null) {
+                pane = aCarouselPane;
             }
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-        }
-    }
-
-    ///....Mouse Click Handlers...////////
-    public class CarouselPaneMouseListener implements MouseListener {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
+        public final void mouseClicked(final MouseEvent e) {
             System.out.println("CLICKED");
-            aCarouselPane pane = (aCarouselPane) e.getComponent();
 
-            if (pane.getPointX() == dashboardUI.getCarousel().getRightX()) {
-                dashboardUI.getCarousel().MoveLeft();
-            } else if (pane.getPointX() == dashboardUI.getCarousel().getLeftX()) {
-                dashboardUI.getCarousel().MoveRight();
-            } else if (pane.getPointX() == dashboardUI.getCarousel().getCentX()) {
-                if (pane == dashboardUI.getLibraryPane()) {
-                    //action on click right Panel
-                    if (dashboardUI != null) {
-                        GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI
-                                .getStartUI().getAuroraStorage(), dashboardUI,
-                                dashboardUI.getCoreUI());
-                        libraryUI.loadUI();
-                    }
-                } else if (pane == dashboardUI.getProfilePane()) {
-                    GamerProfileUI profileUI = new GamerProfileUI(dashboardUI,
-                            dashboardUI.getCoreUI());
-                    profileUI.loadUI();
-                } else if (pane == dashboardUI.getSettingsPane()) {
-                    SettingsUI settingsUI = new SettingsUI(dashboardUI,
-                            dashboardUI.getCoreUI());
-                    settingsUI.loadUI();
-                } else if (pane == dashboardUI.getAuroraNetPane()) {
-                    // do nothing for now
-                }
+            if (pane == null && pane instanceof ACarouselPane) {
+                pane = (ACarouselPane) e.getComponent();
             }
-        }
 
-        @Override
-        public void mousePressed(MouseEvent e) {
-        }
+            System.out.println(pane);
+            System.out.println(e.getComponent());
 
-        @Override
-        public void mouseReleased(MouseEvent e) {
-        }
 
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
+            dashboardLogic.navigateCarousel(pane);
 
-        @Override
-        public void mouseExited(MouseEvent e) {
         }
     }
 
+    /**
+     * .-----------------------------------------------------------------------.
+     * | carouselPaneMouseWheelListener
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This Mouse Wheel Listener is attached to The Major CoreUI components
+     * | As well as The Carousel in DashboardUI to allow for scrolling
+     * | navigation of the carousel by allowing the carousel to move Right or
+     * | Left depending on the Direction of the scroll.
+     * |
+     */
     public class carouselPaneMouseWheelListener implements MouseWheelListener {
 
         @Override
-        public void mouseWheelMoved(MouseWheelEvent e) {
+        public final void mouseWheelMoved(final MouseWheelEvent e) {
 
 
             int numberClicks = e.getWheelRotation();

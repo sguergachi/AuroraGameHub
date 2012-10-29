@@ -24,14 +24,14 @@ import aurora.V1.core.Game;
 import aurora.V1.core.StartLoader;
 import aurora.V1.core.screen_handler.DashboardHandler;
 import aurora.V1.core.screen_logic.DashboardLogic;
-import aurora.engine.V1.UI.aButton;
-import aurora.engine.V1.UI.aCarousel;
-import aurora.engine.V1.UI.aCarouselPane;
-import aurora.engine.V1.UI.aCarouselTitle;
-import aurora.engine.V1.UI.aCarouselTitle.Title;
-import aurora.engine.V1.UI.aImage;
-import aurora.engine.V1.UI.aImagePane;
-import aurora.engine.V1.UI.aInfoFeed;
+import aurora.engine.V1.UI.AButton;
+import aurora.engine.V1.UI.ACarousel;
+import aurora.engine.V1.UI.ACarouselPane;
+import aurora.engine.V1.UI.ACarouselTitle;
+import aurora.engine.V1.UI.ACarouselTitle.TitleType;
+import aurora.engine.V1.UI.AImage;
+import aurora.engine.V1.UI.AImagePane;
+import aurora.engine.V1.UI.AInfoFeed;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -39,7 +39,6 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * .------------------------------------------------------------------------.
@@ -47,7 +46,7 @@ import javax.swing.JPanel;
  * .------------------------------------------------------------------------.
  * |
  * | This class contains the UI attached to an appropriate *Handler*
- * | and * *Logic* class which handle the actions caused by the UI
+ * | and *Logic* class which handle the actions caused by the UI
  * | components found here
  * |
  * | This class must follow the rules stated in the AuroraScreenUI
@@ -67,117 +66,122 @@ public class DashboardUI extends AuroraApp {
     /**
      * The main carousel used to navigate AuroraApps.
      */
-    private aCarousel carousel;
+    private ACarousel carousel;
 
     /**
      * Button to make carousel move left.
      */
-    private aButton btnCarouselLeft;
+    private AButton btnCarouselLeft;
 
     /**
      * Button to make carousel move right.
      */
-    private aButton btnCarouselRight;
+    private AButton btnCarouselRight;
 
     /**
-     * Image with Glow state of the Profile Title.
+     * Image with Glow state of the Profile TitleType.
      */
-    private aImage titleProfileGlow;
+    private AImage titleProfileGlow;
 
     /**
-     * Image with Normal state of the Profile Title.
+     * Image with Normal state of the Profile TitleType.
      */
-    private aImage titleProfileNorm;
+    private AImage titleProfileNorm;
 
     /**
-     * Image with Glow state of the Settings Title.
+     * Image with Glow state of the Settings TitleType.
      */
-    private aImage titleSettingGlow;
+    private AImage titleSettingGlow;
 
     /**
-     * Image with Normal state of the Settings Title.
+     * Image with Normal state of the Settings TitleType.
      */
-    private aImage titleSettingNorm;
+    private AImage titleSettingNorm;
 
     /**
-     * Image with Glow state of the Library Title.
+     * Image with Glow state of the Library TitleType.
      */
-    private aImage titleLibraryGlow;
+    private AImage titleLibraryGlow;
 
     /**
-     * Image with Normal state of the Library Title.
+     * Image with Normal state of the Library TitleType.
      */
-    private aImage titleLibraryNorm;
+    private AImage titleLibraryNorm;
 
     /**
-     * Image with Glow state of the AuroraNet Title.
+     * Image with Glow state of the AuroraNet TitleType.
      */
-    private aImage titleAuroraNetGlow;
+    private AImage titleAuroraNetGlow;
 
     /**
-     * Image with Normal state of the AuroraNet Title.
+     * Image with Normal state of the AuroraNet TitleType.
      */
-    private aImage titleAuroraNetNorm;
+    private AImage titleAuroraNetNorm;
 
     /**
-     * Title component containing both Glow and Normal state of Profile item.
+     * TitleType component containing both Glow and Normal state of Profile
+     * item.
      */
-    private aCarouselTitle titleProfile;
+    private ACarouselTitle titleProfile;
 
     /**
-     * Title component containing both Glow and Normal state of Settings item.
+     * TitleType component containing both Glow and Normal state of Settings
+     * item.
      */
-    private aCarouselTitle titleSetting;
+    private ACarouselTitle titleSetting;
 
     /**
-     * Title component containing both Glow and Normal state of Library item.
+     * TitleType component containing both Glow and Normal state of Library
+     * item.
      */
-    private aCarouselTitle titleLibrary;
+    private ACarouselTitle titleLibrary;
 
     /**
-     * Title component containing both Glow and Normal state of AuroraNet item.
+     * TitleType component containing both Glow and Normal state of AuroraNet
+     * item.
      */
-    private aCarouselTitle titleAuroraNet;
+    private ACarouselTitle titleAuroraNet;
 
     /**
-     * Panel Containing Title and Icon representing the Library in Carousel.
+     * Panel Containing TitleType and Icon representing the Library in Carousel.
      */
-    private aCarouselPane paneLibrary;
+    private ACarouselPane paneLibrary;
 
     /**
-     * Panel Containing Title and Icon representing the Library in Settings.
+     * Panel Containing TitleType and Icon representing the Library in Settings.
      */
-    private aCarouselPane paneSettings;
+    private ACarouselPane paneSettings;
 
     /**
-     * Panel Containing Title and Icon representing the Library in Profile.
+     * Panel Containing TitleType and Icon representing the Library in Profile.
      */
-    private aCarouselPane paneProfile;
+    private ACarouselPane paneProfile;
 
     /**
-     * Panel Containing Title and Icon representing the Library in AuroraNet.
+     * Panel Containing TitleType and Icon representing the Library in
+     * AuroraNet.
      */
-    private aCarouselPane paneNet;
+    private ACarouselPane paneNet;
 
     /**
      * Image of Icon representing AuroraNet Carousel pane.
      */
-    private aImage icoNet;
+    private AImage icoNet;
 
     /**
      * Image of Icon representing Profile Carousel pane.
      */
-    private aImage icoProfile;
+    private AImage icoProfile;
 
     /**
      * Image of Icon representing Settings Carousel pane.
      */
-    private aImage icoSetting;
+    private AImage icoSetting;
 
     /**
      * Image of Icon representing Library Carousel pane.
      */
-    private aImagePane icoLibrary;
+    private AImagePane icoLibrary;
 
     /**
      * Game component which generates the icon for the Library carousel pane.
@@ -187,7 +191,7 @@ public class DashboardUI extends AuroraApp {
     /**
      * Image of Keyboard Arrows indicating ability to use keyboard to navigate.
      */
-    private aImage keyArrows;
+    private AImage keyArrows;
 
     /**
      * Label describing what the Keyboard Icon will do.
@@ -197,7 +201,7 @@ public class DashboardUI extends AuroraApp {
     /**
      * A Scrolling Information ticker bar.
      */
-    private aInfoFeed infoFeed;
+    private AInfoFeed infoFeed;
 
     /**
      * An array list containing all of the info being fed to the infoFeed.
@@ -207,7 +211,7 @@ public class DashboardUI extends AuroraApp {
     /**
      * Button in frame controls to go back to Dashboard.
      */
-    private aButton btnBack;
+    private AButton btnBack;
 
     /**
      * Size Constant.
@@ -354,9 +358,8 @@ public class DashboardUI extends AuroraApp {
         //* The Dashboard Handler + Logic *//
         this.handler = new DashboardHandler(this);
         this.logic = new DashboardLogic(this);
-
-
-
+        handler.setLogic(logic);
+        logic.setHandler(handler);
 
     }
 
@@ -368,46 +371,46 @@ public class DashboardUI extends AuroraApp {
 
         //----------------------------CAROUSEL--------------------------------//
 
-        carousel = new aCarousel(carouselWidth, carouselHeight,
+        carousel = new ACarousel(carouselWidth, carouselHeight,
                 Toolkit.getDefaultToolkit().getScreenSize().width);
 
-        titleSettingGlow = new aImage("settings_glow.png");
-        titleSettingNorm = new aImage("settings_normal.png");
+        titleSettingGlow = new AImage("settings_glow.png");
+        titleSettingNorm = new AImage("settings_normal.png");
 
-        titleLibraryGlow = new aImage("gamelibrary_glow.png");
-        titleLibraryNorm = new aImage("gamelibrary_normal.png");
+        titleLibraryGlow = new AImage("gamelibrary_glow.png");
+        titleLibraryNorm = new AImage("gamelibrary_normal.png");
 
-        titleProfileGlow = new aImage("Profileprofile_glow.png");
-        titleProfileNorm = new aImage("Profileprofile_normal.png");
+        titleProfileGlow = new AImage("gamerprofile_glow.png");
+        titleProfileNorm = new AImage("gamerprofile_normal.png");
 
-        titleAuroraNetGlow = new aImage("auroranet_glow.png");
-        titleAuroraNetNorm = new aImage("auroranet_normal.png");
+        titleAuroraNetGlow = new AImage("auroranet_glow.png");
+        titleAuroraNetNorm = new AImage("auroranet_normal.png");
 
-        icoProfile = new aImage("Aurora_Profile.png");
-        icoSetting = new aImage("Aurora_Settings.png");
-        icoNet = new aImage("ComingSoon.png");
+        icoProfile = new AImage("Aurora_Profile.png");
+        icoSetting = new AImage("Aurora_Settings.png");
+        icoNet = new AImage("ComingSoon.png");
         icoLibrary = logic.getLibraryIcon();
 
-        titleProfile = new aCarouselTitle(titleProfileNorm, titleProfileGlow);
-        titleSetting = new aCarouselTitle(titleSettingNorm, titleSettingGlow);
-        titleLibrary = new aCarouselTitle(titleLibraryNorm, titleLibraryGlow);
-        titleAuroraNet = new aCarouselTitle(titleAuroraNetNorm,
+        titleProfile = new ACarouselTitle(titleProfileNorm, titleProfileGlow);
+        titleSetting = new ACarouselTitle(titleSettingNorm, titleSettingGlow);
+        titleLibrary = new ACarouselTitle(titleLibraryNorm, titleLibraryGlow);
+        titleAuroraNet = new ACarouselTitle(titleAuroraNetNorm,
                 titleAuroraNetGlow);
 
-        paneSettings = new aCarouselPane("HexPane.png", (int) carouselWidth + 25,
+        paneSettings = new ACarouselPane("HexPane.png", (int) carouselWidth + 25,
                 carouselHeight - 25, true, titleSetting, "Setting Pane");
-        paneProfile = new aCarouselPane("HexPane.png", (int) carouselWidth + 25,
+        paneProfile = new ACarouselPane("HexPane.png", (int) carouselWidth + 25,
                 carouselHeight - 25, true, titleProfile, "Profile pane");
-        paneLibrary = new aCarouselPane("HexPane.png", (int) carouselWidth + 25,
+        paneLibrary = new ACarouselPane("HexPane.png", (int) carouselWidth + 25,
                 carouselHeight - 25, true, titleLibrary, "library pane");
-        paneNet = new aCarouselPane("HexPane.png", (int) carouselWidth + 25,
+        paneNet = new ACarouselPane("HexPane.png", (int) carouselWidth + 25,
                 carouselHeight - 25, true, titleAuroraNet, "auroranet");
 
-        btnCarouselLeft = new aButton("Aurora_left_normal.png",
+        btnCarouselLeft = new AButton("Aurora_left_normal.png",
                 "Aurora_left_down.png", "Aurora_left_over.png",
                 carouselButtonWidth, carouselButtonHeight);
 
-        btnCarouselRight = new aButton("Aurora_right_normal.png",
+        btnCarouselRight = new AButton("Aurora_right_normal.png",
                 "Aurora_right_down.png", "Aurora_right_over.png",
                 carouselButtonWidth, carouselButtonHeight);
 
@@ -417,7 +420,7 @@ public class DashboardUI extends AuroraApp {
 
         //----------------------------INFOFEED--------------------------------//
 
-        infoFeed = new aInfoFeed("InfoBar.png", infoFeedWidth,
+        infoFeed = new AInfoFeed("InfoBar.png", infoFeedWidth,
                 infoFeedHeight, logic.createFeed(null));
         //------------------------------|||-----------------------------------//
 
@@ -428,11 +431,11 @@ public class DashboardUI extends AuroraApp {
         //* Indicate to User DashboardUI is loading. *//
         coreUI.getInfoLabel().setText(".: Loading :.");
 
-        btnBack = new aButton("Aurora_Logout_normal.png",
+        btnBack = new AButton("Aurora_Logout_normal.png",
                 "Aurora_Logout_down.png", "Aurora_Logout_over.png",
                 btnBackWidth, btnBackHeight);
 
-        keyArrows = new aImage("KeyboardKeys/arrows.png", coreUI.
+        keyArrows = new AImage("KeyboardKeys/arrows.png", coreUI.
                 getKeyIconWidth(), coreUI.getKeyIconHeight());
 
         lblKeyAction = new JLabel(" Move ");
@@ -445,38 +448,29 @@ public class DashboardUI extends AuroraApp {
 
         //----------------------------CAROUSEL--------------------------------//
 
-        //* Set size of Icons inside each Carousel Pane *//
-
-        icoSetting.setImageSize(carouselImageWidth,
-                carouselImageHeight);
-        icoProfile.setImageSize(carouselImageWidth,
-                carouselImageHeight);
-        icoNet.setImageSize(carouselImageWidth, carouselImageHeight);
-        icoLibrary.setPreferredSize(new Dimension(gameCoverWidth,
-                gameCoverHeight));
 
 
         //* Set ID For each Panel and add ENTER Key Listener *//
 
         paneSettings.setName("settingsPane");
-        paneSettings.addKeyListener(handler.new CarouselKeyListener());
+        paneSettings.addKeyListener(handler.new DashboardlKeyListener());
 
         paneProfile.setName("profilePane");
-        paneProfile.addKeyListener(handler.new CarouselKeyListener());
+        paneProfile.addKeyListener(handler.new DashboardlKeyListener());
 
         paneLibrary.setName("libraryPane");
-        paneLibrary.addKeyListener(handler.new CarouselKeyListener());
+        paneLibrary.addKeyListener(handler.new DashboardlKeyListener());
 
         paneNet.setName("auroraNetPane");
-        paneNet.addKeyListener(handler.new CarouselKeyListener());
+        paneNet.addKeyListener(handler.new DashboardlKeyListener());
 
         //* Set ID For each Panel and add ENTER Key Listener *//
 
-        paneSettings.addContent(icoSetting, Title.NORMAL);
-        paneProfile.addContent(icoProfile, Title.NORMAL);
-        paneNet.addContent(icoNet, Title.NORMAL);
+        paneSettings.addContent(icoSetting, TitleType.NORMAL);
+        paneProfile.addContent(icoProfile, TitleType.NORMAL);
+        paneNet.addContent(icoNet, TitleType.NORMAL);
         //* Initially set to Glow state *//
-        paneLibrary.addContent(icoLibrary, Title.GLOW);
+        paneLibrary.addContent(icoLibrary, TitleType.GLOW);
 
 
         //* Add each Pane to the Carousel *//
@@ -485,15 +479,37 @@ public class DashboardUI extends AuroraApp {
         carousel.addPane(paneLibrary);
         carousel.addPane(paneProfile);
         carousel.addPane(paneNet);
-        carousel.addKeyListener(handler.new CarouselKeyListener());
+        carousel.addKeyListener(handler.new DashboardlKeyListener());
 
 
         //* Check for the Enter Button Press OR Mouse Click *//
 
-        paneProfile.addMouseListener(handler.new CarouselPaneMouseListener());
-        paneSettings.addMouseListener(handler.new CarouselPaneMouseListener());
-        paneLibrary.addMouseListener(handler.new CarouselPaneMouseListener());
-        paneNet.addMouseListener(handler.new CarouselPaneMouseListener());
+        paneProfile
+                .addMouseListener(handler.new CarouselPaneMouseListener(null));
+        paneSettings.addMouseListener(
+                handler.new CarouselPaneMouseListener(null));
+        paneLibrary
+                .addMouseListener(handler.new CarouselPaneMouseListener(null));
+        paneNet.addMouseListener(handler.new CarouselPaneMouseListener(null));
+
+
+        //* Set size of Icons inside each Carousel Pane *//
+
+        icoSetting.setImageSize(carouselImageWidth,
+                carouselImageHeight);
+        icoSetting.addMouseListener(handler.new CarouselPaneMouseListener(
+                paneSettings));
+        icoProfile.setImageSize(carouselImageWidth,
+                carouselImageHeight);
+        icoProfile.addMouseListener(handler.new CarouselPaneMouseListener(
+                paneProfile));
+        icoNet.setImageSize(carouselImageWidth, carouselImageHeight);
+        icoNet.addMouseListener(handler.new CarouselPaneMouseListener(paneNet));
+        icoLibrary.setPreferredSize(new Dimension(gameCoverWidth,
+                gameCoverHeight));
+        icoLibrary.addMouseListener(handler.new CarouselPaneMouseListener(
+                paneLibrary));
+
 
         //* Check for Mouse Wheel Rotation *//
 
@@ -504,11 +520,11 @@ public class DashboardUI extends AuroraApp {
 
         //* Add Listeners to the Left and Right Carousel Buttons *//
 
-        btnCarouselLeft.addActionListener(handler.new LeftListener());
-        btnCarouselLeft.addKeyListener(handler.new CarouselKeyListener());
+        btnCarouselLeft.addActionListener(handler.new LeftButtonListener());
+        btnCarouselLeft.addKeyListener(handler.new DashboardlKeyListener());
 
-        btnCarouselRight.addActionListener(handler.new RightListener());
-        btnCarouselRight.addKeyListener(handler.new CarouselKeyListener());
+        btnCarouselRight.addActionListener(handler.new RightButtonListener());
+        btnCarouselRight.addKeyListener(handler.new DashboardlKeyListener());
 
         //------------------------------|||-----------------------------------//
 
@@ -599,10 +615,10 @@ public class DashboardUI extends AuroraApp {
 
         //* Add Carousel KeyListener to Background *//
         coreUI.getFrame().getContentPane().
-                addKeyListener(handler.new CarouselKeyListener());
-        coreUI.getFrame().addKeyListener(handler.new CarouselKeyListener());
+                addKeyListener(handler.new DashboardlKeyListener());
+        coreUI.getFrame().addKeyListener(handler.new DashboardlKeyListener());
         coreUI.getBackgroundImagePane().
-                addKeyListener(handler.new CarouselKeyListener());
+                addKeyListener(handler.new DashboardlKeyListener());
 
         //* Finished loading so change text *//
         coreUI.getInfoLabel().setText(" Dashboard ");
@@ -636,7 +652,7 @@ public class DashboardUI extends AuroraApp {
             topHeight = coreUI.getCenterPanel().getHeight() / 8;
             btnBackWidth = 0;
             btnBackHeight = 0;
-            carouselWidth = (int) (coreUI.getFrame().getWidth() / 42) * 16;
+            carouselWidth = coreUI.getFrame().getWidth() / 42 * 16;
             carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
                     getFrame().getWidth() / 6);
             gameCoverHeight = carouselHeight - (2 * carouselHeight / 6);
@@ -664,14 +680,14 @@ public class DashboardUI extends AuroraApp {
             topHeight = coreUI.getCenterPanel().getHeight() / 8;
             btnBackWidth = 30;
             btnBackHeight = 35;
-            carouselWidth = (int) (coreUI.getFrame().getWidth() / 40) * 16;
+            carouselWidth = coreUI.getFrame().getWidth() / 40 * 16;
             carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
                     getFrame().getWidth() / 6);
             gameCoverHeight = carouselHeight - (2 * carouselHeight / 6);
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
-            carouselImageWidth = (int) carouselWidth - (int) (400 / 2) - (Ratio
-                                                                          * 2);
-            carouselImageHeight = (int) carouselHeight - (450 / 2) - (Ratio * 2)
+            carouselImageWidth = (int) carouselWidth - 400 / 2 - (Ratio
+                                                                  * 2);
+            carouselImageHeight = carouselHeight - (450 / 2) - (Ratio * 2)
                                   - 55;
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
@@ -721,6 +737,10 @@ public class DashboardUI extends AuroraApp {
         return this.coreUI;
     }
 
+    public final AuroraStorage getStorage() {
+        return storage;
+    }
+
     /**
      * Get the DashboardLogic instance generated in DashboardUI.
      * <p/>
@@ -733,234 +753,234 @@ public class DashboardUI extends AuroraApp {
     /**
      * The Glow State of the Profile Pane title.
      * <p/>
-     * @return aImage
+     * @return AImage
      */
-    public final aImage getTitleProfileGlow() {
+    public final AImage getTitleProfileGlow() {
         return titleProfileGlow;
     }
 
     /**
      * Set the Normal state of the Profile Pane title.
      * <p/>
-     * @param aTitleProfileGlow aImage
+     * @param aTitleProfileGlow AImage
      */
-    public final void setTitleProfileGlow(final aImage aTitleProfileGlow) {
+    public final void setTitleProfileGlow(final AImage aTitleProfileGlow) {
         this.titleProfileGlow = aTitleProfileGlow;
     }
 
     /**
      * The Normal State of the Profile Pane title.
      * <p/>
-     * @return aImage
+     * @return AImage
      */
-    public final aImage getTitleimgProfileNorm() {
+    public final AImage getTitleimgProfileNorm() {
         return titleProfileNorm;
     }
 
     /**
      * Set the Normal state of the Profile Pane title.
      * <p/>
-     * @param aTitleimgProfileNorm aImage
+     * @param aTitleimgProfileNorm AImage
      */
-    public final void setTitleimgProfileNorm(final aImage aTitleimgProfileNorm) {
+    public final void setTitleimgProfileNorm(final AImage aTitleimgProfileNorm) {
         this.titleProfileNorm = aTitleimgProfileNorm;
     }
 
     /**
      * The Glow State of the Settings Pane title.
      * <p/>
-     * @return aImage
+     * @return AImage
      */
-    public final aImage getTitleSettingGlow() {
+    public final AImage getTitleSettingGlow() {
         return titleSettingGlow;
     }
 
     /**
      * Set the Glow state of the Settings Pane title.
      * <p/>
-     * @param aTitleSettingGlow aImage
+     * @param aTitleSettingGlow AImage
      */
-    public final void setTitleSettingGlow(final aImage aTitleSettingGlow) {
+    public final void setTitleSettingGlow(final AImage aTitleSettingGlow) {
         this.titleSettingGlow = aTitleSettingGlow;
     }
 
     /**
      * The Normal State of the Settings Pane title.
      * <p/>
-     * @return aImage
+     * @return AImage
      */
-    public final aImage getTitleSettingNorm() {
+    public final AImage getTitleSettingNorm() {
         return titleSettingNorm;
     }
 
     /**
      * Set the Normal state of the Settings Pane title.
      * <p/>
-     * @param aTitleSettingNorm aImage
+     * @param aTitleSettingNorm AImage
      */
-    public final void setTitleSettingNorm(final aImage aTitleSettingNorm) {
+    public final void setTitleSettingNorm(final AImage aTitleSettingNorm) {
         this.titleSettingNorm = aTitleSettingNorm;
     }
 
     /**
      * The Glow State of the Library Pane title.
      * <p/>
-     * @return aImage
+     * @return AImage
      */
-    public final aImage getTitleLibraryGlow() {
+    public final AImage getTitleLibraryGlow() {
         return titleLibraryGlow;
     }
 
     /**
      * Set the Glow state of the Library Pane title.
      * <p/>
-     * @param aTitleLibraryGlow aImage
+     * @param aTitleLibraryGlow AImage
      */
-    public final void setTitleLibraryGlow(final aImage aTitleLibraryGlow) {
+    public final void setTitleLibraryGlow(final AImage aTitleLibraryGlow) {
         this.titleLibraryGlow = aTitleLibraryGlow;
     }
 
     /**
      * The Normal State of the Library Pane title.
      * <p/>
-     * @return aImage
+     * @return AImage
      */
-    public final aImage getTitleLibraryNorm() {
+    public final AImage getTitleLibraryNorm() {
         return titleLibraryNorm;
     }
 
     /**
      * Set the Normal state of the Library Pane title.
      * <p/>
-     * @param aTitleLibraryNorm aImage
+     * @param aTitleLibraryNorm AImage
      */
-    public final void setTitleLibraryNorm(final aImage aTitleLibraryNorm) {
+    public final void setTitleLibraryNorm(final AImage aTitleLibraryNorm) {
         this.titleLibraryNorm = aTitleLibraryNorm;
     }
 
     /**
      * The Glow State of the AuroraNet Pane title.
      * <p/>
-     * @return aImage
+     * @return AImage
      */
-    public final aImage getTitleAuroraNetGlow() {
+    public final AImage getTitleAuroraNetGlow() {
         return titleAuroraNetGlow;
     }
 
     /**
      * Set the Glow state of the AuroraNet Pane title.
      * <p/>
-     * @param aTitleAuroraNetGlow aImage
+     * @param aTitleAuroraNetGlow AImage
      */
-    public final void setTitleAuroraNetGlow(final aImage aTitleAuroraNetGlow) {
+    public final void setTitleAuroraNetGlow(final AImage aTitleAuroraNetGlow) {
         this.titleAuroraNetGlow = aTitleAuroraNetGlow;
     }
 
     /**
      * The Normal State of the AuroraNet Pane title.
      * <p/>
-     * @return aImage
+     * @return AImage
      */
-    public final aImage getTitleAuroraNetNorm() {
+    public final AImage getTitleAuroraNetNorm() {
         return titleAuroraNetNorm;
     }
 
     /**
      * Set the Normal state of the AuroraNet Pane title.
      * <p/>
-     * @param aTitleAuroraNetNorm aImage
+     * @param aTitleAuroraNetNorm AImage
      */
-    public final void setTitleAuroraNetNorm(final aImage aTitleAuroraNetNorm) {
+    public final void setTitleAuroraNetNorm(final AImage aTitleAuroraNetNorm) {
         this.titleAuroraNetNorm = aTitleAuroraNetNorm;
     }
 
     /**
      * Get the Icon for the Profile Pane.
      * <p/>
-     * @return aImage
+     * @return AImage
      */
-    public final aImage getImgProfile() {
+    public final AImage getImgProfile() {
         return icoProfile;
     }
 
     /**
      * Set the Icon for the Profile Pane.
      * <p/>
-     * @param aImgProfile aImage
+     * @param aImgProfile AImage
      */
-    public final void setImgProfile(final aImage aImgProfile) {
+    public final void setImgProfile(final AImage aImgProfile) {
         this.icoProfile = aImgProfile;
     }
 
     /**
      * Get the Icon for the Settings Pane.
      * <p/>
-     * @return aImage
+     * @return AImage
      */
-    public final aImage getImgSetting() {
+    public final AImage getImgSetting() {
         return icoSetting;
     }
 
     /**
      * Set the Icon for the Settings Pane.
      * <p/>
-     * @param aImgSetting aImage
+     * @param aImgSetting AImage
      */
-    public final void setImgSetting(final aImage aImgSetting) {
+    public final void setImgSetting(final AImage aImgSetting) {
         this.icoSetting = aImgSetting;
     }
 
     /**
      * Get the Icon for the Library Pane.
      * <p/>
-     * @return aImage
+     * @return AImage
      */
-    public final aImagePane getImgLibrary() {
+    public final AImagePane getImgLibrary() {
         return icoLibrary;
     }
 
     /**
      * Set the Icon for the Library Pane.
      * <p/>
-     * @param aImgLibrary aImage
+     * @param aImgLibrary AImage
      */
-    public final void setImgLibrary(final aImagePane aImgLibrary) {
+    public final void setImgLibrary(final AImagePane aImgLibrary) {
         this.icoLibrary = aImgLibrary;
     }
 
     /**
      * Get the Icon for the AuroraNet Pane.
      * <p/>
-     * @return aImage
+     * @return AImage
      */
-    public final aImage getImgNet() {
+    public final AImage getImgNet() {
         return icoNet;
     }
 
     /**
      * Set the Icon for the AuroraNet Pane.
      * <p/>
-     * @param aImgNet aImage
+     * @param aImgNet AImage
      */
-    public final void setImgNet(final aImage aImgNet) {
+    public final void setImgNet(final AImage aImgNet) {
         this.icoNet = aImgNet;
     }
 
     /**
      * Get the Image representing the Key to press for an action.
      * <p/>
-     * @return aImage
+     * @return AImage
      */
-    public final aImage getImgKeyIco() {
+    public final AImage getImgKeyIco() {
         return keyArrows;
     }
 
     /**
      * Set the Image representing the Key to press for an action.
      * <p/>
-     * @param aImgKeyIco aImage
+     * @param aImgKeyIco AImage
      */
-    public final void setImgKeyIco(final aImage aImgKeyIco) {
+    public final void setImgKeyIco(final AImage aImgKeyIco) {
         this.keyArrows = aImgKeyIco;
     }
 
@@ -985,19 +1005,215 @@ public class DashboardUI extends AuroraApp {
     /**
      * Get the InfoFeed component instanced in DashboardUI.
      * <p/>
-     * @return aInfoFeed
+     * @return AInfoFeed
      */
-    public final aInfoFeed getInfoFeed() {
+    public final AInfoFeed getInfoFeed() {
         return infoFeed;
     }
 
     /**
      * Set the InfoFeed currently used in DashboardUI.
      * <p/>
-     * @param anInfoFeed aInfoFeed
+     * @param anInfoFeed AInfoFeed
      */
-    public final void setInfoFeed(final aInfoFeed anInfoFeed) {
+    public final void setInfoFeed(final AInfoFeed anInfoFeed) {
         this.infoFeed = anInfoFeed;
+    }
+
+    /**
+     * Get CarouselTitle instance of the Profile Pane
+     * containing both the Glow and Normal state of the TitleType.
+     * <p/>
+     * @return ACarouselTitle
+     */
+    public final ACarouselTitle getTitleProfile() {
+        return titleProfile;
+    }
+
+    /**
+     * Set the CarouselTitle instance of the Profile Pane
+     * containing both the Glow and Normal state of the TitleType.
+     * <p/>
+     * @param aTitleProfile ACarouselTitle
+     */
+    public final void setTitleProfile(final ACarouselTitle aTitleProfile) {
+        this.titleProfile = aTitleProfile;
+    }
+
+    /**
+     * Get CarouselTitle instance of the Setting Pane
+     * containing both the Glow and Normal state of the TitleType.
+     * <p/>
+     * @return ACarouselTitle
+     */
+    public final ACarouselTitle getTitleSetting() {
+        return titleSetting;
+    }
+
+    /**
+     * Set the CarouselTitle instance of the Setting Pane
+     * containing both the Glow and Normal state of the TitleType.
+     * <p/>
+     * @param aTitleSetting ACarouselTitle
+     */
+    public final void setTitleSetting(final ACarouselTitle aTitleSetting) {
+        this.titleSetting = aTitleSetting;
+    }
+
+    /**
+     * Get CarouselTitle instance of the Library Pane
+     * containing both the Glow and Normal state of the TitleType.
+     * <p/>
+     * @return ACarouselTitle
+     */
+    public final ACarouselTitle getTitleLibrary() {
+        return titleLibrary;
+    }
+
+    /**
+     * Set the CarouselTitle instance of the Library Pane
+     * containing both the Glow and Normal state of the TitleType.
+     * <p/>
+     * @param aTitleLibrary ACarouselTitle
+     */
+    public final void setTitleLibrary(final ACarouselTitle aTitleLibrary) {
+        this.titleLibrary = aTitleLibrary;
+    }
+
+    /**
+     * Get CarouselTitle instance of the AuroraNet Pane
+     * containing both the Glow and Normal state of the TitleType.
+     * <p/>
+     * @return ACarouselTitle
+     */
+    public final ACarouselTitle getTitleAuroraNet() {
+        return titleAuroraNet;
+    }
+
+    /**
+     * Set the CarouselTitle instance of the AuroraNet Pane
+     * containing both the Glow and Normal state of the TitleType.
+     * <p/>
+     * @param aTitleAuroraNet ACarouselTitle
+     */
+    public final void setTitleAuroraNet(final ACarouselTitle aTitleAuroraNet) {
+        this.titleAuroraNet = aTitleAuroraNet;
+    }
+
+    /**
+     * Get CarouselPane instance of the Library Carousel Pane
+     * containing both the TitleType and the Icon of the actual Pane.
+     * <p/>
+     * @return ACarouselPane
+     */
+    public final ACarouselPane getLibraryPane() {
+        return paneLibrary;
+    }
+
+    /**
+     * Set CarouselPane instance of the Library Carousel Pane
+     * containing both the TitleType and the Icon of the actual Pane.
+     * <p/>
+     * @param alibraryPane ACarouselPane
+     */
+    public final void setLibraryPane(final ACarouselPane alibraryPane) {
+        this.paneLibrary = alibraryPane;
+    }
+
+    /**
+     * Get CarouselPane instance of the Settings Carousel Pane
+     * containing both the TitleType and the Icon of the actual Pane.
+     * <p/>
+     * @return ACarouselPane
+     */
+    public final ACarouselPane getSettingsPane() {
+        return paneSettings;
+    }
+
+    /**
+     * Set CarouselPane instance of the Settings Carousel Pane
+     * containing both the TitleType and the Icon of the actual Pane.
+     * <p/>
+     * @param aSettingsPane ACarouselPane
+     */
+    public final void setSettingsPane(final ACarouselPane aSettingsPane) {
+        this.paneSettings = aSettingsPane;
+    }
+
+    /**
+     * Get CarouselPane instance of the Profile Carousel Pane
+     * containing both the TitleType and the Icon of the actual Pane.
+     * <p/>
+     * @return ACarouselPane
+     */
+    public final ACarouselPane getProfilePane() {
+        return paneProfile;
+    }
+
+    /**
+     * Set CarouselPane instance of the Profile Carousel Pane
+     * containing both the TitleType and the Icon of the actual Pane.
+     * <p/>
+     * @param aProfilePane ACarouselPane
+     */
+    public final void setProfilePane(final ACarouselPane aProfilePane) {
+        this.paneProfile = aProfilePane;
+    }
+
+    /**
+     * Get CarouselPane instance of the AuroraNet Carousel Pane
+     * containing both the TitleType and the Icon of the actual Pane.
+     * <p/>
+     * @return ACarouselPane
+     */
+    public final ACarouselPane getAuroraNetPane() {
+        return paneNet;
+    }
+
+    /**
+     * Set CarouselPane instance of the AuroraNet Carousel Pane
+     * containing both the TitleType and the Icon of the actual Pane.
+     * <p/>
+     * @param aAuroraNetPane ACarouselPane
+     */
+    public final void setAuroraNetPane(final ACarouselPane aAuroraNetPane) {
+        this.paneNet = aAuroraNetPane;
+    }
+
+    /**
+     * Get ACarousel instance from the DashboardUI.
+     * <p/>
+     * @return ACarousel
+     */
+    public final ACarousel getCarousel() {
+        return carousel;
+    }
+
+    /**
+     * Get The Back button found in DashboardUI.
+     * <p/>
+     * @return AButton
+     */
+    public final AButton getBtnBack() {
+        return btnBack;
+    }
+
+    /**
+     * Get The Right Carousel Button.
+     * <p/>
+     * @return AButton
+     */
+    public final AButton getBtnCarouselRight() {
+        return btnCarouselRight;
+    }
+
+    /**
+     * Get The Left Carousel Button.
+     * <p/>
+     * @return AButton
+     */
+    public final AButton getBtnCarouselLeft() {
+        return btnCarouselLeft;
     }
 
     /**
@@ -1235,136 +1451,76 @@ public class DashboardUI extends AuroraApp {
         this.topPaneHeighAdjust = theTopPaneHeighAdjust;
     }
 
-    public final aCarouselTitle getTitleProfile() {
-        return titleProfile;
-    }
-
-    public final void setTitleProfile(final aCarouselTitle titleProfile) {
-        this.titleProfile = titleProfile;
-    }
-
-    public final aCarouselTitle getTitleSetting() {
-        return titleSetting;
-    }
-
-    public final void setTitleSetting(final aCarouselTitle titleSetting) {
-        this.titleSetting = titleSetting;
-    }
-
-    public final aCarouselTitle getTitleLibrary() {
-        return titleLibrary;
-    }
-
-    public final void setTitleLibrary(final aCarouselTitle titleLibrary) {
-        this.titleLibrary = titleLibrary;
-    }
-
-    public final aCarouselTitle getTitleAuroraNet() {
-        return titleAuroraNet;
-    }
-
-    public final void setTitleAuroraNet(final aCarouselTitle titleAuroraNet) {
-        this.titleAuroraNet = titleAuroraNet;
-    }
-
-    public final aCarouselPane getLibraryPane() {
-        return paneLibrary;
-    }
-
-    public final void setLibraryPane(final aCarouselPane libraryPane) {
-        this.paneLibrary = libraryPane;
-    }
-
-    public final aCarouselPane getSettingsPane() {
-        return paneSettings;
-    }
-
-    public final void setSettingsPane(final aCarouselPane settingsPane) {
-        this.paneSettings = settingsPane;
-    }
-
-    public final aCarouselPane getProfilePane() {
-        return paneProfile;
-    }
-
-    public final void setProfilePane(final aCarouselPane profilePane) {
-        this.paneProfile = profilePane;
-    }
-
-    public final aCarouselPane getAuroraNetPane() {
-        return paneNet;
-    }
-
-    public final void setAuroraNetPane(final aCarouselPane auroraNetPane) {
-        this.paneNet = auroraNetPane;
-    }
-
-    public final StartLoader getLoader() {
-        return loader;
-    }
-
-    public final void setLoader(final StartLoader loader) {
-        this.loader = loader;
-    }
-
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
     public final int getTopHeight() {
         return topHeight;
     }
 
-    public final void setTopHeight(final int topHeight) {
-        this.topHeight = topHeight;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theTopHeight int
+     */
+    public final void setTopHeight(final int theTopHeight) {
+        this.topHeight = theTopHeight;
     }
 
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
     public final int getImageWidth() {
         return logoWidth;
     }
 
-    public final void setImageWidth(final int imageWidth) {
-        this.logoWidth = imageWidth;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theImageWidth int
+     */
+    public final void setImageWidth(final int theImageWidth) {
+        this.logoWidth = theImageWidth;
     }
 
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
     public final int getCarouselButtonWidth() {
         return carouselButtonWidth;
     }
 
-    public final void setCarouselButtonWidth(final int carouselButtonWidth) {
-        this.carouselButtonWidth = carouselButtonWidth;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theCarouselButtonWidth int
+     */
+    public final void setCarouselButtonWidth(final int theCarouselButtonWidth) {
+        this.carouselButtonWidth = theCarouselButtonWidth;
     }
 
+    /**
+     * Get UI component Size Value.
+     * <p/>
+     * @return int
+     */
     public final int getCarouselButtonHeight() {
         return carouselButtonHeight;
     }
 
-    public final void setCarouselButtonHeight(final int carouselButtonHeight) {
-        this.carouselButtonHeight = carouselButtonHeight;
-    }
-
-    public final aCarousel getCarousel() {
-        return carousel;
-    }
-
-    public final aurora.V1.core.Game getGame() {
-        return randomGame;
-    }
-
-    public final aButton getBtnLogout() {
-        return btnBack;
-    }
-
-    public final AuroraStorage getStorage() {
-        return storage;
-    }
-
-    public final AuroraCoreUI getUi() {
-        return coreUI;
-    }
-
-    public final aButton getBtnCarouselLeft() {
-        return btnCarouselLeft;
-    }
-
-    public final aButton getBtnCarouselRight() {
-        return btnCarouselRight;
+    /**
+     * Set UI component Size Value.
+     * <p/>
+     * @param theCarouselButtonHeight int
+     */
+    public final void setCarouselButtonHeight(final int theCarouselButtonHeight) {
+        this.carouselButtonHeight = theCarouselButtonHeight;
     }
     //------------------------------|||-----------------------------------//
 }

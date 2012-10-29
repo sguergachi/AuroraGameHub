@@ -24,14 +24,14 @@ import aurora.V1.core.StartLoader;
 import aurora.V1.core.screen_handler.StartScreenLogic;
 import aurora.V1.core.screen_handler.StartScreenLogic.FrameKeyListener;
 import aurora.V1.core.screen_handler.StartScreenLogic.StartListener;
-import aurora.engine.V1.Logic.aFileManager;
-import aurora.engine.V1.Logic.aPostHandler;
-import aurora.engine.V1.Logic.aSurface;
-import aurora.engine.V1.Logic.aXAVI;
-import aurora.engine.V1.UI.aButton;
-import aurora.engine.V1.UI.aProgressWheel;
-import aurora.engine.V1.UI.aPrompter;
-import aurora.engine.V1.UI.aScrollingImage;
+import aurora.engine.V1.Logic.AFileManager;
+import aurora.engine.V1.Logic.APostHandler;
+import aurora.engine.V1.Logic.ASurface;
+import aurora.engine.V1.Logic.ANuance;
+import aurora.engine.V1.UI.AButton;
+import aurora.engine.V1.UI.AProgressWheel;
+import aurora.engine.V1.UI.APrompter;
+import aurora.engine.V1.UI.AScrollingImage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -51,7 +51,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * Start Up GUI and logic
+ * Start Up GUI and logic.
  *
  * @author Sammy
  * @version 0.4
@@ -60,17 +60,17 @@ public final class StartScreenUI implements Runnable {
 
     private JFrame frame;
 
-    private aPrompter Display;
+    private APrompter Display;
 
-    private aProgressWheel progressWheel;
+    private AProgressWheel progressWheel;
 
     private ArrayList<String> ToDisplay;
 
-    private aScrollingImage HexAnimation;
+    private AScrollingImage HexAnimation;
 
     private AuroraCoreUI ui;
 
-    private aXAVI AuroraVI;
+    private ANuance AuroraVI;
 
     private int SIZE_Display;
 
@@ -82,15 +82,15 @@ public final class StartScreenUI implements Runnable {
 
     private JPanel pnlUserButton;
 
-    private aButton btnGo;
+    private AButton btnGo;
 
     private JPanel loadingPane;
 
-    private aFileManager FileIO;
+    private AFileManager FileIO;
 
     private AuroraStorage auroraStorage;
 
-    private aSurface resource;
+    private ASurface resource;
     ///
 
     private Thread login;
@@ -139,8 +139,8 @@ public final class StartScreenUI implements Runnable {
         }
 
 
-        progressWheel = new aProgressWheel("Aurora_wheel.png");
-        HexAnimation = new aScrollingImage("Aurora_Hex.png", 0, 0);
+        progressWheel = new AProgressWheel("Aurora_wheel.png");
+        HexAnimation = new AScrollingImage("Aurora_Hex.png", 0, 0);
 
         try {
             buildGUI();
@@ -201,7 +201,7 @@ public final class StartScreenUI implements Runnable {
         pnlUserButton.setOpaque(false);
 
 
-        btnGo = new aButton("Aurora_User_normal.png", "Aurora_User_down.png",
+        btnGo = new AButton("Aurora_User_normal.png", "Aurora_User_down.png",
                 "Aurora_User_over.png");
         btnGo.addActionListener(handler.new StartListener());
         btnGo.setVisible(false);
@@ -236,7 +236,7 @@ public final class StartScreenUI implements Runnable {
     /////Login Sequence
     public void startLogin() throws IOException {
         //Start Button
-        FileIO = new aFileManager("");
+        FileIO = new AFileManager("");
 
         ToDisplay = getDisplay();
 
@@ -246,16 +246,18 @@ public final class StartScreenUI implements Runnable {
         loadingPane.add(BorderLayout.SOUTH, progressWheel);
 
 
-        Display = new aPrompter(new Color(0, 127, 153), ui.getBoldFont().deriveFont(Font.PLAIN,SIZE_DisplayFont));
+        Display = new APrompter(new Color(0, 127, 153), ui.getBoldFont()
+                .deriveFont(Font.PLAIN, SIZE_DisplayFont));
         Display.add(ToDisplay);
         Display.setUp(SIZE_Display, Display.getWidth());
 
-        Display.
-                setPreferredSize(new Dimension(SIZE_Display, Display.getWidth()));
+        Display
+                .setPreferredSize(
+                new Dimension(SIZE_Display, Display.getWidth()));
 
         Display.revalidate();
         Display.setIgnoreRepaint(true);
-        Display.addPost(new aPostHandler() {
+        Display.addPost(new APostHandler() {
             @Override
             public void actionPerformed() {
                 doneLogin();
@@ -299,27 +301,27 @@ public final class StartScreenUI implements Runnable {
     }
 
     public ArrayList<String> getDisplay() {
-        AuroraVI = new aXAVI();
+        AuroraVI = new ANuance();
         if (checkUser()) {
             ArrayList<String> LoginDisplay = new ArrayList<String>();
 
-            LoginDisplay.add(AuroraVI.VI(aXAVI.inx_Greeting) + " " + FileIO.
+            LoginDisplay.add(AuroraVI.VI(ANuance.inx_Greeting) + " " + FileIO.
                     getUserName());
-            LoginDisplay.add(AuroraVI.VI(aXAVI.inx_WelcomeBack));
+            LoginDisplay.add(AuroraVI.VI(ANuance.inx_WelcomeBack));
             return LoginDisplay;
         } else {
             ArrayList<String> LoginDisplay = new ArrayList<String>();
 
-            LoginDisplay.add(AuroraVI.VI(aXAVI.inx_Greeting) + " " + FileIO.
+            LoginDisplay.add(AuroraVI.VI(ANuance.inx_Greeting) + " " + FileIO.
                     getUserName());
 
             LoginDisplay.add(
-                    AuroraVI.VI(aXAVI.inx_Welcome) + " to Aurora Game Manager");
+                    AuroraVI.VI(ANuance.inx_Welcome) + " to Aurora Game Manager");
 
             LoginDisplay.add(
-                    AuroraVI.VI(aXAVI.inx_Preparing) + " for First Time Use");
+                    AuroraVI.VI(ANuance.inx_Preparing) + " for First Time Use");
 
-            LoginDisplay.add(AuroraVI.VI(aXAVI.inx_Please) + " Wait...");
+            LoginDisplay.add(AuroraVI.VI(ANuance.inx_Please) + " Wait...");
             return LoginDisplay;
         }
     }
@@ -394,19 +396,22 @@ public final class StartScreenUI implements Runnable {
                 //Check if its the Users fault or the aurora severs are down
                 if (checkOnline("google.com") && !checkOnline(
                         "auroragm.sourceforge.net")) {
-                    Display.add(
+                    Display
+                            .add(
                             "Well, It Seems Our Servers Are Down, Try Again In A Bit.",
                             Color.RED);
 
                     //The User is having internet problems
                 } else if (!checkOnline("google.com")) {
                     Display.add("Can't Connect To Google...");
-                    Display.add(
+                    Display
+                            .add(
                             "Either The Universe Exploded OR You Don't Have Internet...",
                             Color.RED);
                     Display.add("Running In Offline Mode...");
                 } else {
-                    Display.add(
+                    Display
+                            .add(
                             "I Seem To Have Finnally Esstablished Connection...");
                 }
             } else {
@@ -499,7 +504,8 @@ public final class StartScreenUI implements Runnable {
     }
 
     private boolean checkDBFiles() {
-        if (FileIO.checkFile(FileIO.getPath() + path + "/User Data/User.h2.db") && FileIO.
+        if (FileIO.checkFile(FileIO.getPath() + path + "/User Data/User.h2.db")
+            && FileIO.
                 checkFile(FileIO.getPath() + path + "/Game Data/Games.h2.db")) {
             return true;
         } else {
@@ -518,7 +524,7 @@ public final class StartScreenUI implements Runnable {
         return startKeyHandler;
     }
 
-    public aFileManager getFileIO() {
+    public AFileManager getFileIO() {
         return FileIO;
     }
 
@@ -534,11 +540,11 @@ public final class StartScreenUI implements Runnable {
         return isTransisioning;
     }
 
-    public aScrollingImage getHexAnimation() {
+    public AScrollingImage getHexAnimation() {
         return HexAnimation;
     }
 
-    public void setHexAnimation(aScrollingImage HexAnimation) {
+    public void setHexAnimation(AScrollingImage HexAnimation) {
         this.HexAnimation = HexAnimation;
     }
 

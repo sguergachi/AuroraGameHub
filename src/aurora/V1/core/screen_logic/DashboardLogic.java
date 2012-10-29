@@ -22,8 +22,12 @@ import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.Game;
 import aurora.V1.core.screen_handler.DashboardHandler;
 import aurora.V1.core.screen_ui.DashboardUI;
-import aurora.engine.V1.Logic.aXAVI;
-import aurora.engine.V1.UI.aImagePane;
+import aurora.V1.core.screen_ui.GameLibraryUI;
+import aurora.V1.core.screen_ui.GamerProfileUI;
+import aurora.V1.core.screen_ui.SettingsUI;
+import aurora.engine.V1.Logic.ANuance;
+import aurora.engine.V1.UI.ACarouselPane;
+import aurora.engine.V1.UI.AImagePane;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -58,7 +62,7 @@ public class DashboardLogic {
     /**
      * The Handler Component of the Dashboard Screen.
      */
-    private final DashboardHandler dashboardHandler;
+    private DashboardHandler dashboardHandler;
 
     /**
      * The AuroraStorage instance from DashboardUI.
@@ -89,11 +93,26 @@ public class DashboardLogic {
 
         this.dashboardUI = dashboardUi;
         this.coreUI = dashboardUI.getCoreUI();
-        this.dashboardHandler = dashboardUI.getDashboardHandler();
+
         this.storage = dashboardUI.getStorage();
 
+    }
 
-
+    /**
+     * .-----------------------------------------------------------------------.
+     * | setHandler(DashboardHandler)
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Pass the Handler Instanced in the DashboardUI
+     * | For the Logic to work the Handler *MUST* be passed using this method
+     * |
+     * |
+     * .........................................................................
+     * <p/>
+     * @param aDashboardHandler DashboardHandler
+     */
+    public final void setHandler(final DashboardHandler aDashboardHandler) {
+        this.dashboardHandler = aDashboardHandler;
     }
 
     /**
@@ -111,9 +130,9 @@ public class DashboardLogic {
      *
      * @return an ArrayList with info
      */
-    public final aImagePane getLibraryIcon() {
+    public final AImagePane getLibraryIcon() {
 
-        aImagePane icon;
+        AImagePane icon;
 
         //* Double check there are no games in Storage *//
         System.out.println(storage);
@@ -121,7 +140,7 @@ public class DashboardLogic {
                 getStoredLibrary().getBoxArtPath().isEmpty()) {
 
             //* Set icon to Blank Case *//
-            icon = new aImagePane("Blank-Case.png",
+            icon = new AImagePane("Blank-Case.png",
                     dashboardUI.getGameCoverWidth(), dashboardUI.
                     getGameCoverHeight());
 
@@ -194,10 +213,10 @@ public class DashboardLogic {
             Array = array;
         }
 
-        Array.add(coreUI.getVi().VI(aXAVI.inx_Welcome) + ", ");
+        Array.add(coreUI.getVi().VI(ANuance.inx_Welcome) + ", ");
         Array.
                 add(
-                "How are you doing Today " + coreUI.getVi().VI(aXAVI.inx_User)
+                "How are you doing Today " + coreUI.getVi().VI(ANuance.inx_User)
                 + " We hope you enjoy this Alpha release of the Aurora Game Manager");
         Array.add("Make Sure You Check out the Improved Game Library!");
         Array.add("It can totally do stuff now!");
@@ -244,5 +263,46 @@ public class DashboardLogic {
         Array.add("Have fun!");
 
         return Array;
+    }
+
+    public void launchAuroraApp(ACarouselPane aCarouselPane) {
+
+        ACarouselPane pane = aCarouselPane;
+
+        if (pane == dashboardUI.getLibraryPane()) {
+            //action on click right Panel
+            if (dashboardUI != null) {
+                GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI
+                        .getStartUI().getAuroraStorage(), dashboardUI,
+                        dashboardUI.getCoreUI());
+                libraryUI.loadUI();
+            }
+        } else if (pane == dashboardUI.getProfilePane()) {
+            GamerProfileUI profileUI = new GamerProfileUI(dashboardUI,
+                    dashboardUI.getCoreUI());
+            profileUI.loadUI();
+        } else if (pane == dashboardUI.getSettingsPane()) {
+            SettingsUI settingsUI = new SettingsUI(dashboardUI,
+                    dashboardUI.getCoreUI());
+            settingsUI.loadUI();
+        } else if (pane == dashboardUI.getAuroraNetPane()) {
+            // do nothing for now
+        }
+
+
+    }
+
+    public void navigateCarousel(ACarouselPane aCarouselPane) {
+
+        ACarouselPane pane = aCarouselPane;
+
+        if (pane.getPointX() == dashboardUI.getCarousel().getRightX()) {
+            dashboardUI.getCarousel().MoveLeft();
+        } else if (pane.getPointX() == dashboardUI.getCarousel().getLeftX()) {
+            dashboardUI.getCarousel().MoveRight();
+        } else if (pane.getPointX() == dashboardUI.getCarousel().getCentX()) {
+            this.launchAuroraApp(pane);
+        }
+
     }
 }

@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 Sardonix Creative.
  *
- * This work is licensed under the 
+ * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
- * To view a copy of this license, visit 
+ * To view a copy of this license, visit
  *
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+ * or send a letter to Creative Commons, 444 Castro Street, Suite 900,
  * Mountain View, California, 94041, USA.
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,8 +17,8 @@
  */
 package aurora.V1.core;
 
-import aurora.engine.V1.Logic.aSurface;
-import aurora.engine.V1.Logic.aXAVI;
+import aurora.engine.V1.Logic.ASurface;
+import aurora.engine.V1.Logic.ANuance;
 import aurora.engine.V1.UI.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -68,20 +68,20 @@ public class AuroraCoreUI {
     private int screenWidth;
     private int screenHeight;
     private boolean isLargeScreen;
-    private aDialog warningDialog;
-    private aDialog errorDialog;
-    private aImage logoImage;
-    private aImage keyIconImage;
-    private aImagePane backgroundImagePane;
-    private aImagePane bottomImagePane;
-    private aImagePane frameControlImagePane;
-    private aImagePane topImagePane;
-    private aSurface resource;
-    private aXAVI vi;
+    private ADialog warningDialog;
+    private ADialog errorDialog;
+    private AImage logoImage;
+    private AImage keyIconImage;
+    private AImagePane backgroundImagePane;
+    private AImagePane bottomImagePane;
+    private AImagePane frameControlImagePane;
+    private AImagePane topImagePane;
+    private ASurface resource;
+    private ANuance vi;
     private Font regularFont;
     private Font boldFont;
     private JButton exitButton;
-    private JButton minimizeButton;    
+    private JButton minimizeButton;
     private JFrame frame;
     private JPanel centerPanel;
     private JPanel keyToPressPanel;
@@ -100,15 +100,15 @@ public class AuroraCoreUI {
     private JLabel keyActionLabel;
     private AuroraMini miniMode;
     private MinimizeListener minimizeHandler;
-    public static aTimeLabel timeLabel;
+    public static ATimeLabel timeLabel;
     final static ResourceBundle resourceBundle = ResourceBundle.getBundle("version");
 //    public aSound sfxTheme;
 //    public aSound sfxClunk;
 //    private aSound sfxExit;
 //    private aSound sfxMinimize;
 //    private aSound sfxWarning;
-    
- 
+
+
     /**
     .------------------------------------------------------------------------.
     |     AuroraCoreUI() Method
@@ -126,7 +126,7 @@ public class AuroraCoreUI {
         frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        resource = new aSurface("");
+        resource = new ASurface("");
 
     }
 
@@ -183,7 +183,7 @@ public class AuroraCoreUI {
         ///////////////////////
 
 
-        backgroundImagePane = new aImagePane("Aurora_Background.png", frame.getSize().width, frame.getSize().height, true);
+        backgroundImagePane = new AImagePane("Aurora_Background.png", frame.getSize().width, frame.getSize().height, true);
 
         backgroundImagePane.setPreferredSize(frame.getSize());
         backgroundImagePane.setLayout(new BoxLayout(backgroundImagePane, BoxLayout.Y_AXIS));
@@ -193,7 +193,7 @@ public class AuroraCoreUI {
         //  Exit and Minimize
         ///////////////////////
 
-        topImagePane = new aImagePane("Aurora_Header1.png", frame.getSize().width, (frame.getSize().height / 6), true);
+        topImagePane = new AImagePane("Aurora_Header1.png", frame.getSize().width, (frame.getSize().height / 6), true);
         topImagePane.setPreferredSize(new Dimension(frame.getSize().width, (frame.getSize().height / 6)));
 
         topImagePane.setIgnoreRepaint(true);
@@ -215,7 +215,7 @@ public class AuroraCoreUI {
         // The Bottom Panel Contains the Footer Image as well as
         // the Time and the Login Controls
         ///////////////////////
-        bottomImagePane = new aImagePane("Aurora_Footer1.png", frame.getSize().width, frame.getSize().height / 6, true);
+        bottomImagePane = new AImagePane("Aurora_Footer1.png", frame.getSize().width, frame.getSize().height / 6, true);
         bottomImagePane.setPreferredSize(new Dimension(frame.getSize().width, frame.getSize().height / 6));
         bottomImagePane.setOpaque(false);
         bottomImagePane.setLayout(new BorderLayout());
@@ -230,17 +230,17 @@ public class AuroraCoreUI {
 
 
         //Create V.I
-        vi = new aXAVI();
+        vi = new ANuance();
 
 
         /////////////////
         //Setup Buttons///////////////////////////////////////
         ////////////////
 
-        exitButton = new aButton("Aurora_Close_normal.png", "Aurora_Close_down.png", "Aurora_Close_over.png", exitButtonWidth, exitButtonHeight);
+        exitButton = new AButton("Aurora_Close_normal.png", "Aurora_Close_down.png", "Aurora_Close_over.png", exitButtonWidth, exitButtonHeight);
         exitButton.addActionListener(new CloseListener());
         exitButton.setToolTipText("Exit");
-        minimizeButton = new aButton("Aurora_Desktop_normal.png", "Aurora_Desktop_down.png", "Aurora_Desktop_over.png", minimizeButtonWidth, minimizeButtonHeight);
+        minimizeButton = new AButton("Aurora_Desktop_normal.png", "Aurora_Desktop_down.png", "Aurora_Desktop_over.png", minimizeButtonWidth, minimizeButtonHeight);
         minimizeHandler = new MinimizeListener(this, AuroraMini.MINIMIZE_MODE);
         minimizeButton.addActionListener(minimizeHandler);
         minimizeButton.setToolTipText("Minimize");
@@ -255,12 +255,12 @@ public class AuroraCoreUI {
 
         //// Frame Buttons
 
-        frameControlImagePane = new aImagePane("Aurora_FrameButton1.png", controlWidth, controlHeight);
+        frameControlImagePane = new AImagePane("Aurora_FrameButton1.png", controlWidth, controlHeight);
         frameControlImagePane.setImageHeight(controlHeight);
         frameControlImagePane.setOpaque(false);
         frameControlImagePane.add(minimizeButton);
         frameControlImagePane.add(exitButton);
-        
+
         frameControlContainerPanel = new JPanel(new BorderLayout());
         frameControlContainerPanel.setOpaque(false);
         frameControlContainerPanel.add(frameControlImagePane, BorderLayout.NORTH);
@@ -276,7 +276,7 @@ public class AuroraCoreUI {
 
         //// Logo Image
 
-        logoImage = new aImage("Logo_Aurora.png", logoWidth, logoHeight);
+        logoImage = new AImage("Logo_Aurora.png", logoWidth, logoHeight);
         logoPanel = new JPanel();
         logoPanel.setOpaque(false);
         logoPanel.add(logoImage);
@@ -293,7 +293,7 @@ public class AuroraCoreUI {
         bottomImagePane.add(BorderLayout.CENTER, centerFromBottomPanel);
 
         /// Welcome Label
-        infoLabel = new JLabel(vi.VI(aXAVI.inx_Welcome));
+        infoLabel = new JLabel(vi.VI(ANuance.inx_Welcome));
         infoLabel.setOpaque(false);
         infoLabel.setForeground(Color.LIGHT_GRAY);
         infoLabel.setFont(regularFont.deriveFont(Font.PLAIN, welcomeFontSize));
@@ -313,7 +313,7 @@ public class AuroraCoreUI {
         /// Time Label
 
         headerOfCenterFromBottomPanel = new JPanel(new BorderLayout());
-        timeLabel = new aTimeLabel();
+        timeLabel = new ATimeLabel();
         timeLabel.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
         timeLabel.setForeground(new Color(80, 126, 222));
         timePanel = new JPanel(new BorderLayout());
@@ -329,7 +329,7 @@ public class AuroraCoreUI {
         keyToPressPanel.setOpaque(false);
 
 
-        keyIconImage = new aImage("KeyboardKeys/enter.png");
+        keyIconImage = new AImage("KeyboardKeys/enter.png");
         keyIconImage.setImageSize(keyIconWidth, keyIconHeight);
         keyActionLabel = new JLabel(" Select ");
 
@@ -386,19 +386,19 @@ public class AuroraCoreUI {
 
     }
 
-    public aDialog getWarningDialog() {
+    public ADialog getWarningDialog() {
         return warningDialog;
     }
 
-    public void setWarningDialog(aDialog warningDialog) {
+    public void setWarningDialog(ADialog warningDialog) {
         this.warningDialog = warningDialog;
     }
 
-    public aDialog getErrorDialog() {
+    public ADialog getErrorDialog() {
         return errorDialog;
     }
 
-    public void setErrorDialog(aDialog errorDialog) {
+    public void setErrorDialog(ADialog errorDialog) {
         this.errorDialog = errorDialog;
     }
 
@@ -650,11 +650,11 @@ public class AuroraCoreUI {
         this.welcomeFontSize = welcomeFontSize;
     }
 
-    public void setBackgroundImagePane(aImagePane backgroundImagePane) {
+    public void setBackgroundImagePane(AImagePane backgroundImagePane) {
         this.backgroundImagePane = backgroundImagePane;
     }
 
-    public void setBottomImagePane(aImagePane bottomImagePane) {
+    public void setBottomImagePane(AImagePane bottomImagePane) {
         this.bottomImagePane = bottomImagePane;
     }
 
@@ -670,15 +670,15 @@ public class AuroraCoreUI {
         this.southFromTopPanel = southFromTopPanel;
     }
 
-    public void setFrameControlImagePane(aImagePane frameControlImagePane) {
+    public void setFrameControlImagePane(AImagePane frameControlImagePane) {
         this.frameControlImagePane = frameControlImagePane;
     }
 
-    public void setTopImagePane(aImagePane topImagePane) {
+    public void setTopImagePane(AImagePane topImagePane) {
         this.topImagePane = topImagePane;
     }
 
-    public void setLogoImage(aImage logoImage) {
+    public void setLogoImage(AImage logoImage) {
         this.logoImage = logoImage;
     }
 
@@ -686,7 +686,7 @@ public class AuroraCoreUI {
         this.infoLabel = infoLabel;
     }
 
-    public void setVi(aXAVI vi) {
+    public void setVi(ANuance vi) {
         this.vi = vi;
     }
 
@@ -702,7 +702,7 @@ public class AuroraCoreUI {
         this.frame = frame;
     }
 
-    public void setKeyIconImage(aImage keyIconImage) {
+    public void setKeyIconImage(AImage keyIconImage) {
         this.keyIconImage = keyIconImage;
     }
 
@@ -710,7 +710,7 @@ public class AuroraCoreUI {
         this.keyActionLabel = keyActionLabel;
     }
 
-    public static void setTimeLabel(aTimeLabel timeLabel) {
+    public static void setTimeLabel(ATimeLabel timeLabel) {
         AuroraCoreUI.timeLabel = timeLabel;
     }
 
@@ -737,7 +737,7 @@ public class AuroraCoreUI {
     ///
     //Getters
     ///
-    public aImage getKeyIconImage() {
+    public AImage getKeyIconImage() {
         return keyIconImage;
     }
 
@@ -785,7 +785,7 @@ public class AuroraCoreUI {
         return infoLabel;
     }
 
-    public aXAVI getVi() {
+    public ANuance getVi() {
         return vi;
     }
 
@@ -793,7 +793,7 @@ public class AuroraCoreUI {
         return frame;
     }
 
-    public static aTimeLabel getTimeLabel() {
+    public static ATimeLabel getTimeLabel() {
         return timeLabel;
     }
 
@@ -801,11 +801,11 @@ public class AuroraCoreUI {
         return userSpacePanel;
     }
 
-    public aImage getLogoImage() {
+    public AImage getLogoImage() {
         return logoImage;
     }
 
-    public aImagePane getBackgroundImagePane() {
+    public AImagePane getBackgroundImagePane() {
         return backgroundImagePane;
     }
 
@@ -813,7 +813,7 @@ public class AuroraCoreUI {
         return infoPanel;
     }
 
-    public aImagePane getBottomImagePane() {
+    public AImagePane getBottomImagePane() {
         return bottomImagePane;
     }
 
@@ -829,11 +829,11 @@ public class AuroraCoreUI {
         return southFromTopPanel;
     }
 
-    public aImagePane getFrameControlImagePane() {
+    public AImagePane getFrameControlImagePane() {
         return frameControlImagePane;
     }
 
-    public aImagePane getTopImagePane() {
+    public AImagePane getTopImagePane() {
         return topImagePane;
     }
 
@@ -857,18 +857,18 @@ public class AuroraCoreUI {
 //            sfxClunk = new aSound(aSound.sfxClunk, false);
 //
 //        } catch (MalformedURLException ex) {
-//            err = new aDialog(aDialog.aDIALOG_ERROR, "A Sound " + vi.VI(vi.inx_Error) + " Occured!");
+//            err = new ADialog(ADialog.aDIALOG_ERROR, "A Sound " + vi.VI(vi.inx_Error) + " Occured!");
 //            err.setVisible(true);
 //        }
     }//end SFX
 
     public void showExitDialog() {
         if (warningDialog == null) {
-            warningDialog = new aDialog(aDialog.aDIALOG_WARNING, "Are You Sure you want to " + vi.VI(vi.inx_Exit) + "?", boldFont);
+            warningDialog = new ADialog(ADialog.aDIALOG_WARNING, "Are You Sure you want to " + vi.VI(vi.inx_Exit) + "?", boldFont);
 
 
             warningDialog.setButtonListener(new ActionListener() {
-                private aDialog err;
+                private ADialog err;
 
                 public void actionPerformed(ActionEvent e) {
                     ///SOUND
@@ -935,11 +935,11 @@ public class AuroraCoreUI {
         return System.getProperty("os.name");
     }
 
-    public void setSurface(aSurface resource) {
+    public void setSurface(ASurface resource) {
         this.resource = resource;
     }
 
-    public aSurface getResource() {
+    public ASurface getResource() {
         return resource;
     }
 

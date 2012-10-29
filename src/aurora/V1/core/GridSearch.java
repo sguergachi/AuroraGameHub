@@ -19,7 +19,7 @@ package aurora.V1.core;
 
 import aurora.V1.core.screen_handler.GameLibraryHandler;
 import aurora.V1.core.screen_ui.GameLibraryUI;
-import aurora.engine.V1.UI.aImage;
+import aurora.engine.V1.UI.AImage;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,7 +40,7 @@ public class GridSearch {
     private String AppendedName = ""; //This is the concatination of all characters
     private AuroraCoreUI ui; // The is the UI object
     private GameLibraryUI libraryUI; // This is the Library View Object
-    private aImage sideSearchImage; // The Image To The Side of The Grid that says: Search
+    private AImage sideSearchImage; // The Image To The Side of The Grid that says: Search
     private GridManager SearchManager = null; // The Grid Manager For the Manager
     private ArrayList<Game> foundGameList; //List of all games found
     private boolean ClearedGrid; // ClearedGrid boolean
@@ -318,7 +318,7 @@ public class GridSearch {
         libraryUI.getGameBack().remove(0);
         libraryUI.getGameBack().remove(libraryUI.getImgFavorite());
         //Add search Side image
-        this.sideSearchImage = new aImage("Aurora_Search.png");
+        this.sideSearchImage = new AImage("Aurora_Search.png");
         libraryUI.getGameBack().add(sideSearchImage, BorderLayout.WEST);
         for (int i = 0; i < libraryUI.getGridSplit().getArray().size(); i++) {
             libraryUI.getGameBack().remove(libraryUI.getGridSplit().getGrid(i));

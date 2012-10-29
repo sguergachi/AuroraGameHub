@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 Sardonix Creative.
  *
- * This work is licensed under the 
+ * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
- * To view a copy of this license, visit 
+ * To view a copy of this license, visit
  *
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+ * or send a letter to Creative Commons, 444 Castro Street, Suite 900,
  * Mountain View, California, 94041, USA.
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,11 +27,11 @@ import aurora.V1.core.GridManager;
 import aurora.V1.core.GridSearch;
 import aurora.V1.core.screen_handler.GameLibraryHandler.MoveToLastGrid;
 import aurora.V1.core.screen_ui.GameLibraryUI;
-import aurora.engine.V1.Logic.aFileManager;
-import aurora.engine.V1.UI.aButton;
-import aurora.engine.V1.UI.aGridPanel;
-import aurora.engine.V1.UI.aHoverButton;
-import aurora.engine.V1.UI.aImage;
+import aurora.engine.V1.Logic.AFileManager;
+import aurora.engine.V1.UI.AButton;
+import aurora.engine.V1.UI.AGridPanel;
+import aurora.engine.V1.UI.AHoverButton;
+import aurora.engine.V1.UI.AImage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -70,7 +70,7 @@ public class GameLibraryHandler {
 
         private final GameLibraryUI libraryUI;
         private final JTextField SearchBar;
-        private final aButton SearchButton;
+        private final AButton SearchButton;
         private final GridSearch Search;
 
         public RemoveSearchHandler(GameLibraryUI gameLibraryUI) {
@@ -202,7 +202,7 @@ public class GameLibraryHandler {
         }
 
         @Override
-        //If Focus was not gained thru the search button, then 
+        //If Focus was not gained thru the search button, then
         //reset text and append string
         public void focusGained(FocusEvent e) {
             if (libraryUI.getSearchBar().getText().equals("Start Typing To Search...")) {
@@ -425,7 +425,7 @@ public class GameLibraryHandler {
                         || e.getKeyCode() == KeyEvent.VK_0
                         || e.getKeyCode() == KeyEvent.VK_QUOTE) {
 
-                    SearchBar.setText(String.valueOf(e.getKeyChar())); //Set first character of Search Box to the key typed 
+                    SearchBar.setText(String.valueOf(e.getKeyChar())); //Set first character of Search Box to the key typed
                     Search.resetAppendedName();//Clear appended text if there is anything still in there
                     Search.clearGameGrid(); //clear and prep for search mode
                     Search.typedChar(e.getKeyChar()); // Pass to search engine first character
@@ -653,7 +653,7 @@ public class GameLibraryHandler {
                 return true;
             }
 
-            String extension = aFileManager.getExtension(file);
+            String extension = AFileManager.getExtension(file);
             if (extension != null) {
                 if (extension.equals("exe")
                         || extension.equals("app")
@@ -857,9 +857,9 @@ public class GameLibraryHandler {
         private AuroraCoreUI ui;
         private GridManager GridSplit;
         private JPanel GameBack;
-        private aHoverButton imgGameLeft;
-        private aHoverButton imgGameRight;
-        private aImage imgFavorite;
+        private AHoverButton imgGameLeft;
+        private AHoverButton imgGameRight;
+        private AImage imgFavorite;
         private GridAnimation GridAnimate;
 
         public HoverButtonLeft(GameLibraryUI library, AuroraCoreUI ui) {
@@ -977,10 +977,10 @@ public class GameLibraryHandler {
         private AuroraCoreUI coreUI;
         private GridManager GridSplit;
         private JPanel GameBack;
-        private aHoverButton imgGameLeft;
-        private aHoverButton imgGameRight;
-        private aImage imgFavorite;
-        private aImage imgBlank;
+        private AHoverButton imgGameLeft;
+        private AHoverButton imgGameRight;
+        private AImage imgFavorite;
+        private AImage imgBlank;
         private GridAnimation GridAnimate;
 
         public HoverButtonRight(GameLibraryUI gameLibraryUI, AuroraCoreUI auroraCoreUI) {
@@ -1101,7 +1101,7 @@ public class GameLibraryHandler {
             System.out.println("Current Grid = " + currentIndex);
 
             /* get the grid that is currently displayed */
-            aGridPanel grid = GridSplit.getGrid(currentIndex);
+            AGridPanel grid = GridSplit.getGrid(currentIndex);
 
             /* get an array of all the components in the grid */
             ArrayList comp = grid.getArray();

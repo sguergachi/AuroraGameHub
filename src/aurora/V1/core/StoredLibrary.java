@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 Sardonix Creative.
  *
- * This work is licensed under the 
+ * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
- * To view a copy of this license, visit 
+ * To view a copy of this license, visit
  *
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+ * or send a letter to Creative Commons, 444 Castro Street, Suite 900,
  * Mountain View, California, 94041, USA.
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,8 +18,8 @@
 package aurora.V1.core;
 
 import aurora.V1.core.screen_ui.GameLibraryUI;
-import aurora.engine.V1.Logic.aSimpleDB;
-import aurora.engine.V1.Logic.aStore;
+import aurora.engine.V1.Logic.ASimpleDB;
+import aurora.engine.V1.Logic.AStorage;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  *
  * @author Sammy
  */
-public class StoredLibrary extends aStore {
+public class StoredLibrary extends AStorage {
 
     private GameLibraryUI Library;
     private ArrayList<String> GameNames;
@@ -53,7 +53,7 @@ public class StoredLibrary extends aStore {
         Favestates  = new ArrayList();
 
         try {
-            super.db = new aSimpleDB("Games", Path);
+            super.db = new ASimpleDB("Games", Path);
         } catch (SQLException ex) {
             Logger.getLogger(StoredLibrary.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -61,14 +61,14 @@ public class StoredLibrary extends aStore {
         //If this is the first time we are setting up the database
         //Then create the columns where the data will reside
         if (FirstTime) {
-            
+
             try {
                 db.addTable("Library", false);
-                db.addColumn("Library", "Game_Name", aSimpleDB.TYPE_STRING_IGNORECASE);
-                db.setConstraint("Library", "Game_Name", aSimpleDB.UNIQUE);
-                db.addColumn("Library", "Executable_Path", aSimpleDB.TYPE_STRING_IGNORECASE);
-                db.addColumn("Library", "BoxArt_Path", aSimpleDB.TYPE_STRING_IGNORECASE);
-                db.addColumn("Library", "FavState", aSimpleDB.TYPE_BOOLEAN);
+                db.addColumn("Library", "Game_Name", ASimpleDB.TYPE_STRING_IGNORECASE);
+                db.setConstraint("Library", "Game_Name", ASimpleDB.UNIQUE);
+                db.addColumn("Library", "Executable_Path", ASimpleDB.TYPE_STRING_IGNORECASE);
+                db.addColumn("Library", "BoxArt_Path", ASimpleDB.TYPE_STRING_IGNORECASE);
+                db.addColumn("Library", "FavState", ASimpleDB.TYPE_BOOLEAN);
             } catch (SQLException ex) {
                 Logger.getLogger(StoredLibrary.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -148,7 +148,7 @@ public class StoredLibrary extends aStore {
 
 
     }
-    
+
     /*
      * Removes the game from the stored library
      */
@@ -157,7 +157,7 @@ public class StoredLibrary extends aStore {
     	GameNames.remove(gameName);
     	GamePaths.remove(game.getGamePath());
     	BoxArtPaths.remove(game.getBoxArtUrl());
-        
+
         removeFromDatabase(gameName);
     }
 
@@ -201,33 +201,33 @@ public class StoredLibrary extends aStore {
     public void storeToDatabase() {
 
         try {
-            
+
             db.addRowFlex("Library", new String[]{"Game_Name", "Executable_Path", "BoxArt_Path", "FavState"},
                     ("'" + GameName + "'" + "," + "'" + GamePath + "'" + "," + "'" + BoxArtPath + "'" + "," + "'" + Favestate + "'"));
 
         } catch (SQLException ex) {
             Logger.getLogger(StoredLibrary.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //Clear for next set of Games   
+        //Clear for next set of Games
         GameName   = "";
         GamePath   = "";
         BoxArtPath = "";
 
 
     }
-    
+
     /*
      * Remove a game from the library database
      */
     private void removeFromDatabase(String name) {
     	try {
     		db.deleteRowFlex("Library", "Game_Name=" + "'" + name + "'");
-    		
+
     	} catch (SQLException ex) {
     		Logger.getLogger(StoredLibrary.class.getName()).log(Level.SEVERE, null, ex);
     	}
     }
-    
+
     /*
      * Search for the name in the GameNames array
      */

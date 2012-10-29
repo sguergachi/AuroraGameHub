@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 Sardonix Creative.
  *
- * This work is licensed under the 
+ * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
- * To view a copy of this license, visit 
+ * To view a copy of this license, visit
  *
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+ * or send a letter to Creative Commons, 444 Castro Street, Suite 900,
  * Mountain View, California, 94041, USA.
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,11 +17,11 @@
  */
 package aurora.V1.core;
 
-import aurora.engine.V1.UI.aButton;
-import aurora.engine.V1.UI.aImage;
-import aurora.engine.V1.UI.aImagePane;
-import aurora.engine.V1.UI.aProgressWheel;
-import aurora.engine.V1.UI.aSlickLabel;
+import aurora.engine.V1.UI.AButton;
+import aurora.engine.V1.UI.AImage;
+import aurora.engine.V1.UI.AImagePane;
+import aurora.engine.V1.UI.AProgressWheel;
+import aurora.engine.V1.UI.ASlickLabel;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.MalformedURLException;
@@ -42,8 +42,8 @@ public class AuroraMini {
 
     private JDialog mini;
     private AuroraCoreUI ui;
-    private aImagePane pnlBackground;
-    private aImage icon;
+    private AImagePane pnlBackground;
+    private AImage icon;
     private JPanel pnlIconPane;
     private Point location;
     private MouseEvent pressed;
@@ -51,13 +51,13 @@ public class AuroraMini {
     public static Boolean isIconHover = true;
     private String mode;
     private int yPos;
-    private aSlickLabel lblStatus;
+    private ASlickLabel lblStatus;
     private JPanel pnlStatus;
     private boolean isDrag = false;
     public static Boolean isMinimode = false;
     public static final String LOADING_MODE = "startup";
     public static final String MINIMIZE_MODE = "minimize";
-    private aButton close;
+    private AButton close;
     private boolean firstClick;
     private PaneAnimateHandler animationHander;
 
@@ -105,11 +105,11 @@ public class AuroraMini {
             }
 
             //SET UP BACKGROUND
-            pnlBackground = new aImagePane("Starter.png", new FlowLayout(FlowLayout.LEFT, 0, 0));
+            pnlBackground = new AImagePane("Starter.png", new FlowLayout(FlowLayout.LEFT, 0, 0));
             pnlBackground.setPreferredSize(mini.getSize());
 
             //CREATE
-            icon = new aImage("icon.png");
+            icon = new AImage("icon.png");
             icon.addMouseListener(new IconHoverHandler());
 
             pnlIconPane = new JPanel(new BorderLayout(0, 0));
@@ -117,14 +117,14 @@ public class AuroraMini {
             pnlIconPane.setPreferredSize(new Dimension(icon.getImgWidth() + 5, mini.getHeight()));
 
 
-            lblStatus = new aSlickLabel();
+            lblStatus = new ASlickLabel();
             lblStatus.setFont(ui.getDefaultFont().deriveFont(Font.BOLD, 30));
             lblStatus.setForeground(Color.LIGHT_GRAY);
 
             pnlStatus = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
             pnlStatus.setOpaque(false);
 
-            close = new aButton("Aurora_Close_normal.png", "Aurora_Close_down.png", "Aurora_Close_over.png");
+            close = new AButton("Aurora_Close_normal.png", "Aurora_Close_down.png", "Aurora_Close_over.png");
 
             //ADD HANDLERS//
 
@@ -173,7 +173,7 @@ public class AuroraMini {
             animateIN();                                                          //Animate in
             lblStatus.setText(" READY");
 
-            //Remove progress wheel if it exists 
+            //Remove progress wheel if it exists
             if (pnlBackground.getComponentCount() == 4) {
                 pnlBackground.remove(3);
                 pnlBackground.remove(2);
@@ -187,7 +187,7 @@ public class AuroraMini {
             mini.setLocation((ui.getScreenWidth() - 70) - 150, mini.getY());
             animateIN();
             lblStatus.setText("LOADING");
-            pnlBackground.add(new aProgressWheel("Aurora_wheel.png"));
+            pnlBackground.add(new AProgressWheel("Aurora_wheel.png"));
         }
 
     }

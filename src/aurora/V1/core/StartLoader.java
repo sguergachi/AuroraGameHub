@@ -19,10 +19,10 @@ package aurora.V1.core;
 
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.StartScreenUI;
-import aurora.engine.V1.UI.aImage;
-import aurora.engine.V1.UI.aImagePane;
-import aurora.engine.V1.UI.aProgressWheel;
-import aurora.engine.V1.UI.aScrollingImage;
+import aurora.engine.V1.UI.AImage;
+import aurora.engine.V1.UI.AImagePane;
+import aurora.engine.V1.UI.AProgressWheel;
+import aurora.engine.V1.UI.AScrollingImage;
 import java.awt.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -43,7 +43,7 @@ public class StartLoader implements Runnable {
 
     private Thread runner;
 
-    private aScrollingImage HexPanes;
+    private AScrollingImage HexPanes;
 
     private int Scale = 0;
 
@@ -53,11 +53,11 @@ public class StartLoader implements Runnable {
 
     private Graphics2D g2d;
 
-    private aImagePane HeaderPanel;
+    private AImagePane HeaderPanel;
 
     private JLabel logo;
 
-    private aImage ImgSlim;
+    private AImage ImgSlim;
 
     private JPanel FramePane;
 
@@ -73,7 +73,7 @@ public class StartLoader implements Runnable {
 
     private AuroraCoreUI ui;
 
-    private aProgressWheel progress;
+    private AProgressWheel progress;
 
     private DashboardUI mainWin;
 
@@ -97,7 +97,7 @@ public class StartLoader implements Runnable {
         SIZE_ImageHeight = SIZE_TopHeight / 2 + 20;
         SIZE_ImageWidth = ui.getFrame().getWidth() / 2 + 20;
 
-        ImgSlim = new aImage("Aurora_Header2.png");
+        ImgSlim = new AImage("Aurora_Header2.png");
         ImgSlim.setImageSize(SIZE_ImageWidth, SIZE_ImageHeight);
     }
 
@@ -207,7 +207,7 @@ public class StartLoader implements Runnable {
                                      FontFormatException {
         System.out.println(CenterHeight);
         System.out.println(CenterPane.getWidth());
-        progress = new aProgressWheel("Aurora_wheel.png");
+        progress = new AProgressWheel("Aurora_wheel.png");
         ui.getTopImagePane().add(BorderLayout.PAGE_END, ui.getSouthFromTopPanel());
         ui.getCenterPanel().removeAll();
 
@@ -248,15 +248,15 @@ public class StartLoader implements Runnable {
         return FramePane;
     }
 
-    public aImagePane getHeaderPanel() {
+    public AImagePane getHeaderPanel() {
         return HeaderPanel;
     }
 
-    public aScrollingImage getHexPanes() {
+    public AScrollingImage getHexPanes() {
         return HexPanes;
     }
 
-    public aImage getImgSlim() {
+    public AImage getImgSlim() {
         return ImgSlim;
     }
 
@@ -284,7 +284,7 @@ public class StartLoader implements Runnable {
         return logo;
     }
 
-    public aProgressWheel getProgress() {
+    public AProgressWheel getProgress() {
         return progress;
     }
 

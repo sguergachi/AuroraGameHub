@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 Sardonix Creative.
  *
- * This work is licensed under the 
+ * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
- * To view a copy of this license, visit 
+ * To view a copy of this license, visit
  *
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+ * or send a letter to Creative Commons, 444 Castro Street, Suite 900,
  * Mountain View, California, 94041, USA.
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,11 +17,11 @@
  */
 package aurora.V1.core;
 
-import aurora.engine.V1.UI.aDialog;
-import aurora.engine.V1.UI.aImage;
-import aurora.engine.V1.UI.aImagePane;
-import aurora.engine.V1.UI.aProgressWheel;
-import aurora.engine.V1.UI.aTimeLabel;
+import aurora.engine.V1.UI.ADialog;
+import aurora.engine.V1.UI.AImage;
+import aurora.engine.V1.UI.AImagePane;
+import aurora.engine.V1.UI.AProgressWheel;
+import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,17 +43,17 @@ public class AuroraLauncher implements Runnable {
     private Game game;
     private JDialog launchPane;
     private AuroraCoreUI ui;
-    private aImagePane pnlBackground;
+    private AImagePane pnlBackground;
     private JPanel pnlTop;
     private JPanel pnlCenter;
     private JLabel lblTitle;
     private JLabel lblGameName;
-    private aImage imageRightSide;
-    private aImage imageLeftSide;
-    private aImagePane gameIcon;
-    private aImagePane titleBG;
-    private aProgressWheel progressWheel;
-    private aImagePane progressWheelBG;
+    private AImage imageRightSide;
+    private AImage imageLeftSide;
+    private AImagePane gameIcon;
+    private AImagePane titleBG;
+    private AProgressWheel progressWheel;
+    private AImagePane progressWheelBG;
     private JPanel pnlCenterContent;
     private JPanel pnlBottom;
     private Thread launcherThread;
@@ -83,7 +83,7 @@ public class AuroraLauncher implements Runnable {
 
 
         //Create components
-        pnlBackground = new aImagePane("LaunchBG.png", launchPane.getWidth(), launchPane.getHeight(), new BorderLayout());
+        pnlBackground = new AImagePane("LaunchBG.png", launchPane.getWidth(), launchPane.getHeight(), new BorderLayout());
         pnlTop = new JPanel(new BorderLayout(0, 20));
         pnlTop.setOpaque(false);
         pnlTopCenter = new JPanel();
@@ -98,14 +98,14 @@ public class AuroraLauncher implements Runnable {
         lblTitle = new JLabel("Now Launching");
         lblGameName = new JLabel(game.getGameName());
 
-        imageRightSide = new aImage("rightBrace.png");
-        imageLeftSide = new aImage("leftBrace.png");
-        gameIcon = new aImagePane();
+        imageRightSide = new AImage("rightBrace.png");
+        imageLeftSide = new AImage("leftBrace.png");
+        gameIcon = new AImagePane();
         gameIcon.setImage(game.getImgIcon(), 260, 230);
         gameIcon.setPreferredSize(new Dimension(230, 270));
-        titleBG = new aImagePane("launchTitle.png");
-        progressWheel = new aProgressWheel("ProgressWheel.png");
-        progressWheelBG = new aImagePane("ProgressWheelBG.png", new BorderLayout(0, 0));
+        titleBG = new AImagePane("launchTitle.png");
+        progressWheel = new AProgressWheel("ProgressWheel.png");
+        progressWheelBG = new AImagePane("ProgressWheelBG.png", new BorderLayout(0, 0));
         progressWheelBG.setPreferredSize(new Dimension(progressWheelBG.getImgIcon().getIconWidth(), progressWheelBG.getImgIcon().getIconHeight()));
 
         //Config Component
@@ -193,7 +193,7 @@ public class AuroraLauncher implements Runnable {
 
                         //Game Cover Tracker Data
                         game.setNumberTimesPlayed(game.getNumberTimesPlayed() + 1);
-                        game.setLastPlayed(aTimeLabel.current(aTimeLabel.TIME_24HOUR));
+                        game.setLastPlayed(ATimeLabel.current(ATimeLabel.TIME_24HOUR));
                         //UI Changes
                         progressWheel.setClockwise(true);
                         progressWheel.setSpeed(6);
@@ -233,7 +233,7 @@ public class AuroraLauncher implements Runnable {
                         }
                         //Game Cover Tracker Data
                         game.setNumberTimesPlayed(game.getNumberTimesPlayed() + 1);
-                        game.setLastPlayed(aTimeLabel.current(aTimeLabel.TIME_24HOUR));
+                        game.setLastPlayed(ATimeLabel.current(ATimeLabel.TIME_24HOUR));
                         //UI Changes
                         progressWheel.setClockwise(false);
                         progressWheel.setSpeed(5);
@@ -264,7 +264,7 @@ public class AuroraLauncher implements Runnable {
                     game.setLastPlayed(ui.getTimeLabel().getText());
                 }
             } catch (IOException ex) {
-                aDialog error = new aDialog(aDialog.aDIALOG_ERROR, "Unable to find game.");
+                ADialog error = new ADialog(ADialog.aDIALOG_ERROR, "Unable to find game.");
                 error.setButtonListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -280,13 +280,13 @@ public class AuroraLauncher implements Runnable {
                 Logger.getLogger(AuroraLauncher.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            //Game Has Exited// 
+            //Game Has Exited//
             titleBG.setImage("ComputingData.png");
             launchPane.setAlwaysOnTop(false);
             progressWheel.setClockwise(false);
             progressWheel.setSpeed(10);
 
-            timeAfter = aTimeLabel.current(aTimeLabel.TIME_24HOUR);
+            timeAfter = ATimeLabel.current(ATimeLabel.TIME_24HOUR);
             System.out.println(game.getLastPlayed());
             System.out.println(timeAfter);
 
