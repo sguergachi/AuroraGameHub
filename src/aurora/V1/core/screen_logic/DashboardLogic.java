@@ -265,7 +265,25 @@ public class DashboardLogic {
         return Array;
     }
 
-    public void launchAuroraApp(ACarouselPane aCarouselPane) {
+    /**
+     * .-----------------------------------------------------------------------.
+     * | launchAuroraApp(ACarouselPane aCarouselPane)
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method takes in a CarouselPane and tries to determine which APP
+     * | Is associated with the specific Carousel Pane and then Launch that APP
+     * |
+     * | The method does an if check on each known Carousel Pane found in
+     * | Dashboard UI such as: LibraryPane, ProfilePane, SettingsPane etc.
+     * | then it launches the appropriate UI of the APP associated with that
+     * | Carousel Pane.
+     * |
+     * .........................................................................
+     *
+     * @param aCarouselPane ACarouselPane
+     * <p/>
+     */
+    public final void launchAuroraApp(final ACarouselPane aCarouselPane) {
 
         ACarouselPane pane = aCarouselPane;
 
@@ -292,14 +310,38 @@ public class DashboardLogic {
 
     }
 
-    public void navigateCarousel(ACarouselPane aCarouselPane) {
+    /**
+     * .-----------------------------------------------------------------------.
+     * | navigateCarousel(ACarouselPane aCarouselPane)
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method takes a CarouselPane and determines based on known points
+     * | if it is the Center Pane, the Left Pane or the Right Pane. It then asks
+     * | The Carousel in the DashboardUI to move Right, Left or launch the APP
+     * | associated with that Pane depending on the location of that Pane.
+     * |
+     * | IF Pane on the Right Side  >>  Move Carousel to the Left
+     * | IF Pane on the Left Side   >>  Move Carousel to the Right
+     * | IF Pane is in the Center   >>  Launch App by passing pane to
+     * |                                launchAuroraApp(ACarouselPane)
+     * .........................................................................
+     *
+     * @param aCarouselPane ACarouselPane
+     * <p/>
+     */
+    public final void navigateCarousel(final ACarouselPane aCarouselPane) {
 
         ACarouselPane pane = aCarouselPane;
 
+        /* if Pane is to the Right side, move carousel Left */
         if (pane.getPointX() == dashboardUI.getCarousel().getRightX()) {
             dashboardUI.getCarousel().MoveLeft();
+
+            /* if Pane is to the Left side, move carousel Right */
         } else if (pane.getPointX() == dashboardUI.getCarousel().getLeftX()) {
             dashboardUI.getCarousel().MoveRight();
+
+            /* if Pane is in the Center then launch the App associated with it*/
         } else if (pane.getPointX() == dashboardUI.getCarousel().getCentX()) {
             this.launchAuroraApp(pane);
         }
