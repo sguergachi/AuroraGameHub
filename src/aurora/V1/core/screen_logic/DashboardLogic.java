@@ -81,8 +81,16 @@ public class DashboardLogic {
      * |
      * | This is the Constructor of the Dashboard Logic class.
      * |
-     * | The Constructor of Screen Classes must initialize/create both a
-     * | Handler and a Logic object which should contain the UI as a parameter
+     * | The DashboardUI is required to make adjustments to the UI from the
+     * | logic.
+     * | The storage will be extracted from DashboardUI and initialized
+     * | here.
+     * | CoreUI will also be internally initialized here and extracted
+     * | from DashboardUI.
+     * |
+     * | NOTE: for Logic to work you must use the set(HandlerDashboardHandler)
+     * | method for the logic to be able to attach some handlers to UI
+     * | elements
      * |
      * .........................................................................
      *
