@@ -185,12 +185,24 @@ public class AuroraCoreUI {
      */
     private boolean isLargeScreen;
 
+    /*
+     * Warning dialog window
+     */
     private ADialog warningDialog;
 
+    /*
+     * Error dialog window
+     */
     private ADialog errorDialog;
 
+    /*
+     * Logo image
+     */
     private AImage imgLogo;
 
+    /*
+     * Key icon image
+     */
     private AImage imgKeyIcon;
 
     private AImagePane paneBackground;
