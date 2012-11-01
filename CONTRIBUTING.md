@@ -92,7 +92,7 @@ Just one simple sentence explaining what the variable is used for. <br>
 
 For imporant comments regarding code behaviour use
 
-        /* Code Comment Here */
+        //* Code Comment Here *//
 
 For unimportant side notes use
         

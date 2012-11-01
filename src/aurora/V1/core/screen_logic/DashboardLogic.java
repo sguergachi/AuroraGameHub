@@ -310,6 +310,7 @@ public class DashboardLogic {
         } else if (pane == dashboardUI.getSettingsPane()) {
             SettingsUI settingsUI = new SettingsUI(dashboardUI,
                     dashboardUI.getCoreUI());
+
             settingsUI.loadUI();
         } else if (pane == dashboardUI.getAuroraNetPane()) {
             // do nothing for now

@@ -28,6 +28,7 @@ import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.ASurface;
 import aurora.engine.V1.Logic.ANuance;
+import aurora.engine.V1.Logic.AuroraUI;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.AProgressWheel;
 import aurora.engine.V1.UI.APrompter;
@@ -56,7 +57,7 @@ import javax.swing.JPanel;
  * @author Sammy
  * @version 0.4
  */
-public final class StartScreenUI implements Runnable {
+public final class StartScreenUI  implements Runnable, AuroraUI {
 
     private JFrame frame;
 
@@ -550,5 +551,20 @@ public final class StartScreenUI implements Runnable {
 
     public AuroraStorage getAuroraStorage() {
         return auroraStorage;
+    }
+
+    @Override
+    public void loadUI() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void buildUI() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void addToCanvas() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
