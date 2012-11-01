@@ -387,7 +387,7 @@ public class AuroraCoreUI {
                 .getSize().height - (frame.getSize().height / 6 + frame
                 .getSize().height / 6)));
         paneCenter.setOpaque(false);
-        paneCenter.setLayout(new BorderLayout());
+        paneCenter.setLayout(new BorderLayout(0,0));
         paneCenter.setIgnoreRepaint(true);
 
         ///////////////////////

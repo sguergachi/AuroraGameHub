@@ -161,7 +161,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
         removeAllListeners();
 
         //* Clear everything in the Center Panel of CoreUI *//
-        clearUiToDashboard();
+        clearUiToApp();
 
         //* Re-add all DashboardUI components back to CoreUI *//
         getDashboardUI().addToCanvas();
@@ -220,6 +220,11 @@ public abstract class AuroraApp implements AuroraScreenUI {
         getCoreUI().getUserSpacePanel().revalidate();
         getCoreUI().getKeyToPressPanel().revalidate();
         getCoreUI().getCenterFromBottomPanel().revalidate();
+
+        //* Remove all from the title pane of the bottom bar and re-add title*//
+        getCoreUI().getTitlePanel().removeAll();
+        getCoreUI().getTitlePanel().add(BorderLayout.CENTER, getCoreUI()
+                .getTitleLabel());
 
 
         //* Set Size to CoreUI Components *//
@@ -306,6 +311,22 @@ public abstract class AuroraApp implements AuroraScreenUI {
         getCoreUI().getTitlePanel().removeAll();
         getCoreUI().getTitlePanel().add(BorderLayout.CENTER, getCoreUI()
                 .getTitleLabel());
+
+        //* Set Size to CoreUI Components *//
+//        getCoreUI().getSouthFromTopPanel()
+//                .setPreferredSize(new Dimension(getCoreUI()
+//                .getSouthFromTopPanel().getWidth(), getCoreUI()
+//                .getSouthFromTopPanel().getHeight()));
+
+        getCoreUI().getCenterPanel().setPreferredSize(new Dimension(getCoreUI()
+                .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
+                                              - getCoreUI().getBottomImagePane()
+                .getHeight() - getCoreUI().getTopImagePane().getHeight()));
+
+//        getCoreUI().getCenterPanel().setPreferredSize(
+//                new Dimension(getCoreUI()
+//                .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
+//                                              - 250));
 
         // clear from memory
         System.gc();

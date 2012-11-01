@@ -57,11 +57,11 @@ public class GameLibraryUI extends AuroraApp {
 
     private AImage imgFavorite;
 
-    private AHoverButton imgGameRight;
+    private AHoverButton btnGameRight;
 
     private GridManager GridSplit;
 
-    private AHoverButton imgGameLeft;
+    private AHoverButton btnGameLeft;
 
     private int currentIndex;
 
@@ -245,15 +245,16 @@ public class GameLibraryUI extends AuroraApp {
 
         ///... setup
         coreUI.getTitleLabel().setText("   Loading...   ");
-        coreUI.getCenterPanel().repaint();
 
         ///...Create Components
 
         ///Panel Containing Arrow Buttons and GameCover Panel
         GameBack = new JPanel(true);
         GameBack.setOpaque(false);
-        GameBack.setLayout(new BorderLayout(5, 5)); //Inital Size = 10 Games
+        GameBack.setBackground(Color.red);
+        GameBack.setLayout(new BorderLayout(0, 0));
 
+//        coreUI.getCenterPanel().setOpaque(true);
 
 
         imgFavorite = new AImage("Aurora_Favorite.png");
@@ -263,9 +264,9 @@ public class GameLibraryUI extends AuroraApp {
         MoveLibraryLeftHandler = handler.new HoverButtonLeft(this, coreUI);
         MoveLibraryRightHandler = handler.new HoverButtonRight(this, coreUI);
 
-        imgGameRight = new AHoverButton(MoveLibraryRightHandler, 3,
+        btnGameRight = new AHoverButton(MoveLibraryRightHandler, 3,
                 "Aurora_RightLib_normal.png", "Aurora_RightLib_over.png");
-        imgGameLeft = new AHoverButton(MoveLibraryLeftHandler, 3,
+        btnGameLeft = new AHoverButton(MoveLibraryLeftHandler, 3,
                 "Aurora_LeftLib_normal.png", "Aurora_LeftLib_over.png");
         GridMove = handler.new MoveToLastGrid(this);
 
@@ -493,13 +494,13 @@ public class GameLibraryUI extends AuroraApp {
         this.imgSelectedGamePane
                 .addKeyListener(handler.new GameLibraryKeyListener(this, coreUI));
 
-        this.imgGameLeft.addKeyListener(handler.new searchRefocusListener(this));
-        this.imgGameLeft.addKeyListener(handler.new GameLibraryKeyListener(this,
+        this.btnGameLeft.addKeyListener(handler.new searchRefocusListener(this));
+        this.btnGameLeft.addKeyListener(handler.new GameLibraryKeyListener(this,
                 coreUI));
 
-        this.imgGameRight
+        this.btnGameRight
                 .addKeyListener(handler.new searchRefocusListener(this));
-        this.imgGameRight
+        this.btnGameRight
                 .addKeyListener(handler.new GameLibraryKeyListener(this, coreUI));
 
 
@@ -515,8 +516,8 @@ public class GameLibraryUI extends AuroraApp {
         addToVolatileListenerBank(this.btnAddGame);
         addToVolatileListenerBank(this.GameBack);
         addToVolatileListenerBank(this.imgSelectedGamePane);
-        addToVolatileListenerBank(this.imgGameLeft);
-        addToVolatileListenerBank(this.imgGameRight);
+        addToVolatileListenerBank(this.btnGameLeft);
+        addToVolatileListenerBank(this.btnGameRight);
 
 
         coreUI.getFrame().requestFocus();
@@ -614,7 +615,7 @@ public class GameLibraryUI extends AuroraApp {
 
         GameBack.add(BorderLayout.WEST, imgFavorite);
         GameBack.add(BorderLayout.CENTER, GridSplit.getGrid(0));
-        GameBack.add(BorderLayout.EAST, imgGameRight);
+        GameBack.add(BorderLayout.EAST, btnGameRight);
 
 
 
@@ -1131,7 +1132,7 @@ public class GameLibraryUI extends AuroraApp {
             //Stop from going to far left
             if (currentIndex - 1 == -1) {
                 currentIndex = 1;
-                imgGameLeft.mouseExit();
+                btnGameLeft.mouseExit();
             }
 
 
@@ -1147,13 +1148,13 @@ public class GameLibraryUI extends AuroraApp {
                 } else {
                     //Left Button
                     GameBack.remove(0);
-                    GameBack.add(imgGameLeft, BorderLayout.WEST, 0);
+                    GameBack.add(btnGameLeft, BorderLayout.WEST, 0);
                 }
                 //Add GameCover Covers
 
                 GridAnimate.moveLeft(currentIndex);
 
-                GameBack.add(BorderLayout.EAST, imgGameRight);
+                GameBack.add(BorderLayout.EAST, btnGameRight);
 
                 try {
                     load(currentIndex - 1);
@@ -1172,7 +1173,7 @@ public class GameLibraryUI extends AuroraApp {
             coreUI.getFrame().requestFocus();
 
         }
-        imgGameLeft.mouseExit();
+        btnGameLeft.mouseExit();
     }
 
     public void moveGridRight() {
@@ -1190,10 +1191,10 @@ public class GameLibraryUI extends AuroraApp {
                 GridSplit.incrementVisibleGridIndex();
 
                 GameBack.remove(0);
-                GameBack.add(imgGameLeft, BorderLayout.WEST, 0);
+                GameBack.add(btnGameLeft, BorderLayout.WEST, 0);
 
 
-                GameBack.add(imgGameRight, BorderLayout.EAST, 2);
+                GameBack.add(btnGameRight, BorderLayout.EAST, 2);
 
                 GridAnimate.moveRight(currentIndex);
 
@@ -1210,9 +1211,9 @@ public class GameLibraryUI extends AuroraApp {
                 //of on last Grid then dont show right arrow button
                 if (!(currentIndex + 1 < GridSplit.getArray().size() - 1)) {
 
-                    GameBack.remove(imgGameRight);
+                    GameBack.remove(btnGameRight);
                     GameBack.add(imgBlank, BorderLayout.EAST, 2);
-                    imgGameRight.mouseExit();
+                    btnGameRight.mouseExit();
                 }
             }
 
@@ -1225,7 +1226,7 @@ public class GameLibraryUI extends AuroraApp {
             coreUI.getFrame().requestFocus();
 
         }
-        imgGameRight.mouseExit();
+        btnGameRight.mouseExit();
     }
 
     public void setSize() {
@@ -1535,11 +1536,11 @@ public class GameLibraryUI extends AuroraApp {
     }
 
     public AHoverButton getImgGameLeft() {
-        return imgGameLeft;
+        return btnGameLeft;
     }
 
     public AHoverButton getImgGameRight() {
-        return imgGameRight;
+        return btnGameRight;
     }
 
     public AImage getImgKeyIco() {
