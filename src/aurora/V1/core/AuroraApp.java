@@ -18,127 +18,211 @@
 package aurora.V1.core;
 
 import aurora.V1.core.screen_ui.DashboardUI;
-import aurora.engine.V1.Logic.AuroraUI;
+import aurora.engine.V1.Logic.AuroraScreenUI;
 import aurora.engine.V1.UI.AButton;
-import aurora.engine.V1.UI.AProgressWheel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 
 /**
- * A Super class to Sub menu app.
+ * .------------------------------------------------------------------------.
+ * | AuroraApp
+ * .------------------------------------------------------------------------.
+ * |
+ * |
+ * | AuroraApp is an abstract class extended by classes that represent an
+ * | APP in Aurora.
+ * |
+ * | An APP are simply contained applications that Run on the AuroraGameHub
+ * | platform. They are run through the Carousel which may represent many
+ * | APPs.
+ * |
+ * | APPs through AuroraApp implement the AuroraScreenUI interface which allows
+ * | for a uniform creation and management of UI.
+ * |
+ * .........................................................................
  *
- * @author Sammy
- * @version 0.3
+ * @author Sammy Guergachi <sguergachi at gmail.com>
+ * <p/>
  */
-public abstract class AuroraApp implements Runnable, AuroraUI {
+public abstract class AuroraApp implements AuroraScreenUI {
 
-    private JFrame frame;
+    /**
+     * ArrayList containing JComponents to be cleaned of Listeners.
+     */
+    private ArrayList<JComponent> componentsContainingListeners;
 
-    private AuroraCoreUI coreUI;
+    /**
+     * ArrayList of KeyListeners found in componentsContainingListeners.
+     */
+    private KeyListener[] keyListeners;
 
-    private DashboardUI dashboardUI;
+    /**
+     * ArrayList of ActionListener found in ComponentsContainingListeners.
+     */
+    private ActionListener[] actionListeners;
 
-    private int SIZE_TopPadding;
+    /**
+     * ArrayList of MouseWheelListener found in ComponentsContainingListeners.
+     */
+    private MouseWheelListener[] mouseWheelListeners;
 
-    private Thread loadApp;
+    /**
+     * ArrayList of MouseListenersss found in ComponentsContainingListeners.
+     */
+    private MouseListener[] mouseListeners;
 
-    private AProgressWheel progress;
+    /**
+     * ArrayList of KeyListener found in the JFrame.
+     */
+    private KeyListener[] frameKeyListeners;
 
-    private ArrayList<JComponent> ComponentsContainingListeners;
+    /**
+     * ArrayList of MouseListener found in the JFrame.
+     */
+    private MouseListener[] frameMouseListeners;
 
-    private KeyListener[] KeyListeners;
+    /**
+     * ArrayList of MouseWheelListener found in the JFrame.
+     */
+    private MouseWheelListener[] frameMouseWheelListeners;
 
-    private ActionListener[] ActionListeners;
-
-    private MouseWheelListener[] MouseWheelListeners;
-
-    private MouseListener[] MouseListeners;
-
-    private KeyListener[] FrameKeyListeners;
-
-    private MouseListener[] FrameMouseListeners;
-
-    private MouseWheelListener[] FrameMouseWheelListeners;
-
+    /**
+     * .-----------------------------------------------------------------------.
+     * | AuroraApp()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This is the Constructor of the AuroraApp .
+     * |
+     * | It simply initializes the componentsContainingListeners ArrayList
+     * | to be used in the addToVolatileListenerBank(JComponent) method
+     * |
+     * .........................................................................
+     *
+     */
     public AuroraApp() {
-        ComponentsContainingListeners = new ArrayList<JComponent>();
 
+        componentsContainingListeners = new ArrayList<JComponent>();
     }
 
     /**
-     * Add to the list of items that will have their Listeners Removed when
-     * going back to dashboard.
+     * .-----------------------------------------------------------------------.
+     * | addToVolatileListenerBank(JComponent)
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method collects, in an ArrayList, components that should have
+     * | all listeners attached to it removed when going back to Dashboard
+     * |
+     * | The Volatile Listeners will be removed when going back and should be
+     * | re-added when going back into the App.
+     * |
+     * |
+     * .........................................................................
      *
-     * @param component Any component
+     * @param aComponent JComponent
+     *
      */
-    public final void addToVolatileListenerBank(final JComponent component) {
-        ComponentsContainingListeners.add(component);
+    public final void addToVolatileListenerBank(final JComponent aComponent) {
+        componentsContainingListeners.add(aComponent);
     }
 
+    /**
+     * .-----------------------------------------------------------------------.
+     * | backToDashboard()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method is executed when the App needs to go Back to the Dashboard.
+     * | Normally this happens when the User presses the back button on the
+     * | FrameControlsPanel.
+     * |
+     * | The method removes all listeners from components that affect the
+     * | DashboardUI using the removeAllListeners() method
+     * |
+     * | The method clears all changes made to CoreUI before DashboardUI using
+     * | the clearUiToDashboard() method.
+     * |
+     * | The method re-uses the frozen state of DashboardUI instead of
+     * | re-creating the Dashboard using addToCanvas()
+     * |
+     * .........................................................................
+     */
     public final void backToDashboard() {
-        removeAllListeners();
-        clearUI_Backwards();
 
+        //* Remove All Listeners from componentsContainingListeners *//
+        removeAllListeners();
+
+        //* Clear everything in the Center Panel of CoreUI *//
+        clearUiToDashboard();
+
+        //* Re-add all DashboardUI components back to CoreUI *//
         getDashboardUI().addToCanvas();
 
+        //* Clear Unused Classes from memory *//
         System.gc();
     }
 
+    /**
+     * .-----------------------------------------------------------------------.
+     * | getDashboardUI()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method returns the Instanced DashboardUI from the specific APP.
+     * |
+     * | It is used in the AuroraApp abstract class to take care of going back
+     * | and too the Dashboard easily.
+     * |
+     * .........................................................................
+     *
+     * <p/>
+     * @return DashboardUI
+     */
     public abstract DashboardUI getDashboardUI();
 
-    public void setDashboardUI(DashboardUI dashboardUI) {
-        this.dashboardUI = dashboardUI;
-    }
+    /**
+     * .-----------------------------------------------------------------------.
+     * | clearUiToDashboard()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method clears the CoreUI to allow for the DashboardUI to be
+     * | re-added.
+     * |
+     * | some resizing and removal of known components that need to be cleared
+     * | or re-put into place occurs here.
+     * |
+     * .........................................................................
+     */
+    private void clearUiToDashboard() {
 
-    public void setUpSize() {
-        int Ratio = getCoreUI().getFrame().getWidth() / getCoreUI().getFrame()
-                .getHeight();
-        if (getCoreUI().isLargeScreen()) {
-            SIZE_TopPadding = getCoreUI().getCenterPanel().getHeight() / 5
-                              + Ratio
-                                / 5;
 
-        } else {
-            SIZE_TopPadding = getCoreUI().getCenterPanel().getHeight() / 5
-                              + Ratio
-                                / 10;
-        }
-
-    }
-
-    public void clearUI_Backwards() {
-
-        ///...Clear UI
+        //* Clear all content from components for Dashboard *//
         getCoreUI().getKeyToPressPanel().removeAll();
-
         getCoreUI().getCenterPanel().removeAll();
         getCoreUI().getUserSpacePanel().removeAll();
-
-        getCoreUI().getUserSpacePanel().revalidate();
-        getCoreUI().getKeyToPressPanel().revalidate();
-
-
-
         getCoreUI().getCenterFromBottomPanel().removeAll();
-        getCoreUI().getCenterFromBottomPanel().validate();
+
+        //* Re-add CoreUI components *//
         getCoreUI().getCenterFromBottomPanel().add(BorderLayout.NORTH,
-                getCoreUI()
-                .getHeaderOfCenterFromBottomPanel());
-        getCoreUI().getCenterFromBottomPanel().revalidate();
+                getCoreUI().getHeaderOfCenterFromBottomPanel());
         getCoreUI().getHeaderOfCenterFromBottomPanel()
                 .setPreferredSize(new Dimension(getCoreUI().getFrame()
-                .getWidth(),
-                getCoreUI().getKeyToPressPanel().getHeight()));
+                .getWidth(), getCoreUI().getKeyToPressPanel().getHeight()));
 
+        //* Validate components in UI *//
+        getCoreUI().getUserSpacePanel().revalidate();
+        getCoreUI().getKeyToPressPanel().revalidate();
+        getCoreUI().getCenterFromBottomPanel().revalidate();
+
+
+        //* Set Size to CoreUI Components *//
         getCoreUI().getSouthFromTopPanel()
                 .setPreferredSize(new Dimension(getCoreUI()
                 .getSouthFromTopPanel().getWidth(), getCoreUI()
@@ -162,65 +246,36 @@ public abstract class AuroraApp implements Runnable, AuroraUI {
                                                         / 6 + 25);
 
 
-        getCoreUI().getSouthFromTopPanel().removeAll();
-        getCoreUI().getSouthFromTopPanel().add(BorderLayout.EAST, getCoreUI()
-                .getFrameControlContainerPanel());
-        getCoreUI().getSouthFromTopPanel().repaint();
-
-        getCoreUI().getInfoPanel().removeAll();
-        getCoreUI().getInfoPanel().add(BorderLayout.CENTER, getCoreUI()
-                .getInfoLabel());
+        //* Finallize *//
         getCoreUI().getFrame().repaint();
         getCoreUI().getFrame().getGlassPane().setVisible(false);
     }
 
-    public void clearUI_Forwards() {
+    /**
+     * .-----------------------------------------------------------------------.
+     * | clearUiToApp()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method clears the CoreUI to allow any App to use by removing all
+     * | content the bottom bar and the center panel
+     * |
+     * | The method must be called by UI Screen classes in the constructor to be
+     * | useful before the App UI is added to the CoreUI
+     * |
+     * .........................................................................
+     */
+    public final void clearUiToApp() {
 
-        setUpSize();
 
-
-        ///...Set Up UI
-
-
-        ///THIS STUFF WAS TO ASYNC LOAD APP IN BACKGROUND, DOESN'T WORK BUT
-        //WE SHOULD THINK ABOUT MAKING THIS LOAD FASTER
-//        loadApp = null;
-//
-//        if (loadApp == null) {
-//            loadApp = new Thread(this);
-//        }
-//        loadApp.setName("Load App Thread");
-//        //Start Loader
-//        loadApp.start();
-
-        getCoreUI().getInfoLabel().setText("   Loading...   ");
-
+        //* Remove all Center and Bottom Bar Content *//
         getCoreUI().getKeyToPressPanel().removeAll();
         getCoreUI().getCenterPanel().removeAll();
         getCoreUI().getUserSpacePanel().removeAll();
-
+        getCoreUI().getCenterFromBottomPanel().removeAll();
         getCoreUI().getUserSpacePanel().revalidate();
 
 
-        getCoreUI().getCenterPanel().setPreferredSize(new Dimension(getCoreUI()
-                .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
-                                              - (getCoreUI().getFrame()
-                .getHeight()
-                                                 / 6 * 2)));
-        getCoreUI().getBottomImagePane()
-                .setPreferredSize(new Dimension(getCoreUI()
-                .getBottomImagePane().getWidth(), getCoreUI().getFrame()
-                .getHeight()
-                                                  / 6 + 15));
-        getCoreUI().getBottomImagePane().setImageHeight(getCoreUI().getFrame()
-                .getHeight()
-                                                        / 6 + 30);
-
-        //Remove Content in Center
-        getCoreUI().getCenterFromBottomPanel().removeAll();
-
-
-        //re-add Time
+        //* Remove All from top of bottom pane and re-add CoreUI components*//
         getCoreUI().getCenterFromBottomPanel().add(BorderLayout.NORTH,
                 getCoreUI()
                 .getHeaderOfCenterFromBottomPanel());
@@ -233,173 +288,132 @@ public abstract class AuroraApp implements Runnable, AuroraUI {
         getCoreUI().getCenterPanel().revalidate();
         getCoreUI().getCenterFromBottomPanel().revalidate();
 
-        //Change Back button
+        //* Clear Bottom of Top Pane and re-add the Frame Conrols *//
         getCoreUI().getSouthFromTopPanel().removeAll();
         getCoreUI().getSouthFromTopPanel()
                 .add(getCoreUI().getFrameControlContainerPanel(),
                 BorderLayout.EAST);
         getCoreUI().getFrameControlImagePane().getComponent(0)
-                .addMouseListener(new MouseListener() {
+                .addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(final MouseEvent e) {
                 removeAllListeners();
                 backToDashboard();
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
             }
         });
 
-        getCoreUI().getFrame().getContentPane()
-                .addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
+        //* Remove all from the title pane of the bottom bar and re-add title*//
+        getCoreUI().getTitlePanel().removeAll();
+        getCoreUI().getTitlePanel().add(BorderLayout.CENTER, getCoreUI()
+                .getTitleLabel());
 
-                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-                    removeAllListeners();
-                    backToDashboard();
-
-                }
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-            }
-        });
-
-        getCoreUI().getFrame().requestFocus();
-
-
-
-        //Finalize
-        getCoreUI().getInfoPanel().removeAll();
-        getCoreUI().getInfoPanel().add(BorderLayout.CENTER, getCoreUI()
-                .getInfoLabel());
-
+        // clear from memory
         System.gc();
+
+        //finalize
+        getCoreUI().getFrame().requestFocus();
         getCoreUI().getFrame().repaint();
 
 
     }
 
+    /**
+     * .-----------------------------------------------------------------------.
+     * | removeAllListeners()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method goes through every JComponent in the ArrayList
+     * | componentsContainingListeners as well as the Main JFrame and removes
+     * | all possible KeyListeners, MouseWheelListeners as well
+     * | as MouseListeners
+     * |
+     * | This method is used to prevent conflicting handlers being added
+     * | In an App and in the DashboardUI.
+     * |
+     * .........................................................................
+     */
     private void removeAllListeners() {
 
         //For Components in the Volatile Bank!
-        for (int i = 0; i < ComponentsContainingListeners.size(); i++) {
+        for (int i = 0; i < componentsContainingListeners.size(); i++) {
 
-            //Remove KeyListers
-            KeyListeners = ComponentsContainingListeners.get(i)
+            //* Remove KeyListers from Components ArrayList *//
+            keyListeners = componentsContainingListeners.get(i)
                     .getKeyListeners();
 
-            for (int j = 0; j < KeyListeners.length; j++) {
-                ComponentsContainingListeners.get(i)
-                        .removeKeyListener(KeyListeners[j]);
-
+            for (int j = 0; j < keyListeners.length; j++) {
+                componentsContainingListeners.get(i)
+                        .removeKeyListener(keyListeners[j]);
             }
 
 
-            //Remove Mouse Listeners
-            MouseListeners = ComponentsContainingListeners.get(i)
+            //* Remove Mouse Listeners from Components ArrayList *//
+            mouseListeners = componentsContainingListeners.get(i)
                     .getMouseListeners();
 
-            for (int j = 0; j < MouseListeners.length; j++) {
-                ComponentsContainingListeners.get(i)
-                        .removeMouseListener(MouseListeners[j]);
+            for (int j = 0; j < mouseListeners.length; j++) {
+                componentsContainingListeners.get(i)
+                        .removeMouseListener(mouseListeners[j]);
 
             }
 
 
-            //Remove Mouse Wheel Listeners
-            MouseWheelListeners = ComponentsContainingListeners.get(i)
+            //* Remove Mouse Wheel Listeners from Components ArrayList *//
+            mouseWheelListeners = componentsContainingListeners.get(i)
                     .getMouseWheelListeners();
 
-            for (int j = 0; j < MouseWheelListeners.length; j++) {
-                ComponentsContainingListeners.get(i)
-                        .removeMouseWheelListener(MouseWheelListeners[j]);
+            for (int j = 0; j < mouseWheelListeners.length; j++) {
+                componentsContainingListeners.get(i)
+                        .removeMouseWheelListener(mouseWheelListeners[j]);
 
             }
 
 
 
-            //Maybe its a buttom remove its action Listeners.
-            try {
-                ActionListeners = ((AButton) ComponentsContainingListeners
+            //* Maybe its a buttom, try to remove its ActionListeners. *//
+            if (componentsContainingListeners.get(i) instanceof AButton) {
+                actionListeners = ((AButton) componentsContainingListeners
                         .get(i)).getActionListeners();
-                for (int j = 0; j < ActionListeners.length; j++) {
-                    ((AButton) ComponentsContainingListeners.get(i))
-                            .removeActionListener(ActionListeners[j]);
+                for (int j = 0; j < actionListeners.length; j++) {
+                    ((AButton) componentsContainingListeners.get(i))
+                            .removeActionListener(actionListeners[j]);
                 }
-            } catch (Exception e) {
-                //maybe its not a Button
             }
+
         }
 
-        //Only for the Frame!
+        //* Clear Listeners from Frame *//
 
-        FrameKeyListeners = getCoreUI().getFrame().getKeyListeners();
+        frameKeyListeners = getCoreUI().getFrame().getKeyListeners();
 
-        for (int i = 0; i < FrameKeyListeners.length; i++) {
-            getCoreUI().getFrame().removeKeyListener(FrameKeyListeners[i]);
+        for (int i = 0; i < frameKeyListeners.length; i++) {
+            getCoreUI().getFrame().removeKeyListener(frameKeyListeners[i]);
         }
 
-        FrameMouseListeners = getCoreUI().getFrame().getMouseListeners();
+        frameMouseListeners = getCoreUI().getFrame().getMouseListeners();
 
-        for (int i = 0; i < FrameMouseListeners.length; i++) {
-            getCoreUI().getFrame().removeMouseListener(FrameMouseListeners[i]);
+        for (int i = 0; i < frameMouseListeners.length; i++) {
+            getCoreUI().getFrame().removeMouseListener(frameMouseListeners[i]);
         }
 
-        FrameMouseWheelListeners = getCoreUI().getFrame()
+        frameMouseWheelListeners = getCoreUI().getFrame()
                 .getMouseWheelListeners();
 
-        for (int i = 0; i < FrameMouseWheelListeners.length; i++) {
+        for (int i = 0; i < frameMouseWheelListeners.length; i++) {
             getCoreUI().getFrame()
-                    .removeMouseWheelListener(FrameMouseWheelListeners[i]);
+                    .removeMouseWheelListener(frameMouseWheelListeners[i]);
         }
 
 
-        ComponentsContainingListeners.removeAll(ComponentsContainingListeners);
-
-    }
-
-    @Override
-    public void run() {
-
-        while (Thread.currentThread() == loadApp) {
-
-            break;
-        }
-
+        // Clear ArrayList
+        componentsContainingListeners.removeAll(componentsContainingListeners);
 
     }
 
     /**
-     * @return the coreUI
+     * The CoreUI from the specific AuroraScreen.
+     * <p/>
+     * @return AuroraCoreUI
      */
     public abstract AuroraCoreUI getCoreUI();
-
-    /**
-     * @param coreUI the coreUI to set
-     */
-    public void setCoreUI(AuroraCoreUI coreUI) {
-        this.coreUI = coreUI;
-    }
 }

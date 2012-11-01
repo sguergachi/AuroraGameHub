@@ -22,6 +22,8 @@ import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.GameLibraryUI;
 import aurora.V1.core.screen_ui.GamerProfileUI;
 import aurora.V1.core.screen_ui.SettingsUI;
+import aurora.engine.V1.Logic.AuroraScreenHandler;
+import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.ACarouselPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,7 +55,7 @@ import java.awt.event.MouseWheelListener;
  * @author sammy <sguergachi@gmail.com> carlos <camachado@gmail.com>
  *
  */
-public class DashboardHandler {
+public class DashboardHandler implements AuroraScreenHandler {
 
     /**
      * The DashboardUI instance passed to the handler.
@@ -88,21 +90,10 @@ public class DashboardHandler {
 
     }
 
-    /**
-     * .-----------------------------------------------------------------------.
-     * | setLogic(DashboardLogic)
-     * .-----------------------------------------------------------------------.
-     * |
-     * | Pass the Logic Instanced in the DashboardUI
-     * | For the Handler to work the Logic *MUST* be passed using this method
-     * |
-     * |
-     * .........................................................................
-     * <p/>
-     * @param aDashboardLogic DashboardLogic
-     */
-    public final void setLogic(final DashboardLogic aDashboardLogic) {
-        this.dashboardLogic = aDashboardLogic;
+
+    @Override
+    public final void setLogic(final AuroraScreenLogic logic) {
+        this.dashboardLogic = (DashboardLogic) logic;
     }
 
     /**
@@ -233,6 +224,9 @@ public class DashboardHandler {
      */
     public class CarouselPaneMouseListener extends MouseAdapter {
 
+        /**
+         * Temporary Instance of a CarouselPane.
+         */
         private ACarouselPane pane;
 
         /**
@@ -275,7 +269,7 @@ public class DashboardHandler {
 
     /**
      * .-----------------------------------------------------------------------.
-     * | carouselPaneMouseWheelListener
+     * | CarouselPaneMouseWheelListener
      * .-----------------------------------------------------------------------.
      * |
      * | This Mouse Wheel Listener is attached to The Major CoreUI components
@@ -284,7 +278,7 @@ public class DashboardHandler {
      * | Left depending on the Direction of the scroll.
      * |
      */
-    public class carouselPaneMouseWheelListener implements MouseWheelListener {
+    public class CarouselPaneMouseWheelListener implements MouseWheelListener {
 
         @Override
         public final void mouseWheelMoved(final MouseWheelEvent e) {

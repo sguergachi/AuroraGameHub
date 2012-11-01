@@ -12,6 +12,8 @@ This is currently a draft being put together for the first time.
 * *Description* of the entire class, what it does, how it interacts with other classes etc.
 * Below *dotted lines* add **name of contributors** to project.
 
+**Example**
+
         /**
          * .------------------------------------------------------------------------.
          * | DashboardLogic
@@ -28,6 +30,27 @@ This is currently a draft being put together for the first time.
          * .........................................................................
          *
          * @author Sammy Guergachi <sguergachi at gmail.com>
+         * 
+         */
+
+**Copy Paste**
+
+        /**
+         * .------------------------------------------------------------------------.
+         * | 
+         * .------------------------------------------------------------------------.
+         * |
+         * |
+         * | 
+         * | 
+         * |
+         * | 
+         * | 
+         * | 
+         * |
+         * .........................................................................
+         *
+         * @author 
          * 
          */
 
@@ -64,6 +87,7 @@ Just one simple sentence explaining what the variable is used for. <br>
 * *Description* includes what parameters are needed and what the constructor initializes
 * Bellow *dotted lines* add the **parameter** name and Type
 
+**Example**
 
         /**
          * .-----------------------------------------------------------------------.
@@ -85,6 +109,30 @@ Just one simple sentence explaining what the variable is used for. <br>
          * .........................................................................
          *
          * @param dashboardUi DashboardUI
+         *
+         */
+
+
+**Copy Paste**
+
+        /**
+         * .-----------------------------------------------------------------------.
+         * | 
+         * .-----------------------------------------------------------------------.
+         * |
+         * | 
+         * |
+         * | 
+         * | 
+         * | 
+         * | 
+         * | 
+         * | 
+         * |
+         * |
+         * .........................................................................
+         *
+         * 
          *
          */
 
@@ -118,5 +166,19 @@ To split code visually into sections use the following method.<br>
                                      /* Etc. */
 
         //---------------------------------|||------------------------------------//
+
+## 6. Naming Components
+
+# UI Components
+
+Type of UI component goes infront, name of what component is/does afterward <br>
+
+Here is a list of prefixes to add infront of UI Components:
+
+* **ImagePane** or **JPanel**   >>          *pane*
+* **JLabel**                    >>          *lbl*
+* **AButton**                   >>          *btn*
+* **AImage**                    >>          *img*
+* **ARadioButton**              >>          *rdb*
 
 

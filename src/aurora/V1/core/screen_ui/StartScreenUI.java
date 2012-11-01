@@ -28,7 +28,7 @@ import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.ASurface;
 import aurora.engine.V1.Logic.ANuance;
-import aurora.engine.V1.Logic.AuroraUI;
+import aurora.engine.V1.Logic.AuroraScreenUI;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.AProgressWheel;
 import aurora.engine.V1.UI.APrompter;
@@ -57,7 +57,7 @@ import javax.swing.JPanel;
  * @author Sammy
  * @version 0.4
  */
-public final class StartScreenUI  implements Runnable, AuroraUI {
+public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private JFrame frame;
 
@@ -92,7 +92,6 @@ public final class StartScreenUI  implements Runnable, AuroraUI {
     private AuroraStorage auroraStorage;
 
     private ASurface resource;
-    ///
 
     private Thread login;
 
@@ -116,11 +115,9 @@ public final class StartScreenUI  implements Runnable, AuroraUI {
         /////////////////
         StartScreenUI.START_WITH_MINI = startMini;
 
-        //fast load
         frame = new JFrame("Aurora Game Manager ~ V1");
         ui = new AuroraCoreUI(this.frame);
         handler = new StartScreenLogic(this);
-
 
 
         try {
@@ -213,7 +210,7 @@ public final class StartScreenUI  implements Runnable, AuroraUI {
         ui.getCenterPanel().add(BorderLayout.CENTER, HexAnimation);
 
 
-        //Add AuroraUI to Frame
+        //Add AuroraScreenUI to Frame
         frame.getContentPane().add(ui.getBackgroundImagePane());
 
         frame.setVisible(true);
@@ -316,7 +313,8 @@ public final class StartScreenUI  implements Runnable, AuroraUI {
             LoginDisplay.add(AuroraVI.VI(ANuance.inx_Greeting) + " " + FileIO.
                     getUserName());
 
-            LoginDisplay.add(
+            LoginDisplay
+                    .add(
                     AuroraVI.VI(ANuance.inx_Welcome) + " to Aurora Game Manager");
 
             LoginDisplay.add(

@@ -26,7 +26,6 @@ import aurora.V1.core.screen_handler.GameLibraryHandler.HoverButtonRight;
 import aurora.V1.core.screen_handler.GameLibraryHandler.MoveToLastGrid;
 import aurora.V1.core.screen_handler.GameLibraryHandler.searchBoxHandler;
 import aurora.V1.core.screen_handler.GameLibraryHandler.searchFocusHandler;
-import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.engine.V1.Logic.*;
 import aurora.engine.V1.UI.*;
 import java.awt.*;
@@ -232,7 +231,7 @@ public class GameLibraryUI extends AuroraApp {
         this.storage = storage;
         this.dashboardUI = dashboardUi;
         this.handler = new GameLibraryHandler();
-        this.clearUI_Forwards();
+        this.clearUiToApp();
         isGameLibraryKeyListenerAdded = false;
 
     }
@@ -245,7 +244,7 @@ public class GameLibraryUI extends AuroraApp {
 
 
         ///... setup
-        coreUI.getInfoLabel().setText("   Loading...   ");
+        coreUI.getTitleLabel().setText("   Loading...   ");
         coreUI.getCenterPanel().repaint();
 
         ///...Create Components
@@ -277,11 +276,11 @@ public class GameLibraryUI extends AuroraApp {
                 "Aurora_ZoomM_over.png", 0, SIZE_ZoomButtonHeight);
 
         //Add Zoom Buttons
-        coreUI.getInfoPanel().removeAll();
+        coreUI.getTitlePanel().removeAll();
 
-        coreUI.getInfoPanel().add(ZoomM);
-        coreUI.getInfoPanel().add(coreUI.getInfoLabel());
-        coreUI.getInfoPanel().add(ZoomP);
+        coreUI.getTitlePanel().add(ZoomM);
+        coreUI.getTitlePanel().add(coreUI.getTitleLabel());
+        coreUI.getTitlePanel().add(ZoomP);
 
 
         //Key Actions Panel
@@ -624,7 +623,7 @@ public class GameLibraryUI extends AuroraApp {
         coreUI.getCenterPanel().repaint();
 
         //Finalize
-        coreUI.getInfoLabel().setText("   Game Library   ");
+        coreUI.getTitleLabel().setText("   Game Library   ");
 
     }
 
@@ -730,8 +729,6 @@ public class GameLibraryUI extends AuroraApp {
 
     @Override
     public void addToCanvas() {
-
-
     }
 
     public final void setAddGameUI() {

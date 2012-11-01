@@ -35,7 +35,7 @@ public class GamerProfileUI extends AuroraApp {
 
         this.dashboardUI = dahsboardUi;
         this.coreUI = auroraCoreUi;
-        this.clearUI_Forwards();
+        this.clearUiToApp();
     }
 
     @Override
