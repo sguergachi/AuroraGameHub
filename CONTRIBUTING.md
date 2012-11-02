@@ -194,7 +194,7 @@ For imporant comments regarding code behaviour use:
 
 This can also be used multiline if needed:
 
-        //* 
+	//* 
 	// This is a Multiline
 	// beautiful Comment
 	//*
@@ -211,13 +211,13 @@ To split code visually into sections use the following method.<br>
 **Note**: must be cappital, must have 3 bars at the end, not 2 not 4. <br>
 **Note**: must be **2** blank line after each section and at least **1** inbetween each section seperator
 
-        // SECTION 1 NAME
+	// SECTION 1 NAME
 	// -----------------------------------------------------------------------.
 
                                 /* Start typing code here */
 
 
-        // SECTION 2 NAME
+	// SECTION 2 NAME
 	// -----------------------------------------------------------------------.
 
                                      	/* Etc. */
