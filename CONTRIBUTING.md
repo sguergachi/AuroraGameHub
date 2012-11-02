@@ -194,8 +194,10 @@ For imporant comments regarding code behaviour use:
 
 This can also be used multiline if needed:
 
-        //* Very Very Very Long *//
-        //* Code Comment Here   *//
+        //* 
+	// This is a Multiline
+	// beautiful Comment
+	//*
 
 For unimportant, short side notes use:
         
