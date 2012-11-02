@@ -140,8 +140,8 @@ Just one simple sentence explaining what the variable is used for. <br>
 
 * *Title* is **Method Name** with parameter **Type** in paranthesis
 * *Description* includes what parameters are needed and what the method does
-* Bellow *dotted lines* add the **parameter** name and Type
-NOTE: Same thing applies to method that return, except use the @return atribute
+* Bellow *dotted lines* add the **parameter** name and Type <br>
+**NOTE:** Same thing applies to method that return, except use the @return atribute
 and use empty braces in title. Make sure to explain what is exactly being returned, 
 why ect.
 
