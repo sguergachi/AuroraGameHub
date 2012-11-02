@@ -136,15 +136,70 @@ Just one simple sentence explaining what the variable is used for. <br>
          *
          */
 
-## 4. Inline commenting
+## 4. Method Commenting
 
-For imporant comments regarding code behaviour use
+* *Title* is **Method Name** with parameter **Type** in paranthesis
+* *Description* includes what parameters are needed and what the method does
+* Bellow *dotted lines* add the **parameter** name and Type
+NOTE: Same thing applies to method that return, except use the @return atribute
+and use empty braces in title. Make sure to explain what is exactly being returned, 
+why ect.
+
+**Example**
+
+        /**
+         * .-----------------------------------------------------------------------.
+         * | methodName(aParameter)
+         * .-----------------------------------------------------------------------.
+         * |
+         * | This is the short gist of what the method does.
+         * |
+         * | This is a more in depth description of what the method does.
+         * | It can be multiple lines long explaining what the parameter is needed
+         * | for, what this method will do in a bit more detail etc.
+         * .........................................................................
+         *
+         * @param aParameter ParameterType
+         *
+         */
+
+**Copy Paste**
+
+        /**
+         * .-----------------------------------------------------------------------.
+         * | 
+         * .-----------------------------------------------------------------------.
+         * |
+         * | 
+         * |
+         * | 
+         * | 
+         * | 
+         * | 
+         * | 
+         * | 
+         * |
+         * |
+         * .........................................................................
+         *
+         * 
+         *
+         */
+
+## 5. Inline commenting
+
+For imporant comments regarding code behaviour use:
 
         //* Code Comment Here *//
 
-For unimportant side notes use
+This can also be used multiline if needed:
+
+        //* Very Very Very Long *//
+        //* Code Comment Here   *//
+
+For unimportant, short side notes use:
         
-        // Not important code here
+        // Not important comment here
 
 
 ## 5. Code Segmenting
