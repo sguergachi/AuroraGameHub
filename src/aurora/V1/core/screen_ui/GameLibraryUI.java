@@ -230,7 +230,7 @@ public class GameLibraryUI extends AuroraApp {
         this.coreUI = auroraCoreUI;
         this.storage = storage;
         this.dashboardUI = dashboardUi;
-        this.handler = new GameLibraryHandler();
+        this.handler = new GameLibraryHandler(this);
         this.clearUiToApp();
         isGameLibraryKeyListenerAdded = false;
 
