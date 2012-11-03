@@ -369,7 +369,8 @@ public class DashboardUI implements AuroraScreenUI {
         //Initialize Sizes
         setSizes();
 
-        //----------------------------CAROUSEL--------------------------------//
+        // Carousel
+        // --------------------------------------------------------------------.
 
         titleSettingGlow = new AImage("settings_glow.png");
         titleSettingNorm = new AImage("settings_normal.png");
@@ -411,18 +412,19 @@ public class DashboardUI implements AuroraScreenUI {
                 "Aurora_right_down.png", "Aurora_right_over.png",
                 carouselButtonWidth, carouselButtonHeight);
 
-        //------------------------------|||-----------------------------------//
 
 
-        //----------------------------INFOFEED--------------------------------//
+
+        // Info Feed
+        // --------------------------------------------------------------------.
 
         infoFeed = new AInfoFeed("InfoBar.png", infoFeedWidth,
                 infoFeedHeight, logic.createFeed(null));
 
-        //------------------------------|||-----------------------------------//
 
 
-        //----------------------------CORE UI---------------------------------//
+        // Carousel
+        // --------------------------------------------------------------------.
 
         //* Indicate to User DashboardUI is loading. *//
         coreUI.getTitleLabel().setText(".: Loading :.");
@@ -435,14 +437,14 @@ public class DashboardUI implements AuroraScreenUI {
                 getKeyIconWidth(), coreUI.getKeyIconHeight());
 
         lblKeyAction = new JLabel(" Move ");
-        //------------------------------|||-----------------------------------//
 
     }
 
     @Override
     public final void buildUI() {
 
-        //----------------------------CAROUSEL--------------------------------//
+        // Carousel
+        // --------------------------------------------------------------------.
 
         carousel = new ACarousel(carouselWidth, carouselHeight,
                 Toolkit.getDefaultToolkit().getScreenSize().width);
@@ -524,18 +526,17 @@ public class DashboardUI implements AuroraScreenUI {
         btnCarouselRight.addActionListener(handler.new RightButtonListener());
         btnCarouselRight.addKeyListener(handler.new DashboardlKeyListener());
 
-        //------------------------------|||-----------------------------------//
 
 
-
-        //----------------------------INFOFEED--------------------------------//
+        // Info Feed
+        // --------------------------------------------------------------------.
 
         infoFeed.go();
 
-        //------------------------------|||-----------------------------------//
 
+        // CoreUI
+        // --------------------------------------------------------------------.
 
-        //----------------------------CORE UI---------------------------------//
 
         //* Set bigger background image for Frame Control panel *//
         coreUI.getFrameControlImagePane().setImage("Aurora_FrameButton2.png");
@@ -547,14 +548,15 @@ public class DashboardUI implements AuroraScreenUI {
         //* Add UI to Canvas *//
         addToCanvas();
 
-        //------------------------------|||-----------------------------------//
     }
 
     @Override
     public final void addToCanvas() {
 
 
-        //----------------------------CORE UI---------------------------------//
+        // CoreUI
+        // -----------------------------------------------------------------------.
+
 
         //* Add Carousel to Center Panel *//
         coreUI.getCenterPanel().add(BorderLayout.CENTER, carousel);
@@ -716,7 +718,8 @@ public class DashboardUI implements AuroraScreenUI {
 
     }
 
-    //----------------------------GETTER & SETTER-----------------------------//
+    // Getters & Setters
+    // -----------------------------------------------------------------------.
     /**
      * Get the DashboardLogic instance generated in DashboardUI.
      * <p/>
@@ -1534,5 +1537,4 @@ public class DashboardUI implements AuroraScreenUI {
     public final void setCarouselButtonHeight(final int theCarouselButtonHeight) {
         this.carouselButtonHeight = theCarouselButtonHeight;
     }
-    //------------------------------|||-----------------------------------//
 }

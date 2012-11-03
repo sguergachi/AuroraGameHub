@@ -313,20 +313,11 @@ public abstract class AuroraApp implements AuroraScreenUI {
                 .getTitleLabel());
 
         //* Set Size to CoreUI Components *//
-//        getCoreUI().getSouthFromTopPanel()
-//                .setPreferredSize(new Dimension(getCoreUI()
-//                .getSouthFromTopPanel().getWidth(), getCoreUI()
-//                .getSouthFromTopPanel().getHeight()));
-
         getCoreUI().getCenterPanel().setPreferredSize(new Dimension(getCoreUI()
                 .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
                                               - getCoreUI().getBottomImagePane()
                 .getHeight() - getCoreUI().getTopImagePane().getHeight()));
 
-//        getCoreUI().getCenterPanel().setPreferredSize(
-//                new Dimension(getCoreUI()
-//                .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
-//                                              - 250));
 
         // clear from memory
         System.gc();
@@ -355,7 +346,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
      */
     private void removeAllListeners() {
 
-        //For Components in the Volatile Bank!
+        // Check through all Components in the Volatile Bank!
         for (int i = 0; i < componentsContainingListeners.size(); i++) {
 
             //* Remove KeyListers from Components ArrayList *//
