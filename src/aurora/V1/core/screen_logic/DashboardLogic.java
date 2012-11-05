@@ -26,6 +26,8 @@ import aurora.V1.core.screen_ui.GameLibraryUI;
 import aurora.V1.core.screen_ui.GamerProfileUI;
 import aurora.V1.core.screen_ui.SettingsUI;
 import aurora.engine.V1.Logic.ANuance;
+import aurora.engine.V1.Logic.AuroraScreenHandler;
+import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.ACarouselPane;
 import aurora.engine.V1.UI.AImagePane;
 import java.net.MalformedURLException;
@@ -52,7 +54,7 @@ import java.util.logging.Logger;
  * @author Sammy Guergachi <sguergachi at gmail.com>
  * <p/>
  */
-public class DashboardLogic {
+public class DashboardLogic implements AuroraScreenLogic {
 
     /**
      * The UI Component of the Dashboard Screen.
@@ -106,21 +108,10 @@ public class DashboardLogic {
 
     }
 
-    /**
-     * .-----------------------------------------------------------------------.
-     * | setHandler(DashboardHandler)
-     * .-----------------------------------------------------------------------.
-     * |
-     * | Pass the Handler Instanced in the DashboardUI
-     * | For the Logic to work the Handler *MUST* be passed using this method
-     * |
-     * |
-     * .........................................................................
-     * <p/>
-     * @param aDashboardHandler DashboardHandler
-     */
-    public final void setHandler(final DashboardHandler aDashboardHandler) {
-        this.dashboardHandler = aDashboardHandler;
+
+    @Override
+    public final void setHandler(final AuroraScreenHandler handler) {
+        this.dashboardHandler = (DashboardHandler) handler;
     }
 
     /**
@@ -310,6 +301,7 @@ public class DashboardLogic {
         } else if (pane == dashboardUI.getSettingsPane()) {
             SettingsUI settingsUI = new SettingsUI(dashboardUI,
                     dashboardUI.getCoreUI());
+
             settingsUI.loadUI();
         } else if (pane == dashboardUI.getAuroraNetPane()) {
             // do nothing for now
@@ -328,10 +320,10 @@ public class DashboardLogic {
      * | The Carousel in the DashboardUI to move Right, Left or launch the APP
      * | associated with that Pane depending on the location of that Pane.
      * |
-     * | IF Pane on the Right Side  >>  Move Carousel to the Left
-     * | IF Pane on the Left Side   >>  Move Carousel to the Right
-     * | IF Pane is in the Center   >>  Launch App by passing pane to
-     * |                                launchAuroraApp(ACarouselPane)
+     * | IF Pane on the Right Side >> Move Carousel to the Left
+     * | IF Pane on the Left Side >> Move Carousel to the Right
+     * | IF Pane is in the Center >> Launch App by passing pane to
+     * | launchAuroraApp(ACarouselPane)
      * .........................................................................
      *
      * @param aCarouselPane ACarouselPane

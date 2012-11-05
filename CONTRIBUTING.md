@@ -12,6 +12,8 @@ This is currently a draft being put together for the first time.
 * *Description* of the entire class, what it does, how it interacts with other classes etc.
 * Below *dotted lines* add **name of contributors** to project.
 
+**Example**
+
         /**
          * .------------------------------------------------------------------------.
          * | DashboardLogic
@@ -28,6 +30,27 @@ This is currently a draft being put together for the first time.
          * .........................................................................
          *
          * @author Sammy Guergachi <sguergachi at gmail.com>
+         * 
+         */
+
+**Copy Paste**
+
+        /**
+         * .------------------------------------------------------------------------.
+         * | 
+         * .------------------------------------------------------------------------.
+         * |
+         * |
+         * | 
+         * | 
+         * |
+         * | 
+         * | 
+         * | 
+         * |
+         * .........................................................................
+         *
+         * @author 
          * 
          */
 
@@ -64,6 +87,7 @@ Just one simple sentence explaining what the variable is used for. <br>
 * *Description* includes what parameters are needed and what the constructor initializes
 * Bellow *dotted lines* add the **parameter** name and Type
 
+**Example**
 
         /**
          * .-----------------------------------------------------------------------.
@@ -88,15 +112,96 @@ Just one simple sentence explaining what the variable is used for. <br>
          *
          */
 
-## 4. Inline commenting
 
-For imporant comments regarding code behaviour use
+**Copy Paste**
 
-        /* Code Comment Here */
+        /**
+         * .-----------------------------------------------------------------------.
+         * | 
+         * .-----------------------------------------------------------------------.
+         * |
+         * | 
+         * |
+         * | 
+         * | 
+         * | 
+         * | 
+         * | 
+         * | 
+         * |
+         * |
+         * .........................................................................
+         *
+         * 
+         *
+         */
 
-For unimportant side notes use
+## 4. Method Commenting
+
+* *Title* is **Method Name** with parameter **Type** in paranthesis
+* *Description* includes what parameters are needed and what the method does
+* Bellow *dotted lines* add the **parameter** name and Type <br>
+**NOTE:** Same thing applies to method that return, except use the @return atribute
+and use empty braces in title. Make sure to explain what is exactly being returned, 
+why ect.
+
+**Example**
+
+        /**
+         * .-----------------------------------------------------------------------.
+         * | methodName(aParameter)
+         * .-----------------------------------------------------------------------.
+         * |
+         * | This is the short gist of what the method does.
+         * |
+         * | This is a more in depth description of what the method does.
+         * | It can be multiple lines long explaining what the parameter is needed
+         * | for, what this method will do in a bit more detail etc.
+         * .........................................................................
+         *
+         * @param aParameter ParameterType
+         *
+         */
+
+**Copy Paste**
+
+        /**
+         * .-----------------------------------------------------------------------.
+         * | 
+         * .-----------------------------------------------------------------------.
+         * |
+         * | 
+         * |
+         * | 
+         * | 
+         * | 
+         * | 
+         * | 
+         * | 
+         * |
+         * |
+         * .........................................................................
+         *
+         * 
+         *
+         */
+
+## 5. Inline commenting
+
+For imporant comments regarding code behaviour use:
+
+        //* Code Comment Here *//
+
+This can also be used multiline if needed:
+
+	//* 
+	// This is a Multiline
+	// beautiful Comment
+	//*
+
+For unimportant, short side notes use:
         
-        // Not important code here
+        // Not important comment here
 
 
 ## 5. Code Segmenting
@@ -106,17 +211,31 @@ To split code visually into sections use the following method.<br>
 **Note**: must be cappital, must have 3 bars at the end, not 2 not 4. <br>
 **Note**: must be **2** blank line after each section and at least **1** inbetween each section seperator
 
-        //----------------------------SECTION NAME--------------------------------//
+	// SECTION 1 NAME
+	// -----------------------------------------------------------------------.
 
                                 /* Start typing code here */
 
-        //---------------------------------|||------------------------------------//
 
+	// SECTION 2 NAME
+	// -----------------------------------------------------------------------.
 
-        //---------------------------SECTION 2 NAME-------------------------------//
+                                     	/* Etc. */
+
         
-                                     /* Etc. */
 
-        //---------------------------------|||------------------------------------//
+## 6. Naming Components
+
+# UI Components
+
+Type of UI component goes infront, name of what component is/does afterward <br>
+
+Here is a list of prefixes to add infront of UI Components:
+
+* **ImagePane** or **JPanel**   >>          *pane*
+* **JLabel**                    >>          *lbl*
+* **AButton**                   >>          *btn*
+* **AImage**                    >>          *img*
+* **ARadioButton**              >>          *rdb*
 
 

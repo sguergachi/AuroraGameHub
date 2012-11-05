@@ -41,27 +41,49 @@ import javax.swing.JPanel;
 public class AuroraLauncher implements Runnable {
 
     private Game game;
+
     private JDialog launchPane;
+
     private AuroraCoreUI ui;
+
     private AImagePane pnlBackground;
+
     private JPanel pnlTop;
+
     private JPanel pnlCenter;
+
     private JLabel lblTitle;
+
     private JLabel lblGameName;
+
     private AImage imageRightSide;
+
     private AImage imageLeftSide;
+
     private AImagePane gameIcon;
+
     private AImagePane titleBG;
+
     private AProgressWheel progressWheel;
+
     private AImagePane progressWheelBG;
+
     private JPanel pnlCenterContent;
+
     private JPanel pnlBottom;
+
     private Thread launcherThread;
+
     private JPanel pnlTopCenter;
+
     private String timeAfter;
+
     private int minDiff;
+
     private Process Process;
+
     private int hoursDiff;
+
     private int elapsedTime;
 
     public AuroraLauncher(Game game, AuroraCoreUI ui) {
@@ -83,7 +105,8 @@ public class AuroraLauncher implements Runnable {
 
 
         //Create components
-        pnlBackground = new AImagePane("LaunchBG.png", launchPane.getWidth(), launchPane.getHeight(), new BorderLayout());
+        pnlBackground = new AImagePane("LaunchBG.png", launchPane.getWidth(),
+                launchPane.getHeight(), new BorderLayout());
         pnlTop = new JPanel(new BorderLayout(0, 20));
         pnlTop.setOpaque(false);
         pnlTopCenter = new JPanel();
@@ -105,8 +128,11 @@ public class AuroraLauncher implements Runnable {
         gameIcon.setPreferredSize(new Dimension(230, 270));
         titleBG = new AImagePane("launchTitle.png");
         progressWheel = new AProgressWheel("ProgressWheel.png");
-        progressWheelBG = new AImagePane("ProgressWheelBG.png", new BorderLayout(0, 0));
-        progressWheelBG.setPreferredSize(new Dimension(progressWheelBG.getImgIcon().getIconWidth(), progressWheelBG.getImgIcon().getIconHeight()));
+        progressWheelBG = new AImagePane("ProgressWheelBG.png",
+                new BorderLayout(0, 0));
+        progressWheelBG.setPreferredSize(new Dimension(progressWheelBG
+                .getImgIcon().getIconWidth(), progressWheelBG.getImgIcon()
+                .getIconHeight()));
 
         //Config Component
         progressWheelBG.add(progressWheel);
@@ -168,15 +194,20 @@ public class AuroraLauncher implements Runnable {
 
             try {
                 String osName = System.getProperty("os.name");
-                if (ui.getOS().equals("Windows 7") || osName.equals("Windows XP") || ui.getOS().equals("Windows Vista")) {
+                if (ui.getOS().equals("Windows 7") || osName
+                        .equals("Windows XP") || ui.getOS().equals(
+                        "Windows Vista")) {
 
 
                     System.out.println(game.getGamePath());
                     if (game.getGamePath().endsWith("exe")) {
                         //Get the directory
-                        ProcessBuilder processBuild = new ProcessBuilder(game.getGamePath());
+                        ProcessBuilder processBuild = new ProcessBuilder(game
+                                .getGamePath());
 
-                        processBuild.directory(new File(game.getGamePath().substring(0, game.getGamePath().lastIndexOf("\\") + 1).replace("\\", "\\")));
+                        processBuild.directory(new File(game.getGamePath()
+                                .substring(0, game.getGamePath().lastIndexOf(
+                                "\\") + 1).replace("\\", "\\")));
 
                         //LAUCH GAME
                         Process = processBuild.start();
@@ -188,12 +219,15 @@ public class AuroraLauncher implements Runnable {
                         try {
                             Thread.sleep(4000);
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(AuroraLauncher.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(AuroraLauncher.class.getName())
+                                    .log(Level.SEVERE, null, ex);
                         }
 
                         //Game Cover Tracker Data
-                        game.setNumberTimesPlayed(game.getNumberTimesPlayed() + 1);
-                        game.setLastPlayed(ATimeLabel.current(ATimeLabel.TIME_24HOUR));
+                        game.setNumberTimesPlayed(game.getNumberTimesPlayed()
+                                                  + 1);
+                        game.setLastPlayed(ATimeLabel.current(
+                                ATimeLabel.TIME_24HOUR));
                         //UI Changes
                         progressWheel.setClockwise(true);
                         progressWheel.setSpeed(6);
@@ -205,12 +239,17 @@ public class AuroraLauncher implements Runnable {
                             launchPane.setAlwaysOnTop(false);
                             Process.waitFor();
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(AuroraLauncher.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(AuroraLauncher.class.getName())
+                                    .log(Level.SEVERE, null, ex);
                         }
                     } else { // Launch Shortcuts
                         launchPane.setAlwaysOnTop(false);
-                        String currentDir = new File(game.getGamePath()).getCanonicalPath();
-                        currentDir = currentDir.substring(0, currentDir.lastIndexOf("\\") + 1) + '"' + currentDir.substring(currentDir.lastIndexOf("\\") + 1, currentDir.length()) + '"';
+                        String currentDir = new File(game.getGamePath())
+                                .getCanonicalPath();
+                        currentDir = currentDir.substring(0, currentDir
+                                .lastIndexOf("\\") + 1) + '"' + currentDir
+                                .substring(currentDir.lastIndexOf("\\") + 1,
+                                currentDir.length()) + '"';
                         //currentDir = currentDir.substring(0, currentDir.indexOf("\\")) + '"' + "\\" + currentDir.substring(currentDir.indexOf("\\") + 1, currentDir.length()) + '"';
 
                         ProcessBuilder processBuild = new ProcessBuilder();
@@ -229,11 +268,14 @@ public class AuroraLauncher implements Runnable {
                         try {
                             Thread.sleep(3000);
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(AuroraLauncher.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(AuroraLauncher.class.getName())
+                                    .log(Level.SEVERE, null, ex);
                         }
                         //Game Cover Tracker Data
-                        game.setNumberTimesPlayed(game.getNumberTimesPlayed() + 1);
-                        game.setLastPlayed(ATimeLabel.current(ATimeLabel.TIME_24HOUR));
+                        game.setNumberTimesPlayed(game.getNumberTimesPlayed()
+                                                  + 1);
+                        game.setLastPlayed(ATimeLabel.current(
+                                ATimeLabel.TIME_24HOUR));
                         //UI Changes
                         progressWheel.setClockwise(false);
                         progressWheel.setSpeed(5);
@@ -245,7 +287,8 @@ public class AuroraLauncher implements Runnable {
                             //launchPane.setAlwaysOnTop(false);
                             Process.waitFor();
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(AuroraLauncher.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(AuroraLauncher.class.getName())
+                                    .log(Level.SEVERE, null, ex);
                         }
                     }
 
@@ -254,7 +297,8 @@ public class AuroraLauncher implements Runnable {
                     // escaping the spaces in the game path
                     game.getGamePath().replace(" ", "\\ ");
                     String workingDir = game.getGamePath();
-                    workingDir = workingDir.substring(0, workingDir.lastIndexOf("/") + 1);
+                    workingDir = workingDir.substring(0, workingDir.lastIndexOf(
+                            "/") + 1);
                     System.setProperty("user.dir", workingDir);
                     //LAUCH GAME
                     Desktop.getDesktop().open(new File(game.getGamePath()));
@@ -264,7 +308,8 @@ public class AuroraLauncher implements Runnable {
                     game.setLastPlayed(ui.getTimeLabel().getText());
                 }
             } catch (IOException ex) {
-                ADialog error = new ADialog(ADialog.aDIALOG_ERROR, "Unable to find game.");
+                ADialog error = new ADialog(ADialog.aDIALOG_ERROR,
+                        "Unable to find game.");
                 error.setButtonListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -277,7 +322,8 @@ public class AuroraLauncher implements Runnable {
                     }
                 });
                 error.setVisible(true);
-                Logger.getLogger(AuroraLauncher.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AuroraLauncher.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
 
             //Game Has Exited//
@@ -291,10 +337,16 @@ public class AuroraLauncher implements Runnable {
             System.out.println(timeAfter);
 
             //Elapsed Time Calculation
-            hoursDiff = Math.abs(Integer.parseInt(timeAfter.substring(0, 2)) - Integer.parseInt(game.getLastPlayed().substring(0, 2))) * 60;
-            minDiff = Math.abs(Integer.parseInt(timeAfter.substring(3, 5)) - Integer.parseInt(game.getLastPlayed().substring(3, 5)));
+            hoursDiff = Math.abs(Integer.parseInt(timeAfter.substring(0, 2))
+                                 - Integer.parseInt(game.getLastPlayed()
+                    .substring(0, 2))) * 60;
+            minDiff = Math.abs(Integer.parseInt(timeAfter.substring(3, 5))
+                               - Integer.parseInt(game.getLastPlayed()
+                    .substring(3, 5)));
             //ELAPSED TIME IN MIN IS ((HOURS*60) - MIN FROM TIME1) + MIN FROM TIME2
-            elapsedTime = Math.abs((hoursDiff - Integer.parseInt(timeAfter.substring(3, 5))) + Integer.parseInt(game.getLastPlayed().substring(3, 5)));
+            elapsedTime = Math.abs((hoursDiff - Integer.parseInt(timeAfter
+                    .substring(3, 5))) + Integer.parseInt(game.getLastPlayed()
+                    .substring(3, 5)));
 
             hoursDiff = elapsedTime / 60;
             minDiff = elapsedTime - (hoursDiff * 60);
@@ -309,14 +361,16 @@ public class AuroraLauncher implements Runnable {
             } else if (hoursDiff < 1) {
                 lblGameName.setText("You Played: " + minDiff + " min  ");
             } else {
-                lblGameName.setText("You Played: " + hoursDiff + "hr and " + minDiff + "min  ");
+                lblGameName.setText("You Played: " + hoursDiff + "hr and "
+                                    + minDiff + "min  ");
             }
 
             //Wait a bit before returning to Aurora
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException ex) {
-                Logger.getLogger(AuroraLauncher.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AuroraLauncher.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
             break;
         }

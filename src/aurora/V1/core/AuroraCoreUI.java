@@ -251,7 +251,7 @@ public class AuroraCoreUI {
 
     private JPanel paneTime;
 
-    private JPanel paneInfo;
+    private JPanel paneTitle;
 
     private JPanel paneFrameControlContainer;
 
@@ -259,7 +259,7 @@ public class AuroraCoreUI {
 
     private JLabel lblVersion;
 
-    private JLabel lblInfo;
+    private JLabel lblTitle;
 
     private JLabel lblKeyAction;
 
@@ -413,7 +413,7 @@ public class AuroraCoreUI {
                 .getSize().height - (frame.getSize().height / 6 + frame
                 .getSize().height / 6)));
         paneCenter.setOpaque(false);
-        paneCenter.setLayout(new BorderLayout());
+        paneCenter.setLayout(new BorderLayout(0,0));
         paneCenter.setIgnoreRepaint(true);
 
         //*
@@ -496,18 +496,18 @@ public class AuroraCoreUI {
         //---------------------------------|||--------------------------------------//
 
         /// Welcome Label
-        lblInfo = new JLabel(vi.VI(ANuance.inx_Welcome));
-        lblInfo.setOpaque(false);
-        lblInfo.setForeground(Color.LIGHT_GRAY);
-        lblInfo.setFont(regularFont.deriveFont(Font.PLAIN, welcomeFontSize));
+        lblTitle = new JLabel(vi.VI(ANuance.inx_Welcome));
+        lblTitle.setOpaque(false);
+        lblTitle.setForeground(Color.LIGHT_GRAY);
+        lblTitle.setFont(regularFont.deriveFont(Font.PLAIN, welcomeFontSize));
 
-        paneInfo = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        paneInfo.setOpaque(false);
-        paneInfo.add(lblInfo);
+        paneTitle = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        paneTitle.setOpaque(false);
+        paneTitle.add(lblTitle);
 
         screenLabelPanel = new JPanel(new BorderLayout());
         screenLabelPanel.setOpaque(false);
-        screenLabelPanel.add(BorderLayout.NORTH, paneInfo);
+        screenLabelPanel.add(BorderLayout.NORTH, paneTitle);
         paneBottom.add(BorderLayout.PAGE_START, screenLabelPanel);
 
         
@@ -885,8 +885,8 @@ public class AuroraCoreUI {
         this.imgLogo = logoImage;
     }
 
-    public void setInfoLabel(JLabel infoLabel) {
-        this.lblInfo = infoLabel;
+    public void setTitleLabel(JLabel aTitleLabel) {
+        this.lblTitle = aTitleLabel;
     }
 
     public void setVi(ANuance vi) {
@@ -985,8 +985,8 @@ public class AuroraCoreUI {
         return btnMinimize;
     }
 
-    public JLabel getInfoLabel() {
-        return lblInfo;
+    public JLabel getTitleLabel() {
+        return lblTitle;
     }
 
     public ANuance getVi() {
@@ -1013,8 +1013,8 @@ public class AuroraCoreUI {
         return paneBackground;
     }
 
-    public JPanel getInfoPanel() {
-        return paneInfo;
+    public JPanel getTitlePanel() {
+        return paneTitle;
     }
 
     public AImagePane getBottomImagePane() {

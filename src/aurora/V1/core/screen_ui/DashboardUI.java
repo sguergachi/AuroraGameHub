@@ -17,13 +17,13 @@
  */
 package aurora.V1.core.screen_ui;
 
-import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.Game;
 import aurora.V1.core.StartLoader;
 import aurora.V1.core.screen_handler.DashboardHandler;
 import aurora.V1.core.screen_logic.DashboardLogic;
+import aurora.engine.V1.Logic.AuroraScreenUI;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.ACarousel;
 import aurora.engine.V1.UI.ACarouselPane;
@@ -45,23 +45,21 @@ import javax.swing.JLabel;
  * | DashboardUI :: Aurora App Class
  * .------------------------------------------------------------------------.
  * |
- * | This class contains the UI attached to an appropriate *Handler*
- * | and *Logic* class which handle the actions caused by the UI
- * | components found here
+ * | This class contains the UI for the Dashboard Screen associated with an
+ * | appropriate *Handler* and *Logic* class which handle the actions caused
+ * | by the UI components found here
  * |
  * | This class must follow the rules stated in the AuroraScreenUI
  * | Interface. The *Handler* and *Logic* classes
  * | The Handler class is called: DashboardHandler
  * | The Logic class is called: DashboardLogic
  * |
- * |
- * |
  * .........................................................................
  *
  * @author sammy <sguergachi@gmail.com> carlos <camachado@gmail.com>
  *
  */
-public class DashboardUI extends AuroraApp {
+public class DashboardUI implements AuroraScreenUI {
 
     /**
      * The main carousel used to navigate AuroraApps.
@@ -369,10 +367,8 @@ public class DashboardUI extends AuroraApp {
         //Initialize Sizes
         setSizes();
 
-        //----------------------------CAROUSEL--------------------------------//
-
-        carousel = new ACarousel(carouselWidth, carouselHeight,
-                Toolkit.getDefaultToolkit().getScreenSize().width);
+        // Carousel
+        // --------------------------------------------------------------------.
 
         titleSettingGlow = new AImage("settings_glow.png");
         titleSettingNorm = new AImage("settings_normal.png");
@@ -414,22 +410,22 @@ public class DashboardUI extends AuroraApp {
                 "Aurora_right_down.png", "Aurora_right_over.png",
                 carouselButtonWidth, carouselButtonHeight);
 
-        //------------------------------|||-----------------------------------//
 
 
 
-        //----------------------------INFOFEED--------------------------------//
+        // Info Feed
+        // --------------------------------------------------------------------.
 
         infoFeed = new AInfoFeed("InfoBar.png", infoFeedWidth,
                 infoFeedHeight, logic.createFeed(null));
-        //------------------------------|||-----------------------------------//
 
 
 
-        //----------------------------CORE UI---------------------------------//
+        // Carousel
+        // --------------------------------------------------------------------.
 
         //* Indicate to User DashboardUI is loading. *//
-        coreUI.getInfoLabel().setText(".: Loading :.");
+        coreUI.getTitleLabel().setText(".: Loading :.");
 
         btnBack = new AButton("Aurora_Logout_normal.png",
                 "Aurora_Logout_down.png", "Aurora_Logout_over.png",
@@ -439,15 +435,17 @@ public class DashboardUI extends AuroraApp {
                 getKeyIconWidth(), coreUI.getKeyIconHeight());
 
         lblKeyAction = new JLabel(" Move ");
-        //------------------------------|||-----------------------------------//
 
     }
 
     @Override
     public final void buildUI() {
 
-        //----------------------------CAROUSEL--------------------------------//
+        // Carousel
+        // --------------------------------------------------------------------.
 
+        carousel = new ACarousel(carouselWidth, carouselHeight,
+                Toolkit.getDefaultToolkit().getScreenSize().width);
 
 
         //* Set ID For each Panel and add ENTER Key Listener *//
@@ -515,7 +513,7 @@ public class DashboardUI extends AuroraApp {
 
         carousel.
                 addMouseWheelListener(
-                handler.new carouselPaneMouseWheelListener());
+                handler.new CarouselPaneMouseWheelListener());
 
 
         //* Add Listeners to the Left and Right Carousel Buttons *//
@@ -526,30 +524,44 @@ public class DashboardUI extends AuroraApp {
         btnCarouselRight.addActionListener(handler.new RightButtonListener());
         btnCarouselRight.addKeyListener(handler.new DashboardlKeyListener());
 
-        //------------------------------|||-----------------------------------//
 
 
+        // Info Feed
+        // --------------------------------------------------------------------.
 
-        //----------------------------INFOFEED--------------------------------//
         infoFeed.go();
 
 
+        // CoreUI
+        // --------------------------------------------------------------------.
+
+
+        //* Set bigger background image for Frame Control panel *//
+        coreUI.getFrameControlImagePane().setImage("Aurora_FrameButton2.png");
+
+        //* Add Back Button to Frame Controls *//
+        coreUI.getFrameControlImagePane().add(btnBack, 0);
+        btnBack.setToolTipText("Back");
+
+        //* Add UI to Canvas *//
+        addToCanvas();
+
+    }
+
+    @Override
+    public final void addToCanvas() {
+
+
+        // CoreUI
+        // -----------------------------------------------------------------------.
+
+
+        //* Add Carousel to Center Panel *//
         coreUI.getCenterPanel().add(BorderLayout.CENTER, carousel);
-
-        //------------------------------|||-----------------------------------//
-
-
-
-        //----------------------------CORE UI---------------------------------//
-
-
 
         //* Set bigger Logo to Header *//
         coreUI.getLogoImage().setImgURl("Aurora_Header2.png");
         coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
-
-        //* Set bigger background image for Frame Control panel *//
-        coreUI.getFrameControlImagePane().setImage("Aurora_FrameButton2.png");
 
         //* Set size of Top panel in CoreUI *//
         coreUI.getTopImagePane().setImageHeight(topHeight);
@@ -584,11 +596,6 @@ public class DashboardUI extends AuroraApp {
         //* Add  Components to CoreUI *//
 
 
-        //* Add Back Button to Frame Controls *//
-        coreUI.getFrameControlImagePane().add(btnBack, 0);
-        btnBack.setToolTipText("Back");
-
-
         //* Add Arrow Keys Icons *//
         coreUI.getKeyToPressPanel().add(keyArrows);
         coreUI.getKeyToPressPanel().add(lblKeyAction);
@@ -621,7 +628,7 @@ public class DashboardUI extends AuroraApp {
                 addKeyListener(handler.new DashboardlKeyListener());
 
         //* Finished loading so change text *//
-        coreUI.getInfoLabel().setText(" Dashboard ");
+        coreUI.getTitleLabel().setText(" Dashboard ");
 
         //* Final Refresh and Refocus *//
         coreUI.getFrame().repaint();
@@ -709,7 +716,8 @@ public class DashboardUI extends AuroraApp {
 
     }
 
-    //----------------------------GETTER & SETTER-----------------------------//
+    // Getters & Setters
+    // -----------------------------------------------------------------------.
     /**
      * Get the DashboardLogic instance generated in DashboardUI.
      * <p/>
@@ -1527,5 +1535,4 @@ public class DashboardUI extends AuroraApp {
     public final void setCarouselButtonHeight(final int theCarouselButtonHeight) {
         this.carouselButtonHeight = theCarouselButtonHeight;
     }
-    //------------------------------|||-----------------------------------//
 }

@@ -28,6 +28,8 @@ import aurora.V1.core.GridSearch;
 import aurora.V1.core.screen_handler.GameLibraryHandler.MoveToLastGrid;
 import aurora.V1.core.screen_ui.GameLibraryUI;
 import aurora.engine.V1.Logic.AFileManager;
+import aurora.engine.V1.Logic.AuroraScreenHandler;
+import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.AGridPanel;
 import aurora.engine.V1.UI.AHoverButton;
@@ -64,13 +66,32 @@ import javax.swing.filechooser.FileFilter;
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class GameLibraryHandler {
+public class GameLibraryHandler implements
+        AuroraScreenHandler {
+
+    private AuroraScreenLogic libraryLogic;
+
+    private final GameLibraryUI libraryUI;
+
+    public GameLibraryHandler(GameLibraryUI aLibraryUI) {
+        this.libraryUI = aLibraryUI;
+    }
+
+    @Override
+    public void setLogic(final AuroraScreenLogic logic) {
+
+        this.libraryLogic = logic;
+
+    }
 
     public class RemoveSearchHandler implements ActionListener {
 
         private final GameLibraryUI libraryUI;
+
         private final JTextField SearchBar;
+
         private final AButton SearchButton;
+
         private final GridSearch Search;
 
         public RemoveSearchHandler(GameLibraryUI gameLibraryUI) {
@@ -85,15 +106,18 @@ public class GameLibraryHandler {
             try {
                 Search.restoreGrid();
             } catch (MalformedURLException ex) {
-                Logger.getLogger(GameLibraryHandler.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GameLibraryHandler.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
             Search.resetAppendedName();
             SearchBar.setText("Start Typing To Search...");
             libraryUI.getSearchBar().setForeground(Color.darkGray);
-            libraryUI.getSearchBar().setFont(libraryUI.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 40));
+            libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
+                    .getDefaultFont().deriveFont(Font.BOLD, 40));
             libraryUI.getSearchBarBG().setImage("SearchBar_inactive.png");
             libraryUI.getSearchButtonBG().removeAll();
-            libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(), BorderLayout.NORTH);
+            libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(),
+                    BorderLayout.NORTH);
             libraryUI.getCoreUI().getFrame().requestFocus();
             libraryUI.getGameBack().revalidate();
         }
@@ -105,6 +129,7 @@ public class GameLibraryHandler {
     public class searchSelectHandler implements MouseListener {
 
         private GridSearch Search;
+
         private GameLibraryUI libraryUI;
 
         public searchSelectHandler(GameLibraryUI gameLibraryUI) {
@@ -118,13 +143,16 @@ public class GameLibraryHandler {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            if (libraryUI.getSearchBar().getText().equals("Start Typing To Search...")) {
+            if (libraryUI.getSearchBar().getText().equals(
+                    "Start Typing To Search...")) {
                 libraryUI.getSearchBar().setText("");
                 libraryUI.getSearchBar().setForeground(Color.darkGray);
-                libraryUI.getSearchBar().setFont(libraryUI.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 44));
+                libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
+                        .getDefaultFont().deriveFont(Font.BOLD, 44));
                 libraryUI.getSearchBarBG().setImage("SearchBar.png");
                 libraryUI.getSearchButtonBG().removeAll();
-                libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(), BorderLayout.NORTH);
+                libraryUI.getSearchButtonBG().add(libraryUI
+                        .getRemoveSearchButton(), BorderLayout.NORTH);
                 Search.resetAppendedName();
             }
         }
@@ -146,6 +174,7 @@ public class GameLibraryHandler {
         //Handles the Search Button Besides the Search Box
 
         private GameLibraryUI ui;
+
         private GridSearch Search;
 
         public searchButtonHandler(GameLibraryUI Obj_library) {
@@ -160,11 +189,14 @@ public class GameLibraryHandler {
             ui.getSearchBar().requestFocus();
             ui.getSearchBar().setText("");
             ui.getSearchBar().setForeground(Color.darkGray);
-            ui.getSearchBar().setFont(ui.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 44));
+            ui.getSearchBar().setFont(ui.getCoreUI().getDefaultFont()
+                    .deriveFont(Font.BOLD, 44));
             ui.getSearchBarBG().setImage("SearchBar.png");
             ui.getSearchButtonBG().removeAll();
-            ui.getSearchButtonBG().add(ui.getRemoveSearchButton(), BorderLayout.NORTH);
-            ui.getRemoveSearchButton().addActionListener(new RemoveSearchHandler(ui));
+            ui.getSearchButtonBG().add(ui.getRemoveSearchButton(),
+                    BorderLayout.NORTH);
+            ui.getRemoveSearchButton()
+                    .addActionListener(new RemoveSearchHandler(ui));
         }
     }
 
@@ -189,8 +221,11 @@ public class GameLibraryHandler {
     public class searchFocusHandler implements FocusListener {
 
         private JTextField SearchBar;
+
         private JButton SearchButton;
+
         private GameLibraryUI libraryUI;
+
         private final GridSearch Search;
 
         public searchFocusHandler(GameLibraryUI Obj_library) {
@@ -205,16 +240,21 @@ public class GameLibraryHandler {
         //If Focus was not gained thru the search button, then
         //reset text and append string
         public void focusGained(FocusEvent e) {
-            if (libraryUI.getSearchBar().getText().equals("Start Typing To Search...")) {
+            if (libraryUI.getSearchBar().getText().equals(
+                    "Start Typing To Search...")) {
                 if (e.getOppositeComponent() == SearchButton) {
                     SearchBar.setText("");
                     Search.resetAppendedName();
                     libraryUI.getSearchBar().setForeground(Color.darkGray);
-                    libraryUI.getSearchBar().setFont(libraryUI.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 44));
+                    libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
+                            .getDefaultFont().deriveFont(Font.BOLD, 44));
                     libraryUI.getSearchBarBG().setImage("SearchBar.png");
                     libraryUI.getSearchButtonBG().removeAll();
-                    libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(), BorderLayout.NORTH);
-                    libraryUI.getRemoveSearchButton().addActionListener(new RemoveSearchHandler(libraryUI));
+                    libraryUI.getSearchButtonBG().add(libraryUI
+                            .getRemoveSearchButton(), BorderLayout.NORTH);
+                    libraryUI.getRemoveSearchButton()
+                            .addActionListener(
+                            new RemoveSearchHandler(libraryUI));
                 }
             }
         }
@@ -228,42 +268,60 @@ public class GameLibraryHandler {
                 if (e.getOppositeComponent() != SearchButton) {
                     //if focus lost then searches thru all Grid Panels, then inside each grid
                     try {
-                        for (int i = 0; i < Search.getGridManager().getArray().size(); i++) {
-                            for (int j = 0; j < Search.getGridManager().getGrid(i).getArray().size(); j++) {
+                        for (int i = 0; i < Search.getGridManager().getArray()
+                                .size(); i++) {
+                            for (int j = 0; j < Search.getGridManager().getGrid(
+                                    i).getArray().size(); j++) {
                                 //If the focus was not lost due to a GameCover Obj in the Search Grid
 
                                 if (e.getOppositeComponent() instanceof GamePlaceholder) {
-                                    if (e.getOppositeComponent() != (Game) Search.getGridManager().getGrid(i).getArray().get(j)) {
-                                        System.out.println(e.getOppositeComponent());
+                                    if (e.getOppositeComponent()
+                                        != (Game) Search.getGridManager()
+                                            .getGrid(i).getArray().get(j)) {
+                                        System.out.println(e
+                                                .getOppositeComponent());
                                         //Attempt to restore to GameCover Library Grid
                                         try {
                                             libraryUI.getSearch().restoreGrid();
                                         } catch (MalformedURLException ex) {
-                                            Logger.getLogger(GameLibraryHandler.class.getName()).log(Level.SEVERE, null, ex);
+                                            Logger
+                                                    .getLogger(GameLibraryHandler.class
+                                                    .getName())
+                                                    .log(Level.SEVERE, null, ex);
                                         }
                                         //reset Search Box and append string
-                                        libraryUI.getSearch().resetAppendedName();
+                                        libraryUI.getSearch()
+                                                .resetAppendedName();
 
                                     }
                                 }
                             }
                         }
                     } catch (NullPointerException ex) {
-                        for (int i = 0; i < libraryUI.getGridSplit().getArray().size(); i++) {
-                            for (int j = 0; j < libraryUI.getGridSplit().getGrid(i).getArray().size(); j++) {
+                        for (int i = 0; i < libraryUI.getGridSplit().getArray()
+                                .size(); i++) {
+                            for (int j = 0; j < libraryUI.getGridSplit()
+                                    .getGrid(i).getArray().size(); j++) {
                                 //If the focus was not lost due to a GameCover Obj in the Search Grid
 
                                 if (e.getOppositeComponent() instanceof GamePlaceholder) {
-                                    if (e.getOppositeComponent() != (Game) libraryUI.getGridSplit().getGrid(i).getArray().get(j)) {
-                                        System.out.println(e.getOppositeComponent());
+                                    if (e.getOppositeComponent()
+                                        != (Game) libraryUI.getGridSplit()
+                                            .getGrid(i).getArray().get(j)) {
+                                        System.out.println(e
+                                                .getOppositeComponent());
                                         //Attempt to restore to GameCover Library Grid
                                         try {
                                             libraryUI.getSearch().restoreGrid();
                                         } catch (MalformedURLException exx) {
-                                            Logger.getLogger(GameLibraryHandler.class.getName()).log(Level.SEVERE, null, exx);
+                                            Logger
+                                                    .getLogger(GameLibraryHandler.class
+                                                    .getName())
+                                                    .log(Level.SEVERE, null, exx);
                                         }
                                         //reset Search Box and append string
-                                        libraryUI.getSearch().resetAppendedName();
+                                        libraryUI.getSearch()
+                                                .resetAppendedName();
 
                                     }
                                 }
@@ -274,10 +332,13 @@ public class GameLibraryHandler {
 
                     SearchBar.setText("Start Typing To Search...");
                     libraryUI.getSearchBar().setForeground(Color.darkGray);
-                    libraryUI.getSearchBar().setFont(libraryUI.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 40));
-                    libraryUI.getSearchBarBG().setImage("SearchBar_inactive.png");
+                    libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
+                            .getDefaultFont().deriveFont(Font.BOLD, 40));
+                    libraryUI.getSearchBarBG()
+                            .setImage("SearchBar_inactive.png");
                     libraryUI.getSearchButtonBG().removeAll();
-                    libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(), BorderLayout.NORTH);
+                    libraryUI.getSearchButtonBG().add(libraryUI
+                            .getSearchButton(), BorderLayout.NORTH);
                 }
             }
         }
@@ -287,6 +348,7 @@ public class GameLibraryHandler {
         //Handles Typing In Search Box, when it is in focus
 
         private GameLibraryUI libraryUI;
+
         private GridSearch Search;
 
         public searchBoxHandler(GameLibraryUI Obj_Library) {
@@ -307,47 +369,48 @@ public class GameLibraryHandler {
             //this activates for any letter number or space key
 
             libraryUI.getSearchBar().setForeground(Color.darkGray);
-            libraryUI.getSearchBar().setFont(libraryUI.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 44));
+            libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
+                    .getDefaultFont().deriveFont(Font.BOLD, 44));
             libraryUI.getSearchBarBG().setImage("SearchBar.png");
             if (!libraryUI.isAddGameUI_Visible()) {
                 if (e.getKeyCode() == KeyEvent.VK_A
-                        || e.getKeyCode() == KeyEvent.VK_B
-                        || e.getKeyCode() == KeyEvent.VK_C
-                        || e.getKeyCode() == KeyEvent.VK_D
-                        || e.getKeyCode() == KeyEvent.VK_E
-                        || e.getKeyCode() == KeyEvent.VK_F
-                        || e.getKeyCode() == KeyEvent.VK_G
-                        || e.getKeyCode() == KeyEvent.VK_H
-                        || e.getKeyCode() == KeyEvent.VK_I
-                        || e.getKeyCode() == KeyEvent.VK_J
-                        || e.getKeyCode() == KeyEvent.VK_K
-                        || e.getKeyCode() == KeyEvent.VK_L
-                        || e.getKeyCode() == KeyEvent.VK_M
-                        || e.getKeyCode() == KeyEvent.VK_N
-                        || e.getKeyCode() == KeyEvent.VK_O
-                        || e.getKeyCode() == KeyEvent.VK_P
-                        || e.getKeyCode() == KeyEvent.VK_Q
-                        || e.getKeyCode() == KeyEvent.VK_R
-                        || e.getKeyCode() == KeyEvent.VK_S
-                        || e.getKeyCode() == KeyEvent.VK_T
-                        || e.getKeyCode() == KeyEvent.VK_U
-                        || e.getKeyCode() == KeyEvent.VK_V
-                        || e.getKeyCode() == KeyEvent.VK_W
-                        || e.getKeyCode() == KeyEvent.VK_X
-                        || e.getKeyCode() == KeyEvent.VK_Y
-                        || e.getKeyCode() == KeyEvent.VK_Z
-                        || e.getKeyCode() == KeyEvent.VK_SPACE
-                        || e.getKeyCode() == KeyEvent.VK_1
-                        || e.getKeyCode() == KeyEvent.VK_2
-                        || e.getKeyCode() == KeyEvent.VK_3
-                        || e.getKeyCode() == KeyEvent.VK_4
-                        || e.getKeyCode() == KeyEvent.VK_5
-                        || e.getKeyCode() == KeyEvent.VK_6
-                        || e.getKeyCode() == KeyEvent.VK_7
-                        || e.getKeyCode() == KeyEvent.VK_8
-                        || e.getKeyCode() == KeyEvent.VK_9
-                        || e.getKeyCode() == KeyEvent.VK_0
-                        || e.getKeyCode() == KeyEvent.VK_QUOTE) {
+                    || e.getKeyCode() == KeyEvent.VK_B
+                    || e.getKeyCode() == KeyEvent.VK_C
+                    || e.getKeyCode() == KeyEvent.VK_D
+                    || e.getKeyCode() == KeyEvent.VK_E
+                    || e.getKeyCode() == KeyEvent.VK_F
+                    || e.getKeyCode() == KeyEvent.VK_G
+                    || e.getKeyCode() == KeyEvent.VK_H
+                    || e.getKeyCode() == KeyEvent.VK_I
+                    || e.getKeyCode() == KeyEvent.VK_J
+                    || e.getKeyCode() == KeyEvent.VK_K
+                    || e.getKeyCode() == KeyEvent.VK_L
+                    || e.getKeyCode() == KeyEvent.VK_M
+                    || e.getKeyCode() == KeyEvent.VK_N
+                    || e.getKeyCode() == KeyEvent.VK_O
+                    || e.getKeyCode() == KeyEvent.VK_P
+                    || e.getKeyCode() == KeyEvent.VK_Q
+                    || e.getKeyCode() == KeyEvent.VK_R
+                    || e.getKeyCode() == KeyEvent.VK_S
+                    || e.getKeyCode() == KeyEvent.VK_T
+                    || e.getKeyCode() == KeyEvent.VK_U
+                    || e.getKeyCode() == KeyEvent.VK_V
+                    || e.getKeyCode() == KeyEvent.VK_W
+                    || e.getKeyCode() == KeyEvent.VK_X
+                    || e.getKeyCode() == KeyEvent.VK_Y
+                    || e.getKeyCode() == KeyEvent.VK_Z
+                    || e.getKeyCode() == KeyEvent.VK_SPACE
+                    || e.getKeyCode() == KeyEvent.VK_1
+                    || e.getKeyCode() == KeyEvent.VK_2
+                    || e.getKeyCode() == KeyEvent.VK_3
+                    || e.getKeyCode() == KeyEvent.VK_4
+                    || e.getKeyCode() == KeyEvent.VK_5
+                    || e.getKeyCode() == KeyEvent.VK_6
+                    || e.getKeyCode() == KeyEvent.VK_7
+                    || e.getKeyCode() == KeyEvent.VK_8
+                    || e.getKeyCode() == KeyEvent.VK_9
+                    || e.getKeyCode() == KeyEvent.VK_0
+                    || e.getKeyCode() == KeyEvent.VK_QUOTE) {
                     Search.typedChar(e.getKeyChar()); //Sends the key to the search engine to be appended and check for match
 
                 } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
@@ -366,7 +429,9 @@ public class GameLibraryHandler {
         //Then set focus to the searchbox
 
         private JTextField SearchBar;
+
         private final GameLibraryUI libraryUI;
+
         private final GridSearch Search;
 
         public searchRefocusListener(GameLibraryUI gameLibraryUI) {
@@ -432,11 +497,15 @@ public class GameLibraryHandler {
                     SearchBar.requestFocus(); // Get focus of Search Box
 
                     libraryUI.getSearchBar().setForeground(Color.darkGray);
-                    libraryUI.getSearchBar().setFont(libraryUI.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 44));
+                    libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
+                            .getDefaultFont().deriveFont(Font.BOLD, 44));
                     libraryUI.getSearchBarBG().setImage("SearchBar.png");
                     libraryUI.getSearchButtonBG().removeAll();
-                    libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(), BorderLayout.NORTH);
-                    libraryUI.getRemoveSearchButton().addActionListener(new RemoveSearchHandler(libraryUI));
+                    libraryUI.getSearchButtonBG().add(libraryUI
+                            .getRemoveSearchButton(), BorderLayout.NORTH);
+                    libraryUI.getRemoveSearchButton()
+                            .addActionListener(
+                            new RemoveSearchHandler(libraryUI));
                 }
             }
         }
@@ -447,6 +516,7 @@ public class GameLibraryHandler {
         //Handles Typing In Search Box, when it is in focus
 
         private GameLibraryUI libraryUI;
+
         private GameSearch Search;
 
         public addGameSearchBoxHandler(GameLibraryUI gameLibraryUI) {
@@ -467,47 +537,48 @@ public class GameLibraryHandler {
             //this activates for any letter number or space key
 
             libraryUI.getSearchBar().setForeground(Color.darkGray);
-            libraryUI.getSearchBar().setFont(libraryUI.getCoreUI().getDefaultFont().deriveFont(Font.BOLD, 44));
+            libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
+                    .getDefaultFont().deriveFont(Font.BOLD, 44));
             libraryUI.getSearchBarBG().setImage("SearchBar.png");
 
             if (e.getKeyCode() == KeyEvent.VK_A
-                    || e.getKeyCode() == KeyEvent.VK_B
-                    || e.getKeyCode() == KeyEvent.VK_C
-                    || e.getKeyCode() == KeyEvent.VK_D
-                    || e.getKeyCode() == KeyEvent.VK_E
-                    || e.getKeyCode() == KeyEvent.VK_F
-                    || e.getKeyCode() == KeyEvent.VK_G
-                    || e.getKeyCode() == KeyEvent.VK_H
-                    || e.getKeyCode() == KeyEvent.VK_I
-                    || e.getKeyCode() == KeyEvent.VK_J
-                    || e.getKeyCode() == KeyEvent.VK_K
-                    || e.getKeyCode() == KeyEvent.VK_L
-                    || e.getKeyCode() == KeyEvent.VK_M
-                    || e.getKeyCode() == KeyEvent.VK_N
-                    || e.getKeyCode() == KeyEvent.VK_O
-                    || e.getKeyCode() == KeyEvent.VK_P
-                    || e.getKeyCode() == KeyEvent.VK_Q
-                    || e.getKeyCode() == KeyEvent.VK_R
-                    || e.getKeyCode() == KeyEvent.VK_S
-                    || e.getKeyCode() == KeyEvent.VK_T
-                    || e.getKeyCode() == KeyEvent.VK_U
-                    || e.getKeyCode() == KeyEvent.VK_V
-                    || e.getKeyCode() == KeyEvent.VK_W
-                    || e.getKeyCode() == KeyEvent.VK_X
-                    || e.getKeyCode() == KeyEvent.VK_Y
-                    || e.getKeyCode() == KeyEvent.VK_Z
-                    || e.getKeyCode() == KeyEvent.VK_SPACE
-                    || e.getKeyCode() == KeyEvent.VK_1
-                    || e.getKeyCode() == KeyEvent.VK_2
-                    || e.getKeyCode() == KeyEvent.VK_3
-                    || e.getKeyCode() == KeyEvent.VK_4
-                    || e.getKeyCode() == KeyEvent.VK_5
-                    || e.getKeyCode() == KeyEvent.VK_6
-                    || e.getKeyCode() == KeyEvent.VK_7
-                    || e.getKeyCode() == KeyEvent.VK_8
-                    || e.getKeyCode() == KeyEvent.VK_9
-                    || e.getKeyCode() == KeyEvent.VK_0
-                    || e.getKeyCode() == KeyEvent.VK_QUOTE) {
+                || e.getKeyCode() == KeyEvent.VK_B
+                || e.getKeyCode() == KeyEvent.VK_C
+                || e.getKeyCode() == KeyEvent.VK_D
+                || e.getKeyCode() == KeyEvent.VK_E
+                || e.getKeyCode() == KeyEvent.VK_F
+                || e.getKeyCode() == KeyEvent.VK_G
+                || e.getKeyCode() == KeyEvent.VK_H
+                || e.getKeyCode() == KeyEvent.VK_I
+                || e.getKeyCode() == KeyEvent.VK_J
+                || e.getKeyCode() == KeyEvent.VK_K
+                || e.getKeyCode() == KeyEvent.VK_L
+                || e.getKeyCode() == KeyEvent.VK_M
+                || e.getKeyCode() == KeyEvent.VK_N
+                || e.getKeyCode() == KeyEvent.VK_O
+                || e.getKeyCode() == KeyEvent.VK_P
+                || e.getKeyCode() == KeyEvent.VK_Q
+                || e.getKeyCode() == KeyEvent.VK_R
+                || e.getKeyCode() == KeyEvent.VK_S
+                || e.getKeyCode() == KeyEvent.VK_T
+                || e.getKeyCode() == KeyEvent.VK_U
+                || e.getKeyCode() == KeyEvent.VK_V
+                || e.getKeyCode() == KeyEvent.VK_W
+                || e.getKeyCode() == KeyEvent.VK_X
+                || e.getKeyCode() == KeyEvent.VK_Y
+                || e.getKeyCode() == KeyEvent.VK_Z
+                || e.getKeyCode() == KeyEvent.VK_SPACE
+                || e.getKeyCode() == KeyEvent.VK_1
+                || e.getKeyCode() == KeyEvent.VK_2
+                || e.getKeyCode() == KeyEvent.VK_3
+                || e.getKeyCode() == KeyEvent.VK_4
+                || e.getKeyCode() == KeyEvent.VK_5
+                || e.getKeyCode() == KeyEvent.VK_6
+                || e.getKeyCode() == KeyEvent.VK_7
+                || e.getKeyCode() == KeyEvent.VK_8
+                || e.getKeyCode() == KeyEvent.VK_9
+                || e.getKeyCode() == KeyEvent.VK_0
+                || e.getKeyCode() == KeyEvent.VK_QUOTE) {
                 Search.typedChar(e.getKeyChar()); //Sends the key to the search engine to be appended and check for match
 
             } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
@@ -523,6 +594,7 @@ public class GameLibraryHandler {
     public class addGameMouseHandler implements MouseListener {
 
         private GameSearch Search;
+
         private GameLibraryUI libraryUI;
 
         public addGameMouseHandler(GameLibraryUI gameLibraryUI) {
@@ -537,12 +609,14 @@ public class GameLibraryHandler {
         @Override
         public void mousePressed(MouseEvent e) {
 
-            if (libraryUI.getSearchText().getText().equals("Search For Game To Add...")) {
+            if (libraryUI.getSearchText().getText().equals(
+                    "Search For Game To Add...")) {
                 libraryUI.getSearchText().requestFocus();
                 libraryUI.getSearchText().setText("");
                 Search.resetCover();
                 libraryUI.getSearchText().setForeground(Color.black);
-                libraryUI.getSearchArrow().setImage("AddGame_SearchArrow_dark.png");
+                libraryUI.getSearchArrow().setImage(
+                        "AddGame_SearchArrow_dark.png");
             }
         }
 
@@ -562,6 +636,7 @@ public class GameLibraryHandler {
     public class addGameFocusHandler implements FocusListener {
 
         private GameLibraryUI libraryUI;
+
         private GameSearch Search;
 
         public addGameFocusHandler(GameLibraryUI Obj_library) {
@@ -572,11 +647,13 @@ public class GameLibraryHandler {
 
         @Override
         public void focusGained(FocusEvent e) {
-            if (libraryUI.getSearchText().getText().equals("Search For Game To Add...")) {
+            if (libraryUI.getSearchText().getText().equals(
+                    "Search For Game To Add...")) {
                 libraryUI.getSearchText().setText("");
                 Search.resetCover();
                 libraryUI.getSearchText().setForeground(Color.black);
-                libraryUI.getSearchArrow().setImage("AddGame_SearchArrow_dark.png");
+                libraryUI.getSearchArrow().setImage(
+                        "AddGame_SearchArrow_dark.png");
             }
 
         }
@@ -584,16 +661,20 @@ public class GameLibraryHandler {
         @Override
         public void focusLost(FocusEvent e) {
 
-            if (e.getOppositeComponent() instanceof JList || e.getOppositeComponent() instanceof JFileChooser == false) {
+            if (e.getOppositeComponent() instanceof JList || e
+                    .getOppositeComponent() instanceof JFileChooser == false) {
                 try {
                     libraryUI.getSearch().restoreGrid();
                 } catch (MalformedURLException ex) {
-                    Logger.getLogger(GameLibraryHandler.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(GameLibraryHandler.class.getName())
+                            .log(Level.SEVERE, null, ex);
                 }
                 if (libraryUI.getSearchText().getText().length() <= 1) {
-                    libraryUI.getSearchText().setText("Search For Game To Add...");
+                    libraryUI.getSearchText().setText(
+                            "Search For Game To Add...");
                     libraryUI.getSearchText().setForeground(Color.DARK_GRAY);
-                    libraryUI.getSearchArrow().setImage("AddGame_SearchArrow_light.png");
+                    libraryUI.getSearchArrow().setImage(
+                            "AddGame_SearchArrow_light.png");
                 }
 
             }
@@ -617,9 +698,11 @@ public class GameLibraryHandler {
     public class ExecutableChooserHandler implements ActionListener {
 
         private GameLibraryUI libraryUI;
+
         private JFileChooser gameLocator;
 
-        public ExecutableChooserHandler(GameLibraryUI gameLibraryUi, JFileChooser locator) {
+        public ExecutableChooserHandler(GameLibraryUI gameLibraryUi,
+                                        JFileChooser locator) {
             this.libraryUI = gameLibraryUi;
             gameLocator = locator;
         }
@@ -628,7 +711,8 @@ public class GameLibraryHandler {
         public void actionPerformed(ActionEvent e) {
 
             if (gameLocator.getSelectedFile() != null) {
-                libraryUI.setCurrentPath(gameLocator.getSelectedFile().getPath());
+                libraryUI
+                        .setCurrentPath(gameLocator.getSelectedFile().getPath());
                 libraryUI.getStepTwo().setImgURl("AddGame_step2_green.png");
                 libraryUI.checkNotifiers();
                 System.out.println(libraryUI.getCurrentPath());
@@ -656,8 +740,8 @@ public class GameLibraryHandler {
             String extension = AFileManager.getExtension(file);
             if (extension != null) {
                 if (extension.equals("exe")
-                        || extension.equals("app")
-                        || extension.equals("lnk")) {
+                    || extension.equals("app")
+                    || extension.equals("lnk")) {
 
                     return true;
                 } else {
@@ -665,7 +749,8 @@ public class GameLibraryHandler {
                     return false;
 
                 }
-            } else if (coreUI.getOS().indexOf("nix") >= 0 || coreUI.getOS().indexOf("nux") >= 0) {
+            } else if (coreUI.getOS().indexOf("nix") >= 0 || coreUI.getOS()
+                    .indexOf("nux") >= 0) {
 
                 return true;
             }
@@ -682,17 +767,21 @@ public class GameLibraryHandler {
     public class AddToLibraryHandler implements ActionListener {
 
         private GameLibraryUI libraryUI;
+
         private GridManager GridSplit;
+
         private JPanel GameBack;
+
         private GameSearch GameSearch;
+
         private MoveToLastGrid GridMove;
+
         private AuroraStorage storage;
+
         private String currentPath;
 
         public AddToLibraryHandler(GameLibraryUI gameLibraryUI) {
             this.libraryUI = gameLibraryUI;
-
-
         }
 
         @Override
@@ -707,8 +796,8 @@ public class GameLibraryHandler {
 
             GameSearch.getFoundGameCover().setGamePath(currentPath);
             GameSearch.getFoundGameCover()
-                    .setCoverSize(libraryUI.getSIZE_GameCoverWidth()
-                    , libraryUI.getSIZE_GameCoverHeight());
+                    .setCoverSize(libraryUI.getSIZE_GameCoverWidth(), libraryUI
+                    .getSIZE_GameCoverHeight());
             GameSearch.getFoundGameCover().reAddInteractive();
             if (!GridSplit.isDupicate(GameSearch.getFoundGameCover())) {
                 storage.getStoredLibrary()
@@ -717,9 +806,9 @@ public class GameLibraryHandler {
 
             }
             GridSplit.addGame(GameSearch.getFoundGameCover());
-            GridSplit.finalizeGrid(libraryUI.getAddGameHandler()
-                    , libraryUI.getSIZE_GameCoverWidth()
-                    , libraryUI.getSIZE_GameCoverHeight());
+            GridSplit.finalizeGrid(libraryUI.getAddGameHandler(), libraryUI
+                    .getSIZE_GameCoverWidth(), libraryUI
+                    .getSIZE_GameCoverHeight());
             libraryUI.hideAddGameUI();
             //reset
             GameSearch.resetCover();
@@ -734,9 +823,13 @@ public class GameLibraryHandler {
     public class SelectListHandler implements ListSelectionListener {
 
         private GameLibraryUI library;
+
         private JList gamesList;
+
         private DefaultListModel listModel;
+
         private JTextField gameSearchBar;
+
         private GameSearch gameSearch;
 
         public SelectListHandler(GameLibraryUI library) {
@@ -752,7 +845,8 @@ public class GameLibraryHandler {
 
             if (gamesList.getSelectedIndex() != -1) {
                 System.out.println();
-                String gameSelected = (String) listModel.get(gamesList.getSelectedIndex());
+                String gameSelected = (String) listModel.get(gamesList
+                        .getSelectedIndex());
                 gameSearchBar.setText(gameSelected);
 
                 gameSearch.searchSpecificGame(gameSelected);
@@ -783,6 +877,7 @@ public class GameLibraryHandler {
     public class MoveToLastGrid implements Runnable {
 
         private Thread mover;
+
         private final GameLibraryUI ui;
 
         public MoveToLastGrid(GameLibraryUI ui) {
@@ -810,13 +905,15 @@ public class GameLibraryHandler {
 
                     ui.getMoveLibraryRightHandler().mouseClicked(null);
 
-                } else if (ui.getCurrentIndex() >= ui.getGridSplit().getFullGrids()) {
+                } else if (ui.getCurrentIndex() >= ui.getGridSplit()
+                        .getFullGrids()) {
                     break;
                 }
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(GameLibraryUI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(GameLibraryUI.class.getName()).log(
+                            Level.SEVERE, null, ex);
                 }
             }
 
@@ -854,12 +951,19 @@ public class GameLibraryHandler {
     public class HoverButtonLeft implements MouseListener {
 
         private GameLibraryUI library;
+
         private AuroraCoreUI ui;
+
         private GridManager GridSplit;
+
         private JPanel GameBack;
+
         private AHoverButton imgGameLeft;
+
         private AHoverButton imgGameRight;
+
         private AImage imgFavorite;
+
         private GridAnimation GridAnimate;
 
         public HoverButtonLeft(GameLibraryUI library, AuroraCoreUI ui) {
@@ -884,11 +988,13 @@ public class GameLibraryHandler {
 
             int currentIndex;
 
-            if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate.getAnimator2().isAnimating()) {
+            if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
+                    .getAnimator2().isAnimating()) {
 
                 ///Get The Index of The Current Panel Being Displayed
                 ///Refer too GridManager array of All panels to find it
-                currentIndex = GridSplit.getArray().indexOf(GameBack.getComponent(1));
+                currentIndex = GridSplit.getArray().indexOf(GameBack
+                        .getComponent(1));
 
                 //Stop from going to far left
                 if (currentIndex - 1 == -1) {
@@ -918,9 +1024,10 @@ public class GameLibraryHandler {
 
 
                     try {
-                        library.load(currentIndex - 1);
+                        library.loadGames(currentIndex - 1);
                     } catch (MalformedURLException ex) {
-                        Logger.getLogger(GameLibraryUI.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(GameLibraryUI.class.getName())
+                                .log(Level.SEVERE, null, ex);
                     }
 
 
@@ -955,7 +1062,8 @@ public class GameLibraryHandler {
             GridAnimate = library.getGridAnimate();
             imgGameLeft = library.getImgGameLeft();
 
-            if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate.getAnimator2().isAnimating()) {
+            if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
+                    .getAnimator2().isAnimating()) {
                 imgGameLeft.mouseHover(e);
             }
         }
@@ -974,16 +1082,25 @@ public class GameLibraryHandler {
     public class HoverButtonRight implements MouseListener {
 
         private GameLibraryUI libraryUI;
+
         private AuroraCoreUI coreUI;
+
         private GridManager GridSplit;
+
         private JPanel GameBack;
+
         private AHoverButton imgGameLeft;
+
         private AHoverButton imgGameRight;
+
         private AImage imgFavorite;
+
         private AImage imgBlank;
+
         private GridAnimation GridAnimate;
 
-        public HoverButtonRight(GameLibraryUI gameLibraryUI, AuroraCoreUI auroraCoreUI) {
+        public HoverButtonRight(GameLibraryUI gameLibraryUI,
+                                AuroraCoreUI auroraCoreUI) {
             this.libraryUI = gameLibraryUI;
             this.coreUI = auroraCoreUI;
 
@@ -1000,14 +1117,18 @@ public class GameLibraryHandler {
         public void mouseClicked(MouseEvent e) {
             GridSplit = libraryUI.getGridSplit();
 
-            if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate.getAnimator2().isAnimating()) {
+            if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
+                    .getAnimator2().isAnimating()) {
 
-                libraryUI.setCurrentIndex(GridSplit.getArray().indexOf(GameBack.getComponent(1)));
+                libraryUI.setCurrentIndex(GridSplit.getArray().indexOf(GameBack
+                        .getComponent(1)));
 
-                if (libraryUI.getCurrentIndex() < GridSplit.getArray().size() - 1) {
+                if (libraryUI.getCurrentIndex() < GridSplit.getArray().size()
+                                                  - 1) {
 
                     GameBack.remove(0);
-                    GameBack.add(libraryUI.getImgGameLeft(), BorderLayout.WEST, 0);
+                    GameBack.add(libraryUI.getImgGameLeft(), BorderLayout.WEST,
+                            0);
 
                     GameBack.add(imgGameRight, BorderLayout.EAST, 2);
 
@@ -1018,15 +1139,17 @@ public class GameLibraryHandler {
 
 
                     try {
-                        libraryUI.load(libraryUI.getCurrentIndex() + 1);
+                        libraryUI.loadGames(libraryUI.getCurrentIndex() + 1);
                     } catch (MalformedURLException ex) {
-                        Logger.getLogger(GameLibraryUI.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(GameLibraryUI.class.getName())
+                                .log(Level.SEVERE, null, ex);
                     }
 
 
 
                     //of on last Grid then dont show right arrow button
-                    if (!(libraryUI.getCurrentIndex() + 1 < GridSplit.getArray().size() - 1)) {
+                    if (!(libraryUI.getCurrentIndex() + 1 < GridSplit.getArray()
+                            .size() - 1)) {
 
                         GameBack.remove(libraryUI.getImgGameRight());
                         GameBack.add(imgBlank, BorderLayout.EAST, 2);
@@ -1035,7 +1158,8 @@ public class GameLibraryHandler {
                 }
 
                 coreUI.getCenterPanel().removeAll();
-                coreUI.getCenterPanel().add(BorderLayout.CENTER, libraryUI.getGameBack());
+                coreUI.getCenterPanel().add(BorderLayout.CENTER, libraryUI
+                        .getGameBack());
 
                 GameBack.repaint();
                 GameBack.revalidate();
@@ -1057,7 +1181,8 @@ public class GameLibraryHandler {
             GridAnimate = libraryUI.getGridAnimate();
             imgGameRight = libraryUI.getImgGameRight();
 
-            if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate.getAnimator2().isAnimating()) {
+            if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
+                    .getAnimator2().isAnimating()) {
                 imgGameRight.mouseHover(e);
             }
         }
@@ -1072,11 +1197,15 @@ public class GameLibraryHandler {
     public class GameLibraryKeyListener implements KeyListener {
 
         private GameLibraryUI library;
+
         private AuroraCoreUI ui;
+
         private GridManager GridSplit;
+
         private JPanel GameBack;
 
-        public GameLibraryKeyListener(GameLibraryUI libraryUI, AuroraCoreUI auroraCoreUI) {
+        public GameLibraryKeyListener(GameLibraryUI libraryUI,
+                                      AuroraCoreUI auroraCoreUI) {
             this.library = libraryUI;
             this.ui = auroraCoreUI;
             //GridSplit = library.getGridSplit();
@@ -1096,7 +1225,8 @@ public class GameLibraryHandler {
             /* get the index of the grid that is currently displayed */
             int visibleGridIndex = GridSplit.getVisibleGridIndex();
             System.out.println("Initial visible grid = " + visibleGridIndex);
-            currentIndex = GridSplit.getArray().indexOf(GameBack.getComponent(1));
+            currentIndex = GridSplit.getArray()
+                    .indexOf(GameBack.getComponent(1));
             library.setCurrentIndex(currentIndex);
             System.out.println("Current Grid = " + currentIndex);
 
@@ -1112,17 +1242,20 @@ public class GameLibraryHandler {
 
             boolean selectedGameFound = false;
 
-            if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
+            if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode()
+                                                   == KeyEvent.VK_UP) {
 
                 int i = 0;
 
-                while (comp.size() > i && !selectedGameFound && !(comp.get(i) instanceof GamePlaceholder)) {
+                while (comp.size() > i && !selectedGameFound
+                       && !(comp.get(i) instanceof GamePlaceholder)) {
                     //Check for GamePlaceholder CANT MOVE THERE!
                     game = (Game) comp.get(i);
 
                     if (game.isSelected()) {
                         selectedGameFound = true;
-                        System.out.println(game.getName() + " is selected in the library");
+                        System.out.println(game.getName()
+                                           + " is selected in the library");
                         int[] columnAndRow = grid.getColumnAndRow(i + 1);
                         int col = columnAndRow[0];
                         int row = columnAndRow[1];
@@ -1149,7 +1282,8 @@ public class GameLibraryHandler {
                                 newGame.displayInteractiveComponents();
                             }
                         } else {
-                            System.out.println("Cursor cannot move any further up!");
+                            System.out.println(
+                                    "Cursor cannot move any further up!");
                         }
                     } else {
                         i++;
@@ -1163,17 +1297,20 @@ public class GameLibraryHandler {
                 }
 
                 //>>> MOVE DOWN
-            } else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
+            } else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode()
+                                                          == KeyEvent.VK_DOWN) {
 
                 int i = 0;
 
-                while (i < comp.size() && !selectedGameFound && !(comp.get(i) instanceof GamePlaceholder)) {
+                while (i < comp.size() && !selectedGameFound
+                       && !(comp.get(i) instanceof GamePlaceholder)) {
                     //Check for GamePlaceholder CANT MOVE THERE!
                     game = (Game) comp.get(i);
 
                     if (game.isSelected()) {
                         selectedGameFound = true;
-                        System.out.println(game.getName() + " is selected in the library");
+                        System.out.println(game.getName()
+                                           + " is selected in the library");
                         int[] columnAndRow = grid.getColumnAndRow(i + 1);
                         int col = columnAndRow[0];
                         int row = columnAndRow[1];
@@ -1202,7 +1339,8 @@ public class GameLibraryHandler {
                                 newGame.displayInteractiveComponents();
                             }
                         } else {
-                            System.out.println("Cursor cannot move any further down!");
+                            System.out.println(
+                                    "Cursor cannot move any further down!");
                         }
                     } else {
                         i++;
@@ -1217,18 +1355,21 @@ public class GameLibraryHandler {
 
 
                 //>>> MOVE LEFT
-            } else if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT) {
+            } else if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode()
+                                                          == KeyEvent.VK_LEFT) {
 
                 System.out.println("A key pressed");
 
                 int i = 0;
 
-                while (i < comp.size() && !selectedGameFound && !(comp.get(i) instanceof GamePlaceholder)) {
+                while (i < comp.size() && !selectedGameFound
+                       && !(comp.get(i) instanceof GamePlaceholder)) {
                     game = (Game) comp.get(i);
                     if (game.isSelected()) {
                         selectedGameFound = true;
                         System.out.println("index = " + i);
-                        System.out.println(game.getName() + " is selected in the library");
+                        System.out.println(game.getName()
+                                           + " is selected in the library");
                     } else {
                         i++;
                     }
@@ -1247,7 +1388,8 @@ public class GameLibraryHandler {
                     if (col > 1 || (col == 1 && row > 1)) {
                         System.out.println("Cursor is moving left!");
                         visibleGridIndex = GridSplit.getVisibleGridIndex();
-                        System.out.println("visible grid after moving right = " + visibleGridIndex);
+                        System.out.println("visible grid after moving right = "
+                                           + visibleGridIndex);
                         game.hideInteractiveComponents();
                         Game newGame = (Game) comp.get(i - 1);
                         GridSplit.unselectPrevious();
@@ -1255,12 +1397,16 @@ public class GameLibraryHandler {
                         cursorMoved = true;
                     } else if (col == 1 && row == 1) {
 
-                        if (GridSplit.getArray().indexOf(GameBack.getComponent(1)) > 0) {
+                        if (GridSplit.getArray().indexOf(GameBack
+                                .getComponent(1)) > 0) {
                             library.moveGridLeft();
                             /* get the index of the grid that is currently displayed */
                             visibleGridIndex = GridSplit.getVisibleGridIndex();
-                            System.out.println("visible grid after moving right = " + visibleGridIndex);
-                            currentIndex = GridSplit.getArray().indexOf(GameBack.getComponent(1));
+                            System.out
+                                             .println("visible grid after moving right = "
+                                                      + visibleGridIndex);
+                            currentIndex = GridSplit.getArray().indexOf(GameBack
+                                    .getComponent(1));
                             /* get the grid that is currently displayed */
                             grid = GridSplit.getGrid(currentIndex);
 
@@ -1275,7 +1421,8 @@ public class GameLibraryHandler {
                                 newGame.displayInteractiveComponents();
                             }
                         } else {
-                            System.out.println("Cursor cannot move any further left!");
+                            System.out.println(
+                                    "Cursor cannot move any further left!");
                         }
 
 
@@ -1286,19 +1433,22 @@ public class GameLibraryHandler {
                 }
 
                 // >>> MOVE RIGHT
-            } else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            } else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode()
+                                                          == KeyEvent.VK_RIGHT) {
 
                 System.out.println("D key pressed");
 
                 int i = 0;
                 //      boolean selectedGameFound = false;
 
-                while (i < comp.size() && !selectedGameFound && !(comp.get(i) instanceof GamePlaceholder)) {
+                while (i < comp.size() && !selectedGameFound
+                       && !(comp.get(i) instanceof GamePlaceholder)) {
                     game = (Game) comp.get(i);
                     if (game.isSelected()) {
                         selectedGameFound = true;
                         System.out.println("index = " + i);
-                        System.out.println(game.getName() + " is selected in the library");
+                        System.out.println(game.getName()
+                                           + " is selected in the library");
                     } else {
                         i++;
                     }
@@ -1314,10 +1464,11 @@ public class GameLibraryHandler {
 
                     // check to see if the selected is not the last game in the grid
                     if ((col < grid.getCol()
-                            || (col == grid.getCol() && row < grid.getRow()))
-                            && comp.size() > i + 1) {
+                         || (col == grid.getCol() && row < grid.getRow()))
+                        && comp.size() > i + 1) {
                         System.out.println("Cursor is moving right!");
-                        System.out.println(game.getName() + " is Last Game in This Grid!");
+                        System.out.println(game.getName()
+                                           + " is Last Game in This Grid!");
 
                         Game newGame;
 
@@ -1338,19 +1489,26 @@ public class GameLibraryHandler {
 
                         // else check to see if the selected game is the last game in the grid
                     } else if (col == grid.getCol() && row == grid.getRow()) {
-                        System.out.println("Cursor cannot move any further right! Grid needs to move right");
+                        System.out
+                                .println(
+                                "Cursor cannot move any further right! Grid needs to move right");
 
                         // check to see if the the current grid is the last grid
-                        if (GridSplit.getVisibleGridIndex() < (GridSplit.getNumberOfGrids()) && !(comp.get(0) instanceof GamePlaceholder)) {
+                        if (GridSplit.getVisibleGridIndex() < (GridSplit
+                                .getNumberOfGrids())
+                            && !(comp.get(0) instanceof GamePlaceholder)) {
                             System.out.println("This is not the last grid");
 
                             library.moveGridRight();
 
                             /* get the index of the grid that is currently displayed */
                             visibleGridIndex = GridSplit.getVisibleGridIndex();
-                            System.out.println("visible grid after moving right = " + visibleGridIndex);
+                            System.out
+                                             .println("visible grid after moving right = "
+                                                      + visibleGridIndex);
 
-                            currentIndex = GridSplit.getArray().indexOf(GameBack.getComponent(1));
+                            currentIndex = GridSplit.getArray().indexOf(GameBack
+                                    .getComponent(1));
 
                             /* get the grid that is currently displayed */
                             grid = GridSplit.getGrid(currentIndex);
@@ -1366,7 +1524,9 @@ public class GameLibraryHandler {
                             newGame.displayInteractiveComponents();
 
                         } else {
-                            System.out.println("Cannot move to the grid to the right. No more grids!");
+                            System.out
+                                    .println(
+                                    "Cannot move to the grid to the right. No more grids!");
                         }
 
                     }
@@ -1380,12 +1540,14 @@ public class GameLibraryHandler {
 
                 int i = 0;
 
-                while (i < comp.size() && !selectedGameFound && !(comp.get(i) instanceof GamePlaceholder)) {
+                while (i < comp.size() && !selectedGameFound
+                       && !(comp.get(i) instanceof GamePlaceholder)) {
                     game = (Game) comp.get(i);
                     if (game.isSelected()) {
                         selectedGameFound = true;
                         System.out.println("index = " + i);
-                        System.out.println(game.getName() + " is selected in the library");
+                        System.out.println(game.getName()
+                                           + " is selected in the library");
                     } else {
                         i++;
                     }
@@ -1410,6 +1572,7 @@ public class GameLibraryHandler {
     public class GridMouseWheelListener implements MouseWheelListener {
 
         private GameLibraryUI library;
+
         private GridManager GridSplit;
 
         public GridMouseWheelListener(GameLibraryUI library) {
@@ -1429,7 +1592,8 @@ public class GameLibraryHandler {
             ///Refer too GridManager array of All panels to find it///
             //GameBack is the Panel Containing all the game grids///
 
-            currentIndex = GridSplit.getArray().indexOf(library.getGameBack().getComponent(1));
+            currentIndex = GridSplit.getArray().indexOf(library.getGameBack()
+                    .getComponent(1));
             library.setCurrentIndex(currentIndex);
 
             if (numberClicks < 0) {
