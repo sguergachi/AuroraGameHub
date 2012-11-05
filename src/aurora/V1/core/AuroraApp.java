@@ -34,9 +34,9 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 
 /**
- * .------------------------------------------------------------------------.
+ * .---------------------------------------------------------------------------.
  * | AuroraApp
- * .------------------------------------------------------------------------.
+ * .---------------------------------------------------------------------------.
  * |
  * |
  * | AuroraApp is an abstract class extended by classes that represent an
@@ -49,7 +49,7 @@ import javax.swing.JComponent;
  * | APPs through AuroraApp implement the AuroraScreenUI interface which allows
  * | for a uniform creation and management of UI.
  * |
- * .........................................................................
+ * .............................................................................
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  * <p/>
@@ -161,13 +161,11 @@ public abstract class AuroraApp implements AuroraScreenUI {
         removeAllListeners();
 
         //* Clear everything in the Center Panel of CoreUI *//
-        clearUiToApp();
+        clearUI();
 
         //* Re-add all DashboardUI components back to CoreUI *//
         getDashboardUI().addToCanvas();
 
-        //* Clear Unused Classes from memory *//
-        System.gc();
     }
 
     /**
@@ -189,87 +187,20 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
     /**
      * .-----------------------------------------------------------------------.
-     * | clearUiToDashboard()
-     * .-----------------------------------------------------------------------.
-     * |
-     * | This method clears the CoreUI to allow for the DashboardUI to be
-     * | re-added.
-     * |
-     * | some resizing and removal of known components that need to be cleared
-     * | or re-put into place occurs here.
-     * |
-     * .........................................................................
-     */
-    private void clearUiToDashboard() {
-
-
-        //* Clear all content from components for Dashboard *//
-        getCoreUI().getKeyToPressPanel().removeAll();
-        getCoreUI().getCenterPanel().removeAll();
-        getCoreUI().getUserSpacePanel().removeAll();
-        getCoreUI().getCenterFromBottomPanel().removeAll();
-
-        //* Re-add CoreUI components *//
-        getCoreUI().getCenterFromBottomPanel().add(BorderLayout.NORTH,
-                getCoreUI().getHeaderOfCenterFromBottomPanel());
-        getCoreUI().getHeaderOfCenterFromBottomPanel()
-                .setPreferredSize(new Dimension(getCoreUI().getFrame()
-                .getWidth(), getCoreUI().getKeyToPressPanel().getHeight()));
-
-        //* Validate components in UI *//
-        getCoreUI().getUserSpacePanel().revalidate();
-        getCoreUI().getKeyToPressPanel().revalidate();
-        getCoreUI().getCenterFromBottomPanel().revalidate();
-
-        //* Remove all from the title pane of the bottom bar and re-add title*//
-        getCoreUI().getTitlePanel().removeAll();
-        getCoreUI().getTitlePanel().add(BorderLayout.CENTER, getCoreUI()
-                .getTitleLabel());
-
-
-        //* Set Size to CoreUI Components *//
-        getCoreUI().getSouthFromTopPanel()
-                .setPreferredSize(new Dimension(getCoreUI()
-                .getSouthFromTopPanel().getWidth(), getCoreUI()
-                .getSouthFromTopPanel().getHeight()));
-        getCoreUI().getCenterPanel().setPreferredSize(new Dimension(getCoreUI()
-                .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
-                                              - getCoreUI().getBottomImagePane()
-                .getHeight() - getCoreUI().getTopImagePane().getHeight()));
-        getCoreUI().getCenterPanel().setPreferredSize(new Dimension(getCoreUI()
-                .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
-                                              - (getCoreUI().getFrame()
-                .getHeight()
-                                                 / 6 * 2)));
-        getCoreUI().getBottomImagePane()
-                .setPreferredSize(new Dimension(getCoreUI()
-                .getBottomImagePane().getWidth(), getCoreUI().getFrame()
-                .getHeight()
-                                                  / 6 + 25));
-        getCoreUI().getBottomImagePane().setImageHeight(getCoreUI().getFrame()
-                .getHeight()
-                                                        / 6 + 25);
-
-
-        //* Finallize *//
-        getCoreUI().getFrame().repaint();
-        getCoreUI().getFrame().getGlassPane().setVisible(false);
-    }
-
-    /**
-     * .-----------------------------------------------------------------------.
-     * | clearUiToApp()
+     * | clearUI()
      * .-----------------------------------------------------------------------.
      * |
      * | This method clears the CoreUI to allow any App to use by removing all
-     * | content the bottom bar and the center panel
+     * | content the bottom bar and the center panel as well as ability for the
+     * | DashboardUI to be created when going back from any App
      * |
      * | The method must be called by UI Screen classes in the constructor to be
-     * | useful before the App UI is added to the CoreUI
+     * | useful before the App UI is added to the CoreUI or When going back to
+     * | the Dashboard
      * |
      * .........................................................................
      */
-    public final void clearUiToApp() {
+    public final void clearUI() {
 
 
         //* Remove all Center and Bottom Bar Content *//
@@ -319,10 +250,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
                 .getHeight() - getCoreUI().getTopImagePane().getHeight()));
 
 
-        // clear from memory
         System.gc();
 
-        //finalize
         getCoreUI().getFrame().requestFocus();
         getCoreUI().getFrame().repaint();
 
@@ -417,7 +346,6 @@ public abstract class AuroraApp implements AuroraScreenUI {
         }
 
 
-        // Clear ArrayList
         componentsContainingListeners.removeAll(componentsContainingListeners);
 
     }
