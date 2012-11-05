@@ -1024,7 +1024,7 @@ public class GameLibraryHandler implements
 
 
                     try {
-                        library.load(currentIndex - 1);
+                        library.loadGames(currentIndex - 1);
                     } catch (MalformedURLException ex) {
                         Logger.getLogger(GameLibraryUI.class.getName())
                                 .log(Level.SEVERE, null, ex);
@@ -1139,7 +1139,7 @@ public class GameLibraryHandler implements
 
 
                     try {
-                        libraryUI.load(libraryUI.getCurrentIndex() + 1);
+                        libraryUI.loadGames(libraryUI.getCurrentIndex() + 1);
                     } catch (MalformedURLException ex) {
                         Logger.getLogger(GameLibraryUI.class.getName())
                                 .log(Level.SEVERE, null, ex);

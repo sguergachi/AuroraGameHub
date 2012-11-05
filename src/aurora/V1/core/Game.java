@@ -17,9 +17,9 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_ui.StartScreenUI;
-import aurora.V1.core.screen_ui.GameLibraryUI;
 import aurora.V1.core.screen_ui.DashboardUI;
+import aurora.V1.core.screen_ui.GameLibraryUI;
+import aurora.V1.core.screen_ui.StartScreenUI;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AImagePane;
@@ -38,7 +38,7 @@ import javax.swing.JPanel;
  *
  * @author Sammy
  */
-public class Game extends AImagePane implements Serializable, Runnable, Cloneable {
+public class Game extends AImagePane implements Runnable, Cloneable {
 
     private String name;
     private String coverUrl;

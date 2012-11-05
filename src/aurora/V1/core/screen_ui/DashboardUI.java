@@ -45,16 +45,14 @@ import javax.swing.JLabel;
  * | DashboardUI :: Aurora App Class
  * .------------------------------------------------------------------------.
  * |
- * | This class contains the UI attached to an appropriate *Handler*
- * | and *Logic* class which handle the actions caused by the UI
- * | components found here
+ * | This class contains the UI for the Dashboard Screen associated with an
+ * | appropriate *Handler* and *Logic* class which handle the actions caused
+ * | by the UI components found here
  * |
  * | This class must follow the rules stated in the AuroraScreenUI
  * | Interface. The *Handler* and *Logic* classes
  * | The Handler class is called: DashboardHandler
  * | The Logic class is called: DashboardLogic
- * |
- * |
  * |
  * .........................................................................
  *
