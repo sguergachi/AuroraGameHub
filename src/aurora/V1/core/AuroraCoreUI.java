@@ -17,6 +17,7 @@
  */
 package aurora.V1.core;
 
+import Test.Sandbox;
 import aurora.engine.V1.Logic.ANuance;
 import aurora.engine.V1.Logic.ASurface;
 import aurora.engine.V1.UI.AButton;
@@ -26,16 +27,23 @@ import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -50,6 +58,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.event.MouseInputAdapter;
 
 /**
  * .------------------------------------------------------------------------.
@@ -287,6 +297,7 @@ public class AuroraCoreUI {
      */
     public AuroraCoreUI(final JFrame aFrame) {
         this.frame = aFrame;
+        setCursor();
         aFrame.setUndecorated(true);
         aFrame.setBackground(Color.BLACK);
         aFrame.setResizable(false);
@@ -413,7 +424,7 @@ public class AuroraCoreUI {
                 .getSize().height - (frame.getSize().height / 6 + frame
                 .getSize().height / 6)));
         paneCenter.setOpaque(false);
-        paneCenter.setLayout(new BorderLayout(0,0));
+        paneCenter.setLayout(new BorderLayout(0, 0));
         paneCenter.setIgnoreRepaint(true);
 
         //*
@@ -1046,7 +1057,7 @@ public class AuroraCoreUI {
         //////////
         /////Background Sound
         ///////////
-    }//end SFX
+    }
 
     public void showExitDialog() {
         if (warningDialog == null) {
@@ -1114,6 +1125,49 @@ public class AuroraCoreUI {
         return ressources;
     }
 
+    private void setCursor() {
+
+
+        frame.setCursor(frame.getToolkit().createCustomCursor(
+                new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(
+                0, 0),
+                "null"));
+
+        AImage cursorImage = new AImage("cursor.png");
+        AImage cursorSelect = new AImage("cursorSelect.png");
+
+        cursorImage.setVisible(false);
+        cursorSelect.setVisible(false);
+
+        JPanel glass = new JPanel();
+
+
+        glass.add(cursorImage);
+        glass.add(cursorSelect);
+
+        Cursor cursor = new Cursor(
+                cursorImage, cursorSelect, frame.getContentPane(), glass);
+
+        frame.getContentPane()
+                .addMouseWheelListener(new MouseEventRedispatcher(glass, frame
+                .getContentPane()));
+
+
+        glass.addMouseMotionListener(cursor);
+
+        glass.addMouseListener(new CursorClick(cursor));
+
+
+        frame.setGlassPane(glass);
+
+        glass.setVisible(true);
+        glass.setLayout(null);
+        glass.setOpaque(false);
+
+
+
+    }
+
     /*
      * Sets The Close Button Actions
      */
@@ -1143,27 +1197,9 @@ public class AuroraCoreUI {
         }
 
         public void actionPerformed(ActionEvent e) {
-            //SOUND
-//            try {
-//                sfxMinimize.Play();
-//            } catch (UnsupportedAudioFileException ex) {
-//                Logger.getLogger(AuroraUI.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (IOException ex) {
-//                Logger.getLogger(AuroraUI.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (LineUnavailableException ex) {
-//                Logger.getLogger(AuroraUI.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (InterruptedException ex) {
-//                Logger.getLogger(AuroraUI.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-
-            //ENABLE MINI MODE// indev
+            //ENABLE MINI MODE
 
             minimizeAurora(arg);
-
-            //ENABLE BASIC MINIMIZE
-            //ui.getFrame().setState(Frame.ICONIFIED);
-
-
 
         }
     }
@@ -1185,6 +1221,259 @@ public class AuroraCoreUI {
                 showExitDialog();
             }
 
+        }
+    }
+
+    private static class CursorClick extends MouseAdapter {
+
+        private final AImage cursorImage;
+
+        private final AImage cursorSelect;
+
+        private final Cursor click;
+
+//        private final AImage cursorHover;
+        public CursorClick(Cursor click) {
+            this.cursorImage = click.getCursorImage();
+            this.cursorSelect = click.getCursorSelect();
+            this.click = click;
+        }
+
+        public AImage getCursorImage() {
+            return cursorImage;
+        }
+
+        public AImage getCursorSelect() {
+            return cursorSelect;
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+            cursorImage.setVisible(false);
+
+            cursorSelect.setLocation(e.getPoint());
+
+            cursorSelect.setBounds(e.getX() - 11, e.getY() - 8, cursorImage
+                    .getImgIcon()
+                    .getIconWidth(), cursorImage.getImgIcon().getIconHeight());
+
+            cursorSelect.setVisible(true);
+
+            click.redispatchMouseEvent(e, true);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+            cursorSelect.setVisible(false);
+
+            cursorImage.setLocation(e.getPoint());
+
+            cursorImage.setBounds(e.getX() - 11, e.getY() - 8, cursorImage
+                    .getImgIcon()
+                    .getIconWidth(), cursorImage.getImgIcon().getIconHeight());
+
+            cursorImage.setVisible(true);
+
+            click.redispatchMouseEvent(e, true);
+
+        }
+
+        public void mouseClicked(MouseEvent e) {
+            click.redispatchMouseEvent(e, true);
+        }
+
+        public void mouseEntered(MouseEvent e) {
+            click.redispatchMouseEvent(e, true);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            cursorSelect.setVisible(false);
+            cursorImage.setVisible(false);
+            click.redispatchMouseEvent(e, true);
+        }
+    }
+
+    class Cursor implements MouseMotionListener {
+
+        private final AImage cursorImage;
+
+        private final AImage cursorSelect;
+
+        private final JPanel glassPane;
+
+        private final Container contentPane;
+
+        private Cursor(AImage cursorImage, AImage cursorSelect,
+                       Container contentPane, JPanel glassPane) {
+            this.cursorImage = cursorImage;
+            this.cursorSelect = cursorSelect;
+            this.contentPane = contentPane;
+            this.glassPane = glassPane;
+        }
+
+        public AImage getCursorImage() {
+            return cursorImage;
+        }
+
+        public AImage getCursorSelect() {
+            return cursorSelect;
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+
+            cursorImage.setVisible(false);
+
+            cursorSelect.setLocation(e.getPoint());
+
+            cursorSelect.setBounds(e.getX() - 11, e.getY() - 8, cursorImage
+                    .getImgIcon()
+                    .getIconWidth(), cursorImage.getImgIcon().getIconHeight());
+
+            cursorSelect.setVisible(true);
+
+            redispatchMouseEvent(e, true);
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+
+            cursorSelect.setVisible(false);
+//            if (panel.getBounds().contains(e.getPoint())) {
+
+
+            cursorImage.setLocation(e.getPoint());
+
+            cursorImage.setBounds(e.getX() - 11, e.getY() - 8, cursorImage
+                    .getImgIcon()
+                    .getIconWidth(), cursorImage.getImgIcon()
+                    .getIconHeight());
+
+
+            cursorImage.setVisible(true);
+
+            redispatchMouseEvent(e, true);
+
+        }
+
+        public void redispatchMouseEvent(MouseEvent e,
+                                         boolean repaint) {
+            Point glassPanePoint = e.getPoint();
+            Container container = contentPane;
+            Point containerPoint = SwingUtilities.convertPoint(glassPane,
+                    glassPanePoint,
+                    contentPane);
+            //The mouse event is probably over the content pane.
+            //Find out exactly which component it's over.
+            Component component =
+                      SwingUtilities.getDeepestComponentAt(container,
+                    containerPoint.x,
+                    containerPoint.y);
+
+            if (component != null) {
+                //Forward events
+                Point componentPoint = SwingUtilities.convertPoint(glassPane,
+                        glassPanePoint,
+                        component);
+                component.dispatchEvent(new MouseEvent(component,
+                        e.getID(),
+                        e.getWhen(),
+                        e.getModifiers(),
+                        componentPoint.x,
+                        componentPoint.y,
+                        e.getClickCount(),
+                        e.isPopupTrigger()));
+            } else {
+                glassPanePoint = null;
+            }
+
+            //Update the glass pane if requested.
+            if (repaint) {
+                glassPane.repaint();
+            }
+        }
+    }
+
+    class MouseEventRedispatcher extends MouseAdapter {
+
+        private final JPanel glassPane;
+
+        private final Container contentPane;
+
+        public MouseEventRedispatcher(JPanel glassPane, Container contentPane) {
+            this.glassPane = glassPane;
+            this.contentPane = contentPane;
+        }
+
+        public void mouseMoved(MouseEvent e) {
+            redispatchMouseEvent(e, true);
+        }
+
+        public void mouseDragged(MouseEvent e) {
+            redispatchMouseEvent(e, true);
+        }
+
+        public void mouseClicked(MouseEvent e) {
+            redispatchMouseEvent(e, true);
+        }
+
+        public void mouseEntered(MouseEvent e) {
+            redispatchMouseEvent(e, true);
+        }
+
+        public void mouseExited(MouseEvent e) {
+            redispatchMouseEvent(e, true);
+        }
+
+        public void mousePressed(MouseEvent e) {
+            redispatchMouseEvent(e, true);
+        }
+
+        public void mouseReleased(MouseEvent e) {
+            redispatchMouseEvent(e, true);
+        }
+
+
+        //A more finished version of this method would
+        //handle mouse-dragged events specially.
+        private void redispatchMouseEvent(MouseEvent e,
+                                          boolean repaint) {
+            Point glassPanePoint = e.getPoint();
+            Container container = contentPane;
+            Point containerPoint = SwingUtilities.convertPoint(glassPane,
+                    glassPanePoint,
+                    contentPane);
+            //The mouse event is probably over the content pane.
+            //Find out exactly which component it's over.
+            Component component =
+                      SwingUtilities.getDeepestComponentAt(container,
+                    containerPoint.x,
+                    containerPoint.y);
+
+            if (component != null) {
+                //Forward events
+                Point componentPoint = SwingUtilities.convertPoint(glassPane,
+                        glassPanePoint,
+                        component);
+                component.dispatchEvent(new MouseEvent(component,
+                        e.getID(),
+                        e.getWhen(),
+                        e.getModifiers(),
+                        componentPoint.x,
+                        componentPoint.y,
+                        e.getClickCount(),
+                        e.isPopupTrigger()));
+            } else {
+                glassPanePoint = null;
+            }
+
+            //Update the glass pane if requested.
+            if (repaint) {
+                glassPane.repaint();
+            }
         }
     }
 }

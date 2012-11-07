@@ -30,14 +30,18 @@ import aurora.engine.V1.Logic.ASurface;
 import aurora.engine.V1.Logic.ANuance;
 import aurora.engine.V1.Logic.AuroraScreenUI;
 import aurora.engine.V1.UI.AButton;
+import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AProgressWheel;
 import aurora.engine.V1.UI.APrompter;
 import aurora.engine.V1.UI.AScrollingImage;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -107,6 +111,12 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private FrameKeyListener startKeyHandler;
 
+    private AImage cursorImage;
+
+    private Object toolkit;
+
+    private Cursor cursor;
+
     public StartScreenUI(Boolean startMini) {
 
 
@@ -171,8 +181,10 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
         //Setup UI///////////////////////////////////////
         ////////////////
 
+
         ui.setUI();
         ui.setSFX();
+
         setSizes();
 
 
