@@ -227,56 +227,116 @@ public class AuroraCoreUI {
 
     private AImagePane paneFrameControl;
 
+    /*
+     * Top image.
+     */
     private AImagePane paneTopImage;
 
+    /*
+     * 
+     */
     private ASurface ressources;
 
     private ANuance vi;
 
+    /*
+     * Regular font
+     */
     private Font regularFont;
 
+    /*
+     * Bold font.
+     */
     private Font boldFont;
 
+    /*
+     * Exit button.
+     */
     private JButton btnExit;
 
+    /*
+     * Minimize button.
+     */
     private JButton btnMinimize;
 
     private JFrame frame;
 
+    /*
+     * Center panel.
+     */
     private JPanel paneCenter;
 
+    /*
+     * Panel that holds the keys to press images and labels
+     */
     private JPanel paneKeyToPress;
 
     private JPanel southFromTopPanel;
 
+    /*
+     * Panel that holds the Aurora logo.
+     */
     private JPanel logoPanel;
 
+    /*
+     * Panel that 
+     */
     private JPanel screenLabelPanel;
 
+    /*
+     * Panel that holds the current version of Aurora
+     */
     private JPanel versionPanel;
 
     private JPanel paneHeaderOfCenterFromBottom;
 
     private JPanel paneCenterFromBottom;
 
+    /*
+     * Panel that holds the current time.
+     */
     private JPanel paneTime;
 
+    /*
+     * Panel that holds the app title
+     */
     private JPanel paneTitle;
 
     private JPanel paneFrameControlContainer;
 
+    /*
+     * 
+     */
     private JPanel paneUserSpace;
 
+    /*
+     * Label for the version panel
+     */
     private JLabel lblVersion;
 
+    /*
+     * Label for the title panel
+     */
     private JLabel lblTitle;
 
+    /*
+     * Label for the key image icon
+     */
     private JLabel lblKeyAction;
 
+    /*
+     * 
+     */
     private AuroraMini miniMode;
 
+    /*
+     * Listener to listen for when Aurora is minimized
+     */
     private MinimizeListener minimizeHandler;
 
+    /*
+     * Label indicating the current time
+     */
     public static ATimeLabel lblTime;
 
     final static ResourceBundle resourceBundle = ResourceBundle.getBundle(
@@ -495,18 +555,16 @@ public class AuroraCoreUI {
 
         paneTopImage.add(BorderLayout.CENTER, logoPanel);
 
-        // Bottom Panel
-        
-        //---------------------------- BOTTOM PANEL --------------------------------//
+        // BOTTOM PANEL
+        // -----------------------------------------------------------------------
 
         paneCenterFromBottom = new JPanel(new BorderLayout());
         paneCenterFromBottom.setOpaque(false);
         paneBottom.add(BorderLayout.CENTER, paneCenterFromBottom);
         
-        //--------------------------------------------------------------------------//
-        //---------------------------------|||--------------------------------------//
+        // WELCOME LABEL
+        // -----------------------------------------------------------------------
 
-        /// Welcome Label
         lblTitle = new JLabel(vi.VI(ANuance.inx_Welcome));
         lblTitle.setOpaque(false);
         lblTitle.setForeground(Color.LIGHT_GRAY);
@@ -521,9 +579,9 @@ public class AuroraCoreUI {
         screenLabelPanel.add(BorderLayout.NORTH, paneTitle);
         paneBottom.add(BorderLayout.PAGE_START, screenLabelPanel);
 
+        // TIME LABEL
+        // -----------------------------------------------------------------------
         
-        //---------------------------- TIME LABEL --------------------------------//
-
         paneHeaderOfCenterFromBottom = new JPanel(new BorderLayout());
         lblTime = new ATimeLabel();
         lblTime.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
@@ -534,9 +592,9 @@ public class AuroraCoreUI {
         paneHeaderOfCenterFromBottom.add(BorderLayout.EAST, paneTime);
         paneHeaderOfCenterFromBottom.setOpaque(false);
 
-
-        //---------------------------- KEY PRESS PANEL --------------------------------//
-
+        // KEY PRESS PANEL
+        // -----------------------------------------------------------------------
+  
         paneKeyToPress = new JPanel();
         paneKeyToPress.setOpaque(false);
 
@@ -553,8 +611,9 @@ public class AuroraCoreUI {
         paneCenterFromBottom.add(BorderLayout.NORTH,
                 paneHeaderOfCenterFromBottom);
 
-        //---------------------------- USER SPACE --------------------------------//
-
+        // USER SPACE
+        // -----------------------------------------------------------------------
+        
         paneUserSpace = new JPanel();
         paneUserSpace.setOpaque(false);
         paneUserSpace
@@ -562,9 +621,8 @@ public class AuroraCoreUI {
 
         paneCenterFromBottom.add(BorderLayout.CENTER, paneUserSpace);
 
-
-        //---------------------------- VERSION LABEL --------------------------------//
-        
+        // VERSION LABEL
+        // -----------------------------------------------------------------------        
         lblVersion = new JLabel(version);
         lblVersion.setOpaque(false);
         lblVersion.setForeground(Color.LIGHT_GRAY);
