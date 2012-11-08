@@ -225,6 +225,10 @@ public class AuroraCoreUI {
      */
     private AImagePane paneBottom;
 
+    /*
+     * Panel that holds the back, minimize, exit
+     * buttons
+     */
     private AImagePane paneFrameControl;
 
     /*
@@ -233,14 +237,17 @@ public class AuroraCoreUI {
     private AImagePane paneTopImage;
 
     /*
-     * 
+     * Reference to the available Surface resources.
      */
-    private ASurface ressources;
+    private ASurface resources;
 
+    /*
+     * Reference to the Nuance virtual interaction.
+     */
     private ANuance vi;
 
     /*
-     * Regular font
+     * Regular font.
      */
     private Font regularFont;
 
@@ -262,15 +269,19 @@ public class AuroraCoreUI {
     private JFrame frame;
 
     /*
-     * Center panel.
+     * Center panel that displays the main part of Aurora 
+     * ie. Dashboard, Library, etc.
      */
     private JPanel paneCenter;
 
     /*
-     * Panel that holds the keys to press images and labels
+     * Panel that holds the keys to press images and labels.
      */
     private JPanel paneKeyToPress;
 
+    /*
+     * 
+     */
     private JPanel southFromTopPanel;
 
     /*
@@ -279,7 +290,7 @@ public class AuroraCoreUI {
     private JPanel logoPanel;
 
     /*
-     * Panel that 
+     * Panel that holds the screen label
      */
     private JPanel screenLabelPanel;
 
@@ -364,7 +375,7 @@ public class AuroraCoreUI {
         aFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         aFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ressources = new ASurface("");
+        resources = new ASurface("");
 
     }
 
@@ -428,10 +439,10 @@ public class AuroraCoreUI {
         //Get Font
 
         try {
-            regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(ressources
+            regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(resources
                     .getSurfacePath() + "/aurora/V1/resources/AGENCYR.TTF")
                     .openStream());
-            boldFont = Font.createFont(Font.TRUETYPE_FONT, new URL(ressources
+            boldFont = Font.createFont(Font.TRUETYPE_FONT, new URL(resources
                     .getSurfacePath() + "/aurora/V1/resources/AGENCYB.TTF")
                     .openStream());
         } catch (MalformedURLException ex) {
@@ -622,13 +633,13 @@ public class AuroraCoreUI {
         paneCenterFromBottom.add(BorderLayout.CENTER, paneUserSpace);
 
         // VERSION LABEL
-        // -----------------------------------------------------------------------        
+        // -----------------------------------------------------------------------
+        
         lblVersion = new JLabel(version);
         lblVersion.setOpaque(false);
         lblVersion.setForeground(Color.LIGHT_GRAY);
         lblVersion
                 .setFont(regularFont.deriveFont(Font.PLAIN, versionFontSize));
-
 
         versionPanel = new JPanel();
         versionPanel.setOpaque(false);
@@ -636,22 +647,16 @@ public class AuroraCoreUI {
         versionPanel.add(BorderLayout.WEST, lblVersion);
         paneBottom.add(BorderLayout.PAGE_END, versionPanel);
 
-
-
-
         ///Finalize
 
-        //////////////////////////////////
-        // Add All 3 Main Panels To     //
-        // Background Panel             //
-        //////////////////////////////////
+        //*
+        // Add All 3 Main Panels To
+        // Background Panel
+        //*
 
         paneBackground.add(paneTopImage);
-
         paneBackground.add(paneCenter);
-
         paneBackground.add(paneBottom);
-
 
         frame.addKeyListener(new FrameKeyListener());
         frame.requestFocus();
@@ -779,191 +784,235 @@ public class AuroraCoreUI {
         }
     }
 
-////////////
-//Setters //
-////////////
-    public int getKeyIconHeight() {
-        return keyIconHeight;
-    }
+    // SETTERS & GETTERS
+    // -----------------------------------------------------------------------
 
     public void setKeyIconHeight(int keyIconHeight) {
         this.keyIconHeight = keyIconHeight;
+    }
+    
+    public int getKeyIconHeight() {
+        return keyIconHeight;
     }
 
     public boolean getLargeScreen() {
         return isLargeScreen;
     }
 
-    public int getKeyIconWidth() {
-        return keyIconWidth;
-    }
-
     public void setKeyIconWidth(int keyIconWidth) {
         this.keyIconWidth = keyIconWidth;
     }
-
-    public int getTimeFontSize() {
-        return timeFontSize;
+    
+    public int getKeyIconWidth() {
+        return keyIconWidth;
     }
 
     public void setTimeFontSize(int timeFontSize) {
         this.timeFontSize = timeFontSize;
     }
-
-    public int getVersionFontSize() {
-        return versionFontSize;
+    
+    public int getTimeFontSize() {
+        return timeFontSize;
     }
 
     public void setVersionFontSize(int versionFontSize) {
         this.versionFontSize = versionFontSize;
     }
 
-    public int getExitButtonHeight() {
-        return exitButtonHeight;
+    public int getVersionFontSize() {
+        return versionFontSize;
     }
 
     public void setExitButtonHeight(int exitButtonHeight) {
         this.exitButtonHeight = exitButtonHeight;
     }
 
-    public int getExitButtonWidth() {
-        return exitButtonWidth;
+    public int getExitButtonHeight() {
+        return exitButtonHeight;
     }
 
     public void setExitButtonWidth(int exitButtonWidth) {
         this.exitButtonWidth = exitButtonWidth;
     }
 
-    public int getMinimizeButtonHeight() {
-        return minimizeButtonHeight;
+    public int getExitButtonWidth() {
+        return exitButtonWidth;
     }
 
     public void setMinimizeButtonHeight(int minimizeButtonHeight) {
         this.minimizeButtonHeight = minimizeButtonHeight;
     }
 
-    public int getMinimizeButtonWidth() {
-        return minimizeButtonWidth;
+    public int getMinimizeButtonHeight() {
+        return minimizeButtonHeight;
     }
 
     public void setMinimizeButtonWidth(int minimizeButtonWidth) {
         this.minimizeButtonWidth = minimizeButtonWidth;
     }
 
-    public int getControlHeight() {
-        return controlHeight;
+    public int getMinimizeButtonWidth() {
+        return minimizeButtonWidth;
     }
 
     public void setControlHeight(int controlHeight) {
         this.controlHeight = controlHeight;
     }
 
-    public int getControlWidth() {
-        return controlWidth;
+    public int getControlHeight() {
+        return controlHeight;
     }
 
     public void setControlWidth(int controlWidth) {
         this.controlWidth = controlWidth;
     }
-
-    public int getKeysFontSize() {
-        return keysFontSize;
+    
+    public int getControlWidth() {
+        return controlWidth;
     }
 
     public void setKeysFontSize(int keysFontSize) {
         this.keysFontSize = keysFontSize;
     }
 
-    public int getLogoHeight() {
-        return logoHeight;
+    public int getKeysFontSize() {
+        return keysFontSize;
     }
 
     public void setLogoHeight(int logoHeight) {
         this.logoHeight = logoHeight;
     }
 
-    public int getLogoWidth() {
-        return logoWidth;
+    public int getLogoHeight() {
+        return logoHeight;
     }
 
     public void setLogoWidth(int logoWidth) {
         this.logoWidth = logoWidth;
     }
 
-    public int getBottomPanelSize() {
-        return bottomPanelSize;
+    public int getLogoWidth() {
+        return logoWidth;
     }
 
     public void setBottomPanelSize(int bottomPanelSize) {
         this.bottomPanelSize = bottomPanelSize;
     }
 
-    public int getCenterPanelSize() {
-        return centerPanelSize;
+    public int getBottomPanelSize() {
+        return bottomPanelSize;
     }
 
     public void setCenterPanelSize(int centerPanelSize) {
         this.centerPanelSize = centerPanelSize;
     }
 
-    public int getTopPanelSize() {
-        return topPanelSize;
+    public int getCenterPanelSize() {
+        return centerPanelSize;
     }
 
     public void setTopPanelSize(int topPanelSize) {
         this.topPanelSize = topPanelSize;
     }
 
-    public int getWelcomeFontSize() {
-        return welcomeFontSize;
+    public int getTopPanelSize() {
+        return topPanelSize;
     }
 
     public void setWelcomeFontSize(int welcomeFontSize) {
         this.welcomeFontSize = welcomeFontSize;
     }
 
+    public int getWelcomeFontSize() {
+        return welcomeFontSize;
+    }
+
     public void setBackgroundImagePane(AImagePane backgroundImagePane) {
         this.paneBackground = backgroundImagePane;
+    }
+    
+    public AImagePane getBackgroundImagePane() {
+        return paneBackground;
     }
 
     public void setBottomImagePane(AImagePane bottomImagePane) {
         this.paneBottom = bottomImagePane;
     }
+    
+    public AImagePane getBottomImagePane() {
+        return paneBottom;
+    }
 
     public void setCenterPanel(JPanel centerPanel) {
         this.paneCenter = centerPanel;
+    }
+    
+    public JPanel getCenterPanel() {
+        return paneCenter;
     }
 
     public void setCenterFromBottomPanel(JPanel centerFromBottomPanel) {
         this.paneCenterFromBottom = centerFromBottomPanel;
     }
+    
+    public JPanel getCenterFromBottomPanel() {
+        return paneCenterFromBottom;
+    }
 
     public void setSouthFromTopPanel(JPanel southFromTopPanel) {
         this.southFromTopPanel = southFromTopPanel;
+    }
+    
+    public JPanel getSouthFromTopPanel() {
+        return southFromTopPanel;
     }
 
     public void setFrameControlImagePane(AImagePane frameControlImagePane) {
         this.paneFrameControl = frameControlImagePane;
     }
+    
+    public AImagePane getFrameControlImagePane() {
+        return paneFrameControl;
+    }
 
     public void setTopImagePane(AImagePane topImagePane) {
         this.paneTopImage = topImagePane;
+    }
+    
+    public AImagePane getTopImagePane() {
+        return paneTopImage;
     }
 
     public void setLogoImage(AImage logoImage) {
         this.imgLogo = logoImage;
     }
+    
+    public AImage getLogoImage() {
+        return imgLogo;
+    }
 
     public void setTitleLabel(JLabel aTitleLabel) {
         this.lblTitle = aTitleLabel;
+    }
+    
+    public JLabel getTitleLabel() {
+        return lblTitle;
     }
 
     public void setVi(ANuance vi) {
         this.vi = vi;
     }
+    
+    public ANuance getVi() {
+        return vi;
+    }
 
     public void setUserbarPanel(JPanel userbarPanel) {
         this.paneUserSpace = userbarPanel;
+    }
+    
+    public JPanel getUserSpacePanel() {
+        return paneUserSpace;
     }
 
     public String getRevision() {
@@ -973,13 +1022,25 @@ public class AuroraCoreUI {
     public void setFrame(JFrame frame) {
         this.frame = frame;
     }
+    
+    public JFrame getFrame() {
+        return frame;
+    }
 
     public void setKeyIconImage(AImage keyIconImage) {
         this.imgKeyIcon = keyIconImage;
     }
+    
+    public AImage getKeyIconImage() {
+        return imgKeyIcon;
+    }
 
     public void setKeyActionLabel(JLabel keyActionLabel) {
         this.lblKeyAction = keyActionLabel;
+    }
+    
+    public JLabel getKeyActionLabel() {
+        return lblKeyAction;
     }
 
     public static void setTimeLabel(ATimeLabel timeLabel) {
@@ -989,57 +1050,46 @@ public class AuroraCoreUI {
     public void setVersionLabel(JLabel versionLabel) {
         this.lblVersion = versionLabel;
     }
+    
+    public JLabel getVersionLabel() {
+        return lblVersion;
+    }
 
     public void setHeaderOfCenterFromBottomPanel(
             JPanel headerOfCenterFromBottomPanel) {
         this.paneHeaderOfCenterFromBottom = headerOfCenterFromBottomPanel;
     }
+    
+    public JPanel getHeaderOfCenterFromBottomPanel() {
+        return paneHeaderOfCenterFromBottom;
+    }
 
     public void setKeyToPressPanel(JPanel keyToPressPanel) {
         this.paneKeyToPress = keyToPressPanel;
+    }
+    
+    public JPanel getKeyToPressPanel() {
+        return paneKeyToPress;
     }
 
     public void setScreenLabelPanel(JPanel screenLabelPanel) {
         this.screenLabelPanel = screenLabelPanel;
     }
-
-    public void setVersionPanel(JPanel versionPanel) {
-        this.versionPanel = versionPanel;
-    }
-
-    ///
-    //Getters
-    ///
-    public AImage getKeyIconImage() {
-        return imgKeyIcon;
-    }
-
-    public JLabel getKeyActionLabel() {
-        return lblKeyAction;
-    }
-
-    public JLabel getVersionLabel() {
-        return lblVersion;
-    }
-
-    public JPanel getHeaderOfCenterFromBottomPanel() {
-        return paneHeaderOfCenterFromBottom;
-    }
-
-    public JPanel getKeyToPressPanel() {
-        return paneKeyToPress;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
+    
     public JPanel getScreenLabelPanel() {
         return screenLabelPanel;
     }
 
+    public void setVersionPanel(JPanel versionPanel) {
+        this.versionPanel = versionPanel;
+    }
+    
     public JPanel getVersionPanel() {
         return versionPanel;
+    }
+
+    public String getVersion() {
+        return version;
     }
 
     public boolean isLargeScreen() {
@@ -1054,69 +1104,47 @@ public class AuroraCoreUI {
         return btnMinimize;
     }
 
-    public JLabel getTitleLabel() {
-        return lblTitle;
-    }
-
-    public ANuance getVi() {
-        return vi;
-    }
-
-    public JFrame getFrame() {
-        return frame;
-    }
-
     public static ATimeLabel getTimeLabel() {
         return lblTime;
-    }
-
-    public JPanel getUserSpacePanel() {
-        return paneUserSpace;
-    }
-
-    public AImage getLogoImage() {
-        return imgLogo;
-    }
-
-    public AImagePane getBackgroundImagePane() {
-        return paneBackground;
     }
 
     public JPanel getTitlePanel() {
         return paneTitle;
     }
 
-    public AImagePane getBottomImagePane() {
-        return paneBottom;
-    }
 
-    public JPanel getCenterPanel() {
-        return paneCenter;
-    }
-
-    public JPanel getCenterFromBottomPanel() {
-        return paneCenterFromBottom;
-    }
-
-    public JPanel getSouthFromTopPanel() {
-        return southFromTopPanel;
-    }
-
-    public AImagePane getFrameControlImagePane() {
-        return paneFrameControl;
-    }
-
-    public AImagePane getTopImagePane() {
-        return paneTopImage;
-    }
-
+    /**
+     * .-----------------------------------------------------------------------
+     * | setSFX()
+     * .-----------------------------------------------------------------------
+     * |
+     * | Background sound
+     * |
+     * | This is a method that will set the background sound effects for Aurora
+     * | 
+     * .........................................................................
+     *
+     */
     public void setSFX() throws UnsupportedAudioFileException, IOException,
                                 LineUnavailableException, InterruptedException {
-        //////////
-        /////Background Sound
-        ///////////
+        //*
+        // Background Sound
+        //*
     }
 
+    /**
+     * .-----------------------------------------------------------------------
+     * | showExitDialog()
+     * .-----------------------------------------------------------------------
+     * |
+     * | This method displays the exit dialog
+     * |
+     * | After the user clicks on the Exit button, the user will be presented 
+     * | with a warning dialog asking them if they are sure they want to exit
+     * | the application.
+     * .........................................................................
+     *
+     */    
     public void showExitDialog() {
         if (warningDialog == null) {
             warningDialog = new ADialog(ADialog.aDIALOG_WARNING,
@@ -1159,7 +1187,7 @@ public class AuroraCoreUI {
 
     }
 
-    //Get Build Version Of Application
+    //* Get Build Version Of Application *//
     private static String getResourceBundleToken(String propertyToken) {
         String msg = "";
         try {
@@ -1176,13 +1204,25 @@ public class AuroraCoreUI {
     }
 
     public void setSurface(ASurface resource) {
-        this.ressources = resource;
+        this.resources = resource;
     }
 
     public ASurface getResource() {
-        return ressources;
+        return resources;
     }
 
+    /**
+     * .-----------------------------------------------------------------------.
+     * | setCursor()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method sets the mouse pointer cursor and states
+     * |
+     * | Customize the look of the mouse pointer cursor in various states
+     * |
+     * .........................................................................
+     *
+     */
     private void setCursor() {
 
 
@@ -1199,7 +1239,6 @@ public class AuroraCoreUI {
 
         JPanel glass = new JPanel();
 
-
         glass.add(cursorImage);
         glass.add(cursorSelect);
 
@@ -1210,19 +1249,14 @@ public class AuroraCoreUI {
                 .addMouseWheelListener(new MouseEventRedispatcher(glass, frame
                 .getContentPane()));
 
-
         glass.addMouseMotionListener(cursor);
-
         glass.addMouseListener(new CursorClick(cursor));
-
 
         frame.setGlassPane(glass);
 
         glass.setVisible(true);
         glass.setLayout(null);
         glass.setOpaque(false);
-
-
 
     }
 
@@ -1239,6 +1273,9 @@ public class AuroraCoreUI {
         }
     }
 
+    /*
+     * Sets the minimize button actions
+     */
     public class MinimizeListener implements ActionListener {
 
         private AuroraCoreUI ui;
@@ -1495,8 +1532,10 @@ public class AuroraCoreUI {
         }
 
 
-        //A more finished version of this method would
-        //handle mouse-dragged events specially.
+        /*
+         * A more finished version of this method would
+         * handle mouse-dragged events specially.
+         */
         private void redispatchMouseEvent(MouseEvent e,
                                           boolean repaint) {
             Point glassPanePoint = e.getPoint();
@@ -1504,8 +1543,11 @@ public class AuroraCoreUI {
             Point containerPoint = SwingUtilities.convertPoint(glassPane,
                     glassPanePoint,
                     contentPane);
-            //The mouse event is probably over the content pane.
-            //Find out exactly which component it's over.
+            
+            //* 
+            // The mouse event is probably over the content pane.
+            // Find out exactly which component it's over.
+            //*
             Component component =
                       SwingUtilities.getDeepestComponentAt(container,
                     containerPoint.x,
