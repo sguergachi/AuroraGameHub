@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 
 /**
  * .------------------------------------------------------------------------.
@@ -76,6 +77,12 @@ public class DashboardLogic implements AuroraScreenLogic {
      */
     private final AuroraCoreUI coreUI;
 
+    private GameLibraryUI libraryUI;
+
+    private GamerProfileUI profileUI;
+
+    private SettingsUI settingsUI;
+
     /**
      * .-----------------------------------------------------------------------.
      * | DashboardLogic(DashboardUI)
@@ -106,8 +113,8 @@ public class DashboardLogic implements AuroraScreenLogic {
 
         this.storage = dashboardUI.getStorage();
 
+        loadAuroraApps();
     }
-
 
     @Override
     public final void setHandler(final AuroraScreenHandler handler) {
@@ -289,20 +296,31 @@ public class DashboardLogic implements AuroraScreenLogic {
         if (pane == dashboardUI.getLibraryPane()) {
             //action on click right Panel
             if (dashboardUI != null) {
-                GameLibraryUI libraryUI = new GameLibraryUI(dashboardUI
-                        .getStartUI().getAuroraStorage(), dashboardUI,
-                        dashboardUI.getCoreUI());
-                libraryUI.loadUI();
+
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        libraryUI.clearUI();
+                        libraryUI.buildUI();
+                    }
+                });
             }
         } else if (pane == dashboardUI.getProfilePane()) {
-            GamerProfileUI profileUI = new GamerProfileUI(dashboardUI,
-                    dashboardUI.getCoreUI());
-            profileUI.loadUI();
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    profileUI.clearUI();
+                    profileUI.buildUI();
+                }
+            });
         } else if (pane == dashboardUI.getSettingsPane()) {
-            SettingsUI settingsUI = new SettingsUI(dashboardUI,
-                    dashboardUI.getCoreUI());
-
-            settingsUI.loadUI();
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    settingsUI.clearUI();
+                    settingsUI.buildUI();
+                }
+            });
         } else if (pane == dashboardUI.getAuroraNetPane()) {
             // do nothing for now
         }
@@ -345,6 +363,25 @@ public class DashboardLogic implements AuroraScreenLogic {
         } else if (pane.getPointX() == dashboardUI.getCarousel().getCentX()) {
             this.launchAuroraApp(pane);
         }
+
+    }
+
+    private void loadAuroraApps() {
+
+        libraryUI = new GameLibraryUI(dashboardUI
+                .getStartUI().getAuroraStorage(), dashboardUI,
+                dashboardUI.getCoreUI());
+        libraryUI.loadUI();
+
+
+        profileUI = new GamerProfileUI(dashboardUI,
+                dashboardUI.getCoreUI());
+        profileUI.loadUI();
+
+        settingsUI = new SettingsUI(dashboardUI,
+                dashboardUI.getCoreUI());
+
+        settingsUI.loadUI();
 
     }
 }

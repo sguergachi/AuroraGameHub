@@ -35,7 +35,6 @@ public class SettingsUI extends AuroraApp {
 
         this.dashboardUI = dashboardUI;
         this.coreUI = auroraCoreUI;
-        this.clearUI();
     }
 
     @Override

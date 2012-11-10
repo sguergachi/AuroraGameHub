@@ -253,7 +253,7 @@ public class DashboardHandler implements AuroraScreenHandler {
         @Override
         public final void mouseClicked(final MouseEvent e) {
             System.out.println("CLICKED");
-
+            System.out.println(pane);
             if (pane == null && pane instanceof ACarouselPane) {
                 pane = (ACarouselPane) e.getComponent();
             }

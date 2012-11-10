@@ -29,15 +29,28 @@ import aurora.V1.core.screen_handler.GameLibraryHandler.searchFocusHandler;
 import aurora.V1.core.screen_logic.GameLibraryLogic;
 import aurora.engine.V1.Logic.*;
 import aurora.engine.V1.UI.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.PopupFactory;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  * .---------------------------------------------------------------------------.
@@ -77,27 +90,11 @@ public class GameLibraryUI extends AuroraApp {
 
     private int currentIndex;
 
-    private ActionListener a;
-
     private int currentPanel;
 
     private ArrayList<Boolean> loadedPanels;
 
-    public static int SIZE_GameCoverHeight;
-
-    public static int SIZE_GameCoverWidth;
-
-    public static int SIZE_ZoomButtonHeight;
-
-    public static int SIZE_SelectedGameBarHeight;
-
-    public static int SIZE_SelectedGameBarWidth;
-
-    public static int SIZE_AddGameWidth;
-
-    public static int SIZE_AddGameHeight;
-
-    public static int SIZE_GameNameFont;
+    public static int gameCoverHeight;
 
     private GridAnimation GridAnimate;
 
@@ -241,6 +238,22 @@ public class GameLibraryUI extends AuroraApp {
 
     private JPanel pnlAddGameContainer;
 
+    public static int gameCoverWidth;
+
+    public static int zoomButtonHeight;
+
+    public static int selectedGameBarHeight;
+
+    public static int selectedGameBarWidth;
+
+    public static int addGameWidth;
+
+    public static int addGameHeight;
+
+    public static int gameNameFontSize;
+
+    private boolean isScreenLoaded = false;
+
     public GameLibraryUI(AuroraStorage storage, final DashboardUI dashboardUi,
                          final AuroraCoreUI auroraCoreUI) {
         this.coreUI = auroraCoreUI;
@@ -253,7 +266,6 @@ public class GameLibraryUI extends AuroraApp {
         handler.setLogic(logic);
         logic.setHandler(handler);
 
-        this.clearUI();
         isGameLibraryKeyListenerAdded = false;
 
     }
@@ -280,10 +292,10 @@ public class GameLibraryUI extends AuroraApp {
         //* Zoom Buttons *//
         btnZoomPlus = new AButton("Aurora_ZoomP_normal.png",
                 "Aurora_ZoomP_down.png",
-                "Aurora_ZoomP_over.png", 0, SIZE_ZoomButtonHeight);
+                "Aurora_ZoomP_over.png", 0, zoomButtonHeight);
         btnZoomLess = new AButton("Aurora_ZoomM_normal.png",
                 "Aurora_ZoomM_down.png",
-                "Aurora_ZoomM_over.png", 0, SIZE_ZoomButtonHeight);
+                "Aurora_ZoomM_over.png", 0, zoomButtonHeight);
 
 
         //* Key Board Naviagtion Icon *//
@@ -296,7 +308,7 @@ public class GameLibraryUI extends AuroraApp {
         SelectedGameContainer = new JPanel();
 
         imgSelectedGamePane = new AImagePane("Aurora_SelectedGameBar.png",
-                SIZE_SelectedGameBarWidth, SIZE_SelectedGameBarHeight,
+                selectedGameBarWidth, selectedGameBarHeight,
                 new FlowLayout(FlowLayout.CENTER, 0, 5));
 
         lblGameName = new JLabel("Select A Game For Info");
@@ -306,7 +318,7 @@ public class GameLibraryUI extends AuroraApp {
         pnlAddGameContainer = new JPanel(new BorderLayout());
 
         btnAddGame = new AButton("Aurora_Add_normal.png", "Aurora_Add_down.png",
-                "Aurora_Add_over.png", SIZE_AddGameWidth, SIZE_AddGameHeight);
+                "Aurora_Add_over.png", addGameWidth, addGameHeight);
 
 
         //* Search Bar *//
@@ -322,6 +334,21 @@ public class GameLibraryUI extends AuroraApp {
         ButtonPane = new JPanel(new BorderLayout());
         SearchContainer = new JPanel(new BorderLayout());
         SearchPane = new JPanel(new BorderLayout());
+
+        //* Grid Animator *//
+        this.GridAnimate = new GridAnimation(GridSplit, paneLibraryContainer);
+
+
+        //* Start Aurora Dabatase connection *//
+        try {
+            CoverDB = new ASimpleDB("AuroraDB", "AuroraTable", false);
+        } catch (SQLException ex) {
+            Logger.getLogger(GameLibraryUI.class.getName()).log(Level.SEVERE,
+                    null, ex);
+        }
+
+        //* Create Grid Manager *//
+        GridSplit = new GridManager(2, 4, coreUI);
 
 
         // Handlers
@@ -347,168 +374,175 @@ public class GameLibraryUI extends AuroraApp {
         attactchHandlers();
 
 
-        //Start Aurora Dabatase connection
-        try {
-            CoverDB = new ASimpleDB("AuroraDB", "AuroraTable", false);
-        } catch (SQLException ex) {
-            Logger.getLogger(GameLibraryUI.class.getName()).log(Level.SEVERE,
-                    null, ex);
-        }
-
-        GridSplit = new GridManager(2, 4, coreUI);
 
 
-        //Grid Animator
-        this.GridAnimate = new GridAnimation(GridSplit, paneLibraryContainer);
+
 
 
     }
 
     @Override
     public void buildUI() {
+        if (!isScreenLoaded) {
+            setSize();
 
-        setSize();
-
-        //* Add Zoom Buttons *//
+            //* Add Zoom Buttons *//
 //        coreUI.getTitlePanel().removeAll();
 //        coreUI.getTitlePanel().add(ZoomM);
 //        coreUI.getTitlePanel().add(coreUI.getTitleLabel());
 //        coreUI.getTitlePanel().add(ZoomP);
 
-        paneLibraryContainer.setOpaque(false);
-        paneLibraryContainer.setBackground(Color.red);
-        paneLibraryContainer.setLayout(new BorderLayout(0, 0));
+            paneLibraryContainer.setOpaque(false);
+            paneLibraryContainer.setBackground(Color.red);
+            paneLibraryContainer.setLayout(new BorderLayout(0, 0));
 
-        lblKeyAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
-                coreUI.getKeysFontSize()));
-        lblKeyAction.setForeground(Color.YELLOW);
-
-
-
-        //* Selected Game Name Bar *//
-        SelectedGameContainer.setOpaque(false);
-
-        lblGameName.setOpaque(false);
-        lblGameName.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
-                SIZE_GameNameFont));
-        lblGameName.setForeground(Color.LIGHT_GRAY);
-
-        imgSelectedGamePane.setPreferredSize(new Dimension(
-                SIZE_SelectedGameBarWidth, SIZE_SelectedGameBarHeight));
-        imgSelectedGamePane.add(lblGameName);
-        SelectedGameContainer.add(imgSelectedGamePane);
-
-        //* Add Game Button *//
-        pnlAddGameContainer.setOpaque(false);
-        btnAddGame.addActionListener(addGameHandler);
-        pnlAddGameContainer.add(btnAddGame, BorderLayout.CENTER);
-
-
-        //* Search Bar *//
-        SearchBarBG.setPreferredSize(new Dimension(SIZE_SearchBarWidth, 50));
-        removeSearchButton.setPreferredSize(new Dimension(70, 51));
-
-        gridSearchBar.setOpaque(false);
-        gridSearchBar.setBorder(null);
-        gridSearchBar.setColumns(19);
-        gridSearchBar.setForeground(Color.darkGray);
-        gridSearchBar.setFont(coreUI.getDefaultFont().deriveFont(Font.BOLD, 40));
-        gridSearchBar.setPreferredSize(new Dimension(880, 50));
-
-        SearchButton.setPreferredSize(new Dimension(70, 51));
-        SearchButton.addActionListener(handler.new searchButtonHandler(this));
-
-        SearchButtonBG.setPreferredSize(new Dimension(70, 51));
-        SearchButtonBG.add(SearchButton, BorderLayout.NORTH);
-
-        TextPane.setOpaque(false);
-        TextPane.add(gridSearchBar, BorderLayout.NORTH);
-
-        SearchContainer.setOpaque(false);
-        SearchContainer.add(ButtonPane, BorderLayout.WEST);
-        SearchContainer.add(TextPane, BorderLayout.CENTER);
-
-        ButtonPane.setOpaque(false);
-        ButtonPane.add(SearchButtonBG, BorderLayout.NORTH);
-
-        SearchBarBG.add(SearchContainer, BorderLayout.WEST);
-        SearchBarBG.validate();
-
-        SearchPane.setOpaque(false);
-        SearchPane.add(SearchBarBG, BorderLayout.EAST);
-        SearchPane.setPreferredSize(new Dimension(SearchPane.getBounds().width,
-                75));
-        SearchPane.validate();
-
-        //* Add Components to Central Container *//
-        paneLibraryContainer.add(BorderLayout.WEST, imgFavorite);
-        paneLibraryContainer.add(BorderLayout.CENTER, GridSplit.getGrid(0));
-        paneLibraryContainer.add(BorderLayout.EAST, btnGameRight);
-
-        //* Initiate Grid *//
-        GridSplit.initiateGrid(0);
+            lblKeyAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
+                    coreUI.getKeysFontSize()));
+            lblKeyAction.setForeground(Color.YELLOW);
 
 
 
-        // Add Games to Library
-        // --------------------------------------------------------------------.
+            //* Selected Game Name Bar *//
+            SelectedGameContainer.setOpaque(false);
 
-        try {
+            lblGameName.setOpaque(false);
+            lblGameName.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
+                    gameNameFontSize));
+            lblGameName.setForeground(Color.LIGHT_GRAY);
 
-            //* Add Games Marked Fav first *//
+            imgSelectedGamePane.setPreferredSize(new Dimension(
+                    selectedGameBarWidth, selectedGameBarHeight));
+            imgSelectedGamePane.add(lblGameName);
+            SelectedGameContainer.add(imgSelectedGamePane);
 
-            for (int i = 0; i < storage.getStoredLibrary().getGameNames().size();
-                    i++) {
+            //* Add Game Button *//
+            pnlAddGameContainer.setOpaque(false);
+            btnAddGame.addActionListener(addGameHandler);
+            pnlAddGameContainer.add(btnAddGame, BorderLayout.CENTER);
 
-                Game Game = new Game(GridSplit, coreUI, dashboardUI, storage);
-                if (storage.getStoredLibrary().getFaveStates().get(i)) {
-                    Game.setGameName(storage.getStoredLibrary().getGameNames()
-                            .get(i));
-                    Game.setCoverUrl(storage.getStoredLibrary().getBoxArtPath()
-                            .get(i));
-                    //Handle appostrophese in game path
-                    Game.setGamePath(storage.getStoredLibrary().getGamePath()
-                            .get(i).replace("'", "''"));
-                    Game.setFavorite(storage.getStoredLibrary().getFaveStates()
-                            .get(i));
-                    Game.setCoverSize(SIZE_GameCoverWidth, SIZE_GameCoverHeight);
 
-                    GridSplit.addGame(Game);
+            //* Search Bar *//
+            SearchBarBG.setPreferredSize(new Dimension(SIZE_SearchBarWidth, 50));
+            removeSearchButton.setPreferredSize(new Dimension(70, 51));
+
+            gridSearchBar.setOpaque(false);
+            gridSearchBar.setBorder(null);
+            gridSearchBar.setColumns(19);
+            gridSearchBar.setForeground(Color.darkGray);
+            gridSearchBar.setFont(coreUI.getDefaultFont().deriveFont(Font.BOLD,
+                    40));
+            gridSearchBar.setPreferredSize(new Dimension(880, 50));
+
+            SearchButton.setPreferredSize(new Dimension(70, 51));
+            SearchButton
+                    .addActionListener(handler.new searchButtonHandler(this));
+
+            SearchButtonBG.setPreferredSize(new Dimension(70, 51));
+            SearchButtonBG.add(SearchButton, BorderLayout.NORTH);
+
+            TextPane.setOpaque(false);
+            TextPane.add(gridSearchBar, BorderLayout.NORTH);
+
+            SearchContainer.setOpaque(false);
+            SearchContainer.add(ButtonPane, BorderLayout.WEST);
+            SearchContainer.add(TextPane, BorderLayout.CENTER);
+
+            ButtonPane.setOpaque(false);
+            ButtonPane.add(SearchButtonBG, BorderLayout.NORTH);
+
+            SearchBarBG.add(SearchContainer, BorderLayout.WEST);
+            SearchBarBG.validate();
+
+            SearchPane.setOpaque(false);
+            SearchPane.add(SearchBarBG, BorderLayout.EAST);
+            SearchPane.setPreferredSize(new Dimension(
+                    SearchPane.getBounds().width,
+                    75));
+            SearchPane.validate();
+
+            //* Initiate Grid *//
+            GridSplit.initiateGrid(0);
+
+            //* Add Components to Central Container *//
+            paneLibraryContainer.add(BorderLayout.WEST, imgFavorite);
+            paneLibraryContainer.add(BorderLayout.CENTER, GridSplit.getGrid(0));
+            paneLibraryContainer.add(BorderLayout.EAST, btnGameRight);
+
+
+
+            // Add Games to Library
+            // --------------------------------------------------------------------.
+
+            try {
+
+                //* Add Games Marked Fav first *//
+
+                for (int i = 0; i < storage.getStoredLibrary().getGameNames()
+                        .size();
+                        i++) {
+
+                    Game Game = new Game(GridSplit, coreUI, dashboardUI, storage);
+                    if (storage.getStoredLibrary().getFaveStates().get(i)) {
+                        Game.setGameName(storage.getStoredLibrary()
+                                .getGameNames()
+                                .get(i));
+                        Game.setCoverUrl(storage.getStoredLibrary()
+                                .getBoxArtPath()
+                                .get(i));
+                        //Handle appostrophese in game path
+                        Game.setGamePath(storage.getStoredLibrary()
+                                .getGamePath()
+                                .get(i).replace("'", "''"));
+                        Game.setFavorite(storage.getStoredLibrary()
+                                .getFaveStates()
+                                .get(i));
+                        Game.setCoverSize(gameCoverWidth, gameCoverHeight);
+
+                        GridSplit.addGame(Game);
+                    }
                 }
+
+                //* Add Non-Fav games after *//
+
+                for (int i = 0; i < storage.getStoredLibrary().getGameNames()
+                        .size();
+                        i++) {
+
+                    Game Game = new Game(GridSplit, coreUI, dashboardUI, storage);
+                    if (!storage.getStoredLibrary().getFaveStates().get(i)) {
+                        Game.setGameName(storage.getStoredLibrary()
+                                .getGameNames()
+                                .get(i));
+                        Game.setCoverUrl(storage.getStoredLibrary()
+                                .getBoxArtPath()
+                                .get(i));
+                        //Handle appostrophese in game path
+                        Game.setGamePath(storage.getStoredLibrary()
+                                .getGamePath()
+                                .get(i).replace("'", "''"));
+                        Game.setFavorite(storage.getStoredLibrary()
+                                .getFaveStates()
+                                .get(i));
+                        Game.setCoverSize(gameCoverWidth, gameCoverHeight);
+
+                        GridSplit.addGame(Game);
+                    }
+                }
+
+                GridSplit.finalizeGrid(addGameHandler, gameCoverWidth,
+                        gameCoverHeight);
+
+                //Load First Grid by default
+                loadGames(0);
+            } catch (MalformedURLException ex) {
+                System.out.println("MalformedURLExeption \n" + ex);
             }
 
-            //* Add Non-Fav games after *//
-
-            for (int i = 0; i < storage.getStoredLibrary().getGameNames().size();
-                    i++) {
-
-                Game Game = new Game(GridSplit, coreUI, dashboardUI, storage);
-                if (!storage.getStoredLibrary().getFaveStates().get(i)) {
-                    Game.setGameName(storage.getStoredLibrary().getGameNames()
-                            .get(i));
-                    Game.setCoverUrl(storage.getStoredLibrary().getBoxArtPath()
-                            .get(i));
-                    //Handle appostrophese in game path
-                    Game.setGamePath(storage.getStoredLibrary().getGamePath()
-                            .get(i).replace("'", "''"));
-                    Game.setFavorite(storage.getStoredLibrary().getFaveStates()
-                            .get(i));
-                    Game.setCoverSize(SIZE_GameCoverWidth, SIZE_GameCoverHeight);
-
-                    GridSplit.addGame(Game);
-                }
-            }
-
-            GridSplit.finalizeGrid(addGameHandler, SIZE_GameCoverWidth,
-                    SIZE_GameCoverHeight);
-
-            //Load First Grid by default
-            loadGames(0);
-        } catch (MalformedURLException ex) {
-            System.out.println("MalformedURLExeption \n" + ex);
+            isScreenLoaded = true;
+            addToCanvas();
+        } else {
+            addToCanvas();
         }
-
-        addToCanvas();
     }
 
     @Override
@@ -563,8 +597,8 @@ public class GameLibraryUI extends AuroraApp {
 
         //Finalize
         coreUI.getTitleLabel().setText("   Game Library   ");
-
-        coreUI.getFrame().requestFocus();
+        btnGameRight.requestFocusInWindow();
+//        coreUI.getFrame().requestFocus();
     }
 
     public void attactchHandlers() {
@@ -1228,32 +1262,32 @@ public class GameLibraryUI extends AuroraApp {
         System.out.println("Height " + coreUI.getFrame().getHeight());
         System.out.println("Width " + coreUI.getFrame().getWidth());
         if (coreUI.isLargeScreen()) {
-            SIZE_GameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio
-                                                                        / 10)
-                                   + 5;
-            SIZE_GameCoverWidth = coreUI.getFrame().getWidth() / 5
-                                  - (Ratio / 10) - 5;
-            SIZE_ZoomButtonHeight = 30;
-            SIZE_SelectedGameBarHeight = 65;
-            SIZE_SelectedGameBarWidth = 380;
-            SIZE_AddGameWidth = 351;
-            SIZE_AddGameHeight = 51;
-            SIZE_GameNameFont = 35;
+            gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio
+                                                                   / 10)
+                              + 5;
+            gameCoverWidth = coreUI.getFrame().getWidth() / 5
+                             - (Ratio / 10) - 5;
+            zoomButtonHeight = 30;
+            selectedGameBarHeight = 65;
+            selectedGameBarWidth = 380;
+            addGameWidth = 351;
+            addGameHeight = 51;
+            gameNameFontSize = 35;
             SIZE_FramePanePadding = 20;
             SIZE_SearchBarWidth = 880;
 
         } else {
             SIZE_FramePanePadding = 10;
-            SIZE_GameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio
-                                                                        / 10);
-            SIZE_GameCoverWidth = coreUI.getFrame().getWidth() / 5
-                                  - (Ratio / 10);
-            SIZE_ZoomButtonHeight = 25;
-            SIZE_AddGameWidth = 300;
-            SIZE_AddGameHeight = 40;
-            SIZE_SelectedGameBarHeight = 60;
-            SIZE_SelectedGameBarWidth = 360;
-            SIZE_GameNameFont = 32;
+            gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio
+                                                                   / 10);
+            gameCoverWidth = coreUI.getFrame().getWidth() / 5
+                             - (Ratio / 10);
+            zoomButtonHeight = 25;
+            addGameWidth = 300;
+            addGameHeight = 40;
+            selectedGameBarHeight = 60;
+            selectedGameBarWidth = 360;
+            gameNameFontSize = 32;
             SIZE_SearchBarWidth = coreUI.getFrame().getWidth() / 2 + coreUI
                     .getControlWidth() / 2;
         }
@@ -1402,12 +1436,12 @@ public class GameLibraryUI extends AuroraApp {
         return GridSplit;
     }
 
-    public int getSIZE_AddGameHeight() {
-        return SIZE_AddGameHeight;
+    public int getAddGameHeight() {
+        return addGameHeight;
     }
 
-    public int getSIZE_AddGameWidth() {
-        return SIZE_AddGameWidth;
+    public int getAddGameWidth() {
+        return addGameWidth;
     }
 
     public int getSIZE_FramePanePadding() {
@@ -1415,27 +1449,27 @@ public class GameLibraryUI extends AuroraApp {
     }
 
     public int getSIZE_GameCoverHeight() {
-        return SIZE_GameCoverHeight;
+        return gameCoverHeight;
     }
 
     public int getSIZE_GameCoverWidth() {
-        return SIZE_GameCoverWidth;
+        return gameCoverWidth;
     }
 
     public int getSIZE_GameNameFont() {
-        return SIZE_GameNameFont;
+        return gameNameFontSize;
     }
 
-    public int getSIZE_SelectedGameBarHeight() {
-        return SIZE_SelectedGameBarHeight;
+    public int getSelectedGameBarHeight() {
+        return selectedGameBarHeight;
     }
 
-    public int getSIZE_SelectedGameBarWidth() {
-        return SIZE_SelectedGameBarWidth;
+    public int getSelectedGameBarWidth() {
+        return selectedGameBarWidth;
     }
 
-    public int getSIZE_ZoomButtonHeight() {
-        return SIZE_ZoomButtonHeight;
+    public int getZoomButtonHeight() {
+        return zoomButtonHeight;
     }
 
     public GridSearch getSearch() {
@@ -1484,10 +1518,6 @@ public class GameLibraryUI extends AuroraApp {
 
     public AButton getZoomP() {
         return btnZoomPlus;
-    }
-
-    public ActionListener getA() {
-        return a;
     }
 
     public AButton getBtnAddGame() {

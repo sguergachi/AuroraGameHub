@@ -269,7 +269,7 @@ public class AuroraCoreUI {
     private JFrame frame;
 
     /*
-     * Center panel that displays the main part of Aurora 
+     * Center panel that displays the main part of Aurora
      * ie. Dashboard, Library, etc.
      */
     private JPanel paneCenter;
@@ -280,7 +280,7 @@ public class AuroraCoreUI {
     private JPanel paneKeyToPress;
 
     /*
-     * 
+     *
      */
     private JPanel southFromTopPanel;
 
@@ -316,7 +316,7 @@ public class AuroraCoreUI {
     private JPanel paneFrameControlContainer;
 
     /*
-     * 
+     *
      */
     private JPanel paneUserSpace;
 
@@ -336,7 +336,7 @@ public class AuroraCoreUI {
     private JLabel lblKeyAction;
 
     /*
-     * 
+     *
      */
     private AuroraMini miniMode;
 
@@ -387,24 +387,24 @@ public class AuroraCoreUI {
      * |
      * | This method sets up the core UI for Aurora
      * |
-     * | 
-     * | 
-     * | 
-     * | 
-     * | 
-     * | 
+     * |
+     * |
+     * |
+     * |
+     * |
+     * |
      * |
      * |
      * .........................................................................
      *
-     * 
+     *
      *
      */
     public void setUI() throws UnsupportedAudioFileException, IOException,
                                LineUnavailableException, InterruptedException,
                                FontFormatException {
 
-        // Determine Global Size based on Screen Size 	
+        // Determine Global Size based on Screen Size
 
         // TODO work on Screen Gui Change
 
@@ -415,7 +415,7 @@ public class AuroraCoreUI {
 
         System.out.println("Current Screen Ressolution: "
                            + screenWidth + "x" + screenHeight);
-       
+
         //*
         // Check the resolution (in pixels) of the screen to determine if the screen
         // is large or not
@@ -458,7 +458,7 @@ public class AuroraCoreUI {
                 System.out.println("ERROR In Getting Font Resourcess");
             }
         }
-        
+
         //*
         // The Background Panel Contains The Background Image for the Window as
         // Well as all components found in the window
@@ -533,7 +533,7 @@ public class AuroraCoreUI {
         // Top Panel
 
         // Frame Buttons
-        
+
         paneFrameControl = new AImagePane("Aurora_FrameButton1.png",
                 controlWidth, controlHeight);
         paneFrameControl.setImageHeight(controlHeight);
@@ -572,7 +572,7 @@ public class AuroraCoreUI {
         paneCenterFromBottom = new JPanel(new BorderLayout());
         paneCenterFromBottom.setOpaque(false);
         paneBottom.add(BorderLayout.CENTER, paneCenterFromBottom);
-        
+
         // WELCOME LABEL
         // -----------------------------------------------------------------------
 
@@ -592,7 +592,7 @@ public class AuroraCoreUI {
 
         // TIME LABEL
         // -----------------------------------------------------------------------
-        
+
         paneHeaderOfCenterFromBottom = new JPanel(new BorderLayout());
         lblTime = new ATimeLabel();
         lblTime.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
@@ -605,7 +605,7 @@ public class AuroraCoreUI {
 
         // KEY PRESS PANEL
         // -----------------------------------------------------------------------
-  
+
         paneKeyToPress = new JPanel();
         paneKeyToPress.setOpaque(false);
 
@@ -624,7 +624,7 @@ public class AuroraCoreUI {
 
         // USER SPACE
         // -----------------------------------------------------------------------
-        
+
         paneUserSpace = new JPanel();
         paneUserSpace.setOpaque(false);
         paneUserSpace
@@ -634,7 +634,7 @@ public class AuroraCoreUI {
 
         // VERSION LABEL
         // -----------------------------------------------------------------------
-        
+
         lblVersion = new JLabel(version);
         lblVersion.setOpaque(false);
         lblVersion.setForeground(Color.LIGHT_GRAY);
@@ -790,7 +790,7 @@ public class AuroraCoreUI {
     public void setKeyIconHeight(int keyIconHeight) {
         this.keyIconHeight = keyIconHeight;
     }
-    
+
     public int getKeyIconHeight() {
         return keyIconHeight;
     }
@@ -802,7 +802,7 @@ public class AuroraCoreUI {
     public void setKeyIconWidth(int keyIconWidth) {
         this.keyIconWidth = keyIconWidth;
     }
-    
+
     public int getKeyIconWidth() {
         return keyIconWidth;
     }
@@ -810,7 +810,7 @@ public class AuroraCoreUI {
     public void setTimeFontSize(int timeFontSize) {
         this.timeFontSize = timeFontSize;
     }
-    
+
     public int getTimeFontSize() {
         return timeFontSize;
     }
@@ -866,7 +866,7 @@ public class AuroraCoreUI {
     public void setControlWidth(int controlWidth) {
         this.controlWidth = controlWidth;
     }
-    
+
     public int getControlWidth() {
         return controlWidth;
     }
@@ -930,7 +930,7 @@ public class AuroraCoreUI {
     public void setBackgroundImagePane(AImagePane backgroundImagePane) {
         this.paneBackground = backgroundImagePane;
     }
-    
+
     public AImagePane getBackgroundImagePane() {
         return paneBackground;
     }
@@ -938,7 +938,7 @@ public class AuroraCoreUI {
     public void setBottomImagePane(AImagePane bottomImagePane) {
         this.paneBottom = bottomImagePane;
     }
-    
+
     public AImagePane getBottomImagePane() {
         return paneBottom;
     }
@@ -946,7 +946,7 @@ public class AuroraCoreUI {
     public void setCenterPanel(JPanel centerPanel) {
         this.paneCenter = centerPanel;
     }
-    
+
     public JPanel getCenterPanel() {
         return paneCenter;
     }
@@ -954,7 +954,7 @@ public class AuroraCoreUI {
     public void setCenterFromBottomPanel(JPanel centerFromBottomPanel) {
         this.paneCenterFromBottom = centerFromBottomPanel;
     }
-    
+
     public JPanel getCenterFromBottomPanel() {
         return paneCenterFromBottom;
     }
@@ -962,7 +962,7 @@ public class AuroraCoreUI {
     public void setSouthFromTopPanel(JPanel southFromTopPanel) {
         this.southFromTopPanel = southFromTopPanel;
     }
-    
+
     public JPanel getSouthFromTopPanel() {
         return southFromTopPanel;
     }
@@ -970,7 +970,7 @@ public class AuroraCoreUI {
     public void setFrameControlImagePane(AImagePane frameControlImagePane) {
         this.paneFrameControl = frameControlImagePane;
     }
-    
+
     public AImagePane getFrameControlImagePane() {
         return paneFrameControl;
     }
@@ -978,7 +978,7 @@ public class AuroraCoreUI {
     public void setTopImagePane(AImagePane topImagePane) {
         this.paneTopImage = topImagePane;
     }
-    
+
     public AImagePane getTopImagePane() {
         return paneTopImage;
     }
@@ -986,7 +986,7 @@ public class AuroraCoreUI {
     public void setLogoImage(AImage logoImage) {
         this.imgLogo = logoImage;
     }
-    
+
     public AImage getLogoImage() {
         return imgLogo;
     }
@@ -994,7 +994,7 @@ public class AuroraCoreUI {
     public void setTitleLabel(JLabel aTitleLabel) {
         this.lblTitle = aTitleLabel;
     }
-    
+
     public JLabel getTitleLabel() {
         return lblTitle;
     }
@@ -1002,7 +1002,7 @@ public class AuroraCoreUI {
     public void setVi(ANuance vi) {
         this.vi = vi;
     }
-    
+
     public ANuance getVi() {
         return vi;
     }
@@ -1010,7 +1010,7 @@ public class AuroraCoreUI {
     public void setUserbarPanel(JPanel userbarPanel) {
         this.paneUserSpace = userbarPanel;
     }
-    
+
     public JPanel getUserSpacePanel() {
         return paneUserSpace;
     }
@@ -1022,7 +1022,7 @@ public class AuroraCoreUI {
     public void setFrame(JFrame frame) {
         this.frame = frame;
     }
-    
+
     public JFrame getFrame() {
         return frame;
     }
@@ -1030,7 +1030,7 @@ public class AuroraCoreUI {
     public void setKeyIconImage(AImage keyIconImage) {
         this.imgKeyIcon = keyIconImage;
     }
-    
+
     public AImage getKeyIconImage() {
         return imgKeyIcon;
     }
@@ -1038,7 +1038,7 @@ public class AuroraCoreUI {
     public void setKeyActionLabel(JLabel keyActionLabel) {
         this.lblKeyAction = keyActionLabel;
     }
-    
+
     public JLabel getKeyActionLabel() {
         return lblKeyAction;
     }
@@ -1050,7 +1050,7 @@ public class AuroraCoreUI {
     public void setVersionLabel(JLabel versionLabel) {
         this.lblVersion = versionLabel;
     }
-    
+
     public JLabel getVersionLabel() {
         return lblVersion;
     }
@@ -1059,7 +1059,7 @@ public class AuroraCoreUI {
             JPanel headerOfCenterFromBottomPanel) {
         this.paneHeaderOfCenterFromBottom = headerOfCenterFromBottomPanel;
     }
-    
+
     public JPanel getHeaderOfCenterFromBottomPanel() {
         return paneHeaderOfCenterFromBottom;
     }
@@ -1067,7 +1067,7 @@ public class AuroraCoreUI {
     public void setKeyToPressPanel(JPanel keyToPressPanel) {
         this.paneKeyToPress = keyToPressPanel;
     }
-    
+
     public JPanel getKeyToPressPanel() {
         return paneKeyToPress;
     }
@@ -1075,7 +1075,7 @@ public class AuroraCoreUI {
     public void setScreenLabelPanel(JPanel screenLabelPanel) {
         this.screenLabelPanel = screenLabelPanel;
     }
-    
+
     public JPanel getScreenLabelPanel() {
         return screenLabelPanel;
     }
@@ -1083,7 +1083,7 @@ public class AuroraCoreUI {
     public void setVersionPanel(JPanel versionPanel) {
         this.versionPanel = versionPanel;
     }
-    
+
     public JPanel getVersionPanel() {
         return versionPanel;
     }
@@ -1121,7 +1121,7 @@ public class AuroraCoreUI {
      * | Background sound
      * |
      * | This is a method that will set the background sound effects for Aurora
-     * | 
+     * |
      * .........................................................................
      *
      */
@@ -1139,12 +1139,12 @@ public class AuroraCoreUI {
      * |
      * | This method displays the exit dialog
      * |
-     * | After the user clicks on the Exit button, the user will be presented 
+     * | After the user clicks on the Exit button, the user will be presented
      * | with a warning dialog asking them if they are sure they want to exit
      * | the application.
      * .........................................................................
      *
-     */    
+     */
     public void showExitDialog() {
         if (warningDialog == null) {
             warningDialog = new ADialog(ADialog.aDIALOG_WARNING,
@@ -1226,37 +1226,6 @@ public class AuroraCoreUI {
     private void setCursor() {
 
 
-        frame.setCursor(frame.getToolkit().createCustomCursor(
-                new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(
-                0, 0),
-                "null"));
-
-        AImage cursorImage = new AImage("cursor.png");
-        AImage cursorSelect = new AImage("cursorSelect.png");
-
-        cursorImage.setVisible(false);
-        cursorSelect.setVisible(false);
-
-        JPanel glass = new JPanel();
-
-        glass.add(cursorImage);
-        glass.add(cursorSelect);
-
-        Cursor cursor = new Cursor(
-                cursorImage, cursorSelect, frame.getContentPane(), glass);
-
-        frame.getContentPane()
-                .addMouseWheelListener(new MouseEventRedispatcher(glass, frame
-                .getContentPane()));
-
-        glass.addMouseMotionListener(cursor);
-        glass.addMouseListener(new CursorClick(cursor));
-
-        frame.setGlassPane(glass);
-
-        glass.setVisible(true);
-        glass.setLayout(null);
-        glass.setOpaque(false);
 
     }
 
@@ -1319,179 +1288,6 @@ public class AuroraCoreUI {
         }
     }
 
-    private static class CursorClick extends MouseAdapter {
-
-        private final AImage cursorImage;
-
-        private final AImage cursorSelect;
-
-        private final Cursor click;
-
-//        private final AImage cursorHover;
-        public CursorClick(Cursor click) {
-            this.cursorImage = click.getCursorImage();
-            this.cursorSelect = click.getCursorSelect();
-            this.click = click;
-        }
-
-        public AImage getCursorImage() {
-            return cursorImage;
-        }
-
-        public AImage getCursorSelect() {
-            return cursorSelect;
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-            cursorImage.setVisible(false);
-
-            cursorSelect.setLocation(e.getPoint());
-
-            cursorSelect.setBounds(e.getX() - 11, e.getY() - 8, cursorImage
-                    .getImgIcon()
-                    .getIconWidth(), cursorImage.getImgIcon().getIconHeight());
-
-            cursorSelect.setVisible(true);
-
-            click.redispatchMouseEvent(e, true);
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-            cursorSelect.setVisible(false);
-
-            cursorImage.setLocation(e.getPoint());
-
-            cursorImage.setBounds(e.getX() - 11, e.getY() - 8, cursorImage
-                    .getImgIcon()
-                    .getIconWidth(), cursorImage.getImgIcon().getIconHeight());
-
-            cursorImage.setVisible(true);
-
-            click.redispatchMouseEvent(e, true);
-
-        }
-
-        public void mouseClicked(MouseEvent e) {
-            click.redispatchMouseEvent(e, true);
-        }
-
-        public void mouseEntered(MouseEvent e) {
-            click.redispatchMouseEvent(e, true);
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            cursorSelect.setVisible(false);
-            cursorImage.setVisible(false);
-            click.redispatchMouseEvent(e, true);
-        }
-    }
-
-    class Cursor implements MouseMotionListener {
-
-        private final AImage cursorImage;
-
-        private final AImage cursorSelect;
-
-        private final JPanel glassPane;
-
-        private final Container contentPane;
-
-        private Cursor(AImage cursorImage, AImage cursorSelect,
-                       Container contentPane, JPanel glassPane) {
-            this.cursorImage = cursorImage;
-            this.cursorSelect = cursorSelect;
-            this.contentPane = contentPane;
-            this.glassPane = glassPane;
-        }
-
-        public AImage getCursorImage() {
-            return cursorImage;
-        }
-
-        public AImage getCursorSelect() {
-            return cursorSelect;
-        }
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-
-            cursorImage.setVisible(false);
-
-            cursorSelect.setLocation(e.getPoint());
-
-            cursorSelect.setBounds(e.getX() - 11, e.getY() - 8, cursorImage
-                    .getImgIcon()
-                    .getIconWidth(), cursorImage.getImgIcon().getIconHeight());
-
-            cursorSelect.setVisible(true);
-
-            redispatchMouseEvent(e, true);
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-
-            cursorSelect.setVisible(false);
-//            if (panel.getBounds().contains(e.getPoint())) {
-
-
-            cursorImage.setLocation(e.getPoint());
-
-            cursorImage.setBounds(e.getX() - 11, e.getY() - 8, cursorImage
-                    .getImgIcon()
-                    .getIconWidth(), cursorImage.getImgIcon()
-                    .getIconHeight());
-
-
-            cursorImage.setVisible(true);
-
-            redispatchMouseEvent(e, true);
-
-        }
-
-        public void redispatchMouseEvent(MouseEvent e,
-                                         boolean repaint) {
-            Point glassPanePoint = e.getPoint();
-            Container container = contentPane;
-            Point containerPoint = SwingUtilities.convertPoint(glassPane,
-                    glassPanePoint,
-                    contentPane);
-            //The mouse event is probably over the content pane.
-            //Find out exactly which component it's over.
-            Component component =
-                      SwingUtilities.getDeepestComponentAt(container,
-                    containerPoint.x,
-                    containerPoint.y);
-
-            if (component != null) {
-                //Forward events
-                Point componentPoint = SwingUtilities.convertPoint(glassPane,
-                        glassPanePoint,
-                        component);
-                component.dispatchEvent(new MouseEvent(component,
-                        e.getID(),
-                        e.getWhen(),
-                        e.getModifiers(),
-                        componentPoint.x,
-                        componentPoint.y,
-                        e.getClickCount(),
-                        e.isPopupTrigger()));
-            } else {
-                glassPanePoint = null;
-            }
-
-            //Update the glass pane if requested.
-            if (repaint) {
-                glassPane.repaint();
-            }
-        }
-    }
-
     class MouseEventRedispatcher extends MouseAdapter {
 
         private final JPanel glassPane;
@@ -1543,8 +1339,8 @@ public class AuroraCoreUI {
             Point containerPoint = SwingUtilities.convertPoint(glassPane,
                     glassPanePoint,
                     contentPane);
-            
-            //* 
+
+            //*
             // The mouse event is probably over the content pane.
             // Find out exactly which component it's over.
             //*

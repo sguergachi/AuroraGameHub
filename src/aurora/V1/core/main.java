@@ -47,12 +47,14 @@ public class main {
         }
 
 
+
         if (Double.parseDouble(System.getProperty("java.version").substring(2, 3)) >= 6
                 && Integer.parseInt(System.getProperty("java.version").substring(6, 8)) >= 17) {
 
             //Initiate The LoginWindow
             System.out.println("Running Java Version: " + System.getProperty("java.version"));
             System.out.println("OS: " + System.getProperty("os.name"));
+            setLAF();
             StartScreenUI aurora_StartUp = new StartScreenUI(startMini);
 
 
@@ -60,7 +62,12 @@ public class main {
             //Initiate The LoginWindow
             System.out.println("Running Java Version: " + System.getProperty("java.version"));
             System.out.println("OS: " + System.getProperty("os.name"));
+
+            setLAF();
+
             StartScreenUI aurora_StartUp = new StartScreenUI(startMini);
+
+
 
 
         } else {
@@ -78,6 +85,11 @@ public class main {
 
         }
 
+
+
+    }
+
+    private static void setLAF() {
 
 
     }

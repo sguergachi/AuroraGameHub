@@ -1104,7 +1104,6 @@ public class GameLibraryHandler implements
             this.libraryUI = gameLibraryUI;
             this.coreUI = auroraCoreUI;
 
-            //GridSplit = library.getGridSplit();
             GameBack = gameLibraryUI.getGameBack();
             imgGameLeft = gameLibraryUI.getImgGameLeft();
             imgGameRight = gameLibraryUI.getImgGameRight();
@@ -1133,9 +1132,6 @@ public class GameLibraryHandler implements
                     GameBack.add(imgGameRight, BorderLayout.EAST, 2);
 
                     GridAnimate.moveRight(libraryUI.getCurrentIndex());
-
-                    //carlos
-                    // GridSplit.incrementVisibleGridIndex();
 
 
                     try {
@@ -1178,6 +1174,7 @@ public class GameLibraryHandler implements
 
         @Override
         public void mouseEntered(MouseEvent e) {
+            System.out.println("HOVER IMAGE ACTIVATED");
             GridAnimate = libraryUI.getGridAnimate();
             imgGameRight = libraryUI.getImgGameRight();
 

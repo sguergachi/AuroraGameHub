@@ -157,14 +157,19 @@ public abstract class AuroraApp implements AuroraScreenUI {
      */
     public final void backToDashboard() {
 
+
+
         //* Remove All Listeners from componentsContainingListeners *//
         removeAllListeners();
+
 
         //* Clear everything in the Center Panel of CoreUI *//
         clearUI();
 
+
         //* Re-add all DashboardUI components back to CoreUI *//
         getDashboardUI().addToCanvas();
+
 
     }
 
@@ -229,14 +234,23 @@ public abstract class AuroraApp implements AuroraScreenUI {
         getCoreUI().getSouthFromTopPanel()
                 .add(getCoreUI().getFrameControlContainerPanel(),
                 BorderLayout.EAST);
-        getCoreUI().getFrameControlImagePane().getComponent(0)
-                .addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(final MouseEvent e) {
-                removeAllListeners();
-                backToDashboard();
-            }
-        });
+
+        System.out.println("Mouse Listeners::: " + getCoreUI()
+                .getFrameControlImagePane().getComponent(0)
+                .getMouseListeners().length);
+
+        if (getCoreUI().getFrameControlImagePane().getComponent(0)
+                .getMouseListeners().length <= 2) {
+            getCoreUI().getFrameControlImagePane().getComponent(0)
+                    .addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(final MouseEvent e) {
+                    removeAllListeners();
+                    backToDashboard();
+                }
+            });
+        }
+
 
         //* Remove all from the title pane of the bottom bar and re-add title*//
         getCoreUI().getTitlePanel().removeAll();
@@ -249,11 +263,13 @@ public abstract class AuroraApp implements AuroraScreenUI {
                                               - getCoreUI().getBottomImagePane()
                 .getHeight() - getCoreUI().getTopImagePane().getHeight()));
 
+        getCoreUI().getFrame().requestFocus();
+        getCoreUI().getFrame().repaint();
+
 
         System.gc();
 
-        getCoreUI().getFrame().requestFocus();
-        getCoreUI().getFrame().repaint();
+
 
 
     }
