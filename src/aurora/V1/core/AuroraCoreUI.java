@@ -242,7 +242,7 @@ public class AuroraCoreUI {
     private ASurface resources;
 
     /*
-     * Reference to the Nuance virtual interaction.
+     * Reference to the Nuance virtual intelligence.
      */
     private ANuance vi;
 
@@ -266,6 +266,9 @@ public class AuroraCoreUI {
      */
     private JButton btnMinimize;
 
+    /*
+     * 
+     */
     private JFrame frame;
 
     /*
@@ -280,7 +283,7 @@ public class AuroraCoreUI {
     private JPanel paneKeyToPress;
 
     /*
-     * 
+     * Panel located south of the top panel
      */
     private JPanel southFromTopPanel;
 
@@ -294,43 +297,53 @@ public class AuroraCoreUI {
      */
     private JPanel screenLabelPanel;
 
-    /*
+    /**
      * Panel that holds the current version of Aurora
      */
     private JPanel versionPanel;
 
+    /**
+     * Header panel that is located in pnlCenterFromBottom
+     */
     private JPanel paneHeaderOfCenterFromBottom;
 
+    /**
+     * Panel that is located in the center of the
+     * bottom panel 
+     */
     private JPanel paneCenterFromBottom;
 
-    /*
+    /**
      * Panel that holds the current time.
      */
     private JPanel paneTime;
 
-    /*
+    /**
      * Panel that holds the app title
      */
     private JPanel paneTitle;
 
+    /**
+     * 
+     */
     private JPanel paneFrameControlContainer;
 
-    /*
+    /**
      * 
      */
     private JPanel paneUserSpace;
 
-    /*
+    /**
      * Label for the version panel
      */
     private JLabel lblVersion;
 
-    /*
+    /**
      * Label for the title panel
      */
     private JLabel lblTitle;
 
-    /*
+    /**
      * Label for the key image icon
      */
     private JLabel lblKeyAction;
@@ -358,15 +371,16 @@ public class AuroraCoreUI {
      * | AuroraCoreUI(JFrame)
      * .-----------------------------------------------------------------------.
      * |
+     * | This is the Constructor of the AuroraCoreUI class.
      * |
-     * |
-     * |
+     * | The constructor sets up the Aurora app main frame
      * .........................................................................
      *
      * @param aFrame JFrame
      *
      */
     public AuroraCoreUI(final JFrame aFrame) {
+    	
         this.frame = aFrame;
         setCursor();
         aFrame.setUndecorated(true);
@@ -381,30 +395,23 @@ public class AuroraCoreUI {
 
 
     /**
-     * .-----------------------------------------------------------------------.
+     * .-----------------------------------------------------------------------
      * | setUI()
-     * .-----------------------------------------------------------------------.
+     * .-----------------------------------------------------------------------
      * |
-     * | This method sets up the core UI for Aurora
+     * | Sets up the Aurora UI
      * |
-     * | 
-     * | 
-     * | 
-     * | 
-     * | 
-     * | 
-     * |
+     * | This method sets up all the key UI components that make up the core UI
+     * | for Aurora
      * |
      * .........................................................................
-     *
-     * 
      *
      */
     public void setUI() throws UnsupportedAudioFileException, IOException,
                                LineUnavailableException, InterruptedException,
                                FontFormatException {
 
-        // Determine Global Size based on Screen Size 	
+        //* Determine Global Size based on Screen Size *// 	
 
         // TODO work on Screen Gui Change
 
@@ -429,14 +436,14 @@ public class AuroraCoreUI {
         // LargeScreen = false;
         System.out.println("High Resolution Boolean = " + isLargeScreen);
 
-        // Set Size For UI
+        //* Set Size For UI *//
 
         setSizes();
 
-        // Start Preparation
+        //* Start Preparation *//
 
 
-        //Get Font
+        //* Get Font *//
 
         try {
             regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(resources
@@ -530,9 +537,9 @@ public class AuroraCoreUI {
         btnMinimize.addActionListener(minimizeHandler);
         btnMinimize.setToolTipText("Minimize");
 
-        // Top Panel
+        //* Top Panel *//
 
-        // Frame Buttons
+        //* Frame Buttons *//
         
         paneFrameControl = new AImagePane("Aurora_FrameButton1.png",
                 controlWidth, controlHeight);
@@ -555,8 +562,8 @@ public class AuroraCoreUI {
 
         paneTopImage.add(BorderLayout.SOUTH, southFromTopPanel);
 
-
-        // Logo Image
+        // LOGO PANEL
+        // -----------------------------------------------------------------------
 
         imgLogo = new AImage("Logo_Aurora.png", logoWidth, logoHeight);
         logoPanel = new JPanel();
@@ -609,14 +616,12 @@ public class AuroraCoreUI {
         paneKeyToPress = new JPanel();
         paneKeyToPress.setOpaque(false);
 
-
         imgKeyIcon = new AImage("KeyboardKeys/enter.png");
         imgKeyIcon.setImageSize(keyIconWidth, keyIconHeight);
         lblKeyAction = new JLabel(" Select ");
 
         lblKeyAction.setFont(regularFont.deriveFont(Font.PLAIN, keysFontSize));
         lblKeyAction.setForeground(Color.YELLOW);
-
 
         paneHeaderOfCenterFromBottom.add(BorderLayout.WEST, paneKeyToPress);
         paneCenterFromBottom.add(BorderLayout.NORTH,
@@ -646,8 +651,6 @@ public class AuroraCoreUI {
         versionPanel.setLayout(new BorderLayout());
         versionPanel.add(BorderLayout.WEST, lblVersion);
         paneBottom.add(BorderLayout.PAGE_END, versionPanel);
-
-        ///Finalize
 
         //*
         // Add All 3 Main Panels To
@@ -718,7 +721,7 @@ public class AuroraCoreUI {
 
     public AuroraMini getMiniMode() {
         if (miniMode == null) {
-            miniMode = new AuroraMini(this, "null"); //retain state
+            miniMode = new AuroraMini(this, "null"); //* retain state *//
         }
         return miniMode;
     }
@@ -743,6 +746,9 @@ public class AuroraCoreUI {
         return regularFont;
     }
 
+    /**
+     * Sets the sizes of the various components based on the screen resolution
+     */
     private void setSizes() {
         double Ratio = (frame.getWidth() - frame.getHeight()) / 2;
         if (isLargeScreen) {
@@ -1299,6 +1305,10 @@ public class AuroraCoreUI {
         }
     }
 
+    /**
+     * 
+     *
+     */
     class FrameKeyListener implements KeyListener {
 
         @Override
@@ -1319,6 +1329,10 @@ public class AuroraCoreUI {
         }
     }
 
+    /**
+     * 
+     *
+     */
     private static class CursorClick extends MouseAdapter {
 
         private final AImage cursorImage;
@@ -1421,13 +1435,10 @@ public class AuroraCoreUI {
         public void mouseDragged(MouseEvent e) {
 
             cursorImage.setVisible(false);
-
             cursorSelect.setLocation(e.getPoint());
-
             cursorSelect.setBounds(e.getX() - 11, e.getY() - 8, cursorImage
                     .getImgIcon()
                     .getIconWidth(), cursorImage.getImgIcon().getIconHeight());
-
             cursorSelect.setVisible(true);
 
             redispatchMouseEvent(e, true);
@@ -1439,15 +1450,11 @@ public class AuroraCoreUI {
             cursorSelect.setVisible(false);
 //            if (panel.getBounds().contains(e.getPoint())) {
 
-
             cursorImage.setLocation(e.getPoint());
-
             cursorImage.setBounds(e.getX() - 11, e.getY() - 8, cursorImage
                     .getImgIcon()
                     .getIconWidth(), cursorImage.getImgIcon()
                     .getIconHeight());
-
-
             cursorImage.setVisible(true);
 
             redispatchMouseEvent(e, true);
@@ -1461,15 +1468,15 @@ public class AuroraCoreUI {
             Point containerPoint = SwingUtilities.convertPoint(glassPane,
                     glassPanePoint,
                     contentPane);
-            //The mouse event is probably over the content pane.
-            //Find out exactly which component it's over.
+            //* The mouse event is probably over the content pane. *//
+            //* Find out exactly which component it's over. *//
             Component component =
                       SwingUtilities.getDeepestComponentAt(container,
                     containerPoint.x,
                     containerPoint.y);
 
             if (component != null) {
-                //Forward events
+                //* Forward events *//
                 Point componentPoint = SwingUtilities.convertPoint(glassPane,
                         glassPanePoint,
                         component);
@@ -1485,13 +1492,18 @@ public class AuroraCoreUI {
                 glassPanePoint = null;
             }
 
-            //Update the glass pane if requested.
+            //* Update the glass pane if requested. *//
             if (repaint) {
                 glassPane.repaint();
             }
         }
     }
 
+    /**
+     * 
+     * 
+     *
+     */
     class MouseEventRedispatcher extends MouseAdapter {
 
         private final JPanel glassPane;
@@ -1531,8 +1543,7 @@ public class AuroraCoreUI {
             redispatchMouseEvent(e, true);
         }
 
-
-        /*
+        /**
          * A more finished version of this method would
          * handle mouse-dragged events specially.
          */
@@ -1554,7 +1565,7 @@ public class AuroraCoreUI {
                     containerPoint.y);
 
             if (component != null) {
-                //Forward events
+                //* Forward events *//
                 Point componentPoint = SwingUtilities.convertPoint(glassPane,
                         glassPanePoint,
                         component);
@@ -1570,7 +1581,7 @@ public class AuroraCoreUI {
                 glassPanePoint = null;
             }
 
-            //Update the glass pane if requested.
+            //* Update the glass pane if requested. *//
             if (repaint) {
                 glassPane.repaint();
             }
