@@ -283,9 +283,11 @@ public class GameLibraryUI extends AuroraApp {
         imgFavorite = new AImage("Aurora_Favorite.png");
         imgBlank = new AImage("Aurora_Blank.png");
 
-        btnGameRight = new AHoverButton(moveLibraryRightHandler, 3,
+
+
+        btnGameRight = new AHoverButton(3,
                 "Aurora_RightLib_normal.png", "Aurora_RightLib_over.png");
-        btnGameLeft = new AHoverButton(moveLibraryLeftHandler, 3,
+        btnGameLeft = new AHoverButton(3,
                 "Aurora_LeftLib_normal.png", "Aurora_LeftLib_over.png");
 
 
@@ -335,6 +337,9 @@ public class GameLibraryUI extends AuroraApp {
         SearchContainer = new JPanel(new BorderLayout());
         SearchPane = new JPanel(new BorderLayout());
 
+        //* Create Grid Manager *//
+        GridSplit = new GridManager(2, 4, coreUI);
+
         //* Grid Animator *//
         this.GridAnimate = new GridAnimation(GridSplit, paneLibraryContainer);
 
@@ -347,8 +352,7 @@ public class GameLibraryUI extends AuroraApp {
                     null, ex);
         }
 
-        //* Create Grid Manager *//
-        GridSplit = new GridManager(2, 4, coreUI);
+
 
 
         // Handlers
@@ -357,23 +361,10 @@ public class GameLibraryUI extends AuroraApp {
         ////Search Backend////
         Search = new GridSearch(coreUI, this, GridSplit);
 
+
+
+
         //Handle Search Queries
-        searchBoxHandler = handler.new searchBoxHandler(this);
-        searchFocusHandler = handler.new searchFocusHandler(this);
-        gridSearchBar.addKeyListener(searchBoxHandler);
-        gridSearchBar.addFocusListener(searchFocusHandler);
-        gridSearchBar.addMouseListener(handler.new searchSelectHandler(this));
-
-        addGameHandler = handler.new AddGameHandler(this);
-
-        moveLibraryLeftHandler = handler.new HoverButtonLeft(this, coreUI);
-        moveLibraryRightHandler = handler.new HoverButtonRight(this, coreUI);
-
-        GridMove = handler.new MoveToLastGrid(this);
-
-        attactchHandlers();
-
-
 
 
 
@@ -463,6 +454,8 @@ public class GameLibraryUI extends AuroraApp {
             //* Initiate Grid *//
             GridSplit.initiateGrid(0);
 
+
+
             //* Add Components to Central Container *//
             paneLibraryContainer.add(BorderLayout.WEST, imgFavorite);
             paneLibraryContainer.add(BorderLayout.CENTER, GridSplit.getGrid(0));
@@ -537,7 +530,7 @@ public class GameLibraryUI extends AuroraApp {
             } catch (MalformedURLException ex) {
                 System.out.println("MalformedURLExeption \n" + ex);
             }
-
+            attactchHandlers();
             isScreenLoaded = true;
             addToCanvas();
         } else {
@@ -602,6 +595,21 @@ public class GameLibraryUI extends AuroraApp {
     }
 
     public void attactchHandlers() {
+
+        searchBoxHandler = handler.new searchBoxHandler(this);
+        searchFocusHandler = handler.new searchFocusHandler(this);
+        gridSearchBar.addKeyListener(searchBoxHandler);
+        gridSearchBar.addFocusListener(searchFocusHandler);
+        gridSearchBar.addMouseListener(handler.new searchSelectHandler(this));
+
+        moveLibraryLeftHandler = handler.new HoverButtonLeft(this, coreUI);
+        moveLibraryRightHandler = handler.new HoverButtonRight(this, coreUI);
+        addGameHandler = handler.new AddGameHandler(this);
+
+        GridMove = handler.new MoveToLastGrid(this);
+
+        btnGameRight.setMouseListener(moveLibraryRightHandler);
+        btnGameLeft.setMouseListener(moveLibraryLeftHandler);
 
         coreUI.getFrame()
                 .addKeyListener(handler.new searchRefocusListener(this));

@@ -235,10 +235,6 @@ public abstract class AuroraApp implements AuroraScreenUI {
                 .add(getCoreUI().getFrameControlContainerPanel(),
                 BorderLayout.EAST);
 
-        System.out.println("Mouse Listeners::: " + getCoreUI()
-                .getFrameControlImagePane().getComponent(0)
-                .getMouseListeners().length);
-
         if (getCoreUI().getFrameControlImagePane().getComponent(0)
                 .getMouseListeners().length <= 2) {
             getCoreUI().getFrameControlImagePane().getComponent(0)
