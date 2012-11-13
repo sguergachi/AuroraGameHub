@@ -51,6 +51,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BoxLayout;
@@ -267,7 +268,7 @@ public class AuroraCoreUI {
     private JButton btnMinimize;
 
     /*
-     * 
+     *
      */
     private JFrame frame;
 
@@ -309,7 +310,7 @@ public class AuroraCoreUI {
 
     /**
      * Panel that is located in the center of the
-     * bottom panel 
+     * bottom panel
      */
     private JPanel paneCenterFromBottom;
 
@@ -324,12 +325,12 @@ public class AuroraCoreUI {
     private JPanel paneTitle;
 
     /**
-     * 
+     *
      */
     private JPanel paneFrameControlContainer;
 
     /**
-     * 
+     *
      */
     private JPanel paneUserSpace;
 
@@ -380,7 +381,7 @@ public class AuroraCoreUI {
      *
      */
     public AuroraCoreUI(final JFrame aFrame) {
-    	
+
         this.frame = aFrame;
         setCursor();
         aFrame.setUndecorated(true);
@@ -392,7 +393,6 @@ public class AuroraCoreUI {
         resources = new ASurface("");
 
     }
-
 
     /**
      * .-----------------------------------------------------------------------
@@ -411,7 +411,7 @@ public class AuroraCoreUI {
                                LineUnavailableException, InterruptedException,
                                FontFormatException {
 
-        //* Determine Global Size based on Screen Size *// 	
+        //* Determine Global Size based on Screen Size *//
 
         // TODO work on Screen Gui Change
 
@@ -540,7 +540,7 @@ public class AuroraCoreUI {
         //* Top Panel *//
 
         //* Frame Buttons *//
-        
+
         paneFrameControl = new AImagePane("Aurora_FrameButton1.png",
                 controlWidth, controlHeight);
         paneFrameControl.setImageHeight(controlHeight);
@@ -792,7 +792,6 @@ public class AuroraCoreUI {
 
     // SETTERS & GETTERS
     // -----------------------------------------------------------------------
-
     public void setKeyIconHeight(int keyIconHeight) {
         this.keyIconHeight = keyIconHeight;
     }
@@ -1118,7 +1117,6 @@ public class AuroraCoreUI {
         return paneTitle;
     }
 
-
     /**
      * .-----------------------------------------------------------------------
      * | setSFX()
@@ -1216,7 +1214,6 @@ public class AuroraCoreUI {
     public ASurface getResource() {
         return resources;
     }
-
     /**
      * .-----------------------------------------------------------------------.
      * | setCursor()
@@ -1229,9 +1226,42 @@ public class AuroraCoreUI {
      * .........................................................................
      *
      */
+    private BufferedImage cursorImage;
+
     private void setCursor() {
 
+        try {
+            AImage image = new AImage("cursor.png");
+            cursorImage = AImage.resizeBufferedImg(
+                    cursorImage, image.getImgIcon().getIconWidth(), image
+                    .getImgIcon().getIconHeight());
+            cursorImage = ImageIO.read(getClass().getResource(
+                    "/aurora/V1/resources/cursor.png"));
+            for (int i = 0; i < cursorImage.getHeight(); i++) {
+                int[] rgb = cursorImage.getRGB(0, i, cursorImage.getWidth(),
+                        1, null, 0, cursorImage.getWidth() * 4);
+                for (int j = 0; j < rgb.length; j++) {
+                    int alpha = (rgb[j] >> 24) & 255;
+                    if (alpha < 128) {
+                        alpha = 0;
+                    } else {
+                        alpha = 255;
+                    }
+                    rgb[j] &= 0x00ffffff;
+                    rgb[j] = (alpha << 24) | rgb[j];
+                }
+                cursorImage.setRGB(0, i, cursorImage.getWidth(), 1, rgb, 0,
+                        cursorImage.getWidth() * 4);
+            }
+            java.awt.Cursor cursor = Toolkit.getDefaultToolkit()
+                    .createCustomCursor(
+                    cursorImage, new Point(11, 8), "CustomCursor");
 
+            frame.setCursor(cursor);
+
+        } catch (Exception exp) {
+            exp.printStackTrace();
+        }
 
     }
 
@@ -1275,7 +1305,7 @@ public class AuroraCoreUI {
     }
 
     /**
-     * 
+     *
      *
      */
     class FrameKeyListener implements KeyListener {
@@ -1299,7 +1329,7 @@ public class AuroraCoreUI {
     }
 
     /**
-     * 
+     *
      *
      */
     private static class CursorClick extends MouseAdapter {
@@ -1469,8 +1499,8 @@ public class AuroraCoreUI {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      *
      */
     class MouseEventRedispatcher extends MouseAdapter {
