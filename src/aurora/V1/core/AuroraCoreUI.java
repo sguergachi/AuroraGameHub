@@ -67,12 +67,12 @@ import javax.swing.event.MouseInputAdapter;
  * | AuroraCoreUI
  * .------------------------------------------------------------------------.
  * |
+ * | This is the Core UI class, it contains the persistent UI components
+ * | that encompasses the main center UI
  * |
- * |
- * |
- * |
- * |
- * |
+ * | It contains the surrounding frame which is to be manipulated and added
+ * | to by Aurora Screens.
+ * | This class is loaded when the first Aurora Screen is loaded.
  * |
  * |
  * .........................................................................
@@ -196,121 +196,121 @@ public class AuroraCoreUI {
      */
     private boolean isLargeScreen;
 
-    /*
+    /**
      * Warning dialog window.
      */
     private ADialog warningDialog;
 
-    /*
+    /**
      * Error dialog window.
      */
     private ADialog errorDialog;
 
-    /*
+    /**
      * Logo image.
      */
     private AImage imgLogo;
 
-    /*
+    /**
      * Key icon image.
      */
     private AImage imgKeyIcon;
 
-    /*
+    /**
      * Background image pane.
      */
     private AImagePane paneBackground;
 
-    /*
+    /**
      * Bottom image pane.
      */
     private AImagePane paneBottom;
 
-    /*
+    /**
      * Panel that holds the back, minimize, exit
-     * buttons
+     * buttons.
      */
     private AImagePane paneFrameControl;
 
-    /*
+    /**
      * Top image.
      */
     private AImagePane paneTopImage;
 
-    /*
+    /**
      * Reference to the available Surface resources.
      */
     private ASurface resources;
 
-    /*
+    /**
      * Reference to the Nuance virtual intelligence.
      */
     private ANuance vi;
 
-    /*
+    /**
      * Regular font.
      */
     private Font regularFont;
 
-    /*
+    /**
      * Bold font.
      */
     private Font boldFont;
 
-    /*
+    /**
      * Exit button.
      */
     private JButton btnExit;
 
-    /*
+    /**
      * Minimize button.
      */
     private JButton btnMinimize;
 
-    /*
-     *
+    /**
+     * The JFrame where the Core UI is placed on.
      */
     private JFrame frame;
 
-    /*
+    /**
      * Center panel that displays the main part of Aurora
      * ie. Dashboard, Library, etc.
      */
     private JPanel paneCenter;
 
-    /*
+    /**
      * Panel that holds the keys to press images and labels.
      */
     private JPanel paneKeyToPress;
 
-    /*
-     * Panel located south of the top panel
+    /**
+     * Panel located south of the top panel.
      */
     private JPanel southFromTopPanel;
 
-    /*
+    /**
      * Panel that holds the Aurora logo.
      */
     private JPanel logoPanel;
 
-    /*
-     * Panel that holds the screen label
+    /**
+     * Panel that holds the screen label.
      */
     private JPanel screenLabelPanel;
 
     /**
-     * Panel that holds the current version of Aurora
+     * Panel that holds the current version of Aurora.
      */
     private JPanel versionPanel;
 
     /**
-     * Header panel that is located in pnlCenterFromBottom
+     * Header panel that is located in pnlCenterFromBottom.
      */
     private JPanel paneHeaderOfCenterFromBottom;
 
     /**
      * Panel that is located in the center of the
-     * bottom panel
+     * bottom panel.
      */
     private JPanel paneCenterFromBottom;
 
@@ -320,12 +320,12 @@ public class AuroraCoreUI {
     private JPanel paneTime;
 
     /**
-     * Panel that holds the app title
+     * Panel that holds the app title.
      */
     private JPanel paneTitle;
 
     /**
-     *
+     * The Container to the panel paneFrameControl.
      */
     private JPanel paneFrameControlContainer;
 
@@ -335,35 +335,39 @@ public class AuroraCoreUI {
     private JPanel paneUserSpace;
 
     /**
-     * Label for the version panel
+     * Label for the version panel.
      */
     private JLabel lblVersion;
 
     /**
-     * Label for the title panel
+     * Label for the title panel.
      */
     private JLabel lblTitle;
 
     /**
-     * Label for the key image icon
+     * Label for the key image icon.
      */
     private JLabel lblKeyAction;
 
-    /*
-     *
+    /**
+     * The instance of AuroraMini which activates when you minimize Aurora.
      */
     private AuroraMini miniMode;
 
-    /*
-     * Listener to listen for when Aurora is minimized
+    /**
+     * Listener to listen for when Aurora is minimized.
      */
     private MinimizeListener minimizeHandler;
 
-    /*
-     * Label indicating the current time
+    /**
+     * Label indicating the current time.
      */
     public static ATimeLabel lblTime;
 
+    /**
+     * Detects what is the current build number using the
+     * version.properties file.
+     */
     final static ResourceBundle resourceBundle = ResourceBundle.getBundle(
             "version");
 
@@ -405,11 +409,17 @@ public class AuroraCoreUI {
      * | for Aurora
      * |
      * .........................................................................
-     *
+     * <p/>
+     * @throws UnsupportedAudioFileException Exception
+     * @throws IOException                   Exception
+     * @throws LineUnavailableException      Exception
+     * @throws InterruptedException          Exception
+     * @throws FontFormatException           Exception
      */
-    public void setUI() throws UnsupportedAudioFileException, IOException,
-                               LineUnavailableException, InterruptedException,
-                               FontFormatException {
+    public final void setUI() throws UnsupportedAudioFileException, IOException,
+                                     LineUnavailableException,
+                                     InterruptedException,
+                                     FontFormatException {
 
         //* Determine Global Size based on Screen Size *//
 
@@ -424,8 +434,8 @@ public class AuroraCoreUI {
                            + screenWidth + "x" + screenHeight);
 
         //*
-        // Check the resolution (in pixels) of the screen to determine if the screen
-        // is large or not
+        // Check the resolution (in pixels) of the screen to
+        // determine if the screen is large or not
         //*
         if (screenWidth >= 1680 && screenHeight >= 1050) {
             isLargeScreen = true;
@@ -439,9 +449,6 @@ public class AuroraCoreUI {
         //* Set Size For UI *//
 
         setSizes();
-
-        //* Start Preparation *//
-
 
         //* Get Font *//
 
