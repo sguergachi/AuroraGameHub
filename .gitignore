@@ -82,3 +82,13 @@ bin/version.properties
 lib/AuroraDB.h2.db
 
 lib/Onix_Surface.jar
+
+*.jar
+
+nbproject/project.properties
+
+lib/AuroraEngine.jar
+
+nbproject/project.properties-ORIGINAL
+
+nbproject/project.properties
