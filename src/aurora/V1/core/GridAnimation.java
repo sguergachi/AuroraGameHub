@@ -64,7 +64,7 @@ public class GridAnimation {
         //Move Second Panel To Center
 
         animator2.setInitialLocation((-1800), 0);
-        animator2.moveHorizontal(100, 85);
+        animator2.moveHorizontal(185, 85);
         contentPanel.revalidate();
         contentPanel.repaint();
 

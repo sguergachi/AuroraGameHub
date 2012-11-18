@@ -77,10 +77,19 @@ public class DashboardLogic implements AuroraScreenLogic {
      */
     private final AuroraCoreUI coreUI;
 
+    /**
+     * Instance of the GameLibrary UI.
+     */
     private GameLibraryUI libraryUI;
 
+    /**
+     * Instance of the ProfileUI.
+     */
     private GamerProfileUI profileUI;
 
+    /**
+     * Instance of the SettingsUI.
+     */
     private SettingsUI settingsUI;
 
     /**
@@ -300,7 +309,7 @@ public class DashboardLogic implements AuroraScreenLogic {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        libraryUI.clearUI();
+                        libraryUI.clearUI(true);
                         libraryUI.buildUI();
                     }
                 });
@@ -309,7 +318,7 @@ public class DashboardLogic implements AuroraScreenLogic {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    profileUI.clearUI();
+                    profileUI.clearUI(true);
                     profileUI.buildUI();
                 }
             });
@@ -317,7 +326,7 @@ public class DashboardLogic implements AuroraScreenLogic {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    settingsUI.clearUI();
+                    settingsUI.clearUI(true);
                     settingsUI.buildUI();
                 }
             });

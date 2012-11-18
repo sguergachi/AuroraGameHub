@@ -26,6 +26,7 @@ import aurora.V1.core.GridAnimation;
 import aurora.V1.core.GridManager;
 import aurora.V1.core.GridSearch;
 import aurora.V1.core.screen_handler.GameLibraryHandler.MoveToLastGrid;
+import aurora.V1.core.screen_logic.GameLibraryLogic;
 import aurora.V1.core.screen_ui.GameLibraryUI;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
@@ -69,7 +70,7 @@ import javax.swing.filechooser.FileFilter;
 public class GameLibraryHandler implements
         AuroraScreenHandler {
 
-    private AuroraScreenLogic libraryLogic;
+    private GameLibraryLogic libraryLogic;
 
     private final GameLibraryUI libraryUI;
 
@@ -80,7 +81,7 @@ public class GameLibraryHandler implements
     @Override
     public void setLogic(final AuroraScreenLogic logic) {
 
-        this.libraryLogic = logic;
+        this.libraryLogic = (GameLibraryLogic) logic;
 
     }
 
@@ -714,7 +715,7 @@ public class GameLibraryHandler implements
                 libraryUI
                         .setCurrentPath(gameLocator.getSelectedFile().getPath());
                 libraryUI.getStepTwo().setImgURl("AddGame_step2_green.png");
-                libraryUI.checkNotifiers();
+                libraryLogic.checkNotifiers();
                 System.out.println(libraryUI.getCurrentPath());
             } else {
                 libraryUI.getStepTwo().setImgURl("AddGame_step2_red.png");
@@ -806,16 +807,18 @@ public class GameLibraryHandler implements
 
             }
             GridSplit.addGame(GameSearch.getFoundGameCover());
-            GridSplit.finalizeGrid(libraryUI.getAddGameHandler(), libraryUI
+            GridSplit.finalizeGrid(new ShowAddGameUiHandler(libraryUI), libraryUI
                     .getSIZE_GameCoverWidth(), libraryUI
                     .getSIZE_GameCoverHeight());
             libraryUI.hideAddGameUI();
-            //reset
+
+            //* reset cover to blank cover *//
             GameSearch.resetCover();
 
             libraryUI.setCurrentIndex(
                     GridSplit.getArray().indexOf(GameBack.getComponent(1)));
-            //Transition towards to left most grid to see the game added
+
+            //* Transition towards to left most grid to see the game added *//
             GridMove.runMover();
         }
     }
@@ -856,11 +859,11 @@ public class GameLibraryHandler implements
         }
     }
 
-    public class AddGameHandler implements ActionListener {
+    public class ShowAddGameUiHandler implements ActionListener {
 
         private GameLibraryUI library;
 
-        public AddGameHandler(GameLibraryUI library) {
+        public ShowAddGameUiHandler(GameLibraryUI library) {
             this.library = library;
         }
 
@@ -1024,7 +1027,7 @@ public class GameLibraryHandler implements
 
 
                     try {
-                        library.loadGames(currentIndex - 1);
+                        libraryLogic.loadGames(currentIndex - 1);
                     } catch (MalformedURLException ex) {
                         Logger.getLogger(GameLibraryUI.class.getName())
                                 .log(Level.SEVERE, null, ex);
@@ -1135,7 +1138,7 @@ public class GameLibraryHandler implements
 
 
                     try {
-                        libraryUI.loadGames(libraryUI.getCurrentIndex() + 1);
+                        libraryLogic.loadGames(libraryUI.getCurrentIndex() + 1);
                     } catch (MalformedURLException ex) {
                         Logger.getLogger(GameLibraryUI.class.getName())
                                 .log(Level.SEVERE, null, ex);
@@ -1205,7 +1208,6 @@ public class GameLibraryHandler implements
                                       AuroraCoreUI auroraCoreUI) {
             this.library = libraryUI;
             this.ui = auroraCoreUI;
-            //GridSplit = library.getGridSplit();
             GameBack = libraryUI.getGameBack();
         }
 

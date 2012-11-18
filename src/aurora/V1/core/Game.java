@@ -41,58 +41,106 @@ import javax.swing.JPanel;
 public class Game extends AImagePane implements Runnable, Cloneable {
 
     private String name;
+
     private String coverUrl;
+
     private String gamePath;
+
     private String timePlayed;
+
     private String lastPlayed;
+
     private String gameType;
+
     private int numberTimesPlayed;
+
     private int width;
+
     private int height;
+
     private int SIZE_TOPPANE_COMP;
+
     private int SIZE_BottomPaneHeight;
+
     private Thread gameCoverThread;
+
     private boolean isFavorite;
+
     private boolean isLoaded = false;
+
     private boolean isSelected;
+
     private boolean isRemoved = false;
+
     private AProgressWheel progressWheel;
+
     private AImagePane coverImagePane;
+
     private AImagePane blankImagePane;
+
     private AImagePane glowImagePane;
+
     private AImagePane favoriteIconImagePane;
+
     private AImagePane gameBarImagePane;
+
     private AImagePane removeImagePane;
+
     private AImagePane imgConfirmPromptImagePane;
+
     private JPanel interactivePanel;
+
     private JPanel topPanel;
+
     private JPanel playButtonPanel;
+
     private JPanel infoButtonPanel;
+
     private JPanel favoriteButtonPanel;
+
     private JPanel bottomPanel;
+
     private JPanel gameBarPanel;
+
     private JPanel confirmPanel;
+
     private JPanel denyPanel;
+
     private AButton removeButton;
+
     private AButton favoriteButton;
+
     private AButton infoButton;
+
     private AButton playButton;
+
     private AButton confirmButton;
+
     private AButton denyButton;
+
     private ADialog dbErrorDialog;
+
     private JLabel yesLabel;
+
     private JLabel noLabel;
+
     private GridManager manager;
+
     private AuroraCoreUI ui;
+
     private DashboardUI dashboardUi;
+
     private AuroraStorage storage;
+
     private final String rootCoverDBPath = "https://s3.amazonaws.com/CoverArtDB/";
+
     private PlayButtonListener playButtonListener;
 
     public Game() {
     }
 
-    public Game(final GridManager manager, final AuroraCoreUI ui, final DashboardUI obj) {
+    public Game(final GridManager manager, final AuroraCoreUI ui,
+                final DashboardUI obj) {
 
 
         this.dashboardUi = obj;
@@ -110,7 +158,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
-    public Game(final GridManager manager, final AuroraCoreUI ui, final DashboardUI obj, final AuroraStorage storage) {
+    public Game(final GridManager manager, final AuroraCoreUI ui,
+                final DashboardUI obj, final AuroraStorage storage) {
         this.dashboardUi = obj;
         this.ui = ui;
         this.storage = storage;
@@ -127,7 +176,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
-    public Game(final GridManager manager, final AuroraCoreUI ui, final String CoverURL) {
+    public Game(final GridManager manager, final AuroraCoreUI ui,
+                final String CoverURL) {
 
         this.ui = ui;
         this.manager = manager;
@@ -192,7 +242,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         glowImagePane = new AImagePane("Glow-Case.png", width + 10, height + 10);
         favoriteIconImagePane = new AImagePane("FavoriteIcon.png", 100, 32);
         favoriteIconImagePane.setPreferredSize(new Dimension(100, 32));
-		removeButton = new AButton("RemoveGame_up.png", "RemoveGame_down.png", "RemoveGame_over.png");
+        removeButton = new AButton("RemoveGame_up.png", "RemoveGame_down.png",
+                "RemoveGame_over.png");
         removeButton.addActionListener(new RemoveButtonListener());
 
         gameBarImagePane = new AImagePane("GameIconBar.png", width - 30, 55);
@@ -207,20 +258,23 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         gameBarPanel.setLayout(new BoxLayout(gameBarPanel, BoxLayout.X_AXIS));
 
         //Game Bar Elements//
-        favoriteButton = new AButton("StarGame_up.png", "StarGame_down.png", "StarGame_over.png");
+        favoriteButton = new AButton("StarGame_up.png", "StarGame_down.png",
+                "StarGame_over.png");
         favoriteButton.addActionListener(new Game.FavoriteButtonListener());
         favoriteButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         favoriteButtonPanel.setPreferredSize(new Dimension(30, 40));
         favoriteButtonPanel.add(favoriteButton);
         favoriteButtonPanel.setOpaque(false);
 
-        infoButton = new AButton("GameInfo_up.png", "GameInfo_down.png", "GameInfo_over.png");
+        infoButton = new AButton("GameInfo_up.png", "GameInfo_down.png",
+                "GameInfo_over.png");
         infoButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         infoButtonPanel.setPreferredSize(new Dimension(80, 40));
         infoButtonPanel.add(infoButton);
         infoButtonPanel.setOpaque(false);
 
-        playButton = new AButton("PlayGame_up.png", "PlayGame_down.png", "PlayGame_over.png");
+        playButton = new AButton("PlayGame_up.png", "PlayGame_down.png",
+                "PlayGame_over.png");
         playButton.setPreferredSize(new Dimension(40, 40));
         playButton.setOpaque(false);
         playButtonListener = new Game.PlayButtonListener();
@@ -240,7 +294,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
-        bottomPanel.setPreferredSize(new Dimension(width - 10, SIZE_BottomPaneHeight));
+        bottomPanel.setPreferredSize(new Dimension(width - 10,
+                SIZE_BottomPaneHeight));
 
         removeButton.setVisible(false);
         favoriteIconImagePane.setVisible(false);
@@ -276,16 +331,18 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     @Override
-	public final void run() {
+    public final void run() {
 
         if (Thread.currentThread() == gameCoverThread) {
             progressWheel = new AProgressWheel("Aurora_Loader.png");
             progressWheel.setPreferredSize(this.getPreferredSize());
             this.add(progressWheel, BorderLayout.NORTH);
             //Mouse handlers
-            if (dashboardUi.getStartUI().getFileIO().findImg("Game Data", coverUrl) != null) {
+            if (dashboardUi.getStartUI().getFileIO().findImg("Game Data",
+                    coverUrl) != null) {
                 //Get Image
-                coverImagePane.setImage(dashboardUi.getStartUI().getFileIO().findImg("Game Data", coverUrl), width, height);
+                coverImagePane.setImage(dashboardUi.getStartUI().getFileIO()
+                        .findImg("Game Data", coverUrl), width, height);
                 coverImagePane.setImageSize(width, height);
                 coverImagePane.setPreferredSize(new Dimension(width, height));
                 coverImagePane.setDoubleBuffered(true);
@@ -301,20 +358,25 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     if (StartScreenUI.Online) {
                         dbErrorDialog = null;
                         System.out.println(coverUrl);
-                        coverImagePane.setImageURL(rootCoverDBPath + coverUrl);
+                        coverImagePane.setURL(rootCoverDBPath + coverUrl);
 
                         //Set Background accordingly
                         coverImagePane.setImageSize(width, height);
-                        coverImagePane.setPreferredSize(new Dimension(width, height));
+                        coverImagePane.setPreferredSize(new Dimension(width,
+                                height));
                         if (coverImagePane.getImgIcon().getIconHeight() == -1) {
                             if (dbErrorDialog == null) {
-                                dbErrorDialog = new ADialog(ADialog.aDIALOG_ERROR, "AuroraDB Error! Can't Access BoxArt", ui.getBoldFont());
+                                dbErrorDialog = new ADialog(
+                                        ADialog.aDIALOG_ERROR,
+                                        "AuroraDB Error! Can't Access BoxArt",
+                                        ui.getBoldFont());
                                 dbErrorDialog.showDialog();
 
                             }
                             dbErrorDialog.setVisible(true);
                         } else {
-                            dashboardUi.getStartUI().getFileIO().writeImage(coverImagePane, coverUrl, "Game Data");
+                            dashboardUi.getStartUI().getFileIO().writeImage(
+                                    coverImagePane, coverUrl, "Game Data");
 
                             this.remove(progressWheel);
 
@@ -330,8 +392,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         this.revalidate();
                     }
 
-                } catch (MalformedURLException ex) {
-                    Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(Game.class.getName()).log(Level.SEVERE,
+                            null, ex);
                 }
             }
         }
@@ -356,7 +419,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         glowImagePane = new AImagePane("Glow-Case.png", width + 10, height + 10);
         favoriteIconImagePane = new AImagePane("FavoriteIcon.png", 100, 32);
         favoriteIconImagePane.setPreferredSize(new Dimension(100, 32));
-        removeButton = new AButton("RemoveGame_up.png", "RemoveGame_down.png", "RemoveGame_over.png");
+        removeButton = new AButton("RemoveGame_up.png", "RemoveGame_down.png",
+                "RemoveGame_over.png");
         removeButton.addActionListener(new RemoveButtonListener());
 
         gameBarImagePane = new AImagePane("GameIconBar.png", width - 30, 55);
@@ -370,7 +434,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         gameBarPanel.setLayout(new BoxLayout(gameBarPanel, BoxLayout.X_AXIS));
 
         //Game Bar Elements//
-        favoriteButton = new AButton("StarGame_up.png", "StarGame_down.png", "StarGame_over.png");
+        favoriteButton = new AButton("StarGame_up.png", "StarGame_down.png",
+                "StarGame_over.png");
         favoriteButton.addActionListener(new Game.FavoriteButtonListener());
 
         favoriteButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -378,14 +443,16 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         favoriteButtonPanel.add(favoriteButton);
         favoriteButtonPanel.setOpaque(false);
 
-        infoButton = new AButton("GameInfo_up.png", "GameInfo_down.png", "GameInfo_over.png");
+        infoButton = new AButton("GameInfo_up.png", "GameInfo_down.png",
+                "GameInfo_over.png");
 
         infoButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         infoButtonPanel.setPreferredSize(new Dimension(80, 40));
         infoButtonPanel.add(infoButton);
         infoButtonPanel.setOpaque(false);
 
-        playButton = new AButton("PlayGame_up.png", "PlayGame_down.png", "PlayGame_over.png");
+        playButton = new AButton("PlayGame_up.png", "PlayGame_down.png",
+                "PlayGame_over.png");
         playButton.setPreferredSize(new Dimension(40, 40));
         playButton.setOpaque(false);
         playButtonListener = new Game.PlayButtonListener();
@@ -409,7 +476,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
-        bottomPanel.setPreferredSize(new Dimension(width - 10, SIZE_BottomPaneHeight));
+        bottomPanel.setPreferredSize(new Dimension(width - 10,
+                SIZE_BottomPaneHeight));
 
         removeButton.setVisible(false);
         favoriteIconImagePane.setVisible(false);
@@ -501,7 +569,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     // Future method to be used to set isSelected variable
     public void setSelected(boolean selected) {
-    	isSelected = selected;
+        isSelected = selected;
     }
 
     public final void hideInteractiveComponents() {
@@ -513,7 +581,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     public final void displayInteractiveComponents() {
 
         interactivePanel.setSize(width + 47, height + 28);
-        System.out.println("INTERACTIVE SIZE " + interactivePanel.getWidth() + " " + interactivePanel.getHeight());
+        System.out.println("INTERACTIVE SIZE " + interactivePanel.getWidth()
+                           + " " + interactivePanel.getHeight());
 
         showRemove();
         gameBarImagePane.setVisible(true);
@@ -565,7 +634,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         return storage;
     }
 
-    public final ActionListener getPlayHandler(){
+    public final ActionListener getPlayHandler() {
         return playButtonListener;
     }
 
@@ -612,17 +681,17 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     @Override
-	public final int getWidth() {
+    public final int getWidth() {
         return width;
     }
 
     @Override
-	public final int getHeight() {
+    public final int getHeight() {
         return height;
     }
 
     @Override
-	public final String getName() {
+    public final String getName() {
         return name;
     }
 
@@ -638,7 +707,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         return this.dashboardUi;
     }
 
-    public final void setCoverUrl(final String coverUrl) throws MalformedURLException {
+    public final void setCoverUrl(final String coverUrl) throws
+            MalformedURLException {
         this.coverUrl = coverUrl;
     }
 
@@ -733,17 +803,24 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         public void actionPerformed(final ActionEvent e) {
 
             topPanel.remove(removeButton);
-            imgConfirmPromptImagePane = new AImagePane("GameDelete_ConfirmOverlay.png");
-            imgConfirmPromptImagePane.setPreferredSize(new Dimension(imgConfirmPromptImagePane.getImgIcon().getImage().getWidth(null) + SIZE_TOPPANE_COMP, imgConfirmPromptImagePane.getImgIcon().getImage().getHeight(null)));
+            imgConfirmPromptImagePane = new AImagePane(
+                    "GameDelete_ConfirmOverlay.png");
+            imgConfirmPromptImagePane
+                    .setPreferredSize(new Dimension(imgConfirmPromptImagePane
+                    .getImgIcon().getImage().getWidth(null) + SIZE_TOPPANE_COMP,
+                    imgConfirmPromptImagePane.getImgIcon().getImage().getHeight(
+                    null)));
             topPanel.add(imgConfirmPromptImagePane, BorderLayout.EAST);
             topPanel.revalidate();
 
             gameBarPanel.removeAll();
             yesLabel = new JLabel("Yes");
             noLabel = new JLabel("No");
-            confirmButton = new AButton("GameDelete_Accept.png", "GameDelete_Accept_down.png", "GameDelete_Accept_over.png");
+            confirmButton = new AButton("GameDelete_Accept.png",
+                    "GameDelete_Accept_down.png", "GameDelete_Accept_over.png");
             confirmButton.addActionListener(new RemoveGameHandler());
-            denyButton = new AButton("GameDelete_Deny.png", "GameDelete_Deny_down.png", "GameDelete_Deny_over.png");
+            denyButton = new AButton("GameDelete_Deny.png",
+                    "GameDelete_Deny_down.png", "GameDelete_Deny_over.png");
             denyButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(final ActionEvent e) {
@@ -788,7 +865,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-            System.out.println("Remove button pressed for " + Game.this.getName());
+            System.out.println("Remove button pressed for " + Game.this
+                    .getName());
             AuroraStorage storage = dashboardUi.getStorage();
             StoredLibrary library = storage.getStoredLibrary();
             library.search(name);

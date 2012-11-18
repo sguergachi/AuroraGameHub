@@ -182,11 +182,6 @@ public class DashboardUI implements AuroraScreenUI {
     private AImagePane icoLibrary;
 
     /**
-     * Game component which generates the icon for the Library carousel pane.
-     */
-    private Game randomGame;
-
-    /**
      * Image of Keyboard Arrows indicating ability to use keyboard to navigate.
      */
     private AImage keyArrows;
@@ -200,11 +195,6 @@ public class DashboardUI implements AuroraScreenUI {
      * A Scrolling Information ticker bar.
      */
     private AInfoFeed infoFeed;
-
-    /**
-     * An array list containing all of the info being fed to the infoFeed.
-     */
-    private ArrayList<String> infoArray;
 
     /**
      * Size Constant.
@@ -291,10 +281,6 @@ public class DashboardUI implements AuroraScreenUI {
      */
     private int carouselButtonHeight;
 
-    /**
-     * The loader that does the transition animation and loads the DashboardUI.
-     */
-    private StartLoader loader;
 
     /**
      * This is the Local Storage Instance.
@@ -519,15 +505,8 @@ public class DashboardUI implements AuroraScreenUI {
 
 
 
-        // Info Feed
-        // --------------------------------------------------------------------.
-
+        //* Info Feed *//
         infoFeed.go();
-
-
-        // CoreUI
-        // --------------------------------------------------------------------.
-
 
 
 
@@ -541,7 +520,7 @@ public class DashboardUI implements AuroraScreenUI {
 
 
         // CoreUI
-        // -----------------------------------------------------------------------.
+        // --------------------------------------------------------------------.
 
 
         //* Add Carousel to Center Panel *//
@@ -565,10 +544,10 @@ public class DashboardUI implements AuroraScreenUI {
 
         //* Set size of Top Panels *//
         coreUI.getSouthFromTopPanel().revalidate();
-//        coreUI.getSouthFromTopPanel().setPreferredSize(new Dimension(coreUI.
-//                getSouthFromTopPanel().getWidth(), coreUI
-//                .getFrameControlContainerPanel().
-//                getHeight()));
+        coreUI.getSouthFromTopPanel().setPreferredSize(new Dimension(coreUI.
+                getSouthFromTopPanel().getWidth(), coreUI
+                .getFrameControlContainerPanel().
+                getHeight()));
         coreUI.getTopImagePane().setPreferredSize(new Dimension(coreUI
                 .getTopImagePane().
                 getWidth(), coreUI.getTopImagePane().getImageHeight() + coreUI.
@@ -617,8 +596,8 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getFrame().getContentPane().
                 addKeyListener(handler.new DashboardlKeyListener());
         coreUI.getFrame().addKeyListener(handler.new DashboardlKeyListener());
-        coreUI.getBackgroundImagePane().
-                addKeyListener(handler.new DashboardlKeyListener());
+//        coreUI.getBackgroundImagePane().
+//                addKeyListener(handler.new DashboardlKeyListener());
 
         //* Finished loading so change text *//
         coreUI.getTitleLabel().setText(" Dashboard ");

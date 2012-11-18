@@ -90,7 +90,6 @@ public class DashboardHandler implements AuroraScreenHandler {
 
     }
 
-
     @Override
     public final void setLogic(final AuroraScreenLogic logic) {
         this.dashboardLogic = (DashboardLogic) logic;
@@ -178,8 +177,10 @@ public class DashboardHandler implements AuroraScreenHandler {
 
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
-                /* Check which Pane is current Center pane. Then Launch     */
-                /* the appropriate AuroraApp assosiated to that Center Pane */
+                //*
+                // Check which Pane is current Center pane. Then Launch
+                // the appropriate AuroraApp assosiated to that Center Pane
+                //*
 
                 ACarouselPane pane = dashboardUI.getCarousel().getCenterPane();
 
