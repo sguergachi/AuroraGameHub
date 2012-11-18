@@ -207,11 +207,6 @@ public class DashboardUI implements AuroraScreenUI {
     private ArrayList<String> infoArray;
 
     /**
-     * Button in frame controls to go back to Dashboard.
-     */
-    private AButton btnBack;
-
-    /**
      * Size Constant.
      */
     private int btnBackWidth;
@@ -421,15 +416,13 @@ public class DashboardUI implements AuroraScreenUI {
 
 
 
-        // Carousel
+        // Finalize
         // --------------------------------------------------------------------.
 
         //* Indicate to User DashboardUI is loading. *//
         coreUI.getTitleLabel().setText(".: Loading :.");
 
-        btnBack = new AButton("Aurora_Logout_normal.png",
-                "Aurora_Logout_down.png", "Aurora_Logout_over.png",
-                btnBackWidth, btnBackHeight);
+
 
         keyArrows = new AImage("KeyboardKeys/arrows.png", coreUI.
                 getKeyIconWidth(), coreUI.getKeyIconHeight());
@@ -536,12 +529,7 @@ public class DashboardUI implements AuroraScreenUI {
         // --------------------------------------------------------------------.
 
 
-        //* Set bigger background image for Frame Control panel *//
-        coreUI.getFrameControlImagePane().setImage("Aurora_FrameButton2.png");
 
-        //* Add Back Button to Frame Controls *//
-        coreUI.getFrameControlImagePane().add(btnBack, 0);
-        btnBack.setToolTipText("Back");
 
         //* Add UI to Canvas *//
         addToCanvas();
@@ -568,7 +556,7 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getTopImagePane().setPreferredSize(new Dimension(coreUI
                 .getTopImagePane().
                 getWidth(), coreUI.getTopImagePane().getImageHeight() + coreUI.
-                getFrameControlImagePane().getHeight()));
+                getFrameControlContainerPanel().getHeight()));
 
         //* Set size of Bottom panel in CoreUI *//
         coreUI.getBottomImagePane().setPreferredSize(new Dimension(coreUI.
@@ -576,14 +564,15 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getBottomImagePane().setImageHeight(bottomPaneHeightAdjust);
 
         //* Set size of Top Panels *//
-        coreUI.getSouthFromTopPanel().setPreferredSize(new Dimension(coreUI.
-                getSouthFromTopPanel().getWidth(), coreUI
-                .getFrameControlImagePane().
-                getHeight()));
+        coreUI.getSouthFromTopPanel().revalidate();
+//        coreUI.getSouthFromTopPanel().setPreferredSize(new Dimension(coreUI.
+//                getSouthFromTopPanel().getWidth(), coreUI
+//                .getFrameControlContainerPanel().
+//                getHeight()));
         coreUI.getTopImagePane().setPreferredSize(new Dimension(coreUI
                 .getTopImagePane().
                 getWidth(), coreUI.getTopImagePane().getImageHeight() + coreUI.
-                getFrameControlImagePane().getHeight()));
+                getFrameControlContainerPanel().getHeight()));
         coreUI.getSouthFromTopPanel().revalidate();
 
         //* Set Font of Keyboard Action Label *//
@@ -594,6 +583,10 @@ public class DashboardUI implements AuroraScreenUI {
 
 
         //* Add  Components to CoreUI *//
+
+        //* Set bigger background image for Frame Control panel *//
+        coreUI.getFrameControlImagePane().setImage(
+                "Aurora_FrameButtonSmall2.png");
 
 
         //* Add Arrow Keys Icons *//
@@ -657,8 +650,7 @@ public class DashboardUI implements AuroraScreenUI {
 
         if (coreUI.isLargeScreen()) {
             topHeight = coreUI.getCenterPanel().getHeight() / 8;
-            btnBackWidth = 0;
-            btnBackHeight = 0;
+
             carouselWidth = coreUI.getFrame().getWidth() / 42 * 16;
             carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
                     getFrame().getWidth() / 6);
@@ -1200,15 +1192,6 @@ public class DashboardUI implements AuroraScreenUI {
      */
     public final ACarousel getCarousel() {
         return carousel;
-    }
-
-    /**
-     * Get The Back button found in DashboardUI.
-     * <p/>
-     * @return AButton
-     */
-    public final AButton getBtnBack() {
-        return btnBack;
     }
 
     /**

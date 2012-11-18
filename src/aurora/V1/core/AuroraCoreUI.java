@@ -370,6 +370,8 @@ public class AuroraCoreUI {
      */
     final static ResourceBundle resourceBundle = ResourceBundle.getBundle(
             "version");
+    private ATimeLabel lblDate;
+    private JPanel paneTimeContainer;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -555,22 +557,24 @@ public class AuroraCoreUI {
         paneFrameControl.add(btnMinimize);
         paneFrameControl.add(btnExit);
 
-        paneFrameControlContainer = new JPanel(new BorderLayout());
+        paneFrameControlContainer = new JPanel(new BorderLayout(0,0));
         paneFrameControlContainer.setOpaque(false);
+        paneFrameControlContainer.setBackground(Color.BLUE);
         paneFrameControlContainer
                 .add(paneFrameControl, BorderLayout.NORTH);
 
         southFromTopPanel = new JPanel();
         southFromTopPanel.setLayout(new BorderLayout());
         southFromTopPanel.setOpaque(false);
-        southFromTopPanel.add(BorderLayout.LINE_END, paneFrameControlContainer);
+        southFromTopPanel.setBackground(Color.red);
+        southFromTopPanel.add(BorderLayout.EAST, paneFrameControlContainer);
         southFromTopPanel.setPreferredSize(new Dimension(frame.getWidth(),
-                controlHeight + 5));
+                controlHeight));
 
         paneTopImage.add(BorderLayout.SOUTH, southFromTopPanel);
 
         // LOGO PANEL
-        // -----------------------------------------------------------------------
+        // ---------------------------------------------------------------------
 
         imgLogo = new AImage("Logo_Aurora.png", logoWidth, logoHeight);
         logoPanel = new JPanel();
@@ -581,14 +585,14 @@ public class AuroraCoreUI {
         paneTopImage.add(BorderLayout.CENTER, logoPanel);
 
         // BOTTOM PANEL
-        // -----------------------------------------------------------------------
+        // --------------------------------------------------------------------
 
         paneCenterFromBottom = new JPanel(new BorderLayout());
         paneCenterFromBottom.setOpaque(false);
         paneBottom.add(BorderLayout.CENTER, paneCenterFromBottom);
 
         // WELCOME LABEL
-        // -----------------------------------------------------------------------
+        // --------------------------------------------------------------------
 
         lblTitle = new JLabel(vi.VI(ANuance.inx_Welcome));
         lblTitle.setOpaque(false);
@@ -605,20 +609,32 @@ public class AuroraCoreUI {
         paneBottom.add(BorderLayout.PAGE_START, screenLabelPanel);
 
         // TIME LABEL
-        // -----------------------------------------------------------------------
+        // ---------------------------------------------------------------------
 
         paneHeaderOfCenterFromBottom = new JPanel(new BorderLayout());
-        lblTime = new ATimeLabel();
+        lblTime = new ATimeLabel(ATimeLabel.TIME);
         lblTime.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
         lblTime.setForeground(new Color(80, 126, 222));
+
+        lblDate = new ATimeLabel(ATimeLabel.DATE_LETTERS);
+        lblDate.setForeground(Color.gray);
+        lblDate.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
+
+        paneTimeContainer = new JPanel();
+        paneTimeContainer.setOpaque(false);
+
+        paneTimeContainer.add(lblDate);
+        paneTimeContainer.add(lblTime);
+
+
         paneTime = new JPanel(new BorderLayout());
         paneTime.setOpaque(false);
-        paneTime.add(lblTime, BorderLayout.NORTH);
+        paneTime.add(paneTimeContainer, BorderLayout.NORTH);
         paneHeaderOfCenterFromBottom.add(BorderLayout.EAST, paneTime);
         paneHeaderOfCenterFromBottom.setOpaque(false);
 
         // KEY PRESS PANEL
-        // -----------------------------------------------------------------------
+        // ---------------------------------------------------------------------
 
         paneKeyToPress = new JPanel();
         paneKeyToPress.setOpaque(false);
@@ -635,7 +651,7 @@ public class AuroraCoreUI {
                 paneHeaderOfCenterFromBottom);
 
         // USER SPACE
-        // -----------------------------------------------------------------------
+        // ---------------------------------------------------------------------
 
         paneUserSpace = new JPanel();
         paneUserSpace.setOpaque(false);
@@ -645,7 +661,7 @@ public class AuroraCoreUI {
         paneCenterFromBottom.add(BorderLayout.CENTER, paneUserSpace);
 
         // VERSION LABEL
-        // -----------------------------------------------------------------------
+        // ---------------------------------------------------------------------
 
         lblVersion = new JLabel(version);
         lblVersion.setOpaque(false);

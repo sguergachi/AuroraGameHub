@@ -253,6 +253,9 @@ public class GameLibraryUI extends AuroraApp {
     public static int gameNameFontSize;
 
     private boolean isScreenLoaded = false;
+    private int btnBackWidth;
+    private int btnBackHeight;
+    private AButton btnBack;
 
     public GameLibraryUI(AuroraStorage storage, final DashboardUI dashboardUi,
                          final AuroraCoreUI auroraCoreUI) {
@@ -265,6 +268,8 @@ public class GameLibraryUI extends AuroraApp {
 
         handler.setLogic(logic);
         logic.setHandler(handler);
+
+
 
         isGameLibraryKeyListenerAdded = false;
 
@@ -360,13 +365,6 @@ public class GameLibraryUI extends AuroraApp {
 
         ////Search Backend////
         Search = new GridSearch(coreUI, this, GridSplit);
-
-
-
-
-        //Handle Search Queries
-
-
 
 
 
@@ -542,6 +540,8 @@ public class GameLibraryUI extends AuroraApp {
     public void addToCanvas() {
         coreUI.getTitleLabel().setText("   Loading...   ");
 
+         this.setUpApp();
+
         addToVolatileListenerBank(gridSearchBar);
         addToVolatileListenerBank(coreUI.getBackgroundImagePane());
         addToVolatileListenerBank(coreUI.getBottomImagePane());
@@ -558,9 +558,10 @@ public class GameLibraryUI extends AuroraApp {
 
         //* Add Search Bar to Top Bar *//
         coreUI.getSouthFromTopPanel().add(BorderLayout.CENTER, SearchPane);
-        coreUI.getSouthFromTopPanel().setPreferredSize(
-                new Dimension(coreUI.getSouthFromTopPanel().getWidth(), coreUI
-                .getFrameControlImagePane().getHeight()));
+//        coreUI.getSouthFromTopPanel().setPreferredSize(
+//                new Dimension(coreUI.getSouthFromTopPanel().getWidth(), coreUI
+//                .getFrameControlImagePane().getHeight()));
+        coreUI.getSouthFromTopPanel().revalidate();
 
         //* Add AddGameButton to Bottom Bar *//
         coreUI.getUserSpacePanel().setLayout(new BorderLayout());
@@ -588,11 +589,14 @@ public class GameLibraryUI extends AuroraApp {
         coreUI.getCenterPanel().add(BorderLayout.CENTER, paneLibraryContainer);
         coreUI.getCenterPanel().repaint();
 
+
+
         //Finalize
         coreUI.getTitleLabel().setText("   Game Library   ");
         btnGameRight.requestFocusInWindow();
-//        coreUI.getFrame().requestFocus();
+        coreUI.getFrame().requestFocus();
     }
+
 
     public void attactchHandlers() {
 
@@ -1256,7 +1260,7 @@ public class GameLibraryUI extends AuroraApp {
             paneLibraryContainer.repaint();
             paneLibraryContainer.revalidate();
 
-            coreUI.getFrame().requestFocus();
+           coreUI.getFrame().requestFocus();
 
         }
         btnGameRight.mouseExit();
@@ -1283,8 +1287,12 @@ public class GameLibraryUI extends AuroraApp {
             gameNameFontSize = 35;
             SIZE_FramePanePadding = 20;
             SIZE_SearchBarWidth = 880;
+            btnBackWidth = 0;
+            btnBackHeight = 0;
 
         } else {
+            btnBackWidth = 30;
+            btnBackHeight = 35;
             SIZE_FramePanePadding = 10;
             gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio
                                                                    / 10);

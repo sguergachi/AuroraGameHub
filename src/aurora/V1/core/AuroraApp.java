@@ -30,7 +30,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelListener;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 
 /**
@@ -96,6 +99,12 @@ public abstract class AuroraApp implements AuroraScreenUI {
      */
     private MouseWheelListener[] frameMouseWheelListeners;
 
+    private int btnBackWidth;
+
+    private int btnBackHeight;
+
+    private AButton btnBack;
+
     /**
      * .-----------------------------------------------------------------------.
      * | AuroraApp()
@@ -112,6 +121,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
     public AuroraApp() {
 
         componentsContainingListeners = new ArrayList<JComponent>();
+
+
     }
 
     /**
@@ -166,6 +177,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
         //* Clear everything in the Center Panel of CoreUI *//
         clearUI();
 
+        //* remove back button *//
+        getCoreUI().getFrameControlImagePane().remove(btnBack);
 
         //* Re-add all DashboardUI components back to CoreUI *//
         getDashboardUI().addToCanvas();
@@ -208,12 +221,16 @@ public abstract class AuroraApp implements AuroraScreenUI {
     public final void clearUI() {
 
 
+
+
         //* Remove all Center and Bottom Bar Content *//
         getCoreUI().getKeyToPressPanel().removeAll();
         getCoreUI().getCenterPanel().removeAll();
         getCoreUI().getUserSpacePanel().removeAll();
         getCoreUI().getCenterFromBottomPanel().removeAll();
         getCoreUI().getUserSpacePanel().revalidate();
+
+
 
 
         //* Remove All from top of bottom pane and re-add CoreUI components*//
@@ -229,23 +246,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
         getCoreUI().getCenterPanel().revalidate();
         getCoreUI().getCenterFromBottomPanel().revalidate();
 
-        //* Clear Bottom of Top Pane and re-add the Frame Conrols *//
-        getCoreUI().getSouthFromTopPanel().removeAll();
-        getCoreUI().getSouthFromTopPanel()
-                .add(getCoreUI().getFrameControlContainerPanel(),
-                BorderLayout.EAST);
 
-        if (getCoreUI().getFrameControlImagePane().getComponent(0)
-                .getMouseListeners().length <= 2) {
-            getCoreUI().getFrameControlImagePane().getComponent(0)
-                    .addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(final MouseEvent e) {
-                    removeAllListeners();
-                    backToDashboard();
-                }
-            });
-        }
 
 
         //* Remove all from the title pane of the bottom bar and re-add title*//
@@ -259,14 +260,22 @@ public abstract class AuroraApp implements AuroraScreenUI {
                                               - getCoreUI().getBottomImagePane()
                 .getHeight() - getCoreUI().getTopImagePane().getHeight()));
 
+
+
+         //* Clear Bottom of Top Pane and re-add the Frame Conrols *//
+        getCoreUI().getSouthFromTopPanel().removeAll();
+        getCoreUI().getSouthFromTopPanel()
+                .add(getCoreUI().getFrameControlContainerPanel(),
+                BorderLayout.EAST);
+
+
         getCoreUI().getFrame().requestFocus();
         getCoreUI().getFrame().repaint();
 
 
+
+
         System.gc();
-
-
-
 
     }
 
@@ -362,10 +371,54 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
     }
 
+    private void setSizes() {
+
+        if (getCoreUI().isLargeScreen()) {
+            btnBackWidth = 0;
+            btnBackHeight = 0;
+        } else {
+
+            btnBackWidth = 30;
+            btnBackHeight = 35;
+        }
+    }
+
     /**
      * The CoreUI from the specific AuroraScreen.
      * <p/>
      * @return AuroraCoreUI
      */
     public abstract AuroraCoreUI getCoreUI();
+
+    /**
+     *
+     */
+    public void setUpApp() {
+        setSizes();
+        btnBack = new AButton("Aurora_Logout_normal.png",
+                "Aurora_Logout_down.png", "Aurora_Logout_over.png",
+                btnBackWidth, btnBackHeight);
+        btnBack.setToolTipText("Back");
+        try {
+            getCoreUI().getFrameControlImagePane().setImageURL(
+                    "Aurora_FrameButton2.png");
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(AuroraApp.class.getName()).log(Level.SEVERE, null,
+                    ex);
+        }
+
+        getCoreUI().getSouthFromTopPanel().setPreferredSize(
+                new Dimension(getCoreUI().getSouthFromTopPanel().getWidth(),
+                getCoreUI()
+                .getFrameControlContainerPanel().getHeight()));
+
+        getCoreUI().getFrameControlImagePane().add(btnBack, 0);
+        btnBack.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(final MouseEvent e) {
+                removeAllListeners();
+                backToDashboard();
+            }
+        });
+    }
 }

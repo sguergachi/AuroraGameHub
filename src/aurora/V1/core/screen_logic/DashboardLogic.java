@@ -366,6 +366,21 @@ public class DashboardLogic implements AuroraScreenLogic {
 
     }
 
+    /**
+     * .-----------------------------------------------------------------------.
+     * | loadAuroraApps()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method will load the Aurora Apps so that they are ready to launch
+     * | as soon as needed.
+     * |
+     * | This method is called on the creation of the DashboardLogic class
+     * | so that the aurora Apps are loaded and ready for reuse instead of
+     * | being recreated each time.
+     * .........................................................................
+     *
+     * <p/>
+     */
     private void loadAuroraApps() {
 
         libraryUI = new GameLibraryUI(dashboardUI

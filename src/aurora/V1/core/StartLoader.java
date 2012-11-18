@@ -127,7 +127,7 @@ public class StartLoader implements Runnable {
         //pre reset Control Buttons
         FramePane.setVisible(false);
         HeaderPanel.remove(FramePane);
-        CenterPane.add(BorderLayout.PAGE_START, FramePane);
+        CenterPane.add(BorderLayout.EAST, FramePane);
 
         HexPanes.Center(ui.getFrame());
         HexPanes.pause();
