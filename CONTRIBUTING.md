@@ -232,7 +232,7 @@ Type of UI component goes infront, name of what component is/does afterward <br>
 
 Here is a list of prefixes to add infront of UI Components:
 
-* **ImagePane** or **JPanel**   >>          *pane*
+* **ImagePane** or **JPanel**   >>          *pnl*
 * **JLabel**                    >>          *lbl*
 * **AButton**                   >>          *btn*
 * **AImage**                    >>          *img*

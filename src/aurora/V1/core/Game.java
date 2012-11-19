@@ -126,7 +126,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private GridManager manager;
 
-    private AuroraCoreUI ui;
+    private AuroraCoreUI coreUI;
 
     private DashboardUI dashboardUi;
 
@@ -139,13 +139,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     public Game() {
     }
 
-    public Game(final GridManager manager, final AuroraCoreUI ui,
-                final DashboardUI obj) {
+    public Game(final GridManager gridManager, final AuroraCoreUI auroraCoreUI,
+                final DashboardUI dashboardUi) {
 
 
-        this.dashboardUi = obj;
-        this.ui = ui;
-        this.manager = manager;
+        this.dashboardUi = dashboardUi;
+        this.coreUI = auroraCoreUI;
+        this.manager = gridManager;
         this.setOpaque(false);
         this.setDoubleBuffered(true);
         //this.setSize();
@@ -161,7 +161,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     public Game(final GridManager manager, final AuroraCoreUI ui,
                 final DashboardUI obj, final AuroraStorage storage) {
         this.dashboardUi = obj;
-        this.ui = ui;
+        this.coreUI = ui;
         this.storage = storage;
         this.manager = manager;
         this.setOpaque(false);
@@ -179,7 +179,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     public Game(final GridManager manager, final AuroraCoreUI ui,
                 final String CoverURL) {
 
-        this.ui = ui;
+        this.coreUI = ui;
         this.manager = manager;
         this.setOpaque(false);
         this.setDoubleBuffered(true);
@@ -197,7 +197,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
 
         this.setOpaque(false);
-        this.ui = obj.getCoreUI();
+        this.coreUI = obj.getCoreUI();
         this.dashboardUi = obj;
         this.coverUrl = CoverURL;
 
@@ -213,7 +213,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         this.setOpaque(false);
         this.dashboardUi = obj;
-        this.ui = obj.getCoreUI();
+        this.coreUI = obj.getCoreUI();
 
         //DEFAULT CASE
         this.setImage("Blank-Case.png", height, width);
@@ -369,7 +369,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                                 dbErrorDialog = new ADialog(
                                         ADialog.aDIALOG_ERROR,
                                         "AuroraDB Error! Can't Access BoxArt",
-                                        ui.getBoldFont());
+                                        coreUI.getBoldFont());
                                 dbErrorDialog.showDialog();
 
                             }
@@ -502,7 +502,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     private void setSize() {
-        if (ui.isLargeScreen()) {
+        if (coreUI.isLargeScreen()) {
 
             SIZE_BottomPaneHeight = (50 * 2) - 10;
             SIZE_TOPPANE_COMP = 5;
@@ -792,7 +792,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         public void actionPerformed(final ActionEvent e) {
 
             System.out.println("Play button pressed.");
-            new AuroraLauncher(copy(), ui).createUI();
+            new AuroraLauncher(copy(), coreUI).createUI();
 
         }
     }
@@ -834,10 +834,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     gameBarImagePane.setVisible(true);
                 }
             });
-            yesLabel.setFont(ui.getDefaultFont().deriveFont(Font.PLAIN, 20));
+            yesLabel.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN, 20));
             yesLabel.setForeground(Color.yellow);
 
-            noLabel.setFont(ui.getDefaultFont().deriveFont(Font.PLAIN, 20));
+            noLabel.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN, 20));
             noLabel.setForeground(Color.yellow);
 
             denyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));

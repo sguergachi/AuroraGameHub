@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package aurora.V1.core;
 
 import aurora.engine.V1.Logic.AAnimate;
@@ -24,14 +23,19 @@ import javax.swing.JPanel;
 
 /**
  * Moves Grid Panels through animation for transition to next Grid of Games
+ * <p/>
  * @author Sammy
  */
 public class GridAnimation {
 
     private final GridManager GridSplit;
+
     private JPanel contentPanel;
+
     private int currentPanel;
+
     private AAnimate animator1;
+
     private AAnimate animator2;
 
     public GridAnimation(GridManager GridSplit, JPanel ContentPanel) {
@@ -54,9 +58,11 @@ public class GridAnimation {
 
         //Add to GridManager
         GridSplit.getGrid(currentPanel + 1).setVisible(false);
-        contentPanel.add(GridSplit.getGrid(currentPanel + 1), BorderLayout.CENTER, 1);
+        contentPanel.add(GridSplit.getGrid(currentPanel + 1),
+                BorderLayout.CENTER, 1);
 
-        /*********
+        /**
+         * *******
          * added by Carlos
          */
         GridSplit.incrementVisibleGridIndex();
@@ -74,17 +80,19 @@ public class GridAnimation {
         this.currentPanel = currentIndex;
 
         //Move Panel to Left
-        animator1= new AAnimate(GridSplit.getGrid(currentPanel));
-        animator2= new AAnimate(GridSplit.getGrid(currentPanel - 1));
+        animator1 = new AAnimate(GridSplit.getGrid(currentPanel));
+        animator2 = new AAnimate(GridSplit.getGrid(currentPanel - 1));
 
 
         animator1.moveHorizontal((-1900), 65);
 
-          //Add to GridManager
+        //Add to GridManager
         GridSplit.getGrid(currentPanel - 1).setVisible(false);
-        contentPanel.add(GridSplit.getGrid(currentPanel - 1), BorderLayout.CENTER, 1);
+        contentPanel.add(GridSplit.getGrid(currentPanel - 1),
+                BorderLayout.CENTER, 1);
 
-        /*********
+        /**
+         * *******
          * added by Carlos
          */
         GridSplit.decrementVisibleGridIndex();
@@ -104,6 +112,4 @@ public class GridAnimation {
     public AAnimate getAnimator2() {
         return animator2;
     }
-
-
 }

@@ -68,3 +68,7 @@ org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
 org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
 11-18 14:15:17 jdbc[2]: exception
 org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+11-18 20:27:59 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+11-18 20:37:56 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]

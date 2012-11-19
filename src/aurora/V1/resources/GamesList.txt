@@ -53,55 +53,55 @@ Kane & Lynch Dead Men
 
 #2
 
-Kung Fu Panda 
-Left 4 Dead 
-LEGO Batman 
-LEGO Indiana Jones 
-Lost Planet Extreme Condition 
-Lost Planet Extreme Condition Colonies Edition 
-Lulu 3D 
-Mass Effect 
-Mercenaries 2 
-Monster Madness 
-Mount & Blade 
-Multiwinia 
-My Sims 
-Need For Speed Carbon 
-Need For Speed Pro Street 
-Need For Speed Undercover 
-NHL 09 
-Portal 
-Prey 
-Pure 
-Quake Wars 
-Red Alert 3 
+Kung Fu Panda
+Left 4 Dead
+LEGO Batman
+LEGO Indiana Jones
+Lost Planet Extreme Condition
+Lost Planet Extreme Condition Colonies Edition
+Lulu 3D
+Mass Effect
+Mercenaries 2
+Monster Madness
+Mount & Blade
+Multiwinia
+My Sims
+Need For Speed Carbon
+Need For Speed Pro Street
+Need For Speed Undercover
+NHL 09
+Portal
+Prey
+Pure
+Quake Wars
+Red Alert 3
 Rise of the Argonauts
-Sacred 2 
-Sega Rally Revo 
+Sacred 2
+Sega Rally Revo
 Shadowgrounds Survivor
-Shadowrun 
+Shadowrun
 Sins of a Solar Empire
-Space Siege 
-Spider Man Web of Shadows 
-Spore 
-Stalker clear sky 
-Stranglehold 
-Supreme Commander 
-Supreme Commander Forged Alliance 
-Team Fortress 2 
-The Club 
+Space Siege
+Spider Man Web of Shadows
+Spore
+Stalker clear sky
+Stranglehold
+Supreme Commander
+Supreme Commander Forged Alliance
+Team Fortress 2
+The Club
 The Lord of the Rings Online Mines of Moria
 The Witcher Enhanced Edition
 Tomb Raider Anniversary
 Tomb Raider Underworld
 Turning Point Fall of Liberty
-Turok 
-Universe at War 
-Unreal Tournament 3 
-Vegas 2 
-Viva Pinata 
-Wall E 
-Warhammer Online Age of Reckoning 
+Turok
+Universe at War
+Unreal Tournament 3
+Vegas 2
+Viva Pinata
+Wall E
+Warhammer Online Age of Reckoning
 World of Conflict
 
 #3
@@ -940,11 +940,11 @@ Terrorist Takedown
 Terrorist Takedown 2
 Terrorist Takedown - Conflict in Mogadishu
 Terrorist Takedown - Covert Operations
-Terrorist Takedown - Payback  
+Terrorist Takedown - Payback
 Terrorist Takedown - War In Colombia
 The Da Vinci Code
 The Royal Marines Commando
-Warfare                        
+Warfare
 Zoo Tycoon 2
 Zoo Tycoon 2 - African Adventure
 Zoo Tycoon 2 - Endangered Species
@@ -1589,7 +1589,7 @@ X-COM - Terror from the Deep
 #31
 
 2006 FIFA World Cup Germany
-Aliens vs Predator (2010)                                      
+Aliens vs Predator (2010)
 Armada 2526
 Arsenal of Democracy
 Athens 2004
@@ -1865,7 +1865,7 @@ Descent II - The Infinite Abyss
 Diablo
 Diablo - Hellfire
 Disciples III - Renaissance
-Europa Universalis - Rome                       
+Europa Universalis - Rome
 Europa Universalis - Rome Gold Edition
 F.E.A.R. 3
 Fable 3
@@ -2141,7 +2141,7 @@ Hunting Unlimited 2010
 Hunting Unlimited 2011
 Hunting Unlimited 4
 Kane & Lynch Dead Men
-Minecraft.png                                                         
+Minecraft.png
 Mortimer Beckett And The Time Paradox
 Myst Uru - Complete Chronicles
 Nancy Drew 19 - The Haunting of Castle Malloy
@@ -2412,7 +2412,7 @@ Forsaken World
 Hydrophobia - Prophecy
 Might and Magic VII - For Blood and Honor
 Might and Magic VIII - Day of the Destroyer
-Mythos                                                            
+Mythos
 Need for Speed - The Run
 OutRun 2006
 Painkiller Overdose
@@ -2689,7 +2689,7 @@ Sonic the Hedgehog 4 Episode II
 SpaceChem
 Stacking
 Street Fighter X Tekken
-Tera 
+Tera
 The Binding of Isaac
 The Lord of the Rings The Fellowship of the Ring
 The Sims 3 Hidden Springs
@@ -2857,3 +2857,56 @@ Uplay
 World of Warcraft - Mists of Pandaria
 Worms Reloaded - Game of the Year Edition
 Yesterday
+
+#55
+
+007 Legends
+Babel Rising
+Batman Arkham City - GOTY Edition
+Battlefield 3 - Limited Edition
+Battlefield 3 - Premium Edition
+BioShock Infinite
+Black Mesa
+Blocks that Matter
+Call of Duty - Black Ops II
+Carrier Command Gaea Mission
+Castle Crashers
+Closure
+Deadlight
+Elder Scrolls V Skyrim - Dawnguard
+Elder Scrolls V Skyrim - Hearthfire
+Euro Truck Simulator 2
+FIFA Manager 13
+FIM Speedway Grand Prix 4
+Football Manager 2013
+FTL Faster Than Light
+Galaxy On Fire 2 HD
+Giana Sisters - Twisted Dreams
+Hell Yeah! - Wrath of the Dead Rabbit
+Hero Academy
+Hitman - Sniper Challenge
+I Am Alive
+Jet Set Radio
+Katawa Shoujo
+Mass Effect Trilogy
+Medal of Honor - Warfighter Limited Edition
+Mortal Kombat - Arcade Kollection
+NBA 2K13
+Need for Speed - Most Wanted
+Of Orcs And Men
+Painkiller Hell & Damnation
+Painkiller Hell & Damnation Collectors Edition
+Perfect World International
+Pro Evolution Soccer 2013
+Race Injection
+Railworks Train Simulator 2013
+Rift Storm Legion
+Shad'O
+Slender
+Snapshot
+Tom Clancy's Ghost Recon Online
+Torchlight II
+To the Moon
+World of Warplanes
+WRC 3 FIA World Rally Championship
+Zombie Driver HD

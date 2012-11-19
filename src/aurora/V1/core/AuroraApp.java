@@ -389,8 +389,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
             btnBackHeight = 0;
         } else {
 
-            btnBackWidth = 30;
-            btnBackHeight = 35;
+            btnBackWidth = 0;
+            btnBackHeight = 0;
         }
     }
 

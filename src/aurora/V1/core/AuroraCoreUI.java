@@ -38,11 +38,15 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -370,7 +374,9 @@ public class AuroraCoreUI {
      */
     final static ResourceBundle resourceBundle = ResourceBundle.getBundle(
             "version");
+
     private ATimeLabel lblDate;
+
     private JPanel paneTimeContainer;
 
     /**
@@ -395,7 +401,7 @@ public class AuroraCoreUI {
         aFrame.setResizable(false);
         aFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         aFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        aFrame.addWindowFocusListener(new FrameFocusListener());
         resources = new ASurface("");
 
     }
@@ -557,7 +563,7 @@ public class AuroraCoreUI {
         paneFrameControl.add(btnMinimize);
         paneFrameControl.add(btnExit);
 
-        paneFrameControlContainer = new JPanel(new BorderLayout(0,0));
+        paneFrameControlContainer = new JPanel(new BorderLayout(0, 0));
         paneFrameControlContainer.setOpaque(false);
         paneFrameControlContainer.setBackground(Color.BLUE);
         paneFrameControlContainer
@@ -810,6 +816,282 @@ public class AuroraCoreUI {
             exitButtonHeight = 30;
             minimizeButtonWidth = 35;
             minimizeButtonHeight = 30;
+        }
+    }
+
+    /**
+     * .-----------------------------------------------------------------------
+     * | setSFX()
+     * .-----------------------------------------------------------------------
+     * |
+     * | Background sound
+     * |
+     * | This is a method that will set the background sound effects for Aurora
+     * |
+     * .........................................................................
+     *
+     */
+    public void setSFX() throws UnsupportedAudioFileException, IOException,
+                                LineUnavailableException, InterruptedException {
+        //*
+        // Background Sound
+        //*
+    }
+
+    /**
+     * .-----------------------------------------------------------------------
+     * | showExitDialog()
+     * .-----------------------------------------------------------------------
+     * |
+     * | This method displays the exit dialog
+     * |
+     * | After the user clicks on the Exit button, the user will be presented
+     * | with a warning dialog asking them if they are sure they want to exit
+     * | the application.
+     * .........................................................................
+     *
+     */
+    public void showExitDialog() {
+        if (warningDialog == null) {
+            warningDialog = new ADialog(ADialog.aDIALOG_WARNING,
+                    "Are You Sure you want to " + vi.VI(vi.inx_Exit) + "?",
+                    boldFont);
+
+
+            warningDialog.setButtonListener(new ActionListener() {
+                private ADialog err;
+
+                public void actionPerformed(ActionEvent e) {
+
+
+                    System.exit(0);
+                }
+            });
+            warningDialog.showDialog();
+
+
+        }
+        warningDialog.setVisible(true);
+
+        try {
+            try {
+                setSFX();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AuroraCoreUI.class.getName()).log(Level.SEVERE,
+                        null, ex);
+            }
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(AuroraCoreUI.class.getName()).log(Level.SEVERE,
+                    null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(AuroraCoreUI.class.getName()).log(Level.SEVERE,
+                    null, ex);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(AuroraCoreUI.class.getName()).log(Level.SEVERE,
+                    null, ex);
+        }
+
+    }
+
+    //* Get Build Version Of Application *//
+    private static String getResourceBundleToken(String propertyToken) {
+        String msg = "";
+        try {
+            msg = resourceBundle.getString(propertyToken);
+        } catch (MissingResourceException e) {
+            System.err.println("Token ".concat(propertyToken).concat(
+                    " not in Property file!"));
+        }
+        return msg;
+    }
+
+    public String getOS() {
+        return System.getProperty("os.name");
+    }
+
+    public void setSurface(ASurface resource) {
+        this.resources = resource;
+    }
+
+    public ASurface getResource() {
+        return resources;
+    }
+    /**
+     * .-----------------------------------------------------------------------.
+     * | setCursor()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method sets the mouse pointer cursor and states
+     * |
+     * | Customize the look of the mouse pointer cursor in various states
+     * |
+     * .........................................................................
+     *
+     */
+    private BufferedImage cursorImage;
+
+    private void setCursor() {
+
+        try {
+            AImage image = new AImage("cursor.png");
+            cursorImage = AImage.resizeBufferedImg(
+                    cursorImage, image.getImgIcon().getIconWidth(), image
+                    .getImgIcon().getIconHeight());
+            cursorImage = ImageIO.read(getClass().getResource(
+                    "/aurora/V1/resources/cursor.png"));
+            for (int i = 0; i < cursorImage.getHeight(); i++) {
+                int[] rgb = cursorImage.getRGB(0, i, cursorImage.getWidth(),
+                        1, null, 0, cursorImage.getWidth() * 4);
+                for (int j = 0; j < rgb.length; j++) {
+                    int alpha = (rgb[j] >> 24) & 255;
+                    if (alpha < 128) {
+                        alpha = 0;
+                    } else {
+                        alpha = 255;
+                    }
+                    rgb[j] &= 0x00ffffff;
+                    rgb[j] = (alpha << 24) | rgb[j];
+                }
+                cursorImage.setRGB(0, i, cursorImage.getWidth(), 1, rgb, 0,
+                        cursorImage.getWidth() * 4);
+            }
+            java.awt.Cursor cursor = Toolkit.getDefaultToolkit()
+                    .createCustomCursor(
+                    cursorImage, new Point(11, 8), "CustomCursor");
+
+            frame.setCursor(cursor);
+
+        } catch (Exception exp) {
+            exp.printStackTrace();
+        }
+
+    }
+
+    private class FrameFocusListener implements WindowFocusListener {
+
+        /**
+         * Glass Pane from Frame.
+         */
+        private JPanel glass;
+
+        /**
+         * ImagePane containing Unfocused Background Image.
+         */
+        private AImagePane paneUnfocused;
+
+        private boolean wasVisible;
+
+        /**
+         * FrameFocusListener()
+         * Detect when Frame is out of focus.
+         */
+        public FrameFocusListener() {
+            paneUnfocused = new AImagePane("Aurora_Unfocused.png", frame
+                    .getWidth(), frame.getHeight());
+            this.glass = (JPanel) frame.getGlassPane();
+        }
+
+        @Override
+        public void windowGainedFocus(WindowEvent e) {
+            System.out.println("FOCUS GAINED");
+            if (wasVisible) {
+                glass.remove(paneUnfocused);
+                glass.repaint();
+            } else {
+
+                glass.remove(paneUnfocused);
+                glass.setVisible(false);
+                glass.repaint();
+            }
+        }
+
+        @Override
+        public void windowLostFocus(WindowEvent e) {
+            System.out.println("FOCUS LOST");
+            if (frame.getGlassPane().isVisible()) {
+                glass.setLayout(null);
+                wasVisible = true;
+                glass.add(paneUnfocused, 0);
+                paneUnfocused.setSize(frame.getSize());
+                paneUnfocused.setLocation(0, 0);
+                paneUnfocused.setBounds(0, 0, frame
+                        .getWidth(), frame.getHeight());
+                glass.setVisible(true);
+                glass.repaint();
+            } else {
+                wasVisible = false;
+                glass.setLayout(null);
+                glass.add(paneUnfocused, 0);
+                paneUnfocused.setSize(frame.getSize());
+                paneUnfocused.setLocation(0, 0);
+                paneUnfocused.setBounds(0, 0, frame
+                        .getWidth(), frame.getHeight());
+                glass.setVisible(true);
+                glass.repaint();
+            }
+        }
+    }
+
+    /*
+     * Sets The Close Button Actions
+     */
+    class CloseListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            showExitDialog();
+
+        }
+    }
+
+    /*
+     * Sets the minimize button actions
+     */
+    public class MinimizeListener implements ActionListener {
+
+        private AuroraCoreUI ui;
+
+        private String arg;
+
+        public MinimizeListener(AuroraCoreUI ui, String arg) {
+            this.ui = ui;
+            this.arg = arg;
+        }
+
+        public void setArg(String arg) {
+            this.arg = arg;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            //ENABLE MINI MODE
+
+            minimizeAurora(arg);
+
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    class FrameKeyListener implements KeyListener {
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                showExitDialog();
+            }
+
         }
     }
 
@@ -1138,475 +1420,5 @@ public class AuroraCoreUI {
 
     public JPanel getTitlePanel() {
         return paneTitle;
-    }
-
-    /**
-     * .-----------------------------------------------------------------------
-     * | setSFX()
-     * .-----------------------------------------------------------------------
-     * |
-     * | Background sound
-     * |
-     * | This is a method that will set the background sound effects for Aurora
-     * |
-     * .........................................................................
-     *
-     */
-    public void setSFX() throws UnsupportedAudioFileException, IOException,
-                                LineUnavailableException, InterruptedException {
-        //*
-        // Background Sound
-        //*
-    }
-
-    /**
-     * .-----------------------------------------------------------------------
-     * | showExitDialog()
-     * .-----------------------------------------------------------------------
-     * |
-     * | This method displays the exit dialog
-     * |
-     * | After the user clicks on the Exit button, the user will be presented
-     * | with a warning dialog asking them if they are sure they want to exit
-     * | the application.
-     * .........................................................................
-     *
-     */
-    public void showExitDialog() {
-        if (warningDialog == null) {
-            warningDialog = new ADialog(ADialog.aDIALOG_WARNING,
-                    "Are You Sure you want to " + vi.VI(vi.inx_Exit) + "?",
-                    boldFont);
-
-
-            warningDialog.setButtonListener(new ActionListener() {
-                private ADialog err;
-
-                public void actionPerformed(ActionEvent e) {
-
-
-                    System.exit(0);
-                }
-            });
-            warningDialog.showDialog();
-
-
-        }
-        warningDialog.setVisible(true);
-
-        try {
-            try {
-                setSFX();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(AuroraCoreUI.class.getName()).log(Level.SEVERE,
-                        null, ex);
-            }
-        } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(AuroraCoreUI.class.getName()).log(Level.SEVERE,
-                    null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(AuroraCoreUI.class.getName()).log(Level.SEVERE,
-                    null, ex);
-        } catch (LineUnavailableException ex) {
-            Logger.getLogger(AuroraCoreUI.class.getName()).log(Level.SEVERE,
-                    null, ex);
-        }
-
-    }
-
-    //* Get Build Version Of Application *//
-    private static String getResourceBundleToken(String propertyToken) {
-        String msg = "";
-        try {
-            msg = resourceBundle.getString(propertyToken);
-        } catch (MissingResourceException e) {
-            System.err.println("Token ".concat(propertyToken).concat(
-                    " not in Property file!"));
-        }
-        return msg;
-    }
-
-    public String getOS() {
-        return System.getProperty("os.name");
-    }
-
-    public void setSurface(ASurface resource) {
-        this.resources = resource;
-    }
-
-    public ASurface getResource() {
-        return resources;
-    }
-    /**
-     * .-----------------------------------------------------------------------.
-     * | setCursor()
-     * .-----------------------------------------------------------------------.
-     * |
-     * | This method sets the mouse pointer cursor and states
-     * |
-     * | Customize the look of the mouse pointer cursor in various states
-     * |
-     * .........................................................................
-     *
-     */
-    private BufferedImage cursorImage;
-
-    private void setCursor() {
-
-        try {
-            AImage image = new AImage("cursor.png");
-            cursorImage = AImage.resizeBufferedImg(
-                    cursorImage, image.getImgIcon().getIconWidth(), image
-                    .getImgIcon().getIconHeight());
-            cursorImage = ImageIO.read(getClass().getResource(
-                    "/aurora/V1/resources/cursor.png"));
-            for (int i = 0; i < cursorImage.getHeight(); i++) {
-                int[] rgb = cursorImage.getRGB(0, i, cursorImage.getWidth(),
-                        1, null, 0, cursorImage.getWidth() * 4);
-                for (int j = 0; j < rgb.length; j++) {
-                    int alpha = (rgb[j] >> 24) & 255;
-                    if (alpha < 128) {
-                        alpha = 0;
-                    } else {
-                        alpha = 255;
-                    }
-                    rgb[j] &= 0x00ffffff;
-                    rgb[j] = (alpha << 24) | rgb[j];
-                }
-                cursorImage.setRGB(0, i, cursorImage.getWidth(), 1, rgb, 0,
-                        cursorImage.getWidth() * 4);
-            }
-            java.awt.Cursor cursor = Toolkit.getDefaultToolkit()
-                    .createCustomCursor(
-                    cursorImage, new Point(11, 8), "CustomCursor");
-
-            frame.setCursor(cursor);
-
-        } catch (Exception exp) {
-            exp.printStackTrace();
-        }
-
-    }
-
-    /*
-     * Sets The Close Button Actions
-     */
-    class CloseListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            showExitDialog();
-
-        }
-    }
-
-    /*
-     * Sets the minimize button actions
-     */
-    public class MinimizeListener implements ActionListener {
-
-        private AuroraCoreUI ui;
-
-        private String arg;
-
-        public MinimizeListener(AuroraCoreUI ui, String arg) {
-            this.ui = ui;
-            this.arg = arg;
-        }
-
-        public void setArg(String arg) {
-            this.arg = arg;
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            //ENABLE MINI MODE
-
-            minimizeAurora(arg);
-
-        }
-    }
-
-    /**
-     *
-     *
-     */
-    class FrameKeyListener implements KeyListener {
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-
-            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                showExitDialog();
-            }
-
-        }
-    }
-
-    /**
-     *
-     *
-     */
-    private static class CursorClick extends MouseAdapter {
-
-        private final AImage cursorImage;
-
-        private final AImage cursorSelect;
-
-        private final Cursor click;
-
-//        private final AImage cursorHover;
-        public CursorClick(Cursor click) {
-            this.cursorImage = click.getCursorImage();
-            this.cursorSelect = click.getCursorSelect();
-            this.click = click;
-        }
-
-        public AImage getCursorImage() {
-            return cursorImage;
-        }
-
-        public AImage getCursorSelect() {
-            return cursorSelect;
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-            cursorImage.setVisible(false);
-
-            cursorSelect.setLocation(e.getPoint());
-
-            cursorSelect.setBounds(e.getX() - 11, e.getY() - 8, cursorImage
-                    .getImgIcon()
-                    .getIconWidth(), cursorImage.getImgIcon().getIconHeight());
-
-            cursorSelect.setVisible(true);
-
-            click.redispatchMouseEvent(e, true);
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-            cursorSelect.setVisible(false);
-
-            cursorImage.setLocation(e.getPoint());
-
-            cursorImage.setBounds(e.getX() - 11, e.getY() - 8, cursorImage
-                    .getImgIcon()
-                    .getIconWidth(), cursorImage.getImgIcon().getIconHeight());
-
-            cursorImage.setVisible(true);
-
-            click.redispatchMouseEvent(e, true);
-
-        }
-
-        public void mouseClicked(MouseEvent e) {
-            click.redispatchMouseEvent(e, true);
-        }
-
-        public void mouseEntered(MouseEvent e) {
-            click.redispatchMouseEvent(e, true);
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            cursorSelect.setVisible(false);
-            cursorImage.setVisible(false);
-            click.redispatchMouseEvent(e, true);
-        }
-    }
-
-    class Cursor implements MouseMotionListener {
-
-        private final AImage cursorImage;
-
-        private final AImage cursorSelect;
-
-        private final JPanel glassPane;
-
-        private final Container contentPane;
-
-        private Cursor(AImage cursorImage, AImage cursorSelect,
-                       Container contentPane, JPanel glassPane) {
-            this.cursorImage = cursorImage;
-            this.cursorSelect = cursorSelect;
-            this.contentPane = contentPane;
-            this.glassPane = glassPane;
-        }
-
-        public AImage getCursorImage() {
-            return cursorImage;
-        }
-
-        public AImage getCursorSelect() {
-            return cursorSelect;
-        }
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-
-            cursorImage.setVisible(false);
-            cursorSelect.setLocation(e.getPoint());
-            cursorSelect.setBounds(e.getX() - 11, e.getY() - 8, cursorImage
-                    .getImgIcon()
-                    .getIconWidth(), cursorImage.getImgIcon().getIconHeight());
-            cursorSelect.setVisible(true);
-
-            redispatchMouseEvent(e, true);
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-
-            cursorSelect.setVisible(false);
-//            if (panel.getBounds().contains(e.getPoint())) {
-
-            cursorImage.setLocation(e.getPoint());
-            cursorImage.setBounds(e.getX() - 11, e.getY() - 8, cursorImage
-                    .getImgIcon()
-                    .getIconWidth(), cursorImage.getImgIcon()
-                    .getIconHeight());
-            cursorImage.setVisible(true);
-
-            redispatchMouseEvent(e, true);
-
-        }
-
-        public void redispatchMouseEvent(MouseEvent e,
-                                         boolean repaint) {
-            Point glassPanePoint = e.getPoint();
-            Container container = contentPane;
-            Point containerPoint = SwingUtilities.convertPoint(glassPane,
-                    glassPanePoint,
-                    contentPane);
-            //* The mouse event is probably over the content pane. *//
-            //* Find out exactly which component it's over. *//
-            Component component =
-                      SwingUtilities.getDeepestComponentAt(container,
-                    containerPoint.x,
-                    containerPoint.y);
-
-            if (component != null) {
-                //* Forward events *//
-                Point componentPoint = SwingUtilities.convertPoint(glassPane,
-                        glassPanePoint,
-                        component);
-                component.dispatchEvent(new MouseEvent(component,
-                        e.getID(),
-                        e.getWhen(),
-                        e.getModifiers(),
-                        componentPoint.x,
-                        componentPoint.y,
-                        e.getClickCount(),
-                        e.isPopupTrigger()));
-            } else {
-                glassPanePoint = null;
-            }
-
-            //* Update the glass pane if requested. *//
-            if (repaint) {
-                glassPane.repaint();
-            }
-        }
-    }
-
-    /**
-     *
-     *
-     *
-     */
-    class MouseEventRedispatcher extends MouseAdapter {
-
-        private final JPanel glassPane;
-
-        private final Container contentPane;
-
-        public MouseEventRedispatcher(JPanel glassPane, Container contentPane) {
-            this.glassPane = glassPane;
-            this.contentPane = contentPane;
-        }
-
-        public void mouseMoved(MouseEvent e) {
-            redispatchMouseEvent(e, true);
-        }
-
-        public void mouseDragged(MouseEvent e) {
-            redispatchMouseEvent(e, true);
-        }
-
-        public void mouseClicked(MouseEvent e) {
-            redispatchMouseEvent(e, true);
-        }
-
-        public void mouseEntered(MouseEvent e) {
-            redispatchMouseEvent(e, true);
-        }
-
-        public void mouseExited(MouseEvent e) {
-            redispatchMouseEvent(e, true);
-        }
-
-        public void mousePressed(MouseEvent e) {
-            redispatchMouseEvent(e, true);
-        }
-
-        public void mouseReleased(MouseEvent e) {
-            redispatchMouseEvent(e, true);
-        }
-
-        /**
-         * A more finished version of this method would
-         * handle mouse-dragged events specially.
-         */
-        private void redispatchMouseEvent(MouseEvent e,
-                                          boolean repaint) {
-            Point glassPanePoint = e.getPoint();
-            Container container = contentPane;
-            Point containerPoint = SwingUtilities.convertPoint(glassPane,
-                    glassPanePoint,
-                    contentPane);
-
-            //*
-            // The mouse event is probably over the content pane.
-            // Find out exactly which component it's over.
-            //*
-            Component component =
-                      SwingUtilities.getDeepestComponentAt(container,
-                    containerPoint.x,
-                    containerPoint.y);
-
-            if (component != null) {
-                //* Forward events *//
-                Point componentPoint = SwingUtilities.convertPoint(glassPane,
-                        glassPanePoint,
-                        component);
-                component.dispatchEvent(new MouseEvent(component,
-                        e.getID(),
-                        e.getWhen(),
-                        e.getModifiers(),
-                        componentPoint.x,
-                        componentPoint.y,
-                        e.getClickCount(),
-                        e.isPopupTrigger()));
-            } else {
-                glassPanePoint = null;
-            }
-
-            //* Update the glass pane if requested. *//
-            if (repaint) {
-                glassPane.repaint();
-            }
-        }
     }
 }

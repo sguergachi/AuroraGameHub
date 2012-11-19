@@ -1,7 +1,17 @@
 ============AURORA CHANGE LOG==================
-=Current MileStone: >Alpha<
+=Current MileStone: >Alpha 4<
 =Author: Sammy Guergachi, Carlos Machado
 ===============================================
+
+////////////////////////////////////////////--------------------------------
+//Aurora_Alpha4  Build:470 Date:  || Sammy Guergachi, Carlos Machado
+////////////////////////////////////////////--------------------------------
++ new Onix 2.0 Surface with Name Change!
++ cleaned up codebase (faster future development!)
++ 50 more games added to database
++ UI enhancments
+- fixed major memory leak, faster going in and out of Dashboard and Carousel Items
+- lots of other minor bugs fixed
 
 
 ////////////////////////////////////////////--------------------------------
@@ -11,7 +21,7 @@
 +Ability To Navigate Library with WASD keys
 +Ability to Press Enter to Play Selected Game
 +Ability To Navigate Library Grids with Scroll wheel
-+Better UI scaling overall 
++Better UI scaling overall
 +Added 50 more games to database
 -also fixed a few corrupted games in AuroraDB
 -Improved speed of moving between grids in Library
@@ -25,7 +35,7 @@
 ////////////////////////////////////////////--------------------------------
 //Aurora_r209  Build:425 Date: 06/10/2012 || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////--------------------------------
-+Ability to select game while dragging mouse 
++Ability to select game while dragging mouse
 +AuroraMini can run while Aurora Loads
 +AuroraMini will load after firstTimeLoad
 +AuroraMini will notify when startup load is done
@@ -99,8 +109,8 @@ Known Bugs:
 + Visibly improved transitions between library grids
 + Added AddGameUI code, still working on it (click add game button)
 + Other small unimportant refactoring
-- Fixed bug with aCarousel in larger screens 
-- Fixed KeyboardHandler Bug when selecting search box and clicking away without 
+- Fixed bug with aCarousel in larger screens
+- Fixed KeyboardHandler Bug when selecting search box and clicking away without
 entering search mode
 
 Known issues:
@@ -227,7 +237,7 @@ Known Bugs:
 /////////////////////////////////////
 
 ADDED:
--XAVI (Previously Aurora_VI) now has time sensitive greeting 
+-XAVI (Previously Aurora_VI) now has time sensitive greeting
 as well as some updated greetings.
 -Added lenient search functionality
 -Added Active and inactive state for search bar
@@ -256,7 +266,7 @@ CHANGED:
 
 Known Bugs:
 --Only detects Exact Search - Lenient Search not Yet Implemented
---First game on grid 2+ is not selectable 
+--First game on grid 2+ is not selectable
 --Keybindings for dashboard don't work after using mouse to move
 
 
@@ -274,7 +284,7 @@ CHANGED:
 
 
 Known Bugs:
---First game on grid 2+ is not selectable 
+--First game on grid 2+ is not selectable
 --Keybindings for dashboard don't work after using mouse to move
 
 
@@ -296,7 +306,7 @@ CHANGED:
 - Unfilled Grids have place holders
 
 Known Bugs:
---First game on grid 2+ is not selectable 
+--First game on grid 2+ is not selectable
 --Keybindings for dashboard don't work after using mouse to move
 
 
@@ -323,7 +333,7 @@ CHANGED:
 - Fixed some Transition bugs when double clicking
 
 Known Bugs:
---First game on grid 2+ is not selectable 
+--First game on grid 2+ is not selectable
 --Keybindings for dashboard don't work after using mouse to move
 
 
@@ -368,7 +378,7 @@ CHANGED:
 -Resizing Ability for Dashboard Complete
 -Resizing Ability for Game Library Complete
 -Work done on aAnimate Fade animation
--Fixed some UI misplacements 
+-Fixed some UI misplacements
 
 Known Bugs:
 
