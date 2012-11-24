@@ -558,8 +558,6 @@ public class GameLibraryUI extends AuroraApp {
 
             //* Add Game Button *//
             pnlShowAddGameContainer.setOpaque(false);
-            btnShowAddGameUI.addActionListener(handler.new ShowAddGameUiHandler(
-                    this));
             pnlShowAddGameContainer.add(btnShowAddGameUI, BorderLayout.CENTER);
 
 
@@ -617,9 +615,7 @@ public class GameLibraryUI extends AuroraApp {
 
 
 
-            // Add Games to Library
-            // ----------------------------------------------------------------.
-
+            //* add game to library *//
             logic.addGamesToLibrary();
 
             isScreenLoaded = true;
@@ -636,6 +632,9 @@ public class GameLibraryUI extends AuroraApp {
         coreUI.getTitleLabel().setText("   Loading...   ");
 
         attactchHandlers();
+
+        // Add Components with listeners to volatile listener bank
+        // ----------------------------------------------------------------.
 
         addToVolatileListenerBank(gridSearchBar);
         addToVolatileListenerBank(coreUI.getBackgroundImagePane());
@@ -692,7 +691,22 @@ public class GameLibraryUI extends AuroraApp {
         coreUI.getFrame().requestFocus();
     }
 
-    public void attactchHandlers() {
+    /**
+     * .-----------------------------------------------------------------------.
+     * | attactchHandlers()
+     * .-----------------------------------------------------------------------.
+     * |
+     * |
+     * | Attaches Handlers/Listeners to UI components that have previously
+     * | never had them attached or been scrubbed of them through being an
+     * | AuroraApp
+     * |
+     * |
+     * |
+     * .........................................................................
+     *
+     */
+    public final void attactchHandlers() {
 
         searchBoxHandler = handler.new searchBoxHandler(this);
         searchFocusHandler = handler.new searchFocusHandler(this);
@@ -702,6 +716,9 @@ public class GameLibraryUI extends AuroraApp {
 
         moveLibraryLeftHandler = handler.new HoverButtonLeft(this, coreUI);
         moveLibraryRightHandler = handler.new HoverButtonRight(this, coreUI);
+
+        btnShowAddGameUI.addActionListener(handler.new ShowAddGameUiHandler(
+                this));
 
         GridMove = handler.new MoveToLastGrid(this);
 
@@ -786,6 +803,20 @@ public class GameLibraryUI extends AuroraApp {
 
     }
 
+    /**
+     * .-----------------------------------------------------------------------.
+     * | buildAddGameUI()
+     * .-----------------------------------------------------------------------.
+     * |
+     * |
+     * | This method builds the entire AddGameUI overlay that pops up when
+     * | a new game is to be added.
+     * |
+     * | This UI is loaded the first time a new game is to be added, but never
+     * | reloaded again.
+     * .........................................................................
+     *
+     */
     public final void buildAddGameUI() {
 
         if (!isAddGameUILoaded) {
@@ -830,7 +861,7 @@ public class GameLibraryUI extends AuroraApp {
             stepOne = new AImage("AddGame_step1_normal.png");
             stepTwo = new AImage("AddGame_step2_normal.png");
             pnlCoverPane = new AImagePane("AddGame_CoverBG.png",
-                    new FlowLayout(FlowLayout.LEFT,0, 10));
+                    new FlowLayout(FlowLayout.LEFT, 0, 10));
             pnlBlankCoverGame = new AImagePane("Blank-Case.png", 220, 250);
             gamesList = new JList();
             gameLocator = new JFileChooser(System.getProperty("user.home"));
@@ -977,11 +1008,14 @@ public class GameLibraryUI extends AuroraApp {
             pnTopOfBottom.setPreferredSize(new Dimension(pnlAddGamePane
                     .getImgIcon()
                     .getIconWidth(), 20));
-            pnlSearchBox.setPreferredSize(new Dimension(pnlSearchBox.getImgIcon()
+            pnlSearchBox.setPreferredSize(new Dimension(pnlSearchBox
+                    .getImgIcon()
                     .getIconWidth(), pnlSearchBox.getImgIcon().getIconHeight()));
             pnlSearchBG.setPreferredSize(new Dimension(pnlSearchBG.getImgIcon()
                     .getIconWidth(), pnlSearchBG.getImgIcon().getIconHeight()));
-            pnlSearchArrow.setPreferredSize(new Dimension(pnlSearchArrow.getImgIcon()
+            pnlSearchArrow
+                    .setPreferredSize(
+                    new Dimension(pnlSearchArrow.getImgIcon()
                     .getIconWidth(), pnlSearchArrow.getImgIcon().getIconHeight()));
             //* Set Up Title Label for Add Game UI *//
             lblAddTitle.setFont(coreUI.getDefaultFont()
