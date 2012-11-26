@@ -53,6 +53,7 @@ import javax.swing.SwingUtilities;
  * .........................................................................
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Carlos Machado <camachado@gmail.com>
  * <p/>
  */
 public class DashboardLogic implements AuroraScreenLogic {
@@ -360,19 +361,20 @@ public class DashboardLogic implements AuroraScreenLogic {
 
         ACarouselPane pane = aCarouselPane;
 
-        /* if Pane is to the Right side, move carousel Left */
-        if (pane.getPointX() == dashboardUI.getCarousel().getRightX()) {
-            dashboardUI.getCarousel().MoveLeft();
+        if (pane != null) {
+            /* if Pane is to the Right side, move carousel Left */
+            if (pane.getPointX() == dashboardUI.getCarousel().getRightX()) {
+                dashboardUI.getCarousel().MoveLeft();
 
-            /* if Pane is to the Left side, move carousel Right */
-        } else if (pane.getPointX() == dashboardUI.getCarousel().getLeftX()) {
-            dashboardUI.getCarousel().MoveRight();
+                /* if Pane is to the Left side, move carousel Right */
+            } else if (pane.getPointX() == dashboardUI.getCarousel().getLeftX()) {
+                dashboardUI.getCarousel().MoveRight();
 
-            /* if Pane is in the Center then launch the App associated with it*/
-        } else if (pane.getPointX() == dashboardUI.getCarousel().getCentX()) {
-            this.launchAuroraApp(pane);
+                /* if Pane is in the Center then launch the App associated with it*/
+            } else if (pane.getPointX() == dashboardUI.getCarousel().getCentX()) {
+                this.launchAuroraApp(pane);
+            }
         }
-
     }
 
     /**

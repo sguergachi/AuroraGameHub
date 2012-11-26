@@ -17,7 +17,6 @@
  */
 package aurora.V1.core;
 
-import Test.Sandbox;
 import aurora.engine.V1.Logic.ANuance;
 import aurora.engine.V1.Logic.ASurface;
 import aurora.engine.V1.UI.AButton;
@@ -27,8 +26,6 @@ import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -38,13 +35,8 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.image.BufferedImage;
@@ -63,8 +55,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.event.MouseInputAdapter;
 
 /**
  * .------------------------------------------------------------------------.
@@ -82,6 +72,7 @@ import javax.swing.event.MouseInputAdapter;
  * .........................................................................
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Carlos Machado <camachado@gmail.com>
  * <p/>
  */
 public class AuroraCoreUI {

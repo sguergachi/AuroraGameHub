@@ -37,27 +37,37 @@ import java.util.logging.Logger;
 public class GridSearch {
 
     private char typed; // This is the character user types
+
     private String AppendedName = ""; //This is the concatination of all characters
+
     private AuroraCoreUI ui; // The is the UI object
+
     private GameLibraryUI libraryUI; // This is the Library View Object
+
     private AImage sideSearchImage; // The Image To The Side of The Grid that says: Search
+
     private GridManager SearchManager = null; // The Grid Manager For the Manager
+
     private ArrayList<Game> foundGameList; //List of all games found
+
     private boolean ClearedGrid; // ClearedGrid boolean
+
     private Game foundGame; //Current found game
+
     private Game GameOriginal; //Original GameCover for copying purpouses
+
     private FavListener FaveListener;
+
     private final GameLibraryHandler handler;
+
     private GridAnimation SearchGridAnimator;
 
-    //////////////////////////
-    ////////Constructor//////
-    ////////////////////////
-    public GridSearch(AuroraCoreUI ui, GameLibraryUI Obj_Library, GridManager manager) {
+    public GridSearch(AuroraCoreUI ui, GameLibraryUI aLibraryUI,
+                      GameLibraryHandler aLibraryHandler) {
         this.ui = ui;
-        this.libraryUI = Obj_Library;
-        this.handler = libraryUI.getHandler();
-        foundGameList = new ArrayList();
+        this.libraryUI = aLibraryUI;
+        this.handler = aLibraryHandler;
+        foundGameList = new ArrayList<Game>();
         this.ClearedGrid = false;
     }
 
@@ -84,21 +94,22 @@ public class GridSearch {
     public void removeChar(char typedChar) {
         typed = typedChar;
 
-
-
         //What Happends When The Length is zero
-        if (AppendedName.length() == 0 || libraryUI.getSearchBar().getText().length() == 0) {
+        if (AppendedName.length() == 0 || libraryUI.getSearchBar().getText()
+                .length() == 0) {
             try {
                 restoreGrid(); //Restores to The original Library
                 resetAppendedName(); // Resets AppendName variable
                 libraryUI.getGameBack().revalidate(); // Refreshes the Grid.
             } catch (MalformedURLException ex) {
-                Logger.getLogger(GridSearch.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GridSearch.class.getName()).log(Level.SEVERE,
+                        null, ex);
             }
         }
         //Remove ONE Character From End of Appended Name
         if (AppendedName.length() - 1 >= 0) {
-            AppendedName = (String) AppendedName.subSequence(0, AppendedName.length() - 1);
+            AppendedName = (String) AppendedName.subSequence(0, AppendedName
+                    .length() - 1);
 
         }
 
@@ -125,7 +136,8 @@ public class GridSearch {
 
         this.clearSearchGrid();
 
-        System.out.println("Check EXACT Search: " + checkGameExistsInLibrary(AppendedName));
+        System.out.println("Check EXACT Search: " + checkGameExistsInLibrary(
+                AppendedName));
 
         //EXACT SEARCH
         if (checkGameExistsInLibrary(AppendedName)) { // Check if game is exact match to library game
@@ -140,7 +152,8 @@ public class GridSearch {
                 displayGames();
 
             } catch (MalformedURLException ex) {
-                Logger.getLogger(GridSearch.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GridSearch.class.getName()).log(Level.SEVERE,
+                        null, ex);
             }
 
 
@@ -155,26 +168,34 @@ public class GridSearch {
             for (int g = 0; g < libraryUI.getGridSplit().getArray().size(); g++) {
                 //Search GameCover in specific Grid
 
-                for (int j = 0; j < libraryUI.getGridSplit().getGrid(g).getArray().size(); j++) {
+                for (int j = 0; j < libraryUI.getGridSplit().getGrid(g)
+                        .getArray().size(); j++) {
 
                     //check if placeholder object
-                    if (libraryUI.getGridSplit().getGrid(g).getArray().get(j).getClass() != GamePlaceholder.class) {
+                    if (libraryUI.getGridSplit().getGrid(g).getArray().get(j)
+                            .getClass() != GamePlaceholder.class) {
 
                         //Convert each object in specific grid to GameCover Object
-                        Game game = (Game) libraryUI.getGridSplit().getGrid(g).getArray().get(j);
+                        Game game = (Game) libraryUI.getGridSplit().getGrid(g)
+                                .getArray().get(j);
 
                         int checkLength = ((AppendedName.length()));
 
 
                         if (checkLength < game.getName().length()) {
                             //String containing Substring of Games
-                            String gameSub = game.getName().toLowerCase().substring(0, checkLength).toString();
+                            String gameSub = game.getName().toLowerCase()
+                                    .substring(0, checkLength).toString();
                             //String Containing Substring of Text Typed
-                            String appendedSub = AppendedName.substring(0, checkLength).toLowerCase();
+                            String appendedSub = AppendedName.substring(0,
+                                    checkLength).toLowerCase();
 
-                            System.out.println("!Substring of Appended is: " + appendedSub);
-                            System.out.println("!Substring of Game is: " + gameSub);
-                            System.out.println("!!Match Found?: " + gameSub.equals(appendedSub));
+                            System.out.println("!Substring of Appended is: "
+                                               + appendedSub);
+                            System.out.println("!Substring of Game is: "
+                                               + gameSub);
+                            System.out.println("!!Match Found?: " + gameSub
+                                    .equals(appendedSub));
 
                             if (gameSub.equals(appendedSub)) {
 
@@ -185,7 +206,9 @@ public class GridSearch {
                                         displayGames();
 
                                     } catch (MalformedURLException ex) {
-                                        Logger.getLogger(GridSearch.class.getName()).log(Level.SEVERE, null, ex);
+                                        Logger.getLogger(GridSearch.class
+                                                .getName()).log(Level.SEVERE,
+                                                null, ex);
                                     }
                                 }
                             }
@@ -211,15 +234,18 @@ public class GridSearch {
         }
 
         //add the place holders at the end
-        SearchManager.addPlaceHolders(libraryUI.getSIZE_GameCoverWidth(), libraryUI.getSIZE_GameCoverHeight());
+        SearchManager.addPlaceHolders(libraryUI.getGameCoverWidth(), libraryUI
+                .getGameCoverHeight());
     }
 
     private boolean checkGameExistsInSearch(String name) {
 
         for (int i = 0; i < SearchManager.getArray().size(); i++) {
             for (int j = 0; j < SearchManager.getGrid(i).getArray().size(); j++) {
-                if (!SearchManager.getGrid(i).getArray().get(j).getClass().getName().equals(GamePlaceholder.class.getName())) {
-                    Game game = (Game) SearchManager.getGrid(i).getArray().get(j);
+                if (!SearchManager.getGrid(i).getArray().get(j).getClass()
+                        .getName().equals(GamePlaceholder.class.getName())) {
+                    Game game = (Game) SearchManager.getGrid(i).getArray()
+                            .get(j);
                     if (game.getName().equals(name)) {
                         return true;
                     }
@@ -233,7 +259,7 @@ public class GridSearch {
     private boolean checkGameExistsInLibrary(String name) {
 
         if (libraryUI.getGridSplit().findGameName(name)[0] != -1
-                && libraryUI.getGridSplit().findGameName(name)[0] != -1) {
+            && libraryUI.getGridSplit().findGameName(name)[0] != -1) {
             return true;
         }
         return false;
@@ -252,7 +278,8 @@ public class GridSearch {
         //manually copying it over
         foundGame.setFavorite(GameOriginal.isFavorite());
         foundGame.setGameName(GameOriginal.getName());
-        foundGame.setCoverSize(GameOriginal.getWidth(), GameOriginal.getHeight());
+        foundGame
+                .setCoverSize(GameOriginal.getWidth(), GameOriginal.getHeight());
         foundGame.setDashObj(GameOriginal.getDashObj());
         foundGame.setStorage(GameOriginal.getStorage());
 
@@ -271,19 +298,25 @@ public class GridSearch {
             if (!checkGameExistsInSearch(foundGameList.get(i).getName())) {
 
                 SearchManager.addGame(foundGameList.get(i)); // add to the grid.
-                foundGameList.get(i).addFocusListener(handler.new searchLostFocusHandler(libraryUI));
+                System.out.println(handler);
+                foundGameList.get(i)
+                        .addFocusListener(handler.new searchLostFocusHandler(
+                        ));
                 foundGameList.get(i).update();
 
                 //Handle Remote Favorting to affect original game too
                 foundGame = foundGameList.get(i);
                 GameOriginal = (Game) (libraryUI.getGridSplit().getGrid(
-                        libraryUI.getGridSplit().findGameName(foundGame.getGameName())[0]).getArray().get(
-                        libraryUI.getGridSplit().findGameName(foundGame.getGameName())[1]));
+                        libraryUI.getGridSplit().findGameName(foundGame
+                        .getGameName())[0]).getArray().get(
+                        libraryUI.getGridSplit().findGameName(foundGame
+                        .getGameName())[1]));
 
                 FaveListener = new FavListener(foundGame, GameOriginal);
 
 
-                foundGameList.get(i).getFavoriteButton().addActionListener(FaveListener);
+                foundGameList.get(i).getFavoriteButton().addActionListener(
+                        FaveListener);
 
                 libraryUI.getGameBack().revalidate();
                 libraryUI.getGameBack().repaint();
@@ -347,9 +380,12 @@ public class GridSearch {
 
         libraryUI.getGameBack().removeAll();
 
-        libraryUI.getGameBack().add(libraryUI.getImgFavorite(), BorderLayout.WEST);
-        libraryUI.getGameBack().add(libraryUI.getGridSplit().getGrid(0), BorderLayout.CENTER);
-        libraryUI.getGameBack().add(libraryUI.getImgGameRight(), BorderLayout.EAST);
+        libraryUI.getGameBack().add(libraryUI.getImgFavorite(),
+                BorderLayout.WEST);
+        libraryUI.getGameBack().add(libraryUI.getGridSplit().getGrid(0),
+                BorderLayout.CENTER);
+        libraryUI.getGameBack().add(libraryUI.getImgGameRight(),
+                BorderLayout.EAST);
 
         libraryUI.getGameBack().revalidate();
         libraryUI.getGameBack().repaint();
@@ -361,9 +397,11 @@ public class GridSearch {
     private void setUpGrid() {
         this.SearchManager = new GridManager(2, 4, ui);
         SearchManager.initiateGrid(0);
-        libraryUI.getGameBack().add(SearchManager.getGrid(0), BorderLayout.CENTER);
+        libraryUI.getGameBack().add(SearchManager.getGrid(0),
+                BorderLayout.CENTER);
 
-        this.SearchGridAnimator = new GridAnimation(SearchManager, libraryUI.getGameBack());
+        this.SearchGridAnimator = new GridAnimation(SearchManager, libraryUI
+                .getGameBack());
 
 
     }
@@ -371,9 +409,10 @@ public class GridSearch {
     class FavListener implements ActionListener {
 
         private Game game;
+
         private Game original;
 
-        public FavListener (Game game, Game original) {
+        public FavListener(Game game, Game original) {
             this.game = game;
             this.original = original;
         }

@@ -29,6 +29,7 @@ import aurora.V1.core.screen_handler.GameLibraryHandler.MoveToLastGrid;
 import aurora.V1.core.screen_logic.GameLibraryLogic;
 import aurora.V1.core.screen_ui.GameLibraryUI;
 import aurora.engine.V1.Logic.AFileManager;
+import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.AButton;
@@ -42,14 +43,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,22 +68,78 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 
 /**
+ * .------------------------------------------------------------------------.
+ * | GameLibraryHandler
+ * .------------------------------------------------------------------------.
+ * |
+ * | This class contains all Listeners/Handlers attached to UI elements
+ * | found in GameLibraryUI. The handlers may access the logic or simply
+ * | make simple processing within each Handler/Listeners.
+ * |
+ * | Each Handler is attached to UI components to listen for different actions
+ * | The actions can be processed or handled internally or within th Logic
+ * | of the Screen.
+ * |
+ * |
+ * .........................................................................
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Carlos Machado <camachado@gmail.com>
+ *
  */
 public class GameLibraryHandler implements
         AuroraScreenHandler {
 
+    /**
+     * GameLibraryLogic instance.
+     */
     private GameLibraryLogic libraryLogic;
 
+    /**
+     * GameLibraryUI instance.
+     */
     private final GameLibraryUI libraryUI;
 
-    public GameLibraryHandler(GameLibraryUI aLibraryUI) {
+    private final GridSearch gridSearch;
+
+    private final GameSearch gameSearch;
+
+    private ASimpleDB coverDB;
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | GameLibraryHandler(GameLibraryUI)
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This is the Constructor of the GameLibrary Handler class.
+     * |
+     * | The Constructor of the Handler class needs to UI class to be able to
+     * | first get the logic from it, and second to be able to manipulate the UI
+     * | within the actual Handlers.
+     * |
+     * .........................................................................
+     * <p/>
+     * @param aLibraryUI GameLibraryUI
+     */
+    public GameLibraryHandler(final GameLibraryUI aLibraryUI) {
         this.libraryUI = aLibraryUI;
+
+        //* Start Aurora Dabatase connection *//
+        try {
+            coverDB = new ASimpleDB("AuroraDB", "AuroraTable", false);
+        } catch (SQLException ex) {
+            Logger.getLogger(GameLibraryUI.class.getName()).log(Level.SEVERE,
+                    null, ex);
+        }
+
+        this.gridSearch = new GridSearch(libraryUI.getCoreUI(), libraryUI,
+                this);
+        this.gameSearch = new GameSearch(libraryUI, coverDB,
+                libraryUI.getStorage());
     }
 
     @Override
-    public void setLogic(final AuroraScreenLogic logic) {
+    public final void setLogic(final AuroraScreenLogic logic) {
 
         this.libraryLogic = (GameLibraryLogic) logic;
 
@@ -87,30 +147,25 @@ public class GameLibraryHandler implements
 
     public class RemoveSearchHandler implements ActionListener {
 
-        private final GameLibraryUI libraryUI;
-
         private final JTextField SearchBar;
 
         private final AButton SearchButton;
 
-        private final GridSearch Search;
-
-        public RemoveSearchHandler(GameLibraryUI gameLibraryUI) {
-            this.libraryUI = gameLibraryUI;
+        public RemoveSearchHandler() {
             this.SearchBar = libraryUI.getSearchBar();
             this.SearchButton = libraryUI.getSearchButton();
-            this.Search = libraryUI.getSearch();
+
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                Search.restoreGrid();
+                gridSearch.restoreGrid();
             } catch (MalformedURLException ex) {
                 Logger.getLogger(GameLibraryHandler.class.getName()).log(
                         Level.SEVERE, null, ex);
             }
-            Search.resetAppendedName();
+            gridSearch.resetAppendedName();
             SearchBar.setText("Start Typing To Search...");
             libraryUI.getSearchBar().setForeground(Color.darkGray);
             libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
@@ -127,16 +182,7 @@ public class GameLibraryHandler implements
     //////Search Library Bar//////////
     ///What to do if Click on Search Box
     //TODO add aCarousel Handlers
-    public class searchSelectHandler implements MouseListener {
-
-        private GridSearch Search;
-
-        private GameLibraryUI libraryUI;
-
-        public searchSelectHandler(GameLibraryUI gameLibraryUI) {
-            this.libraryUI = gameLibraryUI;
-            this.Search = libraryUI.getSearch();
-        }
+    public class searchSelectHandler extends MouseAdapter {
 
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -154,60 +200,34 @@ public class GameLibraryHandler implements
                 libraryUI.getSearchButtonBG().removeAll();
                 libraryUI.getSearchButtonBG().add(libraryUI
                         .getRemoveSearchButton(), BorderLayout.NORTH);
-                Search.resetAppendedName();
+                gridSearch.resetAppendedName();
             }
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
         }
     }
 
     public class searchButtonHandler implements ActionListener {
         //Handles the Search Button Besides the Search Box
 
-        private GameLibraryUI ui;
-
-        private GridSearch Search;
-
-        public searchButtonHandler(GameLibraryUI Obj_library) {
-            this.ui = Obj_library;
-            this.Search = ui.getSearch();
-        }
-
         @Override
         //Simply Requests focus and resets append string
         public void actionPerformed(ActionEvent e) {
 
-            ui.getSearchBar().requestFocus();
-            ui.getSearchBar().setText("");
-            ui.getSearchBar().setForeground(Color.darkGray);
-            ui.getSearchBar().setFont(ui.getCoreUI().getDefaultFont()
+            libraryUI.getSearchBar().requestFocus();
+            libraryUI.getSearchBar().setText("");
+            libraryUI.getSearchBar().setForeground(Color.darkGray);
+            libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
+                    .getDefaultFont()
                     .deriveFont(Font.BOLD, 44));
-            ui.getSearchBarBG().setImage("SearchBar.png");
-            ui.getSearchButtonBG().removeAll();
-            ui.getSearchButtonBG().add(ui.getRemoveSearchButton(),
+            libraryUI.getSearchBarBG().setImage("SearchBar.png");
+            libraryUI.getSearchButtonBG().removeAll();
+            libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(),
                     BorderLayout.NORTH);
-            ui.getRemoveSearchButton()
-                    .addActionListener(new RemoveSearchHandler(ui));
+            libraryUI.getRemoveSearchButton()
+                    .addActionListener(new RemoveSearchHandler());
         }
     }
 
     public class searchLostFocusHandler implements FocusListener {
-
-        private GameLibraryUI ui;
-
-        public searchLostFocusHandler(GameLibraryUI Obj_library) {
-            this.ui = Obj_library;
-        }
 
         @Override
         public void focusGained(FocusEvent e) {
@@ -215,7 +235,7 @@ public class GameLibraryHandler implements
 
         @Override
         public void focusLost(FocusEvent e) {
-            ui.getSearchBarBG().setImage("SearchBar.png");
+            libraryUI.getSearchBarBG().setImage("SearchBar.png");
         }
     }
 
@@ -225,15 +245,9 @@ public class GameLibraryHandler implements
 
         private JButton SearchButton;
 
-        private GameLibraryUI libraryUI;
-
-        private final GridSearch Search;
-
-        public searchFocusHandler(GameLibraryUI Obj_library) {
-            this.libraryUI = Obj_library;
+        public searchFocusHandler() {
             this.SearchBar = libraryUI.getSearchBar();
             this.SearchButton = libraryUI.getSearchButton();
-            this.Search = libraryUI.getSearch();
 
         }
 
@@ -245,7 +259,7 @@ public class GameLibraryHandler implements
                     "Start Typing To Search...")) {
                 if (e.getOppositeComponent() == SearchButton) {
                     SearchBar.setText("");
-                    Search.resetAppendedName();
+                    gridSearch.resetAppendedName();
                     libraryUI.getSearchBar().setForeground(Color.darkGray);
                     libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
                             .getDefaultFont().deriveFont(Font.BOLD, 44));
@@ -255,7 +269,7 @@ public class GameLibraryHandler implements
                             .getRemoveSearchButton(), BorderLayout.NORTH);
                     libraryUI.getRemoveSearchButton()
                             .addActionListener(
-                            new RemoveSearchHandler(libraryUI));
+                            new RemoveSearchHandler());
                 }
             }
         }
@@ -269,21 +283,23 @@ public class GameLibraryHandler implements
                 if (e.getOppositeComponent() != SearchButton) {
                     //if focus lost then searches thru all Grid Panels, then inside each grid
                     try {
-                        for (int i = 0; i < Search.getGridManager().getArray()
+                        for (int i = 0; i < gridSearch.getGridManager()
+                                .getArray()
                                 .size(); i++) {
-                            for (int j = 0; j < Search.getGridManager().getGrid(
+                            for (int j = 0; j < gridSearch.getGridManager()
+                                    .getGrid(
                                     i).getArray().size(); j++) {
                                 //If the focus was not lost due to a GameCover Obj in the Search Grid
 
                                 if (e.getOppositeComponent() instanceof GamePlaceholder) {
                                     if (e.getOppositeComponent()
-                                        != (Game) Search.getGridManager()
+                                        != (Game) gridSearch.getGridManager()
                                             .getGrid(i).getArray().get(j)) {
                                         System.out.println(e
                                                 .getOppositeComponent());
                                         //Attempt to restore to GameCover Library Grid
                                         try {
-                                            libraryUI.getSearch().restoreGrid();
+                                            gridSearch.restoreGrid();
                                         } catch (MalformedURLException ex) {
                                             Logger
                                                     .getLogger(GameLibraryHandler.class
@@ -291,8 +307,7 @@ public class GameLibraryHandler implements
                                                     .log(Level.SEVERE, null, ex);
                                         }
                                         //reset Search Box and append string
-                                        libraryUI.getSearch()
-                                                .resetAppendedName();
+                                        gridSearch.resetAppendedName();
 
                                     }
                                 }
@@ -313,7 +328,7 @@ public class GameLibraryHandler implements
                                                 .getOppositeComponent());
                                         //Attempt to restore to GameCover Library Grid
                                         try {
-                                            libraryUI.getSearch().restoreGrid();
+                                            gridSearch.restoreGrid();
                                         } catch (MalformedURLException exx) {
                                             Logger
                                                     .getLogger(GameLibraryHandler.class
@@ -321,8 +336,7 @@ public class GameLibraryHandler implements
                                                     .log(Level.SEVERE, null, exx);
                                         }
                                         //reset Search Box and append string
-                                        libraryUI.getSearch()
-                                                .resetAppendedName();
+                                        gridSearch.resetAppendedName();
 
                                     }
                                 }
@@ -345,25 +359,8 @@ public class GameLibraryHandler implements
         }
     }
 
-    public class searchBoxHandler implements KeyListener {
+    public class searchBoxHandler extends KeyAdapter {
         //Handles Typing In Search Box, when it is in focus
-
-        private GameLibraryUI libraryUI;
-
-        private GridSearch Search;
-
-        public searchBoxHandler(GameLibraryUI Obj_Library) {
-            this.libraryUI = Obj_Library;
-            this.Search = libraryUI.getSearch();
-        }
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-        }
 
         @Override
         public void keyReleased(KeyEvent e) {
@@ -412,18 +409,18 @@ public class GameLibraryHandler implements
                     || e.getKeyCode() == KeyEvent.VK_9
                     || e.getKeyCode() == KeyEvent.VK_0
                     || e.getKeyCode() == KeyEvent.VK_QUOTE) {
-                    Search.typedChar(e.getKeyChar()); //Sends the key to the search engine to be appended and check for match
+                    gridSearch.typedChar(e.getKeyChar()); //Sends the key to the search engine to be appended and check for match
 
                 } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     // If backspace is pressed tell search engine to search for name - 1 character
-                    Search.removeChar(e.getKeyChar());
+                    gridSearch.removeChar(e.getKeyChar());
 
                 }
             }
         }
     }
 
-    public class searchRefocusListener implements KeyListener {
+    public class searchRefocusListener extends KeyAdapter {
         //Handles When User Starts Typing While Components other than the
         //Search Box are in focus.
         //Must get first key typed and put it in the searchbox
@@ -431,22 +428,8 @@ public class GameLibraryHandler implements
 
         private JTextField SearchBar;
 
-        private final GameLibraryUI libraryUI;
-
-        private final GridSearch Search;
-
-        public searchRefocusListener(GameLibraryUI gameLibraryUI) {
-            this.libraryUI = gameLibraryUI;
+        public searchRefocusListener() {
             this.SearchBar = libraryUI.getSearchBar();
-            this.Search = libraryUI.getSearch();
-        }
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
         }
 
         @Override
@@ -492,9 +475,9 @@ public class GameLibraryHandler implements
                         || e.getKeyCode() == KeyEvent.VK_QUOTE) {
 
                     SearchBar.setText(String.valueOf(e.getKeyChar())); //Set first character of Search Box to the key typed
-                    Search.resetAppendedName();//Clear appended text if there is anything still in there
-                    Search.clearGameGrid(); //clear and prep for search mode
-                    Search.typedChar(e.getKeyChar()); // Pass to search engine first character
+                    gridSearch.resetAppendedName();//Clear appended text if there is anything still in there
+                    gridSearch.clearGameGrid(); //clear and prep for search mode
+                    gridSearch.typedChar(e.getKeyChar()); // Pass to search engine first character
                     SearchBar.requestFocus(); // Get focus of Search Box
 
                     libraryUI.getSearchBar().setForeground(Color.darkGray);
@@ -506,32 +489,15 @@ public class GameLibraryHandler implements
                             .getRemoveSearchButton(), BorderLayout.NORTH);
                     libraryUI.getRemoveSearchButton()
                             .addActionListener(
-                            new RemoveSearchHandler(libraryUI));
+                            new RemoveSearchHandler());
                 }
             }
         }
     }
 
     /////////////////////////////////////////////////////////////
-    public class addGameSearchBoxHandler implements KeyListener {
+    public class addGameSearchBoxHandler extends KeyAdapter {
         //Handles Typing In Search Box, when it is in focus
-
-        private GameLibraryUI libraryUI;
-
-        private GameSearch Search;
-
-        public addGameSearchBoxHandler(GameLibraryUI gameLibraryUI) {
-            this.libraryUI = gameLibraryUI;
-            this.Search = libraryUI.getGameSearch();
-        }
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-        }
 
         @Override
         public void keyReleased(KeyEvent e) {
@@ -580,11 +546,11 @@ public class GameLibraryHandler implements
                 || e.getKeyCode() == KeyEvent.VK_9
                 || e.getKeyCode() == KeyEvent.VK_0
                 || e.getKeyCode() == KeyEvent.VK_QUOTE) {
-                Search.typedChar(e.getKeyChar()); //Sends the key to the search engine to be appended and check for match
+                gameSearch.typedChar(e.getKeyChar()); //Sends the key to the search engine to be appended and check for match
 
             } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                 // If backspace is pressed tell search engine to search for name - 1 character
-                Search.removeChar(e.getKeyChar());
+                gameSearch.removeChar(e.getKeyChar());
 
             }
         }
@@ -592,20 +558,7 @@ public class GameLibraryHandler implements
 
     ////Add Game UI////////
     //For when you select the Textfield in the add Game UI
-    public class addGameMouseHandler implements MouseListener {
-
-        private GameSearch Search;
-
-        private GameLibraryUI libraryUI;
-
-        public addGameMouseHandler(GameLibraryUI gameLibraryUI) {
-            this.libraryUI = gameLibraryUI;
-            Search = libraryUI.getGameSearch();
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-        }
+    public class addGameMouseHandler extends MouseAdapter {
 
         @Override
         public void mousePressed(MouseEvent e) {
@@ -614,44 +567,22 @@ public class GameLibraryHandler implements
                     "Search For Game To Add...")) {
                 libraryUI.getSearchText().requestFocus();
                 libraryUI.getSearchText().setText("");
-                Search.resetCover();
+                gameSearch.resetCover();
                 libraryUI.getSearchText().setForeground(Color.black);
                 libraryUI.getSearchArrow().setImage(
                         "AddGame_SearchArrow_dark.png");
             }
         }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-        }
     }
 
     public class addGameFocusHandler implements FocusListener {
-
-        private GameLibraryUI libraryUI;
-
-        private GameSearch Search;
-
-        public addGameFocusHandler(GameLibraryUI Obj_library) {
-            this.libraryUI = Obj_library;
-            Search = this.libraryUI.getGameSearch();
-
-        }
 
         @Override
         public void focusGained(FocusEvent e) {
             if (libraryUI.getSearchText().getText().equals(
                     "Search For Game To Add...")) {
                 libraryUI.getSearchText().setText("");
-                Search.resetCover();
+                gameSearch.resetCover();
                 libraryUI.getSearchText().setForeground(Color.black);
                 libraryUI.getSearchArrow().setImage(
                         "AddGame_SearchArrow_dark.png");
@@ -665,7 +596,7 @@ public class GameLibraryHandler implements
             if (e.getOppositeComponent() instanceof JList || e
                     .getOppositeComponent() instanceof JFileChooser == false) {
                 try {
-                    libraryUI.getSearch().restoreGrid();
+                    gridSearch.restoreGrid();
                 } catch (MalformedURLException ex) {
                     Logger.getLogger(GameLibraryHandler.class.getName())
                             .log(Level.SEVERE, null, ex);
@@ -698,13 +629,9 @@ public class GameLibraryHandler implements
 
     public class ExecutableChooserHandler implements ActionListener {
 
-        private GameLibraryUI libraryUI;
-
         private JFileChooser gameLocator;
 
-        public ExecutableChooserHandler(GameLibraryUI gameLibraryUi,
-                                        JFileChooser locator) {
-            this.libraryUI = gameLibraryUi;
+        public ExecutableChooserHandler(JFileChooser locator) {
             gameLocator = locator;
         }
 
@@ -727,8 +654,8 @@ public class GameLibraryHandler implements
 
         private AuroraCoreUI coreUI;
 
-        public ExecutableFilterHandler(AuroraCoreUI auroraCoreUI) {
-            this.coreUI = auroraCoreUI;
+        public ExecutableFilterHandler() {
+            this.coreUI = libraryUI.getCoreUI();
         }
 
         @Override
@@ -767,13 +694,9 @@ public class GameLibraryHandler implements
 
     public class AddToLibraryHandler implements ActionListener {
 
-        private GameLibraryUI libraryUI;
-
-        private GridManager GridSplit;
+        private GridManager gridManager;
 
         private JPanel GameBack;
-
-        private GameSearch GameSearch;
 
         private MoveToLastGrid GridMove;
 
@@ -781,42 +704,38 @@ public class GameLibraryHandler implements
 
         private String currentPath;
 
-        public AddToLibraryHandler(GameLibraryUI gameLibraryUI) {
-            this.libraryUI = gameLibraryUI;
-        }
-
         @Override
         public void actionPerformed(ActionEvent e) {
 
             currentPath = libraryUI.getCurrentPath();
-            GridSplit = libraryUI.getGridSplit();
+            gridManager = libraryUI.getGridSplit();
             GameBack = libraryUI.getGameBack();
-            GameSearch = libraryUI.getGameSearch();
             GridMove = libraryUI.getGridMove();
             storage = libraryUI.getStorage();
 
-            GameSearch.getFoundGameCover().setGamePath(currentPath);
-            GameSearch.getFoundGameCover()
-                    .setCoverSize(libraryUI.getSIZE_GameCoverWidth(), libraryUI
-                    .getSIZE_GameCoverHeight());
-            GameSearch.getFoundGameCover().reAddInteractive();
-            if (!GridSplit.isDupicate(GameSearch.getFoundGameCover())) {
+            gameSearch.getFoundGameCover().setGamePath(currentPath);
+            gameSearch.getFoundGameCover()
+                    .setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
+                    .getGameCoverHeight());
+            gameSearch.getFoundGameCover().reAddInteractive();
+            if (!gridManager.isDupicate(gameSearch.getFoundGameCover())) {
                 storage.getStoredLibrary()
-                        .SaveGame(GameSearch.getFoundGameCover());
+                        .SaveGame(gameSearch.getFoundGameCover());
 
 
             }
-            GridSplit.addGame(GameSearch.getFoundGameCover());
-            GridSplit.finalizeGrid(new ShowAddGameUiHandler(libraryUI), libraryUI
-                    .getSIZE_GameCoverWidth(), libraryUI
-                    .getSIZE_GameCoverHeight());
+            gridManager.addGame(gameSearch.getFoundGameCover());
+            gridManager.finalizeGrid(new ShowAddGameUiHandler(),
+                    libraryUI
+                    .getGameCoverWidth(), libraryUI
+                    .getGameCoverHeight());
             libraryUI.hideAddGameUI();
 
             //* reset cover to blank cover *//
-            GameSearch.resetCover();
+            gameSearch.resetCover();
 
             libraryUI.setCurrentIndex(
-                    GridSplit.getArray().indexOf(GameBack.getComponent(1)));
+                    gridManager.getArray().indexOf(GameBack.getComponent(1)));
 
             //* Transition towards to left most grid to see the game added *//
             GridMove.runMover();
@@ -825,22 +744,16 @@ public class GameLibraryHandler implements
 
     public class SelectListHandler implements ListSelectionListener {
 
-        private GameLibraryUI library;
-
         private JList gamesList;
 
         private DefaultListModel listModel;
 
         private JTextField gameSearchBar;
 
-        private GameSearch gameSearch;
-
-        public SelectListHandler(GameLibraryUI library) {
-            this.library = library;
-            gamesList = library.getGamesList();
-            listModel = library.getListModel();
-            gameSearchBar = library.getGameSearchBar();
-            gameSearch = library.getGameSearch();
+        public SelectListHandler() {
+            gamesList = libraryUI.getGamesList();
+            listModel = libraryUI.getListModel();
+            gameSearchBar = libraryUI.getGameSearchBar();
         }
 
         @Override
@@ -861,16 +774,10 @@ public class GameLibraryHandler implements
 
     public class ShowAddGameUiHandler implements ActionListener {
 
-        private GameLibraryUI library;
-
-        public ShowAddGameUiHandler(GameLibraryUI library) {
-            this.library = library;
-        }
-
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            library.showAddGameUI();
+            libraryUI.showAddGameUI();
 
         }
     }
@@ -880,14 +787,6 @@ public class GameLibraryHandler implements
     public class MoveToLastGrid implements Runnable {
 
         private Thread mover;
-
-        private final GameLibraryUI ui;
-
-        public MoveToLastGrid(GameLibraryUI ui) {
-            this.ui = ui;
-
-
-        }
 
         public void runMover() {
             mover = null;
@@ -904,11 +803,13 @@ public class GameLibraryHandler implements
         @Override
         public void run() {
             while (Thread.currentThread() == mover) {
-                if (ui.getCurrentIndex() < ui.getGridSplit().getFullGrids()) {
+                if (libraryUI.getCurrentIndex() < libraryUI.getGridSplit()
+                        .getFullGrids()) {
 
-                    ui.getMoveLibraryRightHandler().mouseClicked(null);
+                    libraryUI.getMoveLibraryRightHandler().mouseClicked(null);
 
-                } else if (ui.getCurrentIndex() >= ui.getGridSplit()
+                } else if (libraryUI.getCurrentIndex() >= libraryUI
+                        .getGridSplit()
                         .getFullGrids()) {
                     break;
                 }
@@ -925,10 +826,7 @@ public class GameLibraryHandler implements
 
     //Prevents from clicking Through the Aurora Add Game UI and select Games in the
     //Background
-    public class EmptyMouseHandler implements MouseListener {
-
-        public EmptyMouseHandler() {
-        }
+    public class EmptyMouseHandler extends MouseAdapter {
 
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -951,13 +849,9 @@ public class GameLibraryHandler implements
         }
     }
 
-    public class HoverButtonLeft implements MouseListener {
+    public class HoverButtonLeft extends MouseAdapter {
 
-        private GameLibraryUI library;
-
-        private AuroraCoreUI ui;
-
-        private GridManager GridSplit;
+        private GridManager gridManager;
 
         private JPanel GameBack;
 
@@ -969,23 +863,19 @@ public class GameLibraryHandler implements
 
         private GridAnimation GridAnimate;
 
-        public HoverButtonLeft(GameLibraryUI library, AuroraCoreUI ui) {
-            this.library = library;
-            this.ui = ui;
-            GridSplit = library.getGridSplit();
-            GameBack = library.getGameBack();
-
-
+        public HoverButtonLeft() {
+            gridManager = libraryUI.getGridSplit();
+            GameBack = libraryUI.getGameBack();
         }
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            imgGameLeft = library.getImgGameLeft();
-            imgGameRight = library.getImgGameRight();
-            imgFavorite = library.getImgFavorite();
-            GridAnimate = library.getGridAnimate();
+            imgGameLeft = libraryUI.getImgGameLeft();
+            imgGameRight = libraryUI.getImgGameRight();
+            imgFavorite = libraryUI.getImgFavorite();
+            GridAnimate = libraryUI.getGridAnimate();
 
-            GridSplit = library.getGridSplit();
+            gridManager = libraryUI.getGridSplit();
 
 
 
@@ -996,7 +886,7 @@ public class GameLibraryHandler implements
 
                 ///Get The Index of The Current Panel Being Displayed
                 ///Refer too GridManager array of All panels to find it
-                currentIndex = GridSplit.getArray().indexOf(GameBack
+                currentIndex = gridManager.getArray().indexOf(GameBack
                         .getComponent(1));
 
                 //Stop from going to far left
@@ -1006,7 +896,7 @@ public class GameLibraryHandler implements
                 }
 
 
-                if (currentIndex < GridSplit.getArray().size()) {
+                if (currentIndex < gridManager.getArray().size()) {
 
 
                     //Clear Panel
@@ -1037,8 +927,9 @@ public class GameLibraryHandler implements
                     GameBack.add(BorderLayout.EAST, imgGameRight);
                 }
 
-                ui.getCenterPanel().removeAll();
-                ui.getCenterPanel().add(BorderLayout.CENTER, GameBack);
+                libraryUI.getCoreUI().getCenterPanel().removeAll();
+                libraryUI.getCoreUI().getCenterPanel().add(BorderLayout.CENTER,
+                        GameBack);
 
                 GameBack.repaint();
                 GameBack.revalidate();
@@ -1049,21 +940,13 @@ public class GameLibraryHandler implements
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-
-        @Override
         public void mouseEntered(MouseEvent e) {
-            imgGameLeft = library.getImgGameLeft();
-            imgGameRight = library.getImgGameRight();
-            imgFavorite = library.getImgFavorite();
-            GridAnimate = library.getGridAnimate();
-            GridAnimate = library.getGridAnimate();
-            imgGameLeft = library.getImgGameLeft();
+            imgGameLeft = libraryUI.getImgGameLeft();
+            imgGameRight = libraryUI.getImgGameRight();
+            imgFavorite = libraryUI.getImgFavorite();
+            GridAnimate = libraryUI.getGridAnimate();
+            GridAnimate = libraryUI.getGridAnimate();
+            imgGameLeft = libraryUI.getImgGameLeft();
 
             if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
                     .getAnimator2().isAnimating()) {
@@ -1073,22 +956,18 @@ public class GameLibraryHandler implements
 
         @Override
         public void mouseExited(MouseEvent e) {
-            imgGameLeft = library.getImgGameLeft();
-            imgGameRight = library.getImgGameRight();
-            imgFavorite = library.getImgFavorite();
-            GridAnimate = library.getGridAnimate();
+            imgGameLeft = libraryUI.getImgGameLeft();
+            imgGameRight = libraryUI.getImgGameRight();
+            imgFavorite = libraryUI.getImgFavorite();
+            GridAnimate = libraryUI.getGridAnimate();
             imgGameLeft.mouseExit();
 
         }
     }
 
-    public class HoverButtonRight implements MouseListener {
+    public class HoverButtonRight extends MouseAdapter {
 
-        private GameLibraryUI libraryUI;
-
-        private AuroraCoreUI coreUI;
-
-        private GridManager GridSplit;
+        private GridManager gridManager;
 
         private JPanel GameBack;
 
@@ -1102,30 +981,31 @@ public class GameLibraryHandler implements
 
         private GridAnimation GridAnimate;
 
-        public HoverButtonRight(GameLibraryUI gameLibraryUI,
-                                AuroraCoreUI auroraCoreUI) {
-            this.libraryUI = gameLibraryUI;
-            this.coreUI = auroraCoreUI;
+        private final AuroraCoreUI coreUI;
 
-            GameBack = gameLibraryUI.getGameBack();
-            imgGameLeft = gameLibraryUI.getImgGameLeft();
-            imgGameRight = gameLibraryUI.getImgGameRight();
-            imgFavorite = gameLibraryUI.getImgFavorite();
-            imgBlank = gameLibraryUI.getImgBlank();
-            GridAnimate = gameLibraryUI.getGridAnimate();
+        public HoverButtonRight() {
+            this.coreUI = libraryUI.getCoreUI();
+
+            GameBack = libraryUI.getGameBack();
+            imgGameLeft = libraryUI.getImgGameLeft();
+            imgGameRight = libraryUI.getImgGameRight();
+            imgFavorite = libraryUI.getImgFavorite();
+            imgBlank = libraryUI.getImgBlank();
+            GridAnimate = libraryUI.getGridAnimate();
         }
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            GridSplit = libraryUI.getGridSplit();
+            gridManager = libraryUI.getGridSplit();
 
             if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
                     .getAnimator2().isAnimating()) {
 
-                libraryUI.setCurrentIndex(GridSplit.getArray().indexOf(GameBack
+                libraryUI.setCurrentIndex(gridManager.getArray()
+                        .indexOf(GameBack
                         .getComponent(1)));
 
-                if (libraryUI.getCurrentIndex() < GridSplit.getArray().size()
+                if (libraryUI.getCurrentIndex() < gridManager.getArray().size()
                                                   - 1) {
 
                     GameBack.remove(0);
@@ -1147,7 +1027,8 @@ public class GameLibraryHandler implements
 
 
                     //of on last Grid then dont show right arrow button
-                    if (!(libraryUI.getCurrentIndex() + 1 < GridSplit.getArray()
+                    if (!(libraryUI.getCurrentIndex() + 1 < gridManager
+                            .getArray()
                             .size() - 1)) {
 
                         GameBack.remove(libraryUI.getImgGameRight());
@@ -1165,14 +1046,6 @@ public class GameLibraryHandler implements
 
             }
             imgGameRight.mouseExit();
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
         }
 
         @Override
@@ -1194,43 +1067,35 @@ public class GameLibraryHandler implements
     }
 
     //Handler for the Navigation using Keyboard
-    public class GameLibraryKeyListener implements KeyListener {
+    public class GameLibraryKeyListener extends KeyAdapter {
 
-        private GameLibraryUI library;
-
-        private AuroraCoreUI ui;
-
-        private GridManager GridSplit;
+        private GridManager gridManager;
 
         private JPanel GameBack;
 
-        public GameLibraryKeyListener(GameLibraryUI libraryUI,
-                                      AuroraCoreUI auroraCoreUI) {
-            this.library = libraryUI;
-            this.ui = auroraCoreUI;
-            GameBack = libraryUI.getGameBack();
-        }
+        private final AuroraCoreUI coreUI;
 
-        @Override
-        public void keyTyped(KeyEvent e) {
+        public GameLibraryKeyListener() {
+            this.coreUI = libraryUI.getCoreUI();
+            GameBack = libraryUI.getGameBack();
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
 
             int currentIndex;
-            GridSplit = library.getGridSplit();
+            gridManager = libraryUI.getGridSplit();
 
             /* get the index of the grid that is currently displayed */
-            int visibleGridIndex = GridSplit.getVisibleGridIndex();
+            int visibleGridIndex = gridManager.getVisibleGridIndex();
             System.out.println("Initial visible grid = " + visibleGridIndex);
-            currentIndex = GridSplit.getArray()
+            currentIndex = gridManager.getArray()
                     .indexOf(GameBack.getComponent(1));
-            library.setCurrentIndex(currentIndex);
+            libraryUI.setCurrentIndex(currentIndex);
             System.out.println("Current Grid = " + currentIndex);
 
             /* get the grid that is currently displayed */
-            AGridPanel grid = GridSplit.getGrid(currentIndex);
+            AGridPanel grid = gridManager.getGrid(currentIndex);
 
             /* get an array of all the components in the grid */
             ArrayList comp = grid.getArray();
@@ -1268,7 +1133,7 @@ public class GameLibraryHandler implements
                             if (!(comp.get(i - 4) instanceof GamePlaceholder)) {
                                 game.hideInteractiveComponents();
                                 Game newGame = (Game) comp.get(i - 4);
-                                GridSplit.unselectPrevious();
+                                gridManager.unselectPrevious();
                                 newGame.displayInteractiveComponents();
                             }
 
@@ -1277,7 +1142,7 @@ public class GameLibraryHandler implements
                             if (!(comp.get(i + (4 * 1)) instanceof GamePlaceholder)) {
                                 game.hideInteractiveComponents();
                                 Game newGame = (Game) comp.get(i + (4 * 1));
-                                GridSplit.unselectPrevious();
+                                gridManager.unselectPrevious();
                                 newGame.displayInteractiveComponents();
                             }
                         } else {
@@ -1324,7 +1189,7 @@ public class GameLibraryHandler implements
                             if (!(comp.get(i + 4) instanceof GamePlaceholder)) {
                                 game.hideInteractiveComponents();
                                 Game newGame = (Game) comp.get(i + 4);
-                                GridSplit.unselectPrevious();
+                                gridManager.unselectPrevious();
                                 newGame.displayInteractiveComponents();
                             }
 
@@ -1334,7 +1199,7 @@ public class GameLibraryHandler implements
                             if (!(comp.get(i - (4 * 1)) instanceof GamePlaceholder)) {
                                 game.hideInteractiveComponents();
                                 Game newGame = (Game) comp.get(i - (4 * 1));
-                                GridSplit.unselectPrevious();
+                                gridManager.unselectPrevious();
                                 newGame.displayInteractiveComponents();
                             }
                         } else {
@@ -1386,28 +1251,29 @@ public class GameLibraryHandler implements
                     // check to see if the selected game is not the first game in the grid
                     if (col > 1 || (col == 1 && row > 1)) {
                         System.out.println("Cursor is moving left!");
-                        visibleGridIndex = GridSplit.getVisibleGridIndex();
+                        visibleGridIndex = gridManager.getVisibleGridIndex();
                         System.out.println("visible grid after moving right = "
                                            + visibleGridIndex);
                         game.hideInteractiveComponents();
                         Game newGame = (Game) comp.get(i - 1);
-                        GridSplit.unselectPrevious();
+                        gridManager.unselectPrevious();
                         newGame.displayInteractiveComponents();
                         cursorMoved = true;
                     } else if (col == 1 && row == 1) {
 
-                        if (GridSplit.getArray().indexOf(GameBack
+                        if (gridManager.getArray().indexOf(GameBack
                                 .getComponent(1)) > 0) {
-                            library.moveGridLeft();
+                            libraryUI.moveGridLeft();
                             /* get the index of the grid that is currently displayed */
-                            visibleGridIndex = GridSplit.getVisibleGridIndex();
+                            visibleGridIndex = gridManager.getVisibleGridIndex();
                             System.out
                                              .println("visible grid after moving right = "
                                                       + visibleGridIndex);
-                            currentIndex = GridSplit.getArray().indexOf(GameBack
+                            currentIndex = gridManager.getArray()
+                                    .indexOf(GameBack
                                     .getComponent(1));
                             /* get the grid that is currently displayed */
-                            grid = GridSplit.getGrid(currentIndex);
+                            grid = gridManager.getGrid(currentIndex);
 
                             /* get an array of all the components in the grid */
                             comp = grid.getArray();
@@ -1416,7 +1282,7 @@ public class GameLibraryHandler implements
                             if (!(comp.get(comp.size() - 1) instanceof GamePlaceholder)) {
                                 game.hideInteractiveComponents();
                                 Game newGame = (Game) comp.get(comp.size() - 1);
-                                GridSplit.unselectPrevious();
+                                gridManager.unselectPrevious();
                                 newGame.displayInteractiveComponents();
                             }
                         } else {
@@ -1477,7 +1343,7 @@ public class GameLibraryHandler implements
                             System.out.println("Object is a game");
                             //game.hideInteractiveComponents();
                             newGame = (Game) obj;
-                            GridSplit.unselectPrevious();
+                            gridManager.unselectPrevious();
                             newGame.displayInteractiveComponents();
                             cursorMoved = true;
                         } else {
@@ -1493,24 +1359,25 @@ public class GameLibraryHandler implements
                                 "Cursor cannot move any further right! Grid needs to move right");
 
                         // check to see if the the current grid is the last grid
-                        if (GridSplit.getVisibleGridIndex() < (GridSplit
+                        if (gridManager.getVisibleGridIndex() < (gridManager
                                 .getNumberOfGrids())
                             && !(comp.get(0) instanceof GamePlaceholder)) {
                             System.out.println("This is not the last grid");
 
-                            library.moveGridRight();
+                            libraryUI.moveGridRight();
 
                             /* get the index of the grid that is currently displayed */
-                            visibleGridIndex = GridSplit.getVisibleGridIndex();
+                            visibleGridIndex = gridManager.getVisibleGridIndex();
                             System.out
                                              .println("visible grid after moving right = "
                                                       + visibleGridIndex);
 
-                            currentIndex = GridSplit.getArray().indexOf(GameBack
+                            currentIndex = gridManager.getArray()
+                                    .indexOf(GameBack
                                     .getComponent(1));
 
                             /* get the grid that is currently displayed */
-                            grid = GridSplit.getGrid(currentIndex);
+                            grid = gridManager.getGrid(currentIndex);
 
                             /* get an array of all the components in the grid */
                             comp = grid.getArray();
@@ -1558,7 +1425,7 @@ public class GameLibraryHandler implements
                 }
 
             } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                ui.showExitDialog();
+                coreUI.showExitDialog();
             }
 
         }
@@ -1570,19 +1437,16 @@ public class GameLibraryHandler implements
 
     public class GridMouseWheelListener implements MouseWheelListener {
 
-        private GameLibraryUI library;
+        private GridManager gridManager;
 
-        private GridManager GridSplit;
-
-        public GridMouseWheelListener(GameLibraryUI library) {
-            this.library = library;
+        public GridMouseWheelListener() {
         }
 
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
 
             int currentIndex;
-            GridSplit = library.getGridSplit();
+            gridManager = libraryUI.getGridSplit();
 
             int numberClicks = e.getWheelRotation();
             System.out.println("Mouse wheel moved " + numberClicks);
@@ -1591,18 +1455,19 @@ public class GameLibraryHandler implements
             ///Refer too GridManager array of All panels to find it///
             //GameBack is the Panel Containing all the game grids///
 
-            currentIndex = GridSplit.getArray().indexOf(library.getGameBack()
+            currentIndex = gridManager.getArray().indexOf(libraryUI
+                    .getGameBack()
                     .getComponent(1));
-            library.setCurrentIndex(currentIndex);
+            libraryUI.setCurrentIndex(currentIndex);
 
             if (numberClicks < 0) {
                 if (currentIndex > 0) {
-                    library.moveGridLeft();
+                    libraryUI.moveGridLeft();
 
                 }
             } else if (numberClicks > 0) {
-                if (currentIndex < (GridSplit.getNumberOfGrids() - 1)) {
-                    library.moveGridRight();
+                if (currentIndex < (gridManager.getNumberOfGrids() - 1)) {
+                    libraryUI.moveGridRight();
 
                 }
             }

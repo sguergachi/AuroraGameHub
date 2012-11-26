@@ -38,7 +38,7 @@ import java.awt.event.MouseWheelListener;
 
 /**
  * .------------------------------------------------------------------------.
- * | DashboardHandler :: Aurora App Class
+ * | DashboardHandler
  * .------------------------------------------------------------------------.
  * |
  * | This class contains all Listeners/Handlers attached to UI elements
@@ -52,7 +52,8 @@ import java.awt.event.MouseWheelListener;
  * |
  * .........................................................................
  *
- * @author sammy <sguergachi@gmail.com> carlos <camachado@gmail.com>
+ * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Carlos Machado <camachado@gmail.com>
  *
  */
 public class DashboardHandler implements AuroraScreenHandler {

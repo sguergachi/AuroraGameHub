@@ -55,6 +55,7 @@ import javax.swing.JComponent;
  * .............................................................................
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Carlos Machado <camachado@gmail.com>
  * <p/>
  */
 public abstract class AuroraApp implements AuroraScreenUI {
@@ -434,7 +435,9 @@ public abstract class AuroraApp implements AuroraScreenUI {
                 .getFrameControlContainerPanel().getHeight()));
 
         System.out.println("ADDED BACK BUTTON");
-        getCoreUI().getFrameControlImagePane().add(btnBack, 0);
+        if (getCoreUI().getFrameControlImagePane().getComponent(0) != btnBack) {
+            getCoreUI().getFrameControlImagePane().add(btnBack, 0);
+        }
         btnBack.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(final MouseEvent e) {

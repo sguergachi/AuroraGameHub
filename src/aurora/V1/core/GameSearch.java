@@ -222,7 +222,7 @@ public class GameSearch implements Runnable {
         }
     }
 
-    public static Game getFoundGameCover() {
+    public Game getFoundGameCover() {
         return foundGameCover;
     }
 
@@ -238,7 +238,10 @@ public class GameSearch implements Runnable {
         } else {
             libraryUI.getListModel().removeAllElements();
             //Query the database
+
             try {
+                System.out.println(db.searchAprox("AuroraTable", "FILE_NAME",
+                        "GAME_NAME", AppendedName.toString()));
                 foundArray = db.searchAprox("AuroraTable", "FILE_NAME",
                         "GAME_NAME", AppendedName.toString());
             } catch (SQLException ex) {

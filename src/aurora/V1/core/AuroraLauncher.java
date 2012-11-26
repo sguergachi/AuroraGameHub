@@ -229,15 +229,16 @@ public class AuroraLauncher implements Runnable {
                         game.setLastPlayed(ATimeLabel.current(
                                 ATimeLabel.TIME_24HOUR));
                         //UI Changes
-                        progressWheel.setClockwise(true);
+                        progressWheel.setClockwise(false);
                         progressWheel.setSpeed(6);
                         titleBG.setImage("playTitle.png");
 
 
                         //WAIT FOR GAME TO EXIT
                         try {
-                            launchPane.setAlwaysOnTop(false);
+
                             Process.waitFor();
+                            launchPane.setAlwaysOnTop(false);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(AuroraLauncher.class.getName())
                                     .log(Level.SEVERE, null, ex);
@@ -250,7 +251,6 @@ public class AuroraLauncher implements Runnable {
                                 .lastIndexOf("\\") + 1) + '"' + currentDir
                                 .substring(currentDir.lastIndexOf("\\") + 1,
                                 currentDir.length()) + '"';
-                        //currentDir = currentDir.substring(0, currentDir.indexOf("\\")) + '"' + "\\" + currentDir.substring(currentDir.indexOf("\\") + 1, currentDir.length()) + '"';
 
                         ProcessBuilder processBuild = new ProcessBuilder();
                         processBuild.command("cmd", "/c", "", currentDir);
@@ -328,9 +328,9 @@ public class AuroraLauncher implements Runnable {
 
             //Game Has Exited//
             titleBG.setImage("ComputingData.png");
+
+
             launchPane.setAlwaysOnTop(false);
-            progressWheel.setClockwise(false);
-            progressWheel.setSpeed(10);
 
             timeAfter = ATimeLabel.current(ATimeLabel.TIME_24HOUR);
             System.out.println(game.getLastPlayed());
@@ -364,6 +364,9 @@ public class AuroraLauncher implements Runnable {
                 lblGameName.setText("You Played: " + hoursDiff + "hr and "
                                     + minDiff + "min  ");
             }
+
+            progressWheel.setClockwise(true);
+            progressWheel.setSpeed(8);
 
             //Wait a bit before returning to Aurora
             try {

@@ -36,7 +36,8 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Sammy
+ * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Carlos Machado <camachado@gmail.com>
  */
 public class Game extends AImagePane implements Runnable, Cloneable {
 
