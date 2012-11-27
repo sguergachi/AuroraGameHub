@@ -55,6 +55,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JWindow;
 
 /**
  * .------------------------------------------------------------------------.
@@ -733,6 +734,7 @@ public class AuroraCoreUI {
         miniMode.createUI();
 
         frame.setLocation(0, 3000);
+        frame.setVisible(false);
     }
 
     public MinimizeListener getMinimizeHandler() {
