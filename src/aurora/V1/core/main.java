@@ -56,7 +56,7 @@ public class main {
             System.out.println("OS: " + System.getProperty("os.name"));
             setLAF();
             StartScreenUI aurora_StartUp = new StartScreenUI(startMini);
-
+            aurora_StartUp.loadUI();
 
         } else if (Double.parseDouble(System.getProperty("java.version").substring(0, 3)) == 1.7) {
             //Initiate The LoginWindow
@@ -66,7 +66,7 @@ public class main {
             setLAF();
 
             StartScreenUI aurora_StartUp = new StartScreenUI(startMini);
-
+            aurora_StartUp.loadUI();
 
 
 

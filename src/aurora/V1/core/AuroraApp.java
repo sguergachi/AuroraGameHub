@@ -211,9 +211,9 @@ public abstract class AuroraApp implements AuroraScreenUI {
         //* Remove all Center and Bottom Bar Content *//
         getCoreUI().getKeyToPressPanel().removeAll();
         getCoreUI().getCenterPanel().removeAll();
-        getCoreUI().getUserSpacePanel().removeAll();
+        getCoreUI().getBottomContentPane().removeAll();
         getCoreUI().getCenterFromBottomPanel().removeAll();
-        getCoreUI().getUserSpacePanel().revalidate();
+        getCoreUI().getBottomContentPane().revalidate();
 
 
 
@@ -243,7 +243,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
         getCoreUI().getCenterPanel().setPreferredSize(new Dimension(getCoreUI()
                 .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
                                               - getCoreUI().getBottomImagePane()
-                .getHeight() - getCoreUI().getTopImagePane().getHeight()));
+                .getHeight() - getCoreUI().getTopPane().getHeight()));
 
 
 

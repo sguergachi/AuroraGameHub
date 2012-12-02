@@ -20,6 +20,7 @@ package aurora.V1.core;
 import aurora.engine.V1.Logic.ANuance;
 import aurora.engine.V1.Logic.ASurface;
 import aurora.engine.V1.UI.AButton;
+import aurora.engine.V1.UI.ACursor;
 import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
@@ -231,7 +232,7 @@ public class AuroraCoreUI {
     /**
      * Top image.
      */
-    private AImagePane paneTopImage;
+    private AImagePane paneTop;
 
     /**
      * Reference to the available Surface resources.
@@ -328,7 +329,7 @@ public class AuroraCoreUI {
     /**
      *
      */
-    private JPanel paneUserSpace;
+    private JPanel paneBottomCenterContent;
 
     /**
      * Label for the version panel.
@@ -490,13 +491,13 @@ public class AuroraCoreUI {
         // Exit and Minimize
         //*
 
-        paneTopImage = new AImagePane("Aurora_Header1.png",
+        paneTop = new AImagePane("Aurora_Header1.png",
                 frame.getSize().width, (frame.getSize().height / 6), true);
-        paneTopImage.setPreferredSize(new Dimension(frame.getSize().width,
+        paneTop.setPreferredSize(new Dimension(frame.getSize().width,
                 (frame.getSize().height / 6)));
 
-        paneTopImage.setIgnoreRepaint(true);
-        paneTopImage.setLayout(new BorderLayout());
+        paneTop.setIgnoreRepaint(true);
+        paneTop.setLayout(new BorderLayout());
 
 
         //*
@@ -544,7 +545,8 @@ public class AuroraCoreUI {
         btnMinimize.addActionListener(minimizeHandler);
         btnMinimize.setToolTipText("Minimize");
 
-        //* Top Panel *//
+        // TOP PANEL
+        // --------------------------------------------------------------------
 
         //* Frame Buttons *//
 
@@ -569,7 +571,7 @@ public class AuroraCoreUI {
         southFromTopPanel.setPreferredSize(new Dimension(frame.getWidth(),
                 controlHeight));
 
-        paneTopImage.add(BorderLayout.SOUTH, southFromTopPanel);
+        paneTop.add(BorderLayout.SOUTH, southFromTopPanel);
 
         // LOGO PANEL
         // ---------------------------------------------------------------------
@@ -580,7 +582,7 @@ public class AuroraCoreUI {
         logoPanel.add(imgLogo);
         logoPanel.setPreferredSize(imgLogo.getSize());
 
-        paneTopImage.add(BorderLayout.CENTER, logoPanel);
+        paneTop.add(BorderLayout.CENTER, logoPanel);
 
         // BOTTOM PANEL
         // --------------------------------------------------------------------
@@ -651,12 +653,13 @@ public class AuroraCoreUI {
         // USER SPACE
         // ---------------------------------------------------------------------
 
-        paneUserSpace = new JPanel();
-        paneUserSpace.setOpaque(false);
-        paneUserSpace
-                .setLayout(new BoxLayout(paneUserSpace, BoxLayout.Y_AXIS));
+        paneBottomCenterContent = new JPanel();
+        paneBottomCenterContent.setOpaque(false);
+        paneBottomCenterContent
+                .setLayout(new BoxLayout(paneBottomCenterContent,
+                BoxLayout.Y_AXIS));
 
-        paneCenterFromBottom.add(BorderLayout.CENTER, paneUserSpace);
+        paneCenterFromBottom.add(BorderLayout.CENTER, paneBottomCenterContent);
 
         // VERSION LABEL
         // ---------------------------------------------------------------------
@@ -678,7 +681,7 @@ public class AuroraCoreUI {
         // Background Panel
         //*
 
-        paneBackground.add(paneTopImage);
+        paneBackground.add(paneTop);
         paneBackground.add(paneCenter);
         paneBackground.add(paneBottom);
 
@@ -925,38 +928,9 @@ public class AuroraCoreUI {
 
     private void setCursor() {
 
-        try {
-            AImage image = new AImage("cursor.png");
-            cursorImage = AImage.resizeBufferedImg(
-                    cursorImage, image.getImgIcon().getIconWidth(), image
-                    .getImgIcon().getIconHeight());
-            cursorImage = ImageIO.read(getClass().getResource(
-                    "/aurora/V1/resources/cursor.png"));
-            for (int i = 0; i < cursorImage.getHeight(); i++) {
-                int[] rgb = cursorImage.getRGB(0, i, cursorImage.getWidth(),
-                        1, null, 0, cursorImage.getWidth() * 4);
-                for (int j = 0; j < rgb.length; j++) {
-                    int alpha = (rgb[j] >> 24) & 255;
-                    if (alpha < 128) {
-                        alpha = 0;
-                    } else {
-                        alpha = 255;
-                    }
-                    rgb[j] &= 0x00ffffff;
-                    rgb[j] = (alpha << 24) | rgb[j];
-                }
-                cursorImage.setRGB(0, i, cursorImage.getWidth(), 1, rgb, 0,
-                        cursorImage.getWidth() * 4);
-            }
-            java.awt.Cursor cursor = Toolkit.getDefaultToolkit()
-                    .createCustomCursor(
-                    cursorImage, new Point(11, 8), "CustomCursor");
+        ACursor cursor = new ACursor(new AImage("cursor.png"));
 
-            frame.setCursor(cursor);
-
-        } catch (Exception exp) {
-            exp.printStackTrace();
-        }
+        frame.setCursor(cursor.getCursor());
 
     }
 
@@ -1064,10 +1038,6 @@ public class AuroraCoreUI {
         }
     }
 
-    /**
-     *
-     *
-     */
     class FrameKeyListener implements KeyListener {
 
         @Override
@@ -1279,11 +1249,11 @@ public class AuroraCoreUI {
     }
 
     public void setTopImagePane(AImagePane topImagePane) {
-        this.paneTopImage = topImagePane;
+        this.paneTop = topImagePane;
     }
 
-    public AImagePane getTopImagePane() {
-        return paneTopImage;
+    public AImagePane getTopPane() {
+        return paneTop;
     }
 
     public void setLogoImage(AImage logoImage) {
@@ -1310,12 +1280,12 @@ public class AuroraCoreUI {
         return vi;
     }
 
-    public void setUserbarPanel(JPanel userbarPanel) {
-        this.paneUserSpace = userbarPanel;
+    public void setUserbarPanel(JPanel bottomCenter) {
+        this.paneBottomCenterContent = bottomCenter;
     }
 
-    public JPanel getUserSpacePanel() {
-        return paneUserSpace;
+    public JPanel getBottomContentPane() {
+        return paneBottomCenterContent;
     }
 
     public String getRevision() {

@@ -20,14 +20,14 @@ package aurora.V1.core.screen_ui;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraMini;
 import aurora.V1.core.AuroraStorage;
-import aurora.V1.core.StartLoader;
-import aurora.V1.core.screen_handler.StartScreenLogic;
-import aurora.V1.core.screen_handler.StartScreenLogic.FrameKeyListener;
-import aurora.V1.core.screen_handler.StartScreenLogic.StartListener;
+import aurora.V1.core.screen_handler.StartScreenHandler;
+import aurora.V1.core.screen_handler.StartScreenHandler;
+import aurora.V1.core.screen_handler.StartScreenHandler.FrameKeyListener;
+import aurora.V1.core.screen_logic.StartScreenLogic;
 import aurora.engine.V1.Logic.AFileManager;
+import aurora.engine.V1.Logic.ANuance;
 import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.ASurface;
-import aurora.engine.V1.Logic.ANuance;
 import aurora.engine.V1.Logic.AuroraScreenUI;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.AImage;
@@ -40,8 +40,6 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -56,48 +54,58 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * Start Up GUI and logic.
+ * .------------------------------------------------------------------------.
+ * | StartScreenUI :: Aurora App Class
+ * .------------------------------------------------------------------------.
+ * |
+ * | This class contains the UI for the Start Screen associated with an
+ * | appropriate *Handler* and *Logic* class which handle the actions caused
+ * | by the UI components found here
+ * |
+ * | This class must follow the rules stated in the AuroraScreenUI
+ * | Interface found in the Aurora Engine. The *Handler* and *Logic* classes
+ * | The Handler class is called: StartScreenHandler
+ * | The Logic class is called: StartScreenLogic
+ * |
+ * .........................................................................
  *
- * @author Sammy
- * @version 0.4
+ * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Carlos Machado <camachado@gmail.com>
+ *
  */
 public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private JFrame frame;
 
-    private APrompter Display;
+    private APrompter promptDisplay;
 
     private AProgressWheel progressWheel;
 
-    private ArrayList<String> ToDisplay;
+    private ArrayList<String> promptList;
 
-    private AScrollingImage HexAnimation;
+    private AScrollingImage imgHexPane;
 
-    private AuroraCoreUI ui;
+    private AuroraCoreUI coreUI;
 
-    private ANuance AuroraVI;
+    private ANuance auroraVI;
 
-    private int SIZE_Display;
+    private int displayYpos;
 
     public static boolean Online = false;
-
-    private StartLoader trans = null;
 
     private String path = "AuroraData";
 
     private JPanel pnlUserButton;
 
-    private AButton btnGo;
-
     private JPanel loadingPane;
 
-    private AFileManager FileIO;
+    private AFileManager fileIO;
 
     private AuroraStorage auroraStorage;
 
     private ASurface resource;
 
-    private Thread login;
+    private Thread backgroundLoadThread;
 
     private boolean isTransisioning = false;
 
@@ -105,9 +113,9 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private boolean isLoaded = false;
 
-    private int SIZE_DisplayFont;
+    private int displayFontSize;
 
-    private final StartScreenLogic handler;
+    private final StartScreenHandler handler;
 
     private FrameKeyListener startKeyHandler;
 
@@ -115,23 +123,31 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private Object toolkit;
 
-    private Cursor cursor;
+    private final StartScreenLogic logic;
+
+    private DashboardUI loadedDashboardUI;
+
+    private boolean dashboardLoaded;
 
     public StartScreenUI(Boolean startMini) {
 
-
-        /////////////////
-        //Load Components///////////////////////////////////////
-        /////////////////
         StartScreenUI.START_WITH_MINI = startMini;
-
         frame = new JFrame("Aurora Game Manager ~ V1");
-        ui = new AuroraCoreUI(this.frame);
-        handler = new StartScreenLogic(this);
+        coreUI = new AuroraCoreUI(this.frame);
+        handler = new StartScreenHandler(this);
+        logic = new StartScreenLogic(this);
+        handler.setLogic(logic);
+        logic.setHandler(handler);
+    }
 
+    @Override
+    public void loadUI() {
+
+        // Load Components
+        // --------------------------------------------------------------------.
 
         try {
-            frame.setIconImage(new ImageIcon(new URL(ui.getResource().
+            frame.setIconImage(new ImageIcon(new URL(coreUI.getResource().
                     getSurfacePath() + "/aurora/V1/resources/icon.png")).
                     getImage());
         } catch (MalformedURLException ex) {
@@ -146,282 +162,292 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
             }
         }
 
-
-        progressWheel = new AProgressWheel("Aurora_wheel.png");
-        HexAnimation = new AScrollingImage("Aurora_Hex.png", 0, 0);
+        try {
+            coreUI.setUI();
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(StartScreenUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(StartScreenUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(StartScreenUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(StartScreenUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (FontFormatException ex) {
+            Logger.getLogger(StartScreenUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
 
         try {
-            buildGUI();
+            coreUI.setSFX();
         } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE,
-                    null, ex);
+            Logger.getLogger(StartScreenUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE,
-                    null, ex);
+            Logger.getLogger(StartScreenUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
         } catch (LineUnavailableException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE,
-                    null, ex);
+            Logger.getLogger(StartScreenUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE,
-                    null, ex);
-        } catch (FontFormatException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE,
-                    null, ex);
+            Logger.getLogger(StartScreenUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
         }
+
+        progressWheel = new AProgressWheel("Aurora_wheel.png");
+        imgHexPane = new AScrollingImage("Aurora_Hex.png", 0, 0);
+        imgHexPane.setIgnoreRepaint(true);
+        imgHexPane.setDoubleBuffered(true);
+
+        fileIO = new AFileManager("");
+        loadingPane = new JPanel();
+        loadingPane.setLayout(new BorderLayout());
+        loadingPane.setOpaque(false);
+
+        this.startKeyHandler = handler.new FrameKeyListener();
+
+        buildUI();
 
     }
 
-    public void buildGUI() throws UnsupportedAudioFileException, IOException,
-                                  LineUnavailableException, InterruptedException,
-                                  FontFormatException {
+    @Override
+    public void buildUI() {
 
-
-
-        /////////////////
-        //Setup UI///////////////////////////////////////
-        ////////////////
-
-
-        ui.setUI();
-        ui.setSFX();
+        // Setup UI
+        // --------------------------------------------------------------------.
 
         setSizes();
 
 
-        //Option to start with AuroraMini
+        //* Option to start with AuroraMini *//
         if (START_WITH_MINI) {
-            ui.getMinimizeHandler().setArg(AuroraMini.LOADING_MODE);
-            ui.minimizeAurora(AuroraMini.LOADING_MODE);
+            coreUI.getMinimizeHandler().setArg(AuroraMini.LOADING_MODE);
+            coreUI.minimizeAurora(AuroraMini.LOADING_MODE);
         }
 
-        /////////////////////
-        //Play Background Sound//////////////////////////
-        /////////////////////
 
-
-        //TODO add Background Sound
-
-
-        ///////////////////////
-        // The Center Panel Contains Hex Animation
+        //*
+        // The setCenterToFrame Panel Contains Hex Animation
         // and maintains a space between top and bottom panel
-        ///////////////////////
+        //*
 
-        pnlUserButton = new JPanel();
-        pnlUserButton.setOpaque(false);
-
-
-        btnGo = new AButton("Aurora_User_normal.png", "Aurora_User_down.png",
-                "Aurora_User_over.png");
-        btnGo.addActionListener(handler.new StartListener());
-        btnGo.setVisible(false);
-
-        // add button
-        pnlUserButton.add(BorderLayout.CENTER, btnGo);
-
-        ui.getCenterPanel().add(BorderLayout.CENTER, HexAnimation);
+        coreUI.getCenterPanel().add(BorderLayout.CENTER, imgHexPane);
 
 
-        //Add AuroraScreenUI to Frame
-        frame.getContentPane().add(ui.getBackgroundImagePane());
-
-        frame.setVisible(true);
+        //* Set Up Prompter and Scrolling Animation *//
+        imgHexPane.StartLoop();
 
 
-
-        //Set Up Prompter and Animation
-
-        HexAnimation.setIgnoreRepaint(true);
-        HexAnimation.setDoubleBuffered(true);
-        HexAnimation.StartLoop();
-
-        //Add Escape Key Listener to frame
-        this.startKeyHandler = handler.new FrameKeyListener();
+        //* Add Escape Key Listener to frame *//
         frame.addKeyListener(startKeyHandler);
-        frame.requestFocus();
 
-        startLogin();
-    }
+        //* set up prompter *//
+        promptDisplay = new APrompter(new Color(0, 127, 153), coreUI
+                .getBoldFont()
+                .deriveFont(Font.PLAIN, displayFontSize));
+        promptList = generatePrompts();
 
-    /////Login Sequence
-    public void startLogin() throws IOException {
-        //Start Button
-        FileIO = new AFileManager("");
+        promptDisplay.add(promptList);
+        promptDisplay.setUp(displayYpos, promptDisplay.getWidth());
 
-        ToDisplay = getDisplay();
+        promptDisplay.setPreferredSize(
+                new Dimension(displayYpos, promptDisplay.getWidth()));
 
-        loadingPane = new JPanel();
-        loadingPane.setLayout(new BorderLayout());
-        loadingPane.setOpaque(false);
-        loadingPane.add(BorderLayout.SOUTH, progressWheel);
-
-
-        Display = new APrompter(new Color(0, 127, 153), ui.getBoldFont()
-                .deriveFont(Font.PLAIN, SIZE_DisplayFont));
-        Display.add(ToDisplay);
-        Display.setUp(SIZE_Display, Display.getWidth());
-
-        Display
-                .setPreferredSize(
-                new Dimension(SIZE_Display, Display.getWidth()));
-
-        Display.revalidate();
-        Display.setIgnoreRepaint(true);
-        Display.addPost(new APostHandler() {
+        promptDisplay.revalidate();
+        promptDisplay.setIgnoreRepaint(true);
+        promptDisplay.addPost(new APostHandler() {
             @Override
             public void actionPerformed() {
-                doneLogin();
+                completedStartUp();
             }
         });
 
-        loadingPane.add(BorderLayout.CENTER, Display);
+        //* panel containing progress wheel and prompter *//
+        loadingPane.add(BorderLayout.CENTER, promptDisplay);
+        loadingPane.add(BorderLayout.SOUTH, progressWheel);
         loadingPane.revalidate();
 
-        ui.getUserSpacePanel().add(loadingPane);
+        coreUI.getBottomContentPane().add(loadingPane);
 
-        ui.getUserSpacePanel().revalidate();
-        ui.getUserSpacePanel().repaint();
+        coreUI.getBottomContentPane().revalidate();
+        coreUI.getBottomContentPane().repaint();
 
-        login = null;
-        login = new Thread(this);
+        //* prep Aurora for dashboard *//
+        try {
+            backgroundLoad();
+        } catch (IOException ex) {
+            Logger.getLogger(StartScreenUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
 
-        login.setName("Login Thread");
-
-        //Start Loader
-        login.start();
+        //* Add Background containing CoreUI to Frame *//
+        frame.getContentPane().add(coreUI.getBackgroundImagePane());
+        frame.setVisible(true);
 
     }
 
-    public void doneLogin() {
+    @Override
+    public void addToCanvas() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void completedStartUp() {
         //add button panel to UI
-        ui.getUserSpacePanel().removeAll();
+        coreUI.getBottomContentPane().removeAll();
+        coreUI.getBottomContentPane().revalidate();
 
+         startTransision();
 
-//        btnGo.setVisible(true);
-
-        StartListener start = handler.new StartListener();
-        start.actionPerformed(null);
-        ui.getUserSpacePanel().add(pnlUserButton);
-        ui.getUserSpacePanel().revalidate();
         //Notify Ready.
         isLoaded = true;
         if (START_WITH_MINI) {
-            ui.getMiniMode().setMode(AuroraMini.MINIMIZE_MODE);
+            coreUI.getMiniMode().setMode(AuroraMini.MINIMIZE_MODE);
+        }
+
+
+
+    }
+
+    public ArrayList<String> generatePrompts() {
+        auroraVI = new ANuance();
+        ArrayList<String> toDisplayList = new ArrayList<String>();
+        if (checkUser()) {
+
+
+            toDisplayList.add(auroraVI.VI(ANuance.inx_Greeting) + " " + fileIO.
+                    getUserName());
+            toDisplayList.add(auroraVI.VI(ANuance.inx_WelcomeBack));
+            return toDisplayList;
+        } else {
+
+            toDisplayList.add(auroraVI.VI(ANuance.inx_Greeting) + " " + fileIO.
+                    getUserName());
+
+            toDisplayList
+                    .add(
+                    auroraVI.VI(ANuance.inx_Welcome) + " to Aurora Game Manager");
+
+            toDisplayList.add(
+                    auroraVI.VI(ANuance.inx_Preparing) + " for First Time Use");
+
+            toDisplayList.add(auroraVI.VI(ANuance.inx_Please) + " Wait...");
+            return toDisplayList;
         }
     }
 
-    public ArrayList<String> getDisplay() {
-        AuroraVI = new ANuance();
-        if (checkUser()) {
-            ArrayList<String> LoginDisplay = new ArrayList<String>();
+    public void startTransision() {
+        isTransisioning = true;
+//        trans = new StartLoader(this);
+//        trans.transitionToMain();
+        logic.transisionToDashboard();
+        coreUI.getBottomContentPane().setVisible(false);
+    }
 
-            LoginDisplay.add(AuroraVI.VI(ANuance.inx_Greeting) + " " + FileIO.
-                    getUserName());
-            LoginDisplay.add(AuroraVI.VI(ANuance.inx_WelcomeBack));
-            return LoginDisplay;
-        } else {
-            ArrayList<String> LoginDisplay = new ArrayList<String>();
+    public void backgroundLoad() throws IOException {
 
-            LoginDisplay.add(AuroraVI.VI(ANuance.inx_Greeting) + " " + FileIO.
-                    getUserName());
 
-            LoginDisplay
-                    .add(
-                    AuroraVI.VI(ANuance.inx_Welcome) + " to Aurora Game Manager");
+        backgroundLoadThread = null;
+        backgroundLoadThread = new Thread(this);
 
-            LoginDisplay.add(
-                    AuroraVI.VI(ANuance.inx_Preparing) + " for First Time Use");
+        backgroundLoadThread.setName("Startup Thread");
 
-            LoginDisplay.add(AuroraVI.VI(ANuance.inx_Please) + " Wait...");
-            return LoginDisplay;
-        }
+        //* Start background loader *//
+        backgroundLoadThread.start();
+
     }
 
     @Override
     public void run() {
 
-        while (Thread.currentThread() == login) {
+        while (Thread.currentThread() == backgroundLoadThread) {
             loadingPane.revalidate();
             loadingPane.repaint();
             auroraStorage = new AuroraStorage();
             Boolean FirstTimeLoad = false;
 
-            //Check if Main Folder "AuroraData" Exists
+            //* Check if Main Folder "AuroraData" Exists *//
             if (!checkMainDir()) {
 
                 FirstTimeLoad = true;
-                FileIO.createFolder("AuroraData");
-                FileIO.setPath(FileIO.getPath() + path);
-                FileIO.createFolder("User Data");
-                FileIO.createFolder("Game Data");
+                fileIO.createFolder("AuroraData");
+                fileIO.setPath(fileIO.getPath() + path);
+                fileIO.createFolder("User Data");
+                fileIO.createFolder("Game Data");
                 //Load Databases
                 auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad,
-                        FileIO.getPath() + "/Game Data/");
+                        fileIO.getPath() + "/Game Data/");
                 auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad,
-                        FileIO.getPath() + "/User Data/");
+                        fileIO.getPath() + "/User Data/");
                 auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad,
-                        FileIO.getPath() + "/User Data/");
+                        fileIO.getPath() + "/User Data/");
 
-                Display.add("Created New Profile");
+                promptDisplay.add("Created New Profile");
 
-                //Check if both Sub folders Exist
+                //* Check if both Sub folders Exist *//
             } else if (!checkSubDir()) {
                 FirstTimeLoad = true;
-                Display.add("Unable To Find Subfolders");
-                Display.add("Attempting to Create New Ones...");
-                FileIO.createFolder("User Data");
-                FileIO.createFolder("Game Data");
+                promptDisplay.add("Unable To Find Subfolders");
+                promptDisplay.add("Attempting to Create New Ones...");
+                fileIO.createFolder("User Data");
+                fileIO.createFolder("Game Data");
 
                 //Load Databases
                 auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad,
-                        FileIO.getPath() + "/Game Data/");
+                        fileIO.getPath() + "/Game Data/");
                 auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad,
-                        FileIO.getPath() + "/User Data/");
+                        fileIO.getPath() + "/User Data/");
                 auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad,
-                        FileIO.getPath() + "/User Data/");
+                        fileIO.getPath() + "/User Data/");
 
             } else if (!checkDBFiles()) {
                 FirstTimeLoad = true;
-                Display.add("Unable To Find a Data Files");
-                Display.add("Attempting to Create New Ones...");
+                promptDisplay.add("Unable To Find a Data Files");
+                promptDisplay.add("Attempting to Create New Ones...");
                 //Load Databases
                 auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad,
-                        FileIO.getPath() + "/Game Data/");
+                        fileIO.getPath() + "/Game Data/");
                 auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad,
-                        FileIO.getPath() + "/User Data/");
+                        fileIO.getPath() + "/User Data/");
                 auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad,
-                        FileIO.getPath() + "/User Data/");
+                        fileIO.getPath() + "/User Data/");
             } else {
-                FileIO.setPath(FileIO.getPath() + path);
+                fileIO.setPath(fileIO.getPath() + path);
             }
             if (!FirstTimeLoad && START_WITH_MINI) {
-                ui.minimizeAurora(AuroraMini.LOADING_MODE);
+                coreUI.minimizeAurora(AuroraMini.LOADING_MODE);
             }
 
-            //Check if Online
+            //* Check if Online *//
             if (!checkOnline("auroragm.sourceforge.net")) {
                 Online = false;
-                Display.add("I Can't Connect To AuroraDB, Let Me Try Again...",
+                promptDisplay.add(
+                        "I Can't Connect To AuroraDB, Let Me Try Again...",
                         Color.RED);
 
-                //Check if its the Users fault or the aurora severs are down
+                //*
+                // Check if its Users Internet is down
+                // or Aurora Servers are down
+                //*
                 if (checkOnline("google.com") && !checkOnline(
                         "auroragm.sourceforge.net")) {
-                    Display
+                    promptDisplay
                             .add(
                             "Well, It Seems Our Servers Are Down, Try Again In A Bit.",
                             Color.RED);
 
                     //The User is having internet problems
                 } else if (!checkOnline("google.com")) {
-                    Display.add("Can't Connect To Google...");
-                    Display
+                    promptDisplay.add("Can't Connect To Google...");
+                    promptDisplay
                             .add(
                             "Either The Universe Exploded OR You Don't Have Internet...",
                             Color.RED);
-                    Display.add("Running In Offline Mode...");
+                    promptDisplay.add("Running In Offline Mode...");
                 } else {
-                    Display
+                    promptDisplay
                             .add(
                             "I Seem To Have Finnally Esstablished Connection...");
                 }
@@ -434,32 +460,49 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
             if (!FirstTimeLoad) {
                 //Load Databases
                 auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad,
-                        FileIO.getPath() + "/Game Data/");
+                        fileIO.getPath() + "/Game Data/");
                 auroraStorage.getStoredLibrary().storeFromDatabase();
                 auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad,
-                        FileIO.getPath() + "/User Data/");
+                        fileIO.getPath() + "/User Data/");
                 auroraStorage.getStoredProfile().storeFromDatabase();
                 auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad,
-                        FileIO.getPath() + "/User Data/");
+                        fileIO.getPath() + "/User Data/");
                 auroraStorage.getStoredSettings().storeFromDatabase();
             }
 
-            Display.add("Loading Complete", new Color(0, 191, 255));
 
+            loadedDashboardUI = new DashboardUI(coreUI, this);
+            loadedDashboardUI.loadUI();
+            dashboardLoaded = true;
+
+
+
+            promptDisplay.add("Loading Complete", new Color(0, 191, 255));
+
+
+            System.out.println("Loading COMPLETED!!");
 
             break;
         }
 
     }
 
+    public DashboardUI getLoadedDashboardUI() {
+        if (dashboardLoaded) {
+            return loadedDashboardUI;
+        } else {
+            return null;
+        }
+    }
+
     public void setSizes() {
 
-        if (ui.isLargeScreen()) {
-            SIZE_Display = 20;
-            SIZE_DisplayFont = ui.getBottomPanelSize() / 10;
+        if (coreUI.isLargeScreen()) {
+            displayYpos = 20;
+            displayFontSize = coreUI.getBottomPanelSize() / 10;
         } else {
-            SIZE_Display = 10;
-            SIZE_DisplayFont = ui.getBottomPanelSize() / 10;
+            displayYpos = 10;
+            displayFontSize = coreUI.getBottomPanelSize() / 10;
 
         }
 
@@ -477,9 +520,12 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                 System.out.println("Computer is NOT online");
                 return false;
 
+
+
             }
         } catch (MalformedURLException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).log(Level.SEVERE,
+            Logger.getLogger(StartScreenUI.class
+                    .getName()).log(Level.SEVERE,
                     null, ex);
 
         }
@@ -498,7 +544,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private boolean checkMainDir() {
 
-        if (FileIO.checkFile(FileIO.getPath() + path)) {
+        if (fileIO.checkFile(fileIO.getPath() + path)) {
             return true;
         } else {
             return false;
@@ -506,8 +552,8 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     }
 
     private boolean checkSubDir() {
-        if (FileIO.checkFile(FileIO.getPath() + path + "/User Data") && FileIO.
-                checkFile(FileIO.getPath() + path + "/Game Data")) {
+        if (fileIO.checkFile(fileIO.getPath() + path + "/User Data") && fileIO.
+                checkFile(fileIO.getPath() + path + "/Game Data")) {
             return true;
         } else {
             return false;
@@ -515,20 +561,13 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     }
 
     private boolean checkDBFiles() {
-        if (FileIO.checkFile(FileIO.getPath() + path + "/User Data/User.h2.db")
-            && FileIO.
-                checkFile(FileIO.getPath() + path + "/Game Data/Games.h2.db")) {
+        if (fileIO.checkFile(fileIO.getPath() + path + "/User Data/User.h2.db")
+            && fileIO.
+                checkFile(fileIO.getPath() + path + "/Game Data/Games.h2.db")) {
             return true;
         } else {
             return false;
         }
-    }
-
-    public void startTransision() {
-        isTransisioning = true;
-        trans = new StartLoader(ui, this);
-        trans.transitionToMain();
-        ui.getUserSpacePanel().setVisible(false);
     }
 
     public FrameKeyListener getStartKeyHandler() {
@@ -536,7 +575,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     }
 
     public AFileManager getFileIO() {
-        return FileIO;
+        return fileIO;
     }
 
     public static boolean isOnline() {
@@ -551,30 +590,15 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
         return isTransisioning;
     }
 
-    public AScrollingImage getHexAnimation() {
-        return HexAnimation;
-    }
-
-    public void setHexAnimation(AScrollingImage HexAnimation) {
-        this.HexAnimation = HexAnimation;
+    public AScrollingImage getImgHexPane() {
+        return imgHexPane;
     }
 
     public AuroraStorage getAuroraStorage() {
         return auroraStorage;
     }
 
-    @Override
-    public void loadUI() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void buildUI() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void addToCanvas() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public AuroraCoreUI getCoreUI() {
+        return coreUI;
     }
 }

@@ -636,7 +636,7 @@ public class GameLibraryUI extends AuroraApp {
         addToVolatileListenerBank(coreUI.getCenterPanel());
         addToVolatileListenerBank(coreUI.getSouthFromTopPanel());
         addToVolatileListenerBank(coreUI.getFrameControlImagePane());
-        addToVolatileListenerBank(coreUI.getTopImagePane());
+        addToVolatileListenerBank(coreUI.getTopPane());
         addToVolatileListenerBank(this.btnShowAddGameUI);
         addToVolatileListenerBank(this.paneLibraryContainer);
         addToVolatileListenerBank(this.imgSelectedGamePane);
@@ -652,16 +652,16 @@ public class GameLibraryUI extends AuroraApp {
         coreUI.getSouthFromTopPanel().revalidate();
 
         //* Add AddGameButton to Bottom Bar *//
-        coreUI.getUserSpacePanel().setLayout(new BorderLayout());
-        coreUI.getUserSpacePanel().setVisible(true);
-        coreUI.getUserSpacePanel().add(pnlShowAddGameContainer);
+        coreUI.getBottomContentPane().setLayout(new BorderLayout());
+        coreUI.getBottomContentPane().setVisible(true);
+        coreUI.getBottomContentPane().add(pnlShowAddGameContainer);
 
         //* Set up Bottom Bar *//
         coreUI.getCenterFromBottomPanel().setLayout(new BorderLayout());
         coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER,
                 pnlSelectedGameContainer);
         coreUI.getCenterFromBottomPanel().add(BorderLayout.SOUTH, coreUI
-                .getUserSpacePanel());
+                .getBottomContentPane());
 
         //* Add To Key Action Panel *//
         coreUI.getKeyToPressPanel().add(coreUI.getKeyIconImage());
@@ -758,11 +758,11 @@ public class GameLibraryUI extends AuroraApp {
         coreUI.getFrameControlImagePane()
                 .addMouseWheelListener(handler.new GridMouseWheelListener());
 
-        coreUI.getTopImagePane()
+        coreUI.getTopPane()
                 .addKeyListener(handler.new searchRefocusListener());
-        coreUI.getTopImagePane()
+        coreUI.getTopPane()
                 .addKeyListener(handler.new GameLibraryKeyListener());
-        coreUI.getTopImagePane()
+        coreUI.getTopPane()
                 .addMouseWheelListener(handler.new GridMouseWheelListener());
 
         this.btnShowAddGameUI.addKeyListener(handler.new searchRefocusListener(

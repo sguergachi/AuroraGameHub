@@ -20,7 +20,6 @@ package aurora.V1.core.screen_ui;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.Game;
-import aurora.V1.core.StartLoader;
 import aurora.V1.core.screen_handler.DashboardHandler;
 import aurora.V1.core.screen_logic.DashboardLogic;
 import aurora.engine.V1.Logic.AuroraScreenUI;
@@ -50,13 +49,14 @@ import javax.swing.JLabel;
  * | by the UI components found here
  * |
  * | This class must follow the rules stated in the AuroraScreenUI
- * | Interface. The *Handler* and *Logic* classes
+ * | Interface found in the Aurora Engine. The *Handler* and *Logic* classes
  * | The Handler class is called: DashboardHandler
  * | The Logic class is called: DashboardLogic
  * |
  * .........................................................................
  *
- * @author sammy <sguergachi@gmail.com> carlos <camachado@gmail.com>
+ * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Carlos Machado <camachado@gmail.com>
  *
  */
 public class DashboardUI implements AuroraScreenUI {
@@ -405,9 +405,6 @@ public class DashboardUI implements AuroraScreenUI {
         // Finalize
         // --------------------------------------------------------------------.
 
-        //* Indicate to User DashboardUI is loading. *//
-        coreUI.getTitleLabel().setText(".: Loading :.");
-
 
 
         keyArrows = new AImage("KeyboardKeys/arrows.png", coreUI.
@@ -419,6 +416,9 @@ public class DashboardUI implements AuroraScreenUI {
 
     @Override
     public final void buildUI() {
+
+        //* Indicate to User DashboardUI is loading. *//
+        coreUI.getTitleLabel().setText(".: Loading :.");
 
         // Carousel
         // --------------------------------------------------------------------.
@@ -531,10 +531,10 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
 
         //* Set size of Top panel in CoreUI *//
-        coreUI.getTopImagePane().setImageHeight(topHeight);
-        coreUI.getTopImagePane().setPreferredSize(new Dimension(coreUI
-                .getTopImagePane().
-                getWidth(), coreUI.getTopImagePane().getImageHeight() + coreUI.
+        coreUI.getTopPane().setImageHeight(topHeight);
+        coreUI.getTopPane().setPreferredSize(new Dimension(coreUI
+                .getTopPane().
+                getWidth(), coreUI.getTopPane().getImageHeight() + coreUI.
                 getFrameControlContainerPanel().getHeight()));
 
         //* Set size of Bottom panel in CoreUI *//
@@ -548,9 +548,9 @@ public class DashboardUI implements AuroraScreenUI {
                 getSouthFromTopPanel().getWidth(), coreUI
                 .getFrameControlContainerPanel().
                 getHeight()));
-        coreUI.getTopImagePane().setPreferredSize(new Dimension(coreUI
-                .getTopImagePane().
-                getWidth(), coreUI.getTopImagePane().getImageHeight() + coreUI.
+        coreUI.getTopPane().setPreferredSize(new Dimension(coreUI
+                .getTopPane().
+                getWidth(), coreUI.getTopPane().getImageHeight() + coreUI.
                 getFrameControlContainerPanel().getHeight()));
         coreUI.getSouthFromTopPanel().revalidate();
 
