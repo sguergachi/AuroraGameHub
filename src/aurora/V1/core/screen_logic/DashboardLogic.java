@@ -37,6 +37,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
+import de.vogella.rss.Feed;
+import de.vogella.rss.FeedMessage;
+import de.vogella.rss.RSSFeedParser;
+
 /**
  * .------------------------------------------------------------------------.
  * | DashboardLogic
@@ -228,8 +232,22 @@ public class DashboardLogic implements AuroraScreenLogic {
         } else {
             Array = array;
         }
+        
+        RSSFeedParser gameSpotParser = new RSSFeedParser("http://www.gamespot.com/rss/game_updates.php?platform=5&type=3");
+        RSSFeedParser joystiqParser = new RSSFeedParser("http://www.joystiq.com/pc/rss.xml");
+        
+        Feed gameSpotFeed = gameSpotParser.readFeed();
+        Feed joystiqFeed = joystiqParser.readFeed();
 
-        Array.add(coreUI.getVi().VI(ANuance.inx_Welcome) + ", ");
+        for (FeedMessage message : gameSpotFeed.getMessages()) {
+          Array.add(message.getTitle());
+        }
+        
+        for (FeedMessage message : joystiqFeed.getMessages()) {
+            Array.add(message.getTitle());
+          }
+
+/*        Array.add(coreUI.getVi().VI(ANuance.inx_Welcome) + ", ");
         Array.
                 add(
                 "How are you doing Today " + coreUI.getVi().VI(ANuance.inx_User)
@@ -276,7 +294,7 @@ public class DashboardLogic implements AuroraScreenLogic {
         Array
                 .add(
                 "Well, i'm tired, keep checking the Sourceforge page for new updates");
-        Array.add("Have fun!");
+        Array.add("Have fun!");*/
 
         return Array;
     }
