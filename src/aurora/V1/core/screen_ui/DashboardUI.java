@@ -281,7 +281,6 @@ public class DashboardUI implements AuroraScreenUI {
      */
     private int carouselButtonHeight;
 
-
     /**
      * This is the Local Storage Instance.
      */
@@ -351,20 +350,20 @@ public class DashboardUI implements AuroraScreenUI {
         // Carousel
         // --------------------------------------------------------------------.
 
-        titleSettingGlow = new AImage("settings_glow.png");
-        titleSettingNorm = new AImage("settings_normal.png");
+        titleSettingGlow = new AImage("dash_carousel_settings_glow.png");
+        titleSettingNorm = new AImage("dash_carousel_settings_norm.png");
 
-        titleLibraryGlow = new AImage("gamelibrary_glow.png");
-        titleLibraryNorm = new AImage("gamelibrary_normal.png");
+        titleLibraryGlow = new AImage("dash_carousel_library_glow.png");
+        titleLibraryNorm = new AImage("dash_carousel_library_norm.png");
 
-        titleProfileGlow = new AImage("gamerprofile_glow.png");
-        titleProfileNorm = new AImage("gamerprofile_normal.png");
+        titleProfileGlow = new AImage("dash_carousel_profile_glow.png");
+        titleProfileNorm = new AImage("dash_carousel_profile_norm.png");
 
         titleAuroraNetGlow = new AImage("auroranet_glow.png");
         titleAuroraNetNorm = new AImage("auroranet_normal.png");
 
-        icoProfile = new AImage("Aurora_Profile.png");
-        icoSetting = new AImage("Aurora_Settings.png");
+        icoProfile = new AImage("dash_carousel_profileIcon.png");
+        icoSetting = new AImage("dash_carousel_settingsIcon.png");
         icoNet = new AImage("ComingSoon.png");
         icoLibrary = logic.getLibraryIcon();
 
@@ -374,21 +373,27 @@ public class DashboardUI implements AuroraScreenUI {
         titleAuroraNet = new ACarouselTitle(titleAuroraNetNorm,
                 titleAuroraNetGlow);
 
-        paneSettings = new ACarouselPane("HexPane.png", (int) carouselWidth + 25,
+        paneSettings = new ACarouselPane("dash_carousel_bg.png",
+                (int) carouselWidth + 25,
                 carouselHeight - 25, true, titleSetting, "Setting Pane");
-        paneProfile = new ACarouselPane("HexPane.png", (int) carouselWidth + 25,
+        paneProfile = new ACarouselPane("dash_carousel_bg.png",
+                (int) carouselWidth + 25,
                 carouselHeight - 25, true, titleProfile, "Profile pane");
-        paneLibrary = new ACarouselPane("HexPane.png", (int) carouselWidth + 25,
+        paneLibrary = new ACarouselPane("dash_carousel_bg.png",
+                (int) carouselWidth + 25,
                 carouselHeight - 25, true, titleLibrary, "library pane");
-        paneNet = new ACarouselPane("HexPane.png", (int) carouselWidth + 25,
+        paneNet = new ACarouselPane("dash_carousel_bg.png", (int) carouselWidth
+                                                            + 25,
                 carouselHeight - 25, true, titleAuroraNet, "auroranet");
 
-        btnCarouselLeft = new AButton("Aurora_left_normal.png",
-                "Aurora_left_down.png", "Aurora_left_over.png",
+        btnCarouselLeft = new AButton("dash_btn_carouselLeft_norm.png",
+                "dash_btn_carouselLeft_down.png",
+                "dash_btn_carouselLeft_over.png",
                 carouselButtonWidth, carouselButtonHeight);
 
-        btnCarouselRight = new AButton("Aurora_right_normal.png",
-                "Aurora_right_down.png", "Aurora_right_over.png",
+        btnCarouselRight = new AButton("dash_btn_carouselRight_norm.png",
+                "dash_btn_carouselRight_down.png",
+                "dash_btn_carouselRight_over.png",
                 carouselButtonWidth, carouselButtonHeight);
 
 
@@ -397,7 +402,9 @@ public class DashboardUI implements AuroraScreenUI {
         // Info Feed
         // --------------------------------------------------------------------.
 
-        infoFeed = new AInfoFeed("InfoBar.png", infoFeedWidth,
+        infoFeed = new AInfoFeed("dash_infoBar_bg.png",
+                "dash_infoBar_seperator.png",
+                infoFeedWidth,
                 infoFeedHeight, logic.createFeed(null));
 
 
@@ -527,7 +534,7 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getCenterPanel().add(BorderLayout.CENTER, carousel);
 
         //* Set bigger Logo to Header *//
-        coreUI.getLogoImage().setImgURl("Aurora_Header2.png");
+        coreUI.getLogoImage().setImgURl("dash_header_logo.png");
         coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
 
         //* Set size of Top panel in CoreUI *//
@@ -538,9 +545,9 @@ public class DashboardUI implements AuroraScreenUI {
                 getFrameControlContainerPanel().getHeight()));
 
         //* Set size of Bottom panel in CoreUI *//
-        coreUI.getBottomImagePane().setPreferredSize(new Dimension(coreUI.
-                getBottomImagePane().getWidth(), bottomPaneHeightAdjust));
-        coreUI.getBottomImagePane().setImageHeight(bottomPaneHeightAdjust);
+        coreUI.getBottomPane().setPreferredSize(new Dimension(coreUI
+                .getBottomPane().getWidth(), bottomPaneHeightAdjust));
+        coreUI.getBottomPane().setImageHeight(bottomPaneHeightAdjust);
 
         //* Set size of Top Panels *//
         coreUI.getSouthFromTopPanel().revalidate();
@@ -565,7 +572,7 @@ public class DashboardUI implements AuroraScreenUI {
 
         //* Set bigger background image for Frame Control panel *//
         coreUI.getFrameControlImagePane().setImage(
-                "Aurora_FrameButtonSmall2.png");
+                "dash_frameControl_bg.png");
 
 
         //* Add Arrow Keys Icons *//
@@ -647,11 +654,11 @@ public class DashboardUI implements AuroraScreenUI {
             topPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5 - Ratio
                                                                            / 10;
 
-            carouselButtonWidth = coreUI.getFrame().getWidth() / 12 + 10;
-            carouselButtonHeight = coreUI.getFrame().getHeight() / 15 + 10;
+            carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
+            carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
             infoFeedWidth = coreUI.getFrame().getSize().width
                             - (carouselButtonWidth * 2 + 65);
-            infoFeedHeight = 75;
+            infoFeedHeight = 55;
 
 
         } else {

@@ -101,7 +101,7 @@ public class StartScreenLogic implements AuroraScreenLogic {
 
         imgHexPane = startScreenUI.getImgHexPane();
         imgTopLogo = coreUI.getLogoImage();
-        imgTopLogoSmall = new AImage("Aurora_Header2.png");
+        imgTopLogoSmall = new AImage("dash_header_logo.png");
 
 
         setSize();
@@ -191,7 +191,7 @@ public class StartScreenLogic implements AuroraScreenLogic {
 
     private void showDashdoard() {
         //* Show loading of Dashboard *//
-        progressWheel = new AProgressWheel("Aurora_wheel.png");
+        progressWheel = new AProgressWheel("app_progressWheel.png");
         coreUI.getFrame().add(progressWheel);
         coreUI.getFrame().repaint();
 

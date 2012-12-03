@@ -351,7 +351,7 @@ public class GridSearch {
         libraryUI.getGameBack().remove(0);
         libraryUI.getGameBack().remove(libraryUI.getImgFavorite());
         //Add search Side image
-        this.sideSearchImage = new AImage("Aurora_Search.png");
+        this.sideSearchImage = new AImage("library_search.png");
         libraryUI.getGameBack().add(sideSearchImage, BorderLayout.WEST);
         for (int i = 0; i < libraryUI.getGridSplit().getArray().size(); i++) {
             libraryUI.getGameBack().remove(libraryUI.getGridSplit().getGrid(i));

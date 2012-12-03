@@ -88,7 +88,7 @@ public class AuroraCoreUI {
      * Generate full Version string to be used at the bottom of UI.
      */
     private final String version =
-                         "  //BUILD: " + getResourceBundleToken("BUILD")
+                         "             //BUILD: " + getResourceBundleToken("BUILD")
                          + "  //REVISION: " + revision
                          + "  //AURORA.ENGINE.VERSION = 0.1." + (Integer
             .parseInt(revision));
@@ -479,7 +479,7 @@ public class AuroraCoreUI {
         // Well as all components found in the window
         //*
 
-        paneBackground = new AImagePane("Aurora_Background.png", frame
+        paneBackground = new AImagePane("app_background.png", frame
                 .getSize().width, frame.getSize().height, true);
 
         paneBackground.setPreferredSize(frame.getSize());
@@ -491,7 +491,7 @@ public class AuroraCoreUI {
         // Exit and Minimize
         //*
 
-        paneTop = new AImagePane("Aurora_Header1.png",
+        paneTop = new AImagePane("app_header.png",
                 frame.getSize().width, (frame.getSize().height / 6), true);
         paneTop.setPreferredSize(new Dimension(frame.getSize().width,
                 (frame.getSize().height / 6)));
@@ -517,7 +517,7 @@ public class AuroraCoreUI {
         // The Bottom Panel Contains the Footer Image as well as
         // the Time and the Login Controls
         //*
-        paneBottom = new AImagePane("Aurora_Footer1.png",
+        paneBottom = new AImagePane("app_footer.png",
                 frame.getSize().width, frame.getSize().height / 6, true);
         paneBottom.setPreferredSize(new Dimension(frame.getSize().width,
                 frame.getSize().height / 6));
@@ -533,13 +533,13 @@ public class AuroraCoreUI {
         vi = new ANuance();
 
         //* Setup Buttons *//
-        btnExit = new AButton("Aurora_Close_normal.png",
-                "Aurora_Close_down.png", "Aurora_Close_over.png",
+        btnExit = new AButton("app_btn_close_norm.png",
+                "app_btn_close_down.png", "app_btn_close_over.png",
                 exitButtonWidth, exitButtonHeight);
         btnExit.addActionListener(new CloseListener());
         btnExit.setToolTipText("Exit");
-        btnMinimize = new AButton("Aurora_Desktop_normal.png",
-                "Aurora_Desktop_down.png", "Aurora_Desktop_over.png",
+        btnMinimize = new AButton("app_btn_minimize_norm.png",
+                "app_btn_minimize_down.png", "app_btn_minimize_over.png",
                 minimizeButtonWidth, minimizeButtonHeight);
         minimizeHandler = new MinimizeListener(this, AuroraMini.MINIMIZE_MODE);
         btnMinimize.addActionListener(minimizeHandler);
@@ -550,7 +550,7 @@ public class AuroraCoreUI {
 
         //* Frame Buttons *//
 
-        paneFrameControl = new AImagePane("Aurora_FrameButton1.png",
+        paneFrameControl = new AImagePane("start_frameControl_bg.png",
                 controlWidth, controlHeight);
         paneFrameControl.setImageHeight(controlHeight);
         paneFrameControl.setOpaque(false);
@@ -576,7 +576,7 @@ public class AuroraCoreUI {
         // LOGO PANEL
         // ---------------------------------------------------------------------
 
-        imgLogo = new AImage("Logo_Aurora.png", logoWidth, logoHeight);
+        imgLogo = new AImage("start_header_logo.png", logoWidth, logoHeight);
         logoPanel = new JPanel();
         logoPanel.setOpaque(false);
         logoPanel.add(imgLogo);
@@ -1208,11 +1208,11 @@ public class AuroraCoreUI {
         return paneBackground;
     }
 
-    public void setBottomImagePane(AImagePane bottomImagePane) {
+    public void setBottomPane(AImagePane bottomImagePane) {
         this.paneBottom = bottomImagePane;
     }
 
-    public AImagePane getBottomImagePane() {
+    public AImagePane getBottomPane() {
         return paneBottom;
     }
 

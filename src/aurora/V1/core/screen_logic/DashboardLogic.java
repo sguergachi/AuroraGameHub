@@ -161,8 +161,8 @@ public class DashboardLogic implements AuroraScreenLogic {
 
             //* Set icon to Blank Case *//
             icon = new AImagePane("Blank-Case.png",
-                    dashboardUI.getGameCoverWidth(), dashboardUI.
-                    getGameCoverHeight());
+                    dashboardUI.getGameCoverWidth() - 10, dashboardUI.
+                    getGameCoverHeight() - 10);
 
         } else {
             Random rand = new Random();
@@ -177,8 +177,8 @@ public class DashboardLogic implements AuroraScreenLogic {
                     getStoredLibrary().
                     getBoxArtPath().
                     get(randomNum), dashboardUI);
-            randomGame.setCoverSize(dashboardUI.getGameCoverWidth(),
-                    dashboardUI.getGameCoverHeight());
+            randomGame.setCoverSize(dashboardUI.getGameCoverWidth() - 10,
+                    dashboardUI.getGameCoverHeight() - 10);
             try {
                 randomGame.update();
             } catch (MalformedURLException ex) {
@@ -232,17 +232,17 @@ public class DashboardLogic implements AuroraScreenLogic {
         } else {
             Array = array;
         }
-        
+
         RSSFeedParser gameSpotParser = new RSSFeedParser("http://www.gamespot.com/rss/game_updates.php?platform=5&type=3");
         RSSFeedParser joystiqParser = new RSSFeedParser("http://www.joystiq.com/pc/rss.xml");
-        
+
         Feed gameSpotFeed = gameSpotParser.readFeed();
         Feed joystiqFeed = joystiqParser.readFeed();
 
         for (FeedMessage message : gameSpotFeed.getMessages()) {
           Array.add(message.getTitle());
         }
-        
+
         for (FeedMessage message : joystiqFeed.getMessages()) {
             Array.add(message.getTitle());
           }

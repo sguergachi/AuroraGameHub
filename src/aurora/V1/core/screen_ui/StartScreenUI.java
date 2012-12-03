@@ -197,8 +197,8 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                     log(Level.SEVERE, null, ex);
         }
 
-        progressWheel = new AProgressWheel("Aurora_wheel.png");
-        imgHexPane = new AScrollingImage("Aurora_Hex.png", 0, 0);
+        progressWheel = new AProgressWheel("app_progressWheel.png");
+        imgHexPane = new AScrollingImage("start_scrolling_hex.png", 0, 0);
         imgHexPane.setIgnoreRepaint(true);
         imgHexPane.setDoubleBuffered(true);
 

@@ -242,7 +242,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
         //* Set Size to CoreUI Components *//
         getCoreUI().getCenterPanel().setPreferredSize(new Dimension(getCoreUI()
                 .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
-                                              - getCoreUI().getBottomImagePane()
+                                              - getCoreUI().getBottomPane()
                 .getHeight() - getCoreUI().getTopPane().getHeight()));
 
 
@@ -417,13 +417,13 @@ public abstract class AuroraApp implements AuroraScreenUI {
      */
     public final void setUpApp() {
         setSizes();
-        btnBack = new AButton("Aurora_Logout_normal.png",
-                "Aurora_Logout_down.png", "Aurora_Logout_over.png",
+        btnBack = new AButton("app_btn_back_norm.png",
+                "app_btn_back_down.png", "app_btn_back_over.png",
                 btnBackWidth, btnBackHeight);
         btnBack.setToolTipText("Back");
         try {
             getCoreUI().getFrameControlImagePane().setImageURL(
-                    "Aurora_FrameButton2.png");
+                    "dash_frameControlBig_bg.png");
         } catch (MalformedURLException ex) {
             Logger.getLogger(AuroraApp.class.getName()).log(Level.SEVERE, null,
                     ex);
