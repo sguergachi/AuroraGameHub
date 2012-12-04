@@ -305,6 +305,7 @@ public class DashboardUI implements AuroraScreenUI {
      * This is the Logic for the DashboardUIs Processing.
      */
     private final DashboardLogic logic;
+    private boolean dashboardUiLoaded;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -419,7 +420,13 @@ public class DashboardUI implements AuroraScreenUI {
 
         lblKeyAction = new JLabel(" Move ");
 
+
+        System.out.println("DashboardUI loaded");
+        dashboardUiLoaded = true;
+
     }
+
+
 
     @Override
     public final void buildUI() {
@@ -466,15 +473,7 @@ public class DashboardUI implements AuroraScreenUI {
         carousel.addKeyListener(handler.new DashboardlKeyListener());
 
 
-        //* Check for the Enter Button Press OR Mouse Click *//
 
-        paneProfile
-                .addMouseListener(handler.new CarouselPaneMouseListener(null));
-        paneSettings.addMouseListener(
-                handler.new CarouselPaneMouseListener(null));
-        paneLibrary
-                .addMouseListener(handler.new CarouselPaneMouseListener(null));
-        paneNet.addMouseListener(handler.new CarouselPaneMouseListener(null));
 
 
         //* Set size of Icons inside each Carousel Pane *//
@@ -493,23 +492,6 @@ public class DashboardUI implements AuroraScreenUI {
                 gameCoverHeight));
         icoLibrary.addMouseListener(handler.new CarouselPaneMouseListener(
                 paneLibrary));
-
-
-        //* Check for Mouse Wheel Rotation *//
-
-        carousel.
-                addMouseWheelListener(
-                handler.new CarouselPaneMouseWheelListener());
-
-
-        //* Add Listeners to the Left and Right Carousel Buttons *//
-
-        btnCarouselLeft.addActionListener(handler.new LeftButtonListener());
-        btnCarouselLeft.addKeyListener(handler.new DashboardlKeyListener());
-
-        btnCarouselRight.addActionListener(handler.new RightButtonListener());
-        btnCarouselRight.addKeyListener(handler.new DashboardlKeyListener());
-
 
 
         //* Info Feed *//
@@ -564,7 +546,7 @@ public class DashboardUI implements AuroraScreenUI {
         //* Set Font of Keyboard Action Label *//
         lblKeyAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
                 coreUI.getKeysFontSize()));
-        lblKeyAction.setForeground(Color.YELLOW);
+        lblKeyAction.setForeground(new Color(0, 178, 178));
 
 
 
@@ -593,6 +575,31 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getCenterFromBottomPanel()
                 .add(BorderLayout.WEST, btnCarouselLeft);
 
+        //* Check for the Enter Button Press OR Mouse Click *//
+
+        paneProfile
+                .addMouseListener(handler.new CarouselPaneMouseListener(null));
+        paneSettings.addMouseListener(
+                handler.new CarouselPaneMouseListener(null));
+        paneLibrary
+                .addMouseListener(handler.new CarouselPaneMouseListener(null));
+        paneNet.addMouseListener(handler.new CarouselPaneMouseListener(null));
+
+         //* Check for Mouse Wheel Rotation *//
+
+        carousel.
+                addMouseWheelListener(
+                handler.new CarouselPaneMouseWheelListener());
+
+
+        //* Add Listeners to the Left and Right Carousel Buttons *//
+
+        btnCarouselLeft.addActionListener(handler.new LeftButtonListener());
+        btnCarouselLeft.addKeyListener(handler.new DashboardlKeyListener());
+
+        btnCarouselRight.addActionListener(handler.new RightButtonListener());
+        btnCarouselRight.addKeyListener(handler.new DashboardlKeyListener());
+
 
         //* CoreUI Listeners *//
 
@@ -603,8 +610,8 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getFrame().getContentPane().
                 addKeyListener(handler.new DashboardlKeyListener());
         coreUI.getFrame().addKeyListener(handler.new DashboardlKeyListener());
-//        coreUI.getBackgroundImagePane().
-//                addKeyListener(handler.new DashboardlKeyListener());
+        coreUI.getBackgroundImagePane().
+                addKeyListener(handler.new DashboardlKeyListener());
 
         //* Finished loading so change text *//
         coreUI.getTitleLabel().setText(" Dashboard ");
@@ -613,7 +620,6 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getFrame().repaint();
         coreUI.getFrame().requestFocus();
 
-        //------------------------------|||-----------------------------------//
 
     }
 
@@ -640,7 +646,7 @@ public class DashboardUI implements AuroraScreenUI {
             carouselWidth = coreUI.getFrame().getWidth() / 42 * 16;
             carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
                     getFrame().getWidth() / 6);
-            gameCoverHeight = carouselHeight - (2 * carouselHeight / 6);
+            gameCoverHeight = carouselHeight - (2 * carouselHeight / 5);
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
             carouselImageWidth = carouselHeight - (2 * carouselHeight / 6)
                                  - (Ratio / 8);
@@ -668,7 +674,7 @@ public class DashboardUI implements AuroraScreenUI {
             carouselWidth = coreUI.getFrame().getWidth() / 40 * 16;
             carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
                     getFrame().getWidth() / 6);
-            gameCoverHeight = carouselHeight - (2 * carouselHeight / 6);
+            gameCoverHeight = carouselHeight - (2 * carouselHeight / 5);
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
             carouselImageWidth = (int) carouselWidth - 400 / 2 - (Ratio
                                                                   * 2);
@@ -1306,6 +1312,8 @@ public class DashboardUI implements AuroraScreenUI {
         this.gameCoverWidth = theGameCoverWidth;
     }
 
+
+
     /**
      * Get UI component Size Value.
      * <p/>
@@ -1503,5 +1511,12 @@ public class DashboardUI implements AuroraScreenUI {
      */
     public final void setCarouselButtonHeight(final int theCarouselButtonHeight) {
         this.carouselButtonHeight = theCarouselButtonHeight;
+    }
+    /**
+     * Is Dashboard LoadedUI() method completed
+     * @return
+     */
+     public boolean isDashboardUiLoaded() {
+        return dashboardUiLoaded;
     }
 }

@@ -122,14 +122,9 @@ public class GameLibraryUI extends AuroraApp {
     private JPanel paneLibraryContainer;
 
     /**
-     * Panel Containing btnShowAddGameUI.
-     */
-    private JPanel pnlShowAddGameContainer;
-
-    /**
      * Panel Containing imgSelectedGamePane.
      */
-    private JPanel pnlSelectedGameContainer;
+    private JPanel pnlBottomCenterContainer;
 
     /**
      * Panel Containing SearchBarBG.
@@ -400,6 +395,8 @@ public class GameLibraryUI extends AuroraApp {
 
     private final GameLibraryLogic logic;
 
+    private AButton btnOrganizeGames;
+
     /**
      * .-----------------------------------------------------------------------.
      * | GameLibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
@@ -437,7 +434,7 @@ public class GameLibraryUI extends AuroraApp {
 
         // Load All UI Components
         // --------------------------------------------------------------------.
-
+        setSize();
         //* Create Components for Library *//
 
         paneLibraryContainer = new JPanel(true);
@@ -457,7 +454,7 @@ public class GameLibraryUI extends AuroraApp {
 
 
         //* Selected Game Name Bar *//
-        pnlSelectedGameContainer = new JPanel(new FlowLayout(FlowLayout.CENTER,
+        pnlBottomCenterContainer = new JPanel(new FlowLayout(FlowLayout.CENTER,
                 0, 10));
 
         imgSelectedGamePane = new AImagePane("library_selectedGameBar_bg.png",
@@ -468,12 +465,14 @@ public class GameLibraryUI extends AuroraApp {
 
 
         //* Add Game Button *//
-        pnlShowAddGameContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0,
-                0));
 
         btnShowAddGameUI = new AButton("library_btn_addGame_norm.png",
                 "library_btn_addGame_down.png",
-                "library_btn_addGame_over.png", addGameWidth, addGameHeight);
+                "library_btn_addGame_over.png");
+
+        btnOrganizeGames = new AButton("library_btn_organizeGame_norm.png",
+                "library_btn_organizeGame_down.png",
+                "library_btn_organizeGame_over.png");
 
 
         //* Search Bar *//
@@ -512,23 +511,17 @@ public class GameLibraryUI extends AuroraApp {
         if (!isScreenLoaded) {
             setSize();
 
-            //* Add Zoom Buttons *//
-//        coreUI.getTitlePanel().removeAll();
-//        coreUI.getTitlePanel().add(ZoomM);
-//        coreUI.getTitlePanel().add(coreUI.getTitleLabel());
-//        coreUI.getTitlePanel().add(ZoomP);
-
             paneLibraryContainer.setOpaque(false);
             paneLibraryContainer.setBackground(Color.red);
             paneLibraryContainer.setLayout(new BorderLayout(0, 0));
 
             lblKeyAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
                     coreUI.getKeysFontSize()));
-            lblKeyAction.setForeground(Color.YELLOW);
+            lblKeyAction.setForeground(new Color(0, 178, 178));
 
 
-            //* Selected Game Name Bar *//
-            pnlSelectedGameContainer.setOpaque(false);
+            //* Bottom Center Bar *//
+            pnlBottomCenterContainer.setOpaque(false);
 
             lblGameName.setOpaque(false);
             lblGameName.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
@@ -538,11 +531,17 @@ public class GameLibraryUI extends AuroraApp {
             imgSelectedGamePane.setPreferredSize(new Dimension(
                     selectedGameBarWidth, selectedGameBarHeight));
             imgSelectedGamePane.add(lblGameName);
-            pnlSelectedGameContainer.add(imgSelectedGamePane);
+
+            //* Organize Games Button *//
+            pnlBottomCenterContainer.add(btnOrganizeGames);
+
+            //* Selected Game Bar *//
+            pnlBottomCenterContainer.add(imgSelectedGamePane);
 
             //* Add Game Button *//
-            pnlShowAddGameContainer.setOpaque(false);
-            pnlShowAddGameContainer.add(btnShowAddGameUI);
+            pnlBottomCenterContainer.add(btnShowAddGameUI);
+
+
 
 
             // Search Bar
@@ -642,12 +641,15 @@ public class GameLibraryUI extends AuroraApp {
         //* Add AddGameButton to Bottom Bar *//
         coreUI.getBottomContentPane().setLayout(new BorderLayout());
         coreUI.getBottomContentPane().setVisible(true);
-        coreUI.getBottomContentPane().add(pnlShowAddGameContainer);
+
+//        coreUI.getBottomContentPane().add(feed);
+        coreUI.getBottomContentPane().revalidate();
+        dashboardUI.getInfoFeed().repaint();
 
         //* Set up Bottom Bar *//
         coreUI.getCenterFromBottomPanel().setLayout(new BorderLayout());
         coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER,
-                pnlSelectedGameContainer);
+                pnlBottomCenterContainer);
         coreUI.getCenterFromBottomPanel().add(BorderLayout.SOUTH, coreUI
                 .getBottomContentPane());
 
@@ -1572,7 +1574,7 @@ public class GameLibraryUI extends AuroraApp {
     }
 
     public JPanel getSelectedGameContainer() {
-        return pnlSelectedGameContainer;
+        return pnlBottomCenterContainer;
     }
 
     public AuroraStorage getStorage() {

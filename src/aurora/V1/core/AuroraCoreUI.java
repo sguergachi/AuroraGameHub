@@ -614,7 +614,7 @@ public class AuroraCoreUI {
         paneHeaderOfCenterFromBottom = new JPanel(new BorderLayout());
         lblTime = new ATimeLabel(ATimeLabel.TIME);
         lblTime.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
-        lblTime.setForeground(new Color(80, 126, 222));
+        lblTime.setForeground(new Color(0,178,178));
 
         lblDate = new ATimeLabel(ATimeLabel.DATE_LETTERS);
         lblDate.setForeground(Color.gray);
@@ -644,7 +644,7 @@ public class AuroraCoreUI {
         lblKeyAction = new JLabel(" Select ");
 
         lblKeyAction.setFont(regularFont.deriveFont(Font.PLAIN, keysFontSize));
-        lblKeyAction.setForeground(Color.YELLOW);
+        lblKeyAction.setForeground(new Color(0,178,178));
 
         paneHeaderOfCenterFromBottom.add(BorderLayout.WEST, paneKeyToPress);
         paneCenterFromBottom.add(BorderLayout.NORTH,

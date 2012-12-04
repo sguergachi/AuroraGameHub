@@ -26,6 +26,7 @@ import aurora.V1.core.screen_ui.GameLibraryUI;
 import aurora.V1.core.screen_ui.GamerProfileUI;
 import aurora.V1.core.screen_ui.SettingsUI;
 import aurora.engine.V1.Logic.ANuance;
+import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.ACarouselPane;
@@ -40,6 +41,8 @@ import javax.swing.SwingUtilities;
 import de.vogella.rss.Feed;
 import de.vogella.rss.FeedMessage;
 import de.vogella.rss.RSSFeedParser;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * .------------------------------------------------------------------------.
@@ -233,68 +236,70 @@ public class DashboardLogic implements AuroraScreenLogic {
             Array = array;
         }
 
-        RSSFeedParser gameSpotParser = new RSSFeedParser("http://www.gamespot.com/rss/game_updates.php?platform=5&type=3");
-        RSSFeedParser joystiqParser = new RSSFeedParser("http://www.joystiq.com/pc/rss.xml");
+        RSSFeedParser gameSpotParser = new RSSFeedParser(
+                "http://www.gamespot.com/rss/game_updates.php?platform=5&type=3");
+        RSSFeedParser joystiqParser = new RSSFeedParser(
+                "http://www.joystiq.com/pc/rss.xml");
 
         Feed gameSpotFeed = gameSpotParser.readFeed();
         Feed joystiqFeed = joystiqParser.readFeed();
 
         for (FeedMessage message : gameSpotFeed.getMessages()) {
-          Array.add(message.getTitle());
+            Array.add(message.getTitle());
         }
 
         for (FeedMessage message : joystiqFeed.getMessages()) {
             Array.add(message.getTitle());
-          }
+        }
 
-/*        Array.add(coreUI.getVi().VI(ANuance.inx_Welcome) + ", ");
-        Array.
-                add(
-                "How are you doing Today " + coreUI.getVi().VI(ANuance.inx_User)
-                + " We hope you enjoy this Alpha release of the Aurora Game Manager");
-        Array.add("Make Sure You Check out the Improved Game Library!");
-        Array.add("It can totally do stuff now!");
-        Array.add("It only took a year or so...");
-        Array.add("Checkout our website at auroragm.sourceforge.net ");
-        Array.add("Please feel free to contact me personally via e-mail");
-        Array.add("> sguergachi@gmail.com < ");
-        Array.add("Let me know if you find any bugs ");
-        Array.add("I will personally attend to it that it is exterminated");
-        Array.add("You can also contact me regarding feedback ");
-        Array.add(
-                "I will feed on your feedback, if you know what i'm saying ");
-        Array.add(
-                "Just so you know, I didn't put this bar here to annoy you ");
-        Array
-                .add(
-                "I plan on having it show you a live feed of breaking gaming news ");
-        Array.add("As well as tracking information from your profile ");
-        Array.add("When ever the heck that gets done... ");
-        Array.add("Its gonna be awesome and super useful, I promise ");
-        Array
-                .add(
-                "Just to demonstrate how useful it's going to be, why don't I teach you the alphabet? ");
-        Array.add("A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ");
-        Array.add("There you go, I just thought you the ABCs! ");
-        Array
-                .add(
-                "Anyways, you don't have to hang around here, just click on the library to start! ");
-        Array
-                .add(
-                "Just press Enter, or, Move your mouse and click on the big thing that says 'Library' ");
-        Array.add("I can do this all day ");
-        Array.add("And all night ");
-        Array.add("Ohh, Breaking News! ");
-        Array.add("There is a new Call of Duty game coming out Next Year!!");
-        Array.add("Totally did not see that comming...");
-        Array.add("I wonder what's going to be in it");
-        Array
-                .add(
-                "I'm going to guess it has something to do with shooting guys with guns");
-        Array
-                .add(
-                "Well, i'm tired, keep checking the Sourceforge page for new updates");
-        Array.add("Have fun!");*/
+        /*        Array.add(coreUI.getVi().VI(ANuance.inx_Welcome) + ", ");
+         Array.
+         add(
+         "How are you doing Today " + coreUI.getVi().VI(ANuance.inx_User)
+         + " We hope you enjoy this Alpha release of the Aurora Game Manager");
+         Array.add("Make Sure You Check out the Improved Game Library!");
+         Array.add("It can totally do stuff now!");
+         Array.add("It only took a year or so...");
+         Array.add("Checkout our website at auroragm.sourceforge.net ");
+         Array.add("Please feel free to contact me personally via e-mail");
+         Array.add("> sguergachi@gmail.com < ");
+         Array.add("Let me know if you find any bugs ");
+         Array.add("I will personally attend to it that it is exterminated");
+         Array.add("You can also contact me regarding feedback ");
+         Array.add(
+         "I will feed on your feedback, if you know what i'm saying ");
+         Array.add(
+         "Just so you know, I didn't put this bar here to annoy you ");
+         Array
+         .add(
+         "I plan on having it show you a live feed of breaking gaming news ");
+         Array.add("As well as tracking information from your profile ");
+         Array.add("When ever the heck that gets done... ");
+         Array.add("Its gonna be awesome and super useful, I promise ");
+         Array
+         .add(
+         "Just to demonstrate how useful it's going to be, why don't I teach you the alphabet? ");
+         Array.add("A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ");
+         Array.add("There you go, I just thought you the ABCs! ");
+         Array
+         .add(
+         "Anyways, you don't have to hang around here, just click on the library to start! ");
+         Array
+         .add(
+         "Just press Enter, or, Move your mouse and click on the big thing that says 'Library' ");
+         Array.add("I can do this all day ");
+         Array.add("And all night ");
+         Array.add("Ohh, Breaking News! ");
+         Array.add("There is a new Call of Duty game coming out Next Year!!");
+         Array.add("Totally did not see that comming...");
+         Array.add("I wonder what's going to be in it");
+         Array
+         .add(
+         "I'm going to guess it has something to do with shooting guys with guns");
+         Array
+         .add(
+         "Well, i'm tired, keep checking the Sourceforge page for new updates");
+         Array.add("Have fun!");*/
 
         return Array;
     }
@@ -412,20 +417,31 @@ public class DashboardLogic implements AuroraScreenLogic {
      */
     private void loadAuroraApps() {
 
-        libraryUI = new GameLibraryUI(dashboardUI
-                .getStartUI().getAuroraStorage(), dashboardUI,
-                dashboardUI.getCoreUI());
-        libraryUI.loadUI();
+        AThreadWorker asyncLoad = new AThreadWorker(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                libraryUI = new GameLibraryUI(dashboardUI
+                        .getStartUI().getAuroraStorage(), dashboardUI,
+                        dashboardUI.getCoreUI());
+                libraryUI.loadUI();
 
 
-        profileUI = new GamerProfileUI(dashboardUI,
-                dashboardUI.getCoreUI());
-        profileUI.loadUI();
+                profileUI = new GamerProfileUI(dashboardUI,
+                        dashboardUI.getCoreUI());
+                profileUI.loadUI();
 
-        settingsUI = new SettingsUI(dashboardUI,
-                dashboardUI.getCoreUI());
+                settingsUI = new SettingsUI(dashboardUI,
+                        dashboardUI.getCoreUI());
 
-        settingsUI.loadUI();
+                settingsUI.loadUI();
+
+
+
+                System.out.println("Apps Pre Loaded");
+            }
+        });
+
+        asyncLoad.startOnce();
 
     }
 }

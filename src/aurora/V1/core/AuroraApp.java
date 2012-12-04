@@ -155,6 +155,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
         //* remove back button *//
         getCoreUI().getFrameControlImagePane().remove(btnBack);
 
+        getCoreUI().getFrame().requestFocusInWindow();
 
     }
 

@@ -299,7 +299,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
         coreUI.getBottomContentPane().removeAll();
         coreUI.getBottomContentPane().revalidate();
 
-         startTransision();
+        startTransision();
 
         //Notify Ready.
         isLoaded = true;
@@ -340,8 +340,6 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     public void startTransision() {
         isTransisioning = true;
-//        trans = new StartLoader(this);
-//        trans.transitionToMain();
         logic.transisionToDashboard();
         coreUI.getBottomContentPane().setVisible(false);
     }
@@ -363,126 +361,146 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     public void run() {
 
         while (Thread.currentThread() == backgroundLoadThread) {
-            loadingPane.revalidate();
-            loadingPane.repaint();
-            auroraStorage = new AuroraStorage();
-            Boolean FirstTimeLoad = false;
 
-            //* Check if Main Folder "AuroraData" Exists *//
-            if (!checkMainDir()) {
 
-                FirstTimeLoad = true;
-                fileIO.createFolder("AuroraData");
-                fileIO.setPath(fileIO.getPath() + path);
-                fileIO.createFolder("User Data");
-                fileIO.createFolder("Game Data");
-                //Load Databases
-                auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad,
-                        fileIO.getPath() + "/Game Data/");
-                auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad,
-                        fileIO.getPath() + "/User Data/");
-                auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad,
-                        fileIO.getPath() + "/User Data/");
+            if (!dashboardLoaded) {
+                loadingPane.revalidate();
+                loadingPane.repaint();
+                auroraStorage = new AuroraStorage();
+                Boolean FirstTimeLoad = false;
 
-                promptDisplay.add("Created New Profile");
+                //* Check if Main Folder "AuroraData" Exists *//
+                if (!checkMainDir()) {
 
-                //* Check if both Sub folders Exist *//
-            } else if (!checkSubDir()) {
-                FirstTimeLoad = true;
-                promptDisplay.add("Unable To Find Subfolders");
-                promptDisplay.add("Attempting to Create New Ones...");
-                fileIO.createFolder("User Data");
-                fileIO.createFolder("Game Data");
+                    FirstTimeLoad = true;
+                    fileIO.createFolder("AuroraData");
+                    fileIO.setPath(fileIO.getPath() + path);
+                    fileIO.createFolder("User Data");
+                    fileIO.createFolder("Game Data");
+                    //Load Databases
+                    auroraStorage.getStoredLibrary()
+                            .setUpDatabase(FirstTimeLoad,
+                            fileIO.getPath() + "/Game Data/");
+                    auroraStorage.getStoredProfile()
+                            .setUpDatabase(FirstTimeLoad,
+                            fileIO.getPath() + "/User Data/");
+                    auroraStorage.getStoredSettings().setUpDatabase(
+                            FirstTimeLoad,
+                            fileIO.getPath() + "/User Data/");
 
-                //Load Databases
-                auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad,
-                        fileIO.getPath() + "/Game Data/");
-                auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad,
-                        fileIO.getPath() + "/User Data/");
-                auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad,
-                        fileIO.getPath() + "/User Data/");
+                    promptDisplay.add("Created New Profile");
 
-            } else if (!checkDBFiles()) {
-                FirstTimeLoad = true;
-                promptDisplay.add("Unable To Find a Data Files");
-                promptDisplay.add("Attempting to Create New Ones...");
-                //Load Databases
-                auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad,
-                        fileIO.getPath() + "/Game Data/");
-                auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad,
-                        fileIO.getPath() + "/User Data/");
-                auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad,
-                        fileIO.getPath() + "/User Data/");
-            } else {
-                fileIO.setPath(fileIO.getPath() + path);
-            }
-            if (!FirstTimeLoad && START_WITH_MINI) {
-                coreUI.minimizeAurora(AuroraMini.LOADING_MODE);
-            }
+                    //* Check if both Sub folders Exist *//
+                } else if (!checkSubDir()) {
+                    FirstTimeLoad = true;
+                    promptDisplay.add("Unable To Find Subfolders");
+                    promptDisplay.add("Attempting to Create New Ones...");
+                    fileIO.createFolder("User Data");
+                    fileIO.createFolder("Game Data");
 
-            //* Check if Online *//
-            if (!checkOnline("auroragm.sourceforge.net")) {
-                Online = false;
-                promptDisplay.add(
-                        "I Can't Connect To AuroraDB, Let Me Try Again...",
-                        Color.RED);
+                    //Load Databases
+                    auroraStorage.getStoredLibrary()
+                            .setUpDatabase(FirstTimeLoad,
+                            fileIO.getPath() + "/Game Data/");
+                    auroraStorage.getStoredProfile()
+                            .setUpDatabase(FirstTimeLoad,
+                            fileIO.getPath() + "/User Data/");
+                    auroraStorage.getStoredSettings().setUpDatabase(
+                            FirstTimeLoad,
+                            fileIO.getPath() + "/User Data/");
 
-                //*
-                // Check if its Users Internet is down
-                // or Aurora Servers are down
-                //*
-                if (checkOnline("google.com") && !checkOnline(
-                        "auroragm.sourceforge.net")) {
-                    promptDisplay
-                            .add(
-                            "Well, It Seems Our Servers Are Down, Try Again In A Bit.",
-                            Color.RED);
-
-                    //The User is having internet problems
-                } else if (!checkOnline("google.com")) {
-                    promptDisplay.add("Can't Connect To Google...");
-                    promptDisplay
-                            .add(
-                            "Either The Universe Exploded OR You Don't Have Internet...",
-                            Color.RED);
-                    promptDisplay.add("Running In Offline Mode...");
+                } else if (!checkDBFiles()) {
+                    FirstTimeLoad = true;
+                    promptDisplay.add("Unable To Find a Data Files");
+                    promptDisplay.add("Attempting to Create New Ones...");
+                    //Load Databases
+                    auroraStorage.getStoredLibrary()
+                            .setUpDatabase(FirstTimeLoad,
+                            fileIO.getPath() + "/Game Data/");
+                    auroraStorage.getStoredProfile()
+                            .setUpDatabase(FirstTimeLoad,
+                            fileIO.getPath() + "/User Data/");
+                    auroraStorage.getStoredSettings().setUpDatabase(
+                            FirstTimeLoad,
+                            fileIO.getPath() + "/User Data/");
                 } else {
-                    promptDisplay
-                            .add(
-                            "I Seem To Have Finnally Esstablished Connection...");
+                    fileIO.setPath(fileIO.getPath() + path);
                 }
+                if (!FirstTimeLoad && START_WITH_MINI) {
+                    coreUI.minimizeAurora(AuroraMini.LOADING_MODE);
+                }
+
+                //* Check if Online *//
+                if (!checkOnline("auroragm.sourceforge.net")) {
+                    Online = false;
+                    promptDisplay.add(
+                            "I Can't Connect To AuroraDB, Let Me Try Again...",
+                            Color.RED);
+
+                    //*
+                    // Check if its Users Internet is down
+                    // or Aurora Servers are down
+                    //*
+                    if (checkOnline("google.com") && !checkOnline(
+                            "auroragm.sourceforge.net")) {
+                        promptDisplay
+                                .add(
+                                "Well, It Seems Our Servers Are Down, Try Again In A Bit.",
+                                Color.RED);
+
+                        //The User is having internet problems
+                    } else if (!checkOnline("google.com")) {
+                        promptDisplay.add("Can't Connect To Google...");
+                        promptDisplay
+                                .add(
+                                "Either The Universe Exploded OR You Don't Have Internet...",
+                                Color.RED);
+                        promptDisplay.add("Running In Offline Mode...");
+                    } else {
+                        promptDisplay
+                                .add(
+                                "I Seem To Have Finnally Esstablished Connection...");
+                    }
+                } else {
+                    Online = true;
+
+                }
+
+
+                if (!FirstTimeLoad) {
+                    //Load Databases
+                    auroraStorage.getStoredLibrary()
+                            .setUpDatabase(FirstTimeLoad,
+                            fileIO.getPath() + "/Game Data/");
+                    auroraStorage.getStoredLibrary().storeFromDatabase();
+                    auroraStorage.getStoredProfile()
+                            .setUpDatabase(FirstTimeLoad,
+                            fileIO.getPath() + "/User Data/");
+                    auroraStorage.getStoredProfile().storeFromDatabase();
+                    auroraStorage.getStoredSettings().setUpDatabase(
+                            FirstTimeLoad,
+                            fileIO.getPath() + "/User Data/");
+                    auroraStorage.getStoredSettings().storeFromDatabase();
+                }
+
+
+                loadedDashboardUI = new DashboardUI(coreUI, this);
+                loadedDashboardUI.loadUI();
+            }
+
+            dashboardLoaded = loadedDashboardUI.isDashboardUiLoaded();
+
+
+
+            if (dashboardLoaded) {
+                promptDisplay.add("Loading Complete", new Color(0, 191, 255));
+                System.out.println("Loading COMPLETED!!");
+                promptDisplay.done();
+                break;
             } else {
-                Online = true;
-
+                promptDisplay.add("Loading...", new Color(0, 191, 255));
+                System.out.println("Loading Dashboard");
             }
-
-
-            if (!FirstTimeLoad) {
-                //Load Databases
-                auroraStorage.getStoredLibrary().setUpDatabase(FirstTimeLoad,
-                        fileIO.getPath() + "/Game Data/");
-                auroraStorage.getStoredLibrary().storeFromDatabase();
-                auroraStorage.getStoredProfile().setUpDatabase(FirstTimeLoad,
-                        fileIO.getPath() + "/User Data/");
-                auroraStorage.getStoredProfile().storeFromDatabase();
-                auroraStorage.getStoredSettings().setUpDatabase(FirstTimeLoad,
-                        fileIO.getPath() + "/User Data/");
-                auroraStorage.getStoredSettings().storeFromDatabase();
-            }
-
-
-            loadedDashboardUI = new DashboardUI(coreUI, this);
-            loadedDashboardUI.loadUI();
-            dashboardLoaded = true;
-
-
-
-            promptDisplay.add("Loading Complete", new Color(0, 191, 255));
-
-
-            System.out.println("Loading COMPLETED!!");
-
-            break;
         }
 
     }
