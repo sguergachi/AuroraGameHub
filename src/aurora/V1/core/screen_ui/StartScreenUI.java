@@ -129,6 +129,8 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private boolean dashboardLoaded;
 
+    private boolean loadedData;
+
     public StartScreenUI(Boolean startMini) {
 
         StartScreenUI.START_WITH_MINI = startMini;
@@ -363,7 +365,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
         while (Thread.currentThread() == backgroundLoadThread) {
 
 
-            if (!dashboardLoaded) {
+            if (!loadedData) {
                 loadingPane.revalidate();
                 loadingPane.repaint();
                 auroraStorage = new AuroraStorage();
@@ -484,22 +486,34 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                 }
 
 
+                //* load DashboardUI *//
                 loadedDashboardUI = new DashboardUI(coreUI, this);
+                System.out.println("Loading Dashboard...");
                 loadedDashboardUI.loadUI();
+
+                loadedData = true;
             }
 
             dashboardLoaded = loadedDashboardUI.isDashboardUiLoaded();
 
 
-
             if (dashboardLoaded) {
+
                 promptDisplay.add("Loading Complete", new Color(0, 191, 255));
                 System.out.println("Loading COMPLETED!!");
+
+                try {
+                    Thread.sleep(16);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(StartScreenUI.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+
                 promptDisplay.done();
                 break;
             } else {
                 promptDisplay.add("Loading...", new Color(0, 191, 255));
-                System.out.println("Loading Dashboard");
+                System.out.println(">> Still Loading Dashboard...");
             }
         }
 

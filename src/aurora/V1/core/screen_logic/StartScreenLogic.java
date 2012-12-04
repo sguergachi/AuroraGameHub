@@ -190,41 +190,49 @@ public class StartScreenLogic implements AuroraScreenLogic {
     }
 
     private void showDashdoard() {
-        //* Show loading of Dashboard *//
-        progressWheel = new AProgressWheel("app_progressWheel.png");
-        coreUI.getFrame().add(progressWheel);
-        coreUI.getFrame().repaint();
 
 
-        //* Re-add Frame Controls *//
-        bottomOfTopPane.setVisible(true);
-        coreUI.getTopPane().add(BorderLayout.PAGE_END, coreUI
-                .getSouthFromTopPanel());
-        coreUI.getTopPane().revalidate();
-
-        //* Remove all components in Center Panel *//
-        coreUI.getCenterPanel().removeAll();
-
-        //* Get or Generate new DashboardUI *//
-        dashboardUI = startScreenUI.getLoadedDashboardUI();
-
-        if (dashboardUI == null) {
-            System.out.println("Creating New Dashboard");
-            dashboardUI = new DashboardUI(coreUI, startScreenUI);
-            dashboardUI.loadUI();
-        } else {
-            System.out.println("Using LOADED Dashboard");
-        }
 
 
-        //* Remove garbage from Memory *//
-        System.gc();
+        AThreadWorker loadDashboard = new AThreadWorker(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-        //* Build DashboardUI *//
-        dashboardUI.buildUI();
 
-        //* remove progressWheel to finilze *//
-        coreUI.getFrame().remove(progressWheel);
+
+                //* Re-add Frame Controls *//
+                bottomOfTopPane.setVisible(true);
+                coreUI.getTopPane().add(BorderLayout.PAGE_END, coreUI
+                        .getSouthFromTopPanel());
+                coreUI.getTopPane().revalidate();
+
+                //* Remove all components in Center Panel *//
+                coreUI.getCenterPanel().removeAll();
+
+                //* Get or Generate new DashboardUI *//
+                dashboardUI = startScreenUI.getLoadedDashboardUI();
+
+                if (dashboardUI == null) {
+                    System.out.println("Creating New Dashboard");
+                    dashboardUI = new DashboardUI(coreUI, startScreenUI);
+                    dashboardUI.loadUI();
+                } else {
+                    System.out.println("Using LOADED Dashboard");
+                }
+
+
+                //* Remove garbage from Memory *//
+                System.gc();
+
+                //* Build DashboardUI *//
+                dashboardUI.buildUI();
+
+               
+            }
+        });
+
+        loadDashboard.startOnce();
+
     }
 
     private void setSize() {
