@@ -305,6 +305,7 @@ public class DashboardUI implements AuroraScreenUI {
      * This is the Logic for the DashboardUIs Processing.
      */
     private final DashboardLogic logic;
+
     private boolean dashboardUiLoaded;
 
     /**
@@ -374,28 +375,41 @@ public class DashboardUI implements AuroraScreenUI {
         titleAuroraNet = new ACarouselTitle(titleAuroraNetNorm,
                 titleAuroraNetGlow);
 
+        carousel = new ACarousel(carouselWidth, carouselHeight,
+                Toolkit.getDefaultToolkit().getScreenSize().width);
+        carousel.setVisible(false);
+
         paneSettings = new ACarouselPane("dash_carousel_bg.png",
                 (int) carouselWidth + 25,
                 carouselHeight - 25, true, titleSetting, "Setting Pane");
+        paneSettings.setVisible(false);
+
         paneProfile = new ACarouselPane("dash_carousel_bg.png",
                 (int) carouselWidth + 25,
                 carouselHeight - 25, true, titleProfile, "Profile pane");
+        paneProfile.setVisible(false);
+
         paneLibrary = new ACarouselPane("dash_carousel_bg.png",
                 (int) carouselWidth + 25,
                 carouselHeight - 25, true, titleLibrary, "library pane");
+        paneLibrary.setVisible(false);
+
         paneNet = new ACarouselPane("dash_carousel_bg.png", (int) carouselWidth
                                                             + 25,
                 carouselHeight - 25, true, titleAuroraNet, "auroranet");
+        paneNet.setVisible(false);
 
         btnCarouselLeft = new AButton("dash_btn_carouselLeft_norm.png",
                 "dash_btn_carouselLeft_down.png",
                 "dash_btn_carouselLeft_over.png",
                 carouselButtonWidth, carouselButtonHeight);
+        btnCarouselLeft.setVisible(false);
 
         btnCarouselRight = new AButton("dash_btn_carouselRight_norm.png",
                 "dash_btn_carouselRight_down.png",
                 "dash_btn_carouselRight_over.png",
                 carouselButtonWidth, carouselButtonHeight);
+        btnCarouselRight.setVisible(false);
 
 
 
@@ -407,6 +421,7 @@ public class DashboardUI implements AuroraScreenUI {
                 "dash_infoBar_seperator.png",
                 infoFeedWidth,
                 infoFeedHeight, logic.createFeed(null));
+        infoFeed.setVisible(false);
 
 
 
@@ -426,7 +441,17 @@ public class DashboardUI implements AuroraScreenUI {
 
     }
 
+    private void setAllToVisible() {
 
+        infoFeed.setVisible(true);
+        btnCarouselRight.setVisible(true);
+        btnCarouselLeft.setVisible(true);
+        carousel.setVisible(true);
+        paneLibrary.setVisible(true);
+        paneNet.setVisible(true);
+        paneProfile.setVisible(true);
+        paneSettings.setVisible(true);
+    }
 
     @Override
     public final void buildUI() {
@@ -437,8 +462,7 @@ public class DashboardUI implements AuroraScreenUI {
         // Carousel
         // --------------------------------------------------------------------.
 
-        carousel = new ACarousel(carouselWidth, carouselHeight,
-                Toolkit.getDefaultToolkit().getScreenSize().width);
+
 
 
         //* Set ID For each Panel and add ENTER Key Listener *//
@@ -497,7 +521,7 @@ public class DashboardUI implements AuroraScreenUI {
         //* Info Feed *//
         infoFeed.go();
 
-
+        setAllToVisible();
 
         //* Add UI to Canvas *//
         addToCanvas();
@@ -585,7 +609,7 @@ public class DashboardUI implements AuroraScreenUI {
                 .addMouseListener(handler.new CarouselPaneMouseListener(null));
         paneNet.addMouseListener(handler.new CarouselPaneMouseListener(null));
 
-         //* Check for Mouse Wheel Rotation *//
+        //* Check for Mouse Wheel Rotation *//
 
         carousel.
                 addMouseWheelListener(
@@ -1312,8 +1336,6 @@ public class DashboardUI implements AuroraScreenUI {
         this.gameCoverWidth = theGameCoverWidth;
     }
 
-
-
     /**
      * Get UI component Size Value.
      * <p/>
@@ -1512,11 +1534,13 @@ public class DashboardUI implements AuroraScreenUI {
     public final void setCarouselButtonHeight(final int theCarouselButtonHeight) {
         this.carouselButtonHeight = theCarouselButtonHeight;
     }
+
     /**
      * Is Dashboard LoadedUI() method completed
+     * <p/>
      * @return
      */
-     public boolean isDashboardUiLoaded() {
+    public boolean isDashboardUiLoaded() {
         return dashboardUiLoaded;
     }
 }
