@@ -37,6 +37,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 
 /**
@@ -444,12 +446,48 @@ public class DashboardUI implements AuroraScreenUI {
     private void setAllToVisible() {
 
         infoFeed.setVisible(true);
+        try {
+            Thread.sleep(5);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DashboardUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
         btnCarouselRight.setVisible(true);
         btnCarouselLeft.setVisible(true);
+         try {
+            Thread.sleep(5);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DashboardUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
         carousel.setVisible(true);
+         try {
+            Thread.sleep(5);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DashboardUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
         paneLibrary.setVisible(true);
+         try {
+            Thread.sleep(5);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DashboardUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
         paneNet.setVisible(true);
+         try {
+            Thread.sleep(5);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DashboardUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
         paneProfile.setVisible(true);
+         try {
+            Thread.sleep(5);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DashboardUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
         paneSettings.setVisible(true);
     }
 
@@ -459,10 +497,12 @@ public class DashboardUI implements AuroraScreenUI {
         //* Indicate to User DashboardUI is loading. *//
         coreUI.getTitleLabel().setText(".: Loading :.");
 
+        //* Set bigger Logo to Header *//
+        coreUI.getLogoImage().setImgURl("dash_header_logo.png");
+        coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
+
         // Carousel
         // --------------------------------------------------------------------.
-
-
 
 
         //* Set ID For each Panel and add ENTER Key Listener *//
@@ -539,9 +579,7 @@ public class DashboardUI implements AuroraScreenUI {
         //* Add Carousel to Center Panel *//
         coreUI.getCenterPanel().add(BorderLayout.CENTER, carousel);
 
-        //* Set bigger Logo to Header *//
-        coreUI.getLogoImage().setImgURl("dash_header_logo.png");
-        coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
+
 
         //* Set size of Top panel in CoreUI *//
         coreUI.getTopPane().setImageHeight(topHeight);

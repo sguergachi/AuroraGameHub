@@ -222,12 +222,12 @@ public class StartScreenLogic implements AuroraScreenLogic {
 
 
                 //* Remove garbage from Memory *//
-                System.gc();
+//                System.gc();
 
                 //* Build DashboardUI *//
                 dashboardUI.buildUI();
 
-               
+
             }
         });
 
