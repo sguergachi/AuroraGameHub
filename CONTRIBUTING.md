@@ -199,10 +199,6 @@ This can also be used multiline if needed:
 	// beautiful Comment
 	//*
 
-For unimportant, short side notes use:
-        
-        // Not important comment here
-
 
 ## 5. Code Segmenting
 
