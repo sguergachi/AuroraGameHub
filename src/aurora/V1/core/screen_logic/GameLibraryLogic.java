@@ -293,9 +293,9 @@ public class GameLibraryLogic implements AuroraScreenLogic {
 
     public void checkNotifiers() {
 
-        if (libraryUI.getStepOne().getImgURl().equals("AddGame_step1_green.png")
-            && libraryUI.getStepTwo()
-                .getImgURl().equals("AddGame_step2_green.png")) {
+        if (libraryUI.getStatusBadge1().getImgURl().equals("addUI_badge_valid.png")
+            && libraryUI.getStatusBadge2()
+                .getImgURl().equals("addUI_badge_valid.png")) {
             //Animate the Button bellow Add Game UI
             libraryUI.getAddGameToLibButton().setVisible(true);
             libraryUI.getAddGameToLibButtonAnimator().setInitialLocation((coreUI
@@ -310,9 +310,9 @@ public class GameLibraryLogic implements AuroraScreenLogic {
             libraryUI.getAddGameToLibButtonAnimator().removeAllListeners();
         }
 
-        if ((libraryUI.getStepOne().getImgURl().equals("AddGame_step1_red.png")
-             || libraryUI.getStepTwo()
-                .getImgURl().equals("AddGame_step2_red.png"))
+        if ((libraryUI.getStatusBadge1().getImgURl().equals("addUI_badge_invalid.png")
+             || libraryUI.getStatusBadge2()
+                .getImgURl().equals("addUI_badge_invalid.png"))
             && libraryUI.getAddGameToLibButton().isVisible()) {
 
 

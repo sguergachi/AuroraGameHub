@@ -236,9 +236,9 @@ public class AuroraLauncher implements Runnable {
 
                         //WAIT FOR GAME TO EXIT
                         try {
-
-                            Process.waitFor();
                             launchPane.setAlwaysOnTop(false);
+                            Process.waitFor();
+
                         } catch (InterruptedException ex) {
                             Logger.getLogger(AuroraLauncher.class.getName())
                                     .log(Level.SEVERE, null, ex);
@@ -330,7 +330,7 @@ public class AuroraLauncher implements Runnable {
             titleBG.setImage("ComputingData.png");
 
 
-            launchPane.setAlwaysOnTop(false);
+            launchPane.setAlwaysOnTop(true);
 
             timeAfter = ATimeLabel.current(ATimeLabel.TIME_24HOUR);
             System.out.println(game.getLastPlayed());

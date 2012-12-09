@@ -170,7 +170,7 @@ public class GameLibraryHandler implements
             libraryUI.getSearchBar().setForeground(Color.darkGray);
             libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
                     .getDefaultFont().deriveFont(Font.BOLD, 40));
-            libraryUI.getSearchBarBG().setImage("SearchBar_inactive.png");
+            libraryUI.getSearchBarBG().setImage("library_searchBar_inactive.png");
             libraryUI.getSearchButtonBG().removeAll();
             libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(),
                     BorderLayout.NORTH);
@@ -181,7 +181,6 @@ public class GameLibraryHandler implements
 
     //////Search Library Bar//////////
     ///What to do if Click on Search Box
-    //TODO add aCarousel Handlers
     public class searchSelectHandler extends MouseAdapter {
 
         @Override
@@ -196,7 +195,7 @@ public class GameLibraryHandler implements
                 libraryUI.getSearchBar().setForeground(Color.darkGray);
                 libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
                         .getDefaultFont().deriveFont(Font.BOLD, 44));
-                libraryUI.getSearchBarBG().setImage("SearchBar.png");
+                libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
                 libraryUI.getSearchButtonBG().removeAll();
                 libraryUI.getSearchButtonBG().add(libraryUI
                         .getRemoveSearchButton(), BorderLayout.NORTH);
@@ -218,7 +217,7 @@ public class GameLibraryHandler implements
             libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
                     .getDefaultFont()
                     .deriveFont(Font.BOLD, 44));
-            libraryUI.getSearchBarBG().setImage("SearchBar.png");
+            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
             libraryUI.getSearchButtonBG().removeAll();
             libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(),
                     BorderLayout.NORTH);
@@ -235,7 +234,7 @@ public class GameLibraryHandler implements
 
         @Override
         public void focusLost(FocusEvent e) {
-            libraryUI.getSearchBarBG().setImage("SearchBar.png");
+            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
         }
     }
 
@@ -263,7 +262,7 @@ public class GameLibraryHandler implements
                     libraryUI.getSearchBar().setForeground(Color.darkGray);
                     libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
                             .getDefaultFont().deriveFont(Font.BOLD, 44));
-                    libraryUI.getSearchBarBG().setImage("SearchBar.png");
+                    libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
                     libraryUI.getSearchButtonBG().removeAll();
                     libraryUI.getSearchButtonBG().add(libraryUI
                             .getRemoveSearchButton(), BorderLayout.NORTH);
@@ -350,7 +349,7 @@ public class GameLibraryHandler implements
                     libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
                             .getDefaultFont().deriveFont(Font.BOLD, 40));
                     libraryUI.getSearchBarBG()
-                            .setImage("SearchBar_inactive.png");
+                            .setImage("library_searchBar_inactive.png");
                     libraryUI.getSearchButtonBG().removeAll();
                     libraryUI.getSearchButtonBG().add(libraryUI
                             .getSearchButton(), BorderLayout.NORTH);
@@ -369,7 +368,7 @@ public class GameLibraryHandler implements
             libraryUI.getSearchBar().setForeground(Color.darkGray);
             libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
                     .getDefaultFont().deriveFont(Font.BOLD, 44));
-            libraryUI.getSearchBarBG().setImage("SearchBar.png");
+            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
             if (!libraryUI.isAddGameUI_Visible()) {
                 if (e.getKeyCode() == KeyEvent.VK_A
                     || e.getKeyCode() == KeyEvent.VK_B
@@ -483,7 +482,7 @@ public class GameLibraryHandler implements
                     libraryUI.getSearchBar().setForeground(Color.darkGray);
                     libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
                             .getDefaultFont().deriveFont(Font.BOLD, 44));
-                    libraryUI.getSearchBarBG().setImage("SearchBar.png");
+                    libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
                     libraryUI.getSearchButtonBG().removeAll();
                     libraryUI.getSearchButtonBG().add(libraryUI
                             .getRemoveSearchButton(), BorderLayout.NORTH);
@@ -506,7 +505,7 @@ public class GameLibraryHandler implements
             libraryUI.getSearchBar().setForeground(Color.darkGray);
             libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
                     .getDefaultFont().deriveFont(Font.BOLD, 44));
-            libraryUI.getSearchBarBG().setImage("SearchBar.png");
+            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
 
             if (e.getKeyCode() == KeyEvent.VK_A
                 || e.getKeyCode() == KeyEvent.VK_B
@@ -641,11 +640,11 @@ public class GameLibraryHandler implements
             if (gameLocator.getSelectedFile() != null) {
                 libraryUI
                         .setCurrentPath(gameLocator.getSelectedFile().getPath());
-                libraryUI.getStepTwo().setImgURl("AddGame_step2_green.png");
+                libraryUI.getStatusBadge2().setImgURl("addUI_badge_valid.png");
                 libraryLogic.checkNotifiers();
                 System.out.println(libraryUI.getCurrentPath());
             } else {
-                libraryUI.getStepTwo().setImgURl("AddGame_step2_red.png");
+                libraryUI.getStatusBadge2().setImgURl("addUI_badge_invalid.png");
             }
         }
     }

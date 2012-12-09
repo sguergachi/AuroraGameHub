@@ -59,11 +59,12 @@ public class GameSearch implements Runnable {
 
     private AuroraStorage storage;
 
-    //////////////////////////
-    ////////Constructor//////
-    ////////////////////////
+    /////////////////////
+    /////Constructor/////
+    /////////////////////
     public GameSearch(GameLibraryUI gameLibraryUI, ASimpleDB database,
                       AuroraStorage storage) {
+
         this.ui = gameLibraryUI.getCoreUI();
         this.db = database;
         this.storage = storage;
@@ -98,7 +99,7 @@ public class GameSearch implements Runnable {
             } catch (IllegalThreadStateException ex) {
                 System.err.println(ex);
             }
-            //searchGame();
+
         }
     }
 
@@ -151,8 +152,9 @@ public class GameSearch implements Runnable {
         foundArray = null;
         libraryUI.getAddGamePane().revalidate();
         libraryUI.getListModel().removeAllElements();
-        libraryUI.getStepOne().setImgURl("AddGame_step1_red.png");
+        libraryUI.getStatusBadge1().setImgURl("addUI_badge_idle.png");
         libraryUI.getLogic().checkNotifiers();
+
     }
 
     public void setAppendedName(String AppendedName) {
@@ -179,10 +181,13 @@ public class GameSearch implements Runnable {
         //If not found show Placeholder and turn notification red
         if (foundGame == null) {
             libraryUI.getCoverPane().removeAll();
-            notFound = new AImagePane("NoGameFound.png", 220, 250);
+            notFound = new AImagePane("NoGameFound.png", libraryUI
+                    .getPnlBlankCoverGame().getWidth(), libraryUI
+                    .getPnlBlankCoverGame().getHeight());
             libraryUI.getCoverPane().add(notFound);
+
             foundGameCover = null;
-            libraryUI.getStepOne().setImgURl("AddGame_step1_red.png");
+            libraryUI.getStatusBadge1().setImgURl("addUI_badge_invalid.png");
             libraryUI.getLogic().checkNotifiers();
             libraryUI.getListModel().removeAllElements();
             libraryUI.getCoverPane().repaint();
@@ -201,7 +206,8 @@ public class GameSearch implements Runnable {
                 Logger.getLogger(GameSearch.class.getName()).log(Level.SEVERE,
                         null, ex);
             }
-            foundGameCover.setCoverSize(220, 250);
+            foundGameCover.setCoverSize(libraryUI.getPnlBlankCoverGame()
+                    .getWidth(), libraryUI.getPnlBlankCoverGame().getHeight());
             foundGameCover.setGameName(gameName);
 
             libraryUI.getCoverPane().add(foundGameCover);
@@ -214,7 +220,7 @@ public class GameSearch implements Runnable {
             }
 
             //Change notification
-            libraryUI.getStepOne().setImgURl("AddGame_step1_green.png");
+            libraryUI.getStatusBadge1().setImgURl("addUI_badge_valid.png");
             libraryUI.getLogic().checkNotifiers();
             libraryUI.getCoverPane().repaint();
             libraryUI.getCoverPane().revalidate();
@@ -264,7 +270,6 @@ public class GameSearch implements Runnable {
                     }
                 }
                 libraryUI.getGamesList().revalidate();
-                //Library.getGamesList().setSelectedIndex(1);
             } catch (Exception ex) {
                 foundGame = null;
             }
@@ -275,10 +280,12 @@ public class GameSearch implements Runnable {
             if (foundGame == null) {
 
                 libraryUI.getCoverPane().removeAll();
-                notFound = new AImagePane("NoGameFound.png", 220, 250);
+                notFound = new AImagePane("NoGameFound.png", libraryUI
+                        .getPnlBlankCoverGame().getWidth(), libraryUI
+                        .getPnlBlankCoverGame().getHeight());
                 libraryUI.getCoverPane().add(notFound);
                 foundGameCover = null;
-                libraryUI.getStepOne().setImgURl("AddGame_step1_red.png");
+                libraryUI.getStatusBadge1().setImgURl("addUI_badge_invalid.png");
                 libraryUI.getLogic().checkNotifiers();
                 libraryUI.getListModel().removeAllElements();
                 libraryUI.getCoverPane().repaint();
@@ -298,7 +305,9 @@ public class GameSearch implements Runnable {
                     Logger.getLogger(GameSearch.class.getName()).log(
                             Level.SEVERE, null, ex);
                 }
-                foundGameCover.setCoverSize(220, 250);
+                foundGameCover.setCoverSize(libraryUI.getPnlBlankCoverGame()
+                        .getWidth(), libraryUI.getPnlBlankCoverGame()
+                        .getHeight());
                 foundGameCover.setGameName(foundGame.replace("-", " ").replace(
                         ".png", ""));
 
@@ -313,7 +322,7 @@ public class GameSearch implements Runnable {
                 }
 
                 //Trun notifier Green
-                libraryUI.getStepOne().setImgURl("AddGame_step1_green.png");
+                libraryUI.getStatusBadge1().setImgURl("addUI_badge_valid.png");
                 libraryUI.getLogic().checkNotifiers();
                 libraryUI.getCoverPane().repaint();
                 libraryUI.getCoverPane().revalidate();

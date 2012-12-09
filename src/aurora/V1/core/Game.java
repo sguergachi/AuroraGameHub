@@ -422,14 +422,16 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         setSize();
         interactivePanel.setVisible(true);
 
-        glowImagePane = new AImagePane("Glow-Case.png", width + 10, height + 10);
-        favoriteIconImagePane = new AImagePane("FavoriteIcon.png", 100, 32);
+        glowImagePane = new AImagePane("game_selectedGlow.png", width + 10,
+                height + 10);
+        favoriteIconImagePane = new AImagePane("game_favouriteIcon.png", 100, 32);
         favoriteIconImagePane.setPreferredSize(new Dimension(100, 32));
-        removeButton = new AButton("RemoveGame_up.png", "RemoveGame_down.png",
-                "RemoveGame_over.png");
+        removeButton = new AButton("game_btn_remove_norm.png",
+                "game_btn_remove_down.png",
+                "game_btn_remove_over.png");
         removeButton.addActionListener(new RemoveButtonListener());
 
-        gameBarImagePane = new AImagePane("GameIconBar.png", width - 30, 55);
+        gameBarImagePane = new AImagePane("game_overlay.png", width - 30, 55);
         gameBarImagePane.setOpaque(false);
         gameBarImagePane.setPreferredSize(new Dimension(width - 30, 55));
         gameBarImagePane.setLayout(new BorderLayout());
@@ -440,25 +442,26 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         gameBarPanel.setLayout(new BoxLayout(gameBarPanel, BoxLayout.X_AXIS));
 
         //Game Bar Elements//
-        favoriteButton = new AButton("StarGame_up.png", "StarGame_down.png",
-                "StarGame_over.png");
+        favoriteButton = new AButton("game_btn_star_norm.png",
+                "game_btn_star_down.png",
+                "game_btn_star_over.png");
         favoriteButton.addActionListener(new Game.FavoriteButtonListener());
-
         favoriteButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         favoriteButtonPanel.setPreferredSize(new Dimension(30, 40));
         favoriteButtonPanel.add(favoriteButton);
         favoriteButtonPanel.setOpaque(false);
 
-        infoButton = new AButton("GameInfo_up.png", "GameInfo_down.png",
-                "GameInfo_over.png");
-
+        infoButton = new AButton("game_btn_reverse_norm.png",
+                "game_btn_reverse_down.png",
+                "game_btn_reverse_over.png");
         infoButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         infoButtonPanel.setPreferredSize(new Dimension(80, 40));
         infoButtonPanel.add(infoButton);
         infoButtonPanel.setOpaque(false);
 
-        playButton = new AButton("PlayGame_up.png", "PlayGame_down.png",
-                "PlayGame_over.png");
+        playButton = new AButton("game_btn_play_norm.png",
+                "game_btn_play_down.png",
+                "game_btn_play_over.png");
         playButton.setPreferredSize(new Dimension(40, 40));
         playButton.setOpaque(false);
         playButtonListener = new Game.PlayButtonListener();

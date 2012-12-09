@@ -101,6 +101,7 @@ public class GridSearch {
                 restoreGrid(); //Restores to The original Library
                 resetAppendedName(); // Resets AppendName variable
                 libraryUI.getGameBack().revalidate(); // Refreshes the Grid.
+
             } catch (MalformedURLException ex) {
                 Logger.getLogger(GridSearch.class.getName()).log(Level.SEVERE,
                         null, ex);
