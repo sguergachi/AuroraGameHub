@@ -568,8 +568,8 @@ public class GameLibraryHandler implements
                 libraryUI.getSearchText().setText("");
                 gameSearch.resetCover();
                 libraryUI.getSearchText().setForeground(Color.black);
-                libraryUI.getSearchArrow().setImage(
-                        "AddGame_SearchArrow_dark.png");
+                libraryUI.getPnlSearchBG().setImage(
+                        "addUI_text_active.png");
             }
         }
     }
@@ -583,8 +583,8 @@ public class GameLibraryHandler implements
                 libraryUI.getSearchText().setText("");
                 gameSearch.resetCover();
                 libraryUI.getSearchText().setForeground(Color.black);
-                libraryUI.getSearchArrow().setImage(
-                        "AddGame_SearchArrow_dark.png");
+                libraryUI.getPnlSearchBG().setImage(
+                        "addUI_text_active.png");
             }
 
         }
@@ -604,8 +604,8 @@ public class GameLibraryHandler implements
                     libraryUI.getSearchText().setText(
                             "Search For Game To Add...");
                     libraryUI.getSearchText().setForeground(Color.DARK_GRAY);
-                    libraryUI.getSearchArrow().setImage(
-                            "AddGame_SearchArrow_light.png");
+                    libraryUI.getPnlSearchBG().setImage(
+                            "addUI_text_inactive.png");
                 }
 
             }

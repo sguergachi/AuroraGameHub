@@ -1117,3 +1117,57 @@ org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
 org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
 12-08 20:27:39 jdbc[2]: exception
 org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-09 20:49:40 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-09 20:49:40 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-09 20:49:40 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: The object is already closed [90007-167]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.message.DbException.get(DbException.java:135)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1383)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1361)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:264)
+	at aurora.engine.V1.Logic.ASimpleDB.searchAprox(ASimpleDB.java:836)
+	at aurora.V1.core.GameSearch.searchGame(GameSearch.java:251)
+	at aurora.V1.core.GameSearch.run(GameSearch.java:346)
+	at java.lang.Thread.run(Thread.java:662)
+12-09 20:49:40 jdbc[5]: exception
+org.h2.jdbc.JdbcSQLException: The object is already closed [90007-167]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.message.DbException.get(DbException.java:135)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1383)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1361)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:264)
+	at aurora.engine.V1.Logic.ASimpleDB.searchAprox(ASimpleDB.java:836)
+	at aurora.V1.core.GameSearch.searchGame(GameSearch.java:251)
+	at aurora.V1.core.GameSearch.run(GameSearch.java:346)
+	at java.lang.Thread.run(Thread.java:662)
+12-09 20:49:40 jdbc[6]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-09 20:49:40 jdbc[7]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-09 20:49:40 jdbc[8]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-09 20:49:40 jdbc[9]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-09 20:49:40 jdbc[10]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-09 20:49:40 jdbc[11]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-09 20:49:41 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-09 20:49:41 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-09 20:49:41 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-09 20:49:41 jdbc[15]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-09 20:49:41 jdbc[16]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-09 20:49:41 jdbc[17]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
