@@ -303,6 +303,39 @@ public class DashboardLogic implements AuroraScreenLogic {
 
         return Array;
     }
+    
+    public final String createFeed() {
+
+       // ArrayList<String> Array = null;
+        String feedString = "";
+
+      /*  if (array == null) {
+            Array = new ArrayList<String>();
+        } else {
+            Array = array;
+        }*/
+
+        RSSFeedParser gameSpotParser = new RSSFeedParser(
+                "http://www.gamespot.com/rss/game_updates.php?platform=5&type=3");
+        RSSFeedParser joystiqParser = new RSSFeedParser(
+                "http://www.joystiq.com/pc/rss.xml");
+
+        Feed gameSpotFeed = gameSpotParser.readFeed();
+        Feed joystiqFeed = joystiqParser.readFeed();
+
+        for (FeedMessage message : gameSpotFeed.getMessages()) {
+           // Array.add(message.getTitle());
+        	feedString = feedString + message.getTitle() + " << >> ";
+        }
+
+        for (FeedMessage message : joystiqFeed.getMessages()) {
+            //Array.add(message.getTitle());
+        	feedString = feedString + message.getTitle() + " << >> ";
+        }
+        System.out.println("FEED MSG: " + feedString);
+        return feedString;
+    }
+    
 
     /**
      * .-----------------------------------------------------------------------.

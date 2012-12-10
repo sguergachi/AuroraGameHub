@@ -31,6 +31,8 @@ import aurora.engine.V1.UI.ACarouselTitle.TitleType;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AInfoFeed;
+import aurora.engine.V1.UI.ScrollText;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -197,6 +199,9 @@ public class DashboardUI implements AuroraScreenUI {
      * A Scrolling Information ticker bar.
      */
     private AInfoFeed infoFeed;
+    
+    
+    private ScrollText scrollText;
 
     /**
      * Size Constant.
@@ -424,8 +429,14 @@ public class DashboardUI implements AuroraScreenUI {
                 infoFeedWidth,
                 infoFeedHeight, logic.createFeed(null));
         infoFeed.setVisible(false);
+        
+        System.out.println("InfoFeed Width: " + infoFeedWidth);
 
-
+        // Scroll Text
+        // --------------------------------------------------------------------.
+       // scrollText = new ScrollText("Java can do animation! Java can do anything! xxxxxxxxxxxxxx");
+        scrollText = new ScrollText(logic.createFeed());
+        
 
         // Finalize
         // --------------------------------------------------------------------.
@@ -633,7 +644,8 @@ public class DashboardUI implements AuroraScreenUI {
         //* Add To Bottom Panel  InfoFeed and both Carousel Buttons*//
         coreUI.getCenterFromBottomPanel().add(BorderLayout.EAST,
                 btnCarouselRight);
-        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, infoFeed);
+       // coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, infoFeed);
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, scrollText);
         coreUI.getCenterFromBottomPanel()
                 .add(BorderLayout.WEST, btnCarouselLeft);
 
@@ -727,6 +739,8 @@ public class DashboardUI implements AuroraScreenUI {
             infoFeedWidth = coreUI.getFrame().getSize().width
                             - (carouselButtonWidth * 2 + 65);
             infoFeedHeight = 55;
+            
+            System.out.println("INFO FEED WIDTH = " + infoFeedWidth);
 
 
         } else {
@@ -756,7 +770,9 @@ public class DashboardUI implements AuroraScreenUI {
                             - (carouselButtonWidth * 2 + 60);
             infoFeedHeight = carouselButtonHeight - bottomPaneHeightAdjust / 18;
 
-
+            System.out.println("INFO FEED WIDTH = " + infoFeedWidth);
+            System.out.println("INFO FEED HEIGHT = " + infoFeedHeight);
+            
             System.out.println("WIDTH " + carouselWidth);
         }
 
