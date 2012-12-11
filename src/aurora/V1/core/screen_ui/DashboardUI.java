@@ -199,8 +199,7 @@ public class DashboardUI implements AuroraScreenUI {
      * A Scrolling Information ticker bar.
      */
     private AInfoFeed infoFeed;
-    
-    
+
     private ScrollText scrollText;
 
     /**
@@ -429,14 +428,14 @@ public class DashboardUI implements AuroraScreenUI {
                 infoFeedWidth,
                 infoFeedHeight, logic.createFeed(null));
         infoFeed.setVisible(false);
-        
+
         System.out.println("InfoFeed Width: " + infoFeedWidth);
 
         // Scroll Text
         // --------------------------------------------------------------------.
-       // scrollText = new ScrollText("Java can do animation! Java can do anything! xxxxxxxxxxxxxx");
+        // scrollText = new ScrollText("Java can do animation! Java can do anything! xxxxxxxxxxxxxx");
         scrollText = new ScrollText(logic.createFeed());
-        
+
 
         // Finalize
         // --------------------------------------------------------------------.
@@ -465,35 +464,35 @@ public class DashboardUI implements AuroraScreenUI {
         }
         btnCarouselRight.setVisible(true);
         btnCarouselLeft.setVisible(true);
-         try {
+        try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
             Logger.getLogger(DashboardUI.class.getName()).
                     log(Level.SEVERE, null, ex);
         }
         carousel.setVisible(true);
-         try {
+        try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
             Logger.getLogger(DashboardUI.class.getName()).
                     log(Level.SEVERE, null, ex);
         }
         paneLibrary.setVisible(true);
-         try {
+        try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
             Logger.getLogger(DashboardUI.class.getName()).
                     log(Level.SEVERE, null, ex);
         }
         paneNet.setVisible(true);
-         try {
+        try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
             Logger.getLogger(DashboardUI.class.getName()).
                     log(Level.SEVERE, null, ex);
         }
         paneProfile.setVisible(true);
-         try {
+        try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
             Logger.getLogger(DashboardUI.class.getName()).
@@ -644,8 +643,12 @@ public class DashboardUI implements AuroraScreenUI {
         //* Add To Bottom Panel  InfoFeed and both Carousel Buttons*//
         coreUI.getCenterFromBottomPanel().add(BorderLayout.EAST,
                 btnCarouselRight);
-       // coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, infoFeed);
-        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, scrollText);
+
+
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, infoFeed);
+//      coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, scrollText);
+
+
         coreUI.getCenterFromBottomPanel()
                 .add(BorderLayout.WEST, btnCarouselLeft);
 
@@ -739,7 +742,7 @@ public class DashboardUI implements AuroraScreenUI {
             infoFeedWidth = coreUI.getFrame().getSize().width
                             - (carouselButtonWidth * 2 + 65);
             infoFeedHeight = 55;
-            
+
             System.out.println("INFO FEED WIDTH = " + infoFeedWidth);
 
 
@@ -772,7 +775,7 @@ public class DashboardUI implements AuroraScreenUI {
 
             System.out.println("INFO FEED WIDTH = " + infoFeedWidth);
             System.out.println("INFO FEED HEIGHT = " + infoFeedHeight);
-            
+
             System.out.println("WIDTH " + carouselWidth);
         }
 
