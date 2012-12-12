@@ -554,7 +554,7 @@ public class GameLibraryUI extends AuroraApp {
             pnlSearchButtonBG.add(btnSearch, BorderLayout.NORTH);
 
             pnlSearchText.setOpaque(false);
-            pnlSearchText.add(searchTextField, BorderLayout.NORTH);
+            pnlSearchText.add(searchTextField, BorderLayout.CENTER);
 
             pnlSearchContainer.setOpaque(false);
             pnlSearchContainer.add(pnlSearchButton, BorderLayout.WEST);
@@ -829,14 +829,14 @@ public class GameLibraryUI extends AuroraApp {
 
 
         //* BOTTOM PANEL COMPONENTS *//
-        pnlBottomPane = new JPanel(new BorderLayout());
+        pnlBottomPane = new JPanel(new BorderLayout(0,20));
         pnlBottomPane.setOpaque(false);
         pnTopOfBottom = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pnTopOfBottom.setOpaque(false);
         pnlBottomOfCenter = new JPanel(new BorderLayout());
         pnlBottomOfCenter.setOpaque(false);
         pnlSearchBG = new AImagePane("addUI_text_inactive.png",
-                new FlowLayout(FlowLayout.RIGHT, 5, 1));
+                new FlowLayout(FlowLayout.RIGHT, 5, -1));
 
         addGameSearchField = new JTextField("Search For Game To Add...");
         pnlAddGameSearchContainer = new JPanel(new FlowLayout(
@@ -984,8 +984,8 @@ public class GameLibraryUI extends AuroraApp {
 
             //* Set Up Textfield where user will search for game to add *//
             addGameSearchField.setFont(coreUI.getDefaultFont().deriveFont(Font.BOLD,
-                    20));
-            addGameSearchField.setForeground(Color.DARK_GRAY);
+                    29));
+            addGameSearchField.setForeground(Color.gray);
             addGameSearchField.setOpaque(false);
             addGameSearchField.setBorder(null);
             addGameSearchField.setPreferredSize(new Dimension(500, 50));
@@ -1038,7 +1038,6 @@ public class GameLibraryUI extends AuroraApp {
 
             //* Add UI elements to the Bottom Panel in the Add Game UI *//
             pnlBottomPane.add(pnlAddGameSearchContainer, BorderLayout.PAGE_START);
-            pnlBottomPane.setOpaque(true);
 
             //* CENTRAL PANEL COMPONENTS *//
 
@@ -1067,7 +1066,6 @@ public class GameLibraryUI extends AuroraApp {
 
             pnlCenter.add(pnlTopOfCenter, BorderLayout.NORTH);
             pnlCenter.add(pnlAddGameContainer, BorderLayout.CENTER);
-
 
             //*
             // Add the TOP the CENTER and the BOTTOM

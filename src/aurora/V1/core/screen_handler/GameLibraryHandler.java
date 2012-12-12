@@ -147,12 +147,9 @@ public class GameLibraryHandler implements
 
     public class RemoveSearchHandler implements ActionListener {
 
-        private final JTextField SearchBar;
-
         private final AButton SearchButton;
 
         public RemoveSearchHandler() {
-            this.SearchBar = libraryUI.getSearchBar();
             this.SearchButton = libraryUI.getSearchButton();
 
         }
@@ -166,11 +163,10 @@ public class GameLibraryHandler implements
                         Level.SEVERE, null, ex);
             }
             gridSearch.resetAppendedName();
-            SearchBar.setText("Start Typing To Search...");
+            libraryUI.getSearchBar().setText("Start Typing To Search...");
             libraryUI.getSearchBar().setForeground(Color.darkGray);
-            libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
-                    .getDefaultFont().deriveFont(Font.BOLD, 40));
-            libraryUI.getSearchBarBG().setImage("library_searchBar_inactive.png");
+            libraryUI.getSearchBarBG()
+                    .setImage("library_searchBar_inactive.png");
             libraryUI.getSearchButtonBG().removeAll();
             libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(),
                     BorderLayout.NORTH);
@@ -193,9 +189,8 @@ public class GameLibraryHandler implements
                     "Start Typing To Search...")) {
                 libraryUI.getSearchBar().setText("");
                 libraryUI.getSearchBar().setForeground(Color.darkGray);
-                libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
-                        .getDefaultFont().deriveFont(Font.BOLD, 44));
-                libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
+                libraryUI.getSearchBarBG().setImage(
+                        "library_searchBar_active.png");
                 libraryUI.getSearchButtonBG().removeAll();
                 libraryUI.getSearchButtonBG().add(libraryUI
                         .getRemoveSearchButton(), BorderLayout.NORTH);
@@ -214,9 +209,6 @@ public class GameLibraryHandler implements
             libraryUI.getSearchBar().requestFocus();
             libraryUI.getSearchBar().setText("");
             libraryUI.getSearchBar().setForeground(Color.darkGray);
-            libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
-                    .getDefaultFont()
-                    .deriveFont(Font.BOLD, 44));
             libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
             libraryUI.getSearchButtonBG().removeAll();
             libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(),
@@ -260,9 +252,8 @@ public class GameLibraryHandler implements
                     SearchBar.setText("");
                     gridSearch.resetAppendedName();
                     libraryUI.getSearchBar().setForeground(Color.darkGray);
-                    libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
-                            .getDefaultFont().deriveFont(Font.BOLD, 44));
-                    libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
+                    libraryUI.getSearchBarBG().setImage(
+                            "library_searchBar_active.png");
                     libraryUI.getSearchButtonBG().removeAll();
                     libraryUI.getSearchButtonBG().add(libraryUI
                             .getRemoveSearchButton(), BorderLayout.NORTH);
@@ -346,8 +337,6 @@ public class GameLibraryHandler implements
 
                     SearchBar.setText("Start Typing To Search...");
                     libraryUI.getSearchBar().setForeground(Color.darkGray);
-                    libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
-                            .getDefaultFont().deriveFont(Font.BOLD, 40));
                     libraryUI.getSearchBarBG()
                             .setImage("library_searchBar_inactive.png");
                     libraryUI.getSearchButtonBG().removeAll();
@@ -366,8 +355,6 @@ public class GameLibraryHandler implements
             //this activates for any letter number or space key
 
             libraryUI.getSearchBar().setForeground(Color.darkGray);
-            libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
-                    .getDefaultFont().deriveFont(Font.BOLD, 44));
             libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
             if (!libraryUI.isAddGameUI_Visible()) {
                 if (e.getKeyCode() == KeyEvent.VK_A
@@ -480,9 +467,8 @@ public class GameLibraryHandler implements
                     SearchBar.requestFocus(); // Get focus of Search Box
 
                     libraryUI.getSearchBar().setForeground(Color.darkGray);
-                    libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
-                            .getDefaultFont().deriveFont(Font.BOLD, 44));
-                    libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
+                    libraryUI.getSearchBarBG().setImage(
+                            "library_searchBar_active.png");
                     libraryUI.getSearchButtonBG().removeAll();
                     libraryUI.getSearchButtonBG().add(libraryUI
                             .getRemoveSearchButton(), BorderLayout.NORTH);
@@ -503,8 +489,6 @@ public class GameLibraryHandler implements
             //this activates for any letter number or space key
 
             libraryUI.getSearchBar().setForeground(Color.darkGray);
-            libraryUI.getSearchBar().setFont(libraryUI.getCoreUI()
-                    .getDefaultFont().deriveFont(Font.BOLD, 44));
             libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
 
             if (e.getKeyCode() == KeyEvent.VK_A
@@ -567,7 +551,7 @@ public class GameLibraryHandler implements
                 libraryUI.getSearchText().requestFocus();
                 libraryUI.getSearchText().setText("");
                 gameSearch.resetCover();
-                libraryUI.getSearchText().setForeground(Color.black);
+                libraryUI.getSearchText().setForeground(new Color(23, 139, 255));
                 libraryUI.getPnlSearchBG().setImage(
                         "addUI_text_active.png");
             }
@@ -582,7 +566,7 @@ public class GameLibraryHandler implements
                     "Search For Game To Add...")) {
                 libraryUI.getSearchText().setText("");
                 gameSearch.resetCover();
-                libraryUI.getSearchText().setForeground(Color.black);
+                libraryUI.getSearchText().setForeground(new Color(23, 139, 255));
                 libraryUI.getPnlSearchBG().setImage(
                         "addUI_text_active.png");
             }
@@ -603,7 +587,7 @@ public class GameLibraryHandler implements
                 if (libraryUI.getSearchText().getText().length() <= 1) {
                     libraryUI.getSearchText().setText(
                             "Search For Game To Add...");
-                    libraryUI.getSearchText().setForeground(Color.DARK_GRAY);
+                    libraryUI.getSearchText().setForeground(Color.darkGray);
                     libraryUI.getPnlSearchBG().setImage(
                             "addUI_text_inactive.png");
                 }
