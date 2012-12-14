@@ -91,7 +91,7 @@ public class StartScreenLogic implements AuroraScreenLogic {
         startHandler = (StartScreenHandler) handler;
     }
 
-    private void loadUI() {
+    private void loadTransitionUI() {
 
 
 
@@ -114,7 +114,7 @@ public class StartScreenLogic implements AuroraScreenLogic {
 
     public void transisionToDashboard() {
 
-        loadUI();
+        loadTransitionUI();
 
         animateTransision = new AThreadWorker(new ActionListener() {
             //* Times cycling through threadWorker loop *//

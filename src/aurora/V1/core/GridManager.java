@@ -158,8 +158,6 @@ public class GridManager {
      * Finds Same Game and returns that game in the library
      *
      * @param game
-     *             <
-     * p/>
      * @return
      */
     public Game echoGame(Game game) {
@@ -168,8 +166,9 @@ public class GridManager {
             for (int a = 0; a < Grids.get(i).getArray().size(); a++) {
                 if (Grids.get(i).getArray().get(a) instanceof GamePlaceholder
                     == false) {
+
                     Game cover = (Game) Grids.get(i).getArray().get(a);
-                    if (cover.getBoxArtUrl().equals(game.getBoxArtUrl())) {
+                    if ( cover.getBoxArtUrl().equals(game.getBoxArtUrl())) {
                         return cover;
                     }
                 }
@@ -474,7 +473,8 @@ public class GridManager {
      *
      * @param PanelIndex
      *                   <
-     * p/>
+     *                   p/>
+     * <p/>
      * @return AGridPanel
      *
      */

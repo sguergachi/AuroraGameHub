@@ -69,6 +69,8 @@ public class GameLibraryLogic implements AuroraScreenLogic {
      */
     private final DashboardUI dashboardUI;
 
+    private boolean hasFav;
+
     /**
      * .-----------------------------------------------------------------------.
      * | GameLibraryLogic(GameLibraryUI)
@@ -103,7 +105,7 @@ public class GameLibraryLogic implements AuroraScreenLogic {
 
     }
 
-     /**
+    /**
      * .-----------------------------------------------------------------------.
      * | addGamesToLibrary()
      * .-----------------------------------------------------------------------.
@@ -120,8 +122,17 @@ public class GameLibraryLogic implements AuroraScreenLogic {
      */
     public void addGamesToLibrary() {
         try {
+            //* check that favorites are not null *//
+            if (libraryUI.getStorage().getStoredLibrary().getFaveStates()
+                != null) {
+                hasFav = true;
+            }
+
+
 
             //* Add Games Marked Fav first *//
+
+
 
             for (int i = 0; i < libraryUI.getStorage().getStoredLibrary()
                     .getGameNames()
@@ -130,27 +141,34 @@ public class GameLibraryLogic implements AuroraScreenLogic {
 
                 Game Game = new Game(libraryUI.getGridSplit(), coreUI,
                         dashboardUI, libraryUI.getStorage());
-                if (libraryUI.getStorage().getStoredLibrary().getFaveStates()
+                if (hasFav && libraryUI.getStorage().getStoredLibrary()
+                        .getFaveStates()
                         .get(i)) {
-                    Game.setGameName(libraryUI.getStorage().getStoredLibrary()
+                    Game.setGameName(libraryUI.getStorage()
+                            .getStoredLibrary()
                             .getGameNames()
                             .get(i));
-                    Game.setCoverUrl(libraryUI.getStorage().getStoredLibrary()
+                    Game.setCoverUrl(libraryUI.getStorage()
+                            .getStoredLibrary()
                             .getBoxArtPath()
                             .get(i));
                     //* Handle appostrophese in game path *//
-                    Game.setGamePath(libraryUI.getStorage().getStoredLibrary()
+                    Game.setGamePath(libraryUI.getStorage()
+                            .getStoredLibrary()
                             .getGamePath()
                             .get(i).replace("'", "''"));
-                    Game.setFavorite(libraryUI.getStorage().getStoredLibrary()
+                    Game.setFavorite(libraryUI.getStorage()
+                            .getStoredLibrary()
                             .getFaveStates()
                             .get(i));
-                    Game.setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
+                    Game.setCoverSize(libraryUI.getGameCoverWidth(),
+                            libraryUI
                             .getGameCoverHeight());
 
                     libraryUI.getGridSplit().addGame(Game);
                 }
             }
+
 
             //* Add Non-Fav games after *//
 
@@ -161,7 +179,8 @@ public class GameLibraryLogic implements AuroraScreenLogic {
 
                 Game Game = new Game(libraryUI.getGridSplit(), coreUI,
                         dashboardUI, libraryUI.getStorage());
-                if (!libraryUI.getStorage().getStoredLibrary().getFaveStates()
+                if (!hasFav || !libraryUI.getStorage().getStoredLibrary()
+                        .getFaveStates()
                         .get(i)) {
                     Game.setGameName(libraryUI.getStorage().getStoredLibrary()
                             .getGameNames()
@@ -173,18 +192,25 @@ public class GameLibraryLogic implements AuroraScreenLogic {
                     Game.setGamePath(libraryUI.getStorage().getStoredLibrary()
                             .getGamePath()
                             .get(i).replace("'", "''"));
-                    Game.setFavorite(libraryUI.getStorage().getStoredLibrary()
-                            .getFaveStates()
-                            .get(i));
+                    if (hasFav) {
+                        Game.setFavorite(libraryUI.getStorage()
+                                .getStoredLibrary()
+                                .getFaveStates()
+                                .get(i));
+                    }
+
                     Game.setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
                             .getGameCoverHeight());
 
                     libraryUI.getGridSplit().addGame(Game);
                 }
+
             }
 
+
             libraryUI.getGridSplit()
-                    .finalizeGrid(libraryHandler.new ShowAddGameUiHandler(), libraryUI
+                    .finalizeGrid(libraryHandler.new ShowAddGameUiHandler(),
+                    libraryUI
                     .getGameCoverWidth(), libraryUI.getGameCoverHeight());
 
             //Load First Grid by default
@@ -233,8 +259,8 @@ public class GameLibraryLogic implements AuroraScreenLogic {
                     System.out.println("ADDING GAMELIBRARYLISTENER TO " + game
                             .getName());
                     game
-                            .addKeyListener(libraryHandler.new GameLibraryKeyListener(
-                            ));
+                            .addKeyListener(
+                            libraryHandler.new GameLibraryKeyListener());
                 }
 
 
@@ -274,8 +300,8 @@ public class GameLibraryLogic implements AuroraScreenLogic {
                         System.out.println("ADDING GAMELIBRARYLISTENER TO"
                                            + game.getName());
                         game
-                                .addKeyListener(libraryHandler.new GameLibraryKeyListener(
-                                ));
+                                .addKeyListener(
+                                libraryHandler.new GameLibraryKeyListener());
                     }
                     if (!game.isLoaded()) {
                         game.update();
@@ -293,7 +319,8 @@ public class GameLibraryLogic implements AuroraScreenLogic {
 
     public void checkNotifiers() {
 
-        if (libraryUI.getStatusBadge1().getImgURl().equals("addUI_badge_valid.png")
+        if (libraryUI.getStatusBadge1().getImgURl().equals(
+                "addUI_badge_valid.png")
             && libraryUI.getStatusBadge2()
                 .getImgURl().equals("addUI_badge_valid.png")) {
             //Animate the Button bellow Add Game UI
@@ -310,7 +337,8 @@ public class GameLibraryLogic implements AuroraScreenLogic {
             libraryUI.getAddGameToLibButtonAnimator().removeAllListeners();
         }
 
-        if ((libraryUI.getStatusBadge1().getImgURl().equals("addUI_badge_invalid.png")
+        if ((libraryUI.getStatusBadge1().getImgURl().equals(
+                "addUI_badge_invalid.png")
              || libraryUI.getStatusBadge2()
                 .getImgURl().equals("addUI_badge_invalid.png"))
             && libraryUI.getAddGameToLibButton().isVisible()) {

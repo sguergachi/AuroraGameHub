@@ -88,7 +88,8 @@ public class AuroraCoreUI {
      * Generate full Version string to be used at the bottom of UI.
      */
     private final String version =
-                         "             //BUILD: " + getResourceBundleToken("BUILD")
+                         "             //BUILD: " + getResourceBundleToken(
+            "BUILD")
                          + "  //REVISION: " + revision
                          + "  //AURORA.ENGINE.VERSION = 0.1." + (Integer
             .parseInt(revision));
@@ -614,7 +615,7 @@ public class AuroraCoreUI {
         paneHeaderOfCenterFromBottom = new JPanel(new BorderLayout());
         lblTime = new ATimeLabel(ATimeLabel.TIME);
         lblTime.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
-        lblTime.setForeground(new Color(0,178,178));
+        lblTime.setForeground(new Color(0, 178, 178));
 
         lblDate = new ATimeLabel(ATimeLabel.DATE_LETTERS);
         lblDate.setForeground(Color.gray);
@@ -644,7 +645,7 @@ public class AuroraCoreUI {
         lblKeyAction = new JLabel(" Select ");
 
         lblKeyAction.setFont(regularFont.deriveFont(Font.PLAIN, keysFontSize));
-        lblKeyAction.setForeground(new Color(0,178,178));
+        lblKeyAction.setForeground(new Color(0, 178, 178));
 
         paneHeaderOfCenterFromBottom.add(BorderLayout.WEST, paneKeyToPress);
         paneCenterFromBottom.add(BorderLayout.NORTH,
@@ -851,14 +852,14 @@ public class AuroraCoreUI {
         if (warningDialog == null) {
             warningDialog = new ADialog(ADialog.aDIALOG_WARNING,
                     "Are You Sure you want to " + vi.VI(vi.inx_Exit) + "?",
-                    boldFont);
+                    regularFont.deriveFont(Font.BOLD, 28));
+
 
 
             warningDialog.setOKButtonListener(new ActionListener() {
                 private ADialog err;
 
                 public void actionPerformed(ActionEvent e) {
-
 
                     System.exit(0);
                 }
@@ -982,7 +983,7 @@ public class AuroraCoreUI {
                 paneUnfocused.setSize(frame.getSize());
                 paneUnfocused.setLocation(0, 0);
                 paneUnfocused.setBounds(0, 0, frame
-                        .getWidth(), frame.getHeight());
+                        .getWidth() + 1, frame.getHeight());
                 glass.setVisible(true);
                 glass.repaint();
             } else {
@@ -992,7 +993,7 @@ public class AuroraCoreUI {
                 paneUnfocused.setSize(frame.getSize());
                 paneUnfocused.setLocation(0, 0);
                 paneUnfocused.setBounds(0, 0, frame
-                        .getWidth(), frame.getHeight());
+                        .getWidth() + 1, frame.getHeight());
                 glass.setVisible(true);
                 glass.repaint();
             }
