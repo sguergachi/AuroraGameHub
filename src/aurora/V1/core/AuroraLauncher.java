@@ -310,7 +310,7 @@ public class AuroraLauncher implements Runnable {
             } catch (IOException ex) {
                 ADialog error = new ADialog(ADialog.aDIALOG_ERROR,
                         "Unable to find game.");
-                error.setButtonListener(new ActionListener() {
+                error.setOKButtonListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 

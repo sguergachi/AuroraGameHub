@@ -854,7 +854,7 @@ public class AuroraCoreUI {
                     boldFont);
 
 
-            warningDialog.setButtonListener(new ActionListener() {
+            warningDialog.setOKButtonListener(new ActionListener() {
                 private ADialog err;
 
                 public void actionPerformed(ActionEvent e) {
