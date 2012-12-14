@@ -483,6 +483,8 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                             FirstTimeLoad,
                             fileIO.getPath() + "/User Data/");
                     auroraStorage.getStoredSettings().storeFromDatabase();
+
+
                 }
 
 
@@ -492,6 +494,8 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                 loadedDashboardUI.loadUI();
 
                 loadedData = true;
+
+
             }
 
             dashboardLoaded = loadedDashboardUI.isDashboardUiLoaded();
