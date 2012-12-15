@@ -1,17 +1,19 @@
 ============AURORA CHANGE LOG==================
-=Current MileStone: >Alpha 4<
+=Current MileStone: >Alpha 5<
 =Author: Sammy Guergachi, Carlos Machado
 ===============================================
 
 ////////////////////////////////////////////--------------------------------
-//Aurora_Alpha4  Build:470 Date:  || Sammy Guergachi, Carlos Machado
+//Aurora_Alpha 5  Build:500  Date:  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////--------------------------------
 + new Onix 2.0 Surface with Name Change!
++ Revamped Info Feed with real gaming news!
 + cleaned up codebase (faster future development!)
 + 50 more games added to database
 + UI enhancments
++ Faster loading of Dashboard UI in some cases.
 - fixed major memory leak, faster going in and out of Dashboard and Carousel Items
-- lots of other minor bugs fixed
+- fixed unable to start loading because no games are favorited
 
 
 ////////////////////////////////////////////--------------------------------
