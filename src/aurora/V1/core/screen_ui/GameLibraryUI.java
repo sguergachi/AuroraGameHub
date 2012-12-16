@@ -844,8 +844,8 @@ public class GameLibraryUI extends AuroraApp {
         pnlAddGameSearchContainer.setOpaque(false);
 
         GameSearch = new GameSearch(this, CoverDB, storage);
-        addGameToLibButton = new AButton("AddGame_AddToLib_normal.png",
-                "AddGame_AddToLib_down.png", "AddGame_AddToLib_over.png");
+        addGameToLibButton = new AButton("addUI_btnAdd_norm.png",
+                "addUI_btnAdd_down.png", "addUI_btnAdd_over.png");
         addGameToLibButton.setVisible(false);
         addGameToLibButtonAnimator = new AAnimate(addGameToLibButton);
 

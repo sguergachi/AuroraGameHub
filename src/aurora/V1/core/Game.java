@@ -121,10 +121,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private ADialog dbErrorDialog;
 
-    private JLabel yesLabel;
-
-    private JLabel noLabel;
-
     private GridManager manager;
 
     private AuroraCoreUI coreUI;
@@ -149,7 +145,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.manager = gridManager;
         this.setOpaque(false);
         this.setDoubleBuffered(true);
-        //this.setSize();
 
         //DEFAULT CASE
         this.setImage("Blank-Case.png", height, width);
@@ -813,7 +808,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             topPanel.remove(removeButton);
             imgConfirmPromptImagePane = new AImagePane(
-                    "GameDelete_ConfirmOverlay.png");
+                    "game_img_removeWarning.png");
             imgConfirmPromptImagePane
                     .setPreferredSize(new Dimension(imgConfirmPromptImagePane
                     .getImgIcon().getImage().getWidth(null) + SIZE_TOPPANE_COMP,
@@ -823,13 +818,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             topPanel.revalidate();
 
             gameBarPanel.removeAll();
-            yesLabel = new JLabel("Yes");
-            noLabel = new JLabel("No");
-            confirmButton = new AButton("GameDelete_Accept.png",
-                    "GameDelete_Accept_down.png", "GameDelete_Accept_over.png");
+            confirmButton = new AButton("game_btn_removeYes_norm.png",
+                    "game_btn_removeYes_down.png", "game_btn_removeYes_over.png");
             confirmButton.addActionListener(new RemoveGameHandler());
-            denyButton = new AButton("GameDelete_Deny.png",
-                    "GameDelete_Deny_down.png", "GameDelete_Deny_over.png");
+            denyButton = new AButton("game_btn_removeNo_norm.png",
+                    "game_btn_removeNo_down.png", "game_btn_removeNo_over.png");
             denyButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(final ActionEvent e) {
@@ -843,20 +836,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     gameBarImagePane.setVisible(true);
                 }
             });
-            yesLabel.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN, 20));
-            yesLabel.setForeground(Color.yellow);
-
-            noLabel.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN, 20));
-            noLabel.setForeground(Color.yellow);
 
             denyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
             denyPanel.setPreferredSize(new Dimension(30, 40));
-            denyPanel.add(noLabel);
             denyPanel.setOpaque(false);
 
             confirmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            confirmPanel.setPreferredSize(new Dimension(90, 40));
-            confirmPanel.add(yesLabel);
+            confirmPanel.setPreferredSize(new Dimension(75, 40));
             confirmPanel.setOpaque(false);
 
             gameBarPanel.add(denyPanel);
