@@ -132,6 +132,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private final String rootCoverDBPath = "https://s3.amazonaws.com/CoverArtDB/";
 
     private PlayButtonListener playButtonListener;
+    private boolean isGameRemoveMode;
 
     public Game() {
     }
@@ -561,12 +562,21 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     public final void unselected() {
         if (isSelected) {
+
+            if (isGameRemoveMode) {
+
+                new CancelRemoveGameHandler().actionPerformed(null);
+                gameBarImagePane.setVisible(false);
+            }
+
             isSelected = false;
             removeButton.setVisible(false);
             interactivePanel.revalidate();
             this.remove(glowImagePane);
             this.repaint();
             this.revalidate();
+
+
 
         }
     }
@@ -805,7 +815,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-
             topPanel.remove(removeButton);
             imgConfirmPromptImagePane = new AImagePane(
                     "game_img_removeWarning.png");
@@ -819,40 +828,62 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             gameBarPanel.removeAll();
             confirmButton = new AButton("game_btn_removeYes_norm.png",
-                    "game_btn_removeYes_down.png", "game_btn_removeYes_over.png");
+                    "game_btn_removeYes_down.png", "game_btn_removeYes_over.png",
+                    120, 55);
             confirmButton.addActionListener(new RemoveGameHandler());
             denyButton = new AButton("game_btn_removeNo_norm.png",
-                    "game_btn_removeNo_down.png", "game_btn_removeNo_over.png");
-            denyButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(final ActionEvent e) {
-                    interactivePanel.removeAll();
-                    interactivePanel.setVisible(false);
-                    remove(glowImagePane);
-                    isSelected = true;
-                    reAddInteractive();
-                    showRemove();
-                    selected();
-                    gameBarImagePane.setVisible(true);
-                }
-            });
+                    "game_btn_removeNo_down.png", "game_btn_removeNo_over.png",
+                    120, 55);
+            denyButton.addActionListener(new CancelRemoveGameHandler());
 
-            denyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            denyPanel.setPreferredSize(new Dimension(30, 40));
+            denyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, -20, -5));
+            denyPanel.setPreferredSize(new Dimension(135, 55));
             denyPanel.setOpaque(false);
+            denyPanel.add(denyButton);
 
-            confirmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            confirmPanel.setPreferredSize(new Dimension(75, 40));
+            confirmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, -20, -5));
+            confirmPanel.setPreferredSize(new Dimension(175, 55));
             confirmPanel.setOpaque(false);
 
+            confirmPanel.add(confirmButton);
+
+
             gameBarPanel.add(denyPanel);
-            gameBarPanel.add(denyButton);
-            gameBarPanel.add(confirmButton);
             gameBarPanel.add(confirmPanel);
             gameBarImagePane.revalidate();
             unselected();
+            isGameRemoveMode = true;
             gameBarImagePane.setVisible(true);
 
+
+        }
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * |CancelRemoveGameHandler
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Handler when No button selected remove the Confirm Removal overlay
+     * | and re-add original Game Overlay.
+     * |
+     * |
+     * .........................................................................
+     *
+     * @author
+     * <p/>
+     */
+    class CancelRemoveGameHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            interactivePanel.removeAll();
+            interactivePanel.setVisible(false);
+            remove(glowImagePane);
+            reAddInteractive();
+            showRemove();
+            gameBarImagePane.setVisible(true);
+            isGameRemoveMode = false;
         }
     }
 

@@ -158,6 +158,9 @@ public class GridManager {
      * Finds Same Game and returns that game in the library
      *
      * @param game
+     *             <
+     *             p/>
+     * <p/>
      * @return
      */
     public Game echoGame(Game game) {
@@ -168,7 +171,7 @@ public class GridManager {
                     == false) {
 
                     Game cover = (Game) Grids.get(i).getArray().get(a);
-                    if ( cover.getBoxArtUrl().equals(game.getBoxArtUrl())) {
+                    if (cover.getBoxArtUrl().equals(game.getBoxArtUrl())) {
                         return cover;
                     }
                 }
@@ -224,21 +227,20 @@ public class GridManager {
     public void unselectPrevious() {
         for (int i = 0; i < Grids.size(); i++) {
             for (int j = 0; j < Grids.get(i).getArray().size(); j++) {
-                try {
+                if (!(Grids.get(i).getArray().get(j) instanceof GamePlaceholder)) {
                     Game game = (Game) Grids.get(i).getArray().get(j);
                     if (game.isSelected()) {
                         game.unselected();
                         game.getGameBar().setVisible(false);
                         game.revalidate();
                     }
-                } catch (RuntimeException ex) {
                 }
             }
 
         }
     }
+//attempts to remove everything in grid.
 
-    //attempts to remove everything in grid.
     public void clearAllGrids() {
         for (int i = 0; i < Grids.size(); i++) {
 

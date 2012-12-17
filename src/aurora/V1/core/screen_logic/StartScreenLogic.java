@@ -173,7 +173,7 @@ public class StartScreenLogic implements AuroraScreenLogic {
                     }
 
                     //* Check if Reached Proper Size to stop *//
-                    if (scale == 34) {
+                    if (scale == 37) {
 
                         showDashdoard();
                         animateTransision.stop();
@@ -219,10 +219,6 @@ public class StartScreenLogic implements AuroraScreenLogic {
                 } else {
                     System.out.println("Using LOADED Dashboard");
                 }
-
-
-                //* Remove garbage from Memory *//
-//                System.gc();
 
                 //* Build DashboardUI *//
                 dashboardUI.buildUI();
