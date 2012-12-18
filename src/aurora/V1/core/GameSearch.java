@@ -152,7 +152,7 @@ public class GameSearch implements Runnable {
         foundArray = null;
         libraryUI.getAddGamePane().revalidate();
         libraryUI.getListModel().removeAllElements();
-        libraryUI.getStatusBadge1().setImgURl("addUI_badge_idle.png");
+        libraryUI.getStatusBadge1().setImgURl("addUI_badge_invalid.png");
         libraryUI.getLogic().checkNotifiers();
 
     }

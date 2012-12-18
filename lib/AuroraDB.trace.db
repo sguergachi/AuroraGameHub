@@ -1878,3 +1878,51 @@ org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
 org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
 12-15 20:52:18 jdbc[2]: exception
 org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-17 15:17:17 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-17 15:17:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-17 15:17:17 jdbc[5]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-17 15:17:17 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-17 15:17:17 jdbc[6]: null
+org.h2.message.DbException: The connection was not closed by the application and is garbage collected [90018-167]
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.message.DbException.get(DbException.java:135)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:174)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:121)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:94)
+	at org.h2.Driver.connect(Driver.java:72)
+	at java.sql.DriverManager.getConnection(DriverManager.java:582)
+	at java.sql.DriverManager.getConnection(DriverManager.java:207)
+	at aurora.engine.V1.Logic.ASimpleDB.searchAprox(ASimpleDB.java:818)
+	at aurora.V1.core.GameSearch.searchGame(GameSearch.java:249)
+	at aurora.V1.core.GameSearch.run(GameSearch.java:346)
+	at java.lang.Thread.run(Thread.java:662)
+Caused by: org.h2.jdbc.JdbcSQLException: The connection was not closed by the application and is garbage collected [90018-167]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	... 13 more
+12-17 15:17:17 jdbc[6]: null
+org.h2.message.DbException: The connection was not closed by the application and is garbage collected [90018-167]
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.message.DbException.get(DbException.java:135)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:174)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:121)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:94)
+	at org.h2.Driver.connect(Driver.java:72)
+	at java.sql.DriverManager.getConnection(DriverManager.java:582)
+	at java.sql.DriverManager.getConnection(DriverManager.java:207)
+	at aurora.engine.V1.Logic.ASimpleDB.searchAprox(ASimpleDB.java:818)
+	at aurora.V1.core.GameSearch.searchGame(GameSearch.java:249)
+	at aurora.V1.core.GameSearch.run(GameSearch.java:346)
+	at java.lang.Thread.run(Thread.java:662)
+Caused by: org.h2.jdbc.JdbcSQLException: The connection was not closed by the application and is garbage collected [90018-167]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	... 13 more
+12-17 15:17:17 jdbc[6]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+12-17 15:17:17 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]

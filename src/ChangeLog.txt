@@ -13,6 +13,7 @@
 + UI enhancments
 + Faster loading of Dashboard UI in some cases.
 - fixed major memory leak, faster going in and out of Dashboard and Carousel Items
+- fixed bug when unselecting game when its asking if you want to remove game.
 - fixed unable to start loading because no games are favorited
 
 

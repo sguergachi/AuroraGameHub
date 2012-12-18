@@ -32,6 +32,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
 /**
@@ -41,24 +43,43 @@ import javax.swing.Timer;
 public class AuroraMini {
 
     private JDialog mini;
+
     private AuroraCoreUI ui;
+
     private AImagePane pnlBackground;
+
     private AImage icon;
+
     private JPanel pnlIconPane;
+
     private Point location;
+
     private MouseEvent pressed;
+
     private Timer timer;
+
     public static Boolean isIconHover = true;
+
     private String mode;
+
     private int yPos;
+
     private ASlickLabel lblStatus;
+
     private JPanel pnlStatus;
+
     private boolean isDrag = false;
+
     public static Boolean isMinimode = false;
+
     public static final String LOADING_MODE = "startup";
+
     public static final String MINIMIZE_MODE = "minimize";
+
     private AButton close;
+
     private boolean firstClick;
+
     private PaneAnimateHandler animationHander;
 
     public AuroraMini(AuroraCoreUI ui, String mode) {
@@ -87,25 +108,31 @@ public class AuroraMini {
             mini.setBackground(Color.BLACK);
             mini.setResizable(false);
             mini.setSize(300, 80);
-            mini.setLocation(ui.getScreenWidth() - 65, ui.getScreenHeight() - 160);
+            mini.setLocation(ui.getScreenWidth() - 65, ui.getScreenHeight()
+                                                       - 160);
 
             mini.setAlwaysOnTop(true);
 
             //SET FRAME ICON
             try {
-                mini.setIconImage(new ImageIcon(new URL(ui.getResource().getSurfacePath() + "/aurora/V1/resources/icon.png")).getImage());
+                mini.setIconImage(new ImageIcon(new URL(ui.getResource()
+                        .getSurfacePath() + "/aurora/V1/resources/icon.png"))
+                        .getImage());
             } catch (MalformedURLException ex) {
                 try {
 
-                    mini.setIconImage(new ImageIcon(getClass().getResource("/aurora/V1/resources/icon.png")).getImage());
+                    mini.setIconImage(new ImageIcon(getClass().getResource(
+                            "/aurora/V1/resources/icon.png")).getImage());
 
                 } catch (Exception exx) {
-                    Logger.getLogger(AuroraMini.class.getName()).log(Level.SEVERE, null, exx);
+                    Logger.getLogger(AuroraMini.class.getName()).log(
+                            Level.SEVERE, null, exx);
                 }
             }
 
             //SET UP BACKGROUND
-            pnlBackground = new AImagePane("Starter.png", new FlowLayout(FlowLayout.LEFT, 0, 0));
+            pnlBackground = new AImagePane("Starter.png",
+                    new FlowLayout(FlowLayout.LEFT, 0, 0));
             pnlBackground.setPreferredSize(mini.getSize());
 
             //CREATE
@@ -114,7 +141,8 @@ public class AuroraMini {
 
             pnlIconPane = new JPanel(new BorderLayout(0, 0));
             pnlIconPane.setOpaque(false);
-            pnlIconPane.setPreferredSize(new Dimension(icon.getImgWidth() + 5, mini.getHeight()));
+            pnlIconPane.setPreferredSize(new Dimension(icon.getImgWidth() + 5,
+                    mini.getHeight()));
 
 
             lblStatus = new ASlickLabel();
@@ -124,7 +152,8 @@ public class AuroraMini {
             pnlStatus = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
             pnlStatus.setOpaque(false);
 
-            close = new AButton("Aurora_Close_normal.png", "Aurora_Close_down.png", "Aurora_Close_over.png");
+            close = new AButton("app_btn_close_norm.png",
+                    "app_btn_close_down.png", "app_btn_close_over.png");
 
             //ADD HANDLERS//
 
@@ -409,7 +438,7 @@ public class AuroraMini {
         }
     }
 
-    //When Click On Icon
+    //When Click On Back Button/Icon
     private class IconHoverHandler implements MouseListener {
 
         public IconHoverHandler() {
@@ -420,11 +449,20 @@ public class AuroraMini {
             if (!isDrag) {
 
                 mini.setVisible(false);
-                ui.getFrame().setLocation(0, 0);
+                ui.getFrame().setLocation(ui.getFrame().getWidth(), 0);
                 ui.getFrame().requestFocus();
                 isMinimode = false;
                 ui.getFrame().setVisible(true);
                 ui.getFrame().setState(JFrame.NORMAL);
+                ui.getFrame().repaint();
+                try {
+                    Thread.sleep(16);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(AuroraMini.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+
+                moveFrame();
             }
 
         }
@@ -458,6 +496,61 @@ public class AuroraMini {
                 timer.start();
             }
             icon.setImgURl("icon.png");
+        }
+
+        private void moveFrame() {
+
+
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    int acc = 0;
+                    while (!(ui.getFrame().getLocation().x <= 0)) {
+
+                        ui.getFrame().repaint();
+
+                        //* accelerate ease in *//
+                        if (ui.getFrame().getLocation().x > ui.getFrame()
+                                .getWidth() / 2) {
+                            acc++;
+
+                        } else {
+
+                            //* Half way in eas in out. *//
+
+                            acc--;
+
+                        }
+                        //* move Frame from left smoothly *//
+                        ui.getFrame()
+                                .setBounds(ui.getFrame().getLocation().x
+                                           - (7 + acc), 0, ui.getFrame()
+                                .getWidth(), ui
+                                .getFrame().getHeight());
+
+
+                        //* 60fps *//
+                        try {
+                            Thread.sleep(16);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(AuroraMini.class.getName()).
+                                    log(Level.SEVERE, null, ex);
+                        }
+
+
+//                        System.out.println(ui.getFrame().getLocation().x);
+
+                    }
+
+                    //* Reset to correct location *//
+                    ui.getFrame()
+                            .setBounds(0, 0, ui.getFrame()
+                            .getWidth(), ui
+                            .getFrame().getHeight());
+                    ui.getFrame().requestFocusInWindow();
+                }
+            });
+
         }
     }
 }
