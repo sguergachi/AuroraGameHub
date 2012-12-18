@@ -538,8 +538,6 @@ public class AuroraMini {
                         }
 
 
-//                        System.out.println(ui.getFrame().getLocation().x);
-
                     }
 
                     //* Reset to correct location *//
