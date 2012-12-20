@@ -509,22 +509,37 @@ public class AuroraMini {
 
                         ui.getFrame().repaint();
 
-                        //* accelerate ease in *//
+                        //* accelerate ease in up to Half way*//
                         if (ui.getFrame().getLocation().x > ui.getFrame()
                                 .getWidth() / 2) {
+
+                            System.out.println("Accelerate");
+
+                            acc++;
                             acc++;
 
+                        } else if (ui.getFrame().getLocation().x <= ui
+                                .getFrame()
+                                .getWidth() / 4) {
+
+                            //* Quarter way in eas in out. *//
+                            System.out.println("Super Slow down");
+                            if (!(acc <= 4)) {
+                                acc--;
+                                acc--;
+                                acc--;
+                            }
                         } else {
-
-                            //* Half way in eas in out. *//
-
-                            acc--;
-
+                            System.out.println("Slow down");
+                            if (!(acc <= 4)) {
+                                acc--;
+                            }
                         }
+                        System.out.println(acc);
                         //* move Frame from left smoothly *//
                         ui.getFrame()
                                 .setBounds(ui.getFrame().getLocation().x
-                                           - (7 + acc), 0, ui.getFrame()
+                                           - (3 + acc), 0, ui.getFrame()
                                 .getWidth(), ui
                                 .getFrame().getHeight());
 
