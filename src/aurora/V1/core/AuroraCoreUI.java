@@ -74,7 +74,7 @@ import javax.swing.JWindow;
  * .........................................................................
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
- * @author Carlos Machado <camachado@gmail.com>
+ * @author Carlos Machado <camachado at gmail.com>
  * <p/>
  */
 public class AuroraCoreUI {

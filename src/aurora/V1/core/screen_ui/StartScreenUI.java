@@ -223,6 +223,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
         setSizes();
 
+        logic.startBackgroundMusic();
 
         //* Option to start with AuroraMini *//
         if (START_WITH_MINI) {

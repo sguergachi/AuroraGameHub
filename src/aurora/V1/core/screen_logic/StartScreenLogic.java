@@ -21,6 +21,7 @@ import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.screen_handler.StartScreenHandler;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.StartScreenUI;
+import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
@@ -35,6 +36,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.LineUnavailableException;
@@ -78,6 +80,7 @@ public class StartScreenLogic implements AuroraScreenLogic {
     private DashboardUI dashboardUI;
 
     private AProgressWheel progressWheel;
+    private ASound backgrounSFX;
 
     public StartScreenLogic(StartScreenUI aStartScreenUI) {
 
@@ -109,6 +112,40 @@ public class StartScreenLogic implements AuroraScreenLogic {
         imgTopLogoSmall.setImageSize(topSmallImageWidth, topSmallImageHeight);
 
 
+
+    }
+
+    public void startBackgroundMusic() {
+        try {
+            backgrounSFX = new ASound(ASound.sfxTheme, true);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(StartScreenLogic.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(StartScreenLogic.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(StartScreenLogic.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(StartScreenLogic.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
+        try {
+            backgrounSFX.Play();
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(StartScreenLogic.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(StartScreenLogic.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(StartScreenLogic.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(StartScreenLogic.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
 
     }
 
