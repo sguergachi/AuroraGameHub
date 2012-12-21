@@ -543,7 +543,6 @@ public class AuroraMini {
                         if (ui.getFrame().getLocation().x > ui.getFrame()
                                 .getWidth() / 2) {
 
-                            System.out.println("Accelerate");
 
                             acc++;
                             acc++;
@@ -553,14 +552,12 @@ public class AuroraMini {
                                 .getWidth() / 4) {
 
                             //* Quarter way in eas in out. *//
-                            System.out.println("Super Slow down");
                             if (!(acc <= 4)) {
                                 acc--;
                                 acc--;
                                 acc--;
                             }
                         } else {
-                            System.out.println("Slow down");
                             if (!(acc <= 4)) {
                                 acc--;
                             }

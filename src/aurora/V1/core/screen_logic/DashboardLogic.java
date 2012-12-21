@@ -25,24 +25,21 @@ import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.GameLibraryUI;
 import aurora.V1.core.screen_ui.GamerProfileUI;
 import aurora.V1.core.screen_ui.SettingsUI;
-import aurora.engine.V1.Logic.ANuance;
+import aurora.engine.V1.Logic.ARssReader;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.ACarouselPane;
 import aurora.engine.V1.UI.AImagePane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
-
-import de.vogella.rss.Feed;
-import de.vogella.rss.FeedMessage;
-import de.vogella.rss.RSSFeedParser;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * .------------------------------------------------------------------------.
@@ -100,6 +97,8 @@ public class DashboardLogic implements AuroraScreenLogic {
      */
     private SettingsUI settingsUI;
 
+    private ARssReader rssReader;
+
     /**
      * .-----------------------------------------------------------------------.
      * | DashboardLogic(DashboardUI)
@@ -129,6 +128,8 @@ public class DashboardLogic implements AuroraScreenLogic {
         this.coreUI = dashboardUI.getCoreUI();
 
         this.storage = dashboardUI.getStorage();
+
+        this.rssReader = new ARssReader();
 
         loadAuroraApps();
     }
@@ -236,103 +237,37 @@ public class DashboardLogic implements AuroraScreenLogic {
             Array = array;
         }
 
-        RSSFeedParser auroraGameHubParser = new RSSFeedParser(
-                "http://www.gamespot.com/rss/game_updates.php?platform=5&type=3");
-        RSSFeedParser joystiqParser = new RSSFeedParser(
-                "http://www.joystiq.com/pc/rss.xml");
 
-        Feed auroraGameHubFeed = auroraGameHubParser.readFeed();
-//        Feed joystiqFeed = joystiqParser.readFeed();
+        ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
+                "http://pipes.yahoo.com/pipes/pipe.run?_id=b1789fe55e510ce10dcbf85a06e873c3&_render=rss");
+        ARssReader.Feed auroraGameHubFeed = auroraGameHubParser.readFeed();
 
-        for (FeedMessage message : auroraGameHubFeed.getMessages()) {
+
+        for (Iterator<ARssReader.FeedMessage> it = auroraGameHubFeed
+                .getMessages().
+                iterator(); it.hasNext();) {
+            ARssReader.FeedMessage message = it.next();
             Array.add(message.getTitle());
         }
-
-
-        //        for (FeedMessage message : joystiqFeed.getMessages()) {
-//            Array.add(message.getTitle());
-//        }
-
-        /*        Array.add(coreUI.getVi().VI(ANuance.inx_Welcome) + ", ");
-         Array.
-         add(
-         "How are you doing Today " + coreUI.getVi().VI(ANuance.inx_User)
-         + " We hope you enjoy this Alpha release of the Aurora Game Manager");
-         Array.add("Make Sure You Check out the Improved Game Library!");
-         Array.add("It can totally do stuff now!");
-         Array.add("It only took a year or so...");
-         Array.add("Checkout our website at auroragm.sourceforge.net ");
-         Array.add("Please feel free to contact me personally via e-mail");
-         Array.add("> sguergachi@gmail.com < ");
-         Array.add("Let me know if you find any bugs ");
-         Array.add("I will personally attend to it that it is exterminated");
-         Array.add("You can also contact me regarding feedback ");
-         Array.add(
-         "I will feed on your feedback, if you know what i'm saying ");
-         Array.add(
-         "Just so you know, I didn't put this bar here to annoy you ");
-         Array
-         .add(
-         "I plan on having it show you a live feed of breaking gaming news ");
-         Array.add("As well as tracking information from your profile ");
-         Array.add("When ever the heck that gets done... ");
-         Array.add("Its gonna be awesome and super useful, I promise ");
-         Array
-         .add(
-         "Just to demonstrate how useful it's going to be, why don't I teach you the alphabet? ");
-         Array.add("A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ");
-         Array.add("There you go, I just thought you the ABCs! ");
-         Array
-         .add(
-         "Anyways, you don't have to hang around here, just click on the library to start! ");
-         Array
-         .add(
-         "Just press Enter, or, Move your mouse and click on the big thing that says 'Library' ");
-         Array.add("I can do this all day ");
-         Array.add("And all night ");
-         Array.add("Ohh, Breaking News! ");
-         Array.add("There is a new Call of Duty game coming out Next Year!!");
-         Array.add("Totally did not see that comming...");
-         Array.add("I wonder what's going to be in it");
-         Array
-         .add(
-         "I'm going to guess it has something to do with shooting guys with guns");
-         Array
-         .add(
-         "Well, i'm tired, keep checking the Sourceforge page for new updates");
-         Array.add("Have fun!");*/
 
         return Array;
     }
 
     public final String createFeed() {
 
-        // ArrayList<String> Array = null;
         String feedString = "";
 
-        /*  if (array == null) {
-         Array = new ArrayList<String>();
-         } else {
-         Array = array;
-         }*/
+        ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
+                "http://pipes.yahoo.com/pipes/pipe.run?_id=b1789fe55e510ce10dcbf85a06e873c3&_render=rss");
+        ARssReader.Feed auroraGameHubFeed = auroraGameHubParser.readFeed();
 
-        RSSFeedParser gameSpotParser = new RSSFeedParser(
-                "http://www.gamespot.com/rss/game_updates.php?platform=5&type=3");
-        RSSFeedParser joystiqParser = new RSSFeedParser(
-                "http://www.joystiq.com/pc/rss.xml");
-
-        Feed gameSpotFeed = gameSpotParser.readFeed();
-        Feed joystiqFeed = joystiqParser.readFeed();
-
-        for (FeedMessage message : gameSpotFeed.getMessages()) {
-            // Array.add(message.getTitle());
+        for (Iterator<ARssReader.FeedMessage> it = auroraGameHubFeed
+                .getMessages().
+                iterator(); it.hasNext();) {
+            ARssReader.FeedMessage message = it.next();
             feedString = feedString + message.getTitle() + " << >> ";
         }
 
-        for (FeedMessage message : joystiqFeed.getMessages()) {
-            //Array.add(message.getTitle());
-            feedString = feedString + message.getTitle() + " << >> ";
-        }
         System.out.println("FEED MSG: " + feedString);
         return feedString;
     }
