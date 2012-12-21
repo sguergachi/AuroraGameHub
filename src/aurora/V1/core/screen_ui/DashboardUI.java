@@ -312,6 +312,9 @@ public class DashboardUI implements AuroraScreenUI {
      */
     private final DashboardLogic logic;
 
+    /**
+     *
+     */
     private boolean dashboardUiLoaded;
 
     /**
@@ -545,8 +548,6 @@ public class DashboardUI implements AuroraScreenUI {
         carousel.addPane(paneProfile);
         carousel.addPane(paneNet);
         carousel.addKeyListener(handler.new DashboardlKeyListener());
-
-
 
 
 

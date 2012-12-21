@@ -80,6 +80,7 @@ public class StartScreenLogic implements AuroraScreenLogic {
     private DashboardUI dashboardUI;
 
     private AProgressWheel progressWheel;
+
     private ASound backgrounSFX;
 
     public StartScreenLogic(StartScreenUI aStartScreenUI) {
@@ -116,23 +117,9 @@ public class StartScreenLogic implements AuroraScreenLogic {
     }
 
     public void startBackgroundMusic() {
+
         try {
-            backgrounSFX = new ASound(ASound.sfxTheme, true);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        } catch (LineUnavailableException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        }
-        try {
-            backgrounSFX.Play();
+            coreUI.getBackgroundSound().Play();
         } catch (UnsupportedAudioFileException ex) {
             Logger.getLogger(StartScreenLogic.class.getName()).
                     log(Level.SEVERE, null, ex);
@@ -234,8 +221,6 @@ public class StartScreenLogic implements AuroraScreenLogic {
         AThreadWorker loadDashboard = new AThreadWorker(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
 
                 //* Re-add Frame Controls *//
                 bottomOfTopPane.setVisible(true);
