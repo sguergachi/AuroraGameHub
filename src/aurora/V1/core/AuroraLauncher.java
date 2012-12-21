@@ -193,7 +193,14 @@ public class AuroraLauncher implements Runnable {
 
 
             try {
+
+                //* Stop Music *//
+
+                ui.getBackgroundSound().Pause();
+
                 String osName = System.getProperty("os.name");
+
+
                 if (ui.getOS().equals("Windows 7") || osName
                         .equals("Windows XP") || ui.getOS().equals(
                         "Windows Vista")) {
@@ -257,6 +264,7 @@ public class AuroraLauncher implements Runnable {
 
                         System.out.println("Current Dir " + currentDir);
                         System.out.println("Command " + processBuild.command());
+
 
 
                         //LAUNCH GAME
@@ -329,6 +337,7 @@ public class AuroraLauncher implements Runnable {
             //Game Has Exited//
             titleBG.setImage("ComputingData.png");
 
+            ui.getBackgroundSound().Resume();
 
             launchPane.setAlwaysOnTop(true);
 

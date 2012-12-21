@@ -197,10 +197,15 @@ public class AuroraMini {
             mini.getContentPane().add(pnlBackground);
         }
         mini.setVisible(true);
+        try{
+            AWTUtilities.setWindowShape(mini, new RoundRectangle2D.Double(0, 0,
+                    mini
+                    .getWidth(), mini.getHeight(), 30,
+                    27));
+        }catch (UnsupportedOperationException  ex){
+            System.err.println("System does not support Shapes");
+        }
 
-        AWTUtilities.setWindowShape(mini, new RoundRectangle2D.Double(0, 0, mini
-                .getWidth(), mini.getHeight(), 30,
-                27));
 
         executeMode();
         mini.requestFocusInWindow();
@@ -321,7 +326,11 @@ public class AuroraMini {
                 mini.setLocation(mini.getX() + 4 + count, mini.getY());         //Animate
             } else {
                 timer.stop();
-                AWTUtilities.setWindowOpacity(mini, 0.7f);
+                if (ui.getOS().contains("Mac")) {
+                    mini.setBackground(new Color(0f, 0f, 0f, 0.7f));
+                } else {
+                    AWTUtilities.setWindowOpacity(mini, 0.7f);
+                }
             }
 
         }
@@ -348,7 +357,11 @@ public class AuroraMini {
         public void mouseEntered(MouseEvent e) {
 
             animateOUT();
-            AWTUtilities.setWindowOpacity(mini, 1.0f);
+            if (ui.getOS().contains("Mac")) {
+                mini.setBackground(new Color(0f, 0f, 0f, 1.0f));
+            } else {
+                AWTUtilities.setWindowOpacity(mini, 1.0f);
+            }
         }
 
         @Override
@@ -415,14 +428,23 @@ public class AuroraMini {
         @Override
         public void mouseEntered(MouseEvent e) {
             isMouseExited = false;
-            AWTUtilities.setWindowOpacity(mini, 1.0f);
+
+            if (ui.getOS().contains("Mac")) {
+                mini.setBackground(new Color(0f, 0f, 0f, 1.0f));
+            } else {
+                AWTUtilities.setWindowOpacity(mini, 1.0f);
+            }
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
             isMouseExited = true;
             icon.setImgURl("icon.png");
-            AWTUtilities.setWindowOpacity(mini, 0.7f);
+            if (ui.getOS().contains("Mac")) {
+                mini.setBackground(new Color(0f, 0f, 0f, 0.7f));
+            } else {
+                AWTUtilities.setWindowOpacity(mini, 0.7f);
+            }
         }
     }
 
@@ -445,12 +467,18 @@ public class AuroraMini {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            AWTUtilities.setWindowOpacity(mini, 1.0f);
+            if (ui.getOS().contains("Mac")) {
+                mini.setBackground(new Color(0f, 0f, 0f, 1.0f));
+            } else {
+                AWTUtilities.setWindowOpacity(mini, 1.0f);
+            }
+
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
             AWTUtilities.setWindowOpacity(mini, 0.7f);
+            mini.setBackground(new Color(0f, 0f, 0f, 0.7f));
         }
     }
 
