@@ -22,8 +22,11 @@ import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AProgressWheel;
 import aurora.engine.V1.UI.ASlickLabel;
+import com.sun.awt.AWTUtilities;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.RoundRectangle2D;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -107,11 +110,14 @@ public class AuroraMini {
             mini.setUndecorated(true);
             mini.setBackground(Color.BLACK);
             mini.setResizable(false);
-            mini.setSize(300, 80);
+            mini.setSize(300, 65);
             mini.setLocation(ui.getScreenWidth() - 65, ui.getScreenHeight()
                                                        - 160);
 
             mini.setAlwaysOnTop(true);
+
+
+
 
             //SET FRAME ICON
             try {
@@ -130,8 +136,10 @@ public class AuroraMini {
                 }
             }
 
+
             //SET UP BACKGROUND
-            pnlBackground = new AImagePane("Starter.png",
+            pnlBackground = new AImagePane("app_miniMode_bg.png", mini
+                    .getWidth(), mini.getHeight(),
                     new FlowLayout(FlowLayout.LEFT, 0, 0));
             pnlBackground.setPreferredSize(mini.getSize());
 
@@ -189,8 +197,15 @@ public class AuroraMini {
             mini.getContentPane().add(pnlBackground);
         }
         mini.setVisible(true);
+
+        AWTUtilities.setWindowShape(mini, new RoundRectangle2D.Double(0, 0, mini
+                .getWidth(), mini.getHeight(), 30,
+                27));
+
         executeMode();
         mini.requestFocusInWindow();
+
+
 
     }
 
@@ -306,7 +321,7 @@ public class AuroraMini {
                 mini.setLocation(mini.getX() + 4 + count, mini.getY());         //Animate
             } else {
                 timer.stop();
-
+                AWTUtilities.setWindowOpacity(mini, 0.7f);
             }
 
         }
@@ -333,6 +348,7 @@ public class AuroraMini {
         public void mouseEntered(MouseEvent e) {
 
             animateOUT();
+            AWTUtilities.setWindowOpacity(mini, 1.0f);
         }
 
         @Override
@@ -358,6 +374,8 @@ public class AuroraMini {
             yPos = location.y - pressed.getY() + me.getY();
             mini.setLocation(location.x, yPos);
             isDrag = true;
+
+
 
         }
 
@@ -397,12 +415,14 @@ public class AuroraMini {
         @Override
         public void mouseEntered(MouseEvent e) {
             isMouseExited = false;
+            AWTUtilities.setWindowOpacity(mini, 1.0f);
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
             isMouseExited = true;
             icon.setImgURl("icon.png");
+            AWTUtilities.setWindowOpacity(mini, 0.7f);
         }
     }
 
@@ -425,16 +445,12 @@ public class AuroraMini {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            pnlBackground.setImage("Starter_over.png");
-
-
+            AWTUtilities.setWindowOpacity(mini, 1.0f);
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-
-            pnlBackground.setImage("Starter.png");
-
+            AWTUtilities.setWindowOpacity(mini, 0.7f);
         }
     }
 
@@ -455,6 +471,9 @@ public class AuroraMini {
                 ui.getFrame().setVisible(true);
                 ui.getFrame().setState(JFrame.NORMAL);
                 ui.getFrame().repaint();
+
+                ui.getBackgroundSound().Resume();
+
                 try {
                     Thread.sleep(16);
                 } catch (InterruptedException ex) {
@@ -462,7 +481,7 @@ public class AuroraMini {
                             log(Level.SEVERE, null, ex);
                 }
 
-                moveFrame();
+                moveFrameIn();
             }
 
         }
@@ -498,9 +517,20 @@ public class AuroraMini {
             icon.setImgURl("icon.png");
         }
 
-        private void moveFrame() {
+        /**
+         * .-------------------------------------------------------------------.
+         * | moveFrameIn()
+         * .-------------------------------------------------------------------.
+         * |
+         * | method to slide in Frame containing Aurora from the right
+         * | frame needs to be visible and positioned to the right correctly
+         * | this only does the moving. Uses Swing InvokeLater method
+         * |
+         * .....................................................................
+         */
+        private void moveFrameIn() {
 
-
+            //* Don't Interupt UI Thread *//
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {

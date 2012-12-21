@@ -17,7 +17,9 @@
  */
 package aurora.V1.core;
 
+import aurora.V1.core.screen_logic.StartScreenLogic;
 import aurora.engine.V1.Logic.ANuance;
+import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.ASurface;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.ACursor;
@@ -372,6 +374,7 @@ public class AuroraCoreUI {
     private ATimeLabel lblDate;
 
     private JPanel paneTimeContainer;
+    private ASound backgrounSFX;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -676,6 +679,23 @@ public class AuroraCoreUI {
         versionPanel.setLayout(new BorderLayout());
         versionPanel.add(BorderLayout.WEST, lblVersion);
         paneBottom.add(BorderLayout.PAGE_END, versionPanel);
+
+
+        try {
+            backgrounSFX = new ASound(ASound.sfxTheme, true);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(StartScreenLogic.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(StartScreenLogic.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(StartScreenLogic.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(StartScreenLogic.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
 
         //*
         // Add All 3 Main Panels To
@@ -1033,7 +1053,7 @@ public class AuroraCoreUI {
 
         public void actionPerformed(ActionEvent e) {
             //ENABLE MINI MODE
-
+            backgrounSFX.Pause();
             minimizeAurora(arg);
 
         }
@@ -1384,5 +1404,9 @@ public class AuroraCoreUI {
 
     public JPanel getTitlePanel() {
         return paneTitle;
+    }
+
+    public ASound getBackgroundSound(){
+        return backgrounSFX;
     }
 }
