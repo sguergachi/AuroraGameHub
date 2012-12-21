@@ -26,6 +26,7 @@ import aurora.V1.core.screen_ui.GameLibraryUI;
 import aurora.V1.core.screen_ui.GamerProfileUI;
 import aurora.V1.core.screen_ui.SettingsUI;
 import aurora.engine.V1.Logic.ARssReader;
+import aurora.engine.V1.Logic.ARssReader.Feed;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
@@ -98,6 +99,8 @@ public class DashboardLogic implements AuroraScreenLogic {
     private SettingsUI settingsUI;
 
     private ARssReader rssReader;
+
+    private Feed auroraGameHubFeed;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -238,9 +241,16 @@ public class DashboardLogic implements AuroraScreenLogic {
         }
 
 
-        ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
-                "http://pipes.yahoo.com/pipes/pipe.run?_id=b1789fe55e510ce10dcbf85a06e873c3&_render=rss");
-        ARssReader.Feed auroraGameHubFeed = auroraGameHubParser.readFeed();
+        try {
+            ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
+                    "http://www.rssmix.com/u/3621720/rss.xml");
+            auroraGameHubFeed = auroraGameHubParser.readFeed();
+        } catch (Exception ex) {
+            //* fall back if above feed mixer dies *//
+            ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
+                    "http://www.gamespot.com/rss/game_updates.php?platform=5");
+            auroraGameHubFeed = auroraGameHubParser.readFeed();
+        }
 
 
         for (Iterator<ARssReader.FeedMessage> it = auroraGameHubFeed
@@ -257,9 +267,16 @@ public class DashboardLogic implements AuroraScreenLogic {
 
         String feedString = "";
 
-        ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
-                "http://pipes.yahoo.com/pipes/pipe.run?_id=b1789fe55e510ce10dcbf85a06e873c3&_render=rss");
-        ARssReader.Feed auroraGameHubFeed = auroraGameHubParser.readFeed();
+        try {
+            ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
+                    "http://www.rssmix.com/u/3621720/rss.xml");
+            auroraGameHubFeed = auroraGameHubParser.readFeed();
+        } catch (Exception ex) {
+            //* fall back if above feed mixer dies *//
+            ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
+                    "http://www.gamespot.com/rss/game_updates.php?platform=5");
+            auroraGameHubFeed = auroraGameHubParser.readFeed();
+        }
 
         for (Iterator<ARssReader.FeedMessage> it = auroraGameHubFeed
                 .getMessages().
