@@ -369,7 +369,7 @@ public class AuroraMini {
         public void mouseDragged(MouseEvent me) {
             location = mini.getLocation(location);
             // int x = location.x - pressed.getX() + me.getX();
-            icon.setImgURl("Starter_Drag_normal.png");
+            icon.setImgURl("app_miniMode_drag.png");
 
             yPos = location.y - pressed.getY() + me.getY();
             mini.setLocation(location.x, yPos);
@@ -408,7 +408,7 @@ public class AuroraMini {
             if (isMouseExited) {
                 icon.setImgURl("icon.png");
             } else {
-                icon.setImgURl("Starter_Start_normal.png");
+                icon.setImgURl("app_miniMode_back.png");
             }
         }
 
@@ -503,7 +503,7 @@ public class AuroraMini {
                 timer.stop();
             }
 
-            icon.setImgURl("Starter_Start_normal.png");
+            icon.setImgURl("app_miniMode_back.png");
 
 
         }
