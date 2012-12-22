@@ -327,7 +327,7 @@ public class GameLibraryLogic implements AuroraScreenLogic {
             libraryUI.getAddGameToLibButton().setVisible(true);
             libraryUI.getAddGameToLibButtonAnimator().setInitialLocation((coreUI
                     .getFrame()
-                    .getWidth() / 2) - (335 / 2), libraryUI.getAddGamePane()
+                    .getWidth() / 2) -  libraryUI.getAddGameToLibButton().getWidth()/2, libraryUI.getAddGamePane()
                     .getImgIcon()
                     .getIconHeight() - 180);
             libraryUI.getAddGameToLibButtonAnimator().moveVertical(libraryUI

@@ -829,7 +829,7 @@ public class GameLibraryUI extends AuroraApp {
 
 
         //* BOTTOM PANEL COMPONENTS *//
-        pnlBottomPane = new JPanel(new BorderLayout(0,20));
+        pnlBottomPane = new JPanel(new BorderLayout(0, 20));
         pnlBottomPane.setOpaque(false);
         pnTopOfBottom = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pnTopOfBottom.setOpaque(false);
@@ -983,7 +983,8 @@ public class GameLibraryUI extends AuroraApp {
 
 
             //* Set Up Textfield where user will search for game to add *//
-            addGameSearchField.setFont(coreUI.getDefaultFont().deriveFont(Font.BOLD,
+            addGameSearchField.setFont(coreUI.getDefaultFont().deriveFont(
+                    Font.BOLD,
                     29));
             addGameSearchField.setForeground(Color.gray);
             addGameSearchField.setOpaque(false);
@@ -1014,7 +1015,8 @@ public class GameLibraryUI extends AuroraApp {
             pnlAddGamePane.revalidate();
 
             addGameToLibButton.setLocation((coreUI.getFrame().getWidth() / 2)
-                                           - (335 / 2), pnlAddGamePane
+                                           - addGameToLibButton.getWidth() / 2,
+                    pnlAddGamePane
                     .getImgIcon()
                     .getIconHeight() - 90);
             addGameToLibButton.setSize(new Dimension(340, 140));
@@ -1037,7 +1039,8 @@ public class GameLibraryUI extends AuroraApp {
             pnlAddGameSearchContainer.add(pnlSearchBG);
 
             //* Add UI elements to the Bottom Panel in the Add Game UI *//
-            pnlBottomPane.add(pnlAddGameSearchContainer, BorderLayout.PAGE_START);
+            pnlBottomPane
+                    .add(pnlAddGameSearchContainer, BorderLayout.PAGE_START);
 
             //* CENTRAL PANEL COMPONENTS *//
 
@@ -1091,7 +1094,8 @@ public class GameLibraryUI extends AuroraApp {
                     .addFocusListener(handler.new addGameFocusHandler());
             addGameSearchField
                     .addMouseListener(handler.new addGameMouseHandler());
-            addGameSearchField.addKeyListener(handler.new addGameSearchBoxHandler());
+            addGameSearchField
+                    .addKeyListener(handler.new addGameSearchBoxHandler());
             gamesList.addListSelectionListener(handler.new SelectListHandler());
             gameLocator.setFileFilter(
                     handler.new ExecutableFilterHandler());
@@ -1118,6 +1122,8 @@ public class GameLibraryUI extends AuroraApp {
     public void showAddGameUI() {
 
         addGameUI_Visible = true;
+
+
 
         buildAddGameUI();
 
@@ -1438,7 +1444,6 @@ public class GameLibraryUI extends AuroraApp {
     public AImagePane getPnlSearchBG() {
         return pnlSearchBG;
     }
-
 
     public JTextField getSearchText() {
         return addGameSearchField;

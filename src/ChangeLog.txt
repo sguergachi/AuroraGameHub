@@ -8,9 +8,11 @@
 ////////////////////////////////////////////--------------------------------
 + new Onix 2.0 Surface with Name Change!
 + Revamped Info Feed with real gaming news!
-+ cleaned up codebase (faster future development!)
++ Cleaned up codebase (faster future development!)
++ New background immersive music.
 + 50 more games added to database
-+ UI enhancments
++ Refreshed minimize mode
++ Other UI enhancements
 + Faster loading of Dashboard UI in some cases.
 - fixed major memory leak, faster going in and out of Dashboard and Carousel Items
 - fixed bug when unselecting game when its asking if you want to remove game.
