@@ -462,23 +462,23 @@ public class AuroraCoreUI {
             regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                     resources
                     .getSurfacePath()
-                    + "/aurora/V1/resources/Oswald-Light.ttf")
+                    + "/aurora/V1/resources/TitilliumWeb-Regular.ttf")
                     .openStream());
             boldFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                     resources
                     .getSurfacePath()
-                    + "/aurora/V1/resources/Oswald-Regular.ttf")
+                    + "/aurora/V1/resources/TitilliumWeb-Bold.ttf")
                     .openStream());
         } catch (MalformedURLException ex) {
             try {
                 regularFont = Font
                         .createFont(Font.TRUETYPE_FONT, getClass()
                         .getResourceAsStream(
-                        "/aurora/V1/resources/Oswald-Light.ttf"));
+                        "/aurora/V1/resources/TitilliumWeb-Regular.ttf"));
                 boldFont = Font
                         .createFont(Font.TRUETYPE_FONT, getClass()
                         .getResourceAsStream(
-                        "/aurora/V1/resources/Oswald-Regular.ttf"));
+                        "/aurora/V1/resources/TitilliumWeb-Bold.ttf"));
 
             } catch (Exception exx) {
                 System.out.println("ERROR In Getting Font Resourcess");
@@ -826,12 +826,10 @@ public class AuroraCoreUI {
             topPanelSize = frame.getHeight() / 4;
             centerPanelSize = frame.getHeight() / 2 + frame.getHeight() / 40;
             bottomPanelSize = frame.getHeight() / 4 + frame.getHeight() / 40;
-            keysFontSize = frame.getHeight() / 40;
-            welcomeFontSize = 21;
-            keyIconWidth = bottomPanelSize / 4;
-            keyIconHeight = bottomPanelSize / 8;
+            keysFontSize = frame.getHeight() / 45;
+            welcomeFontSize = 18;
             versionFontSize = 12;
-            timeFontSize = bottomPanelSize / 12;
+            timeFontSize = bottomPanelSize / 15;
             logoHeight = topPanelSize / 3 + (int) (Ratio / 20);
             logoWidth = frame.getWidth() / 2;
             controlHeight = 45;
@@ -840,6 +838,8 @@ public class AuroraCoreUI {
             exitButtonHeight = 30;
             minimizeButtonWidth = 35;
             minimizeButtonHeight = 30;
+            keyIconWidth = bottomPanelSize / 4;
+            keyIconHeight = bottomPanelSize / 8;
         }
     }
 
@@ -878,7 +878,8 @@ public class AuroraCoreUI {
     public void showExitDialog() {
         if (warningDialog == null) {
             warningDialog = new ADialog(ADialog.aDIALOG_WARNING,
-                    "Are You " + vi.VI(vi.inx_Sure) +" You Want To " + vi.VI(vi.inx_Exit) + "?",
+                    "Are You " + vi.VI(vi.inx_Sure) + " You Want To " + vi
+                    .VI(vi.inx_Exit) + "?",
                     regularFont.deriveFont(Font.BOLD, 25));
 
 
