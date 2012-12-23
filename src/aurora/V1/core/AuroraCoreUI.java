@@ -459,19 +459,19 @@ public class AuroraCoreUI {
 
         try {
             regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(resources
-                    .getSurfacePath() + "/aurora/V1/resources/AGENCYR.TTF")
+                    .getSurfacePath() + "/aurora/V1/resources/Economica-Regular.TTF")
                     .openStream());
             boldFont = Font.createFont(Font.TRUETYPE_FONT, new URL(resources
-                    .getSurfacePath() + "/aurora/V1/resources/AGENCYB.TTF")
+                    .getSurfacePath() + "/aurora/V1/resources/Economica-Bold.TTF")
                     .openStream());
         } catch (MalformedURLException ex) {
             try {
                 regularFont = Font
                         .createFont(Font.TRUETYPE_FONT, getClass()
-                        .getResourceAsStream("/aurora/V1/resources/AGENCYR.TTF"));
+                        .getResourceAsStream("/aurora/V1/resources/Economica-Regular.TTF"));
                 boldFont = Font
                         .createFont(Font.TRUETYPE_FONT, getClass()
-                        .getResourceAsStream("/aurora/V1/resources/AGENCYB.TTF"));
+                        .getResourceAsStream("/aurora/V1/resources/Economica-Bold.TTF"));
 
             } catch (Exception exx) {
                 System.out.println("ERROR In Getting Font Resourcess");
