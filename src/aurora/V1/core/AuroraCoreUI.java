@@ -374,6 +374,7 @@ public class AuroraCoreUI {
     private ATimeLabel lblDate;
 
     private JPanel paneTimeContainer;
+
     private ASound backgrounSFX;
 
     /**
@@ -458,20 +459,26 @@ public class AuroraCoreUI {
         //* Get Font *//
 
         try {
-            regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(resources
-                    .getSurfacePath() + "/aurora/V1/resources/Economica-Regular.TTF")
+            regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
+                    resources
+                    .getSurfacePath()
+                    + "/aurora/V1/resources/Oswald-Light.ttf")
                     .openStream());
-            boldFont = Font.createFont(Font.TRUETYPE_FONT, new URL(resources
-                    .getSurfacePath() + "/aurora/V1/resources/Economica-Bold.TTF")
+            boldFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
+                    resources
+                    .getSurfacePath()
+                    + "/aurora/V1/resources/Oswald-Regular.ttf")
                     .openStream());
         } catch (MalformedURLException ex) {
             try {
                 regularFont = Font
                         .createFont(Font.TRUETYPE_FONT, getClass()
-                        .getResourceAsStream("/aurora/V1/resources/Economica-Regular.TTF"));
+                        .getResourceAsStream(
+                        "/aurora/V1/resources/Oswald-Light.ttf"));
                 boldFont = Font
                         .createFont(Font.TRUETYPE_FONT, getClass()
-                        .getResourceAsStream("/aurora/V1/resources/Economica-Bold.TTF"));
+                        .getResourceAsStream(
+                        "/aurora/V1/resources/Oswald-Regular.ttf"));
 
             } catch (Exception exx) {
                 System.out.println("ERROR In Getting Font Resourcess");
@@ -803,18 +810,18 @@ public class AuroraCoreUI {
             bottomPanelSize = frame.getHeight() / 4 + frame.getHeight() / 40;
             controlHeight = 55;
             controlWidth = 160;
-            keysFontSize = frame.getHeight() / 40;
-            welcomeFontSize = 22;
-            keyIconWidth = 0;
-            keyIconHeight = 0;
-            versionFontSize = 15;
-            timeFontSize = bottomPanelSize / 12;
+            keysFontSize = frame.getHeight() / 45;
+            welcomeFontSize = 18;
+            versionFontSize = 12;
+            timeFontSize = bottomPanelSize / 15;
             logoHeight = topPanelSize / 3 + (int) (Ratio / 14);
             logoWidth = frame.getWidth() / 2 + (int) (Ratio / 5);
             exitButtonWidth = 0;
             exitButtonHeight = 0;
             minimizeButtonWidth = 0;
             minimizeButtonHeight = 0;
+            keyIconWidth = 0;
+            keyIconHeight = 0;
         } else {
             topPanelSize = frame.getHeight() / 4;
             centerPanelSize = frame.getHeight() / 2 + frame.getHeight() / 40;
@@ -871,8 +878,8 @@ public class AuroraCoreUI {
     public void showExitDialog() {
         if (warningDialog == null) {
             warningDialog = new ADialog(ADialog.aDIALOG_WARNING,
-                    "Are You Sure you want to " + vi.VI(vi.inx_Exit) + "?",
-                    regularFont.deriveFont(Font.BOLD, 28));
+                    "Are You " + vi.VI(vi.inx_Sure) +" You Want To " + vi.VI(vi.inx_Exit) + "?",
+                    regularFont.deriveFont(Font.BOLD, 25));
 
 
 
@@ -1406,7 +1413,7 @@ public class AuroraCoreUI {
         return paneTitle;
     }
 
-    public ASound getBackgroundSound(){
+    public ASound getBackgroundSound() {
         return backgrounSFX;
     }
 }
