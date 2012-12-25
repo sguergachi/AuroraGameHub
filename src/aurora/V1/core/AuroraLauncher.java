@@ -44,7 +44,7 @@ public class AuroraLauncher implements Runnable {
 
     private JDialog launchPane;
 
-    private AuroraCoreUI ui;
+    private AuroraCoreUI coreUI;
 
     private AImagePane pnlBackground;
 
@@ -87,7 +87,7 @@ public class AuroraLauncher implements Runnable {
     private int elapsedTime;
 
     public AuroraLauncher(Game game, AuroraCoreUI ui) {
-        this.ui = ui;
+        this.coreUI = ui;
         this.game = game;
 
 
@@ -95,7 +95,8 @@ public class AuroraLauncher implements Runnable {
 
     public void createUI() {
         launchPane = new JDialog();
-        launchPane.setSize(ui.getFrame().getWidth(), ui.getFrame().getHeight());
+        launchPane.setSize(coreUI.getFrame().getWidth(), coreUI.getFrame()
+                .getHeight());
         launchPane.setBackground(Color.BLACK);
         launchPane.setResizable(false);
         launchPane.setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -136,18 +137,22 @@ public class AuroraLauncher implements Runnable {
 
         //Config Component
         progressWheelBG.add(progressWheel);
-        lblTitle.setFont(ui.getRegularFont().deriveFont(Font.PLAIN, 95));
+        lblTitle.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN, 95));
         lblTitle.setForeground(Color.green);
 
         //Gracefull Resizing
         if (lblGameName.getText().length() > 50) {
-            lblGameName.setFont(ui.getRegularFont().deriveFont(Font.PLAIN, 50));
+            lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
+                    50));
         } else if (lblGameName.getText().length() > 40) {
-            lblGameName.setFont(ui.getRegularFont().deriveFont(Font.PLAIN, 60));
+            lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
+                    60));
         } else if (lblGameName.getText().length() > 30) {
-            lblGameName.setFont(ui.getRegularFont().deriveFont(Font.PLAIN, 70));
+            lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
+                    70));
         } else {
-            lblGameName.setFont(ui.getRegularFont().deriveFont(Font.PLAIN, 95));
+            lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
+                    95));
         }
         lblGameName.setForeground(Color.lightGray);
         pnlTopCenter.add(titleBG);
@@ -196,13 +201,13 @@ public class AuroraLauncher implements Runnable {
 
                 //* Stop Music *//
 
-                ui.getBackgroundSound().Pause();
+                coreUI.getBackgroundSound().Pause();
 
                 String osName = System.getProperty("os.name");
 
 
-                if (ui.getOS().equals("Windows 7") || osName
-                        .equals("Windows XP") || ui.getOS().equals(
+                if (coreUI.getOS().equals("Windows 7") || osName
+                        .equals("Windows XP") || coreUI.getOS().equals(
                         "Windows Vista")) {
 
 
@@ -218,8 +223,8 @@ public class AuroraLauncher implements Runnable {
 
                         //LAUCH GAME
                         Process = processBuild.start();
-                        ui.getFrame().setState(JFrame.ICONIFIED);
-
+                        coreUI.getFrame().setState(JFrame.ICONIFIED);
+                        coreUI.getFrame().setVisible(false);
 
 
                         //Pause A Bit
@@ -270,8 +275,8 @@ public class AuroraLauncher implements Runnable {
                         //LAUNCH GAME
                         Process = processBuild.start();
 
-                        ui.getFrame().setState(JFrame.ICONIFIED);
-
+                        coreUI.getFrame().setState(JFrame.ICONIFIED);
+                        coreUI.getFrame().setVisible(false);
                         //Pause A Bit
                         try {
                             Thread.sleep(3000);
@@ -313,19 +318,20 @@ public class AuroraLauncher implements Runnable {
 
                     //Tracker Data
                     game.setNumberTimesPlayed(game.getNumberTimesPlayed() + 1);
-                    game.setLastPlayed(ui.getTimeLabel().getText());
+                    game.setLastPlayed(coreUI.getTimeLabel().getText());
                 }
             } catch (IOException ex) {
                 ADialog error = new ADialog(ADialog.aDIALOG_ERROR,
-                        "Unable to find game.");
+                        "Unable To Find & Launch Game.", coreUI.getBoldFont()
+                        .deriveFont(25));
                 error.setOKButtonListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
                         launchPane.setVisible(false);
                         launchPane.dispose();
-                        ui.getFrame().setVisible(true);
-                        ui.getFrame().setState(JFrame.NORMAL);
+                        coreUI.getFrame().setVisible(true);
+                        coreUI.getFrame().setState(JFrame.NORMAL);
 
                     }
                 });
@@ -337,7 +343,7 @@ public class AuroraLauncher implements Runnable {
             //Game Has Exited//
             titleBG.setImage("ComputingData.png");
 
-            ui.getBackgroundSound().Resume();
+            coreUI.getBackgroundSound().Resume();
 
             launchPane.setAlwaysOnTop(true);
 
@@ -364,7 +370,8 @@ public class AuroraLauncher implements Runnable {
             System.out.println("Hours " + hoursDiff);
             System.out.println("Min " + minDiff);
 
-            lblGameName.setFont(ui.getRegularFont().deriveFont(Font.PLAIN, 95));
+            lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
+                    95));
             if (minDiff < 1 && hoursDiff < 1) {
                 lblGameName.setText("You Played: under 1 min  ");
             } else if (hoursDiff < 1) {
@@ -379,7 +386,7 @@ public class AuroraLauncher implements Runnable {
 
             //Wait a bit before returning to Aurora
             try {
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(AuroraLauncher.class.getName()).log(
                         Level.SEVERE, null, ex);
@@ -389,7 +396,11 @@ public class AuroraLauncher implements Runnable {
 
         launchPane.setVisible(false);
         launchPane.dispose();
-        ui.getFrame().setVisible(true);
-        ui.getFrame().setState(JFrame.NORMAL);
+        coreUI.getFrame().setVisible(true);
+        coreUI.getFrame().setState(JFrame.NORMAL);
+    }
+
+    public void showManualTimerUI() {
+
     }
 }

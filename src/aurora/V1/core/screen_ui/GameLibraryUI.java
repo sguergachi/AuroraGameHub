@@ -543,7 +543,7 @@ public class GameLibraryUI extends AuroraApp {
             searchTextField.setForeground(Color.darkGray);
             searchTextField.setFont(coreUI.getDefaultFont()
                     .deriveFont(Font.BOLD,
-                    38));
+                    35));
             searchTextField.setPreferredSize(new Dimension(880, 50));
 
             btnSearch.setPreferredSize(new Dimension(70, 51));
@@ -880,10 +880,10 @@ public class GameLibraryUI extends AuroraApp {
             // and Right side of the Central Panel
             //*
             lblLeftTitle.setFont(coreUI.getDefaultFont().deriveFont(Font.BOLD,
-                    32));
+                    31));
             lblLeftTitle.setForeground(Color.lightGray);
             lblRightTitle.setFont(coreUI.getDefaultFont().deriveFont(Font.BOLD,
-                    32));
+                    31));
             lblRightTitle.setForeground(Color.lightGray);
 
 
@@ -928,7 +928,7 @@ public class GameLibraryUI extends AuroraApp {
                     pnlCoverPane.getImgIcon().getIconHeight()));
             gamesList.setBackground(new Color(38, 46, 60));
             gamesList.setForeground(Color.lightGray);
-            gamesList.setFont(coreUI.getDefaultFont().deriveFont(Font.BOLD, 19));
+            gamesList.setFont(coreUI.getDefaultFont().deriveFont(Font.BOLD, 17));
             gamesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             gamesList.setLayoutOrientation(JList.VERTICAL);
             gamesList.setVisibleRowCount(10);
@@ -984,8 +984,8 @@ public class GameLibraryUI extends AuroraApp {
 
             //* Set Up Textfield where user will search for game to add *//
             addGameSearchField.setFont(coreUI.getDefaultFont().deriveFont(
-                    Font.BOLD,
-                    29));
+                    Font.PLAIN,
+                    26));
             addGameSearchField.setForeground(Color.gray);
             addGameSearchField.setOpaque(false);
             addGameSearchField.setBorder(null);
@@ -1305,7 +1305,7 @@ public class GameLibraryUI extends AuroraApp {
             selectedGameBarWidth = coreUI.getFrame().getWidth() / 3;
             addGameWidth = coreUI.getFrame().getWidth() / 3;
             addGameHeight = coreUI.getBottomPane().getHeight() / 3;
-            gameNameFontSize = 35;
+            gameNameFontSize = 32;
             SearchBarWidth = 880;
             btnBackWidth = 0;
             btnBackHeight = 0;
@@ -1322,7 +1322,7 @@ public class GameLibraryUI extends AuroraApp {
             addGameHeight = 40;
             selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
             selectedGameBarWidth = coreUI.getFrame().getWidth() / 3 - 20;
-            gameNameFontSize = 32;
+            gameNameFontSize = 30;
             SearchBarWidth = coreUI.getFrame().getWidth() / 2 + coreUI
                     .getControlWidth() / 2;
         }

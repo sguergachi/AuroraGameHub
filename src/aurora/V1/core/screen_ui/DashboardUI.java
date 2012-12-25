@@ -572,10 +572,12 @@ public class DashboardUI implements AuroraScreenUI {
         //* Info Feed *//
         infoFeed.go();
 
-        setAllToVisible();
+
 
         //* Add UI to Canvas *//
         addToCanvas();
+
+        setAllToVisible();
 
     }
 
@@ -622,7 +624,6 @@ public class DashboardUI implements AuroraScreenUI {
         lblKeyAction.setForeground(new Color(0, 178, 178));
 
 
-
         //* Add  Components to CoreUI *//
 
         //* Set bigger background image for Frame Control panel *//
@@ -644,17 +645,13 @@ public class DashboardUI implements AuroraScreenUI {
         //* Add To Bottom Panel  InfoFeed and both Carousel Buttons*//
         coreUI.getCenterFromBottomPanel().add(BorderLayout.EAST,
                 btnCarouselRight);
-
-
         coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, infoFeed);
 //      coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, scrollText);
-
-
         coreUI.getCenterFromBottomPanel()
                 .add(BorderLayout.WEST, btnCarouselLeft);
 
-        //* Check for the Enter Button Press OR Mouse Click *//
 
+        //* Check for the Enter Button Press OR Mouse Click *//
         paneProfile
                 .addMouseListener(handler.new CarouselPaneMouseListener(null));
         paneSettings.addMouseListener(
@@ -664,14 +661,12 @@ public class DashboardUI implements AuroraScreenUI {
         paneNet.addMouseListener(handler.new CarouselPaneMouseListener(null));
 
         //* Check for Mouse Wheel Rotation *//
-
         carousel.
                 addMouseWheelListener(
                 handler.new CarouselPaneMouseWheelListener());
 
 
         //* Add Listeners to the Left and Right Carousel Buttons *//
-
         btnCarouselLeft.addActionListener(handler.new LeftButtonListener());
         btnCarouselLeft.addKeyListener(handler.new DashboardlKeyListener());
 

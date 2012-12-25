@@ -492,6 +492,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                 //* load DashboardUI *//
                 loadedDashboardUI = new DashboardUI(coreUI, this);
                 System.out.println("Loading Dashboard...");
+                promptDisplay.add("Loading Dashboard...", new Color(0, 191, 255));
                 loadedDashboardUI.loadUI();
 
                 loadedData = true;
@@ -536,10 +537,10 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
         if (coreUI.isLargeScreen()) {
             displayYpos = 20;
-            displayFontSize = coreUI.getBottomPanelSize() / 10;
+            displayFontSize = coreUI.getBottomPanelSize() / 11 - 3;
         } else {
             displayYpos = 10;
-            displayFontSize = coreUI.getBottomPanelSize() / 10;
+            displayFontSize = coreUI.getBottomPanelSize() / 12 - 3;
 
         }
 
