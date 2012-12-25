@@ -537,10 +537,10 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
         if (coreUI.isLargeScreen()) {
             displayYpos = 20;
-            displayFontSize = coreUI.getBottomPanelSize() / 11 - 3;
+            displayFontSize = coreUI.getBottomPanelSize() / 11;
         } else {
             displayYpos = 10;
-            displayFontSize = coreUI.getBottomPanelSize() / 12 - 3;
+            displayFontSize = coreUI.getBottomPanelSize() / 12;
 
         }
 

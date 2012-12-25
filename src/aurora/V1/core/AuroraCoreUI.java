@@ -810,10 +810,10 @@ public class AuroraCoreUI {
             bottomPanelSize = frame.getHeight() / 4 + frame.getHeight() / 40;
             controlHeight = 55;
             controlWidth = 160;
-            keysFontSize = frame.getHeight() / 45;
-            welcomeFontSize = 18;
-            versionFontSize = 12;
-            timeFontSize = bottomPanelSize / 15;
+            keysFontSize = frame.getHeight() / 40;
+            welcomeFontSize = 20;
+            versionFontSize = 14;
+            timeFontSize = bottomPanelSize / 13;
             logoHeight = topPanelSize / 3 + (int) (Ratio / 14);
             logoWidth = frame.getWidth() / 2 + (int) (Ratio / 5);
             exitButtonWidth = 0;
@@ -826,10 +826,10 @@ public class AuroraCoreUI {
             topPanelSize = frame.getHeight() / 4;
             centerPanelSize = frame.getHeight() / 2 + frame.getHeight() / 40;
             bottomPanelSize = frame.getHeight() / 4 + frame.getHeight() / 40;
-            keysFontSize = frame.getHeight() / 45;
-            welcomeFontSize = 18;
-            versionFontSize = 12;
-            timeFontSize = bottomPanelSize / 15;
+            keysFontSize = frame.getHeight() / 40;
+            welcomeFontSize = 20;
+            versionFontSize = 14;
+            timeFontSize = bottomPanelSize / 13;
             logoHeight = topPanelSize / 3 + (int) (Ratio / 20);
             logoWidth = frame.getWidth() / 2;
             controlHeight = 45;
@@ -880,7 +880,7 @@ public class AuroraCoreUI {
             warningDialog = new ADialog(ADialog.aDIALOG_WARNING,
                     "Are You " + vi.VI(vi.inx_Sure) + " You Want To " + vi
                     .VI(vi.inx_Exit) + "?",
-                    regularFont.deriveFont(Font.BOLD, 25));
+                    regularFont.deriveFont(Font.BOLD, 28));
 
 
 
