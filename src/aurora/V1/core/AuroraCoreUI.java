@@ -462,23 +462,23 @@ public class AuroraCoreUI {
             regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                     resources
                     .getSurfacePath()
-                    + "/aurora/V1/resources/TitilliumWeb-Regular.ttf")
+                    + "/aurora/V1/resources/Gudea-Regular.ttf")
                     .openStream());
             boldFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                     resources
                     .getSurfacePath()
-                    + "/aurora/V1/resources/TitilliumWeb-Bold.ttf")
+                    + "/aurora/V1/resources/Gudea-Bold.ttf")
                     .openStream());
         } catch (MalformedURLException ex) {
             try {
                 regularFont = Font
                         .createFont(Font.TRUETYPE_FONT, getClass()
                         .getResourceAsStream(
-                        "/aurora/V1/resources/TitilliumWeb-Regular.ttf"));
+                        "/aurora/V1/resources/Gudea-Regular.ttf"));
                 boldFont = Font
                         .createFont(Font.TRUETYPE_FONT, getClass()
                         .getResourceAsStream(
-                        "/aurora/V1/resources/TitilliumWeb-Bold.ttf"));
+                        "/aurora/V1/resources/Gudea-Bold.ttf"));
 
             } catch (Exception exx) {
                 System.out.println("ERROR In Getting Font Resourcess");

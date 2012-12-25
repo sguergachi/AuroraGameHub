@@ -223,7 +223,7 @@ public class AuroraLauncher implements Runnable {
 
                         //LAUCH GAME
                         Process = processBuild.start();
-//                        coreUI.getFrame().setState(JFrame.ICONIFIED);
+                        coreUI.getFrame().setState(JFrame.ICONIFIED);
                         coreUI.getFrame().setVisible(false);
 
 
@@ -275,7 +275,7 @@ public class AuroraLauncher implements Runnable {
                         //LAUNCH GAME
                         Process = processBuild.start();
 
-//                        coreUI.getFrame().setState(JFrame.ICONIFIED);
+                        coreUI.getFrame().setState(JFrame.ICONIFIED);
                         coreUI.getFrame().setVisible(false);
                         //Pause A Bit
                         try {
