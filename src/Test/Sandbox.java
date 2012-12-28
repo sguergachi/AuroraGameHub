@@ -31,38 +31,17 @@ import javax.swing.*;
 import aurora.engine.V1.Logic.*;
 import aurora.engine.V1.UI.*;
 
-
 public class Sandbox {
 
-  public static void main(String[] args) throws MalformedURLException, UnsupportedAudioFileException, IOException, LineUnavailableException {
-          JFrame frame = new JFrame("Sound debugging");
-	  frame.setLayout(new FlowLayout());
-	  final ASound as = new ASound(ASound.sfxTheme, true);
-	  JButton btn = new JButton("Click me");
-	  btn.addActionListener(new ActionListener(){
-		@Override public void actionPerformed(ActionEvent arg0) {
-			try {
-				as.Play();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-	  });
-	  JButton btn2 = new JButton("stop dat music");
-	  btn2.addActionListener(new ActionListener(){
-		@Override public void actionPerformed(ActionEvent arg0) {
-			as.Stop();
-
-		}
-
-	  });
-	  frame.setSize(200, 100);
-	  frame.getContentPane().add(btn);
-	  frame.getContentPane().add(btn2);
-	  frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	  frame.setVisible(true);
-  }
-
+    public static void main(String[] args)  {
+        ANuance nuance = null;
+        try {
+            nuance = new ANuance(
+            "https://s3.amazonaws.com/AuroraStorage/AIDictionary.txt",
+            "C:\\Users\\Sammy\\Documents\\AuroraData\\AIDictionary.txt");
+        } catch (IOException ex) {
+            Logger.getLogger(Sandbox.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(nuance.VI(ANuance.inx_Error));
+    }
 }

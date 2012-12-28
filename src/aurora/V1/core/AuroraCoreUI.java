@@ -18,6 +18,7 @@
 package aurora.V1.core;
 
 import aurora.V1.core.screen_logic.StartScreenLogic;
+import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.ANuance;
 import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.ASurface;
@@ -377,6 +378,8 @@ public class AuroraCoreUI {
 
     private ASound backgrounSFX;
 
+    private AFileManager fileIO;
+
     /**
      * .-----------------------------------------------------------------------.
      * | AuroraCoreUI(JFrame)
@@ -541,8 +544,23 @@ public class AuroraCoreUI {
         //*
 
         // Create V.I
-        vi = new ANuance();
+        fileIO = new AFileManager("");
+        System.out.println(fileIO.getPath() + "AuroraData/User Data/");
 
+        try {
+            vi = new ANuance(
+                    "https://s3.amazonaws.com/AuroraStorage/AIDictionary.txt",
+                    fileIO
+                    .getPath() + "AuroraData/User Data/AIDictionary.txt");
+        } catch (Exception ex) {
+            try{
+            vi = new ANuance(
+                    fileIO
+                    .getPath() + "AuroraData/User Data/AIDictionary.txt");
+            }catch(Exception exx){
+               vi = new ANuance();
+            }
+        }
         //* Setup Buttons *//
         btnExit = new AButton("app_btn_close_norm.png",
                 "app_btn_close_down.png", "app_btn_close_over.png",
@@ -881,7 +899,6 @@ public class AuroraCoreUI {
                     "Are You " + vi.VI(vi.inx_Sure) + " You Want To " + vi
                     .VI(vi.inx_Exit) + "?",
                     regularFont.deriveFont(Font.BOLD, 28));
-
 
 
             warningDialog.setOKButtonListener(new ActionListener() {

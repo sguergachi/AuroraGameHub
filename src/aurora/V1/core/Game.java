@@ -801,13 +801,15 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     //PlayButtonListener added by Carlos
     class PlayButtonListener implements ActionListener {
+        private AuroraLauncher launcher;
 
         @Override
         public void actionPerformed(final ActionEvent e) {
 
             System.out.println("Play button pressed.");
-            new AuroraLauncher(copy(), coreUI).createUI();
+           launcher =  new AuroraLauncher(coreUI);
 
+           launcher.launchGame(copy());
         }
     }
 

@@ -391,8 +391,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
             btnBackHeight = 0;
         } else {
 
-            btnBackWidth = 0;
-            btnBackHeight = 0;
+            btnBackWidth = getCoreUI().getExitButtonWidth();
+            btnBackHeight = getCoreUI().getExitButtonHeight();
         }
     }
 

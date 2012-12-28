@@ -315,7 +315,15 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     }
 
     public ArrayList<String> generatePrompts() {
-        auroraVI = new ANuance();
+        System.out.println(fileIO.getPath() + path + "/User Data");
+        try {
+            auroraVI = new ANuance(fileIO
+                .getPath() + "AuroraData/User Data/AIDictionary.txt");
+
+        } catch (IOException ex) {
+            Logger.getLogger(StartScreenUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
         ArrayList<String> toDisplayList = new ArrayList<String>();
         if (checkUser()) {
 
@@ -492,7 +500,8 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                 //* load DashboardUI *//
                 loadedDashboardUI = new DashboardUI(coreUI, this);
                 System.out.println("Loading Dashboard...");
-                promptDisplay.add("Loading Dashboard...", new Color(0, 191, 255));
+                promptDisplay
+                        .add("Loading Dashboard...", new Color(0, 191, 255));
                 loadedDashboardUI.loadUI();
 
                 loadedData = true;

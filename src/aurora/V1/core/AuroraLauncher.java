@@ -17,10 +17,12 @@
  */
 package aurora.V1.core;
 
+import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AProgressWheel;
+import aurora.engine.V1.UI.ASlickLabel;
 import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -42,7 +45,7 @@ public class AuroraLauncher implements Runnable {
 
     private Game game;
 
-    private JDialog launchPane;
+    private JFrame launchPane;
 
     private AuroraCoreUI coreUI;
 
@@ -50,51 +53,45 @@ public class AuroraLauncher implements Runnable {
 
     private JPanel pnlTop;
 
-    private JPanel pnlCenter;
-
-    private JLabel lblTitle;
-
     private JLabel lblGameName;
 
-    private AImage imageRightSide;
+    private AImagePane imgGameCover;
 
-    private AImage imageLeftSide;
+    private AImagePane imgTitle;
 
-    private AImagePane gameIcon;
-
-    private AImagePane titleBG;
-
-    private AProgressWheel progressWheel;
-
-    private AImagePane progressWheelBG;
-
-    private JPanel pnlCenterContent;
+    private JPanel pnlCenter;
 
     private JPanel pnlBottom;
 
     private Thread launcherThread;
 
-    private JPanel pnlTopCenter;
-
     private String timeAfter;
 
     private int minDiff;
 
-    private Process Process;
+    private Process launchGameProcess;
 
     private int hoursDiff;
 
     private int elapsedTime;
 
-    public AuroraLauncher(Game game, AuroraCoreUI ui) {
+    private ASlickLabel lblPlayedInfo;
+
+    private ASlickLabel lblPlayedTime;
+
+    private boolean manualMode;
+
+    private JPanel pnlTimePlayed;
+
+    public AuroraLauncher(AuroraCoreUI ui) {
         this.coreUI = ui;
-        this.game = game;
-
-
+        loadUI();
     }
 
-    public void createUI() {
-        launchPane = new JDialog();
+    private void loadUI() {
+
+        //* Create Frame Containing Launch UI *//
+        launchPane = new JFrame();
         launchPane.setSize(coreUI.getFrame().getWidth(), coreUI.getFrame()
                 .getHeight());
         launchPane.setBackground(Color.BLACK);
@@ -104,82 +101,126 @@ public class AuroraLauncher implements Runnable {
         launchPane.setAlwaysOnTop(true);
 
 
-
-        //Create components
-        pnlBackground = new AImagePane("LaunchBG.png", launchPane.getWidth(),
+        //* Create Panels *//
+        pnlBackground = new AImagePane("app_launch_bg.png", launchPane
+                .getWidth(),
                 launchPane.getHeight(), new BorderLayout());
-        pnlTop = new JPanel(new BorderLayout(0, 20));
+
+        pnlTop = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 50));
         pnlTop.setOpaque(false);
-        pnlTopCenter = new JPanel();
-        pnlTopCenter.setOpaque(false);
-        pnlCenter = new JPanel();
+
+
+        pnlCenter = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pnlCenter.setOpaque(false);
-        pnlCenterContent = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        pnlCenterContent.setOpaque(false);
-        pnlBottom = new JPanel();
+
+        pnlBottom = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 50));
         pnlBottom.setOpaque(false);
 
-        lblTitle = new JLabel("Now Launching");
-        lblGameName = new JLabel(game.getGameName());
+        pnlTimePlayed = new JPanel();
+        pnlTimePlayed.setOpaque(false);
+        pnlTimePlayed.setLayout(new BoxLayout(pnlTimePlayed, BoxLayout.Y_AXIS));
 
-        imageRightSide = new AImage("rightBrace.png");
-        imageLeftSide = new AImage("leftBrace.png");
-        gameIcon = new AImagePane();
-        gameIcon.setImage(game.getImgIcon(), 260, 230);
-        gameIcon.setPreferredSize(new Dimension(230, 270));
-        titleBG = new AImagePane("launchTitle.png");
-        progressWheel = new AProgressWheel("ProgressWheel.png");
-        progressWheelBG = new AImagePane("ProgressWheelBG.png",
-                new BorderLayout(0, 0));
-        progressWheelBG.setPreferredSize(new Dimension(progressWheelBG
-                .getImgIcon().getIconWidth(), progressWheelBG.getImgIcon()
-                .getIconHeight()));
 
-        //Config Component
-        progressWheelBG.add(progressWheel);
-        lblTitle.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN, 95));
-        lblTitle.setForeground(Color.green);
+        //* Create Content Components *//
 
-        //Gracefull Resizing
+        lblGameName = new ASlickLabel();
+
+        lblPlayedInfo = new ASlickLabel("You Played");
+
+        lblPlayedTime = new ASlickLabel();
+
+        //* Game Cover Icon representing Game *//
+        imgGameCover = new AImagePane();
+
+        //* Title Image Showing Status of Launcing Process *//
+        imgTitle = new AImagePane("app_launch_nowLaunching.png");
+
+    }
+
+    private void buildUI() {
+
+        // Fonts
+        // --------------------------------------------------------------------.
+
+        lblGameName.setText("  " + game.getGameName());
+        //* Gracefull Resizing Based on Length of Game Name *//
         if (lblGameName.getText().length() > 50) {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                    50));
+                    55));
         } else if (lblGameName.getText().length() > 40) {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                    60));
+                    65));
         } else if (lblGameName.getText().length() > 30) {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                    70));
+                    75));
         } else {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                    95));
+                    100));
         }
-        lblGameName.setForeground(Color.lightGray);
-        pnlTopCenter.add(titleBG);
+        lblGameName.setForeground(new Color(103, 103, 103));
 
-        pnlCenterContent.add(lblGameName);
-        pnlCenterContent.add(gameIcon);
+        lblPlayedTime
+                .setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN, 80));
+        lblPlayedTime.setForeground(Color.white);
+
+        lblPlayedInfo
+                .setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN, 60));
+        lblPlayedInfo.setForeground(new Color(42, 51, 69));
 
 
-        pnlCenter.setPreferredSize(new Dimension(launchPane.getWidth(), 28));
-        pnlCenter.add(imageLeftSide);
-        pnlCenter.add(pnlCenterContent);
-        pnlCenter.add(imageRightSide);
 
-        titleBG.setPreferredSize(new Dimension(765, 300));
-        pnlTopCenter.setPreferredSize(new Dimension(launchPane.getWidth(), 300));
-        pnlTop.add(BorderLayout.CENTER, pnlTopCenter);
+        // Add Components to Panels
+        // --------------------------------------------------------------------.
 
-        pnlBottom.add(progressWheelBG);
+        //* Top Panel *//
+        pnlTop.add(imgTitle);
+        imgTitle.setPreferredSize(new Dimension(imgTitle.getImgIcon()
+                .getIconWidth(), imgTitle.getImgIcon().getIconHeight()));
 
-        pnlBackground.add(BorderLayout.NORTH, pnlTopCenter);
+
+
+        //* Set Game Cover Image *//
+        imgGameCover.setImage(game);
+        imgGameCover.setImageSize(460, 505);
+        imgGameCover.setPreferredSize(new Dimension(490, 505));
+
+        //* Center Content Panel *//
+        pnlCenter.add(imgGameCover);
+
+        pnlTimePlayed.setBounds(launchPane.getWidth() + 300, pnlCenter
+                .getLocation().y / 2, pnlTimePlayed.getWidth(), pnlTimePlayed
+                .getHeight());
+
+        pnlTimePlayed.add(lblPlayedInfo);
+        pnlTimePlayed.add(lblPlayedTime);
+        lblPlayedTime.setText("                                              ");
+
+        pnlCenter.add(pnlTimePlayed);
+
+
+        //* Bottom Panel *//
+        pnlBottom.add(lblGameName);
+
+        //* Add All To Background Panel *//
+        pnlBackground.add(BorderLayout.NORTH, pnlTop);
         pnlBackground.add(BorderLayout.CENTER, pnlCenter);
         pnlBackground.add(BorderLayout.SOUTH, pnlBottom);
 
-
+        //* Add Background to Frame and set Visible *//
         launchPane.add(pnlBackground);
         launchPane.setVisible(true);
         launchPane.repaint();
+
+        pnlTimePlayed.setVisible(false);
+
+
+    }
+
+    public void launchGame(Game game) {
+
+        this.game = game;
+
+        buildUI();
 
         launcherThread = null;
 
@@ -189,7 +230,6 @@ public class AuroraLauncher implements Runnable {
         launcherThread.setName("Launch Thread");
         //Start Loader
         launcherThread.start();
-
     }
 
     @Override
@@ -197,23 +237,22 @@ public class AuroraLauncher implements Runnable {
         while (Thread.currentThread() == launcherThread) {
 
 
+            //* Stop Music *//
+            coreUI.getBackgroundSound().Pause();
+
+
             try {
 
-                //* Stop Music *//
 
-                coreUI.getBackgroundSound().Pause();
+                // Launch Game For Windows
+                // ------------------------------------------------------------.
+                if (coreUI.getOS().contains("Windows")) {
 
-                String osName = System.getProperty("os.name");
-
-
-                if (coreUI.getOS().equals("Windows 7") || osName
-                        .equals("Windows XP") || coreUI.getOS().equals(
-                        "Windows Vista")) {
-
-
-                    System.out.println(game.getGamePath());
+                    //* Check if using .exe as executable *//
                     if (game.getGamePath().endsWith("exe")) {
-                        //Get the directory
+
+
+                        //* Get the directory *//
                         ProcessBuilder processBuild = new ProcessBuilder(game
                                 .getGamePath());
 
@@ -221,42 +260,17 @@ public class AuroraLauncher implements Runnable {
                                 .substring(0, game.getGamePath().lastIndexOf(
                                 "\\") + 1).replace("\\", "\\")));
 
-                        //LAUCH GAME
-                        Process = processBuild.start();
-                        coreUI.getFrame().setState(JFrame.ICONIFIED);
-                        coreUI.getFrame().setVisible(false);
+
+                        //* Launch Game *//
+
+                        launchGameProcess(processBuild);
 
 
-                        //Pause A Bit
-                        try {
-                            Thread.sleep(4000);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(AuroraLauncher.class.getName())
-                                    .log(Level.SEVERE, null, ex);
-                        }
 
-                        //Game Cover Tracker Data
-                        game.setNumberTimesPlayed(game.getNumberTimesPlayed()
-                                                  + 1);
-                        game.setLastPlayed(ATimeLabel.current(
-                                ATimeLabel.TIME_24HOUR));
-                        //UI Changes
-                        progressWheel.setClockwise(false);
-                        progressWheel.setSpeed(6);
-                        titleBG.setImage("playTitle.png");
+                        //* If not .exe then its a shortcut *//
+                    } else {
 
-
-                        //WAIT FOR GAME TO EXIT
-                        try {
-                            launchPane.setAlwaysOnTop(false);
-                            Process.waitFor();
-
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(AuroraLauncher.class.getName())
-                                    .log(Level.SEVERE, null, ex);
-                        }
-                    } else { // Launch Shortcuts
-                        launchPane.setAlwaysOnTop(false);
+                        //* Get the directory *//
                         String currentDir = new File(game.getGamePath())
                                 .getCanonicalPath();
                         currentDir = currentDir.substring(0, currentDir
@@ -264,66 +278,58 @@ public class AuroraLauncher implements Runnable {
                                 .substring(currentDir.lastIndexOf("\\") + 1,
                                 currentDir.length()) + '"';
 
+                        //* Set Commands to launch shortcut *//
                         ProcessBuilder processBuild = new ProcessBuilder();
                         processBuild.command("cmd", "/c", "", currentDir);
 
-                        System.out.println("Current Dir " + currentDir);
-                        System.out.println("Command " + processBuild.command());
+
+                        //* Launch Game *//
+
+                        launchGameProcess(processBuild);
 
 
 
-                        //LAUNCH GAME
-                        Process = processBuild.start();
-
-                        coreUI.getFrame().setState(JFrame.ICONIFIED);
-                        coreUI.getFrame().setVisible(false);
-                        //Pause A Bit
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(AuroraLauncher.class.getName())
-                                    .log(Level.SEVERE, null, ex);
-                        }
-                        //Game Cover Tracker Data
-                        game.setNumberTimesPlayed(game.getNumberTimesPlayed()
-                                                  + 1);
-                        game.setLastPlayed(ATimeLabel.current(
-                                ATimeLabel.TIME_24HOUR));
-                        //UI Changes
-                        progressWheel.setClockwise(false);
-                        progressWheel.setSpeed(5);
-                        titleBG.setImage("playTitle.png");
-
-
-                        //WAIT FOR GAME TO EXIT
-                        try {
-                            //launchPane.setAlwaysOnTop(false);
-                            Process.waitFor();
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(AuroraLauncher.class.getName())
-                                    .log(Level.SEVERE, null, ex);
-                        }
                     }
 
 
-                } else if (osName.equals("Mac OS X")) {
-                    // escaping the spaces in the game path
+
+                    // Launch Game For Mac OS X
+                    // --------------------------------------------------------.
+                } else if (coreUI.getOS().contains("Mac OS X")) {
+
+                    //* escaping the spaces in the game path *//
                     game.getGamePath().replace(" ", "\\ ");
                     String workingDir = game.getGamePath();
                     workingDir = workingDir.substring(0, workingDir.lastIndexOf(
                             "/") + 1);
-                    System.setProperty("user.dir", workingDir);
-                    //LAUCH GAME
-                    Desktop.getDesktop().open(new File(game.getGamePath()));
 
-                    //Tracker Data
+
+                    //* Set Commands to launch shortcut *//
+                    ProcessBuilder processBuild = new ProcessBuilder();
+                    processBuild.command("open", workingDir);
+
+
+                    //* Launch Game *//
+                    launchGameProcess(processBuild);
+
+//                    System.setProperty("user.dir", workingDir);
+//
+//                    //* Launch Game *//
+//                    Desktop.getDesktop().open(new File(game.getGamePath()));
+
+                    //* Tracker Data *//
                     game.setNumberTimesPlayed(game.getNumberTimesPlayed() + 1);
                     game.setLastPlayed(coreUI.getTimeLabel().getText());
+
                 }
             } catch (IOException ex) {
+
+                //* Handle Exeption Unable to Find or Launch Game *//
+
                 ADialog error = new ADialog(ADialog.aDIALOG_ERROR,
                         "Unable To Find & Launch Game.", coreUI.getBoldFont()
-                        .deriveFont(25));
+                        .deriveFont(28));
+
                 error.setOKButtonListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -340,18 +346,16 @@ public class AuroraLauncher implements Runnable {
                         Level.SEVERE, null, ex);
             }
 
-            //Game Has Exited//
-            titleBG.setImage("ComputingData.png");
+            // Game Has Exited
+            // ----------------------------------------------------------------.
 
-            coreUI.getBackgroundSound().Resume();
-
-            launchPane.setAlwaysOnTop(true);
+            //* Calculate Time *//
 
             timeAfter = ATimeLabel.current(ATimeLabel.TIME_24HOUR);
             System.out.println(game.getLastPlayed());
             System.out.println(timeAfter);
 
-            //Elapsed Time Calculation
+            //* Elapsed Time Calculation *//
             hoursDiff = Math.abs(Integer.parseInt(timeAfter.substring(0, 2))
                                  - Integer.parseInt(game.getLastPlayed()
                     .substring(0, 2))) * 60;
@@ -370,37 +374,151 @@ public class AuroraLauncher implements Runnable {
             System.out.println("Hours " + hoursDiff);
             System.out.println("Min " + minDiff);
 
-            lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                    95));
             if (minDiff < 1 && hoursDiff < 1) {
-                lblGameName.setText("You Played: under 1 min  ");
+                lblPlayedTime.setText("Under 1 min  ");
+                manualMode = true;
             } else if (hoursDiff < 1) {
-                lblGameName.setText("You Played: " + minDiff + " min  ");
+                lblPlayedTime.setText(minDiff + " min  ");
             } else {
-                lblGameName.setText("You Played: " + hoursDiff + "hr and "
-                                    + minDiff + "min  ");
+                lblPlayedTime.setText(hoursDiff + "hr and "
+                                      + minDiff + "min  ");
             }
 
-            progressWheel.setClockwise(true);
-            progressWheel.setSpeed(8);
+            if (manualMode) {
 
-            //Wait a bit before returning to Aurora
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(AuroraLauncher.class.getName()).log(
-                        Level.SEVERE, null, ex);
+                showManualTimerUI();
+
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(AuroraLauncher.class.getName()).log(
+                            Level.SEVERE, null, ex);
+                }
+
+
+                break;
+            } else {
+                //* Change Title *//
+                imgTitle.setImage("app_launch_standBy.png");
+
+                //* Start Music Again *//
+                coreUI.getBackgroundSound().Resume();
+
+                launchPane.setAlwaysOnTop(true);
+
+                showTimeSpentPlaying();
+
+                //* Wait a bit before returning to Aurora *//
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(AuroraLauncher.class.getName()).log(
+                            Level.SEVERE, null, ex);
+                }
+
+
+                break;
             }
-            break;
+
+
         }
 
         launchPane.setVisible(false);
         launchPane.dispose();
         coreUI.getFrame().setVisible(true);
         coreUI.getFrame().setState(JFrame.NORMAL);
+        manualMode = false;
+
+        pnlCenter.setLayout(new FlowLayout(FlowLayout.CENTER));
     }
 
     public void showManualTimerUI() {
+
+        imgTitle.setImage("app_launch_standBy.png");
+        //* Start Music Again *//
+        coreUI.getBackgroundSound().Resume();
+
+        showTimeSpentPlaying();
+    }
+
+    private void launchGameProcess(ProcessBuilder processBuild) {
+        try {
+            launchGameProcess = processBuild.start();
+        } catch (IOException ex) {
+            Logger.getLogger(AuroraLauncher.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
+        coreUI.getFrame().setState(JFrame.ICONIFIED);
+        coreUI.getFrame().setVisible(false);
+
+        //* Game Cover Tracker Data *//
+        game.setNumberTimesPlayed(game.getNumberTimesPlayed()
+                                  + 1);
+        game.setLastPlayed(ATimeLabel.current(
+                ATimeLabel.TIME_24HOUR));
+
+
+
+        //* Pause A Bit To Let Game Start *//
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AuroraLauncher.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+
+
+        //* Change Title *//
+        imgTitle.setImage("app_launch_playing.png");
+
+        //* Allow for Alt-Tabing  while playing Game *//
+        launchPane.setAlwaysOnTop(false);
+
+        //* Wait For Game To Exit *//
+        try {
+            launchGameProcess.waitFor();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AuroraLauncher.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void showTimeSpentPlaying() {
+
+
+
+        pnlTimePlayed.setVisible(true);
+        pnlTimePlayed.repaint();
+        pnlTimePlayed.setBounds(launchPane.getWidth() + 300, pnlCenter
+                .getLocation().y / 2, pnlTimePlayed.getWidth(), pnlTimePlayed
+                .getHeight());
+
+        pnlCenter.setLayout(null);
+
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AuroraLauncher.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+
+
+        AAnimate animateCover = new AAnimate(imgGameCover);
+        AAnimate animateTime = new AAnimate(pnlTimePlayed);
+
+
+        animateCover
+                .setInitialLocation(imgGameCover.getLocation().x, imgGameCover
+                .getLocation().y);
+
+        animateTime.setInitialLocation(launchPane.getWidth() + 300, pnlCenter
+                .getLocation().y / 2);
+
+        animateCover.moveHorizontal(launchPane.getWidth() / 6, -2);
+        animateTime.moveHorizontal(launchPane.getWidth() / 2 - 50, -10);
+
 
     }
 }
