@@ -464,24 +464,20 @@ public class AuroraCoreUI {
         try {
             regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                     resources
-                    .getSurfacePath()
-                    + "/aurora/V1/resources/AGENCYR.ttf")
+                    .getSurfacePath() + "/aurora/V1/resources/AGENCYR.TTF")
                     .openStream());
             boldFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                     resources
-                    .getSurfacePath()
-                    + "/aurora/V1/resources/AGENCYB.ttf")
+                    .getSurfacePath() + "/aurora/V1/resources/AGENCYB.TTF")
                     .openStream());
         } catch (MalformedURLException ex) {
             try {
                 regularFont = Font
                         .createFont(Font.TRUETYPE_FONT, getClass()
-                        .getResourceAsStream(
-                        "/aurora/V1/resources/AGENCYR.ttf"));
+                        .getResourceAsStream("/aurora/V1/resources/AGENCYR.TTF"));
                 boldFont = Font
                         .createFont(Font.TRUETYPE_FONT, getClass()
-                        .getResourceAsStream(
-                        "/aurora/V1/resources/AGENCYB.ttf"));
+                        .getResourceAsStream("/aurora/V1/resources/AGENCYB.TTF"));
 
             } catch (Exception exx) {
                 System.out.println("ERROR In Getting Font Resourcess");
@@ -553,12 +549,12 @@ public class AuroraCoreUI {
                     fileIO
                     .getPath() + "AuroraData/User Data/AIDictionary.txt");
         } catch (Exception ex) {
-            try{
-            vi = new ANuance(
-                    fileIO
-                    .getPath() + "AuroraData/User Data/AIDictionary.txt");
-            }catch(Exception exx){
-               vi = new ANuance();
+            try {
+                vi = new ANuance(
+                        fileIO
+                        .getPath() + "AuroraData/User Data/AIDictionary.txt");
+            } catch (Exception exx) {
+                vi = new ANuance();
             }
         }
         //* Setup Buttons *//
