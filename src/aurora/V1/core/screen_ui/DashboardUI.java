@@ -31,6 +31,8 @@ import aurora.engine.V1.UI.ACarouselTitle.TitleType;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AInfoFeed;
+import aurora.engine.V1.UI.AInfoFeedLabel;
+import aurora.engine.V1.UI.MarqueePanel;
 import aurora.engine.V1.UI.ScrollText;
 
 import java.awt.BorderLayout;
@@ -39,6 +41,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -201,6 +204,8 @@ public class DashboardUI implements AuroraScreenUI {
     private AInfoFeed infoFeed;
 
     private ScrollText scrollText;
+    
+    private MarqueePanel marqueePanel;
 
     /**
      * Size Constant.
@@ -437,8 +442,31 @@ public class DashboardUI implements AuroraScreenUI {
         // Scroll Text
         // --------------------------------------------------------------------.
         // scrollText = new ScrollText("Java can do animation! Java can do anything! xxxxxxxxxxxxxx");
-        scrollText = new ScrollText(logic.createFeed());
+    //    scrollText = new ScrollText(logic.createFeed());
+        
+        // Marquee Panel Text
+        // --------------------------------------------------------------------.
+        ArrayList<AInfoFeedLabel> infoFeedLabelList = logic.createFeed();
+        marqueePanel = new MarqueePanel(55, 1);
+        marqueePanel.setOpaque(true);
+        
+    	String seperator = "dash_infoBar_seperator.png";
+		Iterator<AInfoFeedLabel> it = infoFeedLabelList.iterator();
 
+		// go through the AInfoLabelList and add all the labels to the
+		// MarqueePanel
+		while (it.hasNext()) {
+			AInfoFeedLabel label = it.next();
+			label.setFont(new Font("AgencyFB", Font.BOLD, 20));
+			label.setForeground(Color.WHITE);
+			marqueePanel.add(label);
+
+			// if there is another label in the array list, then we add a
+			// separator
+			if (it.hasNext()) {
+				marqueePanel.add(new AImage(seperator));
+			}
+		}
 
         // Finalize
         // --------------------------------------------------------------------.
@@ -645,11 +673,13 @@ public class DashboardUI implements AuroraScreenUI {
         //* Add To Bottom Panel  InfoFeed and both Carousel Buttons*//
         coreUI.getCenterFromBottomPanel().add(BorderLayout.EAST,
                 btnCarouselRight);
-        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, infoFeed);
+//        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, infoFeed);
 //      coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, scrollText);
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, marqueePanel);
         coreUI.getCenterFromBottomPanel()
                 .add(BorderLayout.WEST, btnCarouselLeft);
-
+        marqueePanel.setOpaque(false);
+        marqueePanel.startScrolling();
 
         //* Check for the Enter Button Press OR Mouse Click *//
         paneProfile

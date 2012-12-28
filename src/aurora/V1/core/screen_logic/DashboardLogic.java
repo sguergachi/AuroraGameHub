@@ -32,6 +32,8 @@ import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.ACarouselPane;
 import aurora.engine.V1.UI.AImagePane;
+import aurora.engine.V1.UI.AInfoFeedLabel;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
@@ -262,8 +264,60 @@ public class DashboardLogic implements AuroraScreenLogic {
 
         return Array;
     }
+    
+    
+    /**
+     * .-----------------------------------------------------------------------.
+     * | createFeed() --> ArrayList <AInfoFeedLabel>
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method returns an array list of AInfoFeedLabel's where each label
+     * | contains the text of each news item to be used to display on the info 
+     * | feed
+     * |
+     * .........................................................................
+     *
+     * @param array ArrayList
+     * <p/>
+     * @return an ArrayList with info
+     */
+    public final ArrayList<AInfoFeedLabel> createFeed() {
 
-    public final String createFeed() {
+        ArrayList<AInfoFeedLabel> Array = new ArrayList<AInfoFeedLabel>();
+
+        try {
+            ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
+                    "http://www.rssmix.com/u/3621720/rss.xml");
+            auroraGameHubFeed = auroraGameHubParser.readFeed();
+        } catch (Exception ex) {
+            //* fall back if above feed mixer dies *//
+            ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
+                    "http://www.gamespot.com/rss/game_updates.php?platform=5");
+            auroraGameHubFeed = auroraGameHubParser.readFeed();
+        }
+
+
+        for (Iterator<ARssReader.FeedMessage> it = auroraGameHubFeed
+                .getMessages().
+                iterator(); it.hasNext();) {
+            ARssReader.FeedMessage message = it.next();
+            AInfoFeedLabel label = new AInfoFeedLabel(" " + message.getTitle() + " ", message.getLink());
+
+            // Determine the source of the news article
+            String url = message.getLink();
+            int i = url.indexOf(".");
+            int j = url.indexOf('.', i + 1);
+            String sourceName = url.substring(i + 1,  j);
+            label.setSourceName(sourceName.toUpperCase());
+            
+            Array.add(label);
+        
+        }
+
+        return Array;
+    }
+
+/*    public final String createFeed() {
 
         String feedString = "";
 
@@ -272,7 +326,7 @@ public class DashboardLogic implements AuroraScreenLogic {
                     "http://www.rssmix.com/u/3621720/rss.xml");
             auroraGameHubFeed = auroraGameHubParser.readFeed();
         } catch (Exception ex) {
-            //* fall back if above feed mixer dies *//
+            // fall back if above feed mixer dies 
             ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
                     "http://www.gamespot.com/rss/game_updates.php?platform=5");
             auroraGameHubFeed = auroraGameHubParser.readFeed();
@@ -287,7 +341,7 @@ public class DashboardLogic implements AuroraScreenLogic {
 
         System.out.println("FEED MSG: " + feedString);
         return feedString;
-    }
+    }*/
 
     /**
      * .-----------------------------------------------------------------------.
