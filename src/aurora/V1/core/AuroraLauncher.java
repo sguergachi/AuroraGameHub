@@ -82,6 +82,7 @@ public class AuroraLauncher implements Runnable {
     private boolean manualMode;
 
     private JPanel pnlTimePlayed;
+    private boolean debug = true;
 
     public AuroraLauncher(AuroraCoreUI ui) {
         this.coreUI = ui;
@@ -295,18 +296,20 @@ public class AuroraLauncher implements Runnable {
 
                     // Launch Game For Mac OS X
                     // --------------------------------------------------------.
-                } else if (coreUI.getOS().contains("Mac OS X")) {
+                } else if (coreUI.getOS().contains("Mac OS X") || debug) {
 
                     //* escaping the spaces in the game path *//
-                    game.getGamePath().replace(" ", "\\ ");
-                    String workingDir = game.getGamePath();
+
+                    String workingDir = game.getGamePath().replace(" ", "\\ ");
                     workingDir = workingDir.substring(0, workingDir.lastIndexOf(
                             "/") + 1);
 
+//                    System.out.println("Mac Work Dir " + workingDir);
+//                    System.out.println("Game path " + game.getGamePath());
 
                     //* Set Commands to launch shortcut *//
                     ProcessBuilder processBuild = new ProcessBuilder();
-                    processBuild.command("open", workingDir);
+                    processBuild.command("open","-W", game.getGamePath());
 
 
                     //* Launch Game *//
