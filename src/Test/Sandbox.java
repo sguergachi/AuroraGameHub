@@ -1,47 +1,25 @@
 package Test;
 
-import aurora.engine.V1.Logic.ASurface;
-import aurora.engine.V1.UI.AImage;
-import java.io.IOException;
-
-/**
- *
- * @author Sammy
- */
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.lang.reflect.Field;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
+import aurora.engine.V1.Logic.ABrowser;
 import javax.swing.*;
-import javax.swing.UIManager.LookAndFeelInfo;
-
-
-import java.awt.*;
-import java.awt.event.*;
-import java.io.IOException;
-import java.net.MalformedURLException;
-
-import javax.sound.sampled.*;
-import javax.sound.*;
-import javax.swing.*;
-
-import aurora.engine.V1.Logic.*;
-import aurora.engine.V1.UI.*;
 
 public class Sandbox {
+    private static ABrowser browser;
 
-    public static void main(String[] args)  {
-        ANuance nuance = null;
-        try {
-            nuance = new ANuance(
-            "https://s3.amazonaws.com/AuroraStorage/AIDictionary.txt",
-            "C:\\Users\\Sammy\\Documents\\AuroraData\\AIDictionary.txt");
-        } catch (IOException ex) {
-            Logger.getLogger(Sandbox.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println(nuance.VI(ANuance.inx_Error));
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 500);
+
+        browser = new ABrowser(100,100);
+        browser.goTo("google.com");
+        browser.getPanelBrowser();
+        JPanel panel = new JPanel();
+
+
+        frame.add(browser);
+
+
+        frame.setVisible(true);
     }
 }
