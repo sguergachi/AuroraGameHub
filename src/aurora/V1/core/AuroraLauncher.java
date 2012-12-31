@@ -82,6 +82,7 @@ public class AuroraLauncher implements Runnable {
     private boolean manualMode;
 
     private JPanel pnlTimePlayed;
+
     private boolean debug = true;
 
     public AuroraLauncher(AuroraCoreUI ui) {
@@ -182,8 +183,12 @@ public class AuroraLauncher implements Runnable {
 
         //* Set Game Cover Image *//
         imgGameCover.setImage(game);
-        imgGameCover.setImageSize(460, 505);
-        imgGameCover.setPreferredSize(new Dimension(490, 505));
+        imgGameCover.setImageHeight(launchPane.getHeight() / 3 + 80);
+        imgGameCover.setImageWidth((int) (imgGameCover.getImageHeight()
+                                          - imgGameCover.getImageHeight() / 15));
+        imgGameCover.setPreferredSize(new Dimension(imgGameCover.getImageWidth()
+                                                    + 20, imgGameCover
+                .getImageHeight()));
 
         //* Center Content Panel *//
         pnlCenter.add(imgGameCover);
@@ -309,7 +314,7 @@ public class AuroraLauncher implements Runnable {
 
                     //* Set Commands to launch shortcut *//
                     ProcessBuilder processBuild = new ProcessBuilder();
-                    processBuild.command("open","-W", game.getGamePath());
+                    processBuild.command("open", "-W", game.getGamePath());
 
 
                     //* Launch Game *//
