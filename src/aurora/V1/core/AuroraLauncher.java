@@ -17,6 +17,7 @@
  */
 package aurora.V1.core;
 
+import aurora.V1.core.screen_ui.StartScreenUI;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AImage;
@@ -29,9 +30,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -84,6 +88,7 @@ public class AuroraLauncher implements Runnable {
     private JPanel pnlTimePlayed;
 
     private boolean debug = true;
+    private AImagePane imgManualMode;
 
     public AuroraLauncher(AuroraCoreUI ui) {
         this.coreUI = ui;
@@ -100,7 +105,25 @@ public class AuroraLauncher implements Runnable {
         launchPane.setResizable(false);
         launchPane.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         launchPane.setUndecorated(true);
-        launchPane.setAlwaysOnTop(true);
+
+
+
+
+        try {
+            launchPane.setIconImage(new ImageIcon(new URL(coreUI.getResource().
+                    getSurfacePath() + "/aurora/V1/resources/icon.png")).
+                    getImage());
+        } catch (MalformedURLException ex) {
+            try {
+
+                launchPane.setIconImage(new ImageIcon(getClass().getResource(
+                        "/aurora/V1/resources/icon.png")).getImage());
+
+            } catch (Exception exx) {
+                Logger.getLogger(StartScreenUI.class.getName()).
+                        log(Level.SEVERE, null, exx);
+            }
+        }
 
 
         //* Create Panels *//
@@ -134,8 +157,13 @@ public class AuroraLauncher implements Runnable {
         //* Game Cover Icon representing Game *//
         imgGameCover = new AImagePane();
 
+        //* Manual Mode Label Image *//
+        imgManualMode = new AImagePane("app_launch_manualMode.png");
+
         //* Title Image Showing Status of Launcing Process *//
         imgTitle = new AImagePane("app_launch_nowLaunching.png");
+
+        launchPane.requestFocusInWindow();
 
     }
 
@@ -233,8 +261,8 @@ public class AuroraLauncher implements Runnable {
         if (launcherThread == null) {
             launcherThread = new Thread(this);
         }
-        launcherThread.setName("Launch Thread");
-        //Start Loader
+        launcherThread.setName("Launch Game Thread");
+        //* start run() *//
         launcherThread.start();
     }
 
@@ -309,8 +337,6 @@ public class AuroraLauncher implements Runnable {
                     workingDir = workingDir.substring(0, workingDir.lastIndexOf(
                             "/") + 1);
 
-//                    System.out.println("Mac Work Dir " + workingDir);
-//                    System.out.println("Game path " + game.getGamePath());
 
                     //* Set Commands to launch shortcut *//
                     ProcessBuilder processBuild = new ProcessBuilder();
@@ -320,10 +346,6 @@ public class AuroraLauncher implements Runnable {
                     //* Launch Game *//
                     launchGameProcess(processBuild);
 
-//                    System.setProperty("user.dir", workingDir);
-//
-//                    //* Launch Game *//
-//                    Desktop.getDesktop().open(new File(game.getGamePath()));
 
                     //* Tracker Data *//
                     game.setNumberTimesPlayed(game.getNumberTimesPlayed() + 1);

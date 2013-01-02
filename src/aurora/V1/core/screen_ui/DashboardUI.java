@@ -204,7 +204,7 @@ public class DashboardUI implements AuroraScreenUI {
     private AInfoFeed infoFeed;
 
     private ScrollText scrollText;
-    
+
     private MarqueePanel marqueePanel;
 
     /**
@@ -318,7 +318,7 @@ public class DashboardUI implements AuroraScreenUI {
     private final DashboardLogic logic;
 
     /**
-     *
+     * Boolean to see when the loadedUI() method is completed.
      */
     private boolean dashboardUiLoaded;
 
@@ -442,31 +442,31 @@ public class DashboardUI implements AuroraScreenUI {
         // Scroll Text
         // --------------------------------------------------------------------.
         // scrollText = new ScrollText("Java can do animation! Java can do anything! xxxxxxxxxxxxxx");
-    //    scrollText = new ScrollText(logic.createFeed());
-        
+        //    scrollText = new ScrollText(logic.createFeed());
+
         // Marquee Panel Text
         // --------------------------------------------------------------------.
         ArrayList<AInfoFeedLabel> infoFeedLabelList = logic.createFeed();
         marqueePanel = new MarqueePanel(55, 1);
         marqueePanel.setOpaque(true);
-        
-    	String seperator = "dash_infoBar_seperator.png";
-		Iterator<AInfoFeedLabel> it = infoFeedLabelList.iterator();
 
-		// go through the AInfoLabelList and add all the labels to the
-		// MarqueePanel
-		while (it.hasNext()) {
-			AInfoFeedLabel label = it.next();
-			label.setFont(new Font("AgencyFB", Font.BOLD, 20));
-			label.setForeground(Color.WHITE);
-			marqueePanel.add(label);
+        String seperator = "dash_infoBar_seperator.png";
+        Iterator<AInfoFeedLabel> it = infoFeedLabelList.iterator();
 
-			// if there is another label in the array list, then we add a
-			// separator
-			if (it.hasNext()) {
-				marqueePanel.add(new AImage(seperator));
-			}
-		}
+        // go through the AInfoLabelList and add all the labels to the
+        // MarqueePanel
+        while (it.hasNext()) {
+            AInfoFeedLabel label = it.next();
+            label.setFont(new Font("AgencyFB", Font.BOLD, 20));
+            label.setForeground(Color.WHITE);
+            marqueePanel.add(label);
+
+            // if there is another label in the array list, then we add a
+            // separator
+            if (it.hasNext()) {
+                marqueePanel.add(new AImage(seperator));
+            }
+        }
 
         // Finalize
         // --------------------------------------------------------------------.
@@ -541,6 +541,11 @@ public class DashboardUI implements AuroraScreenUI {
         //* Set bigger Logo to Header *//
         coreUI.getLogoImage().setImgURl("dash_header_logo.png");
         coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
+
+        //* Set bigger background image for Frame Control panel *//
+        coreUI.getFrameControlImagePane().setImage(
+                "dash_frameControl_bg.png");
+        coreUI.getFrameControlImagePane().repaint();
 
         // Carousel
         // --------------------------------------------------------------------.
@@ -654,9 +659,7 @@ public class DashboardUI implements AuroraScreenUI {
 
         //* Add  Components to CoreUI *//
 
-        //* Set bigger background image for Frame Control panel *//
-        coreUI.getFrameControlImagePane().setImage(
-                "dash_frameControl_bg.png");
+
 
 
         //* Add Arrow Keys Icons *//
@@ -718,6 +721,8 @@ public class DashboardUI implements AuroraScreenUI {
 
         //* Finished loading so change text *//
         coreUI.getTitleLabel().setText(" Dashboard ");
+
+
 
         //* Final Refresh and Refocus *//
         coreUI.getFrame().repaint();
