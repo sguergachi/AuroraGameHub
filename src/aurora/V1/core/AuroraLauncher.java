@@ -78,13 +78,7 @@ public class AuroraLauncher implements Runnable {
 
     private String timeAfter;
 
-    private int minDiff;
-
     private Process launchGameProcess;
-
-    private int hoursDiff;
-
-    private int elapsedTime;
 
     private ASlickLabel lblPlayedInfo;
 
@@ -408,50 +402,12 @@ public class AuroraLauncher implements Runnable {
 
             //* Calculate Time *//
 
-            timeAfter = ATimeLabel.current(ATimeLabel.TIME_24HOUR);
-            System.out.println(game.getLastPlayed());
-            System.out.println(timeAfter);
-
-            //* Elapsed Time Calculation *//
-            hoursDiff = Math.abs(Integer.parseInt(timeAfter.substring(0, 2))
-                                 - Integer.parseInt(game.getLastPlayed()
-                    .substring(0, 2))) * 60;
-            minDiff = Math.abs(Integer.parseInt(timeAfter.substring(3, 5))
-                               - Integer.parseInt(game.getLastPlayed()
-                    .substring(3, 5)));
-            //ELAPSED TIME IN MIN IS ((HOURS*60) - MIN FROM TIME1) + MIN FROM TIME2
-            elapsedTime = Math.abs((hoursDiff - Integer.parseInt(timeAfter
-                    .substring(3, 5))) + Integer.parseInt(game.getLastPlayed()
-                    .substring(3, 5)));
-
-            hoursDiff = elapsedTime / 60;
-            minDiff = elapsedTime - (hoursDiff * 60);
-
-            System.out.println("Elapsed " + elapsedTime);
-            System.out.println("Hours " + hoursDiff);
-            System.out.println("Min " + minDiff);
-
-            if (minDiff < 1 && hoursDiff < 1) {
-                lblPlayedTime.setText("Under 1 min  ");
-                manualMode = true;
-            } else if (hoursDiff < 1 && minDiff > 1) {
-                lblPlayedTime.setText(minDiff + " min  ");
-            } else {
-                lblPlayedTime.setText(hoursDiff + "hr and "
-                                      + minDiff + "min  ");
-            }
+            calculateTimePlayed();
 
             //* Decide whether the game has trully quit *//
             if (manualMode) {
 
                 showManualTimerUI();
-//
-//                try {
-//                    Thread.sleep(4000);
-//                } catch (InterruptedException ex) {
-//                    Logger.getLogger(AuroraLauncher.class.getName()).log(
-//                            Level.SEVERE, null, ex);
-//                }
 
 
                 break;
@@ -465,8 +421,6 @@ public class AuroraLauncher implements Runnable {
                 launchPane.setAlwaysOnTop(true);
 
                 showTimeSpentPlaying();
-
-
 
                 break;
             }
@@ -531,6 +485,43 @@ public class AuroraLauncher implements Runnable {
 
     }
 
+    private void calculateTimePlayed() {
+        timeAfter = ATimeLabel.current(ATimeLabel.TIME_24HOUR);
+        System.out.println(game.getLastPlayed());
+        System.out.println(timeAfter);
+
+        //* Elapsed Time Calculation *//
+        int hoursDiff = Math.abs(Integer.parseInt(timeAfter.substring(0, 2))
+                                 - Integer.parseInt(game.getLastPlayed()
+                .substring(0, 2))) * 60;
+        int minDiff = Math.abs(Integer.parseInt(timeAfter.substring(3, 5))
+                               - Integer.parseInt(game.getLastPlayed()
+                .substring(3, 5)));
+        //ELAPSED TIME IN MIN IS ((HOURS*60) - MIN FROM TIME1) + MIN FROM TIME2
+        int elapsedTime = Math.abs((hoursDiff - Integer.parseInt(timeAfter
+                .substring(3, 5))) + Integer.parseInt(game.getLastPlayed()
+                .substring(3, 5)));
+
+        hoursDiff = elapsedTime / 60;
+        minDiff = elapsedTime - (hoursDiff * 60);
+
+        System.out.println("Elapsed " + elapsedTime);
+        System.out.println("Hours " + hoursDiff);
+        System.out.println("Min " + minDiff);
+
+        if (minDiff <= 1 && hoursDiff < 1) {
+            lblPlayedTime.setText("Under 1 min  ");
+            if (!manualMode) {
+                manualMode = true;
+            }
+        } else if (hoursDiff < 1 && minDiff > 1) {
+            lblPlayedTime.setText(minDiff + " min  ");
+        } else {
+            lblPlayedTime.setText(hoursDiff + "hr and "
+                                  + minDiff + "min  ");
+        }
+    }
+
     /**
      * .-----------------------------------------------------------------------.
      * | showTimeSpentPlaying()
@@ -556,6 +547,8 @@ public class AuroraLauncher implements Runnable {
                 .getHeight());
 
         pnlCenter.setLayout(null);
+        imgGameCover.setLocation(imgGameCover.getLocation());
+        pnlCenter.revalidate();
 
 
         try {
@@ -579,6 +572,8 @@ public class AuroraLauncher implements Runnable {
 
         animateCover.moveHorizontal(launchPane.getWidth() / 6, -2);
         animateTime.moveHorizontal(launchPane.getWidth() / 2 - 50, -10);
+
+        launchPane.repaint();
 
 
     }
@@ -611,25 +606,32 @@ public class AuroraLauncher implements Runnable {
         public void actionPerformed(ActionEvent e) {
 
 
-
-            pnlTop.removeAll();
-            pnlTop.validate();
-            pnlTop.add(pnlTopContainer);
-            pnlTop.revalidate();
-            pnlTop.repaint();
-            imgTitle.setImage("app_launch_standBy.png");
-            //* Start Music Again *//
-            coreUI.getBackgroundSound().Resume();
-
-
-            SwingUtilities.invokeLater(new Runnable() {
+            AThreadWorker worker = new AThreadWorker(new ActionListener() {
                 @Override
-                public void run() {
+                public void actionPerformed(ActionEvent e) {
 
+                    pnlTop.removeAll();
+                    pnlTop.validate();
+                    pnlTop.add(pnlTopContainer);
+                    pnlTop.revalidate();
+                    imgTitle.setImage("app_launch_standBy.png");
+                    //* Start Music Again *//
+                    coreUI.getBackgroundSound().Resume();
+
+                    calculateTimePlayed();
                     showTimeSpentPlaying();
+
+                }
+            }, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    //* After above animation completed *//
                     goBackToAurora();
                 }
             });
+
+            worker.startOnce();
+
 
 
 

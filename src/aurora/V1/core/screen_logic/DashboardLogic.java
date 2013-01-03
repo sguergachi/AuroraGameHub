@@ -264,15 +264,15 @@ public class DashboardLogic implements AuroraScreenLogic {
 
         return Array;
     }
-    
-    
+
+
     /**
      * .-----------------------------------------------------------------------.
      * | createFeed() --> ArrayList <AInfoFeedLabel>
      * .-----------------------------------------------------------------------.
      * |
      * | This method returns an array list of AInfoFeedLabel's where each label
-     * | contains the text of each news item to be used to display on the info 
+     * | contains the text of each news item to be used to display on the info
      * | feed
      * |
      * .........................................................................
@@ -309,39 +309,14 @@ public class DashboardLogic implements AuroraScreenLogic {
             int j = url.indexOf('.', i + 1);
             String sourceName = url.substring(i + 1,  j);
             label.setSourceName(sourceName.toUpperCase());
-            
+
             Array.add(label);
-        
+
         }
 
         return Array;
     }
 
-/*    public final String createFeed() {
-
-        String feedString = "";
-
-        try {
-            ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
-                    "http://www.rssmix.com/u/3621720/rss.xml");
-            auroraGameHubFeed = auroraGameHubParser.readFeed();
-        } catch (Exception ex) {
-            // fall back if above feed mixer dies 
-            ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
-                    "http://www.gamespot.com/rss/game_updates.php?platform=5");
-            auroraGameHubFeed = auroraGameHubParser.readFeed();
-        }
-
-        for (Iterator<ARssReader.FeedMessage> it = auroraGameHubFeed
-                .getMessages().
-                iterator(); it.hasNext();) {
-            ARssReader.FeedMessage message = it.next();
-            feedString = feedString + message.getTitle() + " << >> ";
-        }
-
-        System.out.println("FEED MSG: " + feedString);
-        return feedString;
-    }*/
 
     /**
      * .-----------------------------------------------------------------------.
@@ -366,7 +341,7 @@ public class DashboardLogic implements AuroraScreenLogic {
         ACarouselPane pane = aCarouselPane;
 
         if (pane == dashboardUI.getLibraryPane()) {
-            //action on click right Panel
+            //* action on click right Panel *//
             if (dashboardUI != null) {
 
                 SwingUtilities.invokeLater(new Runnable() {
@@ -394,7 +369,7 @@ public class DashboardLogic implements AuroraScreenLogic {
                 }
             });
         } else if (pane == dashboardUI.getAuroraNetPane()) {
-            // do nothing for now
+            //* do nothing for now *//
         }
 
 
