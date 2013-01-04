@@ -636,7 +636,6 @@ public class GameLibraryUI extends AuroraApp {
 
 //        coreUI.getBottomContentPane().add(feed);
         coreUI.getBottomContentPane().revalidate();
-        dashboardUI.getInfoFeed().repaint();
 
         //* Set up Bottom Bar *//
         coreUI.getCenterFromBottomPanel().setLayout(new BorderLayout());

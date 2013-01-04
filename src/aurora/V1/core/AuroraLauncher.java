@@ -311,6 +311,11 @@ public class AuroraLauncher implements Runnable {
                         ProcessBuilder processBuild = new ProcessBuilder(game
                                 .getGamePath());
 
+                        System.out.println("EXE Directory: " + game
+                                .getGamePath()
+                                .substring(0, game.getGamePath().lastIndexOf(
+                                "\\") + 1).replace("\\", "\\"));
+
                         processBuild.directory(new File(game.getGamePath()
                                 .substring(0, game.getGamePath().lastIndexOf(
                                 "\\") + 1).replace("\\", "\\")));
@@ -332,17 +337,18 @@ public class AuroraLauncher implements Runnable {
                                 .lastIndexOf("\\") + 1) + '"' + currentDir
                                 .substring(currentDir.lastIndexOf("\\") + 1,
                                 currentDir.length()) + '"';
+                        System.out.println("Shortcut Directory: " + currentDir);
+
 
                         //* Set Commands to launch shortcut *//
                         ProcessBuilder processBuild = new ProcessBuilder();
-                        processBuild.command("cmd", "/c", "", currentDir);
+                        processBuild.command("cmd", "/c", "", '"' + currentDir
+                                                              + '"');
 
 
                         //* Launch Game *//
 
                         launchGameProcess(processBuild);
-
-
 
                     }
 
@@ -357,6 +363,7 @@ public class AuroraLauncher implements Runnable {
                     String workingDir = game.getGamePath().replace(" ", "\\ ");
                     workingDir = workingDir.substring(0, workingDir.lastIndexOf(
                             "/") + 1);
+
 
 
                     //* Set Commands to launch shortcut *//
@@ -408,7 +415,7 @@ public class AuroraLauncher implements Runnable {
             if (manualMode) {
 
                 showManualTimerUI();
-
+                launchPane.requestFocusInWindow();
 
                 break;
             } else {
@@ -582,7 +589,7 @@ public class AuroraLauncher implements Runnable {
 
         //* Wait a bit before returning to Aurora *//
         try {
-            Thread.sleep(4000);
+            Thread.sleep(3000);
         } catch (InterruptedException ex) {
             Logger.getLogger(AuroraLauncher.class.getName()).log(
                     Level.SEVERE, null, ex);

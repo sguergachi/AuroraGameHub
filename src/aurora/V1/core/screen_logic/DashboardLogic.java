@@ -287,7 +287,7 @@ public class DashboardLogic implements AuroraScreenLogic {
 
         try {
             ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
-                    "http://www.rssmix.com/u/3621720/rss.xml");
+                    "http://www.rssmix.com/u/3630806/rss.xml");
             auroraGameHubFeed = auroraGameHubParser.readFeed();
         } catch (Exception ex) {
             //* fall back if above feed mixer dies *//

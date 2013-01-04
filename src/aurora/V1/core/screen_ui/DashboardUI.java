@@ -431,11 +431,6 @@ public class DashboardUI implements AuroraScreenUI {
         // Info Feed
         // --------------------------------------------------------------------.
 
-        infoFeed = new AInfoFeed("dash_infoBar_bg.png",
-                "dash_infoBar_seperator.png",
-                infoFeedWidth,
-                infoFeedHeight, logic.createFeed(null));
-        infoFeed.setVisible(false);
 
         System.out.println("InfoFeed Width: " + infoFeedWidth);
 
@@ -449,6 +444,7 @@ public class DashboardUI implements AuroraScreenUI {
         ArrayList<AInfoFeedLabel> infoFeedLabelList = logic.createFeed();
         marqueePanel = new MarqueePanel(55, 1);
         marqueePanel.setOpaque(true);
+        marqueePanel.setVisible(false);
 
         String seperator = "dash_infoBar_seperator.png";
         Iterator<AInfoFeedLabel> it = infoFeedLabelList.iterator();
@@ -486,7 +482,7 @@ public class DashboardUI implements AuroraScreenUI {
 
     private void setAllToVisible() {
 
-        infoFeed.setVisible(true);
+        marqueePanel.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
@@ -603,7 +599,7 @@ public class DashboardUI implements AuroraScreenUI {
 
 
         //* Info Feed *//
-        infoFeed.go();
+
 
 
 
