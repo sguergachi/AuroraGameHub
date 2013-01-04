@@ -442,7 +442,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                 }
 
                 //* Check if Online *//
-                if (!checkOnline("auroragm.sourceforge.net")) {
+                if (!checkOnline("auroragamehub.com/aurora-tracker")) {
                     Online = false;
                     promptDisplay.add(
                             "I Can't Connect To AuroraDB, Let Me Try Again...",
@@ -453,7 +453,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                     // or Aurora Servers are down
                     //*
                     if (checkOnline("google.com") && !checkOnline(
-                            "auroragm.sourceforge.net")) {
+                            "auroragamehub.com/aurora-tracker")) {
                         promptDisplay
                                 .add(
                                 "Well, It Seems Our Servers Are Down, Try Again In A Bit.",
