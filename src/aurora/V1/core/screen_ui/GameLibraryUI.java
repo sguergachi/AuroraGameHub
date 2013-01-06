@@ -558,15 +558,17 @@ public class GameLibraryUI extends AuroraApp {
             pnlSearchButtonBG.setPreferredSize(new Dimension(70, 51));
             pnlSearchButtonBG.add(btnSearch, BorderLayout.NORTH);
 
+
             pnlSearchText.setOpaque(false);
             pnlSearchText.add(searchTextField, BorderLayout.CENTER);
+
+            pnlSearchButton.setOpaque(false);
+            pnlSearchButton.add(pnlSearchButtonBG, BorderLayout.NORTH);
 
             pnlSearchContainer.setOpaque(false);
             pnlSearchContainer.add(pnlSearchButton, BorderLayout.WEST);
             pnlSearchContainer.add(pnlSearchText, BorderLayout.CENTER);
 
-            pnlSearchButton.setOpaque(false);
-            pnlSearchButton.add(pnlSearchButtonBG, BorderLayout.NORTH);
 
             pnlSearchBarBG.add(pnlSearchContainer, BorderLayout.WEST);
             pnlSearchBarBG.validate();
@@ -598,6 +600,8 @@ public class GameLibraryUI extends AuroraApp {
         } else {
             addToCanvas();
         }
+
+
     }
 
     @Override

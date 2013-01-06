@@ -322,6 +322,8 @@ public class DashboardUI implements AuroraScreenUI {
      */
     private boolean dashboardUiLoaded;
 
+    private int frameControlHeight;
+
     /**
      * .-----------------------------------------------------------------------.
      * | DashboardUI(AuroraCoreUI, StartScreenUI)
@@ -442,7 +444,8 @@ public class DashboardUI implements AuroraScreenUI {
         // Marquee Panel Text
         // --------------------------------------------------------------------.
         ArrayList<AInfoFeedLabel> infoFeedLabelList = logic.createFeed();
-        marqueePanel = new MarqueePanel(55, 1);
+        marqueePanel = new MarqueePanel(60, 2, infoFeedWidth, infoFeedHeight,
+                "dash_infoBar_bg.png");
         marqueePanel.setOpaque(true);
         marqueePanel.setVisible(false);
 
@@ -541,6 +544,7 @@ public class DashboardUI implements AuroraScreenUI {
         //* Set bigger background image for Frame Control panel *//
         coreUI.getFrameControlImagePane().setImage(
                 "dash_frameControl_bg.png");
+        coreUI.getFrameControlImagePane().setImageHeight(frameControlHeight);
         coreUI.getFrameControlImagePane().repaint();
 
         // Carousel
@@ -770,6 +774,8 @@ public class DashboardUI implements AuroraScreenUI {
                             - (carouselButtonWidth * 2 + 65);
             infoFeedHeight = 55;
 
+            frameControlHeight = 0;
+
             System.out.println("INFO FEED WIDTH = " + infoFeedWidth);
 
 
@@ -799,6 +805,9 @@ public class DashboardUI implements AuroraScreenUI {
             infoFeedWidth = coreUI.getFrame().getSize().width
                             - (carouselButtonWidth * 2 + 60);
             infoFeedHeight = carouselButtonHeight - bottomPaneHeightAdjust / 18;
+
+            frameControlHeight = coreUI.getFrameControlImagePane().getImgIcon()
+                    .getIconHeight();
 
             System.out.println("INFO FEED WIDTH = " + infoFeedWidth);
             System.out.println("INFO FEED HEIGHT = " + infoFeedHeight);

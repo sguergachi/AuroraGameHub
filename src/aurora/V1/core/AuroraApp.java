@@ -22,6 +22,9 @@ import aurora.engine.V1.Logic.AuroraScreenUI;
 import aurora.engine.V1.UI.AButton;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -34,7 +37,9 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
 import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 /**
  * .---------------------------------------------------------------------------.
@@ -79,6 +84,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
      * Button found in the FrameControlPanel.
      */
     private AButton btnBack;
+
+    private boolean isInApp;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -146,6 +153,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
         //* Clear everything in the Center Panel of CoreUI *//
         clearUI(false);
+
+        isInApp = false;
 
 
         //* Re-add all DashboardUI components back to CoreUI *//
@@ -382,6 +391,12 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
         componentsContainingListeners.removeAll(componentsContainingListeners);
 
+
+//        getCoreUI().getBackgroundImagePane().getInputMap().remove(KeyStroke
+//                .getKeyStroke("back"));
+//        getCoreUI().getBackgroundImagePane().getActionMap().remove(KeyStroke
+//                .getKeyStroke("back"));
+
     }
 
     private void setSizes() {
@@ -418,6 +433,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
      */
     public final void setUpApp() {
         setSizes();
+        isInApp = true;
         btnBack = new AButton("app_btn_back_norm.png",
                 "app_btn_back_down.png", "app_btn_back_over.png",
                 btnBackWidth, btnBackHeight);
@@ -446,5 +462,21 @@ public abstract class AuroraApp implements AuroraScreenUI {
                 backToDashboard();
             }
         });
+
+        KeyboardFocusManager.getCurrentKeyboardFocusManager()
+                .addKeyEventDispatcher(
+                new KeyEventDispatcher() {
+                    public boolean dispatchKeyEvent(KeyEvent e) {
+                        //Get the char which was pressed from the KeyEvent:
+
+                        if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE && isInApp) {
+                            System.out.println("BACK SPACE PRESSED");
+                            removeAllListeners();
+                            backToDashboard();
+                        }
+                        //Return 'true' if you want to discard the event.
+                        return false;
+                    }
+                });
     }
 }
