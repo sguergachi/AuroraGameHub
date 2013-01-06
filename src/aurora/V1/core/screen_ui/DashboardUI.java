@@ -431,38 +431,31 @@ public class DashboardUI implements AuroraScreenUI {
         // Info Feed
         // --------------------------------------------------------------------.
 
-
         System.out.println("InfoFeed Width: " + infoFeedWidth);
-
-        // Scroll Text
-        // --------------------------------------------------------------------.
-        // scrollText = new ScrollText("Java can do animation! Java can do anything! xxxxxxxxxxxxxx");
-        //    scrollText = new ScrollText(logic.createFeed());
-
+        
         // Marquee Panel Text
         // --------------------------------------------------------------------.
         ArrayList<AInfoFeedLabel> infoFeedLabelList = logic.createFeed();
-        marqueePanel = new MarqueePanel(55, 1);
-        marqueePanel.setOpaque(true);
-        marqueePanel.setVisible(false);
+        marqueePanel = new MarqueePanel(55, 1, infoFeedWidth, infoFeedHeight, "dash_infoBar_bg.png");
+        
+    	String seperator = "dash_infoBar_seperator.png";
+		Iterator<AInfoFeedLabel> it = infoFeedLabelList.iterator();
 
-        String seperator = "dash_infoBar_seperator.png";
-        Iterator<AInfoFeedLabel> it = infoFeedLabelList.iterator();
+		// go through the AInfoLabelList and add all the labels to the
+		// MarqueePanel
+		while (it.hasNext()) {
+			AInfoFeedLabel label = it.next();
+			label.setFont(new Font("AgencyFB", Font.BOLD, 20));
+			label.setForeground(Color.WHITE);
+			marqueePanel.add(label);
 
-        // go through the AInfoLabelList and add all the labels to the
-        // MarqueePanel
-        while (it.hasNext()) {
-            AInfoFeedLabel label = it.next();
-            label.setFont(new Font("AgencyFB", Font.BOLD, 20));
-            label.setForeground(Color.WHITE);
-            marqueePanel.add(label);
+			// if there is another label in the array list, then we add a
+			// separator
+			if (it.hasNext()) {
+				marqueePanel.add(new AImage(seperator));
+			}
+		}
 
-            // if there is another label in the array list, then we add a
-            // separator
-            if (it.hasNext()) {
-                marqueePanel.add(new AImage(seperator));
-            }
-        }
 
         // Finalize
         // --------------------------------------------------------------------.
@@ -673,11 +666,9 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getCenterFromBottomPanel().add(BorderLayout.EAST,
                 btnCarouselRight);
 //        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, infoFeed);
-//      coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, scrollText);
         coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, marqueePanel);
         coreUI.getCenterFromBottomPanel()
                 .add(BorderLayout.WEST, btnCarouselLeft);
-        marqueePanel.setOpaque(false);
         marqueePanel.startScrolling();
 
         //* Check for the Enter Button Press OR Mouse Click *//
@@ -796,8 +787,10 @@ public class DashboardUI implements AuroraScreenUI {
 
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
+            //infoFeedWidth = coreUI.getFrame().getSize().width
+            //                - (carouselButtonWidth * 2 + 60);
             infoFeedWidth = coreUI.getFrame().getSize().width
-                            - (carouselButtonWidth * 2 + 60);
+                                    - (carouselButtonWidth * 2 + 27);                            
             infoFeedHeight = carouselButtonHeight - bottomPaneHeightAdjust / 18;
 
             System.out.println("INFO FEED WIDTH = " + infoFeedWidth);
