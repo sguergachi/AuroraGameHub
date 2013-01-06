@@ -32,7 +32,7 @@ import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AInfoFeed;
 import aurora.engine.V1.UI.AInfoFeedLabel;
-import aurora.engine.V1.UI.MarqueePanel;
+import aurora.engine.V1.UI.AMarqueePanel;
 import aurora.engine.V1.UI.ScrollText;
 
 import java.awt.BorderLayout;
@@ -205,7 +205,7 @@ public class DashboardUI implements AuroraScreenUI {
 
     private ScrollText scrollText;
 
-    private MarqueePanel marqueePanel;
+    private AMarqueePanel marqueePanel;
 
     /**
      * Size Constant.
@@ -434,13 +434,12 @@ public class DashboardUI implements AuroraScreenUI {
         // --------------------------------------------------------------------.
 
         System.out.println("InfoFeed Width: " + infoFeedWidth);
-        
+
         // Marquee Panel Text
         // --------------------------------------------------------------------.
         ArrayList<AInfoFeedLabel> infoFeedLabelList = logic.createFeed();
-        marqueePanel = new MarqueePanel(60, 2, infoFeedWidth, infoFeedHeight,
+        marqueePanel = new AMarqueePanel(infoFeedWidth, infoFeedHeight,
                 "dash_infoBar_bg.png");
-        marqueePanel.setOpaque(true);
         marqueePanel.setVisible(false);
 
         String seperator = "dash_infoBar_seperator.png";
@@ -797,7 +796,7 @@ public class DashboardUI implements AuroraScreenUI {
             //infoFeedWidth = coreUI.getFrame().getSize().width
             //                - (carouselButtonWidth * 2 + 60);
             infoFeedWidth = coreUI.getFrame().getSize().width
-                                    - (carouselButtonWidth * 2 + 27);                            
+                                    - (carouselButtonWidth * 2 + 27);
             infoFeedHeight = carouselButtonHeight - bottomPaneHeightAdjust / 18;
 
             frameControlHeight = coreUI.getFrameControlImagePane().getImgIcon()

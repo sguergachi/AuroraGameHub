@@ -463,18 +463,18 @@ public abstract class AuroraApp implements AuroraScreenUI {
             }
         });
 
+
+        //* Ability to go use Backspace to go back to dashboard *//
         KeyboardFocusManager.getCurrentKeyboardFocusManager()
                 .addKeyEventDispatcher(
                 new KeyEventDispatcher() {
                     public boolean dispatchKeyEvent(KeyEvent e) {
-                        //Get the char which was pressed from the KeyEvent:
 
                         if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE && isInApp) {
                             System.out.println("BACK SPACE PRESSED");
                             removeAllListeners();
                             backToDashboard();
                         }
-                        //Return 'true' if you want to discard the event.
                         return false;
                     }
                 });
