@@ -433,14 +433,8 @@ public class DashboardUI implements AuroraScreenUI {
         // Info Feed
         // --------------------------------------------------------------------.
 
-
         System.out.println("InfoFeed Width: " + infoFeedWidth);
-
-        // Scroll Text
-        // --------------------------------------------------------------------.
-        // scrollText = new ScrollText("Java can do animation! Java can do anything! xxxxxxxxxxxxxx");
-        //    scrollText = new ScrollText(logic.createFeed());
-
+        
         // Marquee Panel Text
         // --------------------------------------------------------------------.
         ArrayList<AInfoFeedLabel> infoFeedLabelList = logic.createFeed();
@@ -677,11 +671,9 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getCenterFromBottomPanel().add(BorderLayout.EAST,
                 btnCarouselRight);
 //        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, infoFeed);
-//      coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, scrollText);
         coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, marqueePanel);
         coreUI.getCenterFromBottomPanel()
                 .add(BorderLayout.WEST, btnCarouselLeft);
-        marqueePanel.setOpaque(false);
         marqueePanel.startScrolling();
 
         //* Check for the Enter Button Press OR Mouse Click *//
@@ -802,8 +794,10 @@ public class DashboardUI implements AuroraScreenUI {
 
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
+            //infoFeedWidth = coreUI.getFrame().getSize().width
+            //                - (carouselButtonWidth * 2 + 60);
             infoFeedWidth = coreUI.getFrame().getSize().width
-                            - (carouselButtonWidth * 2 + 60);
+                                    - (carouselButtonWidth * 2 + 27);                            
             infoFeedHeight = carouselButtonHeight - bottomPaneHeightAdjust / 18;
 
             frameControlHeight = coreUI.getFrameControlImagePane().getImgIcon()
