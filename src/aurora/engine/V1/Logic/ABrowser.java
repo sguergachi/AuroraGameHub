@@ -1,13 +1,11 @@
 package aurora.engine.V1.Logic;
 
-import chrriis.dj.nativeswing.NSOption;
-import chrriis.dj.nativeswing.swtimpl.NativeInterface;
-import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 import java.awt.Dimension;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
-public class ABrowser extends JWebBrowser {
+
+public class ABrowser extends JFrame{
 
     private static final long serialVersionUID = 1L;
 
@@ -15,23 +13,16 @@ public class ABrowser extends JWebBrowser {
 
     private String navigateTo;
 
-    public ABrowser(NSOption... options) {
-
-        super(options);
-//        this.setBarsVisible(false);
-        NativeInterface.open();
-        NativeInterface.runEventPump();
-    }
 
     public ABrowser() {
 //        this.setBarsVisible(false);
-        NativeInterface.open();
-        NativeInterface.runEventPump();
+//        NativeInterface.open();
+//        NativeInterface.runEventPump();
     }
 
     public ABrowser(Dimension size) {
 
-        this.setBarsVisible(false);
+//        this.setBarsVisible(false);
         this.setSize(size);
 //        NativeInterface.open();
 //        NativeInterface.runEventPump();
@@ -39,7 +30,7 @@ public class ABrowser extends JWebBrowser {
 
     public ABrowser(int Widht, int Height) {
 
-        this.setBarsVisible(false);
+//        this.setBarsVisible(false);
         this.setSize(Widht, Height);
 
 
@@ -56,14 +47,14 @@ public class ABrowser extends JWebBrowser {
 
     public void goTo(String URL) {
 
-        browser = this;
-        navigateTo = URL;
-        NativeInterface.open();
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                browser.navigate(navigateTo);
-            }
-        });
-        NativeInterface.runEventPump();
+//        browser = this;
+//        navigateTo = URL;
+//        NativeInterface.open();
+//        SwingUtilities.invokeLater(new Runnable() {
+//            public void run() {
+//                browser.navigate(navigateTo);
+//            }
+//        });
+//        NativeInterface.runEventPump();
     }
 }

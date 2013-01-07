@@ -1154,30 +1154,30 @@ public class GameLibraryUI extends AuroraApp {
     }
 
     public void hideAddGameUI() {
+        if (addGameUI_Visible == true) {
+            addGameUI_Visible = false;
+            addGameToLibButton.setVisible(false);
 
-        addGameUI_Visible = false;
-        addGameToLibButton.setVisible(false);
+            //* Animate Up Add Game UI *//
+            addGameAnimator.moveVertical(-485, 33);
 
-        //* Animate Up Add Game UI *//
-        addGameAnimator.moveVertical(-485, 33);
+            statusBadge2.setImgURl("addUI_badge_invalid.png");
+            addGameAnimator.removeAllListeners();
+            addGameToLibButton.setVisible(false);
+            addGameToLibButton.repaint();
 
-        statusBadge2.setImgURl("addUI_badge_invalid.png");
-        addGameAnimator.removeAllListeners();
-        addGameToLibButton.setVisible(false);
-        addGameToLibButton.repaint();
-
-        //TODO Fix Search Bar Focus
-        searchTextField.requestFocus();
-        coreUI.getFrame().requestFocus();
-        searchTextField.requestFocus();
-        try {
-            Thread.sleep(16);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GameLibraryUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            //TODO Fix Search Bar Focus
+            searchTextField.requestFocus();
+            coreUI.getFrame().requestFocus();
+            searchTextField.requestFocus();
+            try {
+                Thread.sleep(16);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(GameLibraryUI.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            }
+            coreUI.getFrame().requestFocus();
         }
-        coreUI.getFrame().requestFocus();
-
     }
 
     public void moveGridLeft() {
@@ -1681,5 +1681,12 @@ public class GameLibraryUI extends AuroraApp {
 
     public GameLibraryLogic getLogic() {
         return logic;
+    }
+
+    @Override
+    public void closeApp() {
+
+        hideAddGameUI();
+
     }
 }

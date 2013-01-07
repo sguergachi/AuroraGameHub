@@ -43,12 +43,10 @@ public class SettingsUI extends AuroraApp {
 
     @Override
     public void buildUI() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void addToCanvas() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public DashboardUI getDashboardUI() {
@@ -61,5 +59,9 @@ public class SettingsUI extends AuroraApp {
     @Override
     public AuroraCoreUI getCoreUI() {
         return coreUI;
+    }
+
+    @Override
+    public void closeApp() {
     }
 }

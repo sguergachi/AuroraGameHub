@@ -132,6 +132,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private final String rootCoverDBPath = "https://s3.amazonaws.com/CoverArtDB/";
 
     private PlayButtonListener playButtonListener;
+
     private boolean isGameRemoveMode;
 
     public Game() {
@@ -371,7 +372,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                                 dbErrorDialog = new ADialog(
                                         ADialog.aDIALOG_ERROR,
                                         "AuroraDB Error! Can't Access BoxArt",
-                                        coreUI.getBoldFont());
+                                        coreUI.getRegularFont().deriveFont(
+                                        Font.BOLD, 28));
                                 dbErrorDialog.showDialog();
 
                             }
@@ -801,15 +803,16 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     //PlayButtonListener added by Carlos
     class PlayButtonListener implements ActionListener {
+
         private AuroraLauncher launcher;
 
         @Override
         public void actionPerformed(final ActionEvent e) {
 
             System.out.println("Play button pressed.");
-           launcher =  new AuroraLauncher(coreUI);
+            launcher = new AuroraLauncher(coreUI);
 
-           launcher.launchGame(copy());
+            launcher.launchGame(copy());
         }
     }
 

@@ -151,6 +151,10 @@ public abstract class AuroraApp implements AuroraScreenUI {
     public final void backToDashboard() {
 
 
+        //* let app do its own cleanin up *//
+        closeApp();
+
+
         //* Clear everything in the Center Panel of CoreUI *//
         clearUI(false);
 
@@ -184,6 +188,20 @@ public abstract class AuroraApp implements AuroraScreenUI {
      * @return DashboardUI
      */
     public abstract DashboardUI getDashboardUI();
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | closeApp()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method is called when the APP needs to close, while going back
+     * | to the Dashboard.
+     * |
+     * .........................................................................
+     *
+     * <p/>
+     */
+    public abstract void closeApp();
 
     /**
      * .-----------------------------------------------------------------------.

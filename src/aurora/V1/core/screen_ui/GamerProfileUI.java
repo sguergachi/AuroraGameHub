@@ -43,7 +43,6 @@ public class GamerProfileUI extends AuroraApp {
 
     @Override
     public void buildUI() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void setSize() {
@@ -62,5 +61,9 @@ public class GamerProfileUI extends AuroraApp {
     @Override
     public void addToCanvas() {
 
+    }
+
+    @Override
+    public void closeApp() {
     }
 }
