@@ -44,6 +44,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.Box;
 import javax.swing.JLabel;
 
 /**
@@ -203,7 +205,7 @@ public class DashboardUI implements AuroraScreenUI {
      */
     private AInfoFeed infoFeed;
 
-    private ScrollText scrollText;
+   // private ScrollText scrollText;
 
     private AMarqueePanel marqueePanel;
 
@@ -442,6 +444,7 @@ public class DashboardUI implements AuroraScreenUI {
                 "dash_infoBar_bg.png");
         marqueePanel.setVisible(false);
 
+        int spacerAmount = 20;
         String seperator = "dash_infoBar_seperator.png";
         Iterator<AInfoFeedLabel> it = infoFeedLabelList.iterator();
 
@@ -451,11 +454,13 @@ public class DashboardUI implements AuroraScreenUI {
             AInfoFeedLabel label = it.next();
             label.setFont(new Font("AgencyFB", Font.BOLD, 20));
             label.setForeground(Color.WHITE);
+            marqueePanel.add(Box.createHorizontalStrut(spacerAmount));
             marqueePanel.add(label);
 
             // if there is another label in the array list, then we add a
             // separator
             if (it.hasNext()) {
+            	marqueePanel.add(Box.createHorizontalStrut(spacerAmount));
                 marqueePanel.add(new AImage(seperator));
             }
         }

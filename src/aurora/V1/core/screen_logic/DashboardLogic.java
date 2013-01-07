@@ -301,8 +301,8 @@ public class DashboardLogic implements AuroraScreenLogic {
                 .getMessages().
                 iterator(); it.hasNext();) {
             ARssReader.FeedMessage message = it.next();
-            AInfoFeedLabel label = new AInfoFeedLabel(" " + message.getTitle() + " ", message.getLink());
-
+            AInfoFeedLabel label = new AInfoFeedLabel(message.getTitle(), message.getLink());
+            
             // Determine the source of the news article
             String url = message.getLink();
             int i = url.indexOf(".");
