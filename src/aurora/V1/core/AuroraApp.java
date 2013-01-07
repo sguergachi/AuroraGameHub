@@ -392,11 +392,6 @@ public abstract class AuroraApp implements AuroraScreenUI {
         componentsContainingListeners.removeAll(componentsContainingListeners);
 
 
-//        getCoreUI().getBackgroundImagePane().getInputMap().remove(KeyStroke
-//                .getKeyStroke("back"));
-//        getCoreUI().getBackgroundImagePane().getActionMap().remove(KeyStroke
-//                .getKeyStroke("back"));
-
     }
 
     private void setSizes() {
@@ -470,10 +465,11 @@ public abstract class AuroraApp implements AuroraScreenUI {
                 new KeyEventDispatcher() {
                     public boolean dispatchKeyEvent(KeyEvent e) {
 
-                        if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE && isInApp) {
+                        if (e.getKeyChar() == KeyEvent.VK_ESCAPE && isInApp) {
                             System.out.println("BACK SPACE PRESSED");
                             removeAllListeners();
                             backToDashboard();
+                            return true;
                         }
                         return false;
                     }

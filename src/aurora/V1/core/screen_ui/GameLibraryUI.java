@@ -385,6 +385,7 @@ public class GameLibraryUI extends AuroraApp {
     private int listFontSize;
 
     private int gridSearchFontSize;
+
     private int addGameFontSize;
 
     /**
@@ -488,10 +489,7 @@ public class GameLibraryUI extends AuroraApp {
         this.GridAnimate = new GridAnimation(GridSplit, paneLibraryContainer);
 
 
-
-
         //* Add Game UI *//
-
         loadAddGameUI();
 
 
@@ -565,6 +563,7 @@ public class GameLibraryUI extends AuroraApp {
             pnlSearchButton.setOpaque(false);
             pnlSearchButton.add(pnlSearchButtonBG, BorderLayout.NORTH);
 
+
             pnlSearchContainer.setOpaque(false);
             pnlSearchContainer.add(pnlSearchButton, BorderLayout.WEST);
             pnlSearchContainer.add(pnlSearchText, BorderLayout.CENTER);
@@ -620,7 +619,6 @@ public class GameLibraryUI extends AuroraApp {
         addToVolatileListenerBank(coreUI.getSouthFromTopPanel());
         addToVolatileListenerBank(coreUI.getFrameControlImagePane());
         addToVolatileListenerBank(coreUI.getTopPane());
-        addToVolatileListenerBank(this.btnShowAddGameUI);
         addToVolatileListenerBank(this.paneLibraryContainer);
         addToVolatileListenerBank(this.imgSelectedGamePane);
         addToVolatileListenerBank(this.btnGameLeft);
@@ -668,6 +666,7 @@ public class GameLibraryUI extends AuroraApp {
         coreUI.getTitleLabel().setText("   Game Library   ");
         btnGameRight.requestFocusInWindow();
         coreUI.getFrame().requestFocus();
+
     }
 
     /**
@@ -1118,7 +1117,7 @@ public class GameLibraryUI extends AuroraApp {
             // ----------------------------------------------------------------.
 
             pnlAddGamePane.setVisible(false);
-            addGameAnimator = new AAnimate(pnlAddGamePane);
+
             addGameToLibButton.revalidate();
             pnlAddGamePane.revalidate();
 
@@ -1132,7 +1131,7 @@ public class GameLibraryUI extends AuroraApp {
 
         addGameUI_Visible = true;
 
-
+        addGameAnimator = new AAnimate(pnlAddGamePane);
 
         buildAddGameUI();
 
