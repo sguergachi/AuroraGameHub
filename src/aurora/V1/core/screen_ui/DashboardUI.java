@@ -445,6 +445,7 @@ public class DashboardUI implements AuroraScreenUI {
         marqueePanel.setVisible(false);
 
         int spacerAmount = 20;
+        int fontSize = 30;
         String seperator = "dash_infoBar_seperator.png";
         Iterator<AInfoFeedLabel> it = infoFeedLabelList.iterator();
 
@@ -452,7 +453,7 @@ public class DashboardUI implements AuroraScreenUI {
         // MarqueePanel
         while (it.hasNext()) {
             AInfoFeedLabel label = it.next();
-            label.setFont(new Font("AgencyFB", Font.BOLD, 20));
+            label.setFont(coreUI.getDefaultFont().deriveFont((float)fontSize));
             label.setForeground(Color.WHITE);
             marqueePanel.add(Box.createHorizontalStrut(spacerAmount));
             marqueePanel.add(label);
