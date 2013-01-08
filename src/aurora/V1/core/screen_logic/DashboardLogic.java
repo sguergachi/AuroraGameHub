@@ -36,12 +36,18 @@ import aurora.engine.V1.UI.AInfoFeedLabel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -283,7 +289,7 @@ public class DashboardLogic implements AuroraScreenLogic {
      * <p/>
      * @return an ArrayList with info
      */
-    public final ArrayList<AInfoFeedLabel> createFeed() {
+/*    public final ArrayList<AInfoFeedLabel> createFeed() {
 
         ArrayList<AInfoFeedLabel> Array = new ArrayList<AInfoFeedLabel>();
 
@@ -292,10 +298,11 @@ public class DashboardLogic implements AuroraScreenLogic {
                     "http://www.rssmix.com/u/3630806/rss.xml");
             auroraGameHubFeed = auroraGameHubParser.readFeed();
         } catch (Exception ex) {
-            //* fall back if above feed mixer dies *//
+            // fall back if above feed mixer dies //
             ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
                     "http://www.gamespot.com/rss/game_updates.php?platform=5");
             auroraGameHubFeed = auroraGameHubParser.readFeed();
+            
         }
 
 
@@ -317,6 +324,70 @@ public class DashboardLogic implements AuroraScreenLogic {
         }
 
         return Array;
+    }*/
+    
+    public final ArrayList<JLabel> createFeed() {
+
+        ArrayList<JLabel> array = new ArrayList<JLabel>();
+        boolean internetConnectionUp = true;
+        boolean rssFeedAvailable = true;
+
+        // read in the RSS feed
+        try {
+            ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
+                    "http://www.rssmix.com/u/3630806/rss.xml");
+            auroraGameHubFeed = auroraGameHubParser.readFeed();
+        
+        // catch the exception if there is a problem reading the RSS feed
+        } catch (Exception ex) {
+        	URL url;
+        	rssFeedAvailable = false;
+			try {
+				// try connecting to Google to confirm if Internet is up or not
+				url = new URL("http://www.google.com");
+				final URLConnection conn = url.openConnection();
+				conn.getInputStream();
+				
+				// if the Internet is up, then we try to read our backup RSS feed
+				ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
+	                    "http://www.gamespot.com/rss/game_updates.php?platform=5");
+	            auroraGameHubFeed = auroraGameHubParser.readFeed();
+	            rssFeedAvailable = true;
+				
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException ioe) {
+				JLabel label = new JLabel("Please connect to the Internet...");
+				internetConnectionUp = false;
+				array.add(label);
+			} catch (Exception ex1) {
+				JLabel label = new JLabel("Unable to retrieve RSS feed...");
+				array.add(label);
+			}
+        	
+            
+        }
+
+        if (internetConnectionUp && rssFeedAvailable) {
+            for (Iterator<ARssReader.FeedMessage> it = auroraGameHubFeed
+                    .getMessages().
+                    iterator(); it.hasNext();) {
+                ARssReader.FeedMessage message = it.next();
+                AInfoFeedLabel label = new AInfoFeedLabel(message.getTitle(), message.getLink());
+                
+                // Determine the source of the news article
+                String url = message.getLink();
+                int i = url.indexOf(".");
+                int j = url.indexOf('.', i + 1);
+                String sourceName = url.substring(i + 1,  j);
+                label.setSourceName(sourceName.toUpperCase());
+
+                array.add(label);
+
+            }
+        }
+
+        return array;
     }
 
 
