@@ -344,21 +344,19 @@ public class DashboardUI implements AuroraScreenUI {
      */
     public DashboardUI(final AuroraCoreUI auroraCoreUi,
                        final StartScreenUI startScreenUi) {
-
-        //* Other core objects *//
+        // Other core objects //
         this.startUI = startScreenUi;
         this.storage = startUI.getAuroraStorage();
 
-        //* Core UI Canvas *//
+        // Core UI Canvas //
         this.coreUI = auroraCoreUi;
 
 
-        //* The Dashboard Handler + Logic *//
+        //* The Dashboard Handler + Logic
         this.handler = new DashboardHandler(this);
         this.logic = new DashboardLogic(this);
         handler.setLogic(logic);
         logic.setHandler(handler);
-
     }
 
     @Override
@@ -440,12 +438,12 @@ public class DashboardUI implements AuroraScreenUI {
         // Marquee Panel Text
         // --------------------------------------------------------------------.
         ArrayList<AInfoFeedLabel> infoFeedLabelList = logic.createFeed();
-        marqueePanel = new AMarqueePanel(infoFeedWidth, infoFeedHeight,
+        marqueePanel = new AMarqueePanel(2,infoFeedWidth, infoFeedHeight,
                 "dash_infoBar_bg.png");
         marqueePanel.setVisible(false);
 
         int spacerAmount = 20;
-        int fontSize = 25;
+        int fontSize = 22;
         String seperator = "dash_infoBar_seperator.png";
         Iterator<AInfoFeedLabel> it = infoFeedLabelList.iterator();
 
@@ -453,7 +451,7 @@ public class DashboardUI implements AuroraScreenUI {
         // MarqueePanel
         while (it.hasNext()) {
             AInfoFeedLabel label = it.next();
-            label.setFont(coreUI.getDefaultFont().deriveFont((float)fontSize));
+            label.setFont(new Font("Arial",Font.PLAIN,fontSize));
             label.setForeground(Color.WHITE);
             marqueePanel.add(Box.createHorizontalStrut(spacerAmount));
             marqueePanel.add(label);
