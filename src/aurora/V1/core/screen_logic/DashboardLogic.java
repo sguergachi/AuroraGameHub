@@ -198,6 +198,8 @@ public class DashboardLogic implements AuroraScreenLogic {
             //* Disable overlay UI of Game *//
             randomGame.removeInteraction();
             //* Instead, when clicking on game, launch appropriate App *//
+
+            System.out.println("ADDING MOUSE LISTENER TO COVER");
             randomGame.getInteractivePane().
                     addMouseListener(
                     dashboardHandler.new CarouselLibraryMouseListener());
@@ -302,7 +304,7 @@ public class DashboardLogic implements AuroraScreenLogic {
                 iterator(); it.hasNext();) {
             ARssReader.FeedMessage message = it.next();
             AInfoFeedLabel label = new AInfoFeedLabel(message.getTitle(), message.getLink());
-            
+
             // Determine the source of the news article
             String url = message.getLink();
             int i = url.indexOf(".");

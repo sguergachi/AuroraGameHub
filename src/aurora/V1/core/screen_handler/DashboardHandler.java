@@ -207,7 +207,7 @@ public class DashboardHandler implements AuroraScreenHandler {
 
         @Override
         public final void mouseClicked(final MouseEvent e) {
-            System.out.println("CLICKED");
+            System.out.println("CLICKED LIBRARY MOUSE LISTENER");
             if (dashboardUI != null) {
                 dashboardLogic.navigateCarousel(dashboardUI.getLibraryPane());
             }
@@ -255,7 +255,7 @@ public class DashboardHandler implements AuroraScreenHandler {
 
         @Override
         public final void mouseClicked(final MouseEvent e) {
-            System.out.println("CLICKED");
+            System.out.println("CLICKED CAROUSEL PANE");
 
 
             if (e.getSource() != null && e.getSource() instanceof ACarouselPane) {

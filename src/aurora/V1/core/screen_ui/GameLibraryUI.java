@@ -408,7 +408,7 @@ public class GameLibraryUI extends AuroraApp {
     public GameLibraryUI(final AuroraStorage auroraStorage,
                          final DashboardUI dashboardUi,
                          final AuroraCoreUI auroraCoreUI) {
-
+        this.appName = "Game Library";
         this.coreUI = auroraCoreUI;
         this.storage = auroraStorage;
         this.dashboardUI = dashboardUi;

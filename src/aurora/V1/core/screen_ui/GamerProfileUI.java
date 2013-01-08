@@ -33,6 +33,7 @@ public class GamerProfileUI extends AuroraApp {
 
     public GamerProfileUI(DashboardUI dahsboardUi, AuroraCoreUI auroraCoreUi) {
 
+        this.appName = "Gamer Profile";
         this.dashboardUI = dahsboardUi;
         this.coreUI = auroraCoreUi;
     }

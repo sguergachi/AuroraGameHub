@@ -33,6 +33,7 @@ public class SettingsUI extends AuroraApp {
 
     public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
+        this.appName = "Settings";
         this.dashboardUI = dashboardUI;
         this.coreUI = auroraCoreUI;
     }

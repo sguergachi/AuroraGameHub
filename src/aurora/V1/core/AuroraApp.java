@@ -85,7 +85,15 @@ public abstract class AuroraApp implements AuroraScreenUI {
      */
     private AButton btnBack;
 
-    private boolean isInApp;
+    /**
+     * Boolean for whether the app is running or not
+     */
+    public boolean isInApp;
+
+    /**
+     * String with the name of the app for reference
+     */
+    public String appName;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -101,7 +109,6 @@ public abstract class AuroraApp implements AuroraScreenUI {
      *
      */
     public AuroraApp() {
-
         componentsContainingListeners = new ArrayList<JComponent>();
 
 
@@ -225,6 +232,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
      * @param isClearingApp Boolean
      */
     public final void clearUI(final Boolean isClearingApp) {
+
+        System.out.println("CLEARING " + appName);
 
         boolean clearForApp;
 
@@ -468,14 +477,10 @@ public abstract class AuroraApp implements AuroraScreenUI {
         if (getCoreUI().getFrameControlImagePane().getComponent(0) != btnBack) {
             getCoreUI().getFrameControlImagePane().add(btnBack, 0);
         }
-        btnBack.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(final MouseEvent e) {
-                removeAllListeners();
-                backToDashboard();
-            }
-        });
 
+        if (!(btnBack.getMouseListeners()[0] instanceof BackButtonListener)) {
+            btnBack.addActionListener(new BackButtonListener());
+        }
 
         //* Ability to go use Backspace to go back to dashboard *//
         KeyboardFocusManager.getCurrentKeyboardFocusManager()
@@ -485,12 +490,25 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
                         if (e.getKeyChar() == KeyEvent.VK_ESCAPE && isInApp) {
                             System.out.println("BACK SPACE PRESSED");
-                            removeAllListeners();
-                            backToDashboard();
+                            new BackButtonListener().actionPerformed(null);
                             return true;
                         }
                         return false;
                     }
                 });
+    }
+
+    private class BackButtonListener implements ActionListener {
+
+        public BackButtonListener() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            removeAllListeners();
+            backToDashboard();
+
+        }
     }
 }

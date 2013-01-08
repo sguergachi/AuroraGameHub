@@ -445,7 +445,7 @@ public class DashboardUI implements AuroraScreenUI {
         marqueePanel.setVisible(false);
 
         int spacerAmount = 20;
-        int fontSize = 30;
+        int fontSize = 25;
         String seperator = "dash_infoBar_seperator.png";
         Iterator<AInfoFeedLabel> it = infoFeedLabelList.iterator();
 
@@ -600,6 +600,15 @@ public class DashboardUI implements AuroraScreenUI {
         icoLibrary.addMouseListener(handler.new CarouselPaneMouseListener(
                 paneLibrary));
 
+         //* Check for the Enter Button Press OR Mouse Click *//
+        paneProfile
+                .addMouseListener(handler.new CarouselPaneMouseListener(null));
+        paneSettings.addMouseListener(
+                handler.new CarouselPaneMouseListener(null));
+        paneLibrary
+                .addMouseListener(handler.new CarouselPaneMouseListener(null));
+        paneNet.addMouseListener(handler.new CarouselPaneMouseListener(null));
+
 
         //* Info Feed *//
 
@@ -675,20 +684,12 @@ public class DashboardUI implements AuroraScreenUI {
         //* Add To Bottom Panel  InfoFeed and both Carousel Buttons*//
         coreUI.getCenterFromBottomPanel().add(BorderLayout.EAST,
                 btnCarouselRight);
-//        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, infoFeed);
         coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, marqueePanel);
         coreUI.getCenterFromBottomPanel()
                 .add(BorderLayout.WEST, btnCarouselLeft);
         marqueePanel.startScrolling();
 
-        //* Check for the Enter Button Press OR Mouse Click *//
-        paneProfile
-                .addMouseListener(handler.new CarouselPaneMouseListener(null));
-        paneSettings.addMouseListener(
-                handler.new CarouselPaneMouseListener(null));
-        paneLibrary
-                .addMouseListener(handler.new CarouselPaneMouseListener(null));
-        paneNet.addMouseListener(handler.new CarouselPaneMouseListener(null));
+
 
         //* Check for Mouse Wheel Rotation *//
         carousel.

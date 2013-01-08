@@ -898,7 +898,6 @@ public class AuroraCoreUI {
 
 
             warningDialog.setOKButtonListener(new ActionListener() {
-                private ADialog err;
 
                 public void actionPerformed(ActionEvent e) {
 
@@ -906,7 +905,6 @@ public class AuroraCoreUI {
                 }
             });
             warningDialog.showDialog();
-
 
         }
         warningDialog.setVisible(true);
