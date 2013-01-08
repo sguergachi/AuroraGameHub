@@ -40,6 +40,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -439,32 +440,37 @@ public class DashboardUI implements AuroraScreenUI {
 
         // Marquee Panel Text
         // --------------------------------------------------------------------.
-        ArrayList<AInfoFeedLabel> infoFeedLabelList = logic.createFeed();
+        ArrayList<JLabel> infoFeedLabelList;
+        
         marqueePanel = new AMarqueePanel(infoFeedWidth, infoFeedHeight,
                 "dash_infoBar_bg.png");
         marqueePanel.setVisible(false);
 
-        int spacerAmount = 20;
-        int fontSize = 25;
-        String seperator = "dash_infoBar_seperator.png";
-        Iterator<AInfoFeedLabel> it = infoFeedLabelList.iterator();
+        int fontSize = 30;
+        
+			infoFeedLabelList = logic.createFeed();
+			    
+			int spacerAmount = 20;
+	        String seperator = "dash_infoBar_seperator.png";
+	        Iterator<JLabel> it = infoFeedLabelList.iterator();
 
-        // go through the AInfoLabelList and add all the labels to the
-        // MarqueePanel
-        while (it.hasNext()) {
-            AInfoFeedLabel label = it.next();
-            label.setFont(coreUI.getDefaultFont().deriveFont((float)fontSize));
-            label.setForeground(Color.WHITE);
-            marqueePanel.add(Box.createHorizontalStrut(spacerAmount));
-            marqueePanel.add(label);
+	        // go through the AInfoLabelList and add all the labels to the
+	        // MarqueePanel
+	        while (it.hasNext()) {
+	            JLabel label = it.next();
+	            label.setFont(coreUI.getDefaultFont().deriveFont((float)fontSize));
+	            label.setForeground(Color.WHITE);
+	            marqueePanel.add(Box.createHorizontalStrut(spacerAmount));
+	            marqueePanel.add(label);
 
-            // if there is another label in the array list, then we add a
-            // separator
-            if (it.hasNext()) {
-            	marqueePanel.add(Box.createHorizontalStrut(spacerAmount));
-                marqueePanel.add(new AImage(seperator));
-            }
-        }
+	            // if there is another label in the array list, then we add a
+	            // separator
+	            if (it.hasNext()) {
+	            	marqueePanel.add(Box.createHorizontalStrut(spacerAmount));
+	                marqueePanel.add(new AImage(seperator));
+	            }
+	        }
+
 
         // Finalize
         // --------------------------------------------------------------------.
