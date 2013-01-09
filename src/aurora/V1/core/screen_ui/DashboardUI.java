@@ -38,6 +38,7 @@ import aurora.engine.V1.UI.ScrollText;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.net.UnknownHostException;
@@ -48,6 +49,7 @@ import java.util.logging.Logger;
 
 import javax.swing.Box;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * .------------------------------------------------------------------------.
@@ -202,13 +204,9 @@ public class DashboardUI implements AuroraScreenUI {
     private JLabel lblKeyAction;
 
     /**
-     * A Scrolling Information ticker bar.
+     * the InfoFeed which displays news etc. at the bottom of the Dashboard
      */
-    private AInfoFeed infoFeed;
-
-   // private ScrollText scrollText;
-
-    private AMarqueePanel marqueePanel;
+    private AMarqueePanel infoFeed;
 
     /**
      * Size Constant.
@@ -327,6 +325,8 @@ public class DashboardUI implements AuroraScreenUI {
 
     private int frameControlHeight;
 
+    private JPanel infoFeedContainer;
+
     /**
      * .-----------------------------------------------------------------------.
      * | DashboardUI(AuroraCoreUI, StartScreenUI)
@@ -434,40 +434,43 @@ public class DashboardUI implements AuroraScreenUI {
         // Info Feed
         // --------------------------------------------------------------------.
 
-        System.out.println("InfoFeed Width: " + infoFeedWidth);
+        infoFeedContainer = new JPanel(new BorderLayout());
+        infoFeedContainer.setOpaque(false);
+
+
 
         // Marquee Panel Text
         // --------------------------------------------------------------------.
         ArrayList<JLabel> infoFeedLabelList;
 
-        marqueePanel = new AMarqueePanel(infoFeedWidth, infoFeedHeight,
+        infoFeed = new AMarqueePanel(infoFeedWidth, infoFeedHeight,
                 "dash_infoBar_bg.png");
-        marqueePanel.setVisible(false);
+        infoFeed.setVisible(false);
 
         int fontSize = 22;
 
-			infoFeedLabelList = logic.createFeed();
+        infoFeedLabelList = logic.createFeed();
 
-			int spacerAmount = 20;
-	        String seperator = "dash_infoBar_seperator.png";
-	        Iterator<JLabel> it = infoFeedLabelList.iterator();
+        int spacerAmount = 20;
+        String seperator = "dash_infoBar_seperator.png";
+        Iterator<JLabel> it = infoFeedLabelList.iterator();
 
-	        // go through the AInfoLabelList and add all the labels to the
-	        // MarqueePanel
-	        while (it.hasNext()) {
-	            JLabel label = it.next();
-	            label.setFont(new Font("Arial", Font.PLAIN, fontSize));
-	            label.setForeground(Color.WHITE);
-	            marqueePanel.add(Box.createHorizontalStrut(spacerAmount));
-	            marqueePanel.add(label);
+        // go through the AInfoLabelList and add all the labels to the
+        // MarqueePanel
+        while (it.hasNext()) {
+            JLabel label = it.next();
+            label.setFont(new Font("Arial", Font.PLAIN, fontSize));
+            label.setForeground(Color.WHITE);
+            infoFeed.add(Box.createHorizontalStrut(spacerAmount));
+            infoFeed.add(label);
 
-	            // if there is another label in the array list, then we add a
-	            // separator
-	            if (it.hasNext()) {
-	            	marqueePanel.add(Box.createHorizontalStrut(spacerAmount));
-	                marqueePanel.add(new AImage(seperator));
-	            }
-	        }
+            // if there is another label in the array list, then we add a
+            // separator
+            if (it.hasNext()) {
+                infoFeed.add(Box.createHorizontalStrut(spacerAmount));
+                infoFeed.add(new AImage(seperator));
+            }
+        }
 
 
         // Finalize
@@ -488,7 +491,7 @@ public class DashboardUI implements AuroraScreenUI {
 
     private void setAllToVisible() {
 
-        marqueePanel.setVisible(true);
+        infoFeed.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
@@ -604,7 +607,7 @@ public class DashboardUI implements AuroraScreenUI {
         icoLibrary.addMouseListener(handler.new CarouselPaneMouseListener(
                 paneLibrary));
 
-         //* Check for the Enter Button Press OR Mouse Click *//
+        //* Check for the Enter Button Press OR Mouse Click *//
         paneProfile
                 .addMouseListener(handler.new CarouselPaneMouseListener(null));
         paneSettings.addMouseListener(
@@ -615,6 +618,8 @@ public class DashboardUI implements AuroraScreenUI {
 
 
         //* Info Feed *//
+
+        infoFeed.startScrolling();
 
 
 
@@ -688,10 +693,15 @@ public class DashboardUI implements AuroraScreenUI {
         //* Add To Bottom Panel  InfoFeed and both Carousel Buttons*//
         coreUI.getCenterFromBottomPanel().add(BorderLayout.EAST,
                 btnCarouselRight);
-        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, marqueePanel);
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER,
+                infoFeedContainer);
         coreUI.getCenterFromBottomPanel()
                 .add(BorderLayout.WEST, btnCarouselLeft);
-        marqueePanel.startScrolling();
+
+        infoFeedContainer.add(infoFeed, BorderLayout.NORTH);
+        infoFeed.setPreferredSize(new Dimension(infoFeed.getPreferredSize().width,
+                infoFeed.getImageHeight()));
+        infoFeed.setImageSize(infoFeedWidth, infoFeedHeight);
 
 
 
@@ -773,7 +783,7 @@ public class DashboardUI implements AuroraScreenUI {
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
             infoFeedWidth = coreUI.getFrame().getSize().width
-                            - (carouselButtonWidth * 2 + 65);
+                            - (carouselButtonWidth * 2) - 70;
             infoFeedHeight = 55;
 
             frameControlHeight = 0;
@@ -807,7 +817,7 @@ public class DashboardUI implements AuroraScreenUI {
             //infoFeedWidth = coreUI.getFrame().getSize().width
             //                - (carouselButtonWidth * 2 + 60);
             infoFeedWidth = coreUI.getFrame().getSize().width
-                                    - (carouselButtonWidth * 2 + 27);
+                            - (carouselButtonWidth * 2 + 27);
             infoFeedHeight = carouselButtonHeight - bottomPaneHeightAdjust / 18;
 
             frameControlHeight = coreUI.getFrameControlImagePane().getImgIcon()
@@ -1125,17 +1135,17 @@ public class DashboardUI implements AuroraScreenUI {
      * <p/>
      * @return AInfoFeed
      */
-    public final AInfoFeed getInfoFeed() {
+    public final AMarqueePanel getInfoFeed() {
         return infoFeed;
     }
 
-    /**
-     * Set the InfoFeed currently used in DashboardUI.
+        /**
+     * Get the InfoFeed container instanced in DashboardUI.
      * <p/>
-     * @param anInfoFeed AInfoFeed
+     * @return JPanel
      */
-    public final void setInfoFeed(final AInfoFeed anInfoFeed) {
-        this.infoFeed = anInfoFeed;
+    public final JPanel getInfoFeedContainer(){
+        return infoFeedContainer;
     }
 
     /**

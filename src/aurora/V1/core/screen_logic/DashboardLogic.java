@@ -253,7 +253,7 @@ public class DashboardLogic implements AuroraScreenLogic {
 
         try {
             ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
-                    "http://www.rssmix.com/u/3621720/rss.xml");
+                    "http://www.rssmix.com/u/3635025/rss.xml");
             auroraGameHubFeed = auroraGameHubParser.readFeed();
         } catch (Exception ex) {
             //* fall back if above feed mixer dies *//
@@ -302,7 +302,7 @@ public class DashboardLogic implements AuroraScreenLogic {
             ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
                     "http://www.gamespot.com/rss/game_updates.php?platform=5");
             auroraGameHubFeed = auroraGameHubParser.readFeed();
-            
+
         }
 
 
@@ -325,7 +325,7 @@ public class DashboardLogic implements AuroraScreenLogic {
 
         return Array;
     }*/
-    
+
     public final ArrayList<JLabel> createFeed() {
 
         ArrayList<JLabel> array = new ArrayList<JLabel>();
@@ -337,7 +337,7 @@ public class DashboardLogic implements AuroraScreenLogic {
             ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
                     "http://www.rssmix.com/u/3630806/rss.xml");
             auroraGameHubFeed = auroraGameHubParser.readFeed();
-        
+
         // catch the exception if there is a problem reading the RSS feed
         } catch (Exception ex) {
         	URL url;
@@ -347,13 +347,13 @@ public class DashboardLogic implements AuroraScreenLogic {
 				url = new URL("http://www.google.com");
 				final URLConnection conn = url.openConnection();
 				conn.getInputStream();
-				
+
 				// if the Internet is up, then we try to read our backup RSS feed
 				ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
 	                    "http://www.gamespot.com/rss/game_updates.php?platform=5");
 	            auroraGameHubFeed = auroraGameHubParser.readFeed();
 	            rssFeedAvailable = true;
-				
+
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException ioe) {
@@ -364,8 +364,8 @@ public class DashboardLogic implements AuroraScreenLogic {
 				JLabel label = new JLabel("Unable to retrieve RSS feed...");
 				array.add(label);
 			}
-        	
-            
+
+
         }
 
         if (internetConnectionUp && rssFeedAvailable) {
@@ -374,7 +374,7 @@ public class DashboardLogic implements AuroraScreenLogic {
                     iterator(); it.hasNext();) {
                 ARssReader.FeedMessage message = it.next();
                 AInfoFeedLabel label = new AInfoFeedLabel(message.getTitle(), message.getLink());
-                
+
                 // Determine the source of the news article
                 String url = message.getLink();
                 int i = url.indexOf(".");

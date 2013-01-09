@@ -255,6 +255,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
 
 
+
         //* Remove All from top of bottom pane and re-add CoreUI components*//
         getCoreUI().getCenterFromBottomPanel().add(BorderLayout.NORTH,
                 getCoreUI()
@@ -299,6 +300,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
 
         if (clearForApp) {
+
+
             setUpApp();
         }
 

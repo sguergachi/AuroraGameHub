@@ -636,7 +636,15 @@ public class GameLibraryUI extends AuroraApp {
         coreUI.getBottomContentPane().setLayout(new BorderLayout());
         coreUI.getBottomContentPane().setVisible(true);
 
-//        coreUI.getBottomContentPane().add(feed);
+        // Add InfoFeed to bottom //
+        getDashboardUI().getInfoFeed().setImageSize(getCoreUI()
+                .getScreenWidth(), getDashboardUI().getInfoFeed()
+                .getImageHeight());
+        getDashboardUI().getInfoFeed()
+                .setPreferredSize(new Dimension(getDashboardUI()
+                .getInfoFeed().getPreferredSize().width,
+                getDashboardUI().getInfoFeed().getImageHeight()));
+        coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer());
         coreUI.getBottomContentPane().revalidate();
 
         //* Set up Bottom Bar *//
@@ -645,6 +653,10 @@ public class GameLibraryUI extends AuroraApp {
                 pnlBottomCenterContainer);
         coreUI.getCenterFromBottomPanel().add(BorderLayout.SOUTH, coreUI
                 .getBottomContentPane());
+
+        coreUI.getBottomContentPane().setPreferredSize(new Dimension(dashboardUI
+                .getInfoFeed().getImageWidth(), dashboardUI.getInfoFeed()
+                .getImageHeight()));
 
         //* Add To Key Action Panel *//
         coreUI.getKeyToPressPanel().add(coreUI.getKeyIconImage());
