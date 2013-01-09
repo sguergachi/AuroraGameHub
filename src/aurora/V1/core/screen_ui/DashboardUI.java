@@ -699,10 +699,10 @@ public class DashboardUI implements AuroraScreenUI {
                 .add(BorderLayout.WEST, btnCarouselLeft);
 
         infoFeedContainer.add(infoFeed, BorderLayout.NORTH);
+        System.out.println("InfoFeed width " + infoFeed.getPreferredSize().width);
         infoFeed.setPreferredSize(new Dimension(infoFeed.getPreferredSize().width,
                 infoFeed.getImageHeight()));
         infoFeed.setImageSize(infoFeedWidth, infoFeedHeight);
-
 
 
         //* Check for Mouse Wheel Rotation *//

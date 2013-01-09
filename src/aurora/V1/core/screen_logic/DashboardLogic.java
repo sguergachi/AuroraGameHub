@@ -335,7 +335,7 @@ public class DashboardLogic implements AuroraScreenLogic {
         // read in the RSS feed
         try {
             ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
-                    "http://www.rssmix.com/u/3630806/rss.xml");
+                    "http://www.rssmix.com/u/3635025/rss.xml");
             auroraGameHubFeed = auroraGameHubParser.readFeed();
 
         // catch the exception if there is a problem reading the RSS feed
@@ -381,6 +381,10 @@ public class DashboardLogic implements AuroraScreenLogic {
                 int j = url.indexOf('.', i + 1);
                 String sourceName = url.substring(i + 1,  j);
                 label.setSourceName(sourceName.toUpperCase());
+
+                if(label.getSourceName().equals("AMAZON")){
+                    label.setToolTip("Amazon Best Sellers");
+                }
 
                 array.add(label);
 

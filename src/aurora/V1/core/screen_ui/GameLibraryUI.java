@@ -644,6 +644,7 @@ public class GameLibraryUI extends AuroraApp {
                 .setPreferredSize(new Dimension(getDashboardUI()
                 .getInfoFeed().getPreferredSize().width,
                 getDashboardUI().getInfoFeed().getImageHeight()));
+//        getDashboardUI().getInfoFeedContainer().remove(0);
         coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer());
         coreUI.getBottomContentPane().revalidate();
 
