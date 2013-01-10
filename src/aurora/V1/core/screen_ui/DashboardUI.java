@@ -449,7 +449,7 @@ public class DashboardUI implements AuroraScreenUI {
 
         int fontSize = 22;
 
-        infoFeedLabelList = logic.createFeed();
+        infoFeedLabelList = logic.createRssFeed();
 
         int spacerAmount = 20;
         String seperator = "dash_infoBar_seperator.png";

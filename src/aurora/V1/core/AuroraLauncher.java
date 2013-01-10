@@ -415,7 +415,7 @@ public class AuroraLauncher implements Runnable {
             if (manualMode) {
 
                 showManualTimerUI();
-                launchPane.requestFocusInWindow();
+
 
                 break;
             } else {
@@ -444,9 +444,10 @@ public class AuroraLauncher implements Runnable {
 
 
         pnlTopContainer.add(imgManualMode);
-        pnlTopContainer.repaint();
-        launchPane.requestFocusInWindow();
+        pnlTopContainer.revalidate();
 
+        System.out.println("Requesting Focus");
+        launchPane.requestFocus();
     }
 
     private void launchGameProcess(ProcessBuilder processBuild) {
@@ -545,8 +546,6 @@ public class AuroraLauncher implements Runnable {
      */
     private void showTimeSpentPlaying() {
 
-
-
         pnlTimePlayed.setVisible(true);
         pnlTimePlayed.repaint();
         pnlTimePlayed.setBounds(launchPane.getWidth() + 300, pnlCenter
@@ -581,8 +580,6 @@ public class AuroraLauncher implements Runnable {
         animateTime.moveHorizontal(launchPane.getWidth() / 2 - 50, -10);
 
         launchPane.repaint();
-
-
     }
 
     private void goBackToAurora() {
@@ -640,10 +637,6 @@ public class AuroraLauncher implements Runnable {
             worker.startOnce();
 
 
-
-
-
-
         }
     }
 
@@ -654,8 +647,9 @@ public class AuroraLauncher implements Runnable {
 
         @Override
         public void windowGainedFocus(WindowEvent e) {
+             System.out.println("LAUNCH FRAME FOCUS GAINED");
             if (manualMode) {
-                System.out.println("LAUNCH FRAME FOCUS GAINED");
+
                 pnlTop.removeAll();
                 pnlTop.validate();
                 pnlTop.add(btnReturnToAurora);
@@ -666,7 +660,7 @@ public class AuroraLauncher implements Runnable {
 
         @Override
         public void windowLostFocus(WindowEvent e) {
-
+            System.out.println("LAUNCH FRAME FOCUS LOST");
             if (manualMode) {
                 pnlTop.removeAll();
                 pnlTop.validate();

@@ -181,7 +181,7 @@ public class GameSearch implements Runnable {
         //If not found show Placeholder and turn notification red
         if (foundGame == null) {
             libraryUI.getCoverPane().removeAll();
-            notFound = new AImagePane("NoGameFound.png", libraryUI
+            notFound = new AImagePane("library_noGameFound.png", libraryUI
                     .getPnlBlankCoverGame().getWidth(), libraryUI
                     .getPnlBlankCoverGame().getHeight());
             libraryUI.getCoverPane().add(notFound);
@@ -280,7 +280,7 @@ public class GameSearch implements Runnable {
             if (foundGame == null) {
 
                 libraryUI.getCoverPane().removeAll();
-                notFound = new AImagePane("NoGameFound.png", libraryUI
+                notFound = new AImagePane("library_noGameFound.png", libraryUI
                         .getPnlBlankCoverGame().getWidth(), libraryUI
                         .getPnlBlankCoverGame().getHeight());
                 libraryUI.getCoverPane().add(notFound);

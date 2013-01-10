@@ -40,6 +40,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -1009,7 +1010,9 @@ public class GameLibraryUI extends AuroraApp {
                     addGameFontSize));
             addGameSearchField.setForeground(Color.gray);
             addGameSearchField.setOpaque(false);
+            addGameSearchField.setBorder(BorderFactory.createEmptyBorder());
             addGameSearchField.setBorder(null);
+
             addGameSearchField.setPreferredSize(new Dimension(500, 50));
 
             //* Set up image sizes for the Search box *//
@@ -1141,7 +1144,7 @@ public class GameLibraryUI extends AuroraApp {
     }
 
     public void showAddGameUI() {
-
+        pnlGlass.setVisible(true);
         addGameUI_Visible = true;
 
         addGameAnimator = new AAnimate(pnlAddGamePane);
@@ -1173,6 +1176,13 @@ public class GameLibraryUI extends AuroraApp {
 
             //* Animate Up Add Game UI *//
             addGameAnimator.moveVertical(-485, 33);
+            addGameAnimator.addPostAnimationListener(new APostHandler() {
+
+                @Override
+                public void actionPerformed() {
+                    pnlGlass.setVisible(false);
+                }
+            });
 
             statusBadge2.setImgURl("addUI_badge_invalid.png");
             addGameAnimator.removeAllListeners();
@@ -1189,6 +1199,7 @@ public class GameLibraryUI extends AuroraApp {
                 Logger.getLogger(GameLibraryUI.class.getName()).
                         log(Level.SEVERE, null, ex);
             }
+
             coreUI.getFrame().requestFocus();
         }
     }
