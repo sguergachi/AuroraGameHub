@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 Sardonix Creative.
  *
- * This work is licensed under the 
+ * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
- * To view a copy of this license, visit 
+ * To view a copy of this license, visit
  *
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+ * or send a letter to Creative Commons, 444 Castro Street, Suite 900,
  * Mountain View, California, 94041, USA.
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,8 +17,8 @@
  */
 package aurora.V1.core;
 
-import aurora.engine.V1.Logic.aSimpleDB;
-import aurora.engine.V1.Logic.aStore;
+import aurora.engine.V1.Logic.ASimpleDB;
+import aurora.engine.V1.Logic.AStorage;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  *
  * @author Sammy
  */
-public class StoredProfile extends aStore implements Serializable {
+public class StoredProfile extends AStorage implements Serializable {
 
     private String USER_NAME;
     private boolean RESOLUTION;
@@ -45,7 +45,7 @@ public class StoredProfile extends aStore implements Serializable {
     @Override
     public void setUpDatabase(Boolean FirstTime, String Path) {
           try {
-            super.db = new aSimpleDB("User", "Profile", FirstTime, Path);
+            super.db = new ASimpleDB("User", "Profile", FirstTime, Path);
         } catch (SQLException ex) {
             Logger.getLogger(StoredProfile.class.getName()).log(Level.SEVERE, null, ex);
         }

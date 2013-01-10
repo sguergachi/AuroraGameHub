@@ -62,3 +62,13 @@ Caused by: org.h2.jdbc.JdbcSQLException: The connection was not closed by the ap
 org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
 08-18 23:30:04 jdbc[2]: exception
 org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+11-18 14:15:15 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+11-18 14:15:15 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+11-18 14:15:17 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+11-18 20:27:59 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
+11-18 20:37:56 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: No data is available [2000-167]

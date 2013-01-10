@@ -1,46 +1,25 @@
 package Test;
 
-import java.io.IOException;
-
-/**
- *
- * @author Sammy
- */
-import java.awt.*;
-import java.awt.event.*;
-import java.lang.reflect.Field;
+import aurora.engine.V1.Logic.ABrowser;
 import javax.swing.*;
 
 public class Sandbox {
+    private static ABrowser browser;
 
-    public static void main(String[] args) throws IOException {
-
-        Sandbox test = new Sandbox();
-
-        test.gui();
-
-
-    }
-    private JFileChooser fc;
-    private JPanel RightBottomCenter;
-
-    public void gui() {
-
-        JFrame frame = new JFrame("Test");
-
-        frame.setSize(800, 800);
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
+        frame.setSize(500, 500);
 
-       main();
+        browser = new ABrowser(100,100);
+        browser.goTo("google.com");
+        browser.getPanelBrowser();
+        JPanel panel = new JPanel();
+
+
+        frame.add(browser);
+
 
         frame.setVisible(true);
-
-
-
-    }
-    
-    public void main(){
-        System.out.print(Math.floor(-2.1));
     }
 }

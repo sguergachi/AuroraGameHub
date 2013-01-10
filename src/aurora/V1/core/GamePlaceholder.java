@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 Sardonix Creative.
  *
- * This work is licensed under the 
+ * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
- * To view a copy of this license, visit 
+ * To view a copy of this license, visit
  *
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
- * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+ * or send a letter to Creative Commons, 444 Castro Street, Suite 900,
  * Mountain View, California, 94041, USA.
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,8 +17,8 @@
  */
 package aurora.V1.core;
 
-import aurora.engine.V1.UI.aButton;
-import aurora.engine.V1.UI.aImagePane;
+import aurora.engine.V1.UI.AButton;
+import aurora.engine.V1.UI.AImagePane;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
@@ -30,10 +30,10 @@ import javax.swing.JPanel;
  *
  * @author Sammy
  */
-public class GamePlaceholder extends aImagePane {
+public class GamePlaceholder extends AImagePane {
     //A Place Holder Component similar to the Game Component.
 
-    private aButton button = null;
+    private AButton button = null;
     private JPanel buttonPane;
     private int allWidth;
     private int allHeight;
@@ -56,7 +56,7 @@ public class GamePlaceholder extends aImagePane {
     }
 
     public void addButton(String up, String down, String over, ActionListener handler) {
-        button = new aButton(up, down, over, allWidth, allHeight);
+        button = new AButton(up, down, over, allWidth, allHeight);
         button.addActionListener(handler);
         buttonPane = new JPanel(new BorderLayout(0, 0)); //Contains the Add Game Button
         buttonPane.setOpaque(false);
