@@ -640,12 +640,11 @@ public class GameLibraryUI extends AuroraApp {
         // Add InfoFeed to bottom //
         getDashboardUI().getInfoFeed().setImageSize(getCoreUI()
                 .getScreenWidth(), getDashboardUI().getInfoFeed()
-                .getImageHeight());
+                .getImageHeight() - 10);
         getDashboardUI().getInfoFeed()
                 .setPreferredSize(new Dimension(getDashboardUI()
                 .getInfoFeed().getPreferredSize().width,
                 getDashboardUI().getInfoFeed().getImageHeight()));
-//        getDashboardUI().getInfoFeedContainer().remove(0);
         coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer());
         coreUI.getBottomContentPane().revalidate();
 

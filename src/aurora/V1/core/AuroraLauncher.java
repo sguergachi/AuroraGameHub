@@ -30,6 +30,8 @@ import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.io.File;
@@ -50,7 +52,7 @@ import javax.swing.SwingUtilities;
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class AuroraLauncher implements Runnable {
+public class AuroraLauncher implements Runnable, MouseListener {
 
     private Game game;
 
@@ -443,11 +445,16 @@ public class AuroraLauncher implements Runnable {
     public void showManualTimerUI() {
 
 
-        pnlTopContainer.add(imgManualMode);
-        pnlTopContainer.revalidate();
-
-        System.out.println("Requesting Focus");
-        launchPane.requestFocus();
+        if (launchPane.isFocused()) {
+            pnlTop.removeAll();
+            pnlTop.validate();
+            pnlTop.add(btnReturnToAurora);
+            pnlTop.revalidate();
+        } else {
+            pnlTopContainer.add(imgManualMode);
+            pnlTopContainer.revalidate();
+            launchPane.requestFocusInWindow();
+        }
     }
 
     private void launchGameProcess(ProcessBuilder processBuild) {
@@ -521,6 +528,7 @@ public class AuroraLauncher implements Runnable {
             lblPlayedTime.setText("Under 1 min  ");
             if (!manualMode) {
                 manualMode = true;
+
             }
         } else if (hoursDiff < 1 && minDiff > 1) {
             lblPlayedTime.setText(minDiff + " min  ");
@@ -601,6 +609,30 @@ public class AuroraLauncher implements Runnable {
         pnlCenter.setLayout(new FlowLayout(FlowLayout.CENTER));
     }
 
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        launchPane.requestFocusInWindow();
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        launchPane.requestFocusInWindow();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        System.out.println("Mouse Entered <<");
+        launchPane.requestFocusInWindow();
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
     private class GoBackButtonListener implements ActionListener {
 
         public GoBackButtonListener() {
@@ -647,7 +679,7 @@ public class AuroraLauncher implements Runnable {
 
         @Override
         public void windowGainedFocus(WindowEvent e) {
-             System.out.println("LAUNCH FRAME FOCUS GAINED");
+            System.out.println("LAUNCH FRAME FOCUS GAINED");
             if (manualMode) {
 
                 pnlTop.removeAll();

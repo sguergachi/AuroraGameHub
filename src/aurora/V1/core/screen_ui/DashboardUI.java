@@ -447,7 +447,7 @@ public class DashboardUI implements AuroraScreenUI {
                 "dash_infoBar_bg.png");
         infoFeed.setVisible(false);
 
-        int fontSize = 22;
+        int fontSize = 20;
 
         infoFeedLabelList = logic.createRssFeed();
 
