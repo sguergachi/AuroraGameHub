@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Sardonix Creative.
+ *  Made By Sardonix Creative.
  *
  * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.

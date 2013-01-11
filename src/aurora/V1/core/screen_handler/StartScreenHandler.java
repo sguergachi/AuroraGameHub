@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Sardonix Creative.
+ * Made By Sardonix Creative.
  *
  * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -26,8 +26,24 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
+ * .------------------------------------------------------------------------.
+ * | StartScreenHandler
+ * .------------------------------------------------------------------------.
+ * |
+ * | This class contains all Listeners/Handlers attached to UI elements
+ * | found in StartScreenUI. The handlers may access the logic or simply
+ * | make simple processing within each Handler/Listeners.
+ * |
+ * | Each Handler is attached to UI components to listen for different actions
+ * | The actions can be processed or handled internally or within th Logic
+ * | of the Screen.
+ * |
+ * |
+ * .........................................................................
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Carlos Machado <camachado@gmail.com>
+ *
  */
 public class StartScreenHandler implements AuroraScreenHandler {
 

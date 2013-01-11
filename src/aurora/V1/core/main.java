@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Sardonix Creative.
+ * Made By Sardonix Creative.
  *
  * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -37,6 +37,7 @@ public class main {
     private static Font FontRegular;
     private static ASurface ressource = null;
     private static boolean startMini = false;
+    public static String VERSION = "Alpha 5";
 
     public static void main(String[] args) throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException, FontFormatException {
         if (args.length > 0 && args[0].equals("startup")) {

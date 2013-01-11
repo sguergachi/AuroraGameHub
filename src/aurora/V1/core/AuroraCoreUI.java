@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Sardonix Creative.
+ * Made By Sardonix Creative.
  *
  * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -54,6 +54,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -380,6 +381,8 @@ public class AuroraCoreUI {
 
     private AFileManager fileIO;
 
+    private Font ropaFont;
+
     /**
      * .-----------------------------------------------------------------------.
      * | AuroraCoreUI(JFrame)
@@ -470,6 +473,11 @@ public class AuroraCoreUI {
                     resources
                     .getSurfacePath() + "/aurora/V1/resources/AGENCYB.TTF")
                     .openStream());
+            ropaFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
+                    resources
+                    .getSurfacePath()
+                    + "/aurora/V1/resources/RopaSans-Regular.TTF")
+                    .openStream());
         } catch (MalformedURLException ex) {
             try {
                 regularFont = Font
@@ -478,6 +486,9 @@ public class AuroraCoreUI {
                 boldFont = Font
                         .createFont(Font.TRUETYPE_FONT, getClass()
                         .getResourceAsStream("/aurora/V1/resources/AGENCYB.TTF"));
+                ropaFont = Font.createFont(Font.TRUETYPE_FONT,
+                        getClass().getResourceAsStream(
+                        "/aurora/V1/resources/RopaSans-Regular.TTF"));
 
             } catch (Exception exx) {
                 System.out.println("ERROR In Getting Font Resourcess");
@@ -699,7 +710,7 @@ public class AuroraCoreUI {
         versionPanel.setOpaque(false);
         versionPanel.setLayout(new BorderLayout());
         versionPanel.add(BorderLayout.WEST, lblVersion);
-        paneBottom.add(BorderLayout.PAGE_END, versionPanel);
+        paneBottom.add(BorderLayout.PAGE_END, Box.createVerticalStrut(12));
 
 
         try {
@@ -898,7 +909,6 @@ public class AuroraCoreUI {
 
 
             warningDialog.setOKButtonListener(new ActionListener() {
-
                 public void actionPerformed(ActionEvent e) {
 
                     System.exit(0);
@@ -1106,6 +1116,11 @@ public class AuroraCoreUI {
 
     public int getKeyIconHeight() {
         return keyIconHeight;
+    }
+
+    public String getBuildNumber() {
+        return getResourceBundleToken(
+                "BUILD");
     }
 
     public boolean getLargeScreen() {
@@ -1427,5 +1442,9 @@ public class AuroraCoreUI {
 
     public ASound getBackgroundSound() {
         return backgrounSFX;
+    }
+
+    public Font getRopaFont() {
+        return ropaFont;
     }
 }

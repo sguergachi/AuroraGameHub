@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Sardonix Creative.
+ *  Made By Sardonix Creative.
  *
  * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -17,6 +17,7 @@
  */
 package aurora.V1.core.screen_ui;
 
+import aurora.V1.core.AboutOverlay;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.Game;
@@ -41,6 +42,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -326,6 +329,7 @@ public class DashboardUI implements AuroraScreenUI {
     private int frameControlHeight;
 
     private JPanel infoFeedContainer;
+    private AboutOverlay aboutBox;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -472,6 +476,9 @@ public class DashboardUI implements AuroraScreenUI {
             }
         }
 
+        // About Box //
+        aboutBox = new  AboutOverlay(coreUI);
+
 
         // Finalize
         // --------------------------------------------------------------------.
@@ -546,6 +553,7 @@ public class DashboardUI implements AuroraScreenUI {
         //* Set bigger Logo to Header *//
         coreUI.getLogoImage().setImgURl("dash_header_logo.png");
         coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
+        coreUI.getLogoImage().addMouseListener(new HeaderMouseListener());
 
         //* Set bigger background image for Frame Control panel *//
         coreUI.getFrameControlImagePane().setImage(
@@ -621,7 +629,8 @@ public class DashboardUI implements AuroraScreenUI {
 
         infoFeed.startScrolling();
 
-
+        // About Box //
+        aboutBox.buildAboutUI();
 
 
         //* Add UI to Canvas *//
@@ -699,8 +708,10 @@ public class DashboardUI implements AuroraScreenUI {
                 .add(BorderLayout.WEST, btnCarouselLeft);
 
         infoFeedContainer.add(infoFeed, BorderLayout.NORTH);
-        System.out.println("InfoFeed width " + infoFeed.getPreferredSize().width);
-        infoFeed.setPreferredSize(new Dimension(infoFeed.getPreferredSize().width,
+        System.out
+                .println("InfoFeed width " + infoFeed.getPreferredSize().width);
+        infoFeed.setPreferredSize(new Dimension(
+                infoFeed.getPreferredSize().width,
                 infoFeed.getImageHeight()));
         infoFeed.setImageSize(infoFeedWidth, infoFeedHeight);
 
@@ -829,6 +840,38 @@ public class DashboardUI implements AuroraScreenUI {
             System.out.println("WIDTH " + carouselWidth);
         }
 
+    }
+
+    private class HeaderMouseListener implements MouseListener {
+
+        public HeaderMouseListener() {
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            aboutBox.showAboutBox();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            aboutBox.showAboutBox();
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            coreUI.getLogoImage().setImgURl("dash_header_logo_hover.png");
+            coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            coreUI.getLogoImage().setImgURl("dash_header_logo.png");
+            coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
+        }
     }
 
     // Getters & Setters
@@ -1139,12 +1182,12 @@ public class DashboardUI implements AuroraScreenUI {
         return infoFeed;
     }
 
-        /**
+    /**
      * Get the InfoFeed container instanced in DashboardUI.
      * <p/>
      * @return JPanel
      */
-    public final JPanel getInfoFeedContainer(){
+    public final JPanel getInfoFeedContainer() {
         return infoFeedContainer;
     }
 
