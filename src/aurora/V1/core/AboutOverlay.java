@@ -26,15 +26,20 @@ import aurora.engine.V1.UI.AScrollBar;
 import aurora.engine.V1.UI.ASlickLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -104,7 +109,7 @@ public class AboutOverlay {
         pnlTop = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pnlTop.setOpaque(false);
 
-        pnlCenterContainer = new JPanel();
+        pnlCenterContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pnlCenterContainer.setOpaque(false);
 
         pnlCenter = new AImagePane("app_about_center.png", pnlAboutPane
@@ -138,7 +143,7 @@ public class AboutOverlay {
 
 
         lblVersion = new ASlickLabel(main.VERSION);
-        lblBuild = new ASlickLabel("build: " + buildNumber);
+        lblBuild = new ASlickLabel("build: " + buildNumber.trim());
 
 
     }
@@ -154,6 +159,9 @@ public class AboutOverlay {
         lblVersion.setForeground(Color.white);
         lblBuild.setForeground(Color.white);
 
+        lblVersion.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblBuild.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         pnlVersion.add(lblVersion, BorderLayout.CENTER);
         pnlVersion.add(lblBuild, BorderLayout.SOUTH);
         pnlTop.add(pnlVersion);
@@ -162,12 +170,11 @@ public class AboutOverlay {
         scrollPane.setBorder(null);
         scrollPane.setWheelScrollingEnabled(true);
 
-
-        pnlCenter.setLayout(new BoxLayout(pnlCenter, BoxLayout.Y_AXIS));
+        pnlCenter.setLayout(new BorderLayout());
         addContent();
 
-        pnlCenterContainer.setLayout(new BoxLayout(pnlCenterContainer,
-                BoxLayout.Y_AXIS));
+        pnlCenterContainer.setPreferredSize(new Dimension(pnlCenter
+                .getRealImageWidth(), pnlAboutPane.getRealImageHeight() * 2 - 50));
 
         pnlCenter.add(scrollPane);
 
@@ -239,13 +246,14 @@ public class AboutOverlay {
 
         // Made By //
         JPanel pnlMadeBy = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        pnlMadeBy.setLayout(new BoxLayout(pnlMadeBy, BoxLayout.Y_AXIS));
         pnlMadeBy.setOpaque(false);
+        pnlMadeBy.setBackground(Color.MAGENTA);
 
         ASlickLabel lblMadeBy = new ASlickLabel("Hand Crafted By");
-        lblMadeBy.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN, 32));
+        lblMadeBy.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN, 30));
         lblMadeBy.setForeground(Color.WHITE);
         AImage logo = new AImage("sardonix_logo.png");
+        logo.setLink("auroragamehub.com/about");
 
         pnlMadeBy.add(lblMadeBy);
         pnlMadeBy.add(logo);
@@ -269,6 +277,7 @@ public class AboutOverlay {
         lblCodeCreditTitle.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 24));
         lblCodeCreditTitle.setForeground(Color.WHITE);
+        lblCodeCreditTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblh2Database = new ASlickLabel(
                 "H2 Database - Database Engine");
@@ -276,31 +285,36 @@ public class AboutOverlay {
         lblh2Database.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
         lblh2Database.setForeground(Color.WHITE);
+        lblh2Database.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblRSSParser = new ASlickLabel(
                 "Lars Vogel - RSS Parser");
-        lblRSSParser.setLink("");
+        lblRSSParser.setLink("http://www.vogella.com/");
         lblRSSParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
         lblRSSParser.setForeground(Color.WHITE);
+        lblRSSParser.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblAnalyticsParser = new ASlickLabel(
                 "Mixpanel Java - Analytics Library");
         lblAnalyticsParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
         lblAnalyticsParser.setForeground(Color.WHITE);
+        lblAnalyticsParser.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblJSONParser = new ASlickLabel(
                 "JSON in Java - Used for Good, not Evil.");
         lblJSONParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
         lblJSONParser.setForeground(Color.WHITE);
+        lblJSONParser.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         pnlCodeCredit.add(lblCodeCreditTitle);
         pnlCodeCredit.add(Box.createVerticalStrut(20));
-        pnlCodeCredit.add(lblh2Database);
         pnlCodeCredit.add(lblRSSParser);
+        pnlCodeCredit.add(lblh2Database);
         pnlCodeCredit.add(lblJSONParser);
+
 
         pnlCenterContainer.add(pnlCodeCredit);
 
@@ -322,22 +336,25 @@ public class AboutOverlay {
         lblSpecialThanks.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 24));
         lblSpecialThanks.setForeground(Color.WHITE);
+        lblSpecialThanks.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblJeno = new ASlickLabel(
                 "Jeno-Cyber - Gorgeous Box Art");
         lblJeno.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
         lblJeno.setForeground(Color.WHITE);
+        lblJeno.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblStackParser = new ASlickLabel(
                 "Stack Overflow - Making Life Easier");
         lblStackParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
         lblStackParser.setForeground(Color.WHITE);
+        lblStackParser.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
         pnlSpecialThanks.add(lblSpecialThanks);
-        pnlSpecialThanks.add(Box.createVerticalStrut(20));
+        pnlSpecialThanks.add(Box.createVerticalStrut(30));
         pnlSpecialThanks.add(lblJeno);
         pnlSpecialThanks.add(lblStackParser);
 
@@ -350,44 +367,44 @@ public class AboutOverlay {
 
         // Special Thanks //
 
-        JPanel pnlLicense = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel pnlLicense = new JPanel();
         pnlLicense.setLayout(new BoxLayout(pnlLicense, BoxLayout.Y_AXIS));
         pnlLicense.setOpaque(false);
+        pnlLicense.setMaximumSize(pnlCenterContainer.getPreferredSize());
 
         ASlickLabel lblLicense = new ASlickLabel(
                 "License");
         lblLicense.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 24));
         lblLicense.setForeground(Color.WHITE);
+        lblLicense.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblLicenseText = new ASlickLabel(
-        " This work is licensed under the \n"
-        + " Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. \n"
-        + " To view a copy of this license, visit \n"
-        + "\n"
-        + "'http://creativecommons.org/licenses/by-nc-nd/3.0/' \n "
-        +"\n"
-        +" or send a letter to Creative Commons, 444 Castro Street, ScoreUIte 900, \n"
-        +" Mountain View, California, 94041, USA.\n"
-        +" Unless reqcoreUIred by applicable law or agreed to in writing, software\n"
-        +" distributed under the License is distributed on an \"AS IS\" BASIS,\n"
-        +" WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n"
-        +" See the License for the specific language governing permissions and\n"
-        +" limitations under the License.");
+                "<html> This work is licensed under the <br>"
+                + " Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.<br>"
+                + " To view a copy of this license, visit <br>"
+                + "'http://creativecommons.org/licenses/by-nc-nd/3.0/' <br> "
+                + " or send a letter to Creative Commons, 444 Castro Street, ScoreUIte 900, <br>"
+                + " Mountain View, California, 94041, USA.<br>"
+                + " Unless required by applicable law or agreed to in writing, software<br>"
+                + " distributed under the License is distributed on an \"AS IS\" BASIS,<br>"
+                + " WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br>"
+                + " See the License for the specific language governing permissions and<br>"
+                + " limitations under the License. </html>");
 
         lblLicenseText.setFont(coreUI.getRopaFont().deriveFont(
                 Font.PLAIN,
                 20));
         lblLicenseText.setForeground(Color.WHITE);
-
+        lblLicenseText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblLicenseText.setMaximumSize(pnlCenterContainer.getPreferredSize());
 
 
         pnlLicense.add(lblLicense);
-        pnlLicense.add(Box.createVerticalStrut(20));
+        pnlLicense.add(Box.createVerticalStrut(30));
         pnlLicense.add(lblLicenseText);
 
         pnlCenterContainer.add(pnlLicense);
-
 
 
 
