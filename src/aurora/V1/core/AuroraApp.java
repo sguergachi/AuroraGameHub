@@ -492,7 +492,6 @@ public abstract class AuroraApp implements AuroraScreenUI {
                     public boolean dispatchKeyEvent(KeyEvent e) {
 
                         if (e.getKeyChar() == KeyEvent.VK_ESCAPE && isInApp) {
-                            System.out.println("BACK SPACE PRESSED");
                             new BackButtonListener().actionPerformed(null);
                             return true;
                         }

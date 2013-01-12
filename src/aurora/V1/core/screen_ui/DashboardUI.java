@@ -329,6 +329,7 @@ public class DashboardUI implements AuroraScreenUI {
     private int frameControlHeight;
 
     private JPanel infoFeedContainer;
+
     private AboutOverlay aboutBox;
 
     /**
@@ -477,7 +478,7 @@ public class DashboardUI implements AuroraScreenUI {
         }
 
         // About Box //
-        aboutBox = new  AboutOverlay(coreUI);
+        aboutBox = new AboutOverlay(coreUI);
 
 
         // Finalize
@@ -708,12 +709,11 @@ public class DashboardUI implements AuroraScreenUI {
                 .add(BorderLayout.WEST, btnCarouselLeft);
 
         infoFeedContainer.add(infoFeed, BorderLayout.NORTH);
-        System.out
-                .println("InfoFeed width " + infoFeed.getPreferredSize().width);
+
+        infoFeed.setImageSize(infoFeedWidth, infoFeedHeight);
         infoFeed.setPreferredSize(new Dimension(
                 infoFeed.getPreferredSize().width,
                 infoFeed.getImageHeight()));
-        infoFeed.setImageSize(infoFeedWidth, infoFeedHeight);
 
 
         //* Check for Mouse Wheel Rotation *//

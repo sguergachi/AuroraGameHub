@@ -18,6 +18,7 @@
 package aurora.V1.core.screen_logic;
 
 import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.StartScreenHandler;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.StartScreenUI;
@@ -282,7 +283,7 @@ public class StartScreenLogic implements AuroraScreenLogic {
 
     public void sendAnalytics(){
         AMixpanelAnalytics analytics = new AMixpanelAnalytics("f5f777273e62089193a68f99f4885a55");
-        analytics.sendEvent("LAUNCHED APP");
+        analytics.sendEvent("LAUNCHED APP " + main.VERSION);
     }
 
     private void setSize() {

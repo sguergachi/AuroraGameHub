@@ -169,7 +169,7 @@ public class DashboardHandler implements AuroraScreenHandler {
             }
 
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                dashboardUI.getCoreUI().showExitDialog();
+                    dashboardUI.getCoreUI().showExitDialog();
             }
         }
 
