@@ -263,7 +263,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
         promptDisplay.setIgnoreRepaint(true);
         promptDisplay.addPost(new APostHandler() {
             @Override
-            public void actionPerformed() {
+            public void postAction() {
                 completedStartUp();
             }
         });

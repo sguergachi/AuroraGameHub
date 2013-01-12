@@ -1161,7 +1161,7 @@ public class GameLibraryUI extends AuroraApp {
 
         addGameAnimator.addPostAnimationListener(new APostHandler() {
             @Override
-            public void actionPerformed() {
+            public void postAction() {
                 addGameSearchField.requestFocus();
             }
         });
@@ -1178,7 +1178,7 @@ public class GameLibraryUI extends AuroraApp {
             addGameAnimator.addPostAnimationListener(new APostHandler() {
 
                 @Override
-                public void actionPerformed() {
+                public void postAction() {
                     pnlGlass.setVisible(false);
                 }
             });
