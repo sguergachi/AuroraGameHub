@@ -21,6 +21,7 @@ import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.screen_handler.StartScreenHandler;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.StartScreenUI;
+import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
@@ -37,6 +38,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.LineUnavailableException;
@@ -215,9 +218,6 @@ public class StartScreenLogic implements AuroraScreenLogic {
 
     private void showDashdoard() {
 
-
-
-
         AThreadWorker loadDashboard = new AThreadWorker(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -251,6 +251,38 @@ public class StartScreenLogic implements AuroraScreenLogic {
 
         loadDashboard.startOnce();
 
+    }
+
+     public boolean checkOnline(String URL) {
+        final URL url;
+        try {
+            url = new URL("http://" + URL);
+            try {
+
+                final URLConnection conn = url.openConnection();
+                conn.connect();
+            } catch (IOException ex) {
+                System.out.println("Computer is NOT online");
+                return false;
+
+
+
+            }
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(StartScreenUI.class
+                    .getName()).log(Level.SEVERE,
+                    null, ex);
+
+        }
+
+        System.out.println("Computer is Online");
+        return true;
+    }
+
+
+    public void sendAnalytics(){
+        AMixpanelAnalytics analytics = new AMixpanelAnalytics("f5f777273e62089193a68f99f4885a55");
+        analytics.sendEvent("LAUNCHED APP");
     }
 
     private void setSize() {

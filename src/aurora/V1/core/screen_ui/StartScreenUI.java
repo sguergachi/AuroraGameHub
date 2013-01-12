@@ -442,7 +442,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                 }
 
                 //* Check if Online *//
-                if (!checkOnline("auroragamehub.com/aurora-tracker")) {
+                if (!logic.checkOnline("auroragamehub.com")) {
                     Online = false;
                     promptDisplay.add(
                             "I Can't Connect To AuroraDB, Let Me Try Again...",
@@ -452,7 +452,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                     // Check if its Users Internet is down
                     // or Aurora Servers are down
                     //*
-                    if (checkOnline("google.com") && !checkOnline(
+                    if (logic.checkOnline("google.com") && !logic.checkOnline(
                             "auroragamehub.com/aurora-tracker")) {
                         promptDisplay
                                 .add(
@@ -460,7 +460,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                                 Color.RED);
 
                         //The User is having internet problems
-                    } else if (!checkOnline("google.com")) {
+                    } else if (!logic.checkOnline("google.com")) {
                         promptDisplay.add("Can't Connect To Google...");
                         promptDisplay
                                 .add(
@@ -476,6 +476,8 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                     Online = true;
 
                 }
+
+                logic.sendAnalytics();
 
 
                 if (!FirstTimeLoad) {
@@ -555,31 +557,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     }
 
-    private boolean checkOnline(String URL) {
-        final URL url;
-        try {
-            url = new URL("http://" + URL);
-            try {
 
-                final URLConnection conn = url.openConnection();
-                conn.connect();
-            } catch (IOException ex) {
-                System.out.println("Computer is NOT online");
-                return false;
-
-
-
-            }
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(StartScreenUI.class
-                    .getName()).log(Level.SEVERE,
-                    null, ex);
-
-        }
-
-        System.out.println("Computer is Online");
-        return true;
-    }
 
     private boolean checkUser() {
         if (checkMainDir() && checkSubDir() && checkDBFiles()) {
