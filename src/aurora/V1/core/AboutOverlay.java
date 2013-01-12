@@ -166,7 +166,8 @@ public class AboutOverlay {
         pnlCenter.setLayout(new BoxLayout(pnlCenter, BoxLayout.Y_AXIS));
         addContent();
 
-        pnlCenterContainer.setLayout(new BoxLayout(pnlCenterContainer, BoxLayout.Y_AXIS));
+        pnlCenterContainer.setLayout(new BoxLayout(pnlCenterContainer,
+                BoxLayout.Y_AXIS));
 
         pnlCenter.add(scrollPane);
 
@@ -281,10 +282,23 @@ public class AboutOverlay {
                 20));
         lblRSSParser.setForeground(Color.WHITE);
 
+        ASlickLabel lblAnalyticsParser = new ASlickLabel(
+                "Mixpanel Java - Analytics Library");
+        lblAnalyticsParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                20));
+        lblAnalyticsParser.setForeground(Color.WHITE);
+
+        ASlickLabel lblJSONParser = new ASlickLabel(
+                "JSON in Java - Used for Good, not Evil.");
+        lblJSONParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                20));
+        lblJSONParser.setForeground(Color.WHITE);
+
         pnlCodeCredit.add(lblCodeCreditTitle);
         pnlCodeCredit.add(Box.createVerticalStrut(20));
         pnlCodeCredit.add(lblh2Database);
         pnlCodeCredit.add(lblRSSParser);
+        pnlCodeCredit.add(lblJSONParser);
 
         pnlCenterContainer.add(pnlCodeCredit);
 
@@ -294,8 +308,83 @@ public class AboutOverlay {
         pnlCenterContainer.add(seperator2);
 
 
+        // Special Thanks //
+
+        JPanel pnlSpecialThanks = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pnlSpecialThanks.setLayout(
+                new BoxLayout(pnlSpecialThanks, BoxLayout.Y_AXIS));
+        pnlSpecialThanks.setOpaque(false);
+
+        ASlickLabel lblSpecialThanks = new ASlickLabel(
+                "Special Thanks To");
+        lblSpecialThanks.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                24));
+        lblSpecialThanks.setForeground(Color.WHITE);
+
+        ASlickLabel lblJeno = new ASlickLabel(
+                "Jeno-Cyber - Gorgeous Box Art");
+        lblJeno.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                20));
+        lblJeno.setForeground(Color.WHITE);
+
+        ASlickLabel lblStackParser = new ASlickLabel(
+                "Stack Overflow - Making Life Easier");
+        lblStackParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                20));
+        lblStackParser.setForeground(Color.WHITE);
 
 
+        pnlSpecialThanks.add(lblSpecialThanks);
+        pnlSpecialThanks.add(Box.createVerticalStrut(20));
+        pnlSpecialThanks.add(lblJeno);
+        pnlSpecialThanks.add(lblStackParser);
+
+        pnlCenterContainer.add(pnlSpecialThanks);
+
+        // Seperator //
+        AImage seperator3 = new AImage("app_seperator.png");
+        pnlCenterContainer.add(seperator3);
+
+
+        // Special Thanks //
+
+        JPanel pnlLicense = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pnlLicense.setLayout(new BoxLayout(pnlLicense, BoxLayout.Y_AXIS));
+        pnlLicense.setOpaque(false);
+
+        ASlickLabel lblLicense = new ASlickLabel(
+                "License");
+        lblLicense.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                24));
+        lblLicense.setForeground(Color.WHITE);
+
+        ASlickLabel lblLicenseText = new ASlickLabel(
+        " This work is licensed under the \n"
+        + " Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. \n"
+        + " To view a copy of this license, visit \n"
+        + "\n"
+        + "'http://creativecommons.org/licenses/by-nc-nd/3.0/' \n "
+        +"\n"
+        +" or send a letter to Creative Commons, 444 Castro Street, ScoreUIte 900, \n"
+        +" Mountain View, California, 94041, USA.\n"
+        +" Unless reqcoreUIred by applicable law or agreed to in writing, software\n"
+        +" distributed under the License is distributed on an \"AS IS\" BASIS,\n"
+        +" WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n"
+        +" See the License for the specific language governing permissions and\n"
+        +" limitations under the License.");
+
+        lblLicenseText.setFont(coreUI.getRopaFont().deriveFont(
+                Font.PLAIN,
+                20));
+        lblLicenseText.setForeground(Color.WHITE);
+
+
+
+        pnlLicense.add(lblLicense);
+        pnlLicense.add(Box.createVerticalStrut(20));
+        pnlLicense.add(lblLicenseText);
+
+        pnlCenterContainer.add(pnlLicense);
 
 
 
