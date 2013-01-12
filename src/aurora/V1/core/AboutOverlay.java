@@ -272,12 +272,14 @@ public class AboutOverlay {
 
         ASlickLabel lblh2Database = new ASlickLabel(
                 "H2 Database - Database Engine");
+        lblh2Database.setLink("http://www.h2database.com");
         lblh2Database.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
         lblh2Database.setForeground(Color.WHITE);
 
         ASlickLabel lblRSSParser = new ASlickLabel(
                 "Lars Vogel - RSS Parser");
+        lblRSSParser.setLink("");
         lblRSSParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
         lblRSSParser.setForeground(Color.WHITE);

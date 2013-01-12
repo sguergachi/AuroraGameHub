@@ -114,6 +114,8 @@ public class DashboardLogic implements AuroraScreenLogic {
 
     private int bufferUntilAmazon;
 
+    private String sourceName;
+
     /**
      * .-----------------------------------------------------------------------.
      * | DashboardLogic(DashboardUI)
@@ -336,9 +338,16 @@ public class DashboardLogic implements AuroraScreenLogic {
 
                 // Determine the source of the news article //
                 String url = message.getLink();
-                int i = url.indexOf(".");
-                int j = url.indexOf('.', i + 1);
-                String sourceName = url.substring(i + 1, j);
+                if (url.contains("www")) {
+                    int i = url.indexOf(".");
+                    int j = url.indexOf('.', i + 1);
+                    sourceName = url.substring(i + 1, j);
+                } else {
+                    int i = url.indexOf("/");
+                    int j = url.indexOf(".");
+                    sourceName = url.substring(i + 2, j);
+                }
+
                 label.setSourceName(sourceName.toUpperCase());
 
                 // Check if its an amazon Article //
