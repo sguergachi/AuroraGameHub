@@ -250,8 +250,10 @@ public class AboutOverlay {
         pnlMadeBy.setBackground(Color.MAGENTA);
 
         ASlickLabel lblMadeBy = new ASlickLabel("Hand Crafted By");
+        lblMadeBy.setLink("auroragamehub.com/about");
         lblMadeBy.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN, 30));
         lblMadeBy.setForeground(Color.WHITE);
+
         AImage logo = new AImage("sardonix_logo.png");
         logo.setLink("auroragamehub.com/about");
 
@@ -297,6 +299,7 @@ public class AboutOverlay {
 
         ASlickLabel lblAnalyticsParser = new ASlickLabel(
                 "Mixpanel Java - Analytics Library");
+        lblAnalyticsParser.setLink("https://github.com/mixpanel/mixpanel-java");
         lblAnalyticsParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
         lblAnalyticsParser.setForeground(Color.WHITE);
@@ -304,13 +307,14 @@ public class AboutOverlay {
 
         ASlickLabel lblJSONParser = new ASlickLabel(
                 "JSON in Java - Used for Good, not Evil.");
+        lblJSONParser.setLink("http://json.org/java/");
         lblJSONParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
         lblJSONParser.setForeground(Color.WHITE);
         lblJSONParser.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         pnlCodeCredit.add(lblCodeCreditTitle);
-        pnlCodeCredit.add(Box.createVerticalStrut(20));
+        pnlCodeCredit.add(Box.createVerticalStrut(30));
         pnlCodeCredit.add(lblRSSParser);
         pnlCodeCredit.add(lblh2Database);
         pnlCodeCredit.add(lblJSONParser);
@@ -340,6 +344,7 @@ public class AboutOverlay {
 
         ASlickLabel lblJeno = new ASlickLabel(
                 "Jeno-Cyber - Gorgeous Box Art");
+        lblJeno.setLink("http://jeno-cyber.deviantart.com/");
         lblJeno.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
         lblJeno.setForeground(Color.WHITE);
@@ -347,6 +352,7 @@ public class AboutOverlay {
 
         ASlickLabel lblStackParser = new ASlickLabel(
                 "Stack Overflow - Making Life Easier");
+        lblStackParser.setLink("http://stackoverflow.com");
         lblStackParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
         lblStackParser.setForeground(Color.WHITE);
@@ -391,13 +397,12 @@ public class AboutOverlay {
                 + " WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br>"
                 + " See the License for the specific language governing permissions and<br>"
                 + " limitations under the License. </html>");
-
+        lblLicenseText.setLink("http://creativecommons.org/licenses/by-nc-nd/3.0/");
         lblLicenseText.setFont(coreUI.getRopaFont().deriveFont(
                 Font.PLAIN,
-                20));
+                16));
         lblLicenseText.setForeground(Color.WHITE);
         lblLicenseText.setAlignmentX(Component.CENTER_ALIGNMENT);
-        lblLicenseText.setMaximumSize(pnlCenterContainer.getPreferredSize());
 
 
         pnlLicense.add(lblLicense);

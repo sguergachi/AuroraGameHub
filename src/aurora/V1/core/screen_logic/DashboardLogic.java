@@ -348,6 +348,10 @@ public class DashboardLogic implements AuroraScreenLogic {
                     sourceName = url.substring(i + 2, j);
                 }
 
+                if(sourceName.equalsIgnoreCase("FEEDS")){
+                    sourceName = "IGN";
+                }
+
                 label.setSourceName(sourceName.toUpperCase());
 
                 // Check if its an amazon Article //
