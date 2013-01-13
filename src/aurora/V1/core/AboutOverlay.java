@@ -174,7 +174,7 @@ public class AboutOverlay {
         addContent();
 
         pnlCenterContainer.setPreferredSize(new Dimension(pnlCenter
-                .getRealImageWidth(), pnlAboutPane.getRealImageHeight() * 2));
+                .getRealImageWidth(), pnlAboutPane.getRealImageHeight() * 2 + 30));
 
         pnlCenter.add(scrollPane);
 
@@ -350,19 +350,28 @@ public class AboutOverlay {
         lblJeno.setForeground(Color.WHITE);
         lblJeno.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        ASlickLabel lblStackParser = new ASlickLabel(
+        ASlickLabel lblStackOverflow = new ASlickLabel(
                 "Stack Overflow - Making Life Easier");
-        lblStackParser.setLink("http://stackoverflow.com");
-        lblStackParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+        lblStackOverflow.setLink("http://stackoverflow.com");
+        lblStackOverflow.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
-        lblStackParser.setForeground(Color.WHITE);
-        lblStackParser.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblStackOverflow.setForeground(Color.WHITE);
+        lblStackOverflow.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        ASlickLabel lblSound = new ASlickLabel(
+                "Abyssal Echo (by Vajragio) -  Background Music");
+        lblSound.setLink("https://soundcloud.com/giovanniangel");
+        lblSound.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                20));
+        lblSound.setForeground(Color.WHITE);
+        lblSound.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
         pnlSpecialThanks.add(lblSpecialThanks);
         pnlSpecialThanks.add(Box.createVerticalStrut(30));
         pnlSpecialThanks.add(lblJeno);
-        pnlSpecialThanks.add(lblStackParser);
+        pnlSpecialThanks.add(lblStackOverflow);
+        pnlSpecialThanks.add(lblSound);
 
         pnlCenterContainer.add(pnlSpecialThanks);
 

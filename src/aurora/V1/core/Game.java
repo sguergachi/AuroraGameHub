@@ -510,14 +510,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private void setSize() {
         if (coreUI.isLargeScreen()) {
-            removeButtonWidth = this.width / 2 - 30;
-            removeButtonSeperation = -removeButtonWidth / 6;
+            removeButtonWidth = this.width / 2 - 35;
+            removeButtonSeperation = -removeButtonWidth / 6 + 5;
 
             SIZE_BottomPaneHeight = (50 * 2) - 10;
             SIZE_TOPPANE_COMP = 5;
         } else {
             removeButtonWidth = this.width / 2 - 40;
-            removeButtonSeperation = -removeButtonWidth / 6;
+            removeButtonSeperation = -removeButtonWidth / 6 + 5;
 
             SIZE_TOPPANE_COMP = 0;
             SIZE_BottomPaneHeight = (50 * 2) - 10;
