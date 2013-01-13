@@ -4,19 +4,24 @@
 ===============================================
 
 ////////////////////////////////////////////--------------------------------
-//Aurora_Alpha 5  Build:500  Date:  || Sammy Guergachi, Carlos Machado
+//Aurora_Alpha 5  Build:500  Date:1/13/2013  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////--------------------------------
-+ new Onix 2.0 Surface with Name Change!
-+ Revamped Info Feed with real gaming news!
+++ new Onix 2.0 Surface with Name Change!
+++ Revamped Info Feed with real gaming news!
 + Cleaned up codebase (faster future development!)
 + New background immersive music.
 + 50 more games added to database
 + Refreshed minimize mode
++ Refreshed Launch Screen with Manual Mode
 + Other UI enhancements
++ Added About Box (click the logo)
++ Added analytics for us to know how many people are using Aurora at a time
 + Faster loading of Dashboard UI in some cases.
 - fixed major memory leak, faster going in and out of Dashboard and Carousel Items
 - fixed bug when unselecting game when its asking if you want to remove game.
 - fixed unable to start loading because no games are favorited
+- fixed removing game from full grid doesn't show add game placeholder
+
 
 
 ////////////////////////////////////////////--------------------------------
