@@ -331,7 +331,7 @@ public class DashboardUI implements AuroraScreenUI {
     private JPanel infoFeedContainer;
 
     private AboutOverlay aboutBox;
-    
+
     private ArrayList<JLabel> infoFeedLabelList;
 
     /**
@@ -458,7 +458,7 @@ public class DashboardUI implements AuroraScreenUI {
 
         infoFeedLabelList = logic.createRssFeed();
         loadInfoFeed(infoFeedLabelList);
-        
+
         infoFeed.setPostCycleListener(new ActionListener() {
 
 			@Override
@@ -468,32 +468,13 @@ public class DashboardUI implements AuroraScreenUI {
 				infoFeedLabelList = logic.refreshRssFeed(infoFeedLabelList);
 				loadInfoFeed(infoFeedLabelList);
 				infoFeed.startScrolling();
-				
+
 			}
-        	
-        	
+
+
         });
 
-/*        int spacerAmount = 20;
-        String seperator = "dash_infoBar_seperator.png";
-        Iterator<JLabel> it = infoFeedLabelList.iterator();
 
-        // go through the AInfoLabelList and add all the labels to the
-        // MarqueePanel
-        while (it.hasNext()) {
-            JLabel label = it.next();
-            label.setFont(new Font("Arial", Font.PLAIN, fontSize));
-            label.setForeground(Color.WHITE);
-            infoFeed.add(Box.createHorizontalStrut(spacerAmount));
-            infoFeed.add(label);
-
-            // if there is another label in the array list, then we add a
-            // separator
-            if (it.hasNext()) {
-                infoFeed.add(Box.createHorizontalStrut(spacerAmount));
-                infoFeed.add(new AImage(seperator));
-            }
-        }*/
 
         // About Box //
         aboutBox = new AboutOverlay(coreUI);
@@ -514,7 +495,7 @@ public class DashboardUI implements AuroraScreenUI {
         dashboardUiLoaded = true;
 
     }
-    
+
     private void loadInfoFeed(ArrayList<JLabel> labelList) {
         int spacerAmount = 20;
         int fontSize = 20;
@@ -537,7 +518,7 @@ public class DashboardUI implements AuroraScreenUI {
                 infoFeed.add(new AImage(seperator));
             }
         }
-    	
+
     }
 
     private void setAllToVisible() {
