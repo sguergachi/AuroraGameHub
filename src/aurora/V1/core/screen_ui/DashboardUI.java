@@ -34,7 +34,6 @@ import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AInfoFeed;
 import aurora.engine.V1.UI.AInfoFeedLabel;
 import aurora.engine.V1.UI.AMarqueePanel;
-import aurora.engine.V1.UI.ScrollText;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -42,9 +41,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -331,6 +331,8 @@ public class DashboardUI implements AuroraScreenUI {
     private JPanel infoFeedContainer;
 
     private AboutOverlay aboutBox;
+    
+    private ArrayList<JLabel> infoFeedLabelList;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -446,17 +448,33 @@ public class DashboardUI implements AuroraScreenUI {
 
         // Marquee Panel Text
         // --------------------------------------------------------------------.
-        ArrayList<JLabel> infoFeedLabelList;
+       // ArrayList<JLabel> infoFeedLabelList;
 
         infoFeed = new AMarqueePanel(infoFeedWidth, infoFeedHeight,
                 "dash_infoBar_bg.png");
         infoFeed.setVisible(false);
 
-        int fontSize = 20;
+      //  int fontSize = 20;
 
         infoFeedLabelList = logic.createRssFeed();
+        loadInfoFeed(infoFeedLabelList);
+        
+        infoFeed.setPostCycleListener(new ActionListener() {
 
-        int spacerAmount = 20;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("refreshing feed");
+				infoFeed.removeAll();
+				infoFeedLabelList = logic.refreshRssFeed(infoFeedLabelList);
+				loadInfoFeed(infoFeedLabelList);
+				infoFeed.startScrolling();
+				
+			}
+        	
+        	
+        });
+
+/*        int spacerAmount = 20;
         String seperator = "dash_infoBar_seperator.png";
         Iterator<JLabel> it = infoFeedLabelList.iterator();
 
@@ -475,7 +493,7 @@ public class DashboardUI implements AuroraScreenUI {
                 infoFeed.add(Box.createHorizontalStrut(spacerAmount));
                 infoFeed.add(new AImage(seperator));
             }
-        }
+        }*/
 
         // About Box //
         aboutBox = new AboutOverlay(coreUI);
@@ -495,6 +513,31 @@ public class DashboardUI implements AuroraScreenUI {
         System.out.println("DashboardUI loaded");
         dashboardUiLoaded = true;
 
+    }
+    
+    private void loadInfoFeed(ArrayList<JLabel> labelList) {
+        int spacerAmount = 20;
+        int fontSize = 20;
+        String seperator = "dash_infoBar_seperator.png";
+        Iterator<JLabel> it = labelList.iterator();
+
+        // go through the AInfoLabelList and add all the labels to the
+        // MarqueePanel
+        while (it.hasNext()) {
+            JLabel label = it.next();
+            label.setFont(new Font("Arial", Font.PLAIN, fontSize));
+            label.setForeground(Color.WHITE);
+            infoFeed.add(Box.createHorizontalStrut(spacerAmount));
+            infoFeed.add(label);
+
+            // if there is another label in the array list, then we add a
+            // separator
+            if (it.hasNext()) {
+                infoFeed.add(Box.createHorizontalStrut(spacerAmount));
+                infoFeed.add(new AImage(seperator));
+            }
+        }
+    	
     }
 
     private void setAllToVisible() {

@@ -40,7 +40,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -393,7 +392,20 @@ public class DashboardLogic implements AuroraScreenLogic {
         return array;
 
     }
+    
+    public ArrayList<JLabel> refreshRssFeed(ArrayList<JLabel> list) {
+    	
+    	ArrayList<JLabel> labelList = list;
+    	
+    	// make the list empty
+    	labelList.clear();
+    	labelList = createRssFeed();
+    	
+		return labelList; 
 
+    }
+    
+    
     /**
      * .-----------------------------------------------------------------------.
      * | launchAuroraApp(ACarouselPane aCarouselPane)
