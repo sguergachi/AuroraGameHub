@@ -174,7 +174,7 @@ public class AboutOverlay {
         addContent();
 
         pnlCenterContainer.setPreferredSize(new Dimension(pnlCenter
-                .getRealImageWidth(), pnlAboutPane.getRealImageHeight() * 2 - 50));
+                .getRealImageWidth(), pnlAboutPane.getRealImageHeight() * 2));
 
         pnlCenter.add(scrollPane);
 
