@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright 2012 Sardonix Creative.
+=======
+ *  Made By Sardonix Creative.
+>>>>>>> origin/dev
  *
  * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -18,9 +22,17 @@
 package aurora.V1.core.screen_logic;
 
 import aurora.V1.core.AuroraCoreUI;
+<<<<<<< HEAD
 import aurora.V1.core.screen_handler.StartScreenHandler;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.StartScreenUI;
+=======
+import aurora.V1.core.main;
+import aurora.V1.core.screen_handler.StartScreenHandler;
+import aurora.V1.core.screen_ui.DashboardUI;
+import aurora.V1.core.screen_ui.StartScreenUI;
+import aurora.engine.V1.Logic.AMixpanelAnalytics;
+>>>>>>> origin/dev
 import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
@@ -37,6 +49,11 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
+<<<<<<< HEAD
+=======
+import java.net.URL;
+import java.net.URLConnection;
+>>>>>>> origin/dev
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.LineUnavailableException;
@@ -215,9 +232,12 @@ public class StartScreenLogic implements AuroraScreenLogic {
 
     private void showDashdoard() {
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> origin/dev
         AThreadWorker loadDashboard = new AThreadWorker(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -253,6 +273,41 @@ public class StartScreenLogic implements AuroraScreenLogic {
 
     }
 
+<<<<<<< HEAD
+=======
+     public boolean checkOnline(String URL) {
+        final URL url;
+        try {
+            url = new URL("http://" + URL);
+            try {
+
+                final URLConnection conn = url.openConnection();
+                conn.connect();
+            } catch (IOException ex) {
+                System.out.println("Computer is NOT online");
+                return false;
+
+
+
+            }
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(StartScreenUI.class
+                    .getName()).log(Level.SEVERE,
+                    null, ex);
+
+        }
+
+        System.out.println("Computer is Online");
+        return true;
+    }
+
+
+    public void sendAnalytics(){
+        AMixpanelAnalytics analytics = new AMixpanelAnalytics("f5f777273e62089193a68f99f4885a55");
+        analytics.sendEvent("LAUNCHED APP " + main.VERSION);
+    }
+
+>>>>>>> origin/dev
     private void setSize() {
 
         topHeight = headerPane.getHeight();

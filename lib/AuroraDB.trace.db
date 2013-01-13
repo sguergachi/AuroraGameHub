@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 05-11 18:20:30 jdbc[1424]: null
 org.h2.message.DbException: The connection was not closed by the application and is garbage collected [90018-164]
 	at org.h2.message.DbException.get(DbException.java:169)
@@ -851,6 +852,9 @@ org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
 10-06 19:00:57 jdbc[2]: exception
 org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
 11-18 20:43:20 jdbc[1400]: null
+=======
+01-13 11:33:59 jdbc[1400]: null
+>>>>>>> origin/dev
 org.h2.message.DbException: The connection was not closed by the application and is garbage collected [90018-167]
 	at org.h2.message.DbException.get(DbException.java:169)
 	at org.h2.message.DbException.get(DbException.java:146)
@@ -868,6 +872,7 @@ org.h2.message.DbException: The connection was not closed by the application and
 Caused by: org.h2.jdbc.JdbcSQLException: The connection was not closed by the application and is garbage collected [90018-167]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
 	... 13 more
+<<<<<<< HEAD
 11-26 22:22:19 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: No data is available [2000-167]
 11-26 22:22:19 jdbc[2]: exception
@@ -2696,3 +2701,5 @@ org.h2.jdbc.JdbcSQLException: The object is already closed [90007-167]
 	at aurora.V1.core.GameSearch.searchGame(GameSearch.java:251)
 	at aurora.V1.core.GameSearch.run(GameSearch.java:346)
 	at java.lang.Thread.run(Thread.java:662)
+=======
+>>>>>>> origin/dev

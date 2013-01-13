@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/dev
 ![](https://raw.github.com/sguergachi/AuroraGameHub/dev/AuroraGameHub_pic.png)
 
 The **Aurora Game Hub** is a slick desktop application
@@ -20,6 +23,7 @@ Currently you need **5** components to build the Aurora Game Hub.
 
 - **Fourth** you need the [H2 Database Engine](http://h2database.com "H2 Database Engine"), which is the current JDBC SQL database Aurora Game Hub uses
 
+<<<<<<< HEAD
 =======
 ![](https://raw.github.com/sguergachi/AuroraGameHub/dev/AuroraGameHub_pic.png)
 
@@ -42,5 +46,7 @@ Currently you need **5** components to build the Aurora Game Hub.
 
 - **Fourth** you need the [H2 Database Engine](http://h2database.com "H2 Database Engine"), which is the current JDBC SQL database Aurora Game Hub uses
 
+>>>>>>> origin/dev
+=======
 >>>>>>> origin/dev
 - **Lastly** you need the AuroraCoverDB.h2 Database which is hosted here on the root directory

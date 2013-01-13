@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright 2012 Sardonix Creative.
+=======
+ *  Made By Sardonix Creative.
+>>>>>>> origin/dev
  *
  * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -17,6 +21,10 @@
  */
 package aurora.V1.core.screen_ui;
 
+<<<<<<< HEAD
+=======
+import aurora.V1.core.AboutOverlay;
+>>>>>>> origin/dev
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.Game;
@@ -33,7 +41,10 @@ import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AInfoFeed;
 import aurora.engine.V1.UI.AInfoFeedLabel;
 import aurora.engine.V1.UI.AMarqueePanel;
+<<<<<<< HEAD
 import aurora.engine.V1.UI.ScrollText;
+=======
+>>>>>>> origin/dev
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -41,7 +52,14 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
+<<<<<<< HEAD
 import java.net.UnknownHostException;
+=======
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+>>>>>>> origin/dev
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -327,6 +345,13 @@ public class DashboardUI implements AuroraScreenUI {
 
     private JPanel infoFeedContainer;
 
+<<<<<<< HEAD
+=======
+    private AboutOverlay aboutBox;
+
+    private ArrayList<JLabel> infoFeedLabelList;
+
+>>>>>>> origin/dev
     /**
      * .-----------------------------------------------------------------------.
      * | DashboardUI(AuroraCoreUI, StartScreenUI)
@@ -441,12 +466,17 @@ public class DashboardUI implements AuroraScreenUI {
 
         // Marquee Panel Text
         // --------------------------------------------------------------------.
+<<<<<<< HEAD
         ArrayList<JLabel> infoFeedLabelList;
+=======
+       // ArrayList<JLabel> infoFeedLabelList;
+>>>>>>> origin/dev
 
         infoFeed = new AMarqueePanel(infoFeedWidth, infoFeedHeight,
                 "dash_infoBar_bg.png");
         infoFeed.setVisible(false);
 
+<<<<<<< HEAD
         int fontSize = 20;
 
         infoFeedLabelList = logic.createRssFeed();
@@ -454,6 +484,55 @@ public class DashboardUI implements AuroraScreenUI {
         int spacerAmount = 20;
         String seperator = "dash_infoBar_seperator.png";
         Iterator<JLabel> it = infoFeedLabelList.iterator();
+=======
+      //  int fontSize = 20;
+
+        infoFeedLabelList = logic.createRssFeed();
+        loadInfoFeed(infoFeedLabelList);
+
+        infoFeed.setPostCycleListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("refreshing feed");
+				infoFeed.removeAll();
+				infoFeedLabelList = logic.refreshRssFeed(infoFeedLabelList);
+				loadInfoFeed(infoFeedLabelList);
+				infoFeed.startScrolling();
+
+			}
+
+
+        });
+
+
+
+        // About Box //
+        aboutBox = new AboutOverlay(coreUI);
+
+
+        // Finalize
+        // --------------------------------------------------------------------.
+
+
+
+        keyArrows = new AImage("KeyboardKeys/arrows.png", coreUI.
+                getKeyIconWidth(), coreUI.getKeyIconHeight());
+
+        lblKeyAction = new JLabel(" Move ");
+
+
+        System.out.println("DashboardUI loaded");
+        dashboardUiLoaded = true;
+
+    }
+
+    private void loadInfoFeed(ArrayList<JLabel> labelList) {
+        int spacerAmount = 20;
+        int fontSize = 20;
+        String seperator = "dash_infoBar_seperator.png";
+        Iterator<JLabel> it = labelList.iterator();
+>>>>>>> origin/dev
 
         // go through the AInfoLabelList and add all the labels to the
         // MarqueePanel
@@ -472,6 +551,7 @@ public class DashboardUI implements AuroraScreenUI {
             }
         }
 
+<<<<<<< HEAD
 
         // Finalize
         // --------------------------------------------------------------------.
@@ -487,6 +567,8 @@ public class DashboardUI implements AuroraScreenUI {
         System.out.println("DashboardUI loaded");
         dashboardUiLoaded = true;
 
+=======
+>>>>>>> origin/dev
     }
 
     private void setAllToVisible() {
@@ -546,6 +628,10 @@ public class DashboardUI implements AuroraScreenUI {
         //* Set bigger Logo to Header *//
         coreUI.getLogoImage().setImgURl("dash_header_logo.png");
         coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
+<<<<<<< HEAD
+=======
+        coreUI.getLogoImage().addMouseListener(new HeaderMouseListener());
+>>>>>>> origin/dev
 
         //* Set bigger background image for Frame Control panel *//
         coreUI.getFrameControlImagePane().setImage(
@@ -621,7 +707,12 @@ public class DashboardUI implements AuroraScreenUI {
 
         infoFeed.startScrolling();
 
+<<<<<<< HEAD
 
+=======
+        // About Box //
+        aboutBox.buildAboutUI();
+>>>>>>> origin/dev
 
 
         //* Add UI to Canvas *//
@@ -699,10 +790,18 @@ public class DashboardUI implements AuroraScreenUI {
                 .add(BorderLayout.WEST, btnCarouselLeft);
 
         infoFeedContainer.add(infoFeed, BorderLayout.NORTH);
+<<<<<<< HEAD
         System.out.println("InfoFeed width " + infoFeed.getPreferredSize().width);
         infoFeed.setPreferredSize(new Dimension(infoFeed.getPreferredSize().width,
                 infoFeed.getImageHeight()));
         infoFeed.setImageSize(infoFeedWidth, infoFeedHeight);
+=======
+
+        infoFeed.setImageSize(infoFeedWidth, infoFeedHeight);
+        infoFeed.setPreferredSize(new Dimension(
+                infoFeed.getPreferredSize().width,
+                infoFeed.getImageHeight()));
+>>>>>>> origin/dev
 
 
         //* Check for Mouse Wheel Rotation *//
@@ -808,14 +907,21 @@ public class DashboardUI implements AuroraScreenUI {
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
             bottomPaneHeightAdjust = coreUI.getBottomPanelSize() / 2 + coreUI.
+<<<<<<< HEAD
                     getFrame().getHeight() / 90 + 25;
+=======
+                    getFrame().getHeight() / 90 + 30;
+>>>>>>> origin/dev
             topPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5 - Ratio
                                                                            / 10;
 
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
+<<<<<<< HEAD
             //infoFeedWidth = coreUI.getFrame().getSize().width
             //                - (carouselButtonWidth * 2 + 60);
+=======
+>>>>>>> origin/dev
             infoFeedWidth = coreUI.getFrame().getSize().width
                             - (carouselButtonWidth * 2 + 27);
             infoFeedHeight = carouselButtonHeight - bottomPaneHeightAdjust / 18;
@@ -831,6 +937,41 @@ public class DashboardUI implements AuroraScreenUI {
 
     }
 
+<<<<<<< HEAD
+=======
+    private class HeaderMouseListener implements MouseListener {
+
+        public HeaderMouseListener() {
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            aboutBox.showAboutBox();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            aboutBox.showAboutBox();
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            coreUI.getLogoImage().setImgURl("dash_header_logo_hover.png");
+            coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            coreUI.getLogoImage().setImgURl("dash_header_logo.png");
+            coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
+        }
+    }
+
+>>>>>>> origin/dev
     // Getters & Setters
     // -----------------------------------------------------------------------.
     /**
@@ -1139,12 +1280,20 @@ public class DashboardUI implements AuroraScreenUI {
         return infoFeed;
     }
 
+<<<<<<< HEAD
         /**
+=======
+    /**
+>>>>>>> origin/dev
      * Get the InfoFeed container instanced in DashboardUI.
      * <p/>
      * @return JPanel
      */
+<<<<<<< HEAD
     public final JPanel getInfoFeedContainer(){
+=======
+    public final JPanel getInfoFeedContainer() {
+>>>>>>> origin/dev
         return infoFeedContainer;
     }
 

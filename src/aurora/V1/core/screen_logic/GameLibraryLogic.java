@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright 2012 Sardonix Creative.
+=======
+ *  Made By Sardonix Creative.
+>>>>>>> origin/dev
  *
  * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -348,7 +352,11 @@ public class GameLibraryLogic implements AuroraScreenLogic {
             libraryUI.getAddGameToLibButtonAnimator()
                     .addPostAnimationListener(new APostHandler() {
                 @Override
+<<<<<<< HEAD
                 public void actionPerformed() {
+=======
+                public void postAction() {
+>>>>>>> origin/dev
                     libraryUI.getAddGameToLibButton().setVisible(false);
                 }
             });

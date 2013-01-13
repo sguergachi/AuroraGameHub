@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Sardonix Creative.
+ * Made By Sardonix Creative.
  *
  * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -492,7 +492,10 @@ public abstract class AuroraApp implements AuroraScreenUI {
                     public boolean dispatchKeyEvent(KeyEvent e) {
 
                         if (e.getKeyChar() == KeyEvent.VK_ESCAPE && isInApp) {
+<<<<<<< HEAD
                             System.out.println("BACK SPACE PRESSED");
+=======
+>>>>>>> origin/dev
                             new BackButtonListener().actionPerformed(null);
                             return true;
                         }

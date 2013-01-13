@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*
  * Copyright 2012 Sardonix Creative.
  *
@@ -914,6 +915,8 @@ public class Game extends aImagePane implements Serializable, Runnable, Cloneabl
     }
 }
 =======
+=======
+>>>>>>> origin/dev
 /*
  * Copyright 2012 Sardonix Creative.
  *
@@ -1050,6 +1053,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private PlayButtonListener playButtonListener;
 
     private boolean isGameRemoveMode;
+<<<<<<< HEAD
+=======
+    private int removeButtonWidth;
+    private int removeButtonSeperation;
+>>>>>>> origin/dev
 
     public Game() {
     }
@@ -1080,7 +1088,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.manager = manager;
         this.setOpaque(false);
         this.setDoubleBuffered(true);
+<<<<<<< HEAD
         // this.setSize();
+=======
+>>>>>>> origin/dev
 
         //DEFAULT CASE
         this.setImage("Blank-Case.png", height, width);
@@ -1098,7 +1109,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.setOpaque(false);
         this.setDoubleBuffered(true);
         this.coverUrl = CoverURL;
+<<<<<<< HEAD
         // this.setSize();
+=======
+>>>>>>> origin/dev
 
         //DEFAULT CASE
         this.setImage("Blank-Case.png", height, width);
@@ -1426,10 +1440,21 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private void setSize() {
         if (coreUI.isLargeScreen()) {
+<<<<<<< HEAD
+=======
+            removeButtonWidth = this.width / 2 - 35;
+            removeButtonSeperation = -removeButtonWidth / 6 + 5;
+>>>>>>> origin/dev
 
             SIZE_BottomPaneHeight = (50 * 2) - 10;
             SIZE_TOPPANE_COMP = 5;
         } else {
+<<<<<<< HEAD
+=======
+            removeButtonWidth = this.width / 2 - 40;
+            removeButtonSeperation = -removeButtonWidth / 6 + 5;
+
+>>>>>>> origin/dev
             SIZE_TOPPANE_COMP = 0;
             SIZE_BottomPaneHeight = (50 * 2) - 10;
         }
@@ -1750,6 +1775,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             gameBarPanel.removeAll();
             confirmButton = new AButton("game_btn_removeYes_norm.png",
                     "game_btn_removeYes_down.png", "game_btn_removeYes_over.png",
+<<<<<<< HEAD
                     120, 55);
             confirmButton.addActionListener(new RemoveGameHandler());
             denyButton = new AButton("game_btn_removeNo_norm.png",
@@ -1758,11 +1784,25 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             denyButton.addActionListener(new CancelRemoveGameHandler());
 
             denyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, -20, -5));
+=======
+                    removeButtonWidth, 55);
+            confirmButton.addActionListener(new RemoveGameHandler());
+            denyButton = new AButton("game_btn_removeNo_norm.png",
+                    "game_btn_removeNo_down.png", "game_btn_removeNo_over.png",
+                    removeButtonWidth, 55);
+            denyButton.addActionListener(new CancelRemoveGameHandler());
+
+            denyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, removeButtonSeperation, -5));
+>>>>>>> origin/dev
             denyPanel.setPreferredSize(new Dimension(135, 55));
             denyPanel.setOpaque(false);
             denyPanel.add(denyButton);
 
+<<<<<<< HEAD
             confirmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, -20, -5));
+=======
+            confirmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, removeButtonSeperation, -5));
+>>>>>>> origin/dev
             confirmPanel.setPreferredSize(new Dimension(175, 55));
             confirmPanel.setOpaque(false);
 
@@ -1782,7 +1822,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     /**
      * .-----------------------------------------------------------------------.
+<<<<<<< HEAD
      * |CancelRemoveGameHandler
+=======
+     * | CancelRemoveGameHandler
+>>>>>>> origin/dev
      * .-----------------------------------------------------------------------.
      * |
      * | Handler when No button selected remove the Confirm Removal overlay
@@ -1875,4 +1919,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 }
+<<<<<<< HEAD
+>>>>>>> origin/dev
+=======
 >>>>>>> origin/dev

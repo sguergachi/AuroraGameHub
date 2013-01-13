@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright 2012 Sardonix Creative.
+=======
+ *  Made By Sardonix Creative.
+>>>>>>> origin/dev
  *
  * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -41,6 +45,10 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+<<<<<<< HEAD
+=======
+import javax.swing.Box;
+>>>>>>> origin/dev
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -388,6 +396,10 @@ public class GameLibraryUI extends AuroraApp {
     private int gridSearchFontSize;
 
     private int addGameFontSize;
+<<<<<<< HEAD
+=======
+    private int bottomTopPadding;
+>>>>>>> origin/dev
 
     /**
      * .-----------------------------------------------------------------------.
@@ -447,7 +459,11 @@ public class GameLibraryUI extends AuroraApp {
 
         //* Selected Game Name Bar *//
         pnlBottomCenterContainer = new JPanel(new FlowLayout(FlowLayout.CENTER,
+<<<<<<< HEAD
                 0, 10));
+=======
+                0, bottomTopPadding));
+>>>>>>> origin/dev
 
         imgSelectedGamePane = new AImagePane("library_selectedGameBar_bg.png",
                 selectedGameBarWidth, selectedGameBarHeight,
@@ -645,11 +661,20 @@ public class GameLibraryUI extends AuroraApp {
                 .setPreferredSize(new Dimension(getDashboardUI()
                 .getInfoFeed().getPreferredSize().width,
                 getDashboardUI().getInfoFeed().getImageHeight()));
+<<<<<<< HEAD
         coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer());
+=======
+        coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer(),
+                BorderLayout.NORTH);
+        coreUI.getBottomContentPane().setPreferredSize(new Dimension(dashboardUI
+                .getInfoFeed().getImageWidth(), dashboardUI.getInfoFeed()
+                .getImageHeight()));
+>>>>>>> origin/dev
         coreUI.getBottomContentPane().revalidate();
 
         //* Set up Bottom Bar *//
         coreUI.getCenterFromBottomPanel().setLayout(new BorderLayout());
+<<<<<<< HEAD
         coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER,
                 pnlBottomCenterContainer);
         coreUI.getCenterFromBottomPanel().add(BorderLayout.SOUTH, coreUI
@@ -658,6 +683,14 @@ public class GameLibraryUI extends AuroraApp {
         coreUI.getBottomContentPane().setPreferredSize(new Dimension(dashboardUI
                 .getInfoFeed().getImageWidth(), dashboardUI.getInfoFeed()
                 .getImageHeight()));
+=======
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.NORTH,
+                pnlBottomCenterContainer);
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, coreUI
+                .getBottomContentPane());
+
+
+>>>>>>> origin/dev
 
         //* Add To Key Action Panel *//
         coreUI.getKeyToPressPanel().add(coreUI.getKeyIconImage());
@@ -1161,7 +1194,11 @@ public class GameLibraryUI extends AuroraApp {
 
         addGameAnimator.addPostAnimationListener(new APostHandler() {
             @Override
+<<<<<<< HEAD
             public void actionPerformed() {
+=======
+            public void postAction() {
+>>>>>>> origin/dev
                 addGameSearchField.requestFocus();
             }
         });
@@ -1176,9 +1213,14 @@ public class GameLibraryUI extends AuroraApp {
             //* Animate Up Add Game UI *//
             addGameAnimator.moveVertical(-485, 33);
             addGameAnimator.addPostAnimationListener(new APostHandler() {
+<<<<<<< HEAD
 
                 @Override
                 public void actionPerformed() {
+=======
+                @Override
+                public void postAction() {
+>>>>>>> origin/dev
                     pnlGlass.setVisible(false);
                 }
             });
@@ -1343,6 +1385,10 @@ public class GameLibraryUI extends AuroraApp {
             listFontSize = 19;
             gridSearchFontSize = 35;
             addGameFontSize = 28;
+<<<<<<< HEAD
+=======
+            bottomTopPadding = 10;
+>>>>>>> origin/dev
 
         } else {
             btnBackWidth = 30;
@@ -1362,6 +1408,10 @@ public class GameLibraryUI extends AuroraApp {
             listFontSize = 19;
             gridSearchFontSize = 35;
             addGameFontSize = 28;
+<<<<<<< HEAD
+=======
+            bottomTopPadding = -4;
+>>>>>>> origin/dev
         }
 
 

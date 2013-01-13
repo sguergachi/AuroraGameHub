@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright 2012 Sardonix Creative.
+=======
+ *  Made By Sardonix Creative.
+>>>>>>> origin/dev
  *
  * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -263,7 +267,11 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
         promptDisplay.setIgnoreRepaint(true);
         promptDisplay.addPost(new APostHandler() {
             @Override
+<<<<<<< HEAD
             public void actionPerformed() {
+=======
+            public void postAction() {
+>>>>>>> origin/dev
                 completedStartUp();
             }
         });
@@ -442,7 +450,11 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                 }
 
                 //* Check if Online *//
+<<<<<<< HEAD
                 if (!checkOnline("auroragamehub.com/aurora-tracker")) {
+=======
+                if (!logic.checkOnline("auroragamehub.com")) {
+>>>>>>> origin/dev
                     Online = false;
                     promptDisplay.add(
                             "I Can't Connect To AuroraDB, Let Me Try Again...",
@@ -452,7 +464,11 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                     // Check if its Users Internet is down
                     // or Aurora Servers are down
                     //*
+<<<<<<< HEAD
                     if (checkOnline("google.com") && !checkOnline(
+=======
+                    if (logic.checkOnline("google.com") && !logic.checkOnline(
+>>>>>>> origin/dev
                             "auroragamehub.com/aurora-tracker")) {
                         promptDisplay
                                 .add(
@@ -460,7 +476,11 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                                 Color.RED);
 
                         //The User is having internet problems
+<<<<<<< HEAD
                     } else if (!checkOnline("google.com")) {
+=======
+                    } else if (!logic.checkOnline("google.com")) {
+>>>>>>> origin/dev
                         promptDisplay.add("Can't Connect To Google...");
                         promptDisplay
                                 .add(
@@ -477,6 +497,11 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
                 }
 
+<<<<<<< HEAD
+=======
+                logic.sendAnalytics();
+
+>>>>>>> origin/dev
 
                 if (!FirstTimeLoad) {
                     //Load Databases
@@ -555,6 +580,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     }
 
+<<<<<<< HEAD
     private boolean checkOnline(String URL) {
         final URL url;
         try {
@@ -580,6 +606,9 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
         System.out.println("Computer is Online");
         return true;
     }
+=======
+
+>>>>>>> origin/dev
 
     private boolean checkUser() {
         if (checkMainDir() && checkSubDir() && checkDBFiles()) {

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright 2012 Sardonix Creative.
+=======
+ * Made By Sardonix Creative.
+>>>>>>> origin/dev
  *
  * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -40,7 +44,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+<<<<<<< HEAD
 import java.net.UnknownHostException;
+=======
+>>>>>>> origin/dev
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -114,6 +121,11 @@ public class DashboardLogic implements AuroraScreenLogic {
 
     private int bufferUntilAmazon;
 
+<<<<<<< HEAD
+=======
+    private String sourceName;
+
+>>>>>>> origin/dev
     /**
      * .-----------------------------------------------------------------------.
      * | DashboardLogic(DashboardUI)
@@ -336,9 +348,26 @@ public class DashboardLogic implements AuroraScreenLogic {
 
                 // Determine the source of the news article //
                 String url = message.getLink();
+<<<<<<< HEAD
                 int i = url.indexOf(".");
                 int j = url.indexOf('.', i + 1);
                 String sourceName = url.substring(i + 1, j);
+=======
+                if (url.contains("www")) {
+                    int i = url.indexOf(".");
+                    int j = url.indexOf('.', i + 1);
+                    sourceName = url.substring(i + 1, j);
+                } else {
+                    int i = url.indexOf("/");
+                    int j = url.indexOf(".");
+                    sourceName = url.substring(i + 2, j);
+                }
+
+                if(sourceName.equalsIgnoreCase("FEEDS")){
+                    sourceName = "IGN";
+                }
+
+>>>>>>> origin/dev
                 label.setSourceName(sourceName.toUpperCase());
 
                 // Check if its an amazon Article //
@@ -380,7 +409,24 @@ public class DashboardLogic implements AuroraScreenLogic {
         return array;
 
     }
+<<<<<<< HEAD
 
+=======
+    
+    public ArrayList<JLabel> refreshRssFeed(ArrayList<JLabel> list) {
+    	
+    	ArrayList<JLabel> labelList = list;
+    	
+    	// make the list empty
+    	labelList.clear();
+    	labelList = createRssFeed();
+    	
+		return labelList; 
+
+    }
+    
+    
+>>>>>>> origin/dev
     /**
      * .-----------------------------------------------------------------------.
      * | launchAuroraApp(ACarouselPane aCarouselPane)

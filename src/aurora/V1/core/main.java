@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Sardonix Creative.
+ * Made By Sardonix Creative.
  *
  * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -18,8 +18,14 @@
 package aurora.V1.core;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import aurora.engine.V1.Logic.aSurface;
 import aurora.engine.V1.UI.aDialog;
+=======
+import aurora.V1.core.screen_ui.StartScreenUI;
+import aurora.engine.V1.Logic.ASurface;
+import aurora.engine.V1.UI.ADialog;
+>>>>>>> origin/dev
 =======
 import aurora.V1.core.screen_ui.StartScreenUI;
 import aurora.engine.V1.Logic.ASurface;
@@ -41,11 +47,16 @@ public class main {
     private static ADialog err;
     private static Font FontRegular;
 <<<<<<< HEAD
+<<<<<<< HEAD
     private static aSurface ressource = null;
 =======
     private static ASurface ressource = null;
 >>>>>>> origin/dev
+=======
+    private static ASurface ressource = null;
+>>>>>>> origin/dev
     private static boolean startMini = false;
+    public static String VERSION = "Alpha 5";
 
     public static void main(String[] args) throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException, FontFormatException {
         if (args.length > 0 && args[0].equals("startup")) {
@@ -81,7 +92,11 @@ public class main {
 
         } else {
 <<<<<<< HEAD
+<<<<<<< HEAD
             ressource = new aSurface("");
+=======
+            ressource = new ASurface("");
+>>>>>>> origin/dev
 =======
             ressource = new ASurface("");
 >>>>>>> origin/dev
