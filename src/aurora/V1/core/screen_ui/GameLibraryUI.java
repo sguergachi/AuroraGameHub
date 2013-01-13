@@ -648,7 +648,7 @@ public class GameLibraryUI extends AuroraApp {
                 .getInfoFeed().getPreferredSize().width,
                 getDashboardUI().getInfoFeed().getImageHeight()));
         coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer(),
-                BorderLayout.CENTER);
+                BorderLayout.NORTH);
         coreUI.getBottomContentPane().setPreferredSize(new Dimension(dashboardUI
                 .getInfoFeed().getImageWidth(), dashboardUI.getInfoFeed()
                 .getImageHeight()));
@@ -656,9 +656,9 @@ public class GameLibraryUI extends AuroraApp {
 
         //* Set up Bottom Bar *//
         coreUI.getCenterFromBottomPanel().setLayout(new BorderLayout());
-        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER,
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.NORTH,
                 pnlBottomCenterContainer);
-        coreUI.getCenterFromBottomPanel().add(BorderLayout.SOUTH, coreUI
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, coreUI
                 .getBottomContentPane());
 
 
@@ -1366,7 +1366,7 @@ public class GameLibraryUI extends AuroraApp {
             listFontSize = 19;
             gridSearchFontSize = 35;
             addGameFontSize = 28;
-            bottomTopPadding = 0;
+            bottomTopPadding = -4;
         }
 
 
