@@ -417,6 +417,7 @@ public class GridManager {
         System.out.println("Number of grids that exist: " + Grids.size());
 
         if ((Grids.size() - 1) > index) {
+        	System.out.println("grid.size is > index");
             for (int i = index; i < Grids.size() - 1; i++) {
                 AGridPanel currentGrid = this.getGrid(i);
                 AGridPanel nextGrid = this.getGrid(i + 1);
@@ -437,12 +438,14 @@ public class GridManager {
 
 
             }
-        } else if (!containsAddPlaceHolders(grid) && Grids.size() == 1) {
+         
+            // finalize the grid if there is no placeholder and it is the last grid in
+            // in the library
+        } else if (((Grids.size() - 1) == index) && (!containsAddPlaceHolders(grid))) {
 
             needFinalizing = true;
 
-        }
-
+        } 
 
         if (needFinalizing) {
 
