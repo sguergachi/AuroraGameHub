@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -388,6 +389,7 @@ public class GameLibraryUI extends AuroraApp {
     private int gridSearchFontSize;
 
     private int addGameFontSize;
+    private int bottomTopPadding;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -447,7 +449,7 @@ public class GameLibraryUI extends AuroraApp {
 
         //* Selected Game Name Bar *//
         pnlBottomCenterContainer = new JPanel(new FlowLayout(FlowLayout.CENTER,
-                0, 10));
+                0, bottomTopPadding));
 
         imgSelectedGamePane = new AImagePane("library_selectedGameBar_bg.png",
                 selectedGameBarWidth, selectedGameBarHeight,
@@ -645,7 +647,11 @@ public class GameLibraryUI extends AuroraApp {
                 .setPreferredSize(new Dimension(getDashboardUI()
                 .getInfoFeed().getPreferredSize().width,
                 getDashboardUI().getInfoFeed().getImageHeight()));
-        coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer());
+        coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer(),
+                BorderLayout.CENTER);
+        coreUI.getBottomContentPane().setPreferredSize(new Dimension(dashboardUI
+                .getInfoFeed().getImageWidth(), dashboardUI.getInfoFeed()
+                .getImageHeight()));
         coreUI.getBottomContentPane().revalidate();
 
         //* Set up Bottom Bar *//
@@ -655,9 +661,7 @@ public class GameLibraryUI extends AuroraApp {
         coreUI.getCenterFromBottomPanel().add(BorderLayout.SOUTH, coreUI
                 .getBottomContentPane());
 
-        coreUI.getBottomContentPane().setPreferredSize(new Dimension(dashboardUI
-                .getInfoFeed().getImageWidth(), dashboardUI.getInfoFeed()
-                .getImageHeight()));
+
 
         //* Add To Key Action Panel *//
         coreUI.getKeyToPressPanel().add(coreUI.getKeyIconImage());
@@ -1176,7 +1180,6 @@ public class GameLibraryUI extends AuroraApp {
             //* Animate Up Add Game UI *//
             addGameAnimator.moveVertical(-485, 33);
             addGameAnimator.addPostAnimationListener(new APostHandler() {
-
                 @Override
                 public void postAction() {
                     pnlGlass.setVisible(false);
@@ -1343,6 +1346,7 @@ public class GameLibraryUI extends AuroraApp {
             listFontSize = 19;
             gridSearchFontSize = 35;
             addGameFontSize = 28;
+            bottomTopPadding = 10;
 
         } else {
             btnBackWidth = 30;
@@ -1362,6 +1366,7 @@ public class GameLibraryUI extends AuroraApp {
             listFontSize = 19;
             gridSearchFontSize = 35;
             addGameFontSize = 28;
+            bottomTopPadding = 0;
         }
 
 
