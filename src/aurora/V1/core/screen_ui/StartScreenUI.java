@@ -316,14 +316,12 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     public ArrayList<String> generatePrompts() {
         System.out.println(fileIO.getPath() + path + "/User Data");
-        try {
-            auroraVI = new ANuance(fileIO
+
+        auroraVI = new ANuance(fileIO
                 .getPath() + "AuroraData/User Data/AIDictionary.txt");
 
-        } catch (IOException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        }
+
+
         ArrayList<String> toDisplayList = new ArrayList<String>();
         if (checkUser()) {
 
@@ -556,8 +554,6 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
         }
 
     }
-
-
 
     private boolean checkUser() {
         if (checkMainDir() && checkSubDir() && checkDBFiles()) {

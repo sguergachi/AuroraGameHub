@@ -1,11 +1,17 @@
 ============AURORA CHANGE LOG==================
-=Current MileStone: >Alpha 5<
-=Author: Sammy Guergachi, Carlos Machado
+=  Current MileStone: >Alpha 5<
+=  Crafted by the Sardonix Creative team
 ===============================================
 
-////////////////////////////////////////////--------------------------------
-//Aurora_Alpha 5  Build:500  Date:1/13/2013  || Sammy Guergachi, Carlos Machado
-////////////////////////////////////////////--------------------------------
+////////////////////////////////////////////------------------------------------
+//Aurora_Alpha 5  Build:578  Date:1/16/2013  || Sammy Guergachi, Carlos Machado
+////////////////////////////////////////////------------------------------------
+- fixed world's stupidest bug that prevented app for launching.
+
+
+////////////////////////////////////////////------------------------------------
+//Aurora_Alpha 5  Build:560  Date:1/13/2013  || Sammy Guergachi, Carlos Machado
+////////////////////////////////////////////------------------------------------
 ++ new Onix 2.0 Surface with Name Change!
 ++ Revamped Info Feed with real gaming news!
 + Cleaned up codebase (faster future development!)
@@ -21,7 +27,6 @@
 - fixed bug when unselecting game when its asking if you want to remove game.
 - fixed unable to start loading because no games are favorited
 - fixed removing game from full grid doesn't show add game placeholder
-
 
 
 ////////////////////////////////////////////--------------------------------
@@ -42,9 +47,9 @@
 -Fixed unable to go to Library by clicking on Game Image instead of Green panel
 -A few minor UI changes
 
-////////////////////////////////////////////--------------------------------
+////////////////////////////////////////////
 //Aurora_r209  Build:425 Date: 06/10/2012 || Sammy Guergachi, Carlos Machado
-////////////////////////////////////////////--------------------------------
+////////////////////////////////////////////
 +Ability to select game while dragging mouse
 +AuroraMini can run while Aurora Loads
 +AuroraMini will load after firstTimeLoad
@@ -62,9 +67,9 @@
 -fixed vista related bug
 
 
-////////////////////////////////////////////--------------------------------
+////////////////////////////////////////////
 //Aurora_r204  Build:410 Date: 05/10/2012 || Sammy Guergachi, Carlos Machado
-////////////////////////////////////////////--------------------------------
+////////////////////////////////////////////
 *******************************************
 **********ALPHA MILESTONE RELEASE**********
 *******************************************
