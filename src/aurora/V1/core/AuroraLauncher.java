@@ -39,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
@@ -288,8 +289,10 @@ public class AuroraLauncher implements Runnable, MouseListener {
         launcherThread.setName("Launch Game Thread");
         //* start run() *//
         AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics("f5f777273e62089193a68f99f4885a55");
-        mixpanelAnalytics.sendEventProperty("Launched Game", "Game being Launched", game.getName());
-        mixpanelAnalytics.sendEventProperty("Launched Game", "Times a game launched", true);
+        mixpanelAnalytics.addProperty("Game being Launched", game.getName());
+        mixpanelAnalytics.addProperty("Times a game launched", true);
+        mixpanelAnalytics.sendEventProperty("Launched Game");
+
         launcherThread.start();
     }
 

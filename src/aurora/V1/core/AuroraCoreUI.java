@@ -632,8 +632,8 @@ public class AuroraCoreUI {
 
         lblTitle = new JLabel(vi.VI(ANuance.inx_Welcome));
         lblTitle.setOpaque(false);
-        lblTitle.setForeground(Color.LIGHT_GRAY);
-        lblTitle.setFont(regularFont.deriveFont(Font.PLAIN, welcomeFontSize));
+        lblTitle.setForeground(Color.GRAY);
+        lblTitle.setFont(regularFont.deriveFont(Font.BOLD, welcomeFontSize));
 
         paneTitle = new JPanel(new FlowLayout(FlowLayout.CENTER));
         paneTitle.setOpaque(false);
@@ -686,7 +686,7 @@ public class AuroraCoreUI {
         paneCenterFromBottom.add(BorderLayout.NORTH,
                 paneHeaderOfCenterFromBottom);
 
-        // USER SPACE
+        // BOTTOM CENTER PANEL
         // ---------------------------------------------------------------------
 
         paneBottomCenterContent = new JPanel();

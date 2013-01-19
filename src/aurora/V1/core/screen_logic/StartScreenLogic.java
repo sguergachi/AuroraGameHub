@@ -283,7 +283,11 @@ public class StartScreenLogic implements AuroraScreenLogic {
 
     public void sendAnalytics(){
         AMixpanelAnalytics analytics = new AMixpanelAnalytics("f5f777273e62089193a68f99f4885a55");
-        analytics.sendEvent("LAUNCHED APP " + main.VERSION);
+        analytics.addProperty("Version", main.VERSION + " b" + coreUI.getBuildNumber());
+        analytics.addProperty("Resolution", coreUI.getScreenHeight() + "x" + coreUI.getScreenWidth());
+        analytics.addProperty("Java Version", System.getProperty("java.version"));
+        analytics.addProperty("OS", System.getProperty("os.name"));
+        analytics.sendEventProperty("Launched Aurora");
     }
 
     private void setSize() {
