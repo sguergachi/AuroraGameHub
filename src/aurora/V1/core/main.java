@@ -40,10 +40,11 @@ public class main {
     public static String VERSION = "Alpha 5";
 
     public static void main(String[] args) throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException, FontFormatException {
-        if (args.length > 0 && args[0].equals("startup")) {
-
+        if (args.length > 0 && args[0].equalsIgnoreCase("startup")) {
+            System.out.println("Start Up Mode");
             startMini = true;
         } else {
+            System.out.println("No start up");
             startMini = false;
         }
 

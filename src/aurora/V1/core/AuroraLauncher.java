@@ -19,6 +19,7 @@ package aurora.V1.core;
 
 import aurora.V1.core.screen_ui.StartScreenUI;
 import aurora.engine.V1.Logic.AAnimate;
+import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.ADialog;
@@ -286,6 +287,9 @@ public class AuroraLauncher implements Runnable, MouseListener {
         }
         launcherThread.setName("Launch Game Thread");
         //* start run() *//
+        AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics("f5f777273e62089193a68f99f4885a55");
+        mixpanelAnalytics.sendEventProperty("Launched Game", "Game being Launched", game.getName());
+        mixpanelAnalytics.sendEventProperty("Launched Game", "Times a game launched", true);
         launcherThread.start();
     }
 
