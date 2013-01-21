@@ -442,9 +442,9 @@ public class AuroraCoreUI {
         // TODO work on Screen Gui Change
 
         screenWidth = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                .getScreenDevices()[1].getDisplayMode().getWidth();
+                .getScreenDevices()[0].getDisplayMode().getWidth();
         screenHeight = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                .getScreenDevices()[1].getDisplayMode().getHeight();
+                .getScreenDevices()[0].getDisplayMode().getHeight();
         
         System.out.println("Current Screen Ressolution: "
                            + screenWidth + "x" + screenHeight);
