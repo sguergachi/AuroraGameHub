@@ -186,12 +186,16 @@ public class AuroraCoreUI {
     /**
      * Size Constant.
      */
-    private int screenWidth;
+    private static int screenWidth;
+    
+    final static int OPTIMAL_SCREEN_WIDTH = 1920;
 
     /**
      * Size Constant.
      */
-    private int screenHeight;
+    private static int screenHeight;
+    
+    final static int OPTIMAL_SCREEN_HEIGHT = 1080;
 
     /**
      * Boolean for whether screen is of larger type or smaller type.
@@ -438,10 +442,10 @@ public class AuroraCoreUI {
         // TODO work on Screen Gui Change
 
         screenWidth = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                .getScreenDevices()[0].getDisplayMode().getWidth();
+                .getScreenDevices()[1].getDisplayMode().getWidth();
         screenHeight = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                .getScreenDevices()[0].getDisplayMode().getHeight();
-
+                .getScreenDevices()[1].getDisplayMode().getHeight();
+        
         System.out.println("Current Screen Ressolution: "
                            + screenWidth + "x" + screenHeight);
 
@@ -1446,5 +1450,13 @@ public class AuroraCoreUI {
 
     public Font getRopaFont() {
         return ropaFont;
+    }
+    
+    public static float getPixelWidthRatio() {
+        return ((float) screenWidth / OPTIMAL_SCREEN_WIDTH);
+    }
+    
+    public static float getPixelHeightRatio() {
+        return ((float) screenHeight / OPTIMAL_SCREEN_HEIGHT);
     }
 }
