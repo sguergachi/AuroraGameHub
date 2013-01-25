@@ -320,7 +320,7 @@ public class GameLibraryUI extends AuroraApp {
 
     private JTextField addGameSearchField;
 
-    private GameSearch GameSearch;
+    private GameSearch gameSearch;
 
     private searchBoxHandler searchBoxHandler;
 
@@ -426,9 +426,11 @@ public class GameLibraryUI extends AuroraApp {
     @Override
     public final void loadUI() {
 
+        setSize();
+
         // Load All UI Components
         // --------------------------------------------------------------------.
-        setSize();
+
         //* Create Components for Library *//
 
         paneLibraryContainer = new JPanel(true);
@@ -867,7 +869,6 @@ public class GameLibraryUI extends AuroraApp {
                 FlowLayout.CENTER));
         pnlAddGameSearchContainer.setOpaque(false);
 
-        GameSearch = new GameSearch(this, CoverDB, storage);
         addGameToLibButton = new AButton("addUI_btnAdd_norm.png",
                 "addUI_btnAdd_down.png", "addUI_btnAdd_over.png");
         addGameToLibButton.setVisible(false);

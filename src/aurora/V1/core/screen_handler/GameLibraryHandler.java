@@ -123,10 +123,10 @@ public class GameLibraryHandler implements
      */
     public GameLibraryHandler(final GameLibraryUI aLibraryUI) {
         this.libraryUI = aLibraryUI;
-
         //* Start Aurora Dabatase connection *//
+        AFileManager fileIO = new AFileManager("AuroraData");
         try {
-            coverDB = new ASimpleDB("AuroraDB", "AuroraTable", false);
+            coverDB = new ASimpleDB("AuroraDB", "AuroraTable", false,fileIO.getPath() + "//");
         } catch (SQLException ex) {
             Logger.getLogger(GameLibraryUI.class.getName()).log(Level.SEVERE,
                     null, ex);

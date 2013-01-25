@@ -31,6 +31,7 @@ import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AProgressWheel;
 import aurora.engine.V1.UI.AScrollingImage;
+import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FontFormatException;
@@ -288,6 +289,8 @@ public class StartScreenLogic implements AuroraScreenLogic {
         analytics.addProperty("Java Version", System.getProperty("java.version"));
         analytics.addProperty("OS", System.getProperty("os.name"));
         analytics.sendEventProperty("Launched Aurora");
+
+        
     }
 
     private void setSize() {
