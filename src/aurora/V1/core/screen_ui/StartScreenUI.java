@@ -386,6 +386,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                     fileIO.setPath(fileIO.getPath() + path);
                     fileIO.createFolder("User Data");
                     fileIO.createFolder("Game Data");
+                    fileIO.createFolder("Log Data");
                     //Load Databases
                     auroraStorage.getStoredLibrary()
                             .setUpDatabase(FirstTimeLoad,
@@ -401,11 +402,13 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
                     //* Check if both Sub folders Exist *//
                 } else if (!checkSubDir()) {
-                    FirstTimeLoad = true;
+                    FirstTimeLoad = false;
                     promptDisplay.add("Unable To Find Subfolders");
                     promptDisplay.add("Attempting to Create New Ones...");
+                    fileIO.setPath(fileIO.getPath() + path);
                     fileIO.createFolder("User Data");
                     fileIO.createFolder("Game Data");
+                    fileIO.createFolder("Log Data");
 
                     //Load Databases
                     auroraStorage.getStoredLibrary()
@@ -574,7 +577,8 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private boolean checkSubDir() {
         if (fileIO.checkFile(fileIO.getPath() + path + "/User Data") && fileIO.
-                checkFile(fileIO.getPath() + path + "/Game Data")) {
+                checkFile(fileIO.getPath() + path + "/Game Data")&& fileIO.
+                checkFile(fileIO.getPath() + path + "/Log Data")) {
             return true;
         } else {
             return false;
