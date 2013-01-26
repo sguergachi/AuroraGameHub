@@ -323,7 +323,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
 
         ArrayList<String> toDisplayList = new ArrayList<String>();
-        if (checkUser()) {
+        if (checkMainDir()) {
 
 
             toDisplayList.add(auroraVI.VI(ANuance.inx_Greeting) + " " + fileIO.
@@ -337,7 +337,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
             toDisplayList
                     .add(
-                    auroraVI.VI(ANuance.inx_Welcome) + " to Aurora Game Manager");
+                    auroraVI.VI(ANuance.inx_Welcome) + " to Aurora Game Hub");
 
             toDisplayList.add(
                     auroraVI.VI(ANuance.inx_Preparing) + " for First Time Use");
@@ -422,7 +422,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                             fileIO.getPath() + "/User Data/");
 
                 } else if (!checkDBFiles()) {
-                    FirstTimeLoad = true;
+                    FirstTimeLoad = false;
                     promptDisplay.add("Unable To Find a Data Files");
                     promptDisplay.add("Attempting to Create New Ones...");
                     //Load Databases
