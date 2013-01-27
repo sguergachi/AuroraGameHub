@@ -126,7 +126,7 @@ public class GameLibraryHandler implements
         //* Start Aurora Dabatase connection *//
         AFileManager fileIO = new AFileManager("AuroraData");
         try {
-            coverDB = new ASimpleDB("AuroraDB", "AuroraTable", false,fileIO.getPath() + "//");
+            coverDB = new ASimpleDB("AuroraDB", "AuroraTable", false, System.getProperty("user.home") + "//AuroraData//");
         } catch (SQLException ex) {
             Logger.getLogger(GameLibraryUI.class.getName()).log(Level.SEVERE,
                     null, ex);

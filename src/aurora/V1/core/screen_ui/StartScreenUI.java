@@ -93,7 +93,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     public static boolean Online = false;
 
-    private String path = "AuroraData";
+    private String path = "//AuroraData//";
 
     private JPanel pnlUserButton;
 
@@ -204,7 +204,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
         imgHexPane.setIgnoreRepaint(true);
         imgHexPane.setDoubleBuffered(true);
 
-        fileIO = new AFileManager("");
+        fileIO = new AFileManager(System.getProperty("user.home"));
         loadingPane = new JPanel();
         loadingPane.setLayout(new BorderLayout());
         loadingPane.setOpaque(false);
@@ -317,8 +317,8 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     public ArrayList<String> generatePrompts() {
         System.out.println(fileIO.getPath() + path + "/User Data");
 
-        auroraVI = new ANuance(fileIO
-                .getPath() + "AuroraData/User Data/AIDictionary.txt");
+        auroraVI = new ANuance(System.getProperty("user.home")
+                               + "AuroraData/User Data/AIDictionary.txt");
 
 
 
@@ -378,7 +378,11 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                 auroraStorage = new AuroraStorage();
                 Boolean FirstTimeLoad = false;
 
-                //* Check if Main Folder "AuroraData" Exists *//
+                // Back-Compatible, Check if folder is in My Documents //
+
+                backCheckMyDoc();
+
+                // Check if Main Folder "AuroraData" Exists //
                 if (!checkMainDir()) {
 
                     FirstTimeLoad = true;
@@ -558,6 +562,12 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     }
 
+    private void backCheckMyDoc() {
+       if(fileIO.checkFile(fileIO.getMyDocPath()+path)){
+           fileIO.moveFolder(fileIO.getMyDocPath()+path, fileIO.getPath()+"//AuroraData//");
+       }
+    }
+
     private boolean checkUser() {
         if (checkMainDir() && checkSubDir() && checkDBFiles()) {
             return true;
@@ -577,7 +587,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private boolean checkSubDir() {
         if (fileIO.checkFile(fileIO.getPath() + path + "/User Data") && fileIO.
-                checkFile(fileIO.getPath() + path + "/Game Data")&& fileIO.
+                checkFile(fileIO.getPath() + path + "/Game Data") && fileIO.
                 checkFile(fileIO.getPath() + path + "/Log Data")) {
             return true;
         } else {
@@ -594,6 +604,8 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
             return false;
         }
     }
+
+
 
     public FrameKeyListener getStartKeyHandler() {
         return startKeyHandler;
@@ -626,4 +638,6 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     public AuroraCoreUI getCoreUI() {
         return coreUI;
     }
+
+
 }
