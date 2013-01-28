@@ -43,8 +43,8 @@ public class main {
     static final Logger logger = Logger.getLogger(main.class);
 
     public static void main(String[] args) throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException, FontFormatException {
-        System.out.println("User Home:= " + System.getProperty("user.home"));
-    	if (args.length > 0 && args[0].equalsIgnoreCase("startup")) {
+
+    	if (args.length > 0 && args[0].equalsIgnoreCase("Startup")) {
         	logger.info("Start Up Mode");
             startMini = true;
         } else {
