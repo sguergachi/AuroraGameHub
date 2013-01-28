@@ -52,8 +52,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -64,6 +62,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
+import org.apache.log4j.Logger;
 
 /**
  * .------------------------------------------------------------------------.
@@ -389,6 +388,8 @@ public class AuroraCoreUI {
     private AFileManager fileIO;
 
     private Font ropaFont;
+    
+    static final Logger logger = Logger.getLogger(AuroraCoreUI.class);
 
     /**
      * .-----------------------------------------------------------------------.
@@ -451,8 +452,7 @@ public class AuroraCoreUI {
         screenHeight = GraphicsEnvironment.getLocalGraphicsEnvironment()
                 .getScreenDevices()[0].getDisplayMode().getHeight();
 
-        System.out.println("Current Screen Ressolution: "
-                           + screenWidth + "x" + screenHeight);
+        logger.info("Current Screen Resolution: " + screenWidth + "x" + screenHeight);
 
         //*
         // Check the resolution (in pixels) of the screen to
@@ -465,8 +465,10 @@ public class AuroraCoreUI {
         }
 
         // LargeScreen = false;
-        System.out.println("High Resolution Boolean = " + isLargeScreen);
-
+        if (logger.isDebugEnabled()) {
+        	logger.debug("High Resolution Boolean = " + isLargeScreen);
+        }
+        
         //* Set Size For UI *//
 
         setSizes();
@@ -500,7 +502,7 @@ public class AuroraCoreUI {
                         "/aurora/V1/resources/RopaSans-Regular.TTF"));
 
             } catch (Exception exx) {
-                System.out.println("ERROR In Getting Font Resourcess");
+            	logger.error("ERROR In Getting Font Resources");
             }
         }
 
@@ -561,7 +563,7 @@ public class AuroraCoreUI {
 
         // Create V.I
         fileIO = new AFileManager("");
-        System.out.println(fileIO.getPath() + "AuroraData/User Data/");
+        logger.info(fileIO.getPath() + "AuroraData/User Data/");
 
         try {
             vi = new ANuance(
@@ -883,17 +885,13 @@ public class AuroraCoreUI {
         try {
             backgrounSFX = new ASound(ASound.sfxTheme, true);
         } catch (MalformedURLException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         } catch (IOException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         } catch (LineUnavailableException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
     }
 
@@ -934,18 +932,14 @@ public class AuroraCoreUI {
             try {
                 setSFX();
             } catch (InterruptedException ex) {
-                Logger.getLogger(AuroraCoreUI.class.getName()).log(Level.SEVERE,
-                        null, ex);
+            	logger.error(ex);
             }
         } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(AuroraCoreUI.class.getName()).log(Level.SEVERE,
-                    null, ex);
+        	logger.error(ex);
         } catch (IOException ex) {
-            Logger.getLogger(AuroraCoreUI.class.getName()).log(Level.SEVERE,
-                    null, ex);
+        	logger.error(ex);
         } catch (LineUnavailableException ex) {
-            Logger.getLogger(AuroraCoreUI.class.getName()).log(Level.SEVERE,
-                    null, ex);
+        	logger.error(ex);
         }
 
     }
@@ -956,7 +950,7 @@ public class AuroraCoreUI {
         try {
             msg = resourceBundle.getString(propertyToken);
         } catch (MissingResourceException e) {
-            System.err.println("Token ".concat(propertyToken).concat(
+        	logger.error("Token ".concat(propertyToken).concat(
                     " not in Property file!"));
         }
         return msg;
@@ -1013,12 +1007,9 @@ public class AuroraCoreUI {
         @Override
         public void windowClosing(WindowEvent e) {
 
-
             analytics.addProperty("End Time", ATimeLabel.current(
                     ATimeLabel.TIME_PLUS) + " <");
             analytics.sendEventProperty("Aurora Session");
-
-
 
         }
 
@@ -1071,7 +1062,10 @@ public class AuroraCoreUI {
 
         @Override
         public void windowGainedFocus(WindowEvent e) {
-            System.out.println("FOCUS GAINED");
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("FOCUS GAINED");
+        	}
+        	
             if (wasVisible) {
                 glass.remove(paneUnfocused);
                 glass.repaint();
@@ -1085,7 +1079,11 @@ public class AuroraCoreUI {
 
         @Override
         public void windowLostFocus(WindowEvent e) {
-            System.out.println("FOCUS LOST");
+            
+            if (logger.isDebugEnabled()) {
+        		logger.debug("FOCUS LOST");
+        	}
+            
             if (frame.getGlassPane().isVisible()) {
                 glass.setLayout(null);
                 wasVisible = true;

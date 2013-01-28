@@ -20,6 +20,7 @@ package aurora.V1.core.screen_logic;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.Game;
+import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.DashboardHandler;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.GameLibraryUI;
@@ -44,10 +45,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
+
+import org.apache.log4j.Logger;
 
 /**
  * .------------------------------------------------------------------------.
@@ -114,6 +117,8 @@ public class DashboardLogic implements AuroraScreenLogic {
     private int bufferUntilAmazon;
 
     private String sourceName;
+    
+    static final Logger logger = Logger.getLogger(DashboardLogic.class);
 
     /**
      * .-----------------------------------------------------------------------.
@@ -175,7 +180,10 @@ public class DashboardLogic implements AuroraScreenLogic {
         AImagePane icon;
 
         //* Double check there are no games in Storage *//
-        System.out.println(storage);
+        if (logger.isDebugEnabled()) {
+        	logger.debug(storage);
+        }
+
         if (storage.getStoredLibrary().getBoxArtPath() == null || storage.
                 getStoredLibrary().getBoxArtPath().isEmpty()) {
 
@@ -202,15 +210,17 @@ public class DashboardLogic implements AuroraScreenLogic {
             try {
                 randomGame.update();
             } catch (MalformedURLException ex) {
-                Logger.getLogger(DashboardUI.class.getName()).log(Level.SEVERE,
-                        null, ex);
+            	logger.error(ex);
             }
 
             //* Disable overlay UI of Game *//
             randomGame.removeInteraction();
             //* Instead, when clicking on game, launch appropriate App *//
 
-            System.out.println("ADDING MOUSE LISTENER TO COVER");
+            if (logger.isDebugEnabled()) {
+            	logger.debug("ADDING MOUSE LISTENER TO COVER");	
+            }
+            
             randomGame.getInteractivePane().
                     addMouseListener(
                     dashboardHandler.new CarouselLibraryMouseListener());
@@ -307,7 +317,7 @@ public class DashboardLogic implements AuroraScreenLogic {
                 rssFeedAvailable = true;
 
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+            	logger.error(e);
             } catch (IOException ioe) {
                 JLabel label = new JLabel("Please connect to the Internet...");
                 internetConnectionUp = false;
@@ -538,8 +548,10 @@ public class DashboardLogic implements AuroraScreenLogic {
                 settingsUI.loadUI();
 
 
+                if (logger.isDebugEnabled()) {
+                	logger.debug("Apps Pre Loaded");
+                }
 
-                System.out.println("Apps Pre Loaded");
             }
         });
 

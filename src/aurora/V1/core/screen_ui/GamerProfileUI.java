@@ -17,8 +17,11 @@
  */
 package aurora.V1.core.screen_ui;
 
+import org.apache.log4j.Logger;
+
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.main;
 
 /**
  *
@@ -30,6 +33,8 @@ public class GamerProfileUI extends AuroraApp {
     private final DashboardUI dashboardUI;
 
     private final AuroraCoreUI coreUI;
+    
+    static final Logger logger = Logger.getLogger(GamerProfileUI.class);
 
     public GamerProfileUI(DashboardUI dahsboardUi, AuroraCoreUI auroraCoreUi) {
 

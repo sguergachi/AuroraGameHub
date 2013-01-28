@@ -44,6 +44,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneLayout;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -82,6 +83,8 @@ public class AboutOverlay {
     private AImagePane imgLogo;
 
     private JPanel pnlCenterContainer;
+    
+    static final Logger logger = Logger.getLogger(AboutOverlay.class);
 
     public AboutOverlay(AuroraCoreUI CoreUI) {
 
@@ -133,24 +136,18 @@ public class AboutOverlay {
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
 
-
-
         // Components //
 
         pnlVersion = new JPanel();
         pnlVersion.setOpaque(false);
         pnlVersion.setLayout(new BoxLayout(pnlVersion, BoxLayout.Y_AXIS));
 
-
         lblVersion = new ASlickLabel(main.VERSION);
         lblBuild = new ASlickLabel("build: " + buildNumber.trim());
-
 
     }
 
     public void buildAboutUI() {
-
-
 
         // Top Panel //
         lblVersion.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN, 46));
@@ -206,6 +203,7 @@ public class AboutOverlay {
     }
 
     public void showAboutBox() {
+    	
         pnlGlass.add(pnlAboutPane);
         pnlGlass.setLayout(null);
         pnlGlass.setOpaque(false);
@@ -236,8 +234,6 @@ public class AboutOverlay {
                 }
             });
 
-
-
             isAboutVisible = false;
         }
     }
@@ -262,11 +258,9 @@ public class AboutOverlay {
 
         pnlCenterContainer.add(pnlMadeBy);
 
-
         // Seperator //
         AImage seperator1 = new AImage("app_seperator.png");
         pnlCenterContainer.add(seperator1);
-
 
         // Code Credit //
 
@@ -319,14 +313,11 @@ public class AboutOverlay {
         pnlCodeCredit.add(lblh2Database);
         pnlCodeCredit.add(lblJSONParser);
 
-
         pnlCenterContainer.add(pnlCodeCredit);
-
 
         // Seperator //
         AImage seperator2 = new AImage("app_seperator.png");
         pnlCenterContainer.add(seperator2);
-
 
         // Special Thanks //
 
@@ -420,12 +411,6 @@ public class AboutOverlay {
 
         pnlCenterContainer.add(pnlLicense);
 
-
-
-
-
-
-
     }
 
     private class AboutBoxFocusListener implements FocusListener {
@@ -435,13 +420,20 @@ public class AboutOverlay {
 
         @Override
         public void focusGained(FocusEvent e) {
-            System.out.println("About Box Focus");
+
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("About Box Focus");
+        	}
+
         }
 
         @Override
         public void focusLost(FocusEvent e) {
 
-            System.out.println("Hide About Box");
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("Hide About Box");
+        	}
+
             hideAboutBox();
         }
     }

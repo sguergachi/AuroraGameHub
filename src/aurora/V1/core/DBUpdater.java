@@ -23,8 +23,7 @@ import aurora.engine.V1.Logic.ASimpleDB;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 /**
  * Currently used to update the AuroraCoverDB with the GameDB.txt
@@ -36,6 +35,7 @@ public final class DBUpdater {
 
     private ArrayList<String> AuroraGamesList;
     private ASimpleDB db;
+    static final Logger logger = Logger.getLogger(DBUpdater.class);
 
     public static void main(String[] args) {
         new DBUpdater();
@@ -45,7 +45,7 @@ public final class DBUpdater {
         try {
             updateAuroraCoverDB();
         } catch (SQLException ex) {
-            Logger.getLogger(DBUpdater.class.getName()).log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
     }
 
@@ -55,23 +55,26 @@ public final class DBUpdater {
             db.addColumn("AuroraTable", "Game_Name", ASimpleDB.TYPE_STRING_IGNORECASE);
             db.addColumn("AuroraTable", "File_Name", ASimpleDB.TYPE_STRING_IGNORECASE);
         } catch (SQLException ex) {
-            Logger.getLogger(DBUpdater.class.getName()).log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
 
         AFileManager fileMngr;
         try {
 
-            fileMngr = new AFileManager(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().toString() + "aurora/V1/resources/", true);
+            fileMngr = new AFileManager(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().toString() + "aurora/V1/resources/");
             AuroraGamesList = fileMngr.readFile("GameDB.txt");
 
 
         } catch (URISyntaxException ex) {
-            Logger.getLogger(DBUpdater.class.getName()).log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
 
         int count = 0;
-        System.out.println(AuroraGamesList.size());
-        System.out.println(AuroraGamesList.get(AuroraGamesList.size() - 1));
+        if (logger.isDebugEnabled()) {
+        	logger.debug(AuroraGamesList.size());
+        	logger.debug(AuroraGamesList.get(AuroraGamesList.size() - 1));
+        }
+
         while (count < AuroraGamesList.size() - 1) {
             AuroraGamesList.set(count, AuroraGamesList.get(count).replace("'", "''"));
             String file1 = AuroraGamesList.get(count).replace(" - ", " ");
@@ -80,8 +83,6 @@ public final class DBUpdater {
             db.addRow("AuroraTable", Integer.toString(count) + ",'" + AuroraGamesList.get(count).replace(" - ", " ") + "','" + file + "'");
             count++;
         }
-
-
 
     }
 }

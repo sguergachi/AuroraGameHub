@@ -28,11 +28,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.Serializable;
 import java.net.MalformedURLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -136,13 +136,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private boolean isGameRemoveMode;
     private int removeButtonWidth;
     private int removeButtonSeperation;
+    
+    static final Logger logger = Logger.getLogger(Game.class);
 
     public Game() {
     }
 
     public Game(final GridManager gridManager, final AuroraCoreUI auroraCoreUI,
                 final DashboardUI dashboardUi) {
-
 
         this.dashboardUi = dashboardUi;
         this.coreUI = auroraCoreUI;
@@ -154,13 +155,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.setImage("Blank-Case.png", height, width);
         this.setPreferredSize(new Dimension(width, height));
 
-
-
     }
 
     public Game(final GridManager manager, final AuroraCoreUI ui,
                 final DashboardUI obj, final AuroraStorage storage) {
-        this.dashboardUi = obj;
+    
+    	this.dashboardUi = obj;
         this.coreUI = ui;
         this.storage = storage;
         this.manager = manager;
@@ -170,8 +170,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         //DEFAULT CASE
         this.setImage("Blank-Case.png", height, width);
         this.setPreferredSize(new Dimension(width, height));
-
-
 
     }
 
@@ -188,11 +186,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.setImage("Blank-Case.png", height, width);
         this.setPreferredSize(new Dimension(width, height));
 
-
     }
 
     public Game(final String CoverURL, final DashboardUI obj) {
-
 
         this.setOpaque(false);
         this.coreUI = obj.getCoreUI();
@@ -203,11 +199,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.setImage("Blank-Case.png", height, width);
         this.setPreferredSize(new Dimension(width, height));
 
-
     }
 
     public Game(final DashboardUI obj) {
-
 
         this.setOpaque(false);
         this.dashboardUi = obj;
@@ -217,11 +211,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.setImage("Blank-Case.png", height, width);
         this.setPreferredSize(new Dimension(width, height));
 
-
     }
 
     public final void update() throws MalformedURLException {
-
 
         interactivePanel = new JPanel(new BorderLayout());
         interactivePanel.setOpaque(false);
@@ -329,7 +321,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         favoriteButtonPanel.revalidate();
 
-        System.out.println("pane width " + width);
+        if (logger.isDebugEnabled()) {
+        	logger.debug("pane width " + width);
+        }
 
     }
 
@@ -360,7 +354,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                     if (StartScreenUI.Online) {
                         dbErrorDialog = null;
-                        System.out.println(coverUrl);
+                        if (logger.isDebugEnabled()) {
+                        	logger.debug(coverUrl);
+                        }
+
                         coverImagePane.setURL(rootCoverDBPath + coverUrl);
 
                         //Set Background accordingly
@@ -397,8 +394,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     }
 
                 } catch (Exception ex) {
-                    Logger.getLogger(Game.class.getName()).log(Level.SEVERE,
-                            null, ex);
+                	logger.error(ex);
                 }
             }
         }
@@ -509,6 +505,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     private void setSize() {
+    	
         if (coreUI.isLargeScreen()) {
             removeButtonWidth = this.width / 2 - 35;
             removeButtonSeperation = -removeButtonWidth / 6 + 5;
@@ -522,7 +519,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             SIZE_TOPPANE_COMP = 0;
             SIZE_BottomPaneHeight = (50 * 2) - 10;
         }
-        System.out.println("OVERLAY HEIGHT " + SIZE_BottomPaneHeight);
+        
+        if (logger.isDebugEnabled()) {
+        	logger.debug("OVERLAY HEIGHT " + SIZE_BottomPaneHeight);
+        }
+
     }
 
     public final void removePreviousSelected() {
@@ -568,7 +569,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public final void unselected() {
-        if (isSelected) {
+        
+    	if (isSelected) {
 
             if (isGameRemoveMode) {
 
@@ -583,9 +585,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             this.repaint();
             this.revalidate();
 
-
-
         }
+    	
     }
 
     // Future method to be used to set isSelected variable
@@ -602,19 +603,22 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     public final void displayInteractiveComponents() {
 
         interactivePanel.setSize(width + 47, height + 28);
-        System.out.println("INTERACTIVE SIZE " + interactivePanel.getWidth()
-                           + " " + interactivePanel.getHeight());
+        
+        if (logger.isDebugEnabled()) {
+        	logger.debug("INTERACTIVE SIZE " + interactivePanel.getWidth()
+                    + " " + interactivePanel.getHeight());
+        }
 
         showRemove();
         gameBarImagePane.setVisible(true);
         selected();
         GameLibraryUI.lblGameName.setText(getName());
 
-
     }
 
     public final void setFavorite() {
-        isFavorite = true;
+        
+    	isFavorite = true;
         if (isLoaded) {
             favoriteIconImagePane.setVisible(true);
             interactivePanel.revalidate();
@@ -773,7 +777,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         try {
             return (Game) this.clone();
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        	logger.error(ex);
             return null;
         }
     }
@@ -783,7 +787,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public final void setGamePath(final String path) {
-        System.out.println("Game path = " + path);
+    	
+    	if (logger.isDebugEnabled()) {
+    		logger.debug("Game path = " + path);
+    	}
+
         this.gamePath = path;
     }
 
@@ -795,7 +803,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-            System.out.println("Favourite button pressed.");
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("Favourite button pressed");
+        	}
+
             if (isFavorite) {
                 unfavorite();
                 storage.getStoredLibrary().SaveFavState(thisGame());
@@ -814,7 +825,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         @Override
         public void actionPerformed(final ActionEvent e) {
 
-            System.out.println("Play button pressed.");
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("Play button pressed");
+        	}
+            
             launcher = new AuroraLauncher(coreUI);
 
             launcher.launchGame(copy());
@@ -854,9 +868,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             confirmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, removeButtonSeperation, -5));
             confirmPanel.setPreferredSize(new Dimension(175, 55));
             confirmPanel.setOpaque(false);
-
             confirmPanel.add(confirmButton);
-
 
             gameBarPanel.add(denyPanel);
             gameBarPanel.add(confirmPanel);
@@ -864,7 +876,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             unselected();
             isGameRemoveMode = true;
             gameBarImagePane.setVisible(true);
-
 
         }
     }
@@ -901,8 +912,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-            System.out.println("Remove button pressed for " + Game.this
-                    .getName());
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("Remove button pressed for " + Game.this.getName());
+        	}
+
             AuroraStorage storage = dashboardUi.getStorage();
             StoredLibrary library = storage.getStoredLibrary();
             library.search(name);
@@ -926,7 +939,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     hideInteraction();
                     gameBarImagePane.setVisible(false);
                     unselected();
-                    System.out.println("GAME UNSELECTED");
+                    if (logger.isDebugEnabled()) {
+                		logger.debug("GAME UNSELECTED");
+                	}
+                    
                 } else {
 
                     removePreviousSelected();

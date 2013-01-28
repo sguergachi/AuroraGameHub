@@ -17,8 +17,11 @@
  */
 package aurora.V1.core.screen_ui;
 
+import org.apache.log4j.Logger;
+
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.main;
 
 /**
  * Settings GUI
@@ -30,6 +33,8 @@ public class SettingsUI extends AuroraApp {
     private final DashboardUI dashboardUI;
 
     private final AuroraCoreUI coreUI;
+    
+    static final Logger logger = Logger.getLogger(SettingsUI.class);
 
     public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 

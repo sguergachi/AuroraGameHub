@@ -22,6 +22,7 @@ import aurora.engine.V1.UI.AGridPanel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JComponent;
+import org.apache.log4j.Logger;
 
 /**
  * GridManager An array of aGridPanels Provides methods to manipulate and get
@@ -56,6 +57,8 @@ public class GridManager {
     private boolean isTransitioningGame;
 
     private int visibleGrid;
+    
+    static final Logger logger = Logger.getLogger(GridManager.class);
 
     /**
      * Manages GridPanels for GameLibrary
@@ -99,25 +102,32 @@ public class GridManager {
 
                     Grids.get(i).addToGrid(game);
                     isTransitioningGame = false; // Is Not Being Added to next Grid
-                    System.out.println("Added Game To GridPanel: " + game
-                            .getName());
-                    System.out.println("to Grid " + i);
+                    
+                    if (logger.isDebugEnabled()) {
+                    	logger.debug("Added Game To GridPanel: " + game.getName());
+                    	logger.debug("to Grid " + i);
+                    }
 
                 } else if (containsPlaceHolders(Grids.get(i))) {
 
                     replacePlaceHolder(Grids.get(i), game, listener);
 
                 } else {
-                    System.out.println("FAILED To add: " + game.getName());
-                    System.out.println("Grid " + i + " is Full!");
+                	if (logger.isDebugEnabled()) {
+                		logger.debug("FAILED To add: " + game.getName());
+                		logger.debug("Grid " + i + " is Full!");
+                	}
+
                     fullGrids++;
                     //when Full make new Grid
                     if (fullGrids == Grids.size()) {
                         createGrid(row, col, Grids.size());
                         Grids.get(Grids.size() - 1).addToGrid(game);
                         isTransitioningGame = true; // Is Being Added to next Grid
-                        System.out.println("Added Game: " + game.getName());
-                        System.out.println("to Grid " + (Grids.size() - 1));
+                        if (logger.isDebugEnabled()) {
+                        	logger.debug("Added Game: " + game.getName());
+                        	logger.debug("to Grid " + (Grids.size() - 1));
+                        }
 
                     }
                 }
@@ -246,7 +256,9 @@ public class GridManager {
         for (int i = 0; i < Grids.size(); i++) {
 
             try {
-                System.out.println("Clearing Grid... " + i);
+            	if (logger.isDebugEnabled()) {
+            		logger.debug("Clearing Grid... " + i);
+            	}
 
                 Grids.get(i).getArray().clear();
                 Grids.get(i).update();
@@ -254,7 +266,7 @@ public class GridManager {
 
 
             } catch (RuntimeException ex) {
-                System.err.println(ex);
+            	logger.error(ex);
             }
 
         }
@@ -304,8 +316,11 @@ public class GridManager {
     public boolean gameExists(Game game) {
 
         for (int i = 0; i < Grids.size(); i++) {
-            System.out.println("GameName " + game.getName());
-            System.out.println(Grids.get(i).find(game));
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("GameName " + game.getName());
+        		logger.debug(Grids.get(i).find(game));
+        	}
+
             if (Grids.get(i).find(game) != -1) {
                 return true;
             }
@@ -401,8 +416,11 @@ public class GridManager {
 
         // get the grid location of where the game is contained
         int[] gridLocation = this.findGame(game);
-        System.out.println("Game as found in grid location: " + gridLocation[0]
-                           + "," + gridLocation[1]);
+        
+        if (logger.isDebugEnabled()) {
+        	logger.debug("Game as found in grid location: " + gridLocation[0]
+                    + "," + gridLocation[1]);
+        }
 
         // grab the index of where the grid is located in the manager
         int index = gridLocation[0];
@@ -417,7 +435,11 @@ public class GridManager {
         System.out.println("Number of grids that exist: " + Grids.size());
 
         if ((Grids.size() - 1) > index) {
-        	System.out.println("grid.size is > index");
+        	
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("grid.size is > index");
+        	}
+        	
             for (int i = index; i < Grids.size() - 1; i++) {
                 AGridPanel currentGrid = this.getGrid(i);
                 AGridPanel nextGrid = this.getGrid(i + 1);
@@ -434,8 +456,6 @@ public class GridManager {
                         needFinalizing = true;
                     }
                 }
-
-
 
             }
          
@@ -456,7 +476,6 @@ public class GridManager {
         }
 
         grid.update();
-
 
     }
 

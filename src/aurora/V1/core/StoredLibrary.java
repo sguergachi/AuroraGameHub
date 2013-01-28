@@ -22,8 +22,8 @@ import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.Logic.AStorage;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 /**
  * Contains all of the Games Currently In The Library
@@ -41,6 +41,7 @@ public class StoredLibrary extends AStorage {
     private String GamePath;
     private String BoxArtPath;
     private Boolean Favestate = false;
+    static final Logger logger = Logger.getLogger(StoredLibrary.class);
 
     public StoredLibrary() {
     }
@@ -55,7 +56,7 @@ public class StoredLibrary extends AStorage {
         try {
             super.db = new ASimpleDB("Games", Path);
         } catch (SQLException ex) {
-            Logger.getLogger(StoredLibrary.class.getName()).log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
 
         //If this is the first time we are setting up the database
@@ -70,7 +71,7 @@ public class StoredLibrary extends AStorage {
                 db.addColumn("Library", "BoxArt_Path", ASimpleDB.TYPE_STRING_IGNORECASE);
                 db.addColumn("Library", "FavState", ASimpleDB.TYPE_BOOLEAN);
             } catch (SQLException ex) {
-                Logger.getLogger(StoredLibrary.class.getName()).log(Level.SEVERE, null, ex);
+            	logger.error(ex);
             }
 
         }
@@ -80,7 +81,6 @@ public class StoredLibrary extends AStorage {
      * Do not use
      */
     public void SaveLibrary(GameLibraryUI library) {
-
 
         this.Library = library;
         if (Library != null) {
@@ -99,7 +99,6 @@ public class StoredLibrary extends AStorage {
 
         }
 
-
     }
 
     /*
@@ -113,7 +112,11 @@ public class StoredLibrary extends AStorage {
             Favestate = game.isFavorite();
             GameName  = game.getGameName();
             GameName  = game.getGameName().replace("'", "''");
-            System.out.println("Saved Favourite State to " + Favestate);
+            
+            if (logger.isDebugEnabled()) {
+            	logger.debug("Saved Favourite State to " + Favestate);
+            }
+
             Favestates.add(Favestate);
 
             storeStateToDatabase();
@@ -127,15 +130,18 @@ public class StoredLibrary extends AStorage {
     public void SaveGame(Game game) {
 
         if (game != null) {
-            System.out.println("Saving To Library");
+        	 if (logger.isDebugEnabled()) {
+             	logger.debug("Saving To Library");
+             }
+        	 
             GameName   = game.getGameName().replace("'", "''");
             GamePath   = game.getGamePath();
             BoxArtPath = game.getBoxArtUrl().replace("'", "''");
 
-
-            System.out.println("Saved Game ");
-            System.out.println(game.getGameName() + " " + game.getBoxArtUrl() + " " + game.getGamePath());
-
+            if (logger.isDebugEnabled()) {
+            	logger.debug("Saved Game");
+            	logger.debug(game.getGameName() + " " + game.getBoxArtUrl() + " " + game.getGamePath());
+            }
 
             GameNames.add(GameName);
             GamePaths.add(GamePath);
@@ -145,7 +151,6 @@ public class StoredLibrary extends AStorage {
             storeToDatabase();
 
         }
-
 
     }
 
@@ -182,11 +187,10 @@ public class StoredLibrary extends AStorage {
     public void storeStateToDatabase() {
 
         try {
-
             db.setColValue("Library", "FavState", "Game_Name", "'" + GameName + "'", Favestate);
             db.CloseConnection();
         } catch (SQLException ex) {
-            Logger.getLogger(StoredLibrary.class.getName()).log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
 
         GameName  = "";
@@ -206,13 +210,12 @@ public class StoredLibrary extends AStorage {
                     ("'" + GameName + "'" + "," + "'" + GamePath + "'" + "," + "'" + BoxArtPath + "'" + "," + "'" + Favestate + "'"));
 
         } catch (SQLException ex) {
-            Logger.getLogger(StoredLibrary.class.getName()).log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
         //Clear for next set of Games
         GameName   = "";
         GamePath   = "";
         BoxArtPath = "";
-
 
     }
 
@@ -224,7 +227,7 @@ public class StoredLibrary extends AStorage {
     		db.deleteRowFlex("Library", "Game_Name=" + "'" + name + "'");
 
     	} catch (SQLException ex) {
-    		Logger.getLogger(StoredLibrary.class.getName()).log(Level.SEVERE, null, ex);
+    		logger.error(ex);
     	}
     }
 
@@ -233,7 +236,10 @@ public class StoredLibrary extends AStorage {
      */
     public boolean search(String name) {
     	if (GameNames.contains(name)) {
-    		System.out.println(name + " was found");
+    		if (logger.isDebugEnabled()) {
+    			logger.debug(name + " was found");
+    		}
+    		
     		return true;
     	} else {
     		return false;

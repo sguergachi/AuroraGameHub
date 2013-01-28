@@ -21,8 +21,8 @@ import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.Logic.AStorage;
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -34,6 +34,7 @@ public class StoredProfile extends AStorage implements Serializable {
     private boolean RESOLUTION;
     private boolean SOUND_FX;
     private boolean BG_SOUND;
+    static final Logger logger = Logger.getLogger(StoredProfile.class);
 
     public StoredProfile() {
     }
@@ -47,7 +48,7 @@ public class StoredProfile extends AStorage implements Serializable {
           try {
             super.db = new ASimpleDB("User", "Profile", FirstTime, Path);
         } catch (SQLException ex) {
-            Logger.getLogger(StoredProfile.class.getName()).log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
     }
 

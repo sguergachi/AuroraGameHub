@@ -17,6 +17,7 @@
  */
 package aurora.V1.core.screen_handler;
 
+import aurora.V1.core.main;
 import aurora.V1.core.screen_ui.StartScreenUI;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
@@ -24,6 +25,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import org.apache.log4j.Logger;
 
 /**
  * .------------------------------------------------------------------------.
@@ -49,6 +52,7 @@ public class StartScreenHandler implements AuroraScreenHandler {
 
     private final StartScreenUI ui;
     private AuroraScreenLogic startLogic;
+    static final Logger logger = Logger.getLogger(StartScreenHandler.class);
 
     public StartScreenHandler(StartScreenUI ui) {
         this.ui = ui;

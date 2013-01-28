@@ -20,6 +20,7 @@ package aurora.V1.core.screen_ui;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraMini;
 import aurora.V1.core.AuroraStorage;
+import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.StartScreenHandler;
 import aurora.V1.core.screen_handler.StartScreenHandler;
 import aurora.V1.core.screen_handler.StartScreenHandler.FrameKeyListener;
@@ -45,13 +46,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import org.apache.log4j.Logger;
 
 /**
  * .------------------------------------------------------------------------.
@@ -130,6 +131,8 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     private boolean dashboardLoaded;
 
     private boolean loadedData;
+    
+    static final Logger logger = Logger.getLogger(StartScreenUI.class);
 
     public StartScreenUI(Boolean startMini) {
 
@@ -159,44 +162,34 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                         "/aurora/V1/resources/icon.png")).getImage());
 
             } catch (Exception exx) {
-                Logger.getLogger(StartScreenUI.class.getName()).
-                        log(Level.SEVERE, null, exx);
+            	logger.error(exx);
             }
         }
 
         try {
             coreUI.setUI();
         } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         } catch (IOException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         } catch (LineUnavailableException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         } catch (InterruptedException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         } catch (FontFormatException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
 
         try {
             coreUI.setSFX();
         } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         } catch (IOException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         } catch (LineUnavailableException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         } catch (InterruptedException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
 
         progressWheel = new AProgressWheel("app_progressWheel.png");
@@ -282,8 +275,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
         try {
             backgroundLoad();
         } catch (IOException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
 
         //* Add Background containing CoreUI to Frame *//
@@ -315,7 +307,10 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     }
 
     public ArrayList<String> generatePrompts() {
-        System.out.println(fileIO.getPath() + path + "/User Data");
+    	
+    	if (logger.isDebugEnabled()) {
+    		logger.debug(fileIO.getPath() + path + "/User Data");
+    	}
 
         auroraVI = new ANuance(System.getProperty("user.home")
                                + "AuroraData/User Data/AIDictionary.txt");
@@ -506,7 +501,11 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
                 //* load DashboardUI *//
                 loadedDashboardUI = new DashboardUI(coreUI, this);
-                System.out.println("Loading Dashboard...");
+                
+                if (logger.isDebugEnabled()) {
+                	logger.debug("Loading Dashboard...");
+                }
+
                 promptDisplay
                         .add("Loading Dashboard...", new Color(0, 191, 255));
                 loadedDashboardUI.loadUI();
@@ -522,20 +521,25 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
             if (dashboardLoaded) {
 
                 promptDisplay.add("Loading Complete", new Color(0, 191, 255));
-                System.out.println("Loading COMPLETED!!");
+                
+                if (logger.isDebugEnabled()) {
+                	logger.debug("Loading COMPLETED!!");
+                }
 
                 try {
                     Thread.sleep(16);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(StartScreenUI.class.getName()).
-                            log(Level.SEVERE, null, ex);
+                	logger.error(ex);
                 }
 
                 promptDisplay.done();
                 break;
             } else {
                 promptDisplay.add("Loading...", new Color(0, 191, 255));
-                System.out.println(">> Still Loading Dashboard...");
+                
+                if (logger.isDebugEnabled()) {
+                	logger.debug(">> Still Loading Dashboard...");
+                }
             }
         }
 

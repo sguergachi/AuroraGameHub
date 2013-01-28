@@ -21,6 +21,7 @@ import aurora.V1.core.AboutOverlay;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.Game;
+import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.DashboardHandler;
 import aurora.V1.core.screen_logic.DashboardLogic;
 import aurora.engine.V1.Logic.AuroraScreenUI;
@@ -47,12 +48,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import org.apache.log4j.Logger;
 
 /**
  * .------------------------------------------------------------------------.
@@ -333,6 +334,8 @@ public class DashboardUI implements AuroraScreenUI {
     private AboutOverlay aboutBox;
 
     private ArrayList<JLabel> infoFeedLabelList;
+    
+    static final Logger logger = Logger.getLogger(DashboardUI.class);
 
     /**
      * .-----------------------------------------------------------------------.
@@ -463,7 +466,11 @@ public class DashboardUI implements AuroraScreenUI {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("refreshing feed");
+				
+				if (logger.isDebugEnabled()) {
+					logger.debug("Refreshing feed");
+				}
+
 				infoFeed.removeAll();
 				infoFeedLabelList = logic.refreshRssFeed(infoFeedLabelList);
 				loadInfoFeed(infoFeedLabelList);
@@ -490,8 +497,10 @@ public class DashboardUI implements AuroraScreenUI {
 
         lblKeyAction = new JLabel(" Move ");
 
+        if (logger.isDebugEnabled()) {
+        	logger.debug("DashboardUI loaded");
+        }
 
-        System.out.println("DashboardUI loaded");
         dashboardUiLoaded = true;
 
     }
@@ -527,44 +536,38 @@ public class DashboardUI implements AuroraScreenUI {
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-            Logger.getLogger(DashboardUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
         btnCarouselRight.setVisible(true);
         btnCarouselLeft.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-            Logger.getLogger(DashboardUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
         carousel.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-            Logger.getLogger(DashboardUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
         paneLibrary.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-            Logger.getLogger(DashboardUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
         paneNet.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-            Logger.getLogger(DashboardUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
         paneProfile.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-            Logger.getLogger(DashboardUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
         paneSettings.setVisible(true);
     }
@@ -856,10 +859,12 @@ public class DashboardUI implements AuroraScreenUI {
             frameControlHeight = coreUI.getFrameControlImagePane().getImgIcon()
                     .getIconHeight();
 
-            System.out.println("INFO FEED WIDTH = " + infoFeedWidth);
-            System.out.println("INFO FEED HEIGHT = " + infoFeedHeight);
+            if (logger.isDebugEnabled()) {
+            	logger.debug("INFO FEED WIDTH = " + infoFeedWidth);
+            	logger.debug("INFO FEED HEIGHT = " + infoFeedHeight);
+            	logger.debug("WIDTH " + carouselWidth);
+            }
 
-            System.out.println("WIDTH " + carouselWidth);
         }
 
     }

@@ -38,8 +38,6 @@ import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
@@ -53,6 +51,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.PopupFactory;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import org.apache.log4j.Logger;
 
 /**
  * .---------------------------------------------------------------------------.
@@ -390,6 +390,8 @@ public class GameLibraryUI extends AuroraApp {
 
     private int addGameFontSize;
     private int bottomTopPadding;
+    
+    static final Logger logger = Logger.getLogger(GameLibraryUI.class);
 
     /**
      * .-----------------------------------------------------------------------.
@@ -987,8 +989,9 @@ public class GameLibraryUI extends AuroraApp {
             gameLocator.setEnabled(true);
             gameLocator.revalidate();
 
-            System.out.println("Cover Pane Height: " + pnlCoverPane
-                    .getHeight());
+            if (logger.isDebugEnabled()) {
+            	logger.debug("Cover Pane Height: " + pnlCoverPane.getHeight());
+            }
 
             gameLocator.setPreferredSize(new Dimension(pnlAddGamePane
                     .getImgIcon().getIconWidth() / 2 - 10, pnlCoverPane
@@ -1000,7 +1003,7 @@ public class GameLibraryUI extends AuroraApp {
                 field.setAccessible(true);
                 gameLocator.putClientProperty(field.get(null), true);
             } catch (Exception e) {
-                e.printStackTrace();
+            	logger.error(e);
             }
 
 
@@ -1199,8 +1202,7 @@ public class GameLibraryUI extends AuroraApp {
             try {
                 Thread.sleep(16);
             } catch (InterruptedException ex) {
-                Logger.getLogger(GameLibraryUI.class.getName()).
-                        log(Level.SEVERE, null, ex);
+            	logger.error(ex);
             }
 
             coreUI.getFrame().requestFocus();
@@ -1208,7 +1210,11 @@ public class GameLibraryUI extends AuroraApp {
     }
 
     public void moveGridLeft() {
-        System.out.println("Left key pressed");
+    	
+    	if (logger.isDebugEnabled()) {
+    		logger.debug("Left key pressed");
+    	}
+
         if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
                 .getAnimator2().isAnimating()) {
 
@@ -1250,8 +1256,7 @@ public class GameLibraryUI extends AuroraApp {
                 try {
                     logic.loadGames(currentIndex - 1);
                 } catch (MalformedURLException ex) {
-                    Logger.getLogger(GameLibraryUI.class.getName()).log(
-                            Level.SEVERE, null, ex);
+                	logger.error(ex);
                 }
             }
 
@@ -1269,7 +1274,10 @@ public class GameLibraryUI extends AuroraApp {
     }
 
     public void moveGridRight() {
-        System.out.println("Right key pressed");
+    	
+    	if (logger.isDebugEnabled()) {
+    		logger.debug("Right key pressed");
+    	}
 
         if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
                 .getAnimator2().isAnimating()) {
@@ -1294,8 +1302,7 @@ public class GameLibraryUI extends AuroraApp {
                 try {
                     logic.loadGames(currentIndex + 1);
                 } catch (MalformedURLException ex) {
-                    Logger.getLogger(GameLibraryUI.class.getName()).log(
-                            Level.SEVERE, null, ex);
+                	logger.error(ex);
                 }
 
 
@@ -1326,9 +1333,14 @@ public class GameLibraryUI extends AuroraApp {
 
         int Ratio = (coreUI.getFrame().getWidth() - coreUI.getFrame()
                 .getHeight()) / 2;
-        System.out.println("Ratio " + Ratio);
-        System.out.println("Height " + coreUI.getFrame().getHeight());
-        System.out.println("Width " + coreUI.getFrame().getWidth());
+        
+        if (logger.isDebugEnabled()) {
+        	logger.debug("Ratio " + Ratio);
+        	logger.debug("Height " + coreUI.getFrame().getHeight());
+        	logger.debug("Width " + coreUI.getFrame().getWidth());
+        	
+        }
+        
         if (coreUI.isLargeScreen()) {
             gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio
                                                                    / 10)

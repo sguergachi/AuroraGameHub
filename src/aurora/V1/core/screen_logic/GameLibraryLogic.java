@@ -19,6 +19,7 @@ package aurora.V1.core.screen_logic;
 
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.Game;
+import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.GameLibraryHandler;
 import aurora.V1.core.screen_handler.GameLibraryHandler.GameLibraryKeyListener;
 import aurora.V1.core.screen_ui.DashboardUI;
@@ -27,6 +28,7 @@ import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
 import java.net.MalformedURLException;
+import org.apache.log4j.Logger;
 
 /**
  * .------------------------------------------------------------------------.
@@ -70,6 +72,8 @@ public class GameLibraryLogic implements AuroraScreenLogic {
     private final DashboardUI dashboardUI;
 
     private boolean hasFav;
+    
+    static final Logger logger = Logger.getLogger(GameLibraryLogic.class);
 
     /**
      * .-----------------------------------------------------------------------.
@@ -217,7 +221,7 @@ public class GameLibraryLogic implements AuroraScreenLogic {
             loadGames(
                     0);
         } catch (MalformedURLException ex) {
-            System.out.println("MalformedURLExeption \n" + ex);
+        	logger.error(ex);
         }
     }
 
@@ -227,13 +231,18 @@ public class GameLibraryLogic implements AuroraScreenLogic {
      */
     public void loadGames(int currentGridIndex) throws MalformedURLException {
 
-        System.out.println("LAUNCHING LOAD METHOD");
+    	if (logger.isDebugEnabled()) {
+    		logger.debug("LAUNCHING LOAD METHOD");
+    	}
+        
         int currentGrid = currentGridIndex;
         if (currentGrid < 0) {
             currentGrid = 0;
         }
-        System.out.println("current panel: " + currentGrid);
-
+        
+        if (logger.isDebugEnabled()) {
+    		logger.debug("current panel: " + currentGrid);
+    	}
 
 
         //Load First Panels
@@ -256,21 +265,24 @@ public class GameLibraryLogic implements AuroraScreenLogic {
                 }
 
                 if (!libraryUI.IsGameLibraryKeyListenerAdded()) {
-                    System.out.println("ADDING GAMELIBRARYLISTENER TO " + game
-                            .getName());
-                    game
-                            .addKeyListener(
-                            libraryHandler.new GameLibraryKeyListener());
+                	if (logger.isDebugEnabled()) {
+                		logger.debug("ADDING GAMELIBRARYLISTENER TO " + game.getName());
+                	}
+
+                    game.addKeyListener(libraryHandler.new GameLibraryKeyListener());
                 }
 
 
                 if (!game.isLoaded()) {
                     game.update();
 
-                    System.out.println("loading: " + game.getGameName());
+                    if (logger.isDebugEnabled()) {
+                		logger.debug("loading: " + game.getGameName());
+                	}
+
                 }
             } catch (RuntimeException ex) {
-                System.out.println(ex);
+            	logger.error(ex);
             }
         }
 
@@ -297,19 +309,23 @@ public class GameLibraryLogic implements AuroraScreenLogic {
                     }
 
                     if (!libraryUI.IsGameLibraryKeyListenerAdded()) {
-                        System.out.println("ADDING GAMELIBRARYLISTENER TO"
-                                           + game.getName());
-                        game
-                                .addKeyListener(
+                    	if (logger.isDebugEnabled()) {
+                    		logger.debug("ADDING GAMELIBRARYLISTENER TO" + game.getName());
+                    	}
+
+                        game.addKeyListener(
                                 libraryHandler.new GameLibraryKeyListener());
                     }
+                    
                     if (!game.isLoaded()) {
                         game.update();
-                        System.out.println("Secondary loading: " + game
-                                .getName());
+                        if (logger.isDebugEnabled()) {
+                    		logger.debug("Secondary loading: " + game.getName());
+                    	}
+
                     }
                 } catch (RuntimeException ex) {
-                    System.out.println(ex);
+                	logger.error(ex);
                 }
 
 

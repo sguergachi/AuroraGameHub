@@ -42,11 +42,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
+
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -87,6 +89,8 @@ public class StartScreenLogic implements AuroraScreenLogic {
     private AProgressWheel progressWheel;
 
     private ASound backgrounSFX;
+    
+    static final Logger logger = Logger.getLogger(StartScreenLogic.class);
 
     public StartScreenLogic(StartScreenUI aStartScreenUI) {
 
@@ -126,17 +130,13 @@ public class StartScreenLogic implements AuroraScreenLogic {
         try {
             coreUI.getBackgroundSound().Play();
         } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         } catch (IOException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         } catch (LineUnavailableException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         } catch (InterruptedException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        	logger.error(ex);
         }
 
     }
@@ -237,11 +237,15 @@ public class StartScreenLogic implements AuroraScreenLogic {
                 dashboardUI = startScreenUI.getLoadedDashboardUI();
 
                 if (dashboardUI == null) {
-                    System.out.println("Creating New Dashboard");
+                	if (logger.isDebugEnabled()) {
+                		logger.debug("Creating New Dashboard");
+                	}
                     dashboardUI = new DashboardUI(coreUI, startScreenUI);
                     dashboardUI.loadUI();
                 } else {
-                    System.out.println("Using LOADED Dashboard");
+                	if (logger.isDebugEnabled()) {
+                		logger.debug("Using LOADED dashboard");
+                	}
                 }
 
                 //* Build DashboardUI *//
@@ -264,20 +268,17 @@ public class StartScreenLogic implements AuroraScreenLogic {
                 final URLConnection conn = url.openConnection();
                 conn.connect();
             } catch (IOException ex) {
-                System.out.println("Computer is NOT online");
+            	logger.warn("Computer is not online");
                 return false;
-
-
-
             }
         } catch (MalformedURLException ex) {
-            Logger.getLogger(StartScreenUI.class
-                    .getName()).log(Level.SEVERE,
-                    null, ex);
-
+        	logger.error(ex);
         }
 
-        System.out.println("Computer is Online");
+        if (logger.isDebugEnabled()) {
+        	logger.debug("Computer is online");
+        }
+
         return true;
     }
 

@@ -29,8 +29,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -38,6 +36,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -84,6 +83,8 @@ public class AuroraMini {
     private boolean firstClick;
 
     private PaneAnimateHandler animationHander;
+    
+    static final Logger logger = Logger.getLogger(AuroraMini.class);
 
     public AuroraMini(AuroraCoreUI ui, String mode) {
         this.ui = ui;
@@ -116,9 +117,6 @@ public class AuroraMini {
 
             mini.setAlwaysOnTop(true);
 
-
-
-
             //SET FRAME ICON
             try {
                 mini.setIconImage(new ImageIcon(new URL(ui.getResource()
@@ -131,8 +129,7 @@ public class AuroraMini {
                             "/aurora/V1/resources/icon.png")).getImage());
 
                 } catch (Exception exx) {
-                    Logger.getLogger(AuroraMini.class.getName()).log(
-                            Level.SEVERE, null, exx);
+                	logger.fatal(exx);
                 }
             }
 
@@ -203,14 +200,11 @@ public class AuroraMini {
                     .getWidth(), mini.getHeight(), 30,
                     27));
         }catch (UnsupportedOperationException  ex){
-            System.err.println("System does not support Shapes");
+        	logger.fatal("System does not support Shapes");
         }
-
 
         executeMode();
         mini.requestFocusInWindow();
-
-
 
     }
 
@@ -387,9 +381,6 @@ public class AuroraMini {
             yPos = location.y - pressed.getY() + me.getY();
             mini.setLocation(location.x, yPos);
             isDrag = true;
-
-
-
         }
 
         @Override
@@ -417,7 +408,9 @@ public class AuroraMini {
         public void mouseReleased(MouseEvent e) {
 
             isDrag = false;
-            System.out.println("Mouse Released");
+            if (logger.isDebugEnabled()) {
+            	logger.debug("Mouse Release");
+            }
             if (isMouseExited) {
                 icon.setImgURl("icon.png");
             } else {
@@ -505,8 +498,7 @@ public class AuroraMini {
                 try {
                     Thread.sleep(16);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(AuroraMini.class.getName()).
-                            log(Level.SEVERE, null, ex);
+                	logger.error(ex);
                 }
 
                 moveFrameIn();
@@ -526,14 +518,11 @@ public class AuroraMini {
         @Override
         public void mouseEntered(MouseEvent e) {
 
-
             if (timer != null) {
                 timer.stop();
             }
 
             icon.setImgURl("app_miniMode_back.png");
-
-
         }
 
         @Override
@@ -542,6 +531,7 @@ public class AuroraMini {
             if (timer != null && !timer.isRunning()) {
                 timer.start();
             }
+
             icon.setImgURl("icon.png");
         }
 
@@ -558,7 +548,7 @@ public class AuroraMini {
          */
         private void moveFrameIn() {
 
-            //* Don't Interupt UI Thread *//
+            //* Don't Interrupt UI Thread *//
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
@@ -570,7 +560,6 @@ public class AuroraMini {
                         //* accelerate ease in up to Half way*//
                         if (ui.getFrame().getLocation().x > ui.getFrame()
                                 .getWidth() / 2) {
-
 
                             acc++;
                             acc++;
@@ -603,10 +592,8 @@ public class AuroraMini {
                         try {
                             Thread.sleep(16);
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(AuroraMini.class.getName()).
-                                    log(Level.SEVERE, null, ex);
+                        	logger.error(ex);
                         }
-
 
                     }
 

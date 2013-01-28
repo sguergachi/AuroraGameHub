@@ -18,10 +18,14 @@
 
 package aurora.V1.core;
 
+import org.apache.log4j.Logger;
+
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class TrackingEngine {
+	
+	static final Logger logger = Logger.getLogger(TrackingEngine.class);
 
 }

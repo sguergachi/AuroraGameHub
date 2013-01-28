@@ -18,6 +18,9 @@
 
 package aurora.V1.core.screen_handler;
 
+import org.apache.log4j.Logger;
+
+import aurora.V1.core.main;
 import aurora.V1.core.screen_logic.*;
 
 /**
@@ -25,5 +28,7 @@ import aurora.V1.core.screen_logic.*;
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class SettingsHandler {
+	
+	static final Logger logger = Logger.getLogger(SettingsHandler.class);
 
 }

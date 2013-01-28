@@ -35,11 +35,11 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelListener;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+
+import org.apache.log4j.Logger;
 
 /**
  * .---------------------------------------------------------------------------.
@@ -94,6 +94,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
      * String with the name of the app for reference
      */
     public String appName;
+    
+    static final Logger logger = Logger.getLogger(AuroraApp.class);
 
     /**
      * .-----------------------------------------------------------------------.
@@ -110,7 +112,6 @@ public abstract class AuroraApp implements AuroraScreenUI {
      */
     public AuroraApp() {
         componentsContainingListeners = new ArrayList<JComponent>();
-
 
     }
 
@@ -233,7 +234,9 @@ public abstract class AuroraApp implements AuroraScreenUI {
      */
     public final void clearUI(final Boolean isClearingApp) {
 
-        System.out.println("CLEARING " + appName);
+    	if (logger.isDebugEnabled()) {
+    		logger.debug("CLEARING " + appName);
+    	}
 
         boolean clearForApp;
 
@@ -243,18 +246,12 @@ public abstract class AuroraApp implements AuroraScreenUI {
             clearForApp = isClearingApp;
         }
 
-
-
         //* Remove all Center and Bottom Bar Content *//
         getCoreUI().getKeyToPressPanel().removeAll();
         getCoreUI().getCenterPanel().removeAll();
         getCoreUI().getBottomContentPane().removeAll();
         getCoreUI().getCenterFromBottomPanel().removeAll();
         getCoreUI().getBottomContentPane().revalidate();
-
-
-
-
 
         //* Remove All from top of bottom pane and re-add CoreUI components*//
         getCoreUI().getCenterFromBottomPanel().add(BorderLayout.NORTH,
@@ -269,9 +266,6 @@ public abstract class AuroraApp implements AuroraScreenUI {
         getCoreUI().getCenterPanel().revalidate();
         getCoreUI().getCenterFromBottomPanel().revalidate();
 
-
-
-
         //* Remove all from the title pane of the bottom bar and re-add title*//
         getCoreUI().getTitlePanel().removeAll();
         getCoreUI().getTitlePanel().add(BorderLayout.CENTER, getCoreUI()
@@ -283,14 +277,11 @@ public abstract class AuroraApp implements AuroraScreenUI {
                                               - getCoreUI().getBottomPane()
                 .getHeight() - getCoreUI().getTopPane().getHeight()));
 
-
-
         //* Clear Bottom of Top Pane and re-add the Frame Conrols *//
         getCoreUI().getSouthFromTopPanel().removeAll();
         getCoreUI().getSouthFromTopPanel()
                 .add(getCoreUI().getFrameControlContainerPanel(),
                 BorderLayout.EAST);
-
 
         getCoreUI().getFrame().requestFocus();
         getCoreUI().getFrame().repaint();
@@ -298,10 +289,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
         //* Remove All Listeners from componentsContainingListeners and Frame*//
         removeAllListeners();
 
-
         if (clearForApp) {
-
-
             setUpApp();
         }
 
@@ -356,8 +344,6 @@ public abstract class AuroraApp implements AuroraScreenUI {
                         .removeMouseWheelListener(mouseWheelListeners[j]);
 
             }
-
-
 
             //* Maybe its a buttom, try to remove its ActionListeners. *//
             if (componentsContainingListeners.get(i) instanceof AButton) {
@@ -418,9 +404,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
                     .removeMouseWheelListener(frameContentMouseWheelListeners[i]);
         }
 
-
         componentsContainingListeners.removeAll(componentsContainingListeners);
-
 
     }
 
@@ -457,6 +441,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
      * .........................................................................
      */
     public final void setUpApp() {
+    	
         setSizes();
         isInApp = true;
         btnBack = new AButton("app_btn_back_norm.png",
@@ -467,8 +452,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
             getCoreUI().getFrameControlImagePane().setImageURL(
                     "dash_frameControlBig_bg.png");
         } catch (MalformedURLException ex) {
-            Logger.getLogger(AuroraApp.class.getName()).log(Level.SEVERE, null,
-                    ex);
+        	logger.error(ex);
         }
 
         getCoreUI().getSouthFromTopPanel().setPreferredSize(
@@ -476,7 +460,10 @@ public abstract class AuroraApp implements AuroraScreenUI {
                 getCoreUI()
                 .getFrameControlContainerPanel().getHeight()));
 
-        System.out.println("ADDED BACK BUTTON");
+        if (logger.isDebugEnabled()) {
+        	logger.debug("ADDED BACK BUTTON");
+        }
+      
         if (getCoreUI().getFrameControlImagePane().getComponent(0) != btnBack) {
             getCoreUI().getFrameControlImagePane().add(btnBack, 0);
         }
