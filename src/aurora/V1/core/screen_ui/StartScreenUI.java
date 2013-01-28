@@ -131,7 +131,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     private boolean dashboardLoaded;
 
     private boolean loadedData;
-    
+
     static final Logger logger = Logger.getLogger(StartScreenUI.class);
 
     public StartScreenUI(Boolean startMini) {
@@ -307,13 +307,13 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     }
 
     public ArrayList<String> generatePrompts() {
-    	
+
     	if (logger.isDebugEnabled()) {
     		logger.debug(fileIO.getPath() + path + "/User Data");
     	}
 
         auroraVI = new ANuance(System.getProperty("user.home")
-                               + "AuroraData/User Data/AIDictionary.txt");
+                               + "/AuroraData/User Data/AIDictionary.txt");
 
 
 
@@ -501,7 +501,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
                 //* load DashboardUI *//
                 loadedDashboardUI = new DashboardUI(coreUI, this);
-                
+
                 if (logger.isDebugEnabled()) {
                 	logger.debug("Loading Dashboard...");
                 }
@@ -521,7 +521,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
             if (dashboardLoaded) {
 
                 promptDisplay.add("Loading Complete", new Color(0, 191, 255));
-                
+
                 if (logger.isDebugEnabled()) {
                 	logger.debug("Loading COMPLETED!!");
                 }
@@ -536,7 +536,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                 break;
             } else {
                 promptDisplay.add("Loading...", new Color(0, 191, 255));
-                
+
                 if (logger.isDebugEnabled()) {
                 	logger.debug(">> Still Loading Dashboard...");
                 }

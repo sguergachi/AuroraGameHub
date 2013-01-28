@@ -388,7 +388,7 @@ public class AuroraCoreUI {
     private AFileManager fileIO;
 
     private Font ropaFont;
-    
+
     static final Logger logger = Logger.getLogger(AuroraCoreUI.class);
 
     /**
@@ -468,7 +468,7 @@ public class AuroraCoreUI {
         if (logger.isDebugEnabled()) {
         	logger.debug("High Resolution Boolean = " + isLargeScreen);
         }
-        
+
         //* Set Size For UI *//
 
         setSizes();
@@ -562,7 +562,7 @@ public class AuroraCoreUI {
         //*
 
         // Create V.I
-        fileIO = new AFileManager("");
+        fileIO = new AFileManager(System.getProperty("user.home") + "/");
         logger.info(fileIO.getPath() + "AuroraData/User Data/");
 
         try {
@@ -1065,7 +1065,7 @@ public class AuroraCoreUI {
         	if (logger.isDebugEnabled()) {
         		logger.debug("FOCUS GAINED");
         	}
-        	
+
             if (wasVisible) {
                 glass.remove(paneUnfocused);
                 glass.repaint();
@@ -1079,11 +1079,11 @@ public class AuroraCoreUI {
 
         @Override
         public void windowLostFocus(WindowEvent e) {
-            
+
             if (logger.isDebugEnabled()) {
         		logger.debug("FOCUS LOST");
         	}
-            
+
             if (frame.getGlassPane().isVisible()) {
                 glass.setLayout(null);
                 wasVisible = true;
