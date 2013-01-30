@@ -106,7 +106,7 @@ public class GameLibraryHandler implements
     private final GameSearch gameSearch;
 
     private ASimpleDB coverDB;
-    
+
     static final Logger logger = Logger.getLogger(GameLibraryHandler.class);
 
     /**
@@ -667,7 +667,7 @@ public class GameLibraryHandler implements
 
         @Override
         public String getDescription() {
-            return "Executable Game File";
+            return "Executable Files & Shortcuts";
         }
     }
 
@@ -775,7 +775,7 @@ public class GameLibraryHandler implements
             }
             mover.setName("Mover Thread");
             //Start Loader
-            
+
             if (logger.isDebugEnabled()) {
             	logger.debug("Starting Mover Thread");
             }
@@ -1023,7 +1023,7 @@ public class GameLibraryHandler implements
 
         @Override
         public void mouseEntered(MouseEvent e) {
-        	
+
         	if (logger.isDebugEnabled()) {
         		logger.debug("HOVER IMAGE ACTIVATED");
         	}
@@ -1065,7 +1065,7 @@ public class GameLibraryHandler implements
 
             /* get the index of the grid that is currently displayed */
             int visibleGridIndex = gridManager.getVisibleGridIndex();
-            
+
             if (logger.isDebugEnabled()) {
             	logger.debug("Initial visible grid = " + visibleGridIndex);
             }
@@ -1102,11 +1102,11 @@ public class GameLibraryHandler implements
 
                     if (game.isSelected()) {
                         selectedGameFound = true;
-                        
+
                         if (logger.isDebugEnabled()) {
                         	logger.debug(game.getName() + " is selected in the library");
                         }
-                        
+
                         int[] columnAndRow = grid.getColumnAndRow(i + 1);
                         int col = columnAndRow[0];
                         int row = columnAndRow[1];
@@ -1166,7 +1166,7 @@ public class GameLibraryHandler implements
 
                     if (game.isSelected()) {
                         selectedGameFound = true;
-                        
+
                         if (logger.isDebugEnabled()) {
                         	logger.debug(game.getName() + " is selected in the library");
                         }
@@ -1203,7 +1203,7 @@ public class GameLibraryHandler implements
                                 newGame.displayInteractiveComponents();
                             }
                         } else {
-                        	
+
                         	if (logger.isDebugEnabled()) {
                         		logger.debug("Cursor cannot move any further down!");
                         	}
@@ -1223,7 +1223,7 @@ public class GameLibraryHandler implements
                 //>>> MOVE LEFT
             } else if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode()
                                                           == KeyEvent.VK_LEFT) {
-            	
+
             	if (logger.isDebugEnabled()) {
             		logger.debug("A key pressed");
             	}
@@ -1235,7 +1235,7 @@ public class GameLibraryHandler implements
                     game = (Game) comp.get(i);
                     if (game.isSelected()) {
                         selectedGameFound = true;
-                        
+
                         if (logger.isDebugEnabled()) {
                         	logger.debug("index = " + i);
                         	logger.debug(game.getName() + " is selected in the library");
@@ -1260,7 +1260,7 @@ public class GameLibraryHandler implements
                     if (col > 1 || (col == 1 && row > 1)) {
                         System.out.println("Cursor is moving left!");
                         visibleGridIndex = gridManager.getVisibleGridIndex();
-                        
+
                         if (logger.isDebugEnabled()) {
                         	logger.debug("Cursor is moving left");
                         	logger.debug("visible grid after moving right = " + visibleGridIndex);
@@ -1278,7 +1278,7 @@ public class GameLibraryHandler implements
                             libraryUI.moveGridLeft();
                             /* get the index of the grid that is currently displayed */
                             visibleGridIndex = gridManager.getVisibleGridIndex();
-                            
+
                             if (logger.isDebugEnabled()) {
                             	logger.debug("visible grid after moving right = " + visibleGridIndex);
                             }
@@ -1327,7 +1327,7 @@ public class GameLibraryHandler implements
                     game = (Game) comp.get(i);
                     if (game.isSelected()) {
                         selectedGameFound = true;
-                        
+
                         if (logger.isDebugEnabled()) {
                     		logger.debug("index = " + i);
                     		logger.debug(game.getName() + " is selected in the library");
@@ -1342,7 +1342,7 @@ public class GameLibraryHandler implements
                     int[] columnAndRow = grid.getColumnAndRow(i + 1);
                     int col = columnAndRow[0];
                     int row = columnAndRow[1];
-                    
+
                     if (logger.isDebugEnabled()) {
                 		logger.debug("Col = " + col);
                 		logger.debug("Row = " + row);
@@ -1352,7 +1352,7 @@ public class GameLibraryHandler implements
                     if ((col < grid.getCol()
                          || (col == grid.getCol() && row < grid.getRow()))
                         && comp.size() > i + 1) {
-                    	
+
                     	if (logger.isDebugEnabled()) {
                     		logger.debug("Cursor is moving right!");
                     		logger.debug(game.getName() + " is Last Game in This Grid!");
@@ -1363,11 +1363,11 @@ public class GameLibraryHandler implements
                         // get the next object
                         Object obj = comp.get(i + 1);
                         if (obj instanceof Game) {
-                        	
+
                         	if (logger.isDebugEnabled()) {
                         		logger.debug("Object is a game");
                         	}
-                            
+
                             //game.hideInteractiveComponents();
                             newGame = (Game) obj;
                             gridManager.unselectPrevious();
@@ -1381,7 +1381,7 @@ public class GameLibraryHandler implements
 
                         // else check to see if the selected game is the last game in the grid
                     } else if (col == grid.getCol() && row == grid.getRow()) {
-                    	
+
                     	if (logger.isDebugEnabled()) {
                     		logger.debug("Cursor cannot move any further right! Grid needs to move right");
                     	}
@@ -1390,7 +1390,7 @@ public class GameLibraryHandler implements
                         if (gridManager.getVisibleGridIndex() < (gridManager
                                 .getNumberOfGrids())
                             && !(comp.get(0) instanceof GamePlaceholder)) {
-                        	
+
                         	if (logger.isDebugEnabled()) {
                         		logger.debug("This is not the last grid");
                         	}
@@ -1399,7 +1399,7 @@ public class GameLibraryHandler implements
 
                             /* get the index of the grid that is currently displayed */
                             visibleGridIndex = gridManager.getVisibleGridIndex();
-                            
+
                             if (logger.isDebugEnabled()) {
                         		logger.debug("visible grid after moving right = " + visibleGridIndex);
                         	}
@@ -1445,7 +1445,7 @@ public class GameLibraryHandler implements
                     game = (Game) comp.get(i);
                     if (game.isSelected()) {
                         selectedGameFound = true;
-                        
+
                         if (logger.isDebugEnabled()) {
                     		logger.debug("index = " + i);
                     		logger.debug(game.getName() + " is selected in the library");
@@ -1484,7 +1484,7 @@ public class GameLibraryHandler implements
             gridManager = libraryUI.getGridSplit();
 
             int numberClicks = e.getWheelRotation();
-            
+
             if (logger.isDebugEnabled()) {
             	logger.debug("Mouse wheel moved " + numberClicks);
             }

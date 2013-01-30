@@ -38,6 +38,7 @@ import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
@@ -51,6 +52,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.PopupFactory;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.log4j.Logger;
 
@@ -390,7 +392,7 @@ public class GameLibraryUI extends AuroraApp {
 
     private int addGameFontSize;
     private int bottomTopPadding;
-    
+
     static final Logger logger = Logger.getLogger(GameLibraryUI.class);
 
     /**
@@ -967,16 +969,30 @@ public class GameLibraryUI extends AuroraApp {
 
 
             //* Set up File Chooser UI (Windows only) *//
-            UIManager.put("Viewport.background", Color.GRAY);
-            UIManager.put("Viewport.foreground", Color.WHITE);
+            UIManager.put("Viewport.background", Color.LIGHT_GRAY);
+            UIManager.put("Viewport.foreground", Color.DARK_GRAY);
             UIManager.put("ScrollPane.background", Color.GRAY);
             UIManager.put("ComboBox.background", Color.LIGHT_GRAY);
             UIManager.put("ScrollBar.background", Color.GRAY);
-            UIManager.put("Panel.background", Color.GRAY);
+            UIManager.put("Panel.background", Color.LIGHT_GRAY);
             UIManager.put("Panel.forground", Color.WHITE);
             UIManager.put("TextField.foreground", Color.WHITE);
-            UIManager.put("TextField.background", Color.GRAY);
-
+            UIManager.put("TextField.background", Color.LIGHT_GRAY);
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException ex) {
+                java.util.logging.Logger.getLogger(GameLibraryUI.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            } catch (InstantiationException ex) {
+                java.util.logging.Logger.getLogger(GameLibraryUI.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                java.util.logging.Logger.getLogger(GameLibraryUI.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            } catch (UnsupportedLookAndFeelException ex) {
+                java.util.logging.Logger.getLogger(GameLibraryUI.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            }
 
             //* Set up File Chooser *//
             SwingUtilities.updateComponentTreeUI(gameLocator);
@@ -1210,7 +1226,7 @@ public class GameLibraryUI extends AuroraApp {
     }
 
     public void moveGridLeft() {
-    	
+
     	if (logger.isDebugEnabled()) {
     		logger.debug("Left key pressed");
     	}
@@ -1274,7 +1290,7 @@ public class GameLibraryUI extends AuroraApp {
     }
 
     public void moveGridRight() {
-    	
+
     	if (logger.isDebugEnabled()) {
     		logger.debug("Right key pressed");
     	}
@@ -1333,14 +1349,14 @@ public class GameLibraryUI extends AuroraApp {
 
         int Ratio = (coreUI.getFrame().getWidth() - coreUI.getFrame()
                 .getHeight()) / 2;
-        
+
         if (logger.isDebugEnabled()) {
         	logger.debug("Ratio " + Ratio);
         	logger.debug("Height " + coreUI.getFrame().getHeight());
         	logger.debug("Width " + coreUI.getFrame().getWidth());
-        	
+
         }
-        
+
         if (coreUI.isLargeScreen()) {
             gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio
                                                                    / 10)

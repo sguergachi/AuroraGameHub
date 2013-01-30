@@ -50,7 +50,7 @@ import org.apache.log4j.Logger;
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class AboutOverlay {
+public class AboutBox {
 
     private final AuroraCoreUI coreUI;
 
@@ -83,10 +83,10 @@ public class AboutOverlay {
     private AImagePane imgLogo;
 
     private JPanel pnlCenterContainer;
-    
-    static final Logger logger = Logger.getLogger(AboutOverlay.class);
 
-    public AboutOverlay(AuroraCoreUI CoreUI) {
+    static final Logger logger = Logger.getLogger(AboutBox.class);
+
+    public AboutBox(AuroraCoreUI CoreUI) {
 
         coreUI = CoreUI;
         this.buildNumber = coreUI.getBuildNumber();
@@ -203,7 +203,7 @@ public class AboutOverlay {
     }
 
     public void showAboutBox() {
-    	
+
         pnlGlass.add(pnlAboutPane);
         pnlGlass.setLayout(null);
         pnlGlass.setOpaque(false);

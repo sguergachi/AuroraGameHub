@@ -39,7 +39,7 @@ public class main {
     private static Font FontRegular;
     private static ASurface ressource = null;
     private static boolean startMini = false;
-    public static String VERSION = "Alpha 5";
+    public static String VERSION = "Alpha 6";
     static final Logger logger = Logger.getLogger(main.class);
 
     public static void main(String[] args) throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException, FontFormatException {

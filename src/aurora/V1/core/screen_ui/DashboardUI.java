@@ -17,7 +17,7 @@
  */
 package aurora.V1.core.screen_ui;
 
-import aurora.V1.core.AboutOverlay;
+import aurora.V1.core.AboutBox;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.Game;
@@ -331,10 +331,10 @@ public class DashboardUI implements AuroraScreenUI {
 
     private JPanel infoFeedContainer;
 
-    private AboutOverlay aboutBox;
+    private AboutBox aboutBox;
 
     private ArrayList<JLabel> infoFeedLabelList;
-    
+
     static final Logger logger = Logger.getLogger(DashboardUI.class);
 
     /**
@@ -466,7 +466,7 @@ public class DashboardUI implements AuroraScreenUI {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (logger.isDebugEnabled()) {
 					logger.debug("Refreshing feed");
 				}
@@ -484,7 +484,7 @@ public class DashboardUI implements AuroraScreenUI {
 
 
         // About Box //
-        aboutBox = new AboutOverlay(coreUI);
+        aboutBox = new AboutBox(coreUI);
 
 
         // Finalize

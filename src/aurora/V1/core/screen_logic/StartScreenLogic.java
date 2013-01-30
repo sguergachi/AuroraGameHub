@@ -89,7 +89,7 @@ public class StartScreenLogic implements AuroraScreenLogic {
     private AProgressWheel progressWheel;
 
     private ASound backgrounSFX;
-    
+
     static final Logger logger = Logger.getLogger(StartScreenLogic.class);
 
     public StartScreenLogic(StartScreenUI aStartScreenUI) {
@@ -291,7 +291,7 @@ public class StartScreenLogic implements AuroraScreenLogic {
         analytics.addProperty("OS", System.getProperty("os.name"));
         analytics.sendEventProperty("Launched Aurora");
 
-        
+
     }
 
     private void setSize() {
@@ -302,4 +302,6 @@ public class StartScreenLogic implements AuroraScreenLogic {
         topSmallImageWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
     }
+
+    
 }
