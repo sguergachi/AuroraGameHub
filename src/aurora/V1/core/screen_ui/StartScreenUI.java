@@ -426,13 +426,12 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
                 } else if (!checkDBFiles()) {
                     FirstTimeLoad = true;
-                    promptDisplay.add("Unable To Find a Database Files");
                     fileIO.setPath(fileIO.getPath() + path);
                     moveAuroraDB();
                     System.out.println("Moved AuroraDB");
                     if (!checkDBFiles()) {
 
-                        promptDisplay.add("Attempting to Create New Ones...");
+                        promptDisplay.add("Creating Missing Database Files...");
                         //Load Databases
                         auroraStorage.getStoredLibrary()
                                 .setUpDatabase(FirstTimeLoad,
@@ -581,7 +580,6 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private void moveAuroraDB() {
         logger.info("Moving AuroraDB to AuroraData folder..");
-        logger.info(">> " + System.getProperty("user.dir"));
         if (fileIO.checkFile("AuroraDB.h2.db") && !fileIO.checkFile(fileIO
                 .getPath() + "AuroraDB.h2.db")) {
             try {
@@ -605,7 +603,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     }
 
     private boolean checkUser() {
-        if (checkMainDir() && checkSubDir()) {
+        if (checkSubDir()) {
             return true;
         } else {
             return false;
