@@ -44,6 +44,7 @@ import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -380,7 +381,6 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                 backCheckMyDoc();
 
 
-
                 // Check if Main Folder "AuroraData" Exists //
                 if (!checkMainDir()) {
 
@@ -425,12 +425,12 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                             fileIO.getPath() + "/User Data/");
 
                 } else if (!checkDBFiles()) {
-                    FirstTimeLoad = true;
+                    FirstTimeLoad = false;
                     fileIO.setPath(fileIO.getPath() + path);
                     moveAuroraDB();
                     System.out.println("Moved AuroraDB");
                     if (!checkDBFiles()) {
-
+                        FirstTimeLoad = true;
                         promptDisplay.add("Creating Missing Database Files...");
                         //Load Databases
                         auroraStorage.getStoredLibrary()
@@ -442,8 +442,6 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                         auroraStorage.getStoredSettings().setUpDatabase(
                                 FirstTimeLoad,
                                 fileIO.getPath() + "/User Data/");
-                    } else {
-                        promptDisplay.add("Succesufully Replaced Missing Files");
                     }
                 } else {
                     fileIO.setPath(fileIO.getPath() + path);
@@ -481,7 +479,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                     } else {
                         promptDisplay
                                 .add(
-                                "I Seem To Have Finnally Esstablished Connection...");
+                                "I Seem To Have Finally Established Connection...");
                     }
                 } else {
                     Online = true;
@@ -580,10 +578,19 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private void moveAuroraDB() {
         logger.info("Moving AuroraDB to AuroraData folder..");
-        if (fileIO.checkFile("AuroraDB.h2.db") && !fileIO.checkFile(fileIO
+
+        String auroraDbPath = StartScreenUI.class.getProtectionDomain()
+                .getCodeSource().getLocation().getPath().replaceFirst(
+                "Aurora.jar", "").replaceAll("%20", " ") + "lib/AuroraDB.h2.db";
+        logger.info(" >>> Resource Path1 " + auroraDbPath);
+
+
+
+        if (fileIO.checkFile(auroraDbPath) && !fileIO
+                .checkFile(fileIO
                 .getPath() + "AuroraDB.h2.db")) {
             try {
-                fileIO.copyFile(new File("AuroraDB.h2.db"), new File(fileIO
+                fileIO.copyFile(new File(auroraDbPath), new File(fileIO
                         .getPath() + "AuroraDB.h2.db"));
             } catch (IOException ex) {
                 java.util.logging.Logger
@@ -629,11 +636,11 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     }
 
     private boolean checkDBFiles() {
-        if (fileIO.checkFile(fileIO.getPath() + path + "/User Data/User.h2.db")
+        if (fileIO.checkFile(fileIO.getPath() + "/User Data/User.h2.db")
             && fileIO.
-                checkFile(fileIO.getPath() + path + "/Game Data/Games.h2.db")
+                checkFile(fileIO.getPath() + "/Game Data/Games.h2.db")
             && fileIO.
-                checkFile(fileIO.getPath() + path + "/AuroraDB.h2.db")) {
+                checkFile(fileIO.getPath() + "/AuroraDB.h2.db")) {
             return true;
         } else {
             return false;

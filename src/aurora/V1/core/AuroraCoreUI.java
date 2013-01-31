@@ -1015,6 +1015,7 @@ public class AuroraCoreUI {
 
         @Override
         public void windowClosed(WindowEvent e) {
+            logger.info("==============================END");
             frame.dispose();
             System.exit(0);
         }
