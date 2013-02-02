@@ -4,6 +4,25 @@
 ===============================================
 
 ////////////////////////////////////////////------------------------------------
+//Aurora_Alpha 7  Build:625  Date:1/16/2013  || Sammy Guergachi, Carlos Machado
+////////////////////////////////////////////------------------------------------
++ Added Go To buttons in AddGameUI for Steam and Programs folders
+- fixed popovers not showing
+- minor UI fixes
+
+
+////////////////////////////////////////////------------------------------------
+//Aurora_Alpha 6  Build:625  Date:1/16/2013  || Sammy Guergachi, Carlos Machado, Borne Mace
+////////////////////////////////////////////------------------------------------
++ added Logging ability
++ added more useful analytics
+- fixed carousel bug for big screens
+- using native Windows file chooser instead of dumb java one
+- minor UI change to infoFeed
+- moved AuroraData folder to user.home
+- access to AuroraDB is now from the AuroraData which is copied from local package
+
+////////////////////////////////////////////------------------------------------
 //Aurora_Alpha 5  Build:578  Date:1/16/2013  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------
 - fixed world's stupidest bug that prevented app for launching.
