@@ -17,7 +17,7 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_ui.StartScreenUI;
+import aurora.V1.core.screen_ui.WelcomeUI;
 import aurora.engine.V1.Logic.ASurface;
 import aurora.engine.V1.UI.ADialog;
 import java.awt.Font;
@@ -64,7 +64,7 @@ public class main {
             logger.info("OS: " + System.getProperty("os.name"));
         	//System.out.println("OS: " + System.getProperty("os.name"));
             setLAF();
-            StartScreenUI aurora_StartUp = new StartScreenUI(startMini);
+            WelcomeUI aurora_StartUp = new WelcomeUI(startMini);
             aurora_StartUp.loadUI();
 
         } else if (Double.parseDouble(System.getProperty("java.version").substring(0, 3)) == 1.7) {
@@ -76,7 +76,7 @@ public class main {
 
             setLAF();
 
-            StartScreenUI aurora_StartUp = new StartScreenUI(startMini);
+            WelcomeUI aurora_StartUp = new WelcomeUI(startMini);
             aurora_StartUp.loadUI();
 
 

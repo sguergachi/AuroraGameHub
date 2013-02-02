@@ -18,8 +18,8 @@
 package aurora.V1.core;
 
 import aurora.V1.core.screen_ui.DashboardUI;
-import aurora.V1.core.screen_ui.GameLibraryUI;
-import aurora.V1.core.screen_ui.StartScreenUI;
+import aurora.V1.core.screen_ui.LibraryUI;
+import aurora.V1.core.screen_ui.WelcomeUI;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AImagePane;
@@ -136,7 +136,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private boolean isGameRemoveMode;
     private int removeButtonWidth;
     private int removeButtonSeperation;
-    
+
     static final Logger logger = Logger.getLogger(Game.class);
 
     public Game() {
@@ -159,7 +159,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     public Game(final GridManager manager, final AuroraCoreUI ui,
                 final DashboardUI obj, final AuroraStorage storage) {
-    
+
     	this.dashboardUi = obj;
         this.coreUI = ui;
         this.storage = storage;
@@ -352,7 +352,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 //Load Image
                 try {
 
-                    if (StartScreenUI.Online) {
+                    if (WelcomeUI.Online) {
                         dbErrorDialog = null;
                         if (logger.isDebugEnabled()) {
                         	logger.debug(coverUrl);
@@ -505,7 +505,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     private void setSize() {
-    	
+
         if (coreUI.isLargeScreen()) {
             removeButtonWidth = this.width / 2 - 35;
             removeButtonSeperation = -removeButtonWidth / 6 + 5;
@@ -519,7 +519,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             SIZE_TOPPANE_COMP = 0;
             SIZE_BottomPaneHeight = (50 * 2) - 10;
         }
-        
+
         if (logger.isDebugEnabled()) {
         	logger.debug("OVERLAY HEIGHT " + SIZE_BottomPaneHeight);
         }
@@ -569,7 +569,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public final void unselected() {
-        
+
     	if (isSelected) {
 
             if (isGameRemoveMode) {
@@ -586,7 +586,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             this.revalidate();
 
         }
-    	
+
     }
 
     // Future method to be used to set isSelected variable
@@ -603,7 +603,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     public final void displayInteractiveComponents() {
 
         interactivePanel.setSize(width + 47, height + 28);
-        
+
         if (logger.isDebugEnabled()) {
         	logger.debug("INTERACTIVE SIZE " + interactivePanel.getWidth()
                     + " " + interactivePanel.getHeight());
@@ -612,12 +612,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         showRemove();
         gameBarImagePane.setVisible(true);
         selected();
-        GameLibraryUI.lblGameName.setText(getName());
+        LibraryUI.lblGameName.setText(getName());
 
     }
 
     public final void setFavorite() {
-        
+
     	isFavorite = true;
         if (isLoaded) {
             favoriteIconImagePane.setVisible(true);
@@ -787,7 +787,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public final void setGamePath(final String path) {
-    	
+
     	if (logger.isDebugEnabled()) {
     		logger.debug("Game path = " + path);
     	}
@@ -828,7 +828,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         	if (logger.isDebugEnabled()) {
         		logger.debug("Play button pressed");
         	}
-            
+
             launcher = new AuroraLauncher(coreUI);
 
             launcher.launchGame(copy());
@@ -942,7 +942,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     if (logger.isDebugEnabled()) {
                 		logger.debug("GAME UNSELECTED");
                 	}
-                    
+
                 } else {
 
                     removePreviousSelected();

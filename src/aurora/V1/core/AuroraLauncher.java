@@ -17,8 +17,8 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_logic.StartScreenLogic;
-import aurora.V1.core.screen_ui.StartScreenUI;
+import aurora.V1.core.screen_logic.WelcomeLogic;
+import aurora.V1.core.screen_ui.WelcomeUI;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.AThreadWorker;
@@ -97,7 +97,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
     private AImagePane imgManualMode;
 
     private AButton btnReturnToAurora;
-    
+
     static final Logger logger = Logger.getLogger(AuroraLauncher.class);
 
     public AuroraLauncher(AuroraCoreUI ui) {
@@ -132,7 +132,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
             } catch (Exception exx) {
             	logger.error(exx);
-                //Logger.getLogger(StartScreenUI.class.getName()).
+                //Logger.getLogger(WelcomeUI.class.getName()).
                 //        log(Level.SEVERE, null, exx);
             }
         }
@@ -258,7 +258,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         //* Bottom Panel *//
         pnlBottom.add(lblGameName);
-        
+
         pnlTop.add(pnlTopContainer);
 
         //* Add All To Background Panel *//
@@ -326,7 +326,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                                     .substring(0, game.getGamePath().lastIndexOf(
                                     "\\") + 1).replace("\\", "\\"));
                         }
- 
+
                         processBuild.directory(new File(game.getGamePath()
                                 .substring(0, game.getGamePath().lastIndexOf(
                                 "\\") + 1).replace("\\", "\\")));
@@ -536,7 +536,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
         logger.info("Elapsed " + elapsedTime);
         logger.info("Hours " + hoursDiff);
         logger.info("Min " + minDiff);
-        
+
         if (minDiff <= 1 && hoursDiff < 1) {
             lblPlayedTime.setText("Under 1 min  ");
             if (!manualMode) {
@@ -712,7 +712,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
         	if (logger.isDebugEnabled()) {
         		logger.debug("LAUNCH FRAME FOCUS LOST");
         	}
-            
+
             if (manualMode) {
                 pnlTop.removeAll();
                 pnlTop.validate();

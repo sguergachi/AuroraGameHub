@@ -26,9 +26,9 @@ import aurora.V1.core.GridAnimation;
 import aurora.V1.core.GridManager;
 import aurora.V1.core.GridSearch;
 import aurora.V1.core.main;
-import aurora.V1.core.screen_handler.GameLibraryHandler.MoveToLastGrid;
-import aurora.V1.core.screen_logic.GameLibraryLogic;
-import aurora.V1.core.screen_ui.GameLibraryUI;
+import aurora.V1.core.screen_handler.LibraryHandler.MoveToLastGrid;
+import aurora.V1.core.screen_logic.LibraryLogic;
+import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
@@ -70,11 +70,11 @@ import org.apache.log4j.Logger;
 
 /**
  * .------------------------------------------------------------------------.
- * | GameLibraryHandler
+ * | LibraryHandler
  * .------------------------------------------------------------------------.
  * |
  * | This class contains all Listeners/Handlers attached to UI elements
- * | found in GameLibraryUI. The handlers may access the logic or simply
+ * | found in LibraryUI. The handlers may access the logic or simply
  * | make simple processing within each Handler/Listeners.
  * |
  * | Each Handler is attached to UI components to listen for different actions
@@ -88,18 +88,18 @@ import org.apache.log4j.Logger;
  * @author Carlos Machado <camachado@gmail.com>
  *
  */
-public class GameLibraryHandler implements
+public class LibraryHandler implements
         AuroraScreenHandler {
 
     /**
-     * GameLibraryLogic instance.
+     * LibraryLogic instance.
      */
-    private GameLibraryLogic libraryLogic;
+    private LibraryLogic libraryLogic;
 
     /**
-     * GameLibraryUI instance.
+     * LibraryUI instance.
      */
-    private final GameLibraryUI libraryUI;
+    private final LibraryUI libraryUI;
 
     private final GridSearch gridSearch;
 
@@ -107,11 +107,11 @@ public class GameLibraryHandler implements
 
     private ASimpleDB coverDB;
 
-    static final Logger logger = Logger.getLogger(GameLibraryHandler.class);
+    static final Logger logger = Logger.getLogger(LibraryHandler.class);
 
     /**
      * .-----------------------------------------------------------------------.
-     * | GameLibraryHandler(GameLibraryUI)
+     * | LibraryHandler(LibraryUI)
      * .-----------------------------------------------------------------------.
      * |
      * | This is the Constructor of the GameLibrary Handler class.
@@ -122,9 +122,9 @@ public class GameLibraryHandler implements
      * |
      * .........................................................................
      * <p/>
-     * @param aLibraryUI GameLibraryUI
+     * @param aLibraryUI LibraryUI
      */
-    public GameLibraryHandler(final GameLibraryUI aLibraryUI) {
+    public LibraryHandler(final LibraryUI aLibraryUI) {
         this.libraryUI = aLibraryUI;
         //* Start Aurora Dabatase connection *//
         AFileManager fileIO = new AFileManager("AuroraData");
@@ -143,7 +143,7 @@ public class GameLibraryHandler implements
     @Override
     public final void setLogic(final AuroraScreenLogic logic) {
 
-        this.libraryLogic = (GameLibraryLogic) logic;
+        this.libraryLogic = (LibraryLogic) logic;
 
     }
 
@@ -596,9 +596,9 @@ public class GameLibraryHandler implements
 
     public class HideGameAddUIHandler implements ActionListener {
 
-        private GameLibraryUI libraryUI;
+        private LibraryUI libraryUI;
 
-        public HideGameAddUIHandler(GameLibraryUI gameLibraryUI) {
+        public HideGameAddUIHandler(LibraryUI gameLibraryUI) {
             this.libraryUI = gameLibraryUI;
         }
 

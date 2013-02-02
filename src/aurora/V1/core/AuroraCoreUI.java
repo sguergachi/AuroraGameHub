@@ -17,7 +17,7 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_logic.StartScreenLogic;
+import aurora.V1.core.screen_logic.WelcomeLogic;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.ANuance;

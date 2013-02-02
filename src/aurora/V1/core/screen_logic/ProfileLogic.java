@@ -26,8 +26,8 @@ import aurora.V1.core.main;
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class GamerProfileLogic {
-	
-	static final Logger logger = Logger.getLogger(GamerProfileLogic.class);
+public class ProfileLogic {
+
+	static final Logger logger = Logger.getLogger(ProfileLogic.class);
 
 }

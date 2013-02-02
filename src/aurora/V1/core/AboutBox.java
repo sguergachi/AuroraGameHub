@@ -17,7 +17,7 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_handler.GameLibraryHandler;
+import aurora.V1.core.screen_handler.LibraryHandler;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.UI.AImage;

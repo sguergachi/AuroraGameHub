@@ -305,7 +305,7 @@ public class DashboardUI implements AuroraScreenUI {
     /**
      * This is the Previous Screen, which contains the Local Storage Instance.
      */
-    private final StartScreenUI startUI;
+    private final WelcomeUI startUI;
 
     /**
      * This is the CoreUI Canvas.
@@ -339,7 +339,7 @@ public class DashboardUI implements AuroraScreenUI {
 
     /**
      * .-----------------------------------------------------------------------.
-     * | DashboardUI(AuroraCoreUI, StartScreenUI)
+     * | DashboardUI(AuroraCoreUI, WelcomeUI)
      * .-----------------------------------------------------------------------.
      * |
      * | This is the Constructor of the Dashboard UI class.
@@ -350,11 +350,11 @@ public class DashboardUI implements AuroraScreenUI {
      * .........................................................................
      *
      * @param auroraCoreUi  AuroraCoreUI
-     * @param startScreenUi StartScreenUI
+     * @param startScreenUi WelcomeUI
      *
      */
     public DashboardUI(final AuroraCoreUI auroraCoreUi,
-                       final StartScreenUI startScreenUi) {
+                       final WelcomeUI startScreenUi) {
         // Other core objects //
         this.startUI = startScreenUi;
         this.storage = startUI.getAuroraStorage();
@@ -451,34 +451,31 @@ public class DashboardUI implements AuroraScreenUI {
 
         // Marquee Panel Text
         // --------------------------------------------------------------------.
-       // ArrayList<JLabel> infoFeedLabelList;
+        // ArrayList<JLabel> infoFeedLabelList;
 
         infoFeed = new AMarqueePanel(infoFeedWidth, infoFeedHeight,
                 "dash_infoBar_bg.png");
         infoFeed.setVisible(false);
 
-      //  int fontSize = 20;
+        //  int fontSize = 20;
 
         infoFeedLabelList = logic.createRssFeed();
         loadInfoFeed(infoFeedLabelList);
 
         infoFeed.setPostCycleListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Refreshing feed");
+                }
 
-				if (logger.isDebugEnabled()) {
-					logger.debug("Refreshing feed");
-				}
+                infoFeed.removeAll();
+                infoFeedLabelList = logic.refreshRssFeed(infoFeedLabelList);
+                loadInfoFeed(infoFeedLabelList);
+                infoFeed.startScrolling();
 
-				infoFeed.removeAll();
-				infoFeedLabelList = logic.refreshRssFeed(infoFeedLabelList);
-				loadInfoFeed(infoFeedLabelList);
-				infoFeed.startScrolling();
-
-			}
-
-
+            }
         });
 
 
@@ -498,7 +495,7 @@ public class DashboardUI implements AuroraScreenUI {
         lblKeyAction = new JLabel(" Move ");
 
         if (logger.isDebugEnabled()) {
-        	logger.debug("DashboardUI loaded");
+            logger.debug("DashboardUI loaded");
         }
 
         dashboardUiLoaded = true;
@@ -536,38 +533,38 @@ public class DashboardUI implements AuroraScreenUI {
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         }
         btnCarouselRight.setVisible(true);
         btnCarouselLeft.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         }
         carousel.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         }
         paneLibrary.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         }
         paneNet.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         }
         paneProfile.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         }
         paneSettings.setVisible(true);
     }
@@ -578,16 +575,12 @@ public class DashboardUI implements AuroraScreenUI {
         //* Indicate to User DashboardUI is loading. *//
         coreUI.getTitleLabel().setText(".: Loading :.");
 
+
         //* Set bigger Logo to Header *//
         coreUI.getLogoImage().setImgURl("dash_header_logo.png");
         coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
         coreUI.getLogoImage().addMouseListener(new HeaderMouseListener());
 
-        //* Set bigger background image for Frame Control panel *//
-        coreUI.getFrameControlImagePane().setImage(
-                "dash_frameControl_bg.png");
-        coreUI.getFrameControlImagePane().setImageHeight(frameControlHeight);
-        coreUI.getFrameControlImagePane().repaint();
 
         // Carousel
         // --------------------------------------------------------------------.
@@ -860,9 +853,9 @@ public class DashboardUI implements AuroraScreenUI {
                     .getIconHeight();
 
             if (logger.isDebugEnabled()) {
-            	logger.debug("INFO FEED WIDTH = " + infoFeedWidth);
-            	logger.debug("INFO FEED HEIGHT = " + infoFeedHeight);
-            	logger.debug("WIDTH " + carouselWidth);
+                logger.debug("INFO FEED WIDTH = " + infoFeedWidth);
+                logger.debug("INFO FEED HEIGHT = " + infoFeedHeight);
+                logger.debug("WIDTH " + carouselWidth);
             }
 
         }
@@ -922,7 +915,7 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Get the AuroraCoreUI generated by StartScreenUI.
+     * Get the AuroraCoreUI generated by WelcomeUI.
      * <p/>
      * @return AuroraCoreUI
      */
@@ -931,7 +924,7 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Get the AuroraStorage instance generated by StartScreenUI.
+     * Get the AuroraStorage instance generated by WelcomeUI.
      * <p/>
      * @return AuroraStorage
      */
@@ -942,9 +935,9 @@ public class DashboardUI implements AuroraScreenUI {
     /**
      * Get the DashboardLogic instance generated in DashboardUI.
      * <p/>
-     * @return StartScreenUI
+     * @return WelcomeUI
      */
-    public final StartScreenUI getStartUI() {
+    public final WelcomeUI getStartUI() {
         return startUI;
     }
 

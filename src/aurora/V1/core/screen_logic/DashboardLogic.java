@@ -23,8 +23,8 @@ import aurora.V1.core.Game;
 import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.DashboardHandler;
 import aurora.V1.core.screen_ui.DashboardUI;
-import aurora.V1.core.screen_ui.GameLibraryUI;
-import aurora.V1.core.screen_ui.GamerProfileUI;
+import aurora.V1.core.screen_ui.LibraryUI;
+import aurora.V1.core.screen_ui.ProfileUI;
 import aurora.V1.core.screen_ui.SettingsUI;
 import aurora.engine.V1.Logic.ARssReader;
 import aurora.engine.V1.Logic.ARssReader.Feed;
@@ -96,12 +96,12 @@ public class DashboardLogic implements AuroraScreenLogic {
     /**
      * Instance of the GameLibrary UI.
      */
-    private GameLibraryUI libraryUI;
+    private LibraryUI libraryUI;
 
     /**
      * Instance of the ProfileUI.
      */
-    private GamerProfileUI profileUI;
+    private ProfileUI profileUI;
 
     /**
      * Instance of the SettingsUI.
@@ -117,7 +117,7 @@ public class DashboardLogic implements AuroraScreenLogic {
     private int bufferUntilAmazon;
 
     private String sourceName;
-    
+
     static final Logger logger = Logger.getLogger(DashboardLogic.class);
 
     /**
@@ -218,9 +218,9 @@ public class DashboardLogic implements AuroraScreenLogic {
             //* Instead, when clicking on game, launch appropriate App *//
 
             if (logger.isDebugEnabled()) {
-            	logger.debug("ADDING MOUSE LISTENER TO COVER");	
+            	logger.debug("ADDING MOUSE LISTENER TO COVER");
             }
-            
+
             randomGame.getInteractivePane().
                     addMouseListener(
                     dashboardHandler.new CarouselLibraryMouseListener());
@@ -402,20 +402,20 @@ public class DashboardLogic implements AuroraScreenLogic {
         return array;
 
     }
-    
+
     public ArrayList<JLabel> refreshRssFeed(ArrayList<JLabel> list) {
-    	
+
     	ArrayList<JLabel> labelList = list;
-    	
+
     	// make the list empty
     	labelList.clear();
     	labelList = createRssFeed();
-    	
-		return labelList; 
+
+		return labelList;
 
     }
-    
-    
+
+
     /**
      * .-----------------------------------------------------------------------.
      * | launchAuroraApp(ACarouselPane aCarouselPane)
@@ -532,13 +532,13 @@ public class DashboardLogic implements AuroraScreenLogic {
         AThreadWorker asyncLoad = new AThreadWorker(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                libraryUI = new GameLibraryUI(dashboardUI
+                libraryUI = new LibraryUI(dashboardUI
                         .getStartUI().getAuroraStorage(), dashboardUI,
                         dashboardUI.getCoreUI());
                 libraryUI.loadUI();
 
 
-                profileUI = new GamerProfileUI(dashboardUI,
+                profileUI = new ProfileUI(dashboardUI,
                         dashboardUI.getCoreUI());
                 profileUI.loadUI();
 

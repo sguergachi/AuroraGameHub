@@ -21,10 +21,10 @@ import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraMini;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.main;
-import aurora.V1.core.screen_handler.StartScreenHandler;
-import aurora.V1.core.screen_handler.StartScreenHandler;
-import aurora.V1.core.screen_handler.StartScreenHandler.FrameKeyListener;
-import aurora.V1.core.screen_logic.StartScreenLogic;
+import aurora.V1.core.screen_handler.WelcomeHandler;
+import aurora.V1.core.screen_handler.WelcomeHandler;
+import aurora.V1.core.screen_handler.WelcomeHandler.FrameKeyListener;
+import aurora.V1.core.screen_logic.WelcomeLogic;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.ANuance;
 import aurora.engine.V1.Logic.APostHandler;
@@ -59,7 +59,7 @@ import org.apache.log4j.Logger;
 
 /**
  * .------------------------------------------------------------------------.
- * | StartScreenUI :: Aurora App Class
+ * | WelcomeUI :: Aurora App Class
  * .------------------------------------------------------------------------.
  * |
  * | This class contains the UI for the Start Screen associated with an
@@ -68,8 +68,8 @@ import org.apache.log4j.Logger;
  * |
  * | This class must follow the rules stated in the AuroraScreenUI
  * | Interface found in the Aurora Engine. The *Handler* and *Logic* classes
- * | The Handler class is called: StartScreenHandler
- * | The Logic class is called: StartScreenLogic
+ * | The Handler class is called: WelcomeHandler
+ * | The Logic class is called: WelcomeLogic
  * |
  * .........................................................................
  *
@@ -77,7 +77,7 @@ import org.apache.log4j.Logger;
  * @author Carlos Machado <camachado@gmail.com>
  *
  */
-public final class StartScreenUI implements Runnable, AuroraScreenUI {
+public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
     private JFrame frame;
 
@@ -119,7 +119,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private int displayFontSize;
 
-    private final StartScreenHandler handler;
+    private final WelcomeHandler handler;
 
     private FrameKeyListener startKeyHandler;
 
@@ -127,7 +127,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private Object toolkit;
 
-    private final StartScreenLogic logic;
+    private final WelcomeLogic logic;
 
     private DashboardUI loadedDashboardUI;
 
@@ -135,15 +135,15 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private boolean loadedData;
 
-    static final Logger logger = Logger.getLogger(StartScreenUI.class);
+    static final Logger logger = Logger.getLogger(WelcomeUI.class);
 
-    public StartScreenUI(Boolean startMini) {
+    public WelcomeUI(Boolean startMini) {
 
-        StartScreenUI.START_WITH_MINI = startMini;
+        WelcomeUI.START_WITH_MINI = startMini;
         frame = new JFrame("Aurora Game Manager ~ V1");
         coreUI = new AuroraCoreUI(this.frame);
-        handler = new StartScreenHandler(this);
-        logic = new StartScreenLogic(this);
+        handler = new WelcomeHandler(this);
+        logic = new WelcomeLogic(this);
         handler.setLogic(logic);
         logic.setHandler(handler);
     }
@@ -572,6 +572,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
             displayYpos = 10;
             displayFontSize = coreUI.getBottomPanelSize() / 12;
 
+
         }
 
     }
@@ -579,7 +580,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     private void moveAuroraDB() {
         logger.info("Moving AuroraDB to AuroraData folder..");
 
-        String auroraDbPath = StartScreenUI.class.getProtectionDomain()
+        String auroraDbPath = WelcomeUI.class.getProtectionDomain()
                 .getCodeSource().getLocation().getPath().replaceFirst(
                 "Aurora.jar", "").replaceAll("%20", " ") + "lib/AuroraDB.h2.db";
         logger.info(" >>> Resource Path1 " + auroraDbPath);
@@ -594,7 +595,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                         .getPath() + "AuroraDB.h2.db"));
             } catch (IOException ex) {
                 java.util.logging.Logger
-                        .getLogger(StartScreenUI.class.getName()).
+                        .getLogger(WelcomeUI.class.getName()).
                         log(Level.SEVERE, null, ex);
             }
         } else {

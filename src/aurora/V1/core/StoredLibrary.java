@@ -17,7 +17,7 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_ui.GameLibraryUI;
+import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.Logic.AStorage;
 import java.sql.SQLException;
@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
  */
 public class StoredLibrary extends AStorage {
 
-    private GameLibraryUI Library;
+    private LibraryUI Library;
     private ArrayList<String> GameNames;
     private ArrayList<String> GamePaths;
     private ArrayList<String> BoxArtPaths;
@@ -80,7 +80,7 @@ public class StoredLibrary extends AStorage {
     /*
      * Do not use
      */
-    public void SaveLibrary(GameLibraryUI library) {
+    public void SaveLibrary(LibraryUI library) {
 
         this.Library = library;
         if (Library != null) {
@@ -112,7 +112,7 @@ public class StoredLibrary extends AStorage {
             Favestate = game.isFavorite();
             GameName  = game.getGameName();
             GameName  = game.getGameName().replace("'", "''");
-            
+
             if (logger.isDebugEnabled()) {
             	logger.debug("Saved Favourite State to " + Favestate);
             }
@@ -133,7 +133,7 @@ public class StoredLibrary extends AStorage {
         	 if (logger.isDebugEnabled()) {
              	logger.debug("Saving To Library");
              }
-        	 
+
             GameName   = game.getGameName().replace("'", "''");
             GamePath   = game.getGamePath();
             BoxArtPath = game.getBoxArtUrl().replace("'", "''");
@@ -239,7 +239,7 @@ public class StoredLibrary extends AStorage {
     		if (logger.isDebugEnabled()) {
     			logger.debug(name + " was found");
     		}
-    		
+
     		return true;
     	} else {
     		return false;

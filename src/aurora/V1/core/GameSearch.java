@@ -17,7 +17,7 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_ui.GameLibraryUI;
+import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.UI.AImagePane;
 import java.net.MalformedURLException;
@@ -36,7 +36,7 @@ public class GameSearch implements Runnable {
 
     private AuroraCoreUI ui;
 
-    private GameLibraryUI libraryUI;
+    private LibraryUI libraryUI;
 
     private ASimpleDB db;
 
@@ -59,13 +59,13 @@ public class GameSearch implements Runnable {
     private Object[] foundArray;
 
     private AuroraStorage storage;
-    
+
     static final Logger logger = Logger.getLogger(GameSearch.class);
 
     /////////////////////
     /////Constructor/////
     /////////////////////
-    public GameSearch(GameLibraryUI gameLibraryUI, ASimpleDB database,
+    public GameSearch(LibraryUI gameLibraryUI, ASimpleDB database,
                       AuroraStorage storage) {
 
         this.ui = gameLibraryUI.getCoreUI();
@@ -243,7 +243,7 @@ public class GameSearch implements Runnable {
         //What Happends When The Length is zero
         if (AppendedName.length() <= 0 || libraryUI.getGameSearchBar().getText()
                 .length() == 0) {
-        	
+
         	if (logger.isDebugEnabled()) {
         		logger.debug("RESETTING PANE");
         	}

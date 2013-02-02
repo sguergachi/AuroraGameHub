@@ -27,8 +27,8 @@ import aurora.V1.core.screen_logic.*;
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class GamerProfileHandler {
-	
-	static final Logger logger = Logger.getLogger(GamerProfileHandler.class);
+public class ProfileHandler {
+
+	static final Logger logger = Logger.getLogger(ProfileHandler.class);
 
 }

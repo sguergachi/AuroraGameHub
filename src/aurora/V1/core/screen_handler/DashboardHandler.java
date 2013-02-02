@@ -20,8 +20,8 @@ package aurora.V1.core.screen_handler;
 import aurora.V1.core.main;
 import aurora.V1.core.screen_logic.DashboardLogic;
 import aurora.V1.core.screen_ui.DashboardUI;
-import aurora.V1.core.screen_ui.GameLibraryUI;
-import aurora.V1.core.screen_ui.GamerProfileUI;
+import aurora.V1.core.screen_ui.LibraryUI;
+import aurora.V1.core.screen_ui.ProfileUI;
 import aurora.V1.core.screen_ui.SettingsUI;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
@@ -69,7 +69,7 @@ public class DashboardHandler implements AuroraScreenHandler {
      * The DashboardLogic instance obtained from the DashboardUI instance.
      */
     private DashboardLogic dashboardLogic;
-    
+
     static final Logger logger = Logger.getLogger(DashboardHandler.class);
 
     /**
@@ -209,7 +209,7 @@ public class DashboardHandler implements AuroraScreenHandler {
 
         @Override
         public final void mouseClicked(final MouseEvent e) {
-        	
+
         	if (logger.isDebugEnabled()) {
         		logger.debug("CLICKED LIBRARY MOUSE LISTENER");
         	}
@@ -261,7 +261,7 @@ public class DashboardHandler implements AuroraScreenHandler {
 
         @Override
         public final void mouseClicked(final MouseEvent e) {
-        	
+
         	if (logger.isDebugEnabled()) {
         		logger.debug("CLICKED CAROUSEL PANE");
         	}
@@ -297,7 +297,7 @@ public class DashboardHandler implements AuroraScreenHandler {
         public final void mouseWheelMoved(final MouseWheelEvent e) {
 
             int numberClicks = e.getWheelRotation();
-            
+
             if (logger.isDebugEnabled()) {
         		logger.debug("Mouse wheel moved " + numberClicks);
         	}

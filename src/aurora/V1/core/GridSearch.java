@@ -17,8 +17,8 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_handler.GameLibraryHandler;
-import aurora.V1.core.screen_ui.GameLibraryUI;
+import aurora.V1.core.screen_handler.LibraryHandler;
+import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.UI.AImage;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -42,7 +42,7 @@ public class GridSearch {
 
     private AuroraCoreUI ui; // The is the UI object
 
-    private GameLibraryUI libraryUI; // This is the Library View Object
+    private LibraryUI libraryUI; // This is the Library View Object
 
     private AImage sideSearchImage; // The Image To The Side of The Grid that says: Search
 
@@ -58,14 +58,14 @@ public class GridSearch {
 
     private FavListener FaveListener;
 
-    private final GameLibraryHandler handler;
+    private final LibraryHandler handler;
 
     private GridAnimation SearchGridAnimator;
-    
+
     static final Logger logger = Logger.getLogger(GridSearch.class);
 
-    public GridSearch(AuroraCoreUI ui, GameLibraryUI aLibraryUI,
-                      GameLibraryHandler aLibraryHandler) {
+    public GridSearch(AuroraCoreUI ui, LibraryUI aLibraryUI,
+                      LibraryHandler aLibraryHandler) {
         this.ui = ui;
         this.libraryUI = aLibraryUI;
         this.handler = aLibraryHandler;
@@ -75,7 +75,7 @@ public class GridSearch {
 
     public void typedChar(char typedChar) {
         typed = typedChar; // Set variable to typeChar
-        
+
         //Append to Appended Name
         AppendedName = AppendedName.concat(String.valueOf(typed));
 
@@ -148,7 +148,7 @@ public class GridSearch {
 
         //EXACT SEARCH
         if (checkGameExistsInLibrary(AppendedName)) { // Check if game is exact match to library game
-        	
+
         	 if (logger.isDebugEnabled()) {
              	logger.debug("Performing Exact Search: " + AppendedName);
              }
@@ -289,7 +289,7 @@ public class GridSearch {
         foundGame.setStorage(GameOriginal.getStorage());
 
         foundGameList.add(foundGame);
-        
+
         if (logger.isDebugEnabled()) {
         	logger.debug(foundGameList);
         }
@@ -340,14 +340,14 @@ public class GridSearch {
 
     //Clears Search grid and foundGameList
     public void clearSearchGrid() {
-    	
+
     	if (logger.isDebugEnabled()) {
     		logger.debug("Clearing Search Grid");
     	}
-        
+
         SearchManager.clearAllGrids();
         foundGameList.removeAll(foundGameList);
-        
+
         if (logger.isDebugEnabled()) {
     		logger.debug(foundGameList);
     	}

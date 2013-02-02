@@ -18,15 +18,15 @@
 package aurora.V1.core.screen_ui;
 
 import aurora.V1.core.*;
-import aurora.V1.core.screen_handler.GameLibraryHandler;
-import aurora.V1.core.screen_handler.GameLibraryHandler.GameLibraryKeyListener;
-import aurora.V1.core.screen_handler.GameLibraryHandler.HoverButtonLeft;
-import aurora.V1.core.screen_handler.GameLibraryHandler.HoverButtonRight;
-import aurora.V1.core.screen_handler.GameLibraryHandler.MoveToLastGrid;
-import aurora.V1.core.screen_handler.GameLibraryHandler.ShowAddGameUiHandler;
-import aurora.V1.core.screen_handler.GameLibraryHandler.searchBoxHandler;
-import aurora.V1.core.screen_handler.GameLibraryHandler.searchFocusHandler;
-import aurora.V1.core.screen_logic.GameLibraryLogic;
+import aurora.V1.core.screen_handler.LibraryHandler;
+import aurora.V1.core.screen_handler.LibraryHandler.GameLibraryKeyListener;
+import aurora.V1.core.screen_handler.LibraryHandler.HoverButtonLeft;
+import aurora.V1.core.screen_handler.LibraryHandler.HoverButtonRight;
+import aurora.V1.core.screen_handler.LibraryHandler.MoveToLastGrid;
+import aurora.V1.core.screen_handler.LibraryHandler.ShowAddGameUiHandler;
+import aurora.V1.core.screen_handler.LibraryHandler.searchBoxHandler;
+import aurora.V1.core.screen_handler.LibraryHandler.searchFocusHandler;
+import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.engine.V1.Logic.*;
 import aurora.engine.V1.UI.*;
 import java.awt.BorderLayout;
@@ -62,7 +62,7 @@ import org.apache.log4j.Logger;
 
 /**
  * .---------------------------------------------------------------------------.
- * | GameLibraryUI :: Aurora App Class
+ * | LibraryUI :: Aurora App Class
  * .---------------------------------------------------------------------------.
  * |
  * | This class contains the UI for the GameLibrary Screen which has a Handler
@@ -77,7 +77,7 @@ import org.apache.log4j.Logger;
  * @author Carlos Machado <camachado@gmail.com>
  * <p/>
  */
-public class GameLibraryUI extends AuroraApp {
+public class LibraryUI extends AuroraApp {
 
     /**
      * Zoom In Button.
@@ -333,7 +333,7 @@ public class GameLibraryUI extends AuroraApp {
 
     private JTextField searchTextField;
 
-    private GameLibraryHandler handler;
+    private LibraryHandler handler;
 
     private ASimpleDB CoverDB;
 
@@ -401,7 +401,7 @@ public class GameLibraryUI extends AuroraApp {
 
     private final AuroraCoreUI coreUI;
 
-    private final GameLibraryLogic logic;
+    private final LibraryLogic logic;
 
     private AButton btnOrganizeGames;
 
@@ -413,7 +413,7 @@ public class GameLibraryUI extends AuroraApp {
 
     private int bottomTopPadding;
 
-    static final Logger logger = Logger.getLogger(GameLibraryUI.class);
+    static final Logger logger = Logger.getLogger(LibraryUI.class);
 
     private JPanel pnlRightOfTopEastContainer;
     private JPanel pnlGoToProgramsContainer;
@@ -421,10 +421,10 @@ public class GameLibraryUI extends AuroraApp {
 
     /**
      * .-----------------------------------------------------------------------.
-     * | GameLibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
+     * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
      * .-----------------------------------------------------------------------.
      * |
-     * | This is the Constructor of the GameLibraryUI UI class.
+     * | This is the Constructor of the LibraryUI UI class.
      * |
      * | The Constructor of Screen Classes must initialize/create both a
      * | Handler and a Logic object which should contain the UI as a parameter
@@ -436,7 +436,7 @@ public class GameLibraryUI extends AuroraApp {
      * @param auroraCoreUI  AuroraCoreUI
      *
      */
-    public GameLibraryUI(final AuroraStorage auroraStorage,
+    public LibraryUI(final AuroraStorage auroraStorage,
                          final DashboardUI dashboardUi,
                          final AuroraCoreUI auroraCoreUI) {
         this.appName = "Game Library";
@@ -444,8 +444,8 @@ public class GameLibraryUI extends AuroraApp {
         this.storage = auroraStorage;
         this.dashboardUI = dashboardUi;
 
-        this.logic = new GameLibraryLogic(this);
-        this.handler = new GameLibraryHandler(this);
+        this.logic = new LibraryLogic(this);
+        this.handler = new LibraryHandler(this);
 
         handler.setLogic(logic);
         logic.setHandler(handler);
@@ -1043,19 +1043,19 @@ public class GameLibraryUI extends AuroraApp {
                         .getSystemLookAndFeelClassName());
             } catch (ClassNotFoundException ex) {
                 java.util.logging.Logger
-                        .getLogger(GameLibraryUI.class.getName()).
+                        .getLogger(LibraryUI.class.getName()).
                         log(Level.SEVERE, null, ex);
             } catch (InstantiationException ex) {
                 java.util.logging.Logger
-                        .getLogger(GameLibraryUI.class.getName()).
+                        .getLogger(LibraryUI.class.getName()).
                         log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
                 java.util.logging.Logger
-                        .getLogger(GameLibraryUI.class.getName()).
+                        .getLogger(LibraryUI.class.getName()).
                         log(Level.SEVERE, null, ex);
             } catch (UnsupportedLookAndFeelException ex) {
                 java.util.logging.Logger
-                        .getLogger(GameLibraryUI.class.getName()).
+                        .getLogger(LibraryUI.class.getName()).
                         log(Level.SEVERE, null, ex);
             }
 
@@ -1516,7 +1516,7 @@ public class GameLibraryUI extends AuroraApp {
         return gameLocator;
     }
 
-    public GameLibraryHandler getHandler() {
+    public LibraryHandler getHandler() {
         return handler;
     }
 
@@ -1804,7 +1804,7 @@ public class GameLibraryUI extends AuroraApp {
         return dashboardUI;
     }
 
-    public GameLibraryLogic getLogic() {
+    public LibraryLogic getLogic() {
         return logic;
     }
 

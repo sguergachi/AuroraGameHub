@@ -28,15 +28,15 @@ import aurora.V1.core.main;
  * @author Sammy
  * @version 0.2
  */
-public class GamerProfileUI extends AuroraApp {
+public class ProfileUI extends AuroraApp {
 
     private final DashboardUI dashboardUI;
 
     private final AuroraCoreUI coreUI;
-    
-    static final Logger logger = Logger.getLogger(GamerProfileUI.class);
 
-    public GamerProfileUI(DashboardUI dahsboardUi, AuroraCoreUI auroraCoreUi) {
+    static final Logger logger = Logger.getLogger(ProfileUI.class);
+
+    public ProfileUI(DashboardUI dahsboardUi, AuroraCoreUI auroraCoreUi) {
 
         this.appName = "Gamer Profile";
         this.dashboardUI = dahsboardUi;
