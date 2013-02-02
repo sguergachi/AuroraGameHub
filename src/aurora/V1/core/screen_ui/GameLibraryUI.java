@@ -34,6 +34,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
@@ -41,6 +44,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -178,7 +182,7 @@ public class GameLibraryUI extends AuroraApp {
     /**
      * AddGameUI Panel Containing Right part of Top Part of Center Panel.
      */
-    private JPanel pnlRightOfTopOfCenter;
+    private JPanel pnlRightOfTop;
 
     /**
      * AddGameUI Panel Containing Top part of Panel.
@@ -188,12 +192,12 @@ public class GameLibraryUI extends AuroraApp {
     /**
      * AddGameUI Panel Containing Left part of Bottom Part of Center Panel.
      */
-    private JPanel pnlLeftOfBottomOfCenter;
+    private JPanel pnlLeftOfBottom;
 
     /**
      * AddGameUI Panel Containing Right part of Bottom Part of Center Panel.
      */
-    private JPanel pnlRightOfBottomOfCenter;
+    private JPanel pnlRightOfBottom;
 
     /**
      * AddGameUI Panel Containing Bottom part of Center Panel.
@@ -254,6 +258,21 @@ public class GameLibraryUI extends AuroraApp {
      * AddGameUI Background Image of Button Panel.
      */
     private AImagePane pnlSearchButtonBG;
+
+    /**
+     * AddGameUI Shortcut button to Steam games dir.
+     */
+    private AButton btnGoToSteam;
+
+    /**
+     * AddGameUI Shortcut button to Programs dir.
+     */
+    private AButton btnGoToProgram;
+
+    /**
+     * AddGameUI Pane containing Shortcut buttons.
+     */
+    private JPanel pnlRightOfTopEast;
 
     /**
      * Image for keyboard icon.
@@ -391,9 +410,14 @@ public class GameLibraryUI extends AuroraApp {
     private int gridSearchFontSize;
 
     private int addGameFontSize;
+
     private int bottomTopPadding;
 
     static final Logger logger = Logger.getLogger(GameLibraryUI.class);
+
+    private JPanel pnlRightOfTopEastContainer;
+    private JPanel pnlGoToProgramsContainer;
+    private JPanel pnlGoToSteamContainer;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -823,22 +847,52 @@ public class GameLibraryUI extends AuroraApp {
         btnCloseAddUI = new AButton("addUI_btnClose_norm.png",
                 "addUI_btnClose_down.png", "addUI_btnClose_over.png");
 
+        btnGoToSteam = new AButton("addUI_btnGoToSteam_norm.png",
+                "addUI_btnGoToSteam_down.png", "addUI_btnGoToSteam_over.png");
+        btnGoToSteam.setBorder(null);
+        btnGoToSteam.setMargin(new Insets(0, 0, 0, 0));
+
+        btnGoToProgram = new AButton("addUI_btnGoToPrograms_norm.png",
+                "addUI_btnGoToPrograms_down.png",
+                "addUI_btnGoToPrograms_over.png");
+        btnGoToProgram.setBorder(null);
+        btnGoToProgram.setMargin(new Insets(0, 0, 0, 0));
+
+
 
         //* CENTRAL PANEL COMPONENTS *//
         pnlCenter = new JPanel(new BorderLayout());
         pnlCenter.setOpaque(false);
+
         pnlTopOfCenter = new JPanel(new BorderLayout());
         pnlTopOfCenter.setOpaque(false);
+
         pnlLeftOfTopCenter = new JPanel(new FlowLayout(FlowLayout.LEFT));
         pnlLeftOfTopCenter.setOpaque(false);
-        pnlRightOfTopOfCenter = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        pnlRightOfTopOfCenter.setOpaque(false);
-        pnlLeftOfBottomOfCenter = new JPanel(new FlowLayout(FlowLayout.LEFT,
+        pnlRightOfTop = new JPanel(new FlowLayout(FlowLayout.LEFT,0,7));
+        pnlRightOfTop.setOpaque(false);
+
+        pnlRightOfTopEast = new JPanel(new BorderLayout(0, 0));
+        pnlRightOfTopEast.setOpaque(false);
+
+
+        pnlGoToSteamContainer = new JPanel(new BorderLayout(0,0));
+        pnlGoToSteamContainer.setOpaque(false);
+        pnlGoToProgramsContainer = new JPanel(new BorderLayout(0,0));
+        pnlGoToProgramsContainer.setOpaque(false);
+
+        pnlRightOfTopEastContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT,
                 0, 0));
-        pnlLeftOfBottomOfCenter.setOpaque(false);
-        pnlRightOfBottomOfCenter = new JPanel(new FlowLayout(FlowLayout.CENTER,
+        pnlRightOfTopEastContainer.setOpaque(false);
+
+
+
+        pnlLeftOfBottom = new JPanel(new FlowLayout(FlowLayout.LEFT,
                 0, 0));
-        pnlRightOfBottomOfCenter.setOpaque(true);
+        pnlLeftOfBottom.setOpaque(false);
+        pnlRightOfBottom = new JPanel(new FlowLayout(FlowLayout.CENTER,
+                0, 0));
+        pnlRightOfBottom.setOpaque(true);
         pnlRightOfBottomContainer = new JPanel(new FlowLayout(FlowLayout.LEFT,
                 0, 0));
         pnlRightOfBottomContainer.setOpaque(false);
@@ -927,20 +981,21 @@ public class GameLibraryUI extends AuroraApp {
             //*
             pnlLeftOfTopCenter.setPreferredSize(new Dimension(pnlAddGamePane
                     .getImgIcon().getIconWidth() / 2, 75));
-            pnlRightOfTopOfCenter.setPreferredSize(new Dimension(pnlAddGamePane
+            pnlRightOfTop.setPreferredSize(new Dimension(pnlAddGamePane
                     .getImgIcon().getIconWidth() / 2, 75));
 
-            pnlLeftOfBottomOfCenter
+
+            pnlLeftOfBottom
                     .setPreferredSize(new Dimension(pnlAddGamePane
                     .getImgIcon().getIconWidth() / 2 - 10,
                     pnlCoverPane
                     .getImgIcon().getIconHeight()));
-            pnlRightOfBottomOfCenter
+            pnlRightOfBottom
                     .setPreferredSize(new Dimension(pnlAddGamePane
                     .getImgIcon().getIconWidth() / 2 - 10,
                     pnlCoverPane
                     .getImgIcon().getIconHeight()));
-            pnlRightOfBottomOfCenter.setBackground(new Color(38, 46, 60));
+            pnlRightOfBottom.setBackground(new Color(38, 46, 60));
 
             pnlRightOfBottomContainer
                     .setPreferredSize(new Dimension(pnlAddGamePane
@@ -948,10 +1003,23 @@ public class GameLibraryUI extends AuroraApp {
                     pnlCoverPane
                     .getImgIcon().getIconHeight()));
 
-
             pnlBlankCoverGame.setPreferredSize(new Dimension(240, 260));
 
-            //* Set up Game List *//
+            // Set up Go To Shortcuts //
+
+            pnlGoToSteamContainer.add(btnGoToSteam, BorderLayout.EAST);
+            pnlGoToProgramsContainer.add(btnGoToProgram, BorderLayout.EAST);
+
+            pnlRightOfTopEastContainer.add(btnGoToSteam);
+            pnlRightOfTopEastContainer.add(btnGoToProgram);
+
+            pnlRightOfTopEast.add(Box.createHorizontalStrut(pnlRightOfTop
+                                           .getPreferredSize().width
+                                                                  / 4));
+            pnlRightOfTopEast.add(pnlRightOfTopEastContainer, BorderLayout.EAST);
+
+
+            // Set up Game List //
             gamesList.setPreferredSize(
                     new Dimension(pnlCoverPane.getImgIcon().getIconWidth() + 80,
                     pnlCoverPane.getImgIcon().getIconHeight()));
@@ -968,31 +1036,38 @@ public class GameLibraryUI extends AuroraApp {
             gamesList.setModel(listModel);
 
 
-            //* Set up File Chooser UI (Windows only) *//
-            UIManager.put("Viewport.background", Color.LIGHT_GRAY);
-            UIManager.put("Viewport.foreground", Color.DARK_GRAY);
-            UIManager.put("ScrollPane.background", Color.GRAY);
-            UIManager.put("ComboBox.background", Color.LIGHT_GRAY);
-            UIManager.put("ScrollBar.background", Color.GRAY);
-            UIManager.put("Panel.background", Color.LIGHT_GRAY);
-            UIManager.put("Panel.forground", Color.WHITE);
-            UIManager.put("TextField.foreground", Color.WHITE);
-            UIManager.put("TextField.background", Color.LIGHT_GRAY);
+            // Set up File Chooser UI //
+
             try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                UIManager.setLookAndFeel(UIManager
+                        .getSystemLookAndFeelClassName());
             } catch (ClassNotFoundException ex) {
-                java.util.logging.Logger.getLogger(GameLibraryUI.class.getName()).
+                java.util.logging.Logger
+                        .getLogger(GameLibraryUI.class.getName()).
                         log(Level.SEVERE, null, ex);
             } catch (InstantiationException ex) {
-                java.util.logging.Logger.getLogger(GameLibraryUI.class.getName()).
+                java.util.logging.Logger
+                        .getLogger(GameLibraryUI.class.getName()).
                         log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
-                java.util.logging.Logger.getLogger(GameLibraryUI.class.getName()).
+                java.util.logging.Logger
+                        .getLogger(GameLibraryUI.class.getName()).
                         log(Level.SEVERE, null, ex);
             } catch (UnsupportedLookAndFeelException ex) {
-                java.util.logging.Logger.getLogger(GameLibraryUI.class.getName()).
+                java.util.logging.Logger
+                        .getLogger(GameLibraryUI.class.getName()).
                         log(Level.SEVERE, null, ex);
             }
+
+            try {
+                Field field = PopupFactory.class.getDeclaredField(
+                        "forceHeavyWeightPopupKey");
+                field.setAccessible(true);
+                gameLocator.putClientProperty(field.get(null), true);
+            } catch (Exception e) {
+                logger.error(e);
+            }
+
 
             //* Set up File Chooser *//
             SwingUtilities.updateComponentTreeUI(gameLocator);
@@ -1006,21 +1081,13 @@ public class GameLibraryUI extends AuroraApp {
             gameLocator.revalidate();
 
             if (logger.isDebugEnabled()) {
-            	logger.debug("Cover Pane Height: " + pnlCoverPane.getHeight());
+                logger.debug("Cover Pane Height: " + pnlCoverPane.getHeight());
             }
 
             gameLocator.setPreferredSize(new Dimension(pnlAddGamePane
                     .getImgIcon().getIconWidth() / 2 - 10, pnlCoverPane
                     .getImgIcon().getIconHeight()));
 
-            try {
-                Field field = PopupFactory.class.getDeclaredField(
-                        "forceHeavyWeightPopupKey");
-                field.setAccessible(true);
-                gameLocator.putClientProperty(field.get(null), true);
-            } catch (Exception e) {
-            	logger.error(e);
-            }
 
 
 
@@ -1094,25 +1161,26 @@ public class GameLibraryUI extends AuroraApp {
             //* Add the Titles and Badges at the Top of the CENTRAL panel *//
             pnlLeftOfTopCenter.add(statusBadge1);
             pnlLeftOfTopCenter.add(lblLeftTitle);
-            pnlRightOfTopOfCenter.add(statusBadge2);
-            pnlRightOfTopOfCenter.add(lblRightTitle);
+            pnlRightOfTop.add(statusBadge2);
+            pnlRightOfTop.add(lblRightTitle);
+            pnlRightOfTop.add(pnlRightOfTopEast);
 
             pnlCoverPane.add(pnlBlankCoverGame, BorderLayout.SOUTH);
-            pnlLeftOfBottomOfCenter.add(pnlCoverPane);
-            pnlLeftOfBottomOfCenter.add(gamesList);
+            pnlLeftOfBottom.add(pnlCoverPane);
+            pnlLeftOfBottom.add(gamesList);
 
             //* Add the main Content to the Central Panel *//
 
-            pnlRightOfBottomOfCenter.add(gameLocator);
+            pnlRightOfBottom.add(gameLocator);
             pnlRightOfBottomContainer
-                    .add(pnlRightOfBottomOfCenter);
+                    .add(pnlRightOfBottom);
 
-            pnlAddGameContainer.add(pnlLeftOfBottomOfCenter, BorderLayout.WEST);
+            pnlAddGameContainer.add(pnlLeftOfBottom, BorderLayout.WEST);
             pnlAddGameContainer
                     .add(pnlRightOfBottomContainer, BorderLayout.EAST);
 
             pnlTopOfCenter.add(pnlLeftOfTopCenter, BorderLayout.WEST);
-            pnlTopOfCenter.add(pnlRightOfTopOfCenter, BorderLayout.EAST);
+            pnlTopOfCenter.add(pnlRightOfTop, BorderLayout.EAST);
 
             pnlCenter.add(pnlTopOfCenter, BorderLayout.NORTH);
             pnlCenter.add(pnlAddGameContainer, BorderLayout.CENTER);
@@ -1218,7 +1286,7 @@ public class GameLibraryUI extends AuroraApp {
             try {
                 Thread.sleep(16);
             } catch (InterruptedException ex) {
-            	logger.error(ex);
+                logger.error(ex);
             }
 
             coreUI.getFrame().requestFocus();
@@ -1227,9 +1295,9 @@ public class GameLibraryUI extends AuroraApp {
 
     public void moveGridLeft() {
 
-    	if (logger.isDebugEnabled()) {
-    		logger.debug("Left key pressed");
-    	}
+        if (logger.isDebugEnabled()) {
+            logger.debug("Left key pressed");
+        }
 
         if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
                 .getAnimator2().isAnimating()) {
@@ -1272,7 +1340,7 @@ public class GameLibraryUI extends AuroraApp {
                 try {
                     logic.loadGames(currentIndex - 1);
                 } catch (MalformedURLException ex) {
-                	logger.error(ex);
+                    logger.error(ex);
                 }
             }
 
@@ -1291,9 +1359,9 @@ public class GameLibraryUI extends AuroraApp {
 
     public void moveGridRight() {
 
-    	if (logger.isDebugEnabled()) {
-    		logger.debug("Right key pressed");
-    	}
+        if (logger.isDebugEnabled()) {
+            logger.debug("Right key pressed");
+        }
 
         if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
                 .getAnimator2().isAnimating()) {
@@ -1318,7 +1386,7 @@ public class GameLibraryUI extends AuroraApp {
                 try {
                     logic.loadGames(currentIndex + 1);
                 } catch (MalformedURLException ex) {
-                	logger.error(ex);
+                    logger.error(ex);
                 }
 
 
@@ -1351,9 +1419,9 @@ public class GameLibraryUI extends AuroraApp {
                 .getHeight()) / 2;
 
         if (logger.isDebugEnabled()) {
-        	logger.debug("Ratio " + Ratio);
-        	logger.debug("Height " + coreUI.getFrame().getHeight());
-        	logger.debug("Width " + coreUI.getFrame().getWidth());
+            logger.debug("Ratio " + Ratio);
+            logger.debug("Height " + coreUI.getFrame().getHeight());
+            logger.debug("Width " + coreUI.getFrame().getWidth());
 
         }
 

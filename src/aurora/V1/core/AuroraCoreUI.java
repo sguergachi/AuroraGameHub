@@ -415,7 +415,7 @@ public class AuroraCoreUI {
 
         frame.addWindowListener(new FrameListener());
         frame.addWindowFocusListener(new FrameFocusListener());
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         resources = new ASurface("");
 
     }
