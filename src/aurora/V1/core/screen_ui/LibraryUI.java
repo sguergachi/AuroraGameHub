@@ -1462,7 +1462,7 @@ public class LibraryUI extends AuroraApp {
 
 
             } else if (coreUI.getOS().contains("Mac")) {
-                gotToPath = "";
+                gotToPath = "/Applications/";
             } else {
                 gotToPath = "";
             }
