@@ -24,6 +24,7 @@ import aurora.V1.core.screen_handler.LibraryHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.GameLibraryKeyListener;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
+import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
@@ -74,6 +75,8 @@ public class LibraryLogic implements AuroraScreenLogic {
     private boolean hasFav;
 
     static final Logger logger = Logger.getLogger(LibraryLogic.class);
+
+    private AAnimate addGameToLibButtonAnimator;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -221,7 +224,7 @@ public class LibraryLogic implements AuroraScreenLogic {
             loadGames(
                     0);
         } catch (MalformedURLException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         }
     }
 
@@ -231,9 +234,9 @@ public class LibraryLogic implements AuroraScreenLogic {
      */
     public void loadGames(int currentGridIndex) throws MalformedURLException {
 
-    	if (logger.isDebugEnabled()) {
-    		logger.debug("LAUNCHING LOAD METHOD");
-    	}
+        if (logger.isDebugEnabled()) {
+            logger.debug("LAUNCHING LOAD METHOD");
+        }
 
         int currentGrid = currentGridIndex;
         if (currentGrid < 0) {
@@ -241,8 +244,8 @@ public class LibraryLogic implements AuroraScreenLogic {
         }
 
         if (logger.isDebugEnabled()) {
-    		logger.debug("current panel: " + currentGrid);
-    	}
+            logger.debug("current panel: " + currentGrid);
+        }
 
 
         //Load First Panels
@@ -265,11 +268,14 @@ public class LibraryLogic implements AuroraScreenLogic {
                 }
 
                 if (!libraryUI.IsGameLibraryKeyListenerAdded()) {
-                	if (logger.isDebugEnabled()) {
-                		logger.debug("ADDING GAMELIBRARYLISTENER TO " + game.getName());
-                	}
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("ADDING GAMELIBRARYLISTENER TO " + game
+                                .getName());
+                    }
 
-                    game.addKeyListener(libraryHandler.new GameLibraryKeyListener());
+                    game
+                            .addKeyListener(
+                            libraryHandler.new GameLibraryKeyListener());
                 }
 
 
@@ -277,12 +283,12 @@ public class LibraryLogic implements AuroraScreenLogic {
                     game.update();
 
                     if (logger.isDebugEnabled()) {
-                		logger.debug("loading: " + game.getGameName());
-                	}
+                        logger.debug("loading: " + game.getGameName());
+                    }
 
                 }
             } catch (RuntimeException ex) {
-            	logger.error(ex);
+                logger.error(ex);
             }
         }
 
@@ -309,9 +315,10 @@ public class LibraryLogic implements AuroraScreenLogic {
                     }
 
                     if (!libraryUI.IsGameLibraryKeyListenerAdded()) {
-                    	if (logger.isDebugEnabled()) {
-                    		logger.debug("ADDING GAMELIBRARYLISTENER TO" + game.getName());
-                    	}
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("ADDING GAMELIBRARYLISTENER TO" + game
+                                    .getName());
+                        }
 
                         game.addKeyListener(
                                 libraryHandler.new GameLibraryKeyListener());
@@ -320,12 +327,12 @@ public class LibraryLogic implements AuroraScreenLogic {
                     if (!game.isLoaded()) {
                         game.update();
                         if (logger.isDebugEnabled()) {
-                    		logger.debug("Secondary loading: " + game.getName());
-                    	}
+                            logger.debug("Secondary loading: " + game.getName());
+                        }
 
                     }
                 } catch (RuntimeException ex) {
-                	logger.error(ex);
+                    logger.error(ex);
                 }
 
 
@@ -333,42 +340,68 @@ public class LibraryLogic implements AuroraScreenLogic {
         }
     }
 
+    /**
+     * check to see if both badges are green meaning you can
+     * add the game to the library.
+     */
     public void checkNotifiers() {
 
         if (libraryUI.getStatusBadge1().getImgURl().equals(
                 "addUI_badge_valid.png")
             && libraryUI.getStatusBadge2()
-                .getImgURl().equals("addUI_badge_valid.png")) {
-            //Animate the Button bellow Add Game UI
-            libraryUI.getAddGameToLibButton().setVisible(true);
-            libraryUI.getAddGameToLibButtonAnimator().setInitialLocation((coreUI
-                    .getFrame()
-                    .getWidth() / 2) -  libraryUI.getAddGameToLibButton().getWidth()/2, libraryUI.getAddGamePane()
-                    .getImgIcon()
-                    .getIconHeight() - 180);
-            libraryUI.getAddGameToLibButtonAnimator().moveVertical(libraryUI
-                    .getAddGamePane()
-                    .getImgIcon()
-                    .getIconHeight() - 55, 20);
-            libraryUI.getAddGameToLibButtonAnimator().removeAllListeners();
-        }
+                .getImgURl().equals("addUI_badge_valid.png") && !libraryUI
+                .getAddGameToLibButton().isVisible()) {
 
-        if ((libraryUI.getStatusBadge1().getImgURl().equals(
+            //Animate the Button below Add Game UI//
+            animateAddButtonDown();
+
+
+        } else if ((libraryUI.getStatusBadge1().getImgURl().equals(
                 "addUI_badge_invalid.png")
-             || libraryUI.getStatusBadge2()
+                    || libraryUI.getStatusBadge2()
                 .getImgURl().equals("addUI_badge_invalid.png"))
-            && libraryUI.getAddGameToLibButton().isVisible()) {
+                   && libraryUI.getAddGameToLibButton().isVisible()) {
 
-
-            libraryUI.getAddGameToLibButtonAnimator().moveVertical(0, 16);
-            libraryUI.getAddGameToLibButtonAnimator()
-                    .addPostAnimationListener(new APostHandler() {
-                @Override
-                public void postAction() {
-                    libraryUI.getAddGameToLibButton().setVisible(false);
-                }
-            });
+            //Animate up and hide it//
+            animateAddButtonUp();
         }
+
+    }
+
+    private void animateAddButtonDown() {
+        addGameToLibButtonAnimator = new AAnimate(libraryUI
+                .getAddGameToLibButton());
+
+        libraryUI.getAddGameToLibButton().setVisible(true);
+        addGameToLibButtonAnimator.setInitialLocation((coreUI
+                .getFrame()
+                .getWidth() / 2) - libraryUI.getAddGameToLibButton()
+                .getWidth() / 2, libraryUI.getAddGamePane()
+                .getImgIcon()
+                .getIconHeight() - 180);
+        addGameToLibButtonAnimator.moveVertical(libraryUI
+                .getAddGamePane()
+                .getImgIcon()
+                .getIconHeight() - 55, 20);
+        addGameToLibButtonAnimator.removeAllListeners();
+    }
+
+    private void animateAddButtonUp() {
+        addGameToLibButtonAnimator = new AAnimate(libraryUI
+                .getAddGameToLibButton());
+
+        addGameToLibButtonAnimator.setInitialLocation(libraryUI
+                .getAddGameToLibButton().getX(),libraryUI
+                .getAddGameToLibButton().getY());
+        addGameToLibButtonAnimator.moveVertical(-5, 20);
+
+        addGameToLibButtonAnimator
+                .addPostAnimationListener(new APostHandler() {
+            @Override
+            public void postAction() {
+                libraryUI.getAddGameToLibButton().setVisible(false);
+            }
+        });
 
     }
 }

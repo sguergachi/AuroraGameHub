@@ -288,11 +288,6 @@ public class LibraryUI extends AuroraApp {
     private AImage imgFavoritesSideBar;
 
     /**
-     * Image of Blank Case used as placeholder.
-     */
-    private AImage imgBlank;
-
-    /**
      * Image Step One badge.
      */
     private AImage statusBadge1;
@@ -469,7 +464,6 @@ public class LibraryUI extends AuroraApp {
         paneLibraryContainer = new JPanel(true);
 
         imgFavoritesSideBar = new AImage("library_favourites.png");
-        imgBlank = new AImage("Aurora_Blank.png");
 
         btnGameRight = new AHoverButton(3,
                 "library_navRight_norm.png", "library_navRight_over.png");
@@ -857,14 +851,14 @@ public class LibraryUI extends AuroraApp {
         btnGoToSteam.setBorder(null);
         btnGoToSteam.setMargin(new Insets(0, 0, 0, 0));
 
-        if(coreUI.getOS().contains("Mac")){
-        btnGoToProgram = new AButton("addUI_btnGoToApps_norm.png",
-                "addUI_btnGoToApps_down.png",
-                "addUI_btnGoToApps_over.png");
-        }else{
+        if (coreUI.getOS().contains("Mac")) {
+            btnGoToProgram = new AButton("addUI_btnGoToApps_norm.png",
+                    "addUI_btnGoToApps_down.png",
+                    "addUI_btnGoToApps_over.png");
+        } else {
             btnGoToProgram = new AButton("addUI_btnGoToPrograms_norm.png",
-                "addUI_btnGoToPrograms_down.png",
-                "addUI_btnGoToPrograms_over.png");
+                    "addUI_btnGoToPrograms_down.png",
+                    "addUI_btnGoToPrograms_over.png");
         }
         btnGoToProgram.setBorder(null);
         btnGoToProgram.setMargin(new Insets(0, 0, 0, 0));
@@ -941,7 +935,7 @@ public class LibraryUI extends AuroraApp {
         addGameToLibButton = new AButton("addUI_btnAdd_norm.png",
                 "addUI_btnAdd_down.png", "addUI_btnAdd_over.png");
         addGameToLibButton.setVisible(false);
-        addGameToLibButtonAnimator = new AAnimate(addGameToLibButton);
+
 
     }
 
@@ -1408,7 +1402,8 @@ public class LibraryUI extends AuroraApp {
                 if (!(currentIndex + 1 < GridSplit.getArray().size() - 1)) {
 
                     paneLibraryContainer.remove(btnGameRight);
-                    paneLibraryContainer.add(imgBlank, BorderLayout.EAST, 2);
+                    paneLibraryContainer.add(Box.createHorizontalStrut(140),
+                            BorderLayout.EAST, 2);
                     btnGameRight.mouseExit();
                 }
             }
@@ -1837,10 +1832,6 @@ public class LibraryUI extends AuroraApp {
 
     public AImage getImgFavorite() {
         return imgFavoritesSideBar;
-    }
-
-    public AImage getImgBlank() {
-        return imgBlank;
     }
 
     public AHoverButton getImgGameLeft() {
