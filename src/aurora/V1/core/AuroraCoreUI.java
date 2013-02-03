@@ -835,7 +835,7 @@ public class AuroraCoreUI {
             welcomeFontSize = 20;
             versionFontSize = 14;
             timeFontSize = bottomPanelSize / 13;
-            logoHeight = topPanelSize / 3 + (int) (Ratio / 14);
+            logoHeight = topPanelSize / 3 + (int) (Ratio / 21);
             logoWidth = frame.getWidth() / 2 + (int) (Ratio / 5);
             exitButtonWidth = 0;
             exitButtonHeight = 0;
@@ -851,7 +851,7 @@ public class AuroraCoreUI {
             welcomeFontSize = 20;
             versionFontSize = 14;
             timeFontSize = bottomPanelSize / 13;
-            logoHeight = topPanelSize / 3 + (int) (Ratio / 20);
+            logoHeight = topPanelSize / 3 + (int) (Ratio / 21);
             logoWidth = frame.getWidth() / 2;
             controlHeight = 45;
             controlWidth = 150;
