@@ -56,6 +56,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -954,8 +955,6 @@ public class LibraryHandler implements
 
         private AImage imgFavorite;
 
-        private AImage imgBlank;
-
         private GridAnimation GridAnimate;
 
         private final AuroraCoreUI coreUI;
@@ -967,7 +966,6 @@ public class LibraryHandler implements
             imgGameLeft = libraryUI.getImgGameLeft();
             imgGameRight = libraryUI.getImgGameRight();
             imgFavorite = libraryUI.getImgFavorite();
-            imgBlank = libraryUI.getImgBlank();
             GridAnimate = libraryUI.getGridAnimate();
         }
 
@@ -1005,7 +1003,7 @@ public class LibraryHandler implements
                             .size() - 1)) {
 
                         GameBack.remove(libraryUI.getImgGameRight());
-                        GameBack.add(imgBlank, BorderLayout.EAST, 2);
+                        GameBack.add(Box.createHorizontalStrut(140), BorderLayout.EAST, 2);
                         imgGameRight.mouseExit();
                     }
                 }
