@@ -663,8 +663,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
                     pnlTop.revalidate();
                     imgTitle.setImage("app_launch_standBy.png");
                     //* Start Music Again *//
-                    coreUI.getBackgroundSound().Resume();
-
                     calculateTimePlayed();
                     showTimeSpentPlaying();
 
