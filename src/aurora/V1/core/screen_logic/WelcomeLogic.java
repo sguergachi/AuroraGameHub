@@ -115,17 +115,17 @@ public class WelcomeLogic implements AuroraScreenLogic {
 
     public void startBackgroundMusic() {
 
-        try {
-            coreUI.getBackgroundSound().Play();
-        } catch (UnsupportedAudioFileException ex) {
-            logger.error(ex);
-        } catch (IOException ex) {
-            logger.error(ex);
-        } catch (LineUnavailableException ex) {
-            logger.error(ex);
-        } catch (InterruptedException ex) {
-            logger.error(ex);
-        }
+//        try {
+//            coreUI.getBackgroundSound().Play();
+//        } catch (UnsupportedAudioFileException ex) {
+//            logger.error(ex);
+//        } catch (IOException ex) {
+//            logger.error(ex);
+//        } catch (LineUnavailableException ex) {
+//            logger.error(ex);
+//        } catch (InterruptedException ex) {
+//            logger.error(ex);
+//        }
 
     }
 

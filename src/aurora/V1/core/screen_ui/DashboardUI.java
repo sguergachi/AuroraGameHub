@@ -20,8 +20,6 @@ package aurora.V1.core.screen_ui;
 import aurora.V1.core.AboutBox;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
-import aurora.V1.core.Game;
-import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.DashboardHandler;
 import aurora.V1.core.screen_logic.DashboardLogic;
 import aurora.engine.V1.Logic.AuroraScreenUI;
@@ -32,14 +30,10 @@ import aurora.engine.V1.UI.ACarouselTitle;
 import aurora.engine.V1.UI.ACarouselTitle.TitleType;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
-import aurora.engine.V1.UI.AInfoFeed;
-import aurora.engine.V1.UI.AInfoFeedLabel;
 import aurora.engine.V1.UI.AMarqueePanel;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -48,11 +42,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import org.apache.log4j.Logger;
 
 /**

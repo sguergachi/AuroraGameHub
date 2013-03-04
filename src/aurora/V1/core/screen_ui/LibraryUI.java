@@ -849,6 +849,7 @@ public class LibraryUI extends AuroraApp {
         btnCloseAddUI = new AButton("addUI_btnClose_norm.png",
                 "addUI_btnClose_down.png", "addUI_btnClose_over.png");
 
+
         btnGoToSteam = new AButton("addUI_btnGoToSteam_norm.png",
                 "addUI_btnGoToSteam_down.png", "addUI_btnGoToSteam_over.png");
         btnGoToSteam.setBorder(null);
@@ -863,9 +864,12 @@ public class LibraryUI extends AuroraApp {
                     "addUI_btnGoToPrograms_down.png",
                     "addUI_btnGoToPrograms_over.png");
         }
+
         btnGoToProgram.setBorder(null);
         btnGoToProgram.setMargin(new Insets(0, 0, 0, 0));
 
+        btnGoToProgram.addActionListener(new GoToProgramsListener());
+        btnGoToSteam.addActionListener(new GoToSteamListener());
 
 
         //* CENTRAL PANEL COMPONENTS *//
@@ -1015,8 +1019,6 @@ public class LibraryUI extends AuroraApp {
 
             // Set up Go To Shortcuts //
 
-            btnGoToProgram.addActionListener(new GoToProgramsListener());
-            btnGoToSteam.addActionListener(new GoToSteamListener());
 
             pnlGoToSteamContainer.add(btnGoToSteam, BorderLayout.EAST);
             pnlGoToProgramsContainer.add(btnGoToProgram, BorderLayout.EAST);
@@ -1487,6 +1489,90 @@ public class LibraryUI extends AuroraApp {
             } else {
                 gameFileChooser.setCurrentDirectory(null);
             }
+
+            coreUI.getFrame().repaint();
+
+        }
+        private File steamFile = null;
+
+        private File fetchSteamDirOnWindows() {
+            final int HKEY_CURRENT_USER = 0x80000001;
+            final int KEY_QUERY_VALUE = 1;
+            final int KEY_SET_VALUE = 2;
+            final int KEY_READ = 0x20019;
+
+            final Preferences userRoot = Preferences.userRoot();
+            final Preferences systemRoot = Preferences.systemRoot();
+            final Class clz = userRoot.getClass();
+
+
+
+            AThreadWorker findSteam = new AThreadWorker(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        final Method openKey = clz.getDeclaredMethod("openKey",
+                                byte[].class, int.class, int.class);
+                        openKey.setAccessible(true);
+
+                        final Method closeKey = clz
+                                .getDeclaredMethod("closeKey",
+                                int.class);
+                        closeKey.setAccessible(true);
+
+                        final Method winRegQueryValue = clz.getDeclaredMethod(
+                                "WindowsRegQueryValueEx", int.class,
+                                byte[].class);
+                        winRegQueryValue.setAccessible(true);
+                        final Method winRegEnumValue = clz.getDeclaredMethod(
+                                "WindowsRegEnumValue1", int.class, int.class,
+                                int.class);
+                        winRegEnumValue.setAccessible(true);
+                        final Method winRegQueryInfo = clz.getDeclaredMethod(
+                                "WindowsRegQueryInfoKey1", int.class);
+                        winRegQueryInfo.setAccessible(true);
+
+
+                        byte[] valb = null;
+                        String vals = null;
+                        String key = null;
+                        Integer handle = -1;
+
+                        // Query for steam path
+                        key = "Software\\Classes\\steam\\Shell\\Open\\Command";
+                        handle = (Integer) openKey.invoke(systemRoot,
+                                toCstr(key),
+                                KEY_READ, KEY_READ);
+                        valb = (byte[]) winRegQueryValue.invoke(systemRoot,
+                                handle,
+                                toCstr(""));
+                        vals = (valb != null ? new String(valb).trim() : null);
+                        closeKey.invoke(Preferences.systemRoot(), handle);
+
+                        int steamExeIndex = vals.indexOf("steam.exe");
+                        if (steamExeIndex > 0) {
+                            String steamPath = vals.substring(1, steamExeIndex);
+                            steamPath = steamPath + "\\steamapps\\common";
+                            steamFile = new File(steamPath);
+
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+            findSteam.startOnce();
+
+            return steamFile;
+        }
+
+        private byte[] toCstr(String str) {
+            byte[] result = new byte[str.length() + 1];
+            for (int i = 0; i < str.length(); i++) {
+                result[i] = (byte) str.charAt(i);
+            }
+            result[str.length()] = 0;
+            return result;
         }
     }
 
@@ -1879,72 +1965,5 @@ public class LibraryUI extends AuroraApp {
 
     public LibraryLogic getLogic() {
         return logic;
-    }
-    
-    private File fetchSteamDirOnWindows()
-    {
-        final int HKEY_CURRENT_USER = 0x80000001;
-        final int KEY_QUERY_VALUE = 1;
-        final int KEY_SET_VALUE = 2;
-        final int KEY_READ = 0x20019;
-    	
-    	final Preferences userRoot = Preferences.userRoot();
-    	final Preferences systemRoot = Preferences.systemRoot();
-    	final Class clz = userRoot.getClass();
-    	
-    	
-    	try {
-    		final Method openKey = clz.getDeclaredMethod("openKey",
-    				byte[].class, int.class, int.class);
-    		openKey.setAccessible(true);
-
-    		final Method closeKey = clz.getDeclaredMethod("closeKey",
-    				int.class);
-    		closeKey.setAccessible(true);
-
-    		final Method winRegQueryValue = clz.getDeclaredMethod(
-    				"WindowsRegQueryValueEx", int.class, byte[].class);
-    		winRegQueryValue.setAccessible(true);
-    		final Method winRegEnumValue = clz.getDeclaredMethod(
-    				"WindowsRegEnumValue1", int.class, int.class, int.class);
-    		winRegEnumValue.setAccessible(true);
-    		final Method winRegQueryInfo = clz.getDeclaredMethod(
-    				"WindowsRegQueryInfoKey1", int.class);
-    		winRegQueryInfo.setAccessible(true);
-
-
-    		byte[] valb = null;
-    		String vals = null;
-    		String key = null;
-    		Integer handle = -1;
-
-    		// Query for steam path
-    		key = "Software\\Classes\\steam\\Shell\\Open\\Command";
-    		handle = (Integer) openKey.invoke(systemRoot, toCstr(key), KEY_READ, KEY_READ);
-    		valb = (byte[]) winRegQueryValue.invoke(systemRoot, handle, toCstr(""));
-    		vals = (valb != null ? new String(valb).trim() : null);
-    		closeKey.invoke(Preferences.systemRoot(), handle);
-    		
-    		int steamExeIndex = vals.indexOf("steam.exe");
-    		if (steamExeIndex > 0) {
-    			String steamPath = vals.substring(1, steamExeIndex);
-    			steamPath = steamPath + "\\steamapps\\common";
-    			File steamFile = new File(steamPath);
-    			return steamFile;
-    		}
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    	
-    	return null;
-    }
-    
-    private static byte[] toCstr(String str) {
-    	byte[] result = new byte[str.length() + 1];
-    	for (int i = 0; i < str.length(); i++) {
-    		result[i] = (byte) str.charAt(i);
-    	}
-    	result[str.length()] = 0;
-    	return result;
     }
 }

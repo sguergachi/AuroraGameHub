@@ -495,8 +495,6 @@ public class AuroraMini {
                 coreUI.getFrame().setState(JFrame.NORMAL);
                 coreUI.getFrame().repaint();
 
-                coreUI.getBackgroundSound().Resume();
-
                 try {
                     Thread.sleep(16);
                 } catch (InterruptedException ex) {

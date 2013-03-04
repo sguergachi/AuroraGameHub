@@ -882,17 +882,17 @@ public class AuroraCoreUI {
         // Background Sound
         //*
 
-        try {
-            backgrounSFX = new ASound(ASound.sfxTheme, true);
-        } catch (MalformedURLException ex) {
-        	logger.error(ex);
-        } catch (UnsupportedAudioFileException ex) {
-        	logger.error(ex);
-        } catch (IOException ex) {
-        	logger.error(ex);
-        } catch (LineUnavailableException ex) {
-        	logger.error(ex);
-        }
+//        try {
+//            backgrounSFX = new ASound(ASound.sfxTheme, true);
+//        } catch (MalformedURLException ex) {
+//        	logger.error(ex);
+//        } catch (UnsupportedAudioFileException ex) {
+//        	logger.error(ex);
+//        } catch (IOException ex) {
+//        	logger.error(ex);
+//        } catch (LineUnavailableException ex) {
+//        	logger.error(ex);
+//        }
     }
 
     /**
@@ -1142,7 +1142,6 @@ public class AuroraCoreUI {
 
         public void actionPerformed(ActionEvent e) {
             //ENABLE MINI MODE
-            backgrounSFX.Pause();
             minimizeAurora(arg);
 
         }

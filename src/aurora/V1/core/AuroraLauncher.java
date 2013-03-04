@@ -301,9 +301,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
         while (Thread.currentThread() == launcherThread) {
 
 
-            //* Stop Music *//
-            coreUI.getBackgroundSound().Pause();
-
 
             try {
 
