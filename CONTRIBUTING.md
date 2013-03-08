@@ -190,14 +190,14 @@ why ect.
 
 For imporant comments regarding code behaviour use:
 
-        //* Code Comment Here *//
+        // Code Comment Here //
 
 This can also be used multiline if needed:
 
-	//* 
-	// This is a Multiline
-	// beautiful Comment
-	//*
+	//- 
+	// This is a beautiful 
+	// Multiline Comment
+	//-
 
 
 ## 5. Code Segmenting

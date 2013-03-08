@@ -33,45 +33,66 @@ import org.apache.log4j.Logger;
 public class StoredLibrary extends AStorage {
 
     private LibraryUI Library;
+
     private ArrayList<String> GameNames;
+
     private ArrayList<String> GamePaths;
+
     private ArrayList<String> BoxArtPaths;
+
     private ArrayList<Boolean> Favestates;
+
     private String GameName;
+
     private String GamePath;
+
     private String BoxArtPath;
+
     private Boolean Favestate = false;
+
     static final Logger logger = Logger.getLogger(StoredLibrary.class);
 
     public StoredLibrary() {
+        GameNames = new ArrayList<String>();
+        GamePaths = new ArrayList<String>();
+        BoxArtPaths = new ArrayList<String>();
+        Favestates = new ArrayList<Boolean>();
     }
 
     @Override
     public void setUpDatabase(Boolean FirstTime, String Path) {
-        GameNames   = new ArrayList();
-        GamePaths   = new ArrayList();
-        BoxArtPaths = new ArrayList();
-        Favestates  = new ArrayList();
+
 
         try {
             super.db = new ASimpleDB("Games", Path);
         } catch (SQLException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         }
 
-        //If this is the first time we are setting up the database
-        //Then create the columns where the data will reside
+        //-
+        // If this is the first time we are setting up the database
+        // Then create the columns where the data will reside
+        //-
+
         if (FirstTime) {
 
             try {
                 db.addTable("Library", false);
-                db.addColumn("Library", "Game_Name", ASimpleDB.TYPE_STRING_IGNORECASE);
+
+                db.addColumn("Library", "Game_Name",
+                        ASimpleDB.TYPE_STRING_IGNORECASE);
                 db.setConstraint("Library", "Game_Name", ASimpleDB.UNIQUE);
-                db.addColumn("Library", "Executable_Path", ASimpleDB.TYPE_STRING_IGNORECASE);
-                db.addColumn("Library", "BoxArt_Path", ASimpleDB.TYPE_STRING_IGNORECASE);
+
+                db.addColumn("Library", "Executable_Path",
+                        ASimpleDB.TYPE_STRING_IGNORECASE);
+
+                db.addColumn("Library", "BoxArt_Path",
+                        ASimpleDB.TYPE_STRING_IGNORECASE);
+
                 db.addColumn("Library", "FavState", ASimpleDB.TYPE_BOOLEAN);
+
             } catch (SQLException ex) {
-            	logger.error(ex);
+                logger.error(ex);
             }
 
         }
@@ -86,13 +107,15 @@ public class StoredLibrary extends AStorage {
         if (Library != null) {
 
             for (int a = 0; a < Library.getGridSplit().getArray().size(); a++) {
-                for (int b = 0; b < Library.getGridSplit().getGrid(a).getArray().size(); b++) {
+                for (int b = 0; b < Library.getGridSplit().getGrid(a).getArray()
+                        .size(); b++) {
 
-                    Game game = (Game) Library.getGridSplit().getGrid(a).getArray().get(b);
-                    GameName   = game.getGameName();
-                    GamePath   = game.getGamePath();
+                    Game game = (Game) Library.getGridSplit().getGrid(a)
+                            .getArray().get(b);
+                    GameName = game.getGameName();
+                    GamePath = game.getGamePath();
                     BoxArtPath = game.getBoxArtUrl();
-                    Favestate  = game.isFavorite();
+                    Favestate = game.isFavorite();
 
                 }
             }
@@ -110,11 +133,11 @@ public class StoredLibrary extends AStorage {
         if (game != null) {
 
             Favestate = game.isFavorite();
-            GameName  = game.getGameName();
-            GameName  = game.getGameName().replace("'", "''");
+            GameName = game.getGameName();
+            GameName = game.getGameName().replace("'", "''");
 
             if (logger.isDebugEnabled()) {
-            	logger.debug("Saved Favourite State to " + Favestate);
+                logger.debug("Saved Favourite State to " + Favestate);
             }
 
             Favestates.add(Favestate);
@@ -130,17 +153,18 @@ public class StoredLibrary extends AStorage {
     public void SaveGame(Game game) {
 
         if (game != null) {
-        	 if (logger.isDebugEnabled()) {
-             	logger.debug("Saving To Library");
-             }
+            if (logger.isDebugEnabled()) {
+                logger.debug("Saving To Library");
+            }
 
-            GameName   = game.getGameName().replace("'", "''");
-            GamePath   = game.getGamePath();
+            GameName = game.getGameName().replace("'", "''");
+            GamePath = game.getGamePath();
             BoxArtPath = game.getBoxArtUrl().replace("'", "''");
 
             if (logger.isDebugEnabled()) {
-            	logger.debug("Saved Game");
-            	logger.debug(game.getGameName() + " " + game.getBoxArtUrl() + " " + game.getGamePath());
+                logger.debug("Saved Game");
+                logger.debug(game.getGameName() + " " + game.getBoxArtUrl()
+                             + " " + game.getGamePath());
             }
 
             GameNames.add(GameName);
@@ -158,10 +182,10 @@ public class StoredLibrary extends AStorage {
      * Removes the game from the stored library
      */
     public void removeGame(Game game) {
-    	String gameName = game.getGameName().replace("'", "''");
-    	GameNames.remove(gameName);
-    	GamePaths.remove(game.getGamePath());
-    	BoxArtPaths.remove(game.getBoxArtUrl());
+        String gameName = game.getGameName().replace("'", "''");
+        GameNames.remove(gameName);
+        GamePaths.remove(game.getGamePath());
+        BoxArtPaths.remove(game.getBoxArtUrl());
 
         removeFromDatabase(gameName);
     }
@@ -174,9 +198,9 @@ public class StoredLibrary extends AStorage {
     @Override
     public void storeFromDatabase() {
 
-        Favestates  = getDatabaseArray("Library", "FavState");
-        GameNames   = getDatabaseArray("Library", "Game_Name");
-        GamePaths   = getDatabaseArray("Library", "Executable_Path");
+        Favestates = getDatabaseArray("Library", "FavState");
+        GameNames = getDatabaseArray("Library", "Game_Name");
+        GamePaths = getDatabaseArray("Library", "Executable_Path");
         BoxArtPaths = getDatabaseArray("Library", "BoxArt_Path");
 
     }
@@ -187,13 +211,14 @@ public class StoredLibrary extends AStorage {
     public void storeStateToDatabase() {
 
         try {
-            db.setColValue("Library", "FavState", "Game_Name", "'" + GameName + "'", Favestate);
+            db.setColValue("Library", "FavState", "Game_Name", "'" + GameName
+                                                               + "'", Favestate);
             db.CloseConnection();
         } catch (SQLException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         }
 
-        GameName  = "";
+        GameName = "";
         Favestate = false;
     }
 
@@ -206,15 +231,18 @@ public class StoredLibrary extends AStorage {
 
         try {
 
-            db.addRowFlex("Library", new String[]{"Game_Name", "Executable_Path", "BoxArt_Path", "FavState"},
-                    ("'" + GameName + "'" + "," + "'" + GamePath + "'" + "," + "'" + BoxArtPath + "'" + "," + "'" + Favestate + "'"));
+            db.addRowFlex("Library",
+                    new String[]{"Game_Name", "Executable_Path", "BoxArt_Path",
+                "FavState"},
+                    ("'" + GameName + "'" + "," + "'" + GamePath + "'" + ","
+                     + "'" + BoxArtPath + "'" + "," + "'" + Favestate + "'"));
 
         } catch (SQLException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         }
         //Clear for next set of Games
-        GameName   = "";
-        GamePath   = "";
+        GameName = "";
+        GamePath = "";
         BoxArtPath = "";
 
     }
@@ -223,27 +251,27 @@ public class StoredLibrary extends AStorage {
      * Remove a game from the library database
      */
     private void removeFromDatabase(String name) {
-    	try {
-    		db.deleteRowFlex("Library", "Game_Name=" + "'" + name + "'");
+        try {
+            db.deleteRowFlex("Library", "Game_Name=" + "'" + name + "'");
 
-    	} catch (SQLException ex) {
-    		logger.error(ex);
-    	}
+        } catch (SQLException ex) {
+            logger.error(ex);
+        }
     }
 
     /*
      * Search for the name in the GameNames array
      */
     public boolean search(String name) {
-    	if (GameNames.contains(name)) {
-    		if (logger.isDebugEnabled()) {
-    			logger.debug(name + " was found");
-    		}
+        if (GameNames.contains(name)) {
+            if (logger.isDebugEnabled()) {
+                logger.debug(name + " was found");
+            }
 
-    		return true;
-    	} else {
-    		return false;
-    	}
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public ArrayList<String> getBoxArtPath() {

@@ -236,8 +236,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
         //* Set Game Cover Image *//
         imgGameCover.setImage(game);
         imgGameCover.setImageHeight(launchPane.getHeight() / 3 + 80);
-        imgGameCover.setImageWidth((int) (imgGameCover.getImageHeight()
-                                          - imgGameCover.getImageHeight() / 15));
+        imgGameCover.setImageWidth(imgGameCover.getImageHeight()
+                                   - imgGameCover.getImageHeight() / 15);
         imgGameCover.setPreferredSize(new Dimension(imgGameCover.getImageWidth()
                                                     + 20, imgGameCover
                 .getImageHeight()));
@@ -662,7 +662,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
                     pnlTop.add(pnlTopContainer);
                     pnlTop.revalidate();
                     imgTitle.setImage("app_launch_standBy.png");
-                    //* Start Music Again *//
                     calculateTimePlayed();
                     showTimeSpentPlaying();
 
