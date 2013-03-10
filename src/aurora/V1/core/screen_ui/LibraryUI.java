@@ -1485,7 +1485,11 @@ public class LibraryUI extends AuroraApp {
             if (coreUI.getOS().contains("Windows")) {
                 gameFileChooser.setCurrentDirectory(fetchSteamDirOnWindows());
             } else if (coreUI.getOS().contains("Mac")) {
-                gameFileChooser.setCurrentDirectory(null);
+                if (AFileManager
+                        .checkFile("/Applications/Steam/steamapp/common")) {
+                    gameFileChooser.setCurrentDirectory(new File(
+                            "/Applications/Steam/steamapp/common"));
+                }
             } else {
                 gameFileChooser.setCurrentDirectory(null);
             }

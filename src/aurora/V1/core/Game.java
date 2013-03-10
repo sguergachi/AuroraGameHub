@@ -654,6 +654,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.isRemoved = true;
     }
 
+
+    public final void saveMetadata(){
+        storage.getStoredProfile().SaveGameMetadata(this);
+    }
+
     ////Getters and Setters
     public final AuroraStorage getStorage() {
         return storage;
@@ -720,15 +725,15 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         return name;
     }
 
-    public final int getNumberTimesPlayed() {
+    public final int getOccurencesPlayed() {
         return numberTimesPlayed;
     }
 
-    public final String getTimePlayed() {
+    public final String getTotalTimePlayed() {
         return timePlayed;
     }
 
-    public final DashboardUI getDashObj() {
+    public final DashboardUI getDashboardUI() {
         return this.dashboardUi;
     }
 
@@ -753,7 +758,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.lastPlayed = lastPlayed;
     }
 
-    public final void setDashObj(final DashboardUI dashboardUi) {
+    public final void setDashboardUI(final DashboardUI dashboardUi) {
         this.dashboardUi = dashboardUi;
     }
 
@@ -765,11 +770,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         return name;
     }
 
-    public final void setNumberTimesPlayed(final int numberTimesPlayed) {
+    public final void setOcurrencesPlayed(final int numberTimesPlayed) {
         this.numberTimesPlayed = numberTimesPlayed;
     }
 
-    public final void setTimePlayed(final String timePlayed) {
+    public final void setTotalTimePlayed(final String timePlayed) {
         this.timePlayed = timePlayed;
     }
 
@@ -797,6 +802,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     public final String getGamePath() {
         return this.gamePath;
+    }
+
+    void addTime(int minDiff, int hoursDiff) {
+
+        //TODO ADD TIME TO CURRENT TOTAL
+
+
     }
 
     class FavoriteButtonListener implements ActionListener {
@@ -917,10 +929,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         	}
 
             AuroraStorage storage = dashboardUi.getStorage();
-            StoredLibrary library = storage.getStoredLibrary();
-            library.search(name);
-            library.removeGame(Game.this);
+            StoredLibrary libraryStorage = storage.getStoredLibrary();
+            libraryStorage.search(name);
+            libraryStorage.removeGame(Game.this);
+            storage.getStoredProfile().removeGameMetadata(Game.this);
             manager.removeGame(Game.this);
+
         }
     }
 

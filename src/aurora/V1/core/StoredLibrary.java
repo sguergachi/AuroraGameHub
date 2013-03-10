@@ -154,18 +154,12 @@ public class StoredLibrary extends AStorage {
 
         if (game != null) {
             if (logger.isDebugEnabled()) {
-                logger.debug("Saving To Library");
+                logger.debug("Saving To Library...");
             }
 
             GameName = game.getGameName().replace("'", "''");
             GamePath = game.getGamePath();
             BoxArtPath = game.getBoxArtUrl().replace("'", "''");
-
-            if (logger.isDebugEnabled()) {
-                logger.debug("Saved Game");
-                logger.debug(game.getGameName() + " " + game.getBoxArtUrl()
-                             + " " + game.getGamePath());
-            }
 
             GameNames.add(GameName);
             GamePaths.add(GamePath);
@@ -173,6 +167,13 @@ public class StoredLibrary extends AStorage {
             Favestate = false;
 
             storeToDatabase();
+
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("Saved Game");
+                logger.debug(game.getGameName() + " " + game.getBoxArtUrl()
+                             + " " + game.getGamePath());
+            }
 
         }
 
@@ -202,6 +203,13 @@ public class StoredLibrary extends AStorage {
         GameNames = getDatabaseArray("Library", "Game_Name");
         GamePaths = getDatabaseArray("Library", "Executable_Path");
         BoxArtPaths = getDatabaseArray("Library", "BoxArt_Path");
+
+        if (GameNames == null) {
+            GameNames = new ArrayList<String>();
+            GamePaths = new ArrayList<String>();
+            BoxArtPaths = new ArrayList<String>();
+            Favestates = new ArrayList<Boolean>();
+        }
 
     }
 

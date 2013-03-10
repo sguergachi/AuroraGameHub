@@ -385,7 +385,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
 
                     //* Tracker Data *//
-                    game.setNumberTimesPlayed(game.getNumberTimesPlayed() + 1);
+                    game.setOcurrencesPlayed(game.getOccurencesPlayed() + 1);
                     game.setLastPlayed(coreUI.getTimeLabel().getText());
 
                 }
@@ -476,7 +476,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
         coreUI.getFrame().setVisible(false);
 
         //* Game Cover Tracker Data *//
-        game.setNumberTimesPlayed(game.getNumberTimesPlayed()
+        game.setOcurrencesPlayed(game.getOccurencesPlayed()
                                   + 1);
         game.setLastPlayed(ATimeLabel.current(
                 ATimeLabel.TIME_24HOUR));
@@ -546,6 +546,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
             lblPlayedTime.setText(hoursDiff + "hr and "
                                   + minDiff + "min  ");
         }
+
+        game.addTime(minDiff,hoursDiff);
     }
 
     /**
@@ -579,8 +581,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
         	logger.error(ex);
-            //Logger.getLogger(AuroraLauncher.class.getName())
-            //        .log(Level.SEVERE, null, ex);
+
         }
 
 
@@ -603,9 +604,12 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
     private void goBackToAurora() {
 
-        //* Wait a bit before returning to Aurora *//
+        //* Save Metadata Then Go Back To Aurora *//
+
+        game.saveMetadata();
+
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
         } catch (InterruptedException ex) {
         	logger.error(ex);
             //Logger.getLogger(AuroraLauncher.class.getName()).log(

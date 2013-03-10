@@ -57,7 +57,7 @@ public class GridManager {
     private boolean isTransitioningGame;
 
     private int visibleGrid;
-    
+
     static final Logger logger = Logger.getLogger(GridManager.class);
 
     /**
@@ -102,10 +102,11 @@ public class GridManager {
 
                     Grids.get(i).addToGrid(game);
                     isTransitioningGame = false; // Is Not Being Added to next Grid
-                    
+
                     if (logger.isDebugEnabled()) {
-                    	logger.debug("Added Game To GridPanel: " + game.getName());
-                    	logger.debug("to Grid " + i);
+                        logger.debug("Added Game To GridPanel: " + game
+                                .getName());
+                        logger.debug("to Grid " + i);
                     }
 
                 } else if (containsPlaceHolders(Grids.get(i))) {
@@ -113,10 +114,10 @@ public class GridManager {
                     replacePlaceHolder(Grids.get(i), game, listener);
 
                 } else {
-                	if (logger.isDebugEnabled()) {
-                		logger.debug("FAILED To add: " + game.getName());
-                		logger.debug("Grid " + i + " is Full!");
-                	}
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("FAILED To add: " + game.getName());
+                        logger.debug("Grid " + i + " is Full!");
+                    }
 
                     fullGrids++;
                     //when Full make new Grid
@@ -125,8 +126,8 @@ public class GridManager {
                         Grids.get(Grids.size() - 1).addToGrid(game);
                         isTransitioningGame = true; // Is Being Added to next Grid
                         if (logger.isDebugEnabled()) {
-                        	logger.debug("Added Game: " + game.getName());
-                        	logger.debug("to Grid " + (Grids.size() - 1));
+                            logger.debug("Added Game: " + game.getName());
+                            logger.debug("to Grid " + (Grids.size() - 1));
                         }
 
                     }
@@ -256,9 +257,9 @@ public class GridManager {
         for (int i = 0; i < Grids.size(); i++) {
 
             try {
-            	if (logger.isDebugEnabled()) {
-            		logger.debug("Clearing Grid... " + i);
-            	}
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Clearing Grid... " + i);
+                }
 
                 Grids.get(i).getArray().clear();
                 Grids.get(i).update();
@@ -266,7 +267,7 @@ public class GridManager {
 
 
             } catch (RuntimeException ex) {
-            	logger.error(ex);
+                logger.error(ex);
             }
 
         }
@@ -316,10 +317,10 @@ public class GridManager {
     public boolean gameExists(Game game) {
 
         for (int i = 0; i < Grids.size(); i++) {
-        	if (logger.isDebugEnabled()) {
-        		logger.debug("GameName " + game.getName());
-        		logger.debug(Grids.get(i).find(game));
-        	}
+            if (logger.isDebugEnabled()) {
+                logger.debug("GameName " + game.getName());
+                logger.debug(Grids.get(i).find(game));
+            }
 
             if (Grids.get(i).find(game) != -1) {
                 return true;
@@ -406,6 +407,30 @@ public class GridManager {
     }
 
     /**
+     * .-----------------------------------------------------------------------.
+     * | getGameFromName(String)
+     * .-----------------------------------------------------------------------.
+     * | Returns the Game object if its in the Library by searching through
+     * | all of the grids.
+     * .........................................................................
+     *
+     * <p/>
+     */
+    public Game getGameFromName(String GameName) {
+        Game gameFound = null;
+
+        try{
+        gameFound = (Game) this.getGrid(this.findGameName(GameName)[0])
+                .getArray().get(this.findGameName(GameName)[1]);
+        }catch(Exception ex){
+            gameFound = null;
+        }
+
+        return gameFound;
+
+    }
+
+    /**
      * removes a game in any Grid
      *
      * @param GameCover object
@@ -416,10 +441,10 @@ public class GridManager {
 
         // get the grid location of where the game is contained
         int[] gridLocation = this.findGame(game);
-        
+
         if (logger.isDebugEnabled()) {
-        	logger.debug("Game as found in grid location: " + gridLocation[0]
-                    + "," + gridLocation[1]);
+            logger.debug("Game as found in grid location: " + gridLocation[0]
+                         + "," + gridLocation[1]);
         }
 
         // grab the index of where the grid is located in the manager
@@ -435,11 +460,11 @@ public class GridManager {
         System.out.println("Number of grids that exist: " + Grids.size());
 
         if ((Grids.size() - 1) > index) {
-        	
-        	if (logger.isDebugEnabled()) {
-        		logger.debug("grid.size is > index");
-        	}
-        	
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("grid.size is > index");
+            }
+
             for (int i = index; i < Grids.size() - 1; i++) {
                 AGridPanel currentGrid = this.getGrid(i);
                 AGridPanel nextGrid = this.getGrid(i + 1);
@@ -458,14 +483,15 @@ public class GridManager {
                 }
 
             }
-         
+
             // finalize the grid if there is no placeholder and it is the last grid in
             // in the library
-        } else if (((Grids.size() - 1) == index) && (!containsAddPlaceHolders(grid))) {
+        } else if (((Grids.size() - 1) == index) && (!containsAddPlaceHolders(
+                grid))) {
 
             needFinalizing = true;
 
-        } 
+        }
 
         if (needFinalizing) {
 

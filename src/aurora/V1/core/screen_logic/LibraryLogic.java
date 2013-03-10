@@ -137,9 +137,9 @@ public class LibraryLogic implements AuroraScreenLogic {
 
 
 
+
+
             //* Add Games Marked Fav first *//
-
-
 
             for (int i = 0; i < libraryUI.getStorage().getStoredLibrary()
                     .getGameNames()
@@ -211,6 +211,49 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                     libraryUI.getGridSplit().addGame(Game);
                 }
+
+            }
+
+
+            // Add Metadata to games from database if it exists //
+            if (libraryUI.getStorage().getStoredProfile()
+                    .getGameNames() != null) {
+                for (int i = 0; i < libraryUI.getStorage().getStoredProfile()
+                        .getGameNames()
+                        .size();
+                        i++) {
+
+                    String gameName = libraryUI.getStorage().getStoredProfile()
+                            .getGameNames().get(i);
+                    Game game = libraryUI.getGridSplit().getGameFromName(
+                            gameName);
+
+                    if (game != null) {
+
+                        game.setGameType(libraryUI.getStorage()
+                                .getStoredProfile()
+                                .getGameTypes().get(i));
+                        game.setTotalTimePlayed(libraryUI.getStorage()
+                                .getStoredProfile()
+                                .getTotalTimes().get(i));
+                        game.setOcurrencesPlayed(libraryUI.getStorage()
+                                .getStoredProfile()
+                                .getOccurrenceTimes().get(i));
+                        game.setLastPlayed(libraryUI.getStorage()
+                                .getStoredProfile()
+                                .getLastTimes().get(i));
+
+                        logger.info("ProfileDB Game Name:" + game.getGameName());
+                        logger.info("ProfileDB Game Type:" + game.getGameType());
+                        logger.info("ProfileDB Last Played:" + game.getLastPlayed());
+                        logger.info("ProfileDB Occurences:" + game.getOccurencesPlayed());
+                        logger.info("ProfileDB Last Time:" + game.getTotalTimePlayed());
+
+
+
+                    }
+                }
+
 
             }
 
@@ -391,7 +434,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                 .getAddGameToLibButton());
 
         addGameToLibButtonAnimator.setInitialLocation(libraryUI
-                .getAddGameToLibButton().getX(),libraryUI
+                .getAddGameToLibButton().getX(), libraryUI
                 .getAddGameToLibButton().getY());
         addGameToLibButtonAnimator.moveVertical(-5, 20);
 

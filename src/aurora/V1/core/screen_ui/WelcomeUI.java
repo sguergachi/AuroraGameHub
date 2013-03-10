@@ -496,10 +496,12 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                             .setUpDatabase(FirstTimeLoad,
                             fileIO.getPath() + "/Game Data/");
                     auroraStorage.getStoredLibrary().storeFromDatabase();
+
                     auroraStorage.getStoredProfile()
                             .setUpDatabase(FirstTimeLoad,
                             fileIO.getPath() + "/User Data/");
                     auroraStorage.getStoredProfile().storeFromDatabase();
+
                     auroraStorage.getStoredSettings().setUpDatabase(
                             FirstTimeLoad,
                             fileIO.getPath() + "/User Data/");

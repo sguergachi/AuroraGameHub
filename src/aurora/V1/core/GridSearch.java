@@ -285,7 +285,7 @@ public class GridSearch {
         foundGame.setGameName(GameOriginal.getName());
         foundGame
                 .setCoverSize(GameOriginal.getWidth(), GameOriginal.getHeight());
-        foundGame.setDashObj(GameOriginal.getDashObj());
+        foundGame.setDashboardUI(GameOriginal.getDashboardUI());
         foundGame.setStorage(GameOriginal.getStorage());
 
         foundGameList.add(foundGame);
