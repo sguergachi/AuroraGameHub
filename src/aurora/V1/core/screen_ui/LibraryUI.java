@@ -1482,101 +1482,22 @@ public class LibraryUI extends AuroraApp {
         public void actionPerformed(ActionEvent e) {
             // Set File Choosers location to folder containing Steam Games //
 
-            if (coreUI.getOS().contains("Windows")) {
-                gameFileChooser.setCurrentDirectory(fetchSteamDirOnWindows());
-            } else if (coreUI.getOS().contains("Mac")) {
-                if (AFileManager
-                        .checkFile("/Applications/Steam/steamapp/common")) {
-                    gameFileChooser.setCurrentDirectory(new File(
-                            "/Applications/Steam/steamapp/common"));
-                }
-            } else {
-                gameFileChooser.setCurrentDirectory(null);
-            }
-
-            coreUI.getFrame().repaint();
-
-        }
-        private File steamFile = null;
-
-        private File fetchSteamDirOnWindows() {
-            final int HKEY_CURRENT_USER = 0x80000001;
-            final int KEY_QUERY_VALUE = 1;
-            final int KEY_SET_VALUE = 2;
-            final int KEY_READ = 0x20019;
-
-            final Preferences userRoot = Preferences.userRoot();
-            final Preferences systemRoot = Preferences.systemRoot();
-            final Class clz = userRoot.getClass();
-
-
-
-            AThreadWorker findSteam = new AThreadWorker(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        final Method openKey = clz.getDeclaredMethod("openKey",
-                                byte[].class, int.class, int.class);
-                        openKey.setAccessible(true);
-
-                        final Method closeKey = clz
-                                .getDeclaredMethod("closeKey",
-                                int.class);
-                        closeKey.setAccessible(true);
-
-                        final Method winRegQueryValue = clz.getDeclaredMethod(
-                                "WindowsRegQueryValueEx", int.class,
-                                byte[].class);
-                        winRegQueryValue.setAccessible(true);
-                        final Method winRegEnumValue = clz.getDeclaredMethod(
-                                "WindowsRegEnumValue1", int.class, int.class,
-                                int.class);
-                        winRegEnumValue.setAccessible(true);
-                        final Method winRegQueryInfo = clz.getDeclaredMethod(
-                                "WindowsRegQueryInfoKey1", int.class);
-                        winRegQueryInfo.setAccessible(true);
-
-
-                        byte[] valb = null;
-                        String vals = null;
-                        String key = null;
-                        Integer handle = -1;
-
-                        // Query for steam path
-                        key = "Software\\Classes\\steam\\Shell\\Open\\Command";
-                        handle = (Integer) openKey.invoke(systemRoot,
-                                toCstr(key),
-                                KEY_READ, KEY_READ);
-                        valb = (byte[]) winRegQueryValue.invoke(systemRoot,
-                                handle,
-                                toCstr(""));
-                        vals = (valb != null ? new String(valb).trim() : null);
-                        closeKey.invoke(Preferences.systemRoot(), handle);
-
-                        int steamExeIndex = vals.indexOf("steam.exe");
-                        if (steamExeIndex > 0) {
-                            String steamPath = vals.substring(1, steamExeIndex);
-                            steamPath = steamPath + "\\steamapps\\common";
-                            steamFile = new File(steamPath);
-
+                    if (coreUI.getOS().contains("Windows")) {
+                        gameFileChooser.setCurrentDirectory(logic
+                                .fetchSteamDirOnWindows());
+                    } else if (coreUI.getOS().contains("Mac")) {
+                        if (AFileManager
+                                .checkFile("/Applications/Steam/steamapp/common")) {
+                            gameFileChooser.setCurrentDirectory(new File(
+                                    "/Applications/Steam/steamapp/common"));
                         }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                    } else {
+                        gameFileChooser.setCurrentDirectory(null);
                     }
-                }
-            });
-            findSteam.startOnce();
 
-            return steamFile;
-        }
+                    coreUI.getFrame().repaint();
 
-        private byte[] toCstr(String str) {
-            byte[] result = new byte[str.length() + 1];
-            for (int i = 0; i < str.length(); i++) {
-                result[i] = (byte) str.charAt(i);
-            }
-            result[str.length()] = 0;
-            return result;
+
         }
     }
 

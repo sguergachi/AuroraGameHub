@@ -104,7 +104,8 @@ public class StoredProfile extends AStorage implements Serializable {
                 db.addColumn("Profile", "Occurence_Time",
                         ASimpleDB.TYPE_INTEGER);
 
-                db.addColumn("Profile", "Last_Time", ASimpleDB.TYPE_STRING_IGNORECASE);
+                db.addColumn("Profile", "Last_Time",
+                        ASimpleDB.TYPE_STRING_IGNORECASE);
             } catch (SQLException ex) {
                 logger.error(ex);
             }
@@ -223,8 +224,8 @@ public class StoredProfile extends AStorage implements Serializable {
                         + "'",
                         TotalTime);
             }
-            if (!OccurrenceTimes.get(GameNames.indexOf(GameName)).equals(
-                    OccurrenceTime)) {
+            if (OccurrenceTimes.get(GameNames.indexOf(GameName))
+                != OccurrenceTime) {
                 db.setColValue("Profile",
                         "Occurence_Time",
                         "Game_Name",

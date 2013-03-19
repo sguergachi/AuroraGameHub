@@ -35,8 +35,11 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -452,7 +455,8 @@ public class AuroraCoreUI {
         screenHeight = GraphicsEnvironment.getLocalGraphicsEnvironment()
                 .getScreenDevices()[0].getDisplayMode().getHeight();
 
-        logger.info("Current Screen Resolution: " + screenWidth + "x" + screenHeight);
+        logger.info("Current Screen Resolution: " + screenWidth + "x"
+                    + screenHeight);
 
         //*
         // Check the resolution (in pixels) of the screen to
@@ -466,7 +470,7 @@ public class AuroraCoreUI {
 
         // LargeScreen = false;
         if (logger.isDebugEnabled()) {
-        	logger.debug("High Resolution Boolean = " + isLargeScreen);
+            logger.debug("High Resolution Boolean = " + isLargeScreen);
         }
 
         //* Set Size For UI *//
@@ -502,7 +506,7 @@ public class AuroraCoreUI {
                         "/aurora/V1/resources/RopaSans-Regular.TTF"));
 
             } catch (Exception exx) {
-            	logger.error("ERROR In Getting Font Resources");
+                logger.error("ERROR In Getting Font Resources");
             }
         }
 
@@ -659,13 +663,55 @@ public class AuroraCoreUI {
         // ---------------------------------------------------------------------
 
         paneHeaderOfCenterFromBottom = new JPanel(new BorderLayout());
-        lblTime = new ATimeLabel(ATimeLabel.TIME);
+        lblTime = new ATimeLabel(ATimeLabel.TIME) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void paintComponent(Graphics g) {
+
+                Graphics2D g2d = (Graphics2D) g.create();
+
+                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
+                        RenderingHints.VALUE_RENDER_QUALITY);
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
+                        RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+
+                super.paintComponent(g2d);
+            }
+        };
         lblTime.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
         lblTime.setForeground(new Color(0, 178, 178));
+        lblTime.revalidate();
+        lblTime.repaint();
 
-        lblDate = new ATimeLabel(ATimeLabel.DATE_LETTERS);
+        lblDate = new ATimeLabel(ATimeLabel.DATE_LETTERS) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void paintComponent(Graphics g) {
+
+                Graphics2D g2d = (Graphics2D) g.create();
+
+                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
+                        RenderingHints.VALUE_RENDER_QUALITY);
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
+                        RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+
+                super.paintComponent(g2d);
+            }
+        };
         lblDate.setForeground(Color.gray);
         lblDate.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
+        lblDate.revalidate();
+        lblDate.repaint();
 
         paneTimeContainer = new JPanel();
         paneTimeContainer.setOpaque(false);
@@ -881,7 +927,6 @@ public class AuroraCoreUI {
         //*
         // Background Sound
         //*
-
 //        try {
 //            backgrounSFX = new ASound(ASound.sfxTheme, true);
 //        } catch (MalformedURLException ex) {
@@ -932,14 +977,14 @@ public class AuroraCoreUI {
             try {
                 setSFX();
             } catch (InterruptedException ex) {
-            	logger.error(ex);
+                logger.error(ex);
             }
         } catch (UnsupportedAudioFileException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         } catch (IOException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         } catch (LineUnavailableException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         }
 
     }
@@ -950,7 +995,7 @@ public class AuroraCoreUI {
         try {
             msg = resourceBundle.getString(propertyToken);
         } catch (MissingResourceException e) {
-        	logger.error("Token ".concat(propertyToken).concat(
+            logger.error("Token ".concat(propertyToken).concat(
                     " not in Property file!"));
         }
         return msg;
@@ -1063,9 +1108,9 @@ public class AuroraCoreUI {
 
         @Override
         public void windowGainedFocus(WindowEvent e) {
-        	if (logger.isDebugEnabled()) {
-        		logger.debug("FOCUS GAINED");
-        	}
+            if (logger.isDebugEnabled()) {
+                logger.debug("FOCUS GAINED");
+            }
 
             if (wasVisible) {
                 glass.remove(paneUnfocused);
@@ -1082,8 +1127,8 @@ public class AuroraCoreUI {
         public void windowLostFocus(WindowEvent e) {
 
             if (logger.isDebugEnabled()) {
-        		logger.debug("FOCUS LOST");
-        	}
+                logger.debug("FOCUS LOST");
+            }
 
             if (frame.getGlassPane().isVisible()) {
                 glass.setLayout(null);

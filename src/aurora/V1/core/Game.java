@@ -28,6 +28,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.Serializable;
 import java.net.MalformedURLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -47,7 +52,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private String gamePath;
 
-    private String timePlayed;
+    private String timePlayed = "0:0";
 
     private String lastPlayed;
 
@@ -134,7 +139,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private PlayButtonListener playButtonListener;
 
     private boolean isGameRemoveMode;
+
     private int removeButtonWidth;
+
     private int removeButtonSeperation;
 
     static final Logger logger = Logger.getLogger(Game.class);
@@ -160,7 +167,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     public Game(final GridManager manager, final AuroraCoreUI ui,
                 final DashboardUI obj, final AuroraStorage storage) {
 
-    	this.dashboardUi = obj;
+        this.dashboardUi = obj;
         this.coreUI = ui;
         this.storage = storage;
         this.manager = manager;
@@ -322,7 +329,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         favoriteButtonPanel.revalidate();
 
         if (logger.isDebugEnabled()) {
-        	logger.debug("pane width " + width);
+            logger.debug("pane width " + width);
         }
 
     }
@@ -355,7 +362,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     if (WelcomeUI.Online) {
                         dbErrorDialog = null;
                         if (logger.isDebugEnabled()) {
-                        	logger.debug(coverUrl);
+                            logger.debug(coverUrl);
                         }
 
                         coverImagePane.setURL(rootCoverDBPath + coverUrl);
@@ -394,7 +401,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     }
 
                 } catch (Exception ex) {
-                	logger.error(ex);
+                    logger.error(ex);
                 }
             }
         }
@@ -504,6 +511,30 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.repaint();
     }
 
+
+   public void addTime(int minDiff, int hoursDiff) {
+
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        Date d = null;
+        if(timePlayed == null){
+            timePlayed = "0:0";
+        }
+        try {
+            d = df.parse(timePlayed);
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(Game.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        cal.add(Calendar.MINUTE, minDiff);
+        cal.add(Calendar.HOUR, hoursDiff);
+
+        timePlayed = df.format(cal.getTime());
+
+
+    }
+
     private void setSize() {
 
         if (coreUI.isLargeScreen()) {
@@ -521,7 +552,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
 
         if (logger.isDebugEnabled()) {
-        	logger.debug("OVERLAY HEIGHT " + SIZE_BottomPaneHeight);
+            logger.debug("OVERLAY HEIGHT " + SIZE_BottomPaneHeight);
         }
 
     }
@@ -570,7 +601,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     public final void unselected() {
 
-    	if (isSelected) {
+        if (isSelected) {
 
             if (isGameRemoveMode) {
 
@@ -605,8 +636,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         interactivePanel.setSize(width + 47, height + 28);
 
         if (logger.isDebugEnabled()) {
-        	logger.debug("INTERACTIVE SIZE " + interactivePanel.getWidth()
-                    + " " + interactivePanel.getHeight());
+            logger.debug("INTERACTIVE SIZE " + interactivePanel.getWidth()
+                         + " " + interactivePanel.getHeight());
         }
 
         showRemove();
@@ -618,7 +649,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     public final void setFavorite() {
 
-    	isFavorite = true;
+        isFavorite = true;
         if (isLoaded) {
             favoriteIconImagePane.setVisible(true);
             interactivePanel.revalidate();
@@ -654,8 +685,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.isRemoved = true;
     }
 
-
-    public final void saveMetadata(){
+    public final void saveMetadata() {
         storage.getStoredProfile().SaveGameMetadata(this);
     }
 
@@ -782,7 +812,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         try {
             return (Game) this.clone();
         } catch (CloneNotSupportedException ex) {
-        	logger.error(ex);
+            logger.error(ex);
             return null;
         }
     }
@@ -793,9 +823,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     public final void setGamePath(final String path) {
 
-    	if (logger.isDebugEnabled()) {
-    		logger.debug("Game path = " + path);
-    	}
+        if (logger.isDebugEnabled()) {
+            logger.debug("Game path = " + path);
+        }
 
         this.gamePath = path;
     }
@@ -804,20 +834,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         return this.gamePath;
     }
 
-    void addTime(int minDiff, int hoursDiff) {
-
-        //TODO ADD TIME TO CURRENT TOTAL
-
-
-    }
 
     class FavoriteButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-        	if (logger.isDebugEnabled()) {
-        		logger.debug("Favourite button pressed");
-        	}
+            if (logger.isDebugEnabled()) {
+                logger.debug("Favourite button pressed");
+            }
 
             if (isFavorite) {
                 unfavorite();
@@ -837,9 +861,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         @Override
         public void actionPerformed(final ActionEvent e) {
 
-        	if (logger.isDebugEnabled()) {
-        		logger.debug("Play button pressed");
-        	}
+            if (logger.isDebugEnabled()) {
+                logger.debug("Play button pressed");
+            }
 
             launcher = new AuroraLauncher(coreUI);
 
@@ -872,12 +896,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     removeButtonWidth, 55);
             denyButton.addActionListener(new CancelRemoveGameHandler());
 
-            denyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, removeButtonSeperation, -5));
+            denyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT,
+                    removeButtonSeperation, -5));
             denyPanel.setPreferredSize(new Dimension(135, 55));
             denyPanel.setOpaque(false);
             denyPanel.add(denyButton);
 
-            confirmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, removeButtonSeperation, -5));
+            confirmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,
+                    removeButtonSeperation, -5));
             confirmPanel.setPreferredSize(new Dimension(175, 55));
             confirmPanel.setOpaque(false);
             confirmPanel.add(confirmButton);
@@ -924,9 +950,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-        	if (logger.isDebugEnabled()) {
-        		logger.debug("Remove button pressed for " + Game.this.getName());
-        	}
+            if (logger.isDebugEnabled()) {
+                logger.debug("Remove button pressed for " + Game.this.getName());
+            }
 
             AuroraStorage storage = dashboardUi.getStorage();
             StoredLibrary libraryStorage = storage.getStoredLibrary();
@@ -954,8 +980,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     gameBarImagePane.setVisible(false);
                     unselected();
                     if (logger.isDebugEnabled()) {
-                		logger.debug("GAME UNSELECTED");
-                	}
+                        logger.debug("GAME UNSELECTED");
+                    }
 
                 } else {
 

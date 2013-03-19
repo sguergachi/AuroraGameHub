@@ -26,9 +26,15 @@ import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.APostHandler;
+import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.util.prefs.Preferences;
 import org.apache.log4j.Logger;
 
 /**
@@ -245,9 +251,12 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                         logger.info("ProfileDB Game Name:" + game.getGameName());
                         logger.info("ProfileDB Game Type:" + game.getGameType());
-                        logger.info("ProfileDB Last Played:" + game.getLastPlayed());
-                        logger.info("ProfileDB Occurences:" + game.getOccurencesPlayed());
-                        logger.info("ProfileDB Last Time:" + game.getTotalTimePlayed());
+                        logger.info("ProfileDB Last Played:" + game
+                                .getLastPlayed());
+                        logger.info("ProfileDB Occurences:" + game
+                                .getOccurencesPlayed());
+                        logger.info("ProfileDB Total Time:" + game
+                                .getTotalTimePlayed());
 
 
 
@@ -446,5 +455,81 @@ public class LibraryLogic implements AuroraScreenLogic {
             }
         });
 
+    }
+    private File steamFile = null;
+
+    public File fetchSteamDirOnWindows() {
+        final int HKEY_CURRENT_USER = 0x80000001;
+        final int KEY_QUERY_VALUE = 1;
+        final int KEY_SET_VALUE = 2;
+        final int KEY_READ = 0x20019;
+
+        final Preferences userRoot = Preferences.userRoot();
+        final Preferences systemRoot = Preferences.systemRoot();
+        final Class clz = userRoot.getClass();
+
+
+                try {
+                    final Method openKey = clz.getDeclaredMethod("openKey",
+                            byte[].class, int.class, int.class);
+                    openKey.setAccessible(true);
+
+                    final Method closeKey = clz
+                            .getDeclaredMethod("closeKey",
+                            int.class);
+                    closeKey.setAccessible(true);
+
+                    final Method winRegQueryValue = clz.getDeclaredMethod(
+                            "WindowsRegQueryValueEx", int.class,
+                            byte[].class);
+                    winRegQueryValue.setAccessible(true);
+                    final Method winRegEnumValue = clz.getDeclaredMethod(
+                            "WindowsRegEnumValue1", int.class, int.class,
+                            int.class);
+                    winRegEnumValue.setAccessible(true);
+                    final Method winRegQueryInfo = clz.getDeclaredMethod(
+                            "WindowsRegQueryInfoKey1", int.class);
+                    winRegQueryInfo.setAccessible(true);
+
+
+                    byte[] valb = null;
+                    String vals = null;
+                    String key = null;
+                    Integer handle = -1;
+
+                    // Query for steam path
+                    key = "Software\\Classes\\steam\\Shell\\Open\\Command";
+                    handle = (Integer) openKey.invoke(systemRoot,
+                            toCstr(key),
+                            KEY_READ, KEY_READ);
+                    valb = (byte[]) winRegQueryValue.invoke(systemRoot,
+                            handle,
+                            toCstr(""));
+                    vals = (valb != null ? new String(valb).trim() : null);
+                    closeKey.invoke(Preferences.systemRoot(), handle);
+
+                    int steamExeIndex = vals.indexOf("steam.exe");
+                    if (steamExeIndex > 0) {
+                        String steamPath = vals.substring(1, steamExeIndex);
+                        steamPath = steamPath + "\\steamapps\\common";
+                        steamFile = new File(steamPath);
+
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+
+        return steamFile;
+
+    }
+
+    private byte[] toCstr(String str) {
+        byte[] result = new byte[str.length() + 1];
+        for (int i = 0; i < str.length(); i++) {
+            result[i] = (byte) str.charAt(i);
+        }
+        result[str.length()] = 0;
+        return result;
     }
 }
