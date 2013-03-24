@@ -712,7 +712,7 @@ public class LibraryUI extends AuroraApp {
 
 
         //* Finalize *//
-        coreUI.getTitleLabel().setText("   Game Library   ");
+        coreUI.getTitleLabel().setText("  " + "   Game Library   ");
         btnGameRight.requestFocusInWindow();
         coreUI.getFrame().requestFocus();
 
@@ -1482,20 +1482,20 @@ public class LibraryUI extends AuroraApp {
         public void actionPerformed(ActionEvent e) {
             // Set File Choosers location to folder containing Steam Games //
 
-                    if (coreUI.getOS().contains("Windows")) {
-                        gameFileChooser.setCurrentDirectory(logic
-                                .fetchSteamDirOnWindows());
-                    } else if (coreUI.getOS().contains("Mac")) {
-                        if (AFileManager
-                                .checkFile("/Applications/Steam/steamapp/common")) {
-                            gameFileChooser.setCurrentDirectory(new File(
-                                    "/Applications/Steam/steamapp/common"));
-                        }
-                    } else {
-                        gameFileChooser.setCurrentDirectory(null);
-                    }
+            if (coreUI.getOS().contains("Windows")) {
+                gameFileChooser.setCurrentDirectory(logic
+                        .fetchSteamDirOnWindows());
+            } else if (coreUI.getOS().contains("Mac")) {
+                if (AFileManager
+                        .checkFile("/Applications/Steam/steamapp/common")) {
+                    gameFileChooser.setCurrentDirectory(new File(
+                            "/Applications/Steam/steamapp/common"));
+                }
+            } else {
+                gameFileChooser.setCurrentDirectory(null);
+            }
 
-                    coreUI.getFrame().repaint();
+            coreUI.getFrame().repaint();
 
 
         }

@@ -28,6 +28,7 @@ import aurora.engine.V1.UI.ACursor;
 import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
+import aurora.engine.V1.UI.ASlickLabel;
 import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -645,12 +646,13 @@ public class AuroraCoreUI {
         // WELCOME LABEL
         // --------------------------------------------------------------------
 
-        lblTitle = new JLabel(vi.VI(ANuance.inx_Welcome));
+        lblTitle = new JLabel("  " + vi.VI(ANuance.inx_Welcome));
         lblTitle.setOpaque(false);
         lblTitle.setForeground(Color.GRAY);
-        lblTitle.setFont(regularFont.deriveFont(Font.BOLD, welcomeFontSize));
+        lblTitle.setFont(regularFont.deriveFont(Font.PLAIN, welcomeFontSize));
 
-        paneTitle = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        paneTitle = new JPanel(new FlowLayout(FlowLayout.CENTER,0,2));
         paneTitle.setOpaque(false);
         paneTitle.add(lblTitle);
 
@@ -663,51 +665,13 @@ public class AuroraCoreUI {
         // ---------------------------------------------------------------------
 
         paneHeaderOfCenterFromBottom = new JPanel(new BorderLayout());
-        lblTime = new ATimeLabel(ATimeLabel.TIME) {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected void paintComponent(Graphics g) {
-
-                Graphics2D g2d = (Graphics2D) g.create();
-
-                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-                g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
-                        RenderingHints.VALUE_RENDER_QUALITY);
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
-                g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
-                        RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-
-                super.paintComponent(g2d);
-            }
-        };
+        lblTime = new ATimeLabel(ATimeLabel.TIME) ;
         lblTime.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
         lblTime.setForeground(new Color(0, 178, 178));
         lblTime.revalidate();
         lblTime.repaint();
 
-        lblDate = new ATimeLabel(ATimeLabel.DATE_LETTERS) {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected void paintComponent(Graphics g) {
-
-                Graphics2D g2d = (Graphics2D) g.create();
-
-                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-                g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
-                        RenderingHints.VALUE_RENDER_QUALITY);
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
-                g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
-                        RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-
-                super.paintComponent(g2d);
-            }
-        };
+        lblDate = new ATimeLabel(ATimeLabel.DATE_LETTERS) ;
         lblDate.setForeground(Color.gray);
         lblDate.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
         lblDate.revalidate();
@@ -878,7 +842,7 @@ public class AuroraCoreUI {
             controlHeight = 55;
             controlWidth = 160;
             keysFontSize = frame.getHeight() / 40;
-            welcomeFontSize = 20;
+            welcomeFontSize = 22;
             versionFontSize = 14;
             timeFontSize = bottomPanelSize / 13;
             logoHeight = topPanelSize / 3 + (int) (Ratio / 21);
@@ -894,7 +858,7 @@ public class AuroraCoreUI {
             centerPanelSize = frame.getHeight() / 2 + frame.getHeight() / 40;
             bottomPanelSize = frame.getHeight() / 4 + frame.getHeight() / 40;
             keysFontSize = frame.getHeight() / 40;
-            welcomeFontSize = 20;
+            welcomeFontSize = 21;
             versionFontSize = 14;
             timeFontSize = bottomPanelSize / 13;
             logoHeight = topPanelSize / 3 + (int) (Ratio / 21);

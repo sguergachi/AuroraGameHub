@@ -281,10 +281,19 @@ public class LibraryLogic implements AuroraScreenLogic {
     }
 
     /**
-     * SmartLoad GameCover Covers to minimize memory usage through burst loading
+     * .-----------------------------------------------------------------------.
+     * | loadGames(int currentGridIndex)
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method is where the Library loads the first and sometimes the
+     * | second grid of games.
+     * |
+     * .........................................................................
      *
+     * @throws MalformedURLException Exception
      */
-    public void loadGames(int currentGridIndex) throws MalformedURLException {
+    public final void loadGames(final int currentGridIndex) throws
+            MalformedURLException {
 
         if (logger.isDebugEnabled()) {
             logger.debug("LAUNCHING LOAD METHOD");
@@ -393,8 +402,16 @@ public class LibraryLogic implements AuroraScreenLogic {
     }
 
     /**
-     * check to see if both badges are green meaning you can
-     * add the game to the library.
+     * .-----------------------------------------------------------------------.
+     * | checkNotifiers()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method checks if both Add Game UI badges are Green meaning
+     * | user is able to add game to the library.
+     * |
+     * .........................................................................
+     *
+     * @throws MalformedURLException Exception
      */
     public void checkNotifiers() {
 
@@ -469,55 +486,55 @@ public class LibraryLogic implements AuroraScreenLogic {
         final Class clz = userRoot.getClass();
 
 
-                try {
-                    final Method openKey = clz.getDeclaredMethod("openKey",
-                            byte[].class, int.class, int.class);
-                    openKey.setAccessible(true);
+        try {
+            final Method openKey = clz.getDeclaredMethod("openKey",
+                    byte[].class, int.class, int.class);
+            openKey.setAccessible(true);
 
-                    final Method closeKey = clz
-                            .getDeclaredMethod("closeKey",
-                            int.class);
-                    closeKey.setAccessible(true);
+            final Method closeKey = clz
+                    .getDeclaredMethod("closeKey",
+                    int.class);
+            closeKey.setAccessible(true);
 
-                    final Method winRegQueryValue = clz.getDeclaredMethod(
-                            "WindowsRegQueryValueEx", int.class,
-                            byte[].class);
-                    winRegQueryValue.setAccessible(true);
-                    final Method winRegEnumValue = clz.getDeclaredMethod(
-                            "WindowsRegEnumValue1", int.class, int.class,
-                            int.class);
-                    winRegEnumValue.setAccessible(true);
-                    final Method winRegQueryInfo = clz.getDeclaredMethod(
-                            "WindowsRegQueryInfoKey1", int.class);
-                    winRegQueryInfo.setAccessible(true);
+            final Method winRegQueryValue = clz.getDeclaredMethod(
+                    "WindowsRegQueryValueEx", int.class,
+                    byte[].class);
+            winRegQueryValue.setAccessible(true);
+            final Method winRegEnumValue = clz.getDeclaredMethod(
+                    "WindowsRegEnumValue1", int.class, int.class,
+                    int.class);
+            winRegEnumValue.setAccessible(true);
+            final Method winRegQueryInfo = clz.getDeclaredMethod(
+                    "WindowsRegQueryInfoKey1", int.class);
+            winRegQueryInfo.setAccessible(true);
 
 
-                    byte[] valb = null;
-                    String vals = null;
-                    String key = null;
-                    Integer handle = -1;
+            byte[] valb = null;
+            String vals = null;
+            String key = null;
+            Integer handle = -1;
 
-                    // Query for steam path
-                    key = "Software\\Classes\\steam\\Shell\\Open\\Command";
-                    handle = (Integer) openKey.invoke(systemRoot,
-                            toCstr(key),
-                            KEY_READ, KEY_READ);
-                    valb = (byte[]) winRegQueryValue.invoke(systemRoot,
-                            handle,
-                            toCstr(""));
-                    vals = (valb != null ? new String(valb).trim() : null);
-                    closeKey.invoke(Preferences.systemRoot(), handle);
+            // Query for steam path
+            key = "Software\\Classes\\steam\\Shell\\Open\\Command";
+            handle = (Integer) openKey.invoke(systemRoot,
+                    toCstr(key),
+                    KEY_READ, KEY_READ);
+            valb = (byte[]) winRegQueryValue.invoke(systemRoot,
+                    handle,
+                    toCstr(""));
+            vals = (valb != null ? new String(valb).trim() : null);
+            closeKey.invoke(Preferences.systemRoot(), handle);
 
-                    int steamExeIndex = vals.indexOf("steam.exe");
-                    if (steamExeIndex > 0) {
-                        String steamPath = vals.substring(1, steamExeIndex);
-                        steamPath = steamPath + "\\steamapps\\common";
-                        steamFile = new File(steamPath);
+            int steamExeIndex = vals.indexOf("steam.exe");
+            if (steamExeIndex > 0) {
+                String steamPath = vals.substring(1, steamExeIndex);
+                steamPath = steamPath + "\\steamapps\\common";
+                steamFile = new File(steamPath);
 
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
 
         return steamFile;

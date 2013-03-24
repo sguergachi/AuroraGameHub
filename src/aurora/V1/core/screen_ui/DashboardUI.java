@@ -565,7 +565,7 @@ public class DashboardUI implements AuroraScreenUI {
     public final void buildUI() {
 
         //* Indicate to User DashboardUI is loading. *//
-        coreUI.getTitleLabel().setText(".: Loading :.");
+        coreUI.getTitleLabel().setText("  " +".: Loading :.");
 
 
         //* Set bigger Logo to Header *//
@@ -755,7 +755,7 @@ public class DashboardUI implements AuroraScreenUI {
                 addKeyListener(handler.new DashboardlKeyListener());
 
         //* Finished loading so change text *//
-        coreUI.getTitleLabel().setText(" Dashboard ");
+        coreUI.getTitleLabel().setText("  " + " Dashboard ");
 
 
 
