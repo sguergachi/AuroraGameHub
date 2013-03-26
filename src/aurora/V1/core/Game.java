@@ -333,11 +333,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         playButton = new AButton("game_btn_play_norm.png",
                 "game_btn_play_down.png",
                 "game_btn_play_over.png");
+        playButtonListener = new Game.PlayButtonListener();
         playButton.addActionListener(playButtonListener);
 
         playButton.setPreferredSize(new Dimension(40, 40));
         playButton.setOpaque(false);
-        playButtonListener = new Game.PlayButtonListener();
+
 
         // Add Buttons to the Containers //
         overlayBarContainer.add(favoriteButtonPanel);
@@ -906,7 +907,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+if (logger.isDebugEnabled()) {
+                logger.debug("Flip button pressed");
+            }
             if (!isFliped) {
                 // Removes Game Cover Art
                 tempGame = thisGame();
@@ -944,7 +947,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
-    //PlayButtonListener added by Carlos
     class PlayButtonListener implements ActionListener {
 
         private AuroraLauncher launcher;
