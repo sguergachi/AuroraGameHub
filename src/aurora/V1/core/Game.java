@@ -943,6 +943,7 @@ if (logger.isDebugEnabled()) {
             } else {
                 setFavorite();
                 storage.getStoredLibrary().SaveFavState(thisGame());
+                manager.moveGame(Game.this);
             }
         }
     }

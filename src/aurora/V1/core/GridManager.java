@@ -504,6 +504,151 @@ public class GridManager {
         grid.update();
 
     }
+    
+    /**
+     * removes a game in any Grid
+     *
+     * @param GameCover object
+     */
+    public void moveGame(Game game) {
+
+        // get the grid location of where the game is contained
+        int[] gridLocation = this.findGame(game);
+        
+        if (logger.isDebugEnabled()) {
+        	logger.debug("Game was found in grid location: " + gridLocation[0]
+                    + "," + gridLocation[1]);
+        }
+
+        // grab the index of where the grid is located in the manager
+        int index = gridLocation[0];
+        
+        if (logger.isDebugEnabled()) {
+        	logger.debug("Game was found in index: " + index);
+        }
+
+        // get the grid where the game is located
+        AGridPanel grid = this.getGrid(index);
+
+        System.out.println("Number of grids that exist: " + Grids.size());
+       
+       if (index == 0) {
+    	   grid.removeComp(game);
+    	   grid.addToGrid(game, 0);
+    	   grid.update();  	   
+       }
+        
+        if (index > 0) {
+        	// alternative to remove the game
+            grid.removeComp(game);
+        	
+            AGridPanel firstGrid = this.getGrid(0);
+        	//Game lastGame = (Game) firstGrid.getComponent(7);
+        	
+        	
+        	//firstGrid.removeComp(lastGame);
+        	//firstGrid.addToGrid(game, 0);
+        	//firstGrid.update();
+        	
+        	//grid.addToGrid(lastGame, 0);
+        	//grid.update();
+        	
+        	for (int i = index - 1; i >= 0; i--) {
+        		System.out.println("Index = " + i);
+        		System.out.println("Index + 1 = " + i + 1);
+        		AGridPanel currentGrid = this.getGrid(i);
+        		AGridPanel previousGrid = this.getGrid(i+1);
+        		Game lastGame = (Game) currentGrid.getComponent(7);
+        		currentGrid.removeComp(lastGame);
+        		currentGrid.update();
+        		previousGrid.addToGrid(lastGame, 0);
+        		previousGrid.update();      		
+        	}
+        	
+        	firstGrid.addToGrid(game, 0);
+        	firstGrid.update();
+        	
+        	
+        	//firstGrid.removeComp(lastGame);
+        	//firstGrid.addToGrid(game, 0);
+        	//firstGrid.update();
+         	
+        	/*for (int i = 1; i < Grids.size() - 1; i++) {
+        		if (i == index)
+        		AGridPanel currentGrid = this.getGrid(i);
+        		
+        		if (currentGrid.isGridFull()) {
+        			Game cgLastGame = (Game) currentGrid.getComponent(7);
+        			
+        		}
+        		
+        	}*/
+        	
+        	/*for (int i = 0; i < Grids.size() - 1; i++) {
+            	
+            	if (i + 1 < Grids.size()) {
+            		AGridPanel currentGrid = this.getGrid(i);
+            		
+                	Game lastGame = (Game) currentGrid.getComponent(7);
+            		AGridPanel nextGrid = this.getGrid(i + 1);
+            		currentGrid.removeComp(lastGame);
+                	currentGrid.update();
+                	nextGrid.addToGrid(lastGame, 0);
+                	nextGrid.update();
+            	}
+            	
+            }*/
+        	
+        }
+       
+        
+        
+
+        // if the grid is not the last grid
+  /*      if ((Grids.size() - 1) > index) {
+        	
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("grid.size is > index");
+        	}
+        	
+            for (int i = index; i < Grids.size() - 1; i++) {
+                AGridPanel currentGrid = this.getGrid(i);
+                AGridPanel nextGrid = this.getGrid(i + 1);
+                Object o = nextGrid.getFirstComponent();
+
+                if (o.getClass().equals(game.getClass())) {
+                    nextGrid.removeComp((Game) o);
+                    nextGrid.update();
+                    currentGrid.addToGrid((Game) o);
+                    currentGrid.update();
+                } else {
+                    Grids.remove(nextGrid);
+                    if (!containsAddPlaceHolders(grid)) {
+                        needFinalizing = true;
+                    }
+                }
+
+            }
+         
+            // finalize the grid if there is no placeholder and it is the last grid in
+            // in the library
+        }*//* else if (((Grids.size() - 1) == index) && (!containsAddPlaceHolders(grid))) {
+
+            needFinalizing = true;
+
+        } 
+
+        if (needFinalizing) {
+
+            finalizeGrid(listener, width, height);
+            needFinalizing = false;
+        } else {
+            addPlaceHolders(game.getWidth(), game.getHeight());
+        }*/
+
+        grid.update();
+
+    }
 
     /**
      * Create and add a new GridPanel to the Grids ArrayList
