@@ -877,7 +877,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
-    protected AImagePane getCoverImagePane(){
+    protected AImagePane getCoverImagePane() {
         return coverImagePane;
     }
 
@@ -907,7 +907,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-if (logger.isDebugEnabled()) {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Flip button pressed");
             }
             if (!isFliped) {
@@ -922,7 +922,8 @@ if (logger.isDebugEnabled()) {
                 isFliped = true;
             } else {
                 thisGame().clearImage();
-                thisGame().setImage(tempGame.getCoverImagePane().getImgIcon(), height, width);
+                thisGame().setImage(tempGame.getCoverImagePane().getImgIcon(),
+                        height, width);
                 thisGame().revalidate();
                 isFliped = false;
             }
