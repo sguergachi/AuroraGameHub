@@ -20,10 +20,12 @@ package aurora.V1.core;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.V1.core.screen_ui.WelcomeUI;
+import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AProgressWheel;
+import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.Serializable;
@@ -400,7 +402,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             this.add(progressWheel, BorderLayout.NORTH);
 
 
-            // Get Image Locally //
+            // Try to Get Image Locally //
             if (dashboardUi.getStartUI().getFileIO().findImg("Game Data",
                     coverUrl) != null) {
 
@@ -476,7 +478,18 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
-    //To be called when we want to re add the Overlay on the Game Covers
+    /**
+     * .-----------------------------------------------------------------------.
+     * | reAddInteractive();
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method is called when we want to re-add the
+     * | Overlay UI on the Game Covers
+     * |
+     * .........................................................................
+     * <p/>
+     *
+     */
     public final void reAddInteractive() {
 
         isRemoved = false;
@@ -572,7 +585,21 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.repaint();
     }
 
-    public void addTime(int minDiff, int hoursDiff) {
+    /**
+     * .-----------------------------------------------------------------------.
+     * | addTime(int minDiff, int hoursDiff)
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method is the only way to increase the timePlayed value,
+     * | you have to give the number of minutes and the number of hours.
+     * | The method will accept 0 as a value and calculates everything in method
+     * |
+     * .........................................................................
+     * <p/>
+     * @param minDiff   Integer
+     * @param hoursDiff Integer
+     */
+    public final void addTime(final int minDiff, final int hoursDiff) {
 
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         Date d = null;
@@ -636,10 +663,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
         }
 
-    }
-
-    public final boolean isLoaded() {
-        return isLoaded;
     }
 
     public final void setCoverSize(final int width, final int height) {
@@ -725,6 +748,42 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
+    private void animateFavouriteMove() {
+
+        hideInteractiveComponents();
+        revalidate();
+        thisGame().setEnabled(false);
+        Game temp = thisGame();
+
+        AImagePane favouritedImg = new AImagePane("library_favourited_bg.png",
+                width, height);
+
+
+        thisGame().clearImage();
+        thisGame().setImage(favouritedImg);
+        thisGame().repaint();
+        thisGame().revalidate();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            java.util.logging.Logger.getLogger(Game.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
+
+        thisGame().setVisible(false);
+
+        thisGame().clearImage();
+        thisGame().setImage(temp.getCoverImagePane().getImgIcon(),
+                height, width);
+        displayInteractiveComponents();
+        thisGame().setEnabled(true);
+
+
+
+
+    }
+
     public final void showRemove() {
 
         if (isLoaded) {
@@ -749,9 +808,271 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         storage.getStoredProfile().SaveGameMetadata(this);
     }
 
+    private class FlipButtonListener implements ActionListener {
+
+        private Game tempGame;
+
+        public FlipButtonListener() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Flip button pressed");
+            }
+            if (!isFliped) {
+                // Removes Game Cover Art
+                tempGame = thisGame();
+
+                thisGame().clearImage();
+                thisGame().setImage("Reverse-Case.png", height, width);
+
+
+                thisGame().revalidate();
+                isFliped = true;
+            } else {
+                thisGame().clearImage();
+                thisGame().setImage(tempGame.getCoverImagePane().getImgIcon(),
+                        height, width);
+                thisGame().revalidate();
+                isFliped = false;
+            }
+        }
+    }
+
+    class FavoriteButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Favourite button pressed");
+            }
+
+            if (isFavorite) {
+                unfavorite();
+                storage.getStoredLibrary().SaveFavState(thisGame());
+            } else {
+
+                AThreadWorker favWorker = new AThreadWorker(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        setFavorite();
+                        storage.getStoredLibrary().SaveFavState(thisGame());
+
+                        // Give time to change decision
+                        try {
+                            Thread.sleep(850);
+                        } catch (InterruptedException ex) {
+                            java.util.logging.Logger.getLogger(Game.class
+                                    .getName()).
+                                    log(Level.SEVERE, null, ex);
+                        }
+                        // Check if still favourited
+                        if (isFavorite) {
+
+                            animateFavouriteMove();
+                            manager.moveFavorite(Game.this);
+                            thisGame().setVisible(true);
+
+                        }
+
+                    }
+                });
+                favWorker.startOnce();
+            }
+        }
+    }
+
+    class PlayButtonListener implements ActionListener {
+
+        private AuroraLauncher launcher;
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("Play button pressed");
+            }
+
+            launcher = new AuroraLauncher(coreUI);
+
+            launcher.launchGame(copy());
+        }
+    }
+
+    class RemoveButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            topPanel.remove(removeButton);
+            imgConfirmPromptImagePane = new AImagePane(
+                    "game_img_removeWarning.png");
+            imgConfirmPromptImagePane
+                    .setPreferredSize(new Dimension(imgConfirmPromptImagePane
+                    .getImgIcon().getImage().getWidth(null) + SIZE_TOPPANE_COMP,
+                    imgConfirmPromptImagePane.getImgIcon().getImage().getHeight(
+                    null)));
+            topPanel.add(imgConfirmPromptImagePane, BorderLayout.EAST);
+            topPanel.revalidate();
+
+            overlayBarContainer.removeAll();
+            confirmButton = new AButton("game_btn_removeYes_norm.png",
+                    "game_btn_removeYes_down.png", "game_btn_removeYes_over.png",
+                    removeButtonWidth, 55);
+            confirmButton.addActionListener(new RemoveGameHandler());
+            denyButton = new AButton("game_btn_removeNo_norm.png",
+                    "game_btn_removeNo_down.png", "game_btn_removeNo_over.png",
+                    removeButtonWidth, 55);
+            denyButton.addActionListener(new CancelRemoveGameHandler());
+
+            denyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT,
+                    removeButtonSeperation, -5));
+            denyPanel.setPreferredSize(new Dimension(135, 55));
+            denyPanel.setOpaque(false);
+            denyPanel.add(denyButton);
+
+            confirmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,
+                    removeButtonSeperation, -5));
+            confirmPanel.setPreferredSize(new Dimension(175, 55));
+            confirmPanel.setOpaque(false);
+            confirmPanel.add(confirmButton);
+
+            overlayBarContainer.add(denyPanel);
+            overlayBarContainer.add(confirmPanel);
+            overlayBarImgPane.revalidate();
+            unselected();
+            isGameRemoveMode = true;
+            overlayBarImgPane.setVisible(true);
+
+        }
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | CancelRemoveGameHandler
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Handler when No button selected remove the Confirm Removal overlay
+     * | and re-add original Game Overlay.
+     * |
+     * |
+     * .........................................................................
+     *
+     * @author
+     * <p/>
+     */
+    class CancelRemoveGameHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            interactivePanel.removeAll();
+            interactivePanel.setVisible(false);
+            remove(glowImagePane);
+            reAddInteractive();
+            showRemove();
+            overlayBarImgPane.setVisible(true);
+            isGameRemoveMode = false;
+        }
+    }
+
+    class RemoveGameHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Remove button pressed for " + Game.this.getName());
+            }
+
+            AuroraStorage storage = dashboardUi.getStorage();
+            StoredLibrary libraryStorage = storage.getStoredLibrary();
+            libraryStorage.search(name);
+            libraryStorage.removeGame(Game.this);
+            storage.getStoredProfile().removeGameMetadata(Game.this);
+            manager.removeGame(Game.this);
+
+        }
+    }
+
+    public void select() {
+        displayInteractiveComponents();
+
+    }
+
+    public void unselect() {
+        hideInteraction();
+        overlayBarImgPane.setVisible(false);
+        unselected();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("GAME UNSELECTED");
+        }
+    }
+
+    //Game Cover Selected Handler
+    class InteractiveListener implements MouseListener {
+
+        @Override
+        public void mouseClicked(final MouseEvent e) {
+        }
+
+        @Override
+        public void mousePressed(final MouseEvent e) {
+            if (!isRemoved) {
+                requestFocus();
+                if (isSelected()) {
+
+                    unselect();
+
+
+                } else {
+
+                    removePreviousSelected();
+                    select();
+
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("SELECTED");
+                    }
+                }
+            }
+
+        }
+
+        @Override
+        public void mouseReleased(final MouseEvent e) {
+        }
+
+        @Override
+        public void mouseEntered(final MouseEvent e) {
+
+            if (e.getModifiers() == MouseEvent.BUTTON1_MASK) {
+
+                if (!isRemoved) {
+                    requestFocus();
+                    if (isSelected()) {
+                        hideInteraction();
+                        overlayBarImgPane.setVisible(false);
+                        unselected();
+                    } else {
+                        removePreviousSelected();
+                        displayInteractiveComponents();
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void mouseExited(final MouseEvent e) {
+        }
+    }
+
     ////Getters and Setters
     public final AuroraStorage getStorage() {
         return storage;
+    }
+
+    public final boolean isLoaded() {
+        return isLoaded;
     }
 
     public final ActionListener getPlayHandler() {
@@ -896,222 +1217,5 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     public final String getGamePath() {
         return this.gamePath;
-    }
-
-    private class FlipButtonListener implements ActionListener {
-
-        private Game tempGame;
-
-        public FlipButtonListener() {
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Flip button pressed");
-            }
-            if (!isFliped) {
-                // Removes Game Cover Art
-                tempGame = thisGame();
-
-                thisGame().clearImage();
-                thisGame().setImage("Reverse-Case.png", height, width);
-
-
-                thisGame().revalidate();
-                isFliped = true;
-            } else {
-                thisGame().clearImage();
-                thisGame().setImage(tempGame.getCoverImagePane().getImgIcon(),
-                        height, width);
-                thisGame().revalidate();
-                isFliped = false;
-            }
-        }
-    }
-
-    class FavoriteButtonListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(final ActionEvent e) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Favourite button pressed");
-            }
-
-            if (isFavorite) {
-                unfavorite();
-                storage.getStoredLibrary().SaveFavState(thisGame());
-            } else {
-                setFavorite();
-                storage.getStoredLibrary().SaveFavState(thisGame());
-                manager.moveFavorite(Game.this);
-            }
-        }
-    }
-
-    class PlayButtonListener implements ActionListener {
-
-        private AuroraLauncher launcher;
-
-        @Override
-        public void actionPerformed(final ActionEvent e) {
-
-            if (logger.isDebugEnabled()) {
-                logger.debug("Play button pressed");
-            }
-
-            launcher = new AuroraLauncher(coreUI);
-
-            launcher.launchGame(copy());
-        }
-    }
-
-    class RemoveButtonListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(final ActionEvent e) {
-            topPanel.remove(removeButton);
-            imgConfirmPromptImagePane = new AImagePane(
-                    "game_img_removeWarning.png");
-            imgConfirmPromptImagePane
-                    .setPreferredSize(new Dimension(imgConfirmPromptImagePane
-                    .getImgIcon().getImage().getWidth(null) + SIZE_TOPPANE_COMP,
-                    imgConfirmPromptImagePane.getImgIcon().getImage().getHeight(
-                    null)));
-            topPanel.add(imgConfirmPromptImagePane, BorderLayout.EAST);
-            topPanel.revalidate();
-
-            overlayBarContainer.removeAll();
-            confirmButton = new AButton("game_btn_removeYes_norm.png",
-                    "game_btn_removeYes_down.png", "game_btn_removeYes_over.png",
-                    removeButtonWidth, 55);
-            confirmButton.addActionListener(new RemoveGameHandler());
-            denyButton = new AButton("game_btn_removeNo_norm.png",
-                    "game_btn_removeNo_down.png", "game_btn_removeNo_over.png",
-                    removeButtonWidth, 55);
-            denyButton.addActionListener(new CancelRemoveGameHandler());
-
-            denyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT,
-                    removeButtonSeperation, -5));
-            denyPanel.setPreferredSize(new Dimension(135, 55));
-            denyPanel.setOpaque(false);
-            denyPanel.add(denyButton);
-
-            confirmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,
-                    removeButtonSeperation, -5));
-            confirmPanel.setPreferredSize(new Dimension(175, 55));
-            confirmPanel.setOpaque(false);
-            confirmPanel.add(confirmButton);
-
-            overlayBarContainer.add(denyPanel);
-            overlayBarContainer.add(confirmPanel);
-            overlayBarImgPane.revalidate();
-            unselected();
-            isGameRemoveMode = true;
-            overlayBarImgPane.setVisible(true);
-
-        }
-    }
-
-    /**
-     * .-----------------------------------------------------------------------.
-     * | CancelRemoveGameHandler
-     * .-----------------------------------------------------------------------.
-     * |
-     * | Handler when No button selected remove the Confirm Removal overlay
-     * | and re-add original Game Overlay.
-     * |
-     * |
-     * .........................................................................
-     *
-     * @author
-     * <p/>
-     */
-    class CancelRemoveGameHandler implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            interactivePanel.removeAll();
-            interactivePanel.setVisible(false);
-            remove(glowImagePane);
-            reAddInteractive();
-            showRemove();
-            overlayBarImgPane.setVisible(true);
-            isGameRemoveMode = false;
-        }
-    }
-
-    class RemoveGameHandler implements ActionListener {
-
-        @Override
-        public void actionPerformed(final ActionEvent e) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Remove button pressed for " + Game.this.getName());
-            }
-
-            AuroraStorage storage = dashboardUi.getStorage();
-            StoredLibrary libraryStorage = storage.getStoredLibrary();
-            libraryStorage.search(name);
-            libraryStorage.removeGame(Game.this);
-            storage.getStoredProfile().removeGameMetadata(Game.this);
-            manager.removeGame(Game.this);
-
-        }
-    }
-
-    //Game Cover Selected Handler
-    class InteractiveListener implements MouseListener {
-
-        @Override
-        public void mouseClicked(final MouseEvent e) {
-        }
-
-        @Override
-        public void mousePressed(final MouseEvent e) {
-            if (!isRemoved) {
-                requestFocus();
-                if (isSelected()) {
-                    hideInteraction();
-                    overlayBarImgPane.setVisible(false);
-                    unselected();
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("GAME UNSELECTED");
-                    }
-
-                } else {
-
-                    removePreviousSelected();
-                    displayInteractiveComponents();
-                }
-            }
-
-        }
-
-        @Override
-        public void mouseReleased(final MouseEvent e) {
-        }
-
-        @Override
-        public void mouseEntered(final MouseEvent e) {
-
-            if (e.getModifiers() == MouseEvent.BUTTON1_MASK) {
-
-                if (!isRemoved) {
-                    requestFocus();
-                    if (isSelected()) {
-                        hideInteraction();
-                        overlayBarImgPane.setVisible(false);
-                        unselected();
-                    } else {
-                        removePreviousSelected();
-                        displayInteractiveComponents();
-                    }
-                }
-            }
-        }
-
-        @Override
-        public void mouseExited(final MouseEvent e) {
-        }
     }
 }

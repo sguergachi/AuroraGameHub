@@ -78,7 +78,10 @@ public class LibraryLogic implements AuroraScreenLogic {
      */
     private final DashboardUI dashboardUI;
 
-    private boolean hasFav;
+    /**
+     * Boolean on whether the library even has a single favorited game in DB.
+     */
+    private boolean libHasFavourites;
 
     static final Logger logger = Logger.getLogger(LibraryLogic.class);
 
@@ -131,14 +134,14 @@ public class LibraryLogic implements AuroraScreenLogic {
      * |
      * .........................................................................
      *
-     * @return an ArrayList with info
+     * <p/>
      */
-    public void addGamesToLibrary() {
+    public final void addGamesToLibrary() {
         try {
             //* check that favorites are not null *//
             if (libraryUI.getStorage().getStoredLibrary().getFaveStates()
                 != null) {
-                hasFav = true;
+                libHasFavourites = true;
             }
 
 
@@ -147,14 +150,14 @@ public class LibraryLogic implements AuroraScreenLogic {
                     .getGameNames()
                     .size();
 
-            //* Add Games Marked Fav first *//
-
+            //* Reverse Add Games Marked Fav first *//
             for (int i = librarySize - 1; i > 0;
                     i--) {
 
                 Game Game = new Game(libraryUI.getGridSplit(), coreUI,
                         dashboardUI, libraryUI.getStorage());
-                if (hasFav && libraryUI.getStorage().getStoredLibrary()
+                if (libHasFavourites && libraryUI.getStorage()
+                        .getStoredLibrary()
                         .getFaveStates()
                         .get(i)) {
                     Game.setGameName(libraryUI.getStorage()
@@ -190,7 +193,8 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                 Game Game = new Game(libraryUI.getGridSplit(), coreUI,
                         dashboardUI, libraryUI.getStorage());
-                if (!hasFav || !libraryUI.getStorage().getStoredLibrary()
+                if (!libHasFavourites || !libraryUI.getStorage()
+                        .getStoredLibrary()
                         .getFaveStates()
                         .get(i)) {
                     Game.setGameName(libraryUI.getStorage().getStoredLibrary()
@@ -203,7 +207,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     Game.setGamePath(libraryUI.getStorage().getStoredLibrary()
                             .getGamePath()
                             .get(i).replace("'", "''"));
-                    if (hasFav) {
+                    if (libHasFavourites) {
                         Game.setFavorite(libraryUI.getStorage()
                                 .getStoredLibrary()
                                 .getFaveStates()
