@@ -504,7 +504,7 @@ public class GridManager {
         grid.update();
 
     }
-    
+
     /**
      * removes a game in any Grid
      *
@@ -514,7 +514,7 @@ public class GridManager {
 
         // get the grid location of where the game is contained
         int[] gridLocation = this.findGame(game);
-        
+
         if (logger.isDebugEnabled()) {
         	logger.debug("Game was found in grid location: " + gridLocation[0]
                     + "," + gridLocation[1]);
@@ -522,7 +522,7 @@ public class GridManager {
 
         // grab the index of where the grid is located in the manager
         int index = gridLocation[0];
-        
+
         if (logger.isDebugEnabled()) {
         	logger.debug("Game was found in index: " + index);
         }
@@ -531,17 +531,17 @@ public class GridManager {
         AGridPanel grid = this.getGrid(index);
 
         System.out.println("Number of grids that exist: " + Grids.size());
-       
+
        if (index == 0) {
     	   grid.removeComp(game);
     	   grid.addToGrid(game, 0);
-    	   grid.update();  	   
+    	   grid.update();
        } else if (index > 0) {
         	// alternative to remove the game
             grid.removeComp(game);
-        	
+
             AGridPanel firstGrid = this.getGrid(0);
-         	
+
         	for (int i = index - 1; i >= 0; i--) {
         		System.out.println("Index = " + i);
         		System.out.println("Index + 1 = " + i + 1);
@@ -551,16 +551,16 @@ public class GridManager {
         		currentGrid.removeComp(lastGame);
         		currentGrid.update();
         		previousGrid.addToGrid(lastGame, 0);
-        		previousGrid.update();      		
+        		previousGrid.update();
         	}
-        	
+
         	firstGrid.addToGrid(game, 0);
         	firstGrid.update();
-        	       	
-        }
-       
-        grid.update();
 
+        }
+
+        grid.update();
+        ui.getFrame().repaint();
     }
 
     /**

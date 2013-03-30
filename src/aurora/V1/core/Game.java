@@ -761,23 +761,24 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         thisGame().clearImage();
         thisGame().setImage(favouritedImg);
-        thisGame().repaint();
-        thisGame().revalidate();
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(920);
+            thisGame().repaint();
+            thisGame().revalidate();
+
         } catch (InterruptedException ex) {
             java.util.logging.Logger.getLogger(Game.class.getName()).
                     log(Level.SEVERE, null, ex);
         }
-
+         thisGame().setEnabled(true);
         thisGame().setVisible(false);
 
         thisGame().clearImage();
         thisGame().setImage(temp.getCoverImagePane().getImgIcon(),
                 height, width);
         displayInteractiveComponents();
-        thisGame().setEnabled(true);
+
 
 
 
