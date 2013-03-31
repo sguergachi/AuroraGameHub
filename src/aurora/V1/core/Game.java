@@ -96,11 +96,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private AImagePane blankImagePane;
 
-    private AImagePane glowImagePane;
+    private AImagePane imgSelectedGlow;
 
-    private AImagePane favoriteIconImagePane;
+    private AImagePane imgStarIcon;
 
-    private AImagePane overlayBarImgPane;
+    private AImagePane imgOverlayBar;
 
     private AImagePane removeImagePane;
 
@@ -112,25 +112,25 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private JPanel playButtonPanel;
 
-    private JPanel flipButtonPanel;
+    private JPanel pnlFlipPane;
 
-    private JPanel favoriteButtonPanel;
+    private JPanel pnlFavoritePane;
 
     private JPanel bottomPanel;
 
-    private JPanel overlayBarContainer;
+    private JPanel paneOverlayContainer;
 
     private JPanel confirmPanel;
 
     private JPanel denyPanel;
 
-    private AButton removeButton;
+    private AButton btnRemove;
 
-    private AButton favoriteButton;
+    private AButton btnFavorite;
 
-    private AButton flipButton;
+    private AButton btnFlip;
 
-    private AButton playButton;
+    private AButton btnPlay;
 
     private AButton confirmButton;
 
@@ -271,14 +271,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // Create Overlay UI Components //
         coverImagePane = new AImagePane();
         blankImagePane = new AImagePane();
-        glowImagePane = new AImagePane("game_selectedGlow.png", width + 10,
+        imgSelectedGlow = new AImagePane("game_selectedGlow.png", width + 10,
                 height + 10);
-        favoriteIconImagePane = new AImagePane("game_favouriteIcon.png", 100, 32);
-        favoriteIconImagePane.setPreferredSize(new Dimension(100, 32));
-        removeButton = new AButton("game_btn_remove_norm.png",
+        imgStarIcon = new AImagePane("game_favouriteIcon.png", 100, 32);
+        imgStarIcon.setPreferredSize(new Dimension(100, 32));
+        btnRemove = new AButton("game_btn_remove_norm.png",
                 "game_btn_remove_down.png",
                 "game_btn_remove_over.png");
-        removeButton.addActionListener(new RemoveButtonListener());
+        btnRemove.addActionListener(new RemoveButtonListener());
 
         topPanel = new JPanel(new BorderLayout());
         topPanel.setOpaque(false);
@@ -294,79 +294,79 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // ----------------------------------------------------------------.
 
         // The Image Panel //
-        overlayBarImgPane = new AImagePane("game_overlay.png", width - 30, 55);
-        overlayBarImgPane.setOpaque(false);
-        overlayBarImgPane.setPreferredSize(new Dimension(width - 30, 55));
-        overlayBarImgPane.setLayout(new BorderLayout());
-        overlayBarImgPane.setBackground(Color.blue);
+        imgOverlayBar = new AImagePane("game_overlay.png", width - 30, 55);
+        imgOverlayBar.setOpaque(false);
+        imgOverlayBar.setPreferredSize(new Dimension(width - 30, 55));
+        imgOverlayBar.setLayout(new BorderLayout());
+        imgOverlayBar.setBackground(Color.blue);
 
         // The Panel that Contains the Actuall Components //
-        overlayBarContainer = new JPanel();
-        overlayBarContainer.setOpaque(false);
-        overlayBarContainer.setBackground(Color.red);
-        overlayBarContainer.setLayout(new BoxLayout(overlayBarContainer,
+        paneOverlayContainer = new JPanel();
+        paneOverlayContainer.setOpaque(false);
+        paneOverlayContainer.setBackground(Color.red);
+        paneOverlayContainer.setLayout(new BoxLayout(paneOverlayContainer,
                 BoxLayout.X_AXIS));
 
 
         // Favourite Buttom //
-        favoriteButton = new AButton("game_btn_star_norm.png",
+        btnFavorite = new AButton("game_btn_star_norm.png",
                 "game_btn_star_down.png",
                 "game_btn_star_over.png");
-        favoriteButton.addActionListener(new Game.FavoriteButtonListener());
+        btnFavorite.addActionListener(new Game.FavoriteButtonListener());
 
-        favoriteButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        favoriteButtonPanel.setPreferredSize(new Dimension(30, 40));
-        favoriteButtonPanel.add(favoriteButton);
-        favoriteButtonPanel.setOpaque(false);
+        pnlFavoritePane = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        pnlFavoritePane.setPreferredSize(new Dimension(30, 40));
+        pnlFavoritePane.add(btnFavorite);
+        pnlFavoritePane.setOpaque(false);
 
 
         // Flip Button //
-        flipButton = new AButton("game_btn_reverse_norm.png",
-                "game_btn_reverse_down.png",
-                "game_btn_reverse_over.png");
-        flipButton.addActionListener(new Game.FlipButtonListener());
+        btnFlip = new AButton("game_btn_reverseRight_norm.png",
+                "game_btn_reverseRight_down.png",
+                "game_btn_reverseRight_over.png");
+        btnFlip.addActionListener(new Game.FlipButtonListener());
 
-        flipButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        flipButtonPanel.setPreferredSize(new Dimension(80, 40));
-        flipButtonPanel.add(flipButton);
-        flipButtonPanel.setOpaque(false);
+        pnlFlipPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        pnlFlipPane.setPreferredSize(new Dimension(80, 40));
+        pnlFlipPane.add(btnFlip);
+        pnlFlipPane.setOpaque(false);
 
         // Play Game Button //
-        playButton = new AButton("game_btn_play_norm.png",
+        btnPlay = new AButton("game_btn_play_norm.png",
                 "game_btn_play_down.png",
                 "game_btn_play_over.png");
         playButtonListener = new Game.PlayButtonListener();
-        playButton.addActionListener(playButtonListener);
+        btnPlay.addActionListener(playButtonListener);
 
-        playButton.setPreferredSize(new Dimension(40, 40));
-        playButton.setOpaque(false);
+        btnPlay.setPreferredSize(new Dimension(40, 40));
+        btnPlay.setOpaque(false);
 
 
         // Add Buttons to the Containers //
-        overlayBarContainer.add(favoriteButtonPanel);
-        overlayBarContainer.add(playButton);
-        overlayBarContainer.add(flipButtonPanel);
+        paneOverlayContainer.add(pnlFavoritePane);
+        paneOverlayContainer.add(btnPlay);
+        paneOverlayContainer.add(pnlFlipPane);
 
         // Add Container to the Image, which is not visible by default //
-        overlayBarImgPane.setVisible(false);
-        overlayBarImgPane.add(overlayBarContainer);
+        imgOverlayBar.setVisible(false);
+        imgOverlayBar.add(paneOverlayContainer);
 
         // Add Image to the Bottom Bar //
-        bottomPanel.add(overlayBarImgPane, BorderLayout.NORTH);
+        bottomPanel.add(imgOverlayBar, BorderLayout.NORTH);
 
 
         // Set Up Top Bar Content
         // ----------------------------------------------------------------.
 
-        removeButton.setVisible(false);
-        favoriteIconImagePane.setVisible(false);
+        btnRemove.setVisible(false);
+        imgStarIcon.setVisible(false);
 
-        topPanel.add(removeButton, BorderLayout.EAST);
-        topPanel.add(favoriteIconImagePane, BorderLayout.WEST);
+        topPanel.add(btnRemove, BorderLayout.EAST);
+        topPanel.add(imgStarIcon, BorderLayout.WEST);
         topPanel.validate();
 
 
-        overlayBarImgPane.validate();
+        imgOverlayBar.validate();
 
         interactivePanel.add(topPanel, BorderLayout.PAGE_START);
         interactivePanel.add(bottomPanel, BorderLayout.SOUTH);
@@ -385,7 +385,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         //Start Loader
         gameCoverThread.start();
 
-        favoriteButtonPanel.revalidate();
+        pnlFavoritePane.revalidate();
 
         if (logger.isDebugEnabled()) {
             logger.debug("pane width " + width);
@@ -480,6 +480,33 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     /**
      * .-----------------------------------------------------------------------.
+     * | afterLoad();
+     * .-----------------------------------------------------------------------.
+     * |
+     * | A method that is called after the Thread has completed its load.
+     * | The method checks for what state it needs to be in terms of
+     * | Being Selected, and Being Favorite.
+     * |
+     * .........................................................................
+     * <p/>
+     *
+     */
+    private void afterLoad() {
+        if (isLoaded) {
+
+            if (isSelected) {
+                setSelected();
+            }
+
+            if (isFavorite) {
+                setFavorite();
+            }
+        }
+
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
      * | reAddInteractive();
      * .-----------------------------------------------------------------------.
      * |
@@ -496,91 +523,36 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         setSize();
         interactivePanel.setVisible(true);
 
-        glowImagePane = new AImagePane("game_selectedGlow.png", width + 10,
-                height + 10);
-        favoriteIconImagePane = new AImagePane("game_favouriteIcon.png", 100, 32);
-        favoriteIconImagePane.setPreferredSize(new Dimension(100, 32));
-        removeButton = new AButton("game_btn_remove_norm.png",
-                "game_btn_remove_down.png",
-                "game_btn_remove_over.png");
-        removeButton.addActionListener(new RemoveButtonListener());
+        // Remove all and re-add //
+        paneOverlayContainer.removeAll();
+        paneOverlayContainer.add(pnlFavoritePane);
+        paneOverlayContainer.add(btnPlay);
+        paneOverlayContainer.add(pnlFlipPane);
+        paneOverlayContainer.validate();
 
-        overlayBarImgPane = new AImagePane("game_overlay.png", width - 30, 55);
-        overlayBarImgPane.setOpaque(false);
-        overlayBarImgPane.setPreferredSize(new Dimension(width - 30, 55));
-        overlayBarImgPane.setLayout(new BorderLayout());
-        overlayBarImgPane.setBackground(Color.blue);
 
-        overlayBarContainer = new JPanel();
-        overlayBarContainer.setOpaque(false);
-        overlayBarContainer.setLayout(new BoxLayout(overlayBarContainer,
-                BoxLayout.X_AXIS));
+        imgOverlayBar.removeAll();
+        imgOverlayBar.setVisible(false);
+        imgOverlayBar.add(paneOverlayContainer);
+        imgOverlayBar.setOpaque(false);
+        imgOverlayBar.validate();
 
-        //Game Bar Elements//
-        favoriteButton = new AButton("game_btn_star_norm.png",
-                "game_btn_star_down.png",
-                "game_btn_star_over.png");
-        favoriteButton.addActionListener(new Game.FavoriteButtonListener());
-        favoriteButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        favoriteButtonPanel.setPreferredSize(new Dimension(30, 40));
-        favoriteButtonPanel.add(favoriteButton);
-        favoriteButtonPanel.setOpaque(false);
 
-        flipButton = new AButton("game_btn_reverse_norm.png",
-                "game_btn_reverse_down.png",
-                "game_btn_reverse_over.png");
-        flipButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        flipButtonPanel.setPreferredSize(new Dimension(80, 40));
-        flipButtonPanel.add(flipButton);
-        flipButtonPanel.setOpaque(false);
-
-        playButton = new AButton("game_btn_play_norm.png",
-                "game_btn_play_down.png",
-                "game_btn_play_over.png");
-        playButton.setPreferredSize(new Dimension(40, 40));
-        playButton.setOpaque(false);
-        playButtonListener = new Game.PlayButtonListener();
-        playButton.addActionListener(playButtonListener);
-
-        overlayBarContainer.add(favoriteButtonPanel);
-        overlayBarContainer.add(playButton);
-        overlayBarContainer.add(flipButtonPanel);
-        overlayBarContainer.validate();
-
-        overlayBarImgPane.setVisible(false);
-        overlayBarImgPane.add(overlayBarContainer);
-        overlayBarImgPane.setOpaque(false);
-        overlayBarImgPane.validate();
-
-        //Set up interactive pane
-
-        topPanel = new JPanel(new BorderLayout());
-        topPanel.setOpaque(false);
-        topPanel.setPreferredSize(new Dimension(width, 55));
-
-        bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setOpaque(false);
-        bottomPanel.setPreferredSize(new Dimension(width - 10,
-                SIZE_BottomPaneHeight));
-
-        removeButton.setVisible(false);
-        favoriteIconImagePane.setVisible(false);
-
-        topPanel.add(removeButton, BorderLayout.EAST);
-        topPanel.add(favoriteIconImagePane, BorderLayout.WEST);
+        topPanel.removeAll();
+        topPanel.add(btnRemove, BorderLayout.EAST);
+        topPanel.add(imgStarIcon, BorderLayout.WEST);
         topPanel.validate();
 
-        bottomPanel.add(overlayBarImgPane, BorderLayout.NORTH);
+        bottomPanel.removeAll();
+        bottomPanel.add(imgOverlayBar, BorderLayout.NORTH);
+        bottomPanel.validate();
 
         interactivePanel.add(topPanel, BorderLayout.PAGE_START);
         interactivePanel.add(bottomPanel, BorderLayout.SOUTH);
-
-        topPanel.validate();
         interactivePanel.revalidate();
 
-        if (isFavorite()) {
-            setFavorite();
-        }
+        // load selected and star
+        afterLoad();
 
         this.repaint();
     }
@@ -622,80 +594,86 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
-    private void setSize() {
-
-        if (coreUI.isLargeScreen()) {
-            removeButtonWidth = this.width / 2 - 35;
-            removeButtonSeperation = -removeButtonWidth / 6 + 5;
-
-            SIZE_BottomPaneHeight = (50 * 2) - 10;
-            SIZE_TOPPANE_COMP = 5;
-        } else {
-            removeButtonWidth = this.width / 2 - 40;
-            removeButtonSeperation = -removeButtonWidth / 6 + 5;
-
-            SIZE_TOPPANE_COMP = 0;
-            SIZE_BottomPaneHeight = (50 * 2) - 10;
-        }
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("OVERLAY HEIGHT " + SIZE_BottomPaneHeight);
-        }
-
-    }
-
-    public final void removePreviousSelected() {
+    /**
+     * .-----------------------------------------------------------------------.
+     * | unSelectPrevious()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Uses the GridManager to un-select any previously setSelected game
+     * |
+     * .........................................................................
+     * <p/>
+     */
+    public final void unSelectPrevious() {
         if (manager != null) {
             manager.unselectPrevious();
         }
 
     }
 
-    private void afterLoad() {
-        if (isLoaded) {
-
-            if (isSelected) {
-                selected();
-            }
-
-            if (isFavorite) {
-                setFavorite();
-            }
-        }
-
-    }
-
-    public final void setCoverSize(final int width, final int height) {
-        this.width = width;
-        this.height = height;
+    /**
+     * .-----------------------------------------------------------------------.
+     * | setCoverSize(int width, int height)
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Method that sets the Size of the Game Cover
+     * |
+     * .........................................................................
+     * <p/>
+     * @param coverWidth  Integer
+     * @param coverHeight Integer
+     */
+    public final void setCoverSize(final int coverWidth, final int coverHeight) {
+        this.width = coverWidth;
+        this.height = coverHeight;
         this.setImageSize(width, height);
         setSize();
     }
 
-    public final void selected() {
+    /**
+     * .-----------------------------------------------------------------------.
+     * | setSelected()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Method that selects the Game by showing the glow
+     * |
+     * .........................................................................
+     * <p/>
+     */
+    public final void setSelected() {
         isSelected = true;
         if (isLoaded) {
-            this.add(glowImagePane);
+            this.add(imgSelectedGlow);
             this.repaint();
             this.validate();
         }
 
     }
 
-    public final void unselected() {
+    /**
+     * .-----------------------------------------------------------------------.
+     * | setUnselected()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Method to de-select a game cover to show the overlay UI and glow
+     * |
+     * .........................................................................
+     * <p/>
+     */
+    public final void setUnselected() {
 
         if (isSelected) {
 
             if (isGameRemoveMode) {
 
                 new CancelRemoveGameHandler().actionPerformed(null);
-                overlayBarImgPane.setVisible(false);
+                imgOverlayBar.setVisible(false);
             }
 
             isSelected = false;
-            removeButton.setVisible(false);
+            btnRemove.setVisible(false);
             interactivePanel.revalidate();
-            this.remove(glowImagePane);
+            this.remove(imgSelectedGlow);
             this.repaint();
             this.revalidate();
 
@@ -703,18 +681,39 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
-    // Future method to be used to set isSelected variable
-    public void setSelected(boolean selected) {
-        isSelected = selected;
+    /**
+     * .-----------------------------------------------------------------------.
+     * | hideOverlayUI()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | hides the Overlay UI that shows up when you click on a game
+     * | but does not hid the glow or star
+     * |
+     * .........................................................................
+     * <p/>
+     */
+    public final void hideOverlayUI() {
+//        hideInteraction();
+        if (isLoaded) {
+            btnRemove.setVisible(false);
+            interactivePanel.revalidate();
+        }
+        imgOverlayBar.setVisible(false);
+        setUnselected();
     }
 
-    public final void hideInteractiveComponents() {
-        hideInteraction();
-        overlayBarImgPane.setVisible(false);
-        unselected();
-    }
-
-    public final void displayInteractiveComponents() {
+    /**
+     * .-----------------------------------------------------------------------.
+     * | showOverlayUI()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | shows the overlay/Interactive pane with the remove button and selects
+     * | game.
+     * |
+     * .........................................................................
+     * <p/>
+     */
+    public final void showOverlayUI() {
 
         interactivePanel.setSize(width + 47, height + 28);
 
@@ -723,18 +722,34 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                          + " " + interactivePanel.getHeight());
         }
 
-        showRemove();
-        overlayBarImgPane.setVisible(true);
-        selected();
+        showRemoveBtn();
+        imgOverlayBar.setVisible(true);
+        setSelected();
         LibraryUI.lblGameName.setText(getName());
 
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | removeOverlayUI()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Completely removes the Overlay UI from game cover. This is used if
+     * | the game cover is only for displaying the game icon
+     * |
+     * .........................................................................
+     * <p/>
+     */
+    public final void removeOverlayUI() {
+        this.remove(interactivePanel);
+        this.isRemoved = true;
     }
 
     public final void setFavorite() {
 
         isFavorite = true;
         if (isLoaded) {
-            favoriteIconImagePane.setVisible(true);
+            imgStarIcon.setVisible(true);
             interactivePanel.revalidate();
         }
 
@@ -743,14 +758,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     public final void unfavorite() {
         if (isFavorite) {
             isFavorite = false;
-            favoriteIconImagePane.setVisible(false);
+            imgStarIcon.setVisible(false);
             interactivePanel.revalidate();
         }
     }
 
     private void animateFavouriteMove() {
 
-        hideInteractiveComponents();
+        hideOverlayUI();
         revalidate();
         thisGame().setEnabled(false);
         Game temp = thisGame();
@@ -771,38 +786,21 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             java.util.logging.Logger.getLogger(Game.class.getName()).
                     log(Level.SEVERE, null, ex);
         }
-         thisGame().setEnabled(true);
+        thisGame().setEnabled(true);
         thisGame().setVisible(false);
 
         thisGame().clearImage();
         thisGame().setImage(temp.getCoverImagePane().getImgIcon(),
                 height, width);
-        displayInteractiveComponents();
-
-
-
-
-
+        showOverlayUI();
     }
 
-    public final void showRemove() {
+    public final void showRemoveBtn() {
 
         if (isLoaded) {
-            removeButton.setVisible(true);
+            btnRemove.setVisible(true);
             interactivePanel.revalidate();
         }
-    }
-
-    public final void hideInteraction() {
-        if (isLoaded) {
-            removeButton.setVisible(false);
-            interactivePanel.revalidate();
-        }
-    }
-
-    public final void removeInteraction() {
-        this.remove(interactivePanel);
-        this.isRemoved = true;
     }
 
     public final void saveMetadata() {
@@ -828,6 +826,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 thisGame().clearImage();
                 thisGame().setImage("Reverse-Case.png", height, width);
 
+                btnFlip.setButtonStates("game_btn_reverseLeft_norm.png",
+                        "game_btn_reverseLeft_down.png",
+                        "game_btn_reverseLeft_over.png");
 
                 thisGame().revalidate();
                 isFliped = true;
@@ -835,7 +836,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 thisGame().clearImage();
                 thisGame().setImage(tempGame.getCoverImagePane().getImgIcon(),
                         height, width);
+                btnFlip.setButtonStates("game_btn_reverseRight_norm.png",
+                        "game_btn_reverseRight_down.png",
+                        "game_btn_reverseRight_over.png");
+
                 thisGame().revalidate();
+
+
                 isFliped = false;
             }
         }
@@ -906,7 +913,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-            topPanel.remove(removeButton);
+            topPanel.remove(btnRemove);
             imgConfirmPromptImagePane = new AImagePane(
                     "game_img_removeWarning.png");
             imgConfirmPromptImagePane
@@ -917,7 +924,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             topPanel.add(imgConfirmPromptImagePane, BorderLayout.EAST);
             topPanel.revalidate();
 
-            overlayBarContainer.removeAll();
+            paneOverlayContainer.removeAll();
             confirmButton = new AButton("game_btn_removeYes_norm.png",
                     "game_btn_removeYes_down.png", "game_btn_removeYes_over.png",
                     removeButtonWidth, 55);
@@ -939,12 +946,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             confirmPanel.setOpaque(false);
             confirmPanel.add(confirmButton);
 
-            overlayBarContainer.add(denyPanel);
-            overlayBarContainer.add(confirmPanel);
-            overlayBarImgPane.revalidate();
-            unselected();
+            paneOverlayContainer.add(denyPanel);
+            paneOverlayContainer.add(confirmPanel);
+            imgOverlayBar.revalidate();
+            setUnselected();
             isGameRemoveMode = true;
-            overlayBarImgPane.setVisible(true);
+            imgOverlayBar.setVisible(true);
 
         }
     }
@@ -954,7 +961,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      * | CancelRemoveGameHandler
      * .-----------------------------------------------------------------------.
      * |
-     * | Handler when No button selected remove the Confirm Removal overlay
+     * | Handler when No button setSelected remove the Confirm Removal overlay
      * | and re-add original Game Overlay.
      * |
      * |
@@ -969,10 +976,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         public void actionPerformed(ActionEvent e) {
             interactivePanel.removeAll();
             interactivePanel.setVisible(false);
-            remove(glowImagePane);
+            remove(imgSelectedGlow);
             reAddInteractive();
-            showRemove();
-            overlayBarImgPane.setVisible(true);
+            showRemoveBtn();
+            imgOverlayBar.setVisible(true);
             isGameRemoveMode = false;
         }
     }
@@ -995,15 +1002,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
-    public void select() {
-        displayInteractiveComponents();
+    private void select() {
+        showOverlayUI();
 
     }
 
-    public void unselect() {
-        hideInteraction();
-        overlayBarImgPane.setVisible(false);
-        unselected();
+    private void unselect() {
+        hideOverlayUI();
 
         if (logger.isDebugEnabled()) {
             logger.debug("GAME UNSELECTED");
@@ -1028,7 +1033,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                 } else {
 
-                    removePreviousSelected();
+                    unSelectPrevious();
                     select();
 
                     if (logger.isDebugEnabled()) {
@@ -1051,12 +1056,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 if (!isRemoved) {
                     requestFocus();
                     if (isSelected()) {
-                        hideInteraction();
-                        overlayBarImgPane.setVisible(false);
-                        unselected();
+                        hideOverlayUI();
                     } else {
-                        removePreviousSelected();
-                        displayInteractiveComponents();
+                        unSelectPrevious();
+                        showOverlayUI();
                     }
                 }
             }
@@ -1067,7 +1070,30 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
-    ////Getters and Setters
+    private void setSize() {
+
+        if (coreUI.isLargeScreen()) {
+            removeButtonWidth = this.width / 2 - 35;
+            removeButtonSeperation = -removeButtonWidth / 6 + 5;
+
+            SIZE_BottomPaneHeight = (50 * 2) - 10;
+            SIZE_TOPPANE_COMP = 5;
+        } else {
+            removeButtonWidth = this.width / 2 - 40;
+            removeButtonSeperation = -removeButtonWidth / 6 + 5;
+
+            SIZE_TOPPANE_COMP = 0;
+            SIZE_BottomPaneHeight = (50 * 2) - 10;
+        }
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("OVERLAY HEIGHT " + SIZE_BottomPaneHeight);
+        }
+
+    }
+
+    // Getters & Setters
+    // -----------------------------------------------------------------------.
     public final AuroraStorage getStorage() {
         return storage;
     }
@@ -1085,11 +1111,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public final AButton getFavoriteButton() {
-        return favoriteButton;
+        return btnFavorite;
     }
 
     public final void setFavoriteButton(final AButton favoriteButton) {
-        this.favoriteButton = favoriteButton;
+        this.btnFavorite = favoriteButton;
     }
 
     public final String getBoxArtUrl() {
@@ -1101,7 +1127,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public final AImagePane getGameBar() {
-        return overlayBarImgPane;
+        return imgOverlayBar;
     }
 
     public final boolean isSelected() {

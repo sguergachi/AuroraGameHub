@@ -38,6 +38,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -456,7 +457,7 @@ public class DashboardUI implements AuroraScreenUI {
 
         infoFeed.setPostCycleListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
 
                 if (logger.isDebugEnabled()) {
                     logger.debug("Refreshing feed");
@@ -565,7 +566,7 @@ public class DashboardUI implements AuroraScreenUI {
     public final void buildUI() {
 
         //* Indicate to User DashboardUI is loading. *//
-        coreUI.getTitleLabel().setText("  " +".: Loading :.");
+        coreUI.getTitleLabel().setText("  " + ".: Loading :.");
 
 
         //* Set bigger Logo to Header *//
@@ -854,33 +855,35 @@ public class DashboardUI implements AuroraScreenUI {
 
     }
 
-    private class HeaderMouseListener implements MouseListener {
-
-        public HeaderMouseListener() {
-        }
+    /**
+     * .-----------------------------------------------------------------------.
+     * | HeaderMouseListener()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This is a MouseListener for when you click on the Header icon
+     * | this is used to open the About box
+     * |
+     */
+    private class HeaderMouseListener extends MouseAdapter {
 
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mouseClicked(final MouseEvent  e) {
             aboutBox.showAboutBox();
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {
+        public void mousePressed(final MouseEvent e) {
             aboutBox.showAboutBox();
         }
 
         @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
+        public void mouseEntered(final MouseEvent e) {
             coreUI.getLogoImage().setImgURl("dash_header_logo_hover.png");
             coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
         }
 
         @Override
-        public void mouseExited(MouseEvent e) {
+        public void mouseExited(final MouseEvent e) {
             coreUI.getLogoImage().setImgURl("dash_header_logo.png");
             coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
         }

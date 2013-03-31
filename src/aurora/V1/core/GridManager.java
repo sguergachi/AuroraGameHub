@@ -138,7 +138,7 @@ public class GridManager {
                         .deriveFont(25));
                 info.showDialog();
                 info.setVisible(true);
-                echoGame(game).selected();
+                echoGame(game).setSelected();
             }
 
         }
@@ -234,7 +234,7 @@ public class GridManager {
     }
 
     /**
-     * check if any other cover was selected and sets it to unselected
+     * check if any other cover was setSelected and sets it to setUnselected
      */
     public void unselectPrevious() {
         for (int i = 0; i < Grids.size(); i++) {
@@ -242,7 +242,7 @@ public class GridManager {
                 if (!(Grids.get(i).getArray().get(j) instanceof GamePlaceholder)) {
                     Game game = (Game) Grids.get(i).getArray().get(j);
                     if (game.isSelected()) {
-                        game.unselected();
+                        game.setUnselected();
                         game.getGameBar().setVisible(false);
                         game.revalidate();
                     }
@@ -594,7 +594,7 @@ public class GridManager {
     }
 
     /**
-     * check if any other cover was selected and sets it to unselected
+     * check if any other cover was setSelected and sets it to setUnselected
      */
     public AGridPanel getSelectedGrid() {
         for (int i = 0; i < Grids.size(); i++) {

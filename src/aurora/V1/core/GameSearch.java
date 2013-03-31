@@ -220,7 +220,7 @@ public class GameSearch implements Runnable {
             libraryUI.getCoverPane().add(foundGameCover);
             try {
                 foundGameCover.update();
-                foundGameCover.removeInteraction();
+                foundGameCover.removeOverlayUI();
             } catch (MalformedURLException ex) {
             	logger.error(ex);
             }
@@ -326,7 +326,7 @@ public class GameSearch implements Runnable {
                 //Show GameCover
                 try {
                     foundGameCover.update();
-                    foundGameCover.removeInteraction();
+                    foundGameCover.removeOverlayUI();
                 } catch (MalformedURLException ex) {
                 	logger.error(ex);
                 }

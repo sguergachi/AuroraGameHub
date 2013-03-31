@@ -307,11 +307,21 @@ public class AboutBox {
         lblJSONParser.setForeground(Color.WHITE);
         lblJSONParser.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+         ASlickLabel lblLogger = new ASlickLabel(
+                "Apache log4j - Logging Library for Java.");
+        lblLogger.setLink("http://logging.apache.org/log4j/1.2/");
+        lblLogger.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                20));
+        lblLogger.setForeground(Color.WHITE);
+        lblLogger.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         pnlCodeCredit.add(lblCodeCreditTitle);
         pnlCodeCredit.add(Box.createVerticalStrut(30));
         pnlCodeCredit.add(lblRSSParser);
         pnlCodeCredit.add(lblh2Database);
         pnlCodeCredit.add(lblJSONParser);
+        pnlCodeCredit.add(lblLogger);
+
 
         pnlCenterContainer.add(pnlCodeCredit);
 
@@ -349,20 +359,20 @@ public class AboutBox {
         lblStackOverflow.setForeground(Color.WHITE);
         lblStackOverflow.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        ASlickLabel lblSound = new ASlickLabel(
-                "Abyssal Echo (by Vajragio) -  Background Music");
-        lblSound.setLink("https://soundcloud.com/giovanniangel");
-        lblSound.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+        ASlickLabel lblUsers = new ASlickLabel(
+                "Our Users and Fans -  We Love You! <3");
+        lblUsers.setLink("https://soundcloud.com/giovanniangel");
+        lblUsers.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
-        lblSound.setForeground(Color.WHITE);
-        lblSound.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblUsers.setForeground(Color.WHITE);
+        lblUsers.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
         pnlSpecialThanks.add(lblSpecialThanks);
         pnlSpecialThanks.add(Box.createVerticalStrut(30));
         pnlSpecialThanks.add(lblJeno);
         pnlSpecialThanks.add(lblStackOverflow);
-        pnlSpecialThanks.add(lblSound);
+        pnlSpecialThanks.add(lblUsers);
 
         pnlCenterContainer.add(pnlSpecialThanks);
 

@@ -214,7 +214,7 @@ public class DashboardLogic implements AuroraScreenLogic {
             }
 
             //* Disable overlay UI of Game *//
-            randomGame.removeInteraction();
+            randomGame.removeOverlayUI();
             //* Instead, when clicking on game, launch appropriate App *//
 
             if (logger.isDebugEnabled()) {

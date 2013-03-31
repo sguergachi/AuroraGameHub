@@ -1,6 +1,6 @@
 package Test;
 
-import aurora.V1.core.Finder;
+import aurora.V1.core.GameFinder;
 import aurora.engine.V1.Logic.ABrowser;
 import javax.swing.*;
 
@@ -23,8 +23,8 @@ public class Sandbox {
 
 
 
-        System.out.println(Finder.getNameOfGamesOnCDrive());
-        System.out.println(Finder.getExecutablePathsOnCDrive());
+        System.out.println(GameFinder.getNameOfGamesOnCDrive());
+        System.out.println(GameFinder.getExecutablePathsOnCDrive());
 
 
         frame.setVisible(true);

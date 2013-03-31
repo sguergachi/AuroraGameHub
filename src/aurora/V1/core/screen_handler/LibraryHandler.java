@@ -1121,19 +1121,19 @@ public class LibraryHandler implements
 
                             //Check for GamePlaceholder CANT MOVE THERE!
                             if (!(comp.get(i - 4) instanceof GamePlaceholder)) {
-                                game.hideInteractiveComponents();
+                                game.hideOverlayUI();
                                 Game newGame = (Game) comp.get(i - 4);
                                 gridManager.unselectPrevious();
-                                newGame.displayInteractiveComponents();
+                                newGame.showOverlayUI();
                             }
 
                         } else if (row == 1) {
                             //Check for GamePlaceholder CANT MOVE THERE!
                             if (!(comp.get(i + (4 * 1)) instanceof GamePlaceholder)) {
-                                game.hideInteractiveComponents();
+                                game.hideOverlayUI();
                                 Game newGame = (Game) comp.get(i + (4 * 1));
                                 gridManager.unselectPrevious();
-                                newGame.displayInteractiveComponents();
+                                newGame.showOverlayUI();
                             }
                         } else {
                         	if (logger.isDebugEnabled()) {
@@ -1148,7 +1148,7 @@ public class LibraryHandler implements
 
                 if (!selectedGameFound && (comp.get(0) instanceof Game)) {
                     game = (Game) comp.get(0);
-                    game.displayInteractiveComponents();
+                    game.showOverlayUI();
                 }
 
                 //>>> MOVE DOWN
@@ -1185,20 +1185,20 @@ public class LibraryHandler implements
 
                             //Check for GamePlaceholder CANT MOVE THERE!
                             if (!(comp.get(i + 4) instanceof GamePlaceholder)) {
-                                game.hideInteractiveComponents();
+                                game.hideOverlayUI();
                                 Game newGame = (Game) comp.get(i + 4);
                                 gridManager.unselectPrevious();
-                                newGame.displayInteractiveComponents();
+                                newGame.showOverlayUI();
                             }
 
                         } else if (row == grid.getRow()) {
 
                             //Check for GamePlaceholder CANT MOVE THERE!
                             if (!(comp.get(i - (4 * 1)) instanceof GamePlaceholder)) {
-                                game.hideInteractiveComponents();
+                                game.hideOverlayUI();
                                 Game newGame = (Game) comp.get(i - (4 * 1));
                                 gridManager.unselectPrevious();
-                                newGame.displayInteractiveComponents();
+                                newGame.showOverlayUI();
                             }
                         } else {
 
@@ -1214,7 +1214,7 @@ public class LibraryHandler implements
 
                 if (!selectedGameFound && (comp.get(0) instanceof Game)) {
                     game = (Game) comp.get(0);
-                    game.displayInteractiveComponents();
+                    game.showOverlayUI();
                 }
 
 
@@ -1254,7 +1254,7 @@ public class LibraryHandler implements
                     	logger.debug("Row = " + row);
                     }
 
-                    // check to see if the selected game is not the first game in the grid
+                    // check to see if the setSelected game is not the first game in the grid
                     if (col > 1 || (col == 1 && row > 1)) {
                         System.out.println("Cursor is moving left!");
                         visibleGridIndex = gridManager.getVisibleGridIndex();
@@ -1264,10 +1264,10 @@ public class LibraryHandler implements
                         	logger.debug("visible grid after moving right = " + visibleGridIndex);
                         }
 
-                        game.hideInteractiveComponents();
+                        game.hideOverlayUI();
                         Game newGame = (Game) comp.get(i - 1);
                         gridManager.unselectPrevious();
-                        newGame.displayInteractiveComponents();
+                        newGame.showOverlayUI();
                         cursorMoved = true;
                     } else if (col == 1 && row == 1) {
 
@@ -1292,10 +1292,10 @@ public class LibraryHandler implements
 
                             //Check if GamePlaceholder is to the right.
                             if (!(comp.get(comp.size() - 1) instanceof GamePlaceholder)) {
-                                game.hideInteractiveComponents();
+                                game.hideOverlayUI();
                                 Game newGame = (Game) comp.get(comp.size() - 1);
                                 gridManager.unselectPrevious();
-                                newGame.displayInteractiveComponents();
+                                newGame.showOverlayUI();
                             }
                         } else {
                         	if (logger.isDebugEnabled()) {
@@ -1307,7 +1307,7 @@ public class LibraryHandler implements
                     }
                 } else if (!selectedGameFound && (comp.get(0) instanceof Game)) {
                     game = (Game) comp.get(0);
-                    game.displayInteractiveComponents();
+                    game.showOverlayUI();
                 }
 
                 // >>> MOVE RIGHT
@@ -1346,7 +1346,7 @@ public class LibraryHandler implements
                 		logger.debug("Row = " + row);
                 	}
 
-                    // check to see if the selected is not the last game in the grid
+                    // check to see if the setSelected is not the last game in the grid
                     if ((col < grid.getCol()
                          || (col == grid.getCol() && row < grid.getRow()))
                         && comp.size() > i + 1) {
@@ -1366,10 +1366,10 @@ public class LibraryHandler implements
                         		logger.debug("Object is a game");
                         	}
 
-                            //game.hideInteractiveComponents();
+                            //game.hideOverlayUI();
                             newGame = (Game) obj;
                             gridManager.unselectPrevious();
-                            newGame.displayInteractiveComponents();
+                            newGame.showOverlayUI();
                             cursorMoved = true;
                         } else {
                         	if (logger.isDebugEnabled()) {
@@ -1377,7 +1377,7 @@ public class LibraryHandler implements
                         	}
                         }
 
-                        // else check to see if the selected game is the last game in the grid
+                        // else check to see if the setSelected game is the last game in the grid
                     } else if (col == grid.getCol() && row == grid.getRow()) {
 
                     	if (logger.isDebugEnabled()) {
@@ -1415,9 +1415,9 @@ public class LibraryHandler implements
                             Game newGame = (Game) comp.get(0);
 
                             newGame.requestFocus();
-                            newGame.removePreviousSelected();
+                            newGame.unSelectPrevious();
                             newGame.revalidate();
-                            newGame.displayInteractiveComponents();
+                            newGame.showOverlayUI();
 
                         } else {
                         	if (logger.isDebugEnabled()) {
@@ -1428,7 +1428,7 @@ public class LibraryHandler implements
                     }
                 } else if (!selectedGameFound && (comp.get(0) instanceof Game)) {
                     game = (Game) comp.get(0);
-                    game.displayInteractiveComponents();
+                    game.showOverlayUI();
                 }
             } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
