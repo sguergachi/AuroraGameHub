@@ -106,7 +106,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private AImagePane imgConfirmPromptImagePane;
 
-    private JPanel interactivePanel;
+    private JPanel pnlInteractivePane;
 
     private JPanel topPanel;
 
@@ -118,7 +118,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private JPanel bottomPanel;
 
-    private JPanel paneOverlayContainer;
+    private JPanel pnlOverlayContainer;
 
     private JPanel confirmPanel;
 
@@ -159,6 +159,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private boolean isFliped;
 
     static final Logger logger = Logger.getLogger(Game.class);
+
+    private AButton btnAward;
+
+    private JPanel pnlAwardPane;
+
+    private AButton btnSetting;
 
     public Game() {
     }
@@ -257,11 +263,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // Set Up Interactive Overlay Panel
         // ----------------------------------------------------------------.
 
-        interactivePanel = new JPanel(new BorderLayout());
-        interactivePanel.setOpaque(false);
-        interactivePanel.addMouseListener(new Game.InteractiveListener());
+        pnlInteractivePane = new JPanel(new BorderLayout());
+        pnlInteractivePane.setOpaque(false);
+        pnlInteractivePane.addMouseListener(new Game.InteractiveListener());
         this.addMouseListener(new Game.InteractiveListener());
-        this.add(interactivePanel);
+        this.add(pnlInteractivePane);
         this.revalidate();
 
         this.setLayout(new BorderLayout());
@@ -301,10 +307,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         imgOverlayBar.setBackground(Color.blue);
 
         // The Panel that Contains the Actuall Components //
-        paneOverlayContainer = new JPanel();
-        paneOverlayContainer.setOpaque(false);
-        paneOverlayContainer.setBackground(Color.red);
-        paneOverlayContainer.setLayout(new BoxLayout(paneOverlayContainer,
+        pnlOverlayContainer = new JPanel();
+        pnlOverlayContainer.setOpaque(false);
+        pnlOverlayContainer.setBackground(Color.red);
+        pnlOverlayContainer.setLayout(new BoxLayout(pnlOverlayContainer,
                 BoxLayout.X_AXIS));
 
 
@@ -337,19 +343,39 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 "game_btn_play_over.png");
         playButtonListener = new Game.PlayButtonListener();
         btnPlay.addActionListener(playButtonListener);
-
         btnPlay.setPreferredSize(new Dimension(40, 40));
-        btnPlay.setOpaque(false);
+
+        //- Reverse Buttons -//
+
+        // Awards Button //
+        btnAward = new AButton("game_btn_award_norm.png",
+                "game_btn_award_down.png",
+                "game_btn_award_over.png");
+
+        pnlAwardPane = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        pnlAwardPane.setPreferredSize(new Dimension(30, 40));
+        pnlAwardPane.add(btnAward);
+        pnlAwardPane.setOpaque(false);
+
+        // Settings Button
+        btnSetting = new AButton("game_btn_setting_norm.png",
+                "game_btn_setting_down.png",
+                "game_btn_setting_over.png");
+        btnSetting.setPreferredSize(new Dimension(40, 40));
+
+
+
+
 
 
         // Add Buttons to the Containers //
-        paneOverlayContainer.add(pnlFavoritePane);
-        paneOverlayContainer.add(btnPlay);
-        paneOverlayContainer.add(pnlFlipPane);
+        pnlOverlayContainer.add(pnlFavoritePane);
+        pnlOverlayContainer.add(btnPlay);
+        pnlOverlayContainer.add(pnlFlipPane);
 
         // Add Container to the Image, which is not visible by default //
         imgOverlayBar.setVisible(false);
-        imgOverlayBar.add(paneOverlayContainer);
+        imgOverlayBar.add(pnlOverlayContainer);
 
         // Add Image to the Bottom Bar //
         bottomPanel.add(imgOverlayBar, BorderLayout.NORTH);
@@ -368,12 +394,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         imgOverlayBar.validate();
 
-        interactivePanel.add(topPanel, BorderLayout.PAGE_START);
-        interactivePanel.add(bottomPanel, BorderLayout.SOUTH);
+        pnlInteractivePane.add(topPanel, BorderLayout.PAGE_START);
+        pnlInteractivePane.add(bottomPanel, BorderLayout.SOUTH);
 
         bottomPanel.validate();
         topPanel.validate();
-        interactivePanel.validate();
+        pnlInteractivePane.validate();
 
         //Loading Thread
         gameCoverThread = null;
@@ -413,7 +439,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 coverImagePane.setDoubleBuffered(true);
                 this.remove(progressWheel);
                 this.setImage(coverImagePane);
-                this.add(interactivePanel);
+                this.add(pnlInteractivePane);
                 this.revalidate();
                 this.repaint();
             } else {
@@ -452,13 +478,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                             //Add Image To GameCover Cover
                             this.setImage(coverImagePane);
-                            this.add(interactivePanel);
+                            this.add(pnlInteractivePane);
                             this.revalidate();
                             this.repaint();
                         }
                     } else {
                         this.remove(progressWheel);
-                        this.add(interactivePanel);
+                        this.add(pnlInteractivePane);
                         this.revalidate();
                     }
 
@@ -468,8 +494,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
         }
         //End of Loading
-        interactivePanel.setPreferredSize(new Dimension(width, height));
-        interactivePanel.setSize(new Dimension(width, height));
+        pnlInteractivePane.setPreferredSize(new Dimension(width, height));
+        pnlInteractivePane.setSize(new Dimension(width, height));
 
         isLoaded = true;
 
@@ -521,19 +547,19 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         isRemoved = false;
         setSize();
-        interactivePanel.setVisible(true);
+        pnlInteractivePane.setVisible(true);
 
         // Remove all and re-add //
-        paneOverlayContainer.removeAll();
-        paneOverlayContainer.add(pnlFavoritePane);
-        paneOverlayContainer.add(btnPlay);
-        paneOverlayContainer.add(pnlFlipPane);
-        paneOverlayContainer.validate();
+        pnlOverlayContainer.removeAll();
+        pnlOverlayContainer.add(pnlFavoritePane);
+        pnlOverlayContainer.add(btnPlay);
+        pnlOverlayContainer.add(pnlFlipPane);
+        pnlOverlayContainer.validate();
 
 
         imgOverlayBar.removeAll();
         imgOverlayBar.setVisible(false);
-        imgOverlayBar.add(paneOverlayContainer);
+        imgOverlayBar.add(pnlOverlayContainer);
         imgOverlayBar.setOpaque(false);
         imgOverlayBar.validate();
 
@@ -547,9 +573,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         bottomPanel.add(imgOverlayBar, BorderLayout.NORTH);
         bottomPanel.validate();
 
-        interactivePanel.add(topPanel, BorderLayout.PAGE_START);
-        interactivePanel.add(bottomPanel, BorderLayout.SOUTH);
-        interactivePanel.revalidate();
+        pnlInteractivePane.add(topPanel, BorderLayout.PAGE_START);
+        pnlInteractivePane.add(bottomPanel, BorderLayout.SOUTH);
+        pnlInteractivePane.revalidate();
 
         // load selected and star
         afterLoad();
@@ -672,7 +698,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             isSelected = false;
             btnRemove.setVisible(false);
-            interactivePanel.revalidate();
+            pnlInteractivePane.revalidate();
             this.remove(imgSelectedGlow);
             this.repaint();
             this.revalidate();
@@ -693,10 +719,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      * <p/>
      */
     public final void hideOverlayUI() {
-//        hideInteraction();
         if (isLoaded) {
             btnRemove.setVisible(false);
-            interactivePanel.revalidate();
+            pnlInteractivePane.revalidate();
         }
         imgOverlayBar.setVisible(false);
         setUnselected();
@@ -715,11 +740,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      */
     public final void showOverlayUI() {
 
-        interactivePanel.setSize(width + 47, height + 28);
+        pnlInteractivePane.setSize(width + 47, height + 28);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("INTERACTIVE SIZE " + interactivePanel.getWidth()
-                         + " " + interactivePanel.getHeight());
+            logger.debug("INTERACTIVE SIZE " + pnlInteractivePane.getWidth()
+                         + " " + pnlInteractivePane.getHeight());
         }
 
         showRemoveBtn();
@@ -741,7 +766,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      * <p/>
      */
     public final void removeOverlayUI() {
-        this.remove(interactivePanel);
+        this.remove(pnlInteractivePane);
         this.isRemoved = true;
     }
 
@@ -750,7 +775,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         isFavorite = true;
         if (isLoaded) {
             imgStarIcon.setVisible(true);
-            interactivePanel.revalidate();
+            pnlInteractivePane.revalidate();
         }
 
     }
@@ -759,7 +784,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         if (isFavorite) {
             isFavorite = false;
             imgStarIcon.setVisible(false);
-            interactivePanel.revalidate();
+            pnlInteractivePane.revalidate();
         }
     }
 
@@ -799,7 +824,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         if (isLoaded) {
             btnRemove.setVisible(true);
-            interactivePanel.revalidate();
+            pnlInteractivePane.revalidate();
         }
     }
 
@@ -810,6 +835,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private class FlipButtonListener implements ActionListener {
 
         private Game tempGame;
+        private String gameNameFormat;
 
         public FlipButtonListener() {
         }
@@ -819,8 +845,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             if (logger.isDebugEnabled()) {
                 logger.debug("Flip button pressed");
             }
+
             if (!isFliped) {
-                // Removes Game Cover Art
+
+                // Replace Game Cover art with Fliped image //
                 tempGame = thisGame();
 
                 thisGame().clearImage();
@@ -829,6 +857,18 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 btnFlip.setButtonStates("game_btn_reverseLeft_norm.png",
                         "game_btn_reverseLeft_down.png",
                         "game_btn_reverseLeft_over.png");
+
+                pnlOverlayContainer.removeAll();
+                pnlOverlayContainer.validate();
+
+                pnlOverlayContainer.add(pnlAwardPane);
+                pnlOverlayContainer.add(btnSetting);
+                pnlOverlayContainer.add(pnlFlipPane);
+                pnlOverlayContainer.revalidate();
+
+                setUpFlipedUI();
+
+                topPanel.setVisible(false);
 
                 thisGame().revalidate();
                 isFliped = true;
@@ -840,11 +880,31 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         "game_btn_reverseRight_down.png",
                         "game_btn_reverseRight_over.png");
 
+                pnlOverlayContainer.removeAll();
+                pnlOverlayContainer.validate();
+
+                pnlOverlayContainer.add(pnlFavoritePane);
+                pnlOverlayContainer.add(btnPlay);
+                pnlOverlayContainer.add(pnlFlipPane);
+                pnlOverlayContainer.revalidate();
+
+
+                topPanel.setVisible(true);
+
                 thisGame().revalidate();
-
-
                 isFliped = false;
             }
+        }
+
+        private void setUpFlipedUI() {
+            //Allows for wraping
+            gameNameFormat = String.format(
+                    "<html><div style=\"width:%dpx;\">%s</div><html>", width,
+                    getGameName());
+
+
+
+
         }
     }
 
@@ -924,7 +984,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             topPanel.add(imgConfirmPromptImagePane, BorderLayout.EAST);
             topPanel.revalidate();
 
-            paneOverlayContainer.removeAll();
+            pnlOverlayContainer.removeAll();
             confirmButton = new AButton("game_btn_removeYes_norm.png",
                     "game_btn_removeYes_down.png", "game_btn_removeYes_over.png",
                     removeButtonWidth, 55);
@@ -946,8 +1006,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             confirmPanel.setOpaque(false);
             confirmPanel.add(confirmButton);
 
-            paneOverlayContainer.add(denyPanel);
-            paneOverlayContainer.add(confirmPanel);
+            pnlOverlayContainer.add(denyPanel);
+            pnlOverlayContainer.add(confirmPanel);
             imgOverlayBar.revalidate();
             setUnselected();
             isGameRemoveMode = true;
@@ -974,8 +1034,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            interactivePanel.removeAll();
-            interactivePanel.setVisible(false);
+            pnlInteractivePane.removeAll();
+            pnlInteractivePane.setVisible(false);
             remove(imgSelectedGlow);
             reAddInteractive();
             showRemoveBtn();
@@ -1123,7 +1183,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public final JPanel getInteractivePane() {
-        return interactivePanel;
+        return pnlInteractivePane;
     }
 
     public final AImagePane getGameBar() {

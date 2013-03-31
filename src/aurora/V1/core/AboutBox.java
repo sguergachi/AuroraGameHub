@@ -126,7 +126,7 @@ public class AboutBox {
 
         // Scroll Bar //
         scrollBar = new JScrollBar();
-        scrollBar.setUnitIncrement(14);
+        scrollBar.setUnitIncrement(30);
         scrollBar.setUI(new AScrollBar("app_scrollBar.png", "app_scrollBG.png"));
 
         scrollPane = new JScrollPane(pnlCenterContainer,
@@ -171,11 +171,12 @@ public class AboutBox {
         addContent();
 
         pnlCenterContainer.setPreferredSize(new Dimension(pnlCenter
-                .getRealImageWidth(), pnlAboutPane.getRealImageHeight() * 2 + 30));
+                .getRealImageWidth(), (pnlAboutPane.getRealImageHeight() / 2)
+                                      * 5));
 
         pnlCenter.add(scrollPane);
 
-        // Bottom Pane//
+        // Bottom Pane //
         pnlBottom.add(imgLogo);
         imgLogo.setPreferredSize(new Dimension(imgLogo.getRealImageWidth(),
                 imgLogo.getRealImageHeight()));
@@ -307,7 +308,7 @@ public class AboutBox {
         lblJSONParser.setForeground(Color.WHITE);
         lblJSONParser.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-         ASlickLabel lblLogger = new ASlickLabel(
+        ASlickLabel lblLogger = new ASlickLabel(
                 "Apache log4j - Logging Library for Java.");
         lblLogger.setLink("http://logging.apache.org/log4j/1.2/");
         lblLogger.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
@@ -407,7 +408,8 @@ public class AboutBox {
                 + " WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br>"
                 + " See the License for the specific language governing permissions and<br>"
                 + " limitations under the License. </html>");
-        lblLicenseText.setLink("http://creativecommons.org/licenses/by-nc-nd/3.0/");
+        lblLicenseText.setLink(
+                "http://creativecommons.org/licenses/by-nc-nd/3.0/");
         lblLicenseText.setFont(coreUI.getRopaFont().deriveFont(
                 Font.PLAIN,
                 16));
@@ -431,18 +433,18 @@ public class AboutBox {
         @Override
         public void focusGained(FocusEvent e) {
 
-        	if (logger.isDebugEnabled()) {
-        		logger.debug("About Box Focus");
-        	}
+            if (logger.isDebugEnabled()) {
+                logger.debug("About Box Focus");
+            }
 
         }
 
         @Override
         public void focusLost(FocusEvent e) {
 
-        	if (logger.isDebugEnabled()) {
-        		logger.debug("Hide About Box");
-        	}
+            if (logger.isDebugEnabled()) {
+                logger.debug("Hide About Box");
+            }
 
             hideAboutBox();
         }
