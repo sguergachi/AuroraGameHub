@@ -921,6 +921,40 @@ public class LibraryUI extends AuroraApp {
         gamesList = new JList();
         gameFileChooser = new JFileChooser(System.getProperty("user.home"));
 
+        // Set up File Chooser UI //
+
+        try {
+            UIManager.setLookAndFeel(UIManager
+                    .getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
+
+        //* Set up File Chooser *//
+        SwingUtilities.updateComponentTreeUI(gameFileChooser);
+
+        gameFileChooser.setApproveButtonText("Select");
+        gameFileChooser.setDragEnabled(false);
+        gameFileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
+        gameFileChooser.setMultiSelectionEnabled(false);
+        gameFileChooser.setAcceptAllFileFilterUsed(true);
+        gameFileChooser.setEnabled(true);
+        gameFileChooser.revalidate();
+
 
         //* BOTTOM PANEL COMPONENTS *//
         pnlBottomPane = new JPanel(new BorderLayout(0, 20));
@@ -1044,28 +1078,6 @@ public class LibraryUI extends AuroraApp {
             gamesList.setModel(listModel);
 
 
-            // Set up File Chooser UI //
-
-            try {
-                UIManager.setLookAndFeel(UIManager
-                        .getSystemLookAndFeelClassName());
-            } catch (ClassNotFoundException ex) {
-                java.util.logging.Logger
-                        .getLogger(LibraryUI.class.getName()).
-                        log(Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-                java.util.logging.Logger
-                        .getLogger(LibraryUI.class.getName()).
-                        log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                java.util.logging.Logger
-                        .getLogger(LibraryUI.class.getName()).
-                        log(Level.SEVERE, null, ex);
-            } catch (UnsupportedLookAndFeelException ex) {
-                java.util.logging.Logger
-                        .getLogger(LibraryUI.class.getName()).
-                        log(Level.SEVERE, null, ex);
-            }
 
             try {
                 Field field = PopupFactory.class.getDeclaredField(
@@ -1077,16 +1089,6 @@ public class LibraryUI extends AuroraApp {
             }
 
 
-            //* Set up File Chooser *//
-            SwingUtilities.updateComponentTreeUI(gameFileChooser);
-
-            gameFileChooser.setApproveButtonText("Select");
-            gameFileChooser.setDragEnabled(false);
-            gameFileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
-            gameFileChooser.setMultiSelectionEnabled(false);
-//            gameFileChooser.setAcceptAllFileFilterUsed(true);
-            gameFileChooser.setEnabled(true);
-            gameFileChooser.revalidate();
 
             if (logger.isDebugEnabled()) {
                 logger.debug("Cover Pane Height: " + pnlCoverPane.getHeight());
@@ -1799,9 +1801,6 @@ public class LibraryUI extends AuroraApp {
         return gameCoverWidth;
     }
 
-//    public GridSearch getSearch() {
-//        return Search;
-//    }
     public JTextField getSearchBar() {
         return searchTextField;
     }

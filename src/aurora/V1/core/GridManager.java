@@ -134,7 +134,7 @@ public class GridManager {
                 }
             } else {
                 ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
-                        "Cannot Add Duplicate Box Art", ui.getDefaultFont()
+                        "Cannot Add Duplicate Game", ui.getDefaultFont()
                         .deriveFont(25));
                 info.showDialog();
                 info.setVisible(true);

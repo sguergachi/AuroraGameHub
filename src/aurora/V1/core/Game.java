@@ -954,7 +954,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         textBoxHeight = height / 12;
 
-        int topImageWidth = width - (width/4);
+        int topImageWidth = width - (width / 4);
         int topImageHeight = height / 5;
 
         // Create main Panels
@@ -1061,13 +1061,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 labelFontSize));
         txtHoursPlayed.getTextBox().setDisabledTextColor(new Color(0, 255, 0));
 
-        txtLastPlayed = new ATextField("game_textLabel_inactive.png",
-                "game_textLabel_active.png");
-        txtLastPlayed.setTextboxSize(textBoxWidth, textBoxHeight);
-        txtLastPlayed.getTextBox().setFont(this.coreUI.getRopaFont()
-                .deriveFont(Font.PLAIN,
-                labelFontSize));
-        txtLastPlayed.getTextBox().setDisabledTextColor(new Color(0, 255, 0));
 
         txtTimesPlayed = new ATextField("game_textLabel_inactive.png",
                 "game_textLabel_active.png");
@@ -1077,12 +1070,20 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 labelFontSize));
         txtTimesPlayed.getTextBox().setDisabledTextColor(new Color(0, 255, 0));
 
+        txtLastPlayed = new ATextField("game_textLabel_inactive.png",
+                "game_textLabel_active.png");
+        txtLastPlayed.setTextboxSize(textBoxWidth, textBoxHeight);
+        txtLastPlayed.getTextBox().setFont(this.coreUI.getRopaFont()
+                .deriveFont(Font.PLAIN,
+                labelFontSize - 2));
+        txtLastPlayed.getTextBox().setDisabledTextColor(new Color(0, 255, 0));
+
         txtGameType = new ATextField("game_textLabel_inactive.png",
                 "game_textLabel_active.png");
-        txtGameType.setTextboxSize(textBoxWidth, textBoxHeight);
+        txtGameType.setTextboxSize(textBoxWidth , textBoxHeight);
         txtGameType.getTextBox().setFont(this.coreUI.getRopaFont()
                 .deriveFont(Font.PLAIN,
-                labelFontSize));
+                labelFontSize - 2));
         txtGameType.getTextBox().setCaretColor(Color.CYAN);
         txtGameType.getTextBox().setForeground(new Color(0, 255, 0));
 
@@ -1177,7 +1178,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // Add header title image //
 
         pnlTopImage.add(lblFlipGameName);
-        pnlTopImageContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        pnlTopImageContainer = new JPanel(
+                new FlowLayout(FlowLayout.CENTER, 0, 0));
 //        pnlTopImageContainer.setPreferredSize(pnlTopImage.getPreferredSize());
         pnlTopImageContainer.setOpaque(false);
         pnlTopImageContainer.add(pnlTopImage);

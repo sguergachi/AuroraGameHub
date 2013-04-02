@@ -148,10 +148,10 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             int librarySize = libraryUI.getStorage().getStoredLibrary()
                     .getGameNames()
-                    .size();
+                    .size() - 1;
 
             //* Reverse Add Games Marked Fav first *//
-            for (int i = librarySize - 1; i > 0;
+            for (int i = librarySize; i >= 0;
                     i--) {
 
                 Game Game = new Game(libraryUI.getGridSplit(), coreUI,
@@ -188,7 +188,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             //* Add Non-Fav games after *//
 
-            for (int i = 0; i < librarySize;
+            for (int i = 0; i <= librarySize;
                     i++) {
 
                 Game Game = new Game(libraryUI.getGridSplit(), coreUI,
