@@ -39,6 +39,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -206,6 +207,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private JPanel pnlLeftPane;
 
     private JPanel pnlRightPane;
+
+    private JPanel pnlFlipContainer;
+
+    private JPanel pnlTopImageContainer;
+
+    private boolean isFlipUIReady;
 
     public Game() {
     }
@@ -614,6 +621,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         bottomPanel.add(imgOverlayBar, BorderLayout.NORTH);
         bottomPanel.validate();
 
+        pnlInteractivePane.removeAll();
         pnlInteractivePane.add(topPanel, BorderLayout.PAGE_START);
         pnlInteractivePane.add(bottomPanel, BorderLayout.SOUTH);
         pnlInteractivePane.revalidate();
@@ -906,9 +914,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 pnlOverlayContainer.add(pnlFlipPane);
                 pnlOverlayContainer.revalidate();
 
-                setUpFlipedUI();
-
-                topPanel.setVisible(false);
+                if (isFlipUIReady) {
+                    showFlipUIContent();
+                } else {
+                    setUpFlipedUI();
+                }
 
                 thisGame().revalidate();
                 isFliped = true;
@@ -920,52 +930,80 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         "game_btn_reverseRight_down.png",
                         "game_btn_reverseRight_over.png");
 
-                pnlOverlayContainer.removeAll();
-                pnlOverlayContainer.validate();
 
-                pnlOverlayContainer.add(pnlFavoritePane);
-                pnlOverlayContainer.add(btnPlay);
-                pnlOverlayContainer.add(pnlFlipPane);
-                pnlOverlayContainer.revalidate();
+                // reset to normal overlay UI //
+                reAddInteractive();
+                select();
 
-
-                topPanel.setVisible(true);
 
                 thisGame().revalidate();
                 isFliped = false;
             }
         }
     }
-    private int labelFontSize = 20;
+    private int labelFontSize = 18;
+
+    private int textBoxWidth;
+
+    private int textBoxHeight;
 
     private void setUpFlipedUI() {
+
+
+        textBoxWidth = width / 3 - 5;
+
+        textBoxHeight = height / 12;
+
+        int topImageWidth = width - 45;
+        int topImageHeight = height / 4;
 
         // Create main Panels
         // ----------------------------------------------------------------.
 
+        // Allows for wraping //
+        gameNameFormat = String.format(
+                "<html><div style=\"width:%dpx;\">%s</div><html>",
+                topImageWidth - 10,
+                this.getGameName());
+
         lblFlipGameName = new ASlickLabel(gameNameFormat);
+        lblFlipGameName.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                labelFontSize + 2));
+        lblFlipGameName.setForeground(new Color(202, 202, 217));
+
         if (isFavorite) {
-            pnlTopImage = new AImagePane("game_flip_titleBG_star.png");
+            pnlTopImage = new AImagePane("game_flip_titleBG_star.png",
+                    topImageWidth,
+                    topImageHeight);
         } else {
-            pnlTopImage = new AImagePane("game_flip_titleBG.png");
+            pnlTopImage = new AImagePane("game_flip_titleBG.png", topImageWidth,
+                    topImageHeight);
         }
-        pnlTopImage.setBorder(BorderFactory.createEmptyBorder(5, 25,
-                5, 25));
+        pnlTopImage.setPreferredSize(
+                new Dimension(topImageWidth, topImageHeight));
+        pnlTopImage.setBorder(BorderFactory.createEmptyBorder(5, 10,
+                5, 65));
 
         // Content Pane //
-        pnlFlipContentPane = new JPanel(new BorderLayout());
-//        pnlFlipContentPane.setLayout(new BoxLayout(pnlLeftPane, BoxLayout.X_AXIS));
+        pnlFlipContentPane = new JPanel(new BorderLayout(0, 0));
         pnlFlipContentPane.setOpaque(false);
-        pnlFlipContentPane.setPreferredSize(new Dimension(width, height));
+        pnlFlipContentPane
+                .setPreferredSize(new Dimension(width / 8, height / 2));
+        pnlFlipContentPane.setBorder(BorderFactory.createEmptyBorder(5, 40,
+                5, 0));
+        pnlFlipContentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        pnlFlipContentPane.addMouseListener(new InteractiveListener());
 
         // Left Pane //
         pnlLeftPane = new JPanel();
         pnlLeftPane.setLayout(new BoxLayout(pnlLeftPane, BoxLayout.Y_AXIS));
+        pnlLeftPane.setLayout(new GridLayout(4, 0, 0, 25));
         pnlLeftPane.setOpaque(false);
 
         // Right Pane //
         pnlRightPane = new JPanel();
         pnlRightPane.setLayout(new BoxLayout(pnlRightPane, BoxLayout.Y_AXIS));
+        pnlRightPane.setLayout(new GridLayout(4, 0, 0, 20));
         pnlRightPane.setOpaque(false);
 
         // Scroll Bar and Scroll Panes
@@ -973,7 +1011,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         flipScrollBar = new JScrollBar();
         flipScrollBar.setUnitIncrement(20);
         flipScrollBar.setUI(new AScrollBar("app_scrollBar.png",
-                "app_scrollBG.png"));
+                "game_scrollBarBG.png"));
+        flipScrollBar.setPreferredSize(new Dimension(6, flipScrollBar
+                .getPreferredSize().height));
 
         pnlFlipScrollPane = new JScrollPane(pnlFlipContentPane,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -981,17 +1021,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlFlipScrollPane.setOpaque(false);
         pnlFlipScrollPane.getViewport().setOpaque(false);
         pnlFlipScrollPane.setVerticalScrollBar(flipScrollBar);
+        pnlFlipScrollPane.setBorder(null);
         pnlFlipScrollPane.validate();
+
 
         // Labels and Textboxes
         // ----------------------------------------------------------------.
 
-        // Allows for wraping //
-        gameNameFormat = String.format(
-                "<html><div style=\"width:%dpx;\">%s</div><html>", width,
-                getGameName());
-
-
+        // Lables //
 
         lblHoursPlayed = new ASlickLabel("Hours Played");
         lblHoursPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
@@ -1014,67 +1051,138 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         lblGameType.setForeground(new Color(202, 202, 217));
 
 
-        txtHoursPlayed = new ATextField("game_textLabelBG.png");
-        txtHoursPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                labelFontSize - 2));
-        txtHoursPlayed.setForeground(new Color(0, 255, 0));
+        // Text boxes //
 
-        txtLastPlayed = new ATextField("game_textLabelBG.png");
-        txtLastPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                labelFontSize - 2));
-        txtLastPlayed.setForeground(new Color(0, 255, 0));
+        txtHoursPlayed = new ATextField("game_textLabel_inactive.png",
+                "game_textLabel_active.png");
+        txtHoursPlayed.setTextboxSize(textBoxWidth + 1, textBoxHeight);
+        txtHoursPlayed.getTextBox().setFont(this.coreUI.getRopaFont()
+                .deriveFont(Font.PLAIN,
+                labelFontSize));
+        txtHoursPlayed.getTextBox().setDisabledTextColor(new Color(0, 255, 0));
 
-        txtTimesPlayed = new ATextField("game_textLabelBG.png");
-        txtTimesPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                labelFontSize - 2));
-        txtTimesPlayed.setForeground(new Color(0, 255, 0));
+        txtLastPlayed = new ATextField("game_textLabel_inactive.png",
+                "game_textLabel_active.png");
+        txtLastPlayed.setTextboxSize(textBoxWidth, textBoxHeight);
+        txtLastPlayed.getTextBox().setFont(this.coreUI.getRopaFont()
+                .deriveFont(Font.PLAIN,
+                labelFontSize));
+        txtLastPlayed.getTextBox().setDisabledTextColor(new Color(0, 255, 0));
 
-        txtGameType = new ATextField("game_textLabelBG.png");
-        txtGameType.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                labelFontSize - 2));
-        txtGameType.setForeground(new Color(0, 255, 0));
+        txtTimesPlayed = new ATextField("game_textLabel_inactive.png",
+                "game_textLabel_active.png");
+        txtTimesPlayed.setTextboxSize(textBoxWidth, textBoxHeight);
+        txtTimesPlayed.getTextBox().setFont(this.coreUI.getRopaFont()
+                .deriveFont(Font.PLAIN,
+                labelFontSize));
+        txtTimesPlayed.getTextBox().setDisabledTextColor(new Color(0, 255, 0));
 
+        txtGameType = new ATextField("game_textLabel_inactive.png",
+                "game_textLabel_active.png");
+        txtGameType.setTextboxSize(textBoxWidth, textBoxHeight);
+        txtGameType.getTextBox().setFont(this.coreUI.getRopaFont()
+                .deriveFont(Font.PLAIN,
+                labelFontSize));
+        txtGameType.getTextBox().setCaretColor(Color.CYAN);
+        txtGameType.getTextBox().setForeground(new Color(0, 255, 0));
+
+
+        // Add To Panels
+        // ----------------------------------------------------------------.
 
 
         // Add to Left Panel //
 
         lblHoursPlayed.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-        pnlLeftPane.add(lblHoursPlayed);
+        JPanel pnlHoursPlayedLbl = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0,
+                0));
+        pnlHoursPlayedLbl.setOpaque(false);
+        pnlHoursPlayedLbl.add(lblHoursPlayed);
+        pnlLeftPane.add(pnlHoursPlayedLbl);
 
         lblTimesPlayed.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-        pnlLeftPane.add(lblTimesPlayed);
+        JPanel pnlTimesPlayedLbl = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0,
+                0));
+        pnlTimesPlayedLbl.setOpaque(false);
+        pnlTimesPlayedLbl.add(lblTimesPlayed);
+        pnlLeftPane.add(pnlTimesPlayedLbl);
 
         lblLastPlayed.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-        pnlLeftPane.add(lblLastPlayed);
+        JPanel pnlLastPlayedLbl = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0,
+                0));
+        pnlLastPlayedLbl.setOpaque(false);
+        pnlLastPlayedLbl.add(lblLastPlayed);
+        pnlLeftPane.add(pnlLastPlayedLbl);
 
         lblGameType.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-        pnlLeftPane.add(lblGameType);
+        JPanel pnlGameTypeLbl = new JPanel(
+                new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        pnlGameTypeLbl.setOpaque(false);
+        pnlGameTypeLbl.add(lblGameType);
+        pnlLeftPane.add(pnlGameTypeLbl);
 
 
 
         // Add to Right Panel //
 
         txtHoursPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        pnlRightPane.add(txtHoursPlayed);
+        JPanel pnlHoursPlayedTxt = new JPanel(new FlowLayout(FlowLayout.LEFT, 0,
+                0));
+        pnlHoursPlayedTxt.setOpaque(false);
+        pnlHoursPlayedTxt.add(txtHoursPlayed);
+
+        pnlRightPane.add(pnlHoursPlayedTxt);
 
         txtTimesPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        pnlRightPane.add(txtTimesPlayed);
+        JPanel pnlTimesPlayedTxt = new JPanel(new FlowLayout(FlowLayout.LEFT, 0,
+                0));
+        pnlTimesPlayedTxt.setOpaque(false);
+        pnlTimesPlayedTxt.add(txtTimesPlayed);
+
+        pnlRightPane.add(pnlTimesPlayedTxt);
 
         txtLastPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        pnlRightPane.add(txtLastPlayed);
+        JPanel pnlLastPlayedTxt = new JPanel(new FlowLayout(FlowLayout.LEFT, 0,
+                0));
+        pnlLastPlayedTxt.setOpaque(false);
+        pnlLastPlayedTxt.add(txtLastPlayed);
+
+        pnlRightPane.add(pnlLastPlayedTxt);
 
         txtGameType.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        pnlRightPane.add(txtGameType);
+        JPanel pnlGameTypeTxt = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        pnlGameTypeTxt.setOpaque(false);
+        pnlGameTypeTxt.add(txtGameType);
+
+        pnlRightPane.add(pnlGameTypeTxt);
 
 
         // Add to Content Pane //
 
-        pnlFlipContentPane.add(pnlLeftPane, BorderLayout.WEST);
-        pnlFlipContentPane.add(pnlRightPane, BorderLayout.EAST);
+        pnlFlipContentPane.add(pnlLeftPane);
+        pnlFlipContentPane.add(pnlRightPane);
+
+        // Add scroll pane to container //
+
+        pnlFlipContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        pnlFlipContainer.setLayout(new BorderLayout());
+        pnlFlipContainer.setOpaque(false);
+        pnlFlipContainer.setPreferredSize(pnlFlipContentPane.getPreferredSize());
+        pnlFlipContainer.add(pnlFlipScrollPane, BorderLayout.CENTER);
+        pnlFlipContainer.add(Box.createHorizontalStrut(width / 3 - 5),
+                BorderLayout.EAST);
+
+
 
         // Add header title image //
 
         pnlTopImage.add(lblFlipGameName);
+        pnlTopImageContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+//        pnlTopImageContainer.setPreferredSize(pnlTopImage.getPreferredSize());
+        pnlTopImageContainer.setOpaque(false);
+        pnlTopImageContainer.add(pnlTopImage);
+
+        isFlipUIReady = true;
 
         showFlipUIContent();
 
@@ -1084,11 +1192,26 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         topPanel.removeAll();
         topPanel.revalidate();
-        topPanel.add(pnlTopImage, BorderLayout.CENTER);
+        topPanel.setPreferredSize(pnlTopImageContainer.getPreferredSize());
+        topPanel.add(pnlTopImageContainer, BorderLayout.CENTER);
         topPanel.revalidate();
 
-        pnlInteractivePane.add(pnlFlipScrollPane, BorderLayout.CENTER);
+        pnlInteractivePane.add(pnlFlipContainer, BorderLayout.CENTER, 1);
         pnlInteractivePane.revalidate();
+
+        //Show data
+        txtHoursPlayed.getTextBox().setEnabled(false);
+        txtHoursPlayed.setText(this.getTotalTimePlayed());
+        txtHoursPlayed.revalidate();
+
+        txtTimesPlayed.getTextBox().setEnabled(false);
+        txtTimesPlayed.setText(Integer.toString(this.getOccurencesPlayed())
+                               + " Times");
+        txtTimesPlayed.revalidate();
+
+        txtLastPlayed.getTextBox().setEnabled(false);
+        txtLastPlayed.setText(this.getLastPlayed());
+        txtLastPlayed.revalidate();
 
     }
 
