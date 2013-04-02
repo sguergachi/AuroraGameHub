@@ -418,10 +418,6 @@ public class LibraryUI extends AuroraApp {
 
     private JPanel pnlRightOfTopEastContainer;
 
-    private JPanel pnlGoToProgramsContainer;
-
-    private JPanel pnlGoToSteamContainer;
-
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
@@ -854,6 +850,12 @@ public class LibraryUI extends AuroraApp {
                 "addUI_btnGoToSteam_down.png", "addUI_btnGoToSteam_over.png");
         btnGoToSteam.setBorder(null);
         btnGoToSteam.setMargin(new Insets(0, 0, 0, 0));
+        btnGoToSteam.addActionListener(new GoToSteamListener());
+
+        // Check that steam exists before showing the
+        if (logic.fetchSteamDirOnWindows() == null) {
+            btnGoToSteam.setVisible(false);
+        }
 
         if (coreUI.getOS().contains("Mac")) {
             btnGoToProgram = new AButton("addUI_btnGoToApps_norm.png",
@@ -869,7 +871,8 @@ public class LibraryUI extends AuroraApp {
         btnGoToProgram.setMargin(new Insets(0, 0, 0, 0));
 
         btnGoToProgram.addActionListener(new GoToProgramsListener());
-        btnGoToSteam.addActionListener(new GoToSteamListener());
+
+
 
 
         //* CENTRAL PANEL COMPONENTS *//
@@ -887,11 +890,6 @@ public class LibraryUI extends AuroraApp {
         pnlRightOfTopEast = new JPanel(new BorderLayout(0, 0));
         pnlRightOfTopEast.setOpaque(false);
 
-
-        pnlGoToSteamContainer = new JPanel(new BorderLayout(0, 0));
-        pnlGoToSteamContainer.setOpaque(false);
-        pnlGoToProgramsContainer = new JPanel(new BorderLayout(0, 0));
-        pnlGoToProgramsContainer.setOpaque(false);
 
         pnlRightOfTopEastContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT,
                 0, 0));
@@ -1019,12 +1017,9 @@ public class LibraryUI extends AuroraApp {
 
             // Set up Go To Shortcuts //
 
-
-            pnlGoToSteamContainer.add(btnGoToSteam, BorderLayout.EAST);
-            pnlGoToProgramsContainer.add(btnGoToProgram, BorderLayout.EAST);
-
-            pnlRightOfTopEastContainer.add(btnGoToSteam);
             pnlRightOfTopEastContainer.add(btnGoToProgram);
+            pnlRightOfTopEastContainer.add(btnGoToSteam);
+
 
             pnlRightOfTopEast.add(Box.createHorizontalStrut(pnlRightOfTop
                     .getPreferredSize().width
@@ -1252,23 +1247,54 @@ public class LibraryUI extends AuroraApp {
 
         addGameAnimator = new AAnimate(pnlAddGamePane);
 
-        buildAddGameUI();
-
-        //* Animate Down Add Game UI *//
-        addGameAnimator.setInitialLocation((coreUI.getFrame().getWidth() / 2)
-                                           - (pnlAddGamePane.getImgIcon()
-                .getIconWidth() / 2), -390);
-        addGameAnimator.moveVertical(0, 33);
-        pnlAddGamePane.revalidate();
-
-        addGameSearchField.setFocusable(true);
-
-        addGameAnimator.addPostAnimationListener(new APostHandler() {
+        AThreadWorker addGameWorker = new AThreadWorker(new ActionListener() {
             @Override
-            public void postAction() {
-                addGameSearchField.requestFocus();
+            public void actionPerformed(ActionEvent e) {
+
+                buildAddGameUI();
             }
-        });
+        }, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //* Animate Down Add Game UI *//
+                addGameAnimator.setInitialLocation((coreUI.getFrame().getWidth()
+                                                    / 2)
+                                                   - (pnlAddGamePane
+                        .getImgIcon()
+                        .getIconWidth() / 2), -390);
+                addGameAnimator.moveVertical(0, 33);
+                pnlAddGamePane.revalidate();
+
+                addGameSearchField.setFocusable(true);
+
+                addGameAnimator.addPostAnimationListener(new APostHandler() {
+                    @Override
+                    public void postAction() {
+                        addGameSearchField.requestFocus();
+                    }
+                });
+            }
+        }, 0);
+
+        addGameWorker.startOnce();
+
+
+
+//        //* Animate Down Add Game UI *//
+//        addGameAnimator.setInitialLocation((coreUI.getFrame().getWidth() / 2)
+//                                           - (pnlAddGamePane.getImgIcon()
+//                .getIconWidth() / 2), -390);
+//        addGameAnimator.moveVertical(0, 33);
+//        pnlAddGamePane.revalidate();
+//
+//        addGameSearchField.setFocusable(true);
+//
+//        addGameAnimator.addPostAnimationListener(new APostHandler() {
+//            @Override
+//            public void postAction() {
+//                addGameSearchField.requestFocus();
+//            }
+//        });
 
     }
 

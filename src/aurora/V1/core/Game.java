@@ -25,6 +25,9 @@ import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AProgressWheel;
+import aurora.engine.V1.UI.AScrollBar;
+import aurora.engine.V1.UI.ASlickLabel;
+import aurora.engine.V1.UI.ATextField;
 import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.*;
 import java.awt.event.*;
@@ -35,9 +38,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 import org.apache.log4j.Logger;
 
@@ -57,6 +64,8 @@ import org.apache.log4j.Logger;
  * @author Carlos Machado <camachado@gmail.com>
  */
 public class Game extends AImagePane implements Runnable, Cloneable {
+
+    private static final long serialVersionUID = 1L;
 
     private String name;
 
@@ -165,6 +174,38 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private JPanel pnlAwardPane;
 
     private AButton btnSetting;
+
+    private String gameNameFormat;
+
+    private ASlickLabel lblHoursPlayed;
+
+    private ASlickLabel lblLastPlayed;
+
+    private ASlickLabel lblTimesPlayed;
+
+    private ASlickLabel lblGameType;
+
+    private ATextField txtHoursPlayed;
+
+    private ATextField txtLastPlayed;
+
+    private ATextField txtTimesPlayed;
+
+    private ATextField txtGameType;
+
+    private ASlickLabel lblFlipGameName;
+
+    private AImagePane pnlTopImage;
+
+    private JScrollPane pnlFlipScrollPane;
+
+    private JScrollBar flipScrollBar;
+
+    private JPanel pnlFlipContentPane;
+
+    private JPanel pnlLeftPane;
+
+    private JPanel pnlRightPane;
 
     public Game() {
     }
@@ -835,7 +876,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private class FlipButtonListener implements ActionListener {
 
         private Game tempGame;
-        private String gameNameFormat;
 
         public FlipButtonListener() {
         }
@@ -895,17 +935,161 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 isFliped = false;
             }
         }
+    }
+    private int labelFontSize = 20;
 
-        private void setUpFlipedUI() {
-            //Allows for wraping
-            gameNameFormat = String.format(
-                    "<html><div style=\"width:%dpx;\">%s</div><html>", width,
-                    getGameName());
+    private void setUpFlipedUI() {
 
+        // Create main Panels
+        // ----------------------------------------------------------------.
 
-
-
+        lblFlipGameName = new ASlickLabel(gameNameFormat);
+        if (isFavorite) {
+            pnlTopImage = new AImagePane("game_flip_titleBG_star.png");
+        } else {
+            pnlTopImage = new AImagePane("game_flip_titleBG.png");
         }
+        pnlTopImage.setBorder(BorderFactory.createEmptyBorder(5, 25,
+                5, 25));
+
+        // Content Pane //
+        pnlFlipContentPane = new JPanel(new BorderLayout());
+//        pnlFlipContentPane.setLayout(new BoxLayout(pnlLeftPane, BoxLayout.X_AXIS));
+        pnlFlipContentPane.setOpaque(false);
+        pnlFlipContentPane.setPreferredSize(new Dimension(width, height));
+
+        // Left Pane //
+        pnlLeftPane = new JPanel();
+        pnlLeftPane.setLayout(new BoxLayout(pnlLeftPane, BoxLayout.Y_AXIS));
+        pnlLeftPane.setOpaque(false);
+
+        // Right Pane //
+        pnlRightPane = new JPanel();
+        pnlRightPane.setLayout(new BoxLayout(pnlRightPane, BoxLayout.Y_AXIS));
+        pnlRightPane.setOpaque(false);
+
+        // Scroll Bar and Scroll Panes
+        // ----------------------------------------------------------------.
+        flipScrollBar = new JScrollBar();
+        flipScrollBar.setUnitIncrement(20);
+        flipScrollBar.setUI(new AScrollBar("app_scrollBar.png",
+                "app_scrollBG.png"));
+
+        pnlFlipScrollPane = new JScrollPane(pnlFlipContentPane,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        pnlFlipScrollPane.setOpaque(false);
+        pnlFlipScrollPane.getViewport().setOpaque(false);
+        pnlFlipScrollPane.setVerticalScrollBar(flipScrollBar);
+        pnlFlipScrollPane.validate();
+
+        // Labels and Textboxes
+        // ----------------------------------------------------------------.
+
+        // Allows for wraping //
+        gameNameFormat = String.format(
+                "<html><div style=\"width:%dpx;\">%s</div><html>", width,
+                getGameName());
+
+
+
+        lblHoursPlayed = new ASlickLabel("Hours Played");
+        lblHoursPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                labelFontSize));
+        lblHoursPlayed.setForeground(new Color(202, 202, 217));
+
+        lblLastPlayed = new ASlickLabel("Last Played");
+        lblLastPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                labelFontSize));
+        lblLastPlayed.setForeground(new Color(202, 202, 217));
+
+        lblTimesPlayed = new ASlickLabel("Times Played");
+        lblTimesPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                labelFontSize));
+        lblTimesPlayed.setForeground(new Color(202, 202, 217));
+
+        lblGameType = new ASlickLabel("Game Type");
+        lblGameType.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                labelFontSize));
+        lblGameType.setForeground(new Color(202, 202, 217));
+
+
+        txtHoursPlayed = new ATextField("game_textLabelBG.png");
+        txtHoursPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                labelFontSize - 2));
+        txtHoursPlayed.setForeground(new Color(0, 255, 0));
+
+        txtLastPlayed = new ATextField("game_textLabelBG.png");
+        txtLastPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                labelFontSize - 2));
+        txtLastPlayed.setForeground(new Color(0, 255, 0));
+
+        txtTimesPlayed = new ATextField("game_textLabelBG.png");
+        txtTimesPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                labelFontSize - 2));
+        txtTimesPlayed.setForeground(new Color(0, 255, 0));
+
+        txtGameType = new ATextField("game_textLabelBG.png");
+        txtGameType.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                labelFontSize - 2));
+        txtGameType.setForeground(new Color(0, 255, 0));
+
+
+
+        // Add to Left Panel //
+
+        lblHoursPlayed.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+        pnlLeftPane.add(lblHoursPlayed);
+
+        lblTimesPlayed.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+        pnlLeftPane.add(lblTimesPlayed);
+
+        lblLastPlayed.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+        pnlLeftPane.add(lblLastPlayed);
+
+        lblGameType.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+        pnlLeftPane.add(lblGameType);
+
+
+
+        // Add to Right Panel //
+
+        txtHoursPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        pnlRightPane.add(txtHoursPlayed);
+
+        txtTimesPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        pnlRightPane.add(txtTimesPlayed);
+
+        txtLastPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        pnlRightPane.add(txtLastPlayed);
+
+        txtGameType.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        pnlRightPane.add(txtGameType);
+
+
+        // Add to Content Pane //
+
+        pnlFlipContentPane.add(pnlLeftPane, BorderLayout.WEST);
+        pnlFlipContentPane.add(pnlRightPane, BorderLayout.EAST);
+
+        // Add header title image //
+
+        pnlTopImage.add(lblFlipGameName);
+
+        showFlipUIContent();
+
+    }
+
+    private void showFlipUIContent() {
+
+        topPanel.removeAll();
+        topPanel.revalidate();
+        topPanel.add(pnlTopImage, BorderLayout.CENTER);
+        topPanel.revalidate();
+
+        pnlInteractivePane.add(pnlFlipScrollPane, BorderLayout.CENTER);
+        pnlInteractivePane.revalidate();
+
     }
 
     class FavoriteButtonListener implements ActionListener {
@@ -996,13 +1180,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             denyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT,
                     removeButtonSeperation, -5));
-            denyPanel.setPreferredSize(new Dimension(135, 55));
+            denyPanel.setPreferredSize(new Dimension(145, 55));
             denyPanel.setOpaque(false);
             denyPanel.add(denyButton);
 
             confirmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,
                     removeButtonSeperation, -5));
-            confirmPanel.setPreferredSize(new Dimension(175, 55));
+            confirmPanel.setPreferredSize(new Dimension(185, 55));
             confirmPanel.setOpaque(false);
             confirmPanel.add(confirmButton);
 
@@ -1012,6 +1196,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             setUnselected();
             isGameRemoveMode = true;
             imgOverlayBar.setVisible(true);
+
 
         }
     }
@@ -1036,11 +1221,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         public void actionPerformed(ActionEvent e) {
             pnlInteractivePane.removeAll();
             pnlInteractivePane.setVisible(false);
-            remove(imgSelectedGlow);
+
+
             reAddInteractive();
             showRemoveBtn();
             imgOverlayBar.setVisible(true);
             isGameRemoveMode = false;
+            setSelected();
         }
     }
 
@@ -1058,6 +1245,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             libraryStorage.removeGame(Game.this);
             storage.getStoredProfile().removeGameMetadata(Game.this);
             manager.removeGame(Game.this);
+
 
         }
     }
@@ -1134,7 +1322,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         if (coreUI.isLargeScreen()) {
             removeButtonWidth = this.width / 2 - 35;
-            removeButtonSeperation = -removeButtonWidth / 6 + 5;
+            removeButtonSeperation = -removeButtonWidth / 6 + 2;
 
             SIZE_BottomPaneHeight = (50 * 2) - 10;
             SIZE_TOPPANE_COMP = 5;
