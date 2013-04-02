@@ -841,7 +841,7 @@ public class AuroraCoreUI {
             bottomPanelSize = frame.getHeight() / 4 + frame.getHeight() / 40;
             controlHeight = 55;
             controlWidth = 160;
-            keysFontSize = frame.getHeight() / 40;
+            keysFontSize = frame.getHeight() / 50;
             welcomeFontSize = 22;
             versionFontSize = 14;
             timeFontSize = bottomPanelSize / 13;
@@ -857,7 +857,7 @@ public class AuroraCoreUI {
             topPanelSize = frame.getHeight() / 4;
             centerPanelSize = frame.getHeight() / 2 + frame.getHeight() / 40;
             bottomPanelSize = frame.getHeight() / 4 + frame.getHeight() / 40;
-            keysFontSize = frame.getHeight() / 40;
+            keysFontSize = frame.getHeight() / 50;
             welcomeFontSize = 21;
             versionFontSize = 14;
             timeFontSize = bottomPanelSize / 13;

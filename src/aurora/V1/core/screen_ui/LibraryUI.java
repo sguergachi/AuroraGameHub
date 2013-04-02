@@ -1084,7 +1084,7 @@ public class LibraryUI extends AuroraApp {
             gameFileChooser.setDragEnabled(false);
             gameFileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
             gameFileChooser.setMultiSelectionEnabled(false);
-            gameFileChooser.setAcceptAllFileFilterUsed(true);
+//            gameFileChooser.setAcceptAllFileFilterUsed(true);
             gameFileChooser.setEnabled(true);
             gameFileChooser.revalidate();
 

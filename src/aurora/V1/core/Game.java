@@ -954,8 +954,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         textBoxHeight = height / 12;
 
-        int topImageWidth = width - 45;
-        int topImageHeight = height / 4;
+        int topImageWidth = width - (width/4);
+        int topImageHeight = height / 5;
 
         // Create main Panels
         // ----------------------------------------------------------------.
