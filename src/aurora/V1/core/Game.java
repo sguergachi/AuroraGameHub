@@ -412,10 +412,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         btnSetting.setPreferredSize(new Dimension(40, 40));
 
 
-
-
-
-
         // Add Buttons to the Containers //
         pnlOverlayContainer.add(pnlFavoritePane);
         pnlOverlayContainer.add(btnPlay);
@@ -596,6 +592,20 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         isRemoved = false;
         setSize();
         pnlInteractivePane.setVisible(true);
+
+
+        // Sizes //
+        imgSelectedGlow.setImageSize(width + 10,
+                height + 10);
+        imgOverlayBar.setImageSize(width - 30, 55);
+        imgOverlayBar.setPreferredSize(new Dimension(width - 30, 55));
+        topPanel.setPreferredSize(new Dimension(width, 55));
+
+        bottomPanel.setPreferredSize(new Dimension(width - 10,
+                SIZE_BottomPaneHeight));
+        pnlAwardPane.setPreferredSize(new Dimension(30, 40));
+        pnlFlipPane.setPreferredSize(new Dimension(80, 40));
+        btnSetting.setPreferredSize(new Dimension(40, 40));
 
         // Remove all and re-add //
         pnlOverlayContainer.removeAll();
@@ -1080,7 +1090,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         txtGameType = new ATextField("game_textLabel_inactive.png",
                 "game_textLabel_active.png");
-        txtGameType.setTextboxSize(textBoxWidth , textBoxHeight);
+        txtGameType.setTextboxSize(textBoxWidth, textBoxHeight);
         txtGameType.getTextBox().setFont(this.coreUI.getRopaFont()
                 .deriveFont(Font.PLAIN,
                 labelFontSize - 2));
@@ -1090,7 +1100,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Add To Panels
         // ----------------------------------------------------------------.
-
 
         // Add to Left Panel //
 
@@ -1180,7 +1189,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlTopImage.add(lblFlipGameName);
         pnlTopImageContainer = new JPanel(
                 new FlowLayout(FlowLayout.CENTER, 0, 0));
-//        pnlTopImageContainer.setPreferredSize(pnlTopImage.getPreferredSize());
         pnlTopImageContainer.setOpaque(false);
         pnlTopImageContainer.add(pnlTopImage);
 

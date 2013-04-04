@@ -167,10 +167,13 @@ public class StoredProfile extends AStorage implements Serializable {
      */
     public void removeGameMetadata(Game game) {
         String gameName = game.getGameName().replace("'", "''");
+
         GameNames.remove(gameName);
         GameTypes.remove(game.getGameType());
         TotalTimes.remove(game.getTotalTimePlayed());
-        OccurrenceTimes.remove(game.getOccurencesPlayed());
+        if (!OccurrenceTimes.contains(game.getOccurencesPlayed())) {
+            OccurrenceTimes.remove(game.getOccurencesPlayed());
+        }
         LastTimes.remove(game.getLastPlayed());
 
         removeFromDatabase(gameName);
@@ -258,11 +261,11 @@ public class StoredProfile extends AStorage implements Serializable {
 
             db.addRowFlex("Profile",
                     new String[]{"Game_Name",
-                "Game_Type",
-                "Total_Time",
-                "Occurence_Time",
-                "Last_Time"
-            },
+                        "Game_Type",
+                        "Total_Time",
+                        "Occurence_Time",
+                        "Last_Time"
+                    },
                     ("'" + GameName + "'" + ","
                      + "'" + GameType + "'" + ","
                      + "'" + TotalTime + "'" + ","

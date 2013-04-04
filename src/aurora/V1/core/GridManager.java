@@ -112,6 +112,7 @@ public class GridManager {
                 } else if (containsPlaceHolders(Grids.get(i))) {
 
                     replacePlaceHolder(Grids.get(i), game, listener);
+                    break;
 
                 } else {
                     if (logger.isDebugEnabled()) {
@@ -199,18 +200,26 @@ public class GridManager {
         this.width = width;
         this.height = height;
 
+
+        this.blankAddGame = new GamePlaceholder();
+        blankAddGame.setUp(width + 10, height + 10,
+                "library_placeholder_bg.png");
+        blankAddGame.addButton("library_placeholder_add_norm.png",
+                "library_placeholder_add_down.png",
+                "library_placeholder_add_over.png", listener);
+
         if (!Grids.get(Grids.size() - 1).isGridFull()) {
 
-
-
-            this.blankAddGame = new GamePlaceholder();
-            blankAddGame.setUp(width + 10, height + 10,
-                    "library_placeholder_bg.png");
-            blankAddGame.addButton("library_placeholder_add_norm.png",
-                    "library_placeholder_add_down.png",
-                    "library_placeholder_add_over.png", listener);
             Grids.get(Grids.size() - 1).addToGrid(blankAddGame);
 
+        } else if (fullGrids == Grids.size() - 1) {
+            fullGrids++;
+            //when Full make new Grid
+            createGrid(row, col, Grids.size());
+            Grids.get(Grids.size() - 1).addToGrid(blankAddGame);
+            if (logger.isDebugEnabled()) {
+                logger.debug("Created new Grid: " + (Grids.size() - 1));
+            }
         }
 
         addPlaceHolders(width, height);
@@ -251,8 +260,11 @@ public class GridManager {
 
         }
     }
-//attempts to remove everything in grid.
 
+    /**
+     * attempts to remove everything in grid.
+     * <p/>
+     */
     public void clearAllGrids() {
         for (int i = 0; i < Grids.size(); i++) {
 
@@ -273,11 +285,14 @@ public class GridManager {
         }
     }
 
+    /*
+     * Replace placeholder with Game then add placeholder at the end
+     * using finilize
+     */
     private void replacePlaceHolder(AGridPanel gridPanel, Game game,
                                     ActionListener addGameHandler) {
 
-        //Replace placeholder with Game then add placeholder at the end
-        //using finilize
+
 
         for (int a = (gridPanel.getArray().size() - 1); a >= 0; a--) {
             if (!(gridPanel.getArray().get(a) instanceof Game)) {
@@ -288,12 +303,16 @@ public class GridManager {
 
         gridPanel.addToGrid(game);
         gridPanel.update();
-        this.finalizeGrid(addGameHandler, game.getWidth(), game.getHeight());
+//        this.finalizeGrid(addGameHandler, game.getWidth(), game
+//                .getHeight());
         gridPanel.update();
     }
 
     /**
-     * find a game in any Grid int[0] = Grid int[1] = GridPosition
+     * find a game in any Grid.
+     *
+     * int[0] = Grid
+     * int[1] = Index Position inside Grid
      *
      * @param GameCover object
      */
@@ -419,10 +438,10 @@ public class GridManager {
     public Game getGameFromName(String GameName) {
         Game gameFound = null;
 
-        try{
-        gameFound = (Game) this.getGrid(this.findGameName(GameName)[0])
-                .getArray().get(this.findGameName(GameName)[1]);
-        }catch(Exception ex){
+        try {
+            gameFound = (Game) this.getGrid(this.findGameName(GameName)[0])
+                    .getArray().get(this.findGameName(GameName)[1]);
+        } catch (Exception ex) {
             gameFound = null;
         }
 
@@ -516,15 +535,15 @@ public class GridManager {
         int[] gridLocation = this.findGame(game);
 
         if (logger.isDebugEnabled()) {
-        	logger.debug("Game was found in grid location: " + gridLocation[0]
-                    + "," + gridLocation[1]);
+            logger.debug("Game was found in grid location: " + gridLocation[0]
+                         + "," + gridLocation[1]);
         }
 
         // grab the index of where the grid is located in the manager
         int index = gridLocation[0];
 
         if (logger.isDebugEnabled()) {
-        	logger.debug("Game was found in index: " + index);
+            logger.debug("Game was found in index: " + index);
         }
 
         // get the grid where the game is located
@@ -532,30 +551,30 @@ public class GridManager {
 
         System.out.println("Number of grids that exist: " + Grids.size());
 
-       if (index == 0) {
-    	   grid.removeComp(game);
-    	   grid.addToGrid(game, 0);
-    	   grid.update();
-       } else if (index > 0) {
-        	// alternative to remove the game
+        if (index == 0) {
+            grid.removeComp(game);
+            grid.addToGrid(game, 0);
+            grid.update();
+        } else if (index > 0) {
+            // alternative to remove the game
             grid.removeComp(game);
 
             AGridPanel firstGrid = this.getGrid(0);
 
-        	for (int i = index - 1; i >= 0; i--) {
-        		System.out.println("Index = " + i);
-        		System.out.println("Index + 1 = " + i + 1);
-        		AGridPanel currentGrid = this.getGrid(i);
-        		AGridPanel previousGrid = this.getGrid(i+1);
-        		Game lastGame = (Game) currentGrid.getComponent(7);
-        		currentGrid.removeComp(lastGame);
-        		currentGrid.update();
-        		previousGrid.addToGrid(lastGame, 0);
-        		previousGrid.update();
-        	}
+            for (int i = index - 1; i >= 0; i--) {
+                System.out.println("Index = " + i);
+                System.out.println("Index + 1 = " + i + 1);
+                AGridPanel currentGrid = this.getGrid(i);
+                AGridPanel previousGrid = this.getGrid(i + 1);
+                Game lastGame = (Game) currentGrid.getComponent(7);
+                currentGrid.removeComp(lastGame);
+                currentGrid.update();
+                previousGrid.addToGrid(lastGame, 0);
+                previousGrid.update();
+            }
 
-        	firstGrid.addToGrid(game, 0);
-        	firstGrid.update();
+            firstGrid.addToGrid(game, 0);
+            firstGrid.update();
 
         }
 

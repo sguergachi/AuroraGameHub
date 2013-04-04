@@ -6,12 +6,14 @@
 ////////////////////////////////////////////------------------------------------
 // Aurora_Alpha 7  Build:700  Date:1/16/2013  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------
-+ Added Go To buttons in AddGameUI for Steam and Programs folders
-+ Added pin to start of library functionality when you favorite a game
++ Added shortcut buttons in AddGameUI for Steam and Programs folders
++ Added pin to first grid functionality when you favorite a game
 + Added ability to save metadata to database
++ Added ability to view metadata by flipping game
 - fixed popovers not showing
+- fixed app not launching in Windows 8
 - removed background music
-- minor UI fixes and enhancements
+- minor UI fixes and enhancements (its all in the details! :D )
 
 
 ////////////////////////////////////////////------------------------------------

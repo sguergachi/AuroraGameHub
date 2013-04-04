@@ -22,7 +22,7 @@ import aurora.V1.core.screen_handler.LibraryHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.GameLibraryKeyListener;
 import aurora.V1.core.screen_handler.LibraryHandler.HoverButtonLeft;
 import aurora.V1.core.screen_handler.LibraryHandler.HoverButtonRight;
-import aurora.V1.core.screen_handler.LibraryHandler.MoveToLastGrid;
+import aurora.V1.core.screen_handler.LibraryHandler.MoveToGrid;
 import aurora.V1.core.screen_handler.LibraryHandler.ShowAddGameUiHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.searchBoxHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.searchFocusHandler;
@@ -367,8 +367,6 @@ public class LibraryUI extends AuroraApp {
     private HoverButtonLeft moveLibraryLeftHandler;
 
     private HoverButtonRight moveLibraryRightHandler;
-
-    private MoveToLastGrid GridMove;
 
     private boolean isAddGameUILoaded = false;
 
@@ -738,8 +736,6 @@ public class LibraryUI extends AuroraApp {
         moveLibraryRightHandler = handler.new HoverButtonRight();
 
         btnShowAddGameUI.addActionListener(handler.new ShowAddGameUiHandler());
-
-        GridMove = handler.new MoveToLastGrid();
 
         btnGameRight.setMouseListener(moveLibraryRightHandler);
         btnGameLeft.setMouseListener(moveLibraryLeftHandler);
@@ -1259,10 +1255,9 @@ public class LibraryUI extends AuroraApp {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //* Animate Down Add Game UI *//
-                addGameAnimator.setInitialLocation((coreUI.getFrame().getWidth()
-                                                    / 2)
-                                                   - (pnlAddGamePane
-                        .getImgIcon()
+                addGameAnimator.setInitialLocation(
+                        (coreUI.getFrame().getWidth() / 2)
+                        - (pnlAddGamePane.getImgIcon()
                         .getIconWidth() / 2), -390);
                 addGameAnimator.moveVertical(0, 33);
                 pnlAddGamePane.revalidate();
@@ -1280,23 +1275,6 @@ public class LibraryUI extends AuroraApp {
 
         addGameWorker.startOnce();
 
-
-
-//        //* Animate Down Add Game UI *//
-//        addGameAnimator.setInitialLocation((coreUI.getFrame().getWidth() / 2)
-//                                           - (pnlAddGamePane.getImgIcon()
-//                .getIconWidth() / 2), -390);
-//        addGameAnimator.moveVertical(0, 33);
-//        pnlAddGamePane.revalidate();
-//
-//        addGameSearchField.setFocusable(true);
-//
-//        addGameAnimator.addPostAnimationListener(new APostHandler() {
-//            @Override
-//            public void postAction() {
-//                addGameSearchField.requestFocus();
-//            }
-//        });
 
     }
 
@@ -1449,6 +1427,9 @@ public class LibraryUI extends AuroraApp {
             paneLibraryContainer.revalidate();
 
             coreUI.getFrame().requestFocus();
+
+            currentIndex = GridSplit.getArray()
+                    .indexOf(paneLibraryContainer.getComponent(1));
 
         }
         btnGameRight.mouseExit();
@@ -1658,10 +1639,6 @@ public class LibraryUI extends AuroraApp {
 
     public JList getGamesList() {
         return gamesList;
-    }
-
-    public MoveToLastGrid getGridMove() {
-        return GridMove;
     }
 
     public JScrollPane getListScrollPane() {

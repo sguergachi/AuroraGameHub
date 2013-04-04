@@ -26,7 +26,7 @@ import aurora.V1.core.GridAnimation;
 import aurora.V1.core.GridManager;
 import aurora.V1.core.GridSearch;
 import aurora.V1.core.main;
-import aurora.V1.core.screen_handler.LibraryHandler.MoveToLastGrid;
+import aurora.V1.core.screen_handler.LibraryHandler.MoveToGrid;
 import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AFileManager;
@@ -56,6 +56,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -130,9 +131,10 @@ public class LibraryHandler implements
         //* Start Aurora Dabatase connection *//
         AFileManager fileIO = new AFileManager("AuroraData");
         try {
-            coverDB = new ASimpleDB("AuroraDB", "AuroraTable", false, System.getProperty("user.home") + "//AuroraData//");
+            coverDB = new ASimpleDB("AuroraDB", "AuroraTable", false, System
+                    .getProperty("user.home") + "//AuroraData//");
         } catch (SQLException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         }
 
         this.gridSearch = new GridSearch(libraryUI.getCoreUI(), libraryUI,
@@ -162,7 +164,7 @@ public class LibraryHandler implements
             try {
                 gridSearch.restoreGrid();
             } catch (MalformedURLException ex) {
-            	logger.error(ex);
+                logger.error(ex);
             }
             gridSearch.resetAppendedName();
             libraryUI.getSearchBar().setText("Start Typing To Search...");
@@ -287,15 +289,16 @@ public class LibraryHandler implements
                                     if (e.getOppositeComponent()
                                         != (Game) gridSearch.getGridManager()
                                             .getGrid(i).getArray().get(j)) {
-                                    	if (logger.isDebugEnabled()) {
-                                    		logger.debug(e.getOppositeComponent());
-                                    	}
+                                        if (logger.isDebugEnabled()) {
+                                            logger.debug(e
+                                                    .getOppositeComponent());
+                                        }
 
                                         //Attempt to restore to GameCover Library Grid
                                         try {
                                             gridSearch.restoreGrid();
                                         } catch (MalformedURLException ex) {
-                                        	logger.error(ex);
+                                            logger.error(ex);
                                         }
                                         //reset Search Box and append string
                                         gridSearch.resetAppendedName();
@@ -315,15 +318,16 @@ public class LibraryHandler implements
                                     if (e.getOppositeComponent()
                                         != (Game) libraryUI.getGridSplit()
                                             .getGrid(i).getArray().get(j)) {
-                                    	if (logger.isDebugEnabled()) {
-                                    		logger.debug(e.getOppositeComponent());
-                                    	}
+                                        if (logger.isDebugEnabled()) {
+                                            logger.debug(e
+                                                    .getOppositeComponent());
+                                        }
 
                                         //Attempt to restore to GameCover Library Grid
                                         try {
                                             gridSearch.restoreGrid();
                                         } catch (MalformedURLException exx) {
-                                        	logger.error(exx);
+                                            logger.error(exx);
                                         }
                                         //reset Search Box and append string
                                         gridSearch.resetAppendedName();
@@ -678,7 +682,7 @@ public class LibraryHandler implements
 
         private JPanel GameBack;
 
-        private MoveToLastGrid GridMove;
+        private MoveToGrid GridMove;
 
         private AuroraStorage storage;
 
@@ -687,24 +691,32 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
+
             currentPath = libraryUI.getCurrentPath();
             gridManager = libraryUI.getGridSplit();
             GameBack = libraryUI.getGameBack();
-            GridMove = libraryUI.getGridMove();
             storage = libraryUI.getStorage();
 
-            gameSearch.getFoundGameCover().setGamePath(currentPath);
-            gameSearch.getFoundGameCover()
-                    .setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
+            Game game = gameSearch.getFoundGameCover();
+
+            if(!game.isLoaded()){
+                try {
+                    game.update();
+                } catch (MalformedURLException ex) {
+                    java.util.logging.Logger.getLogger(LibraryHandler.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            }
+
+            game.setGamePath(currentPath);
+            game.setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
                     .getGameCoverHeight());
-            gameSearch.getFoundGameCover().reAddInteractive();
-            if (!gridManager.isDupicate(gameSearch.getFoundGameCover())) {
+            game.reAddInteractive();
+            if (!gridManager.isDupicate(game)) {
                 storage.getStoredLibrary()
                         .SaveGame(gameSearch.getFoundGameCover());
-
-
             }
-            gridManager.addGame(gameSearch.getFoundGameCover());
+            gridManager.addGame(game);
             gridManager.finalizeGrid(new ShowAddGameUiHandler(),
                     libraryUI
                     .getGameCoverWidth(), libraryUI
@@ -717,6 +729,7 @@ public class LibraryHandler implements
             libraryUI.setCurrentIndex(
                     gridManager.getArray().indexOf(GameBack.getComponent(1)));
 
+            GridMove = new MoveToGrid(game);
             //* Transition towards to left most grid to see the game added *//
             GridMove.runMover();
         }
@@ -762,10 +775,19 @@ public class LibraryHandler implements
         }
     }
 
-    //Transisions towards the Last Grid in the library
+    //Transisions towards the Grid where the game is located
     //To show game added (apple iOS style :P )
-    public class MoveToLastGrid implements Runnable {
+    public class MoveToGrid implements Runnable {
 
+        private final Game game;
+
+        private final int gameGrid;
+
+        public MoveToGrid(Game game) {
+            this.game = game;
+            gameGrid = libraryUI.getGridSplit().findGame(game)[0];
+
+        }
         private Thread mover;
 
         public void runMover() {
@@ -778,7 +800,7 @@ public class LibraryHandler implements
             //Start Loader
 
             if (logger.isDebugEnabled()) {
-            	logger.debug("Starting Mover Thread");
+                logger.debug("Starting Mover Thread");
             }
 
             mover.start();
@@ -787,20 +809,17 @@ public class LibraryHandler implements
         @Override
         public void run() {
             while (Thread.currentThread() == mover) {
-                if (libraryUI.getCurrentIndex() < libraryUI.getGridSplit()
-                        .getFullGrids()) {
+                if (libraryUI.getCurrentIndex() < gameGrid) {
 
-                    libraryUI.getMoveLibraryRightHandler().mouseClicked(null);
+                    libraryUI.moveGridRight();
 
-                } else if (libraryUI.getCurrentIndex() >= libraryUI
-                        .getGridSplit()
-                        .getFullGrids()) {
+                } else {
                     break;
                 }
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException ex) {
-                	logger.error(ex);
+                    logger.error(ex);
                 }
             }
 
@@ -900,7 +919,7 @@ public class LibraryHandler implements
                     try {
                         libraryLogic.loadGames(currentIndex - 1);
                     } catch (MalformedURLException ex) {
-                    	logger.error(ex);
+                        logger.error(ex);
                     }
 
                     GameBack.add(BorderLayout.EAST, imgGameRight);
@@ -994,7 +1013,7 @@ public class LibraryHandler implements
                     try {
                         libraryLogic.loadGames(libraryUI.getCurrentIndex() + 1);
                     } catch (MalformedURLException ex) {
-                    	logger.error(ex);
+                        logger.error(ex);
                     }
 
                     //of on last Grid then dont show right arrow button
@@ -1003,7 +1022,8 @@ public class LibraryHandler implements
                             .size() - 1)) {
 
                         GameBack.remove(libraryUI.getImgGameRight());
-                        GameBack.add(Box.createHorizontalStrut(140), BorderLayout.EAST, 2);
+                        GameBack.add(Box.createHorizontalStrut(140),
+                                BorderLayout.EAST, 2);
                         imgGameRight.mouseExit();
                     }
                 }
@@ -1022,9 +1042,9 @@ public class LibraryHandler implements
         @Override
         public void mouseEntered(MouseEvent e) {
 
-        	if (logger.isDebugEnabled()) {
-        		logger.debug("HOVER IMAGE ACTIVATED");
-        	}
+            if (logger.isDebugEnabled()) {
+                logger.debug("HOVER IMAGE ACTIVATED");
+            }
 
             GridAnimate = libraryUI.getGridAnimate();
             imgGameRight = libraryUI.getImgGameRight();
@@ -1065,7 +1085,7 @@ public class LibraryHandler implements
             int visibleGridIndex = gridManager.getVisibleGridIndex();
 
             if (logger.isDebugEnabled()) {
-            	logger.debug("Initial visible grid = " + visibleGridIndex);
+                logger.debug("Initial visible grid = " + visibleGridIndex);
             }
 
             currentIndex = gridManager.getArray()
@@ -1073,7 +1093,7 @@ public class LibraryHandler implements
             libraryUI.setCurrentIndex(currentIndex);
 
             if (logger.isDebugEnabled()) {
-            	logger.debug("Current Grid = " + currentIndex);
+                logger.debug("Current Grid = " + currentIndex);
             }
 
             /* get the grid that is currently displayed */
@@ -1102,7 +1122,8 @@ public class LibraryHandler implements
                         selectedGameFound = true;
 
                         if (logger.isDebugEnabled()) {
-                        	logger.debug(game.getName() + " is selected in the library");
+                            logger.debug(game.getName()
+                                         + " is selected in the library");
                         }
 
                         int[] columnAndRow = grid.getColumnAndRow(i + 1);
@@ -1110,13 +1131,13 @@ public class LibraryHandler implements
                         int row = columnAndRow[1];
 
                         if (logger.isDebugEnabled()) {
-                        	logger.debug("Col = " + columnAndRow[0]);
-                        	logger.debug("Row = " + columnAndRow[1]);
+                            logger.debug("Col = " + columnAndRow[0]);
+                            logger.debug("Row = " + columnAndRow[1]);
                         }
 
                         if (row > 1) {
-                        	if (logger.isDebugEnabled()) {
-                            	logger.debug("Cursor is moving up!");
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("Cursor is moving up!");
                             }
 
                             //Check for GamePlaceholder CANT MOVE THERE!
@@ -1136,9 +1157,10 @@ public class LibraryHandler implements
                                 newGame.showOverlayUI();
                             }
                         } else {
-                        	if (logger.isDebugEnabled()) {
-                        		logger.debug("Cursor cannot move any further up!");
-                        	}
+                            if (logger.isDebugEnabled()) {
+                                logger.debug(
+                                        "Cursor cannot move any further up!");
+                            }
                         }
                     } else {
                         i++;
@@ -1166,7 +1188,8 @@ public class LibraryHandler implements
                         selectedGameFound = true;
 
                         if (logger.isDebugEnabled()) {
-                        	logger.debug(game.getName() + " is selected in the library");
+                            logger.debug(game.getName()
+                                         + " is selected in the library");
                         }
 
                         int[] columnAndRow = grid.getColumnAndRow(i + 1);
@@ -1174,14 +1197,14 @@ public class LibraryHandler implements
                         int row = columnAndRow[1];
 
                         if (logger.isDebugEnabled()) {
-                        	logger.debug("Col = " + columnAndRow[0]);
-                        	logger.debug("Row = " + columnAndRow[1]);
+                            logger.debug("Col = " + columnAndRow[0]);
+                            logger.debug("Row = " + columnAndRow[1]);
                         }
 
                         if (row < grid.getRow()) {
-                        	if (logger.isDebugEnabled()) {
-                        		logger.debug("Cursor is moving down!");
-                        	}
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("Cursor is moving down!");
+                            }
 
                             //Check for GamePlaceholder CANT MOVE THERE!
                             if (!(comp.get(i + 4) instanceof GamePlaceholder)) {
@@ -1202,9 +1225,10 @@ public class LibraryHandler implements
                             }
                         } else {
 
-                        	if (logger.isDebugEnabled()) {
-                        		logger.debug("Cursor cannot move any further down!");
-                        	}
+                            if (logger.isDebugEnabled()) {
+                                logger.debug(
+                                        "Cursor cannot move any further down!");
+                            }
                         }
                     } else {
                         i++;
@@ -1222,9 +1246,9 @@ public class LibraryHandler implements
             } else if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode()
                                                           == KeyEvent.VK_LEFT) {
 
-            	if (logger.isDebugEnabled()) {
-            		logger.debug("A key pressed");
-            	}
+                if (logger.isDebugEnabled()) {
+                    logger.debug("A key pressed");
+                }
 
                 int i = 0;
 
@@ -1235,8 +1259,9 @@ public class LibraryHandler implements
                         selectedGameFound = true;
 
                         if (logger.isDebugEnabled()) {
-                        	logger.debug("index = " + i);
-                        	logger.debug(game.getName() + " is selected in the library");
+                            logger.debug("index = " + i);
+                            logger.debug(game.getName()
+                                         + " is selected in the library");
                         }
                     } else {
                         i++;
@@ -1250,8 +1275,8 @@ public class LibraryHandler implements
                     int row = columnAndRow[1];
 
                     if (logger.isDebugEnabled()) {
-                    	logger.debug("Col = " + col);
-                    	logger.debug("Row = " + row);
+                        logger.debug("Col = " + col);
+                        logger.debug("Row = " + row);
                     }
 
                     // check to see if the setSelected game is not the first game in the grid
@@ -1260,8 +1285,9 @@ public class LibraryHandler implements
                         visibleGridIndex = gridManager.getVisibleGridIndex();
 
                         if (logger.isDebugEnabled()) {
-                        	logger.debug("Cursor is moving left");
-                        	logger.debug("visible grid after moving right = " + visibleGridIndex);
+                            logger.debug("Cursor is moving left");
+                            logger.debug("visible grid after moving right = "
+                                         + visibleGridIndex);
                         }
 
                         game.hideOverlayUI();
@@ -1278,7 +1304,9 @@ public class LibraryHandler implements
                             visibleGridIndex = gridManager.getVisibleGridIndex();
 
                             if (logger.isDebugEnabled()) {
-                            	logger.debug("visible grid after moving right = " + visibleGridIndex);
+                                logger
+                                               .debug("visible grid after moving right = "
+                                                      + visibleGridIndex);
                             }
 
                             currentIndex = gridManager.getArray()
@@ -1298,9 +1326,10 @@ public class LibraryHandler implements
                                 newGame.showOverlayUI();
                             }
                         } else {
-                        	if (logger.isDebugEnabled()) {
-                        		logger.debug("Cursor cannot move any further left!");
-                        	}
+                            if (logger.isDebugEnabled()) {
+                                logger.debug(
+                                        "Cursor cannot move any further left!");
+                            }
                         }
 
 
@@ -1313,9 +1342,9 @@ public class LibraryHandler implements
                 // >>> MOVE RIGHT
             } else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode()
                                                           == KeyEvent.VK_RIGHT) {
-            	if (logger.isDebugEnabled()) {
-            		logger.debug("D key pressed");
-            	}
+                if (logger.isDebugEnabled()) {
+                    logger.debug("D key pressed");
+                }
 
                 int i = 0;
                 //      boolean selectedGameFound = false;
@@ -1327,9 +1356,10 @@ public class LibraryHandler implements
                         selectedGameFound = true;
 
                         if (logger.isDebugEnabled()) {
-                    		logger.debug("index = " + i);
-                    		logger.debug(game.getName() + " is selected in the library");
-                    	}
+                            logger.debug("index = " + i);
+                            logger.debug(game.getName()
+                                         + " is selected in the library");
+                        }
                     } else {
                         i++;
                     }
@@ -1342,19 +1372,20 @@ public class LibraryHandler implements
                     int row = columnAndRow[1];
 
                     if (logger.isDebugEnabled()) {
-                		logger.debug("Col = " + col);
-                		logger.debug("Row = " + row);
-                	}
+                        logger.debug("Col = " + col);
+                        logger.debug("Row = " + row);
+                    }
 
                     // check to see if the setSelected is not the last game in the grid
                     if ((col < grid.getCol()
                          || (col == grid.getCol() && row < grid.getRow()))
                         && comp.size() > i + 1) {
 
-                    	if (logger.isDebugEnabled()) {
-                    		logger.debug("Cursor is moving right!");
-                    		logger.debug(game.getName() + " is Last Game in This Grid!");
-                    	}
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("Cursor is moving right!");
+                            logger.debug(game.getName()
+                                         + " is Last Game in This Grid!");
+                        }
 
                         Game newGame;
 
@@ -1362,9 +1393,9 @@ public class LibraryHandler implements
                         Object obj = comp.get(i + 1);
                         if (obj instanceof Game) {
 
-                        	if (logger.isDebugEnabled()) {
-                        		logger.debug("Object is a game");
-                        	}
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("Object is a game");
+                            }
 
                             //game.hideOverlayUI();
                             newGame = (Game) obj;
@@ -1372,26 +1403,28 @@ public class LibraryHandler implements
                             newGame.showOverlayUI();
                             cursorMoved = true;
                         } else {
-                        	if (logger.isDebugEnabled()) {
-                        		logger.debug("Object is an add game icon");
-                        	}
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("Object is an add game icon");
+                            }
                         }
 
                         // else check to see if the setSelected game is the last game in the grid
                     } else if (col == grid.getCol() && row == grid.getRow()) {
 
-                    	if (logger.isDebugEnabled()) {
-                    		logger.debug("Cursor cannot move any further right! Grid needs to move right");
-                    	}
+                        if (logger.isDebugEnabled()) {
+                            logger
+                                    .debug(
+                                    "Cursor cannot move any further right! Grid needs to move right");
+                        }
 
                         // check to see if the the current grid is the last grid
                         if (gridManager.getVisibleGridIndex() < (gridManager
                                 .getNumberOfGrids())
                             && !(comp.get(0) instanceof GamePlaceholder)) {
 
-                        	if (logger.isDebugEnabled()) {
-                        		logger.debug("This is not the last grid");
-                        	}
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("This is not the last grid");
+                            }
 
                             libraryUI.moveGridRight();
 
@@ -1399,8 +1432,10 @@ public class LibraryHandler implements
                             visibleGridIndex = gridManager.getVisibleGridIndex();
 
                             if (logger.isDebugEnabled()) {
-                        		logger.debug("visible grid after moving right = " + visibleGridIndex);
-                        	}
+                                logger
+                                               .debug("visible grid after moving right = "
+                                                      + visibleGridIndex);
+                            }
 
                             currentIndex = gridManager.getArray()
                                     .indexOf(GameBack
@@ -1420,9 +1455,11 @@ public class LibraryHandler implements
                             newGame.showOverlayUI();
 
                         } else {
-                        	if (logger.isDebugEnabled()) {
-                        		logger.debug("Cannot move to the grid to the right. No more grids!");
-                        	}
+                            if (logger.isDebugEnabled()) {
+                                logger
+                                        .debug(
+                                        "Cannot move to the grid to the right. No more grids!");
+                            }
                         }
 
                     }
@@ -1432,9 +1469,9 @@ public class LibraryHandler implements
                 }
             } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
-            	if (logger.isDebugEnabled()) {
-            		logger.debug("D key pressed");
-            	}
+                if (logger.isDebugEnabled()) {
+                    logger.debug("D key pressed");
+                }
 
                 int i = 0;
 
@@ -1445,9 +1482,10 @@ public class LibraryHandler implements
                         selectedGameFound = true;
 
                         if (logger.isDebugEnabled()) {
-                    		logger.debug("index = " + i);
-                    		logger.debug(game.getName() + " is selected in the library");
-                    	}
+                            logger.debug("index = " + i);
+                            logger.debug(game.getName()
+                                         + " is selected in the library");
+                        }
                     } else {
                         i++;
                     }
@@ -1484,7 +1522,7 @@ public class LibraryHandler implements
             int numberClicks = e.getWheelRotation();
 
             if (logger.isDebugEnabled()) {
-            	logger.debug("Mouse wheel moved " + numberClicks);
+                logger.debug("Mouse wheel moved " + numberClicks);
             }
 
             ///Get The Index of The Current Panel Being Displayed///
