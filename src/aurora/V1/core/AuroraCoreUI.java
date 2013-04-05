@@ -54,6 +54,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
@@ -652,7 +653,7 @@ public class AuroraCoreUI {
         lblTitle.setFont(regularFont.deriveFont(Font.PLAIN, welcomeFontSize));
 
 
-        paneTitle = new JPanel(new FlowLayout(FlowLayout.CENTER,0,2));
+        paneTitle = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 2));
         paneTitle.setOpaque(false);
         paneTitle.add(lblTitle);
 
@@ -671,7 +672,7 @@ public class AuroraCoreUI {
         lblTime.revalidate();
         lblTime.repaint();
 
-        lblDate = new ATimeLabel(ATimeLabel.DATE_LETTERS) ;
+        lblDate = new ATimeLabel(ATimeLabel.DATE_LETTERS);
         lblDate.setForeground(Color.gray);
         lblDate.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
         lblDate.revalidate();

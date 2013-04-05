@@ -202,7 +202,7 @@ public class GridManager {
 
 
         this.blankAddGame = new GamePlaceholder();
-        blankAddGame.setUp(width + 10, height + 10,
+        blankAddGame.setUp(width, height,
                 "library_placeholder_bg.png");
         blankAddGame.addButton("library_placeholder_add_norm.png",
                 "library_placeholder_add_down.png",
@@ -235,7 +235,7 @@ public class GridManager {
     public void addPlaceHolders(int width, int height) {
         while (!Grids.get(Grids.size() - 1).isGridFull()) {
             this.placeholder = new GamePlaceholder();
-            placeholder.setUp(width + 10, height + 10,
+            placeholder.setUp(width, height,
                     "library_placeholder_bg.png");
 
             Grids.get(Grids.size() - 1).addToGrid(placeholder);
@@ -303,8 +303,6 @@ public class GridManager {
 
         gridPanel.addToGrid(game);
         gridPanel.update();
-//        this.finalizeGrid(addGameHandler, game.getWidth(), game
-//                .getHeight());
         gridPanel.update();
     }
 
