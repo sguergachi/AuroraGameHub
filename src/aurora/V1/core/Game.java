@@ -211,8 +211,18 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private JPanel pnlTopImageContainer;
 
     private boolean isFlipUIReady;
+
     private ASlickLabel lblShortcut;
+
     private JPanel pnlShortcutLbl;
+
+    private AButton btnWatch;
+
+    private AButton btnHelp;
+
+    private AButton btnLearn;
+
+    private JPanel pnlShortcutBtn;
 
     public Game() {
     }
@@ -959,12 +969,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private void setUpFlipedUI() {
 
-
         textBoxWidth = width / 3 - 4;
         textBoxHeight = height / 12;
 
         int topImageWidth = (width / 2) + (width / 10);
-        int topImageHeight = height / 6;
+        int topImageHeight = height / 6 + 5;
 
         // Create main Panels
         // ----------------------------------------------------------------.
@@ -972,26 +981,38 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // Shortcut Pane //
         pnlShortcutImage = new AImagePane("game_flip_shortcutsBG.png",
                 topImageWidth,
-                topImageHeight,new BorderLayout());
+                topImageHeight, new BorderLayout());
         pnlShortcutImage.setPreferredSize(
                 new Dimension(topImageWidth, topImageHeight));
-        pnlShortcutImage.setBorder(BorderFactory.createEmptyBorder(5, 10,
-                5, 10));
+        pnlShortcutImage.setBorder(BorderFactory.createEmptyBorder(0, 5,
+                2, 5));
 
-        lblShortcut = new ASlickLabel("Shortcut");
+        lblShortcut = new ASlickLabel(" Shortcut");
         lblShortcut.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 11));
         lblShortcut.setForeground(new Color(102, 102, 102));
 
-        pnlShortcutLbl = new JPanel( new BorderLayout());
+        pnlShortcutLbl = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlShortcutLbl.setOpaque(false);
-        pnlShortcutLbl.setPreferredSize(new Dimension(50, 15));
+        pnlShortcutLbl.setPreferredSize(new Dimension(width - width / 4, 12));
+
+        pnlShortcutBtn = new JPanel(new FlowLayout(FlowLayout.LEFT, -16, 0));
+        pnlShortcutBtn.setPreferredSize(new Dimension(width - width / 4, 60));
+        pnlShortcutBtn.setOpaque(false);
+
+        btnWatch = new AButton("game_btn_watch_norm.png",
+                "game_btn_watch_down.png",
+                "game_btn_watch_over.png", 46, 42);
+        btnHelp = new AButton("game_btn_help_norm.png",
+                "game_btn_help_down.png",
+                "game_btn_help_over.png", 46, 42);
+        btnLearn = new AButton("game_btn_learn_norm.png",
+                "game_btn_learn_down.png",
+                "game_btn_learn_over.png", 46, 42);
 
         // Content Pane //
         pnlFlipContentPane = new JPanel(new BorderLayout(0, 0));
         pnlFlipContentPane.setOpaque(false);
-//        pnlFlipContentPane
-//                .setPreferredSize(new Dimension(width / 8, height / 2));
         pnlFlipContentPane.setBorder(BorderFactory.createEmptyBorder(5, 40,
                 5, 0));
         pnlFlipContentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -1064,7 +1085,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 labelFontSize));
         txtHoursPlayed.getTextBox().setDisabledTextColor(new Color(0, 255, 0));
 
-
         txtTimesPlayed = new ATextField("game_textLabel_inactive.png",
                 "game_textLabel_active.png");
         txtTimesPlayed.setTextboxSize(textBoxWidth, textBoxHeight);
@@ -1125,7 +1145,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlLeftPane.add(pnlGameTypeLbl);
 
 
-
         // Add to Right Panel //
 
         txtHoursPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
@@ -1179,28 +1198,24 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Add Shortcut buttons to panel //
 
-//      pnlShortcutImage.add();
+        pnlShortcutBtn.add(btnWatch);
+        pnlShortcutBtn.add(btnHelp);
+        pnlShortcutBtn.add(btnLearn);
+        pnlShortcutImage.add(pnlShortcutBtn, BorderLayout.WEST);
 
         // Set up Shortcut panel //
-        pnlShortcutLbl.add(lblShortcut,
-                BorderLayout.CENTER);
-        pnlShortcutLbl.add(Box.createHorizontalStrut(
-                (width / 2) - (pnlShortcutImage.getImageWidth() / 2)),
-                BorderLayout.WEST);
-        pnlShortcutImage.add(pnlShortcutLbl,BorderLayout.SOUTH);
+        pnlShortcutLbl.add(lblShortcut);
+        pnlShortcutImage.add(pnlShortcutLbl, BorderLayout.SOUTH);
 
-        pnlTopImageContainer = new JPanel();
-        pnlTopImageContainer.setLayout(new BorderLayout());
-        pnlTopImageContainer.setBorder(BorderFactory.createEmptyBorder(15, 0,
-                0, 0));
+        pnlTopImageContainer = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
+        pnlTopImageContainer.setBorder(BorderFactory.createEmptyBorder(20, 0,
+                0, (width/5)));
         pnlTopImageContainer.setPreferredSize(new Dimension(topImageWidth,
-                topImageHeight + 20));
+                topImageHeight + 30));
         pnlTopImageContainer.setOpaque(false);
 
+
         pnlTopImageContainer.add(pnlShortcutImage, BorderLayout.CENTER);
-        pnlTopImageContainer.add(Box.createHorizontalStrut(
-                (width / 2) - (pnlShortcutImage.getImageWidth() / 2 + 8)),
-                BorderLayout.WEST);
 
         isFlipUIReady = true;
         showFlipUIContent();

@@ -2,6 +2,7 @@ package Test;
 
 import aurora.V1.core.GameFinder;
 import aurora.engine.V1.Logic.ABrowser;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class Sandbox {
@@ -23,10 +24,10 @@ public class Sandbox {
 
 
 
-        System.out.println(GameFinder.getNameOfGamesOnCDrive());
-        System.out.println(GameFinder.getExecutablePathsOnCDrive());
+//        System.out.println(GameFinder.getNameOfGamesOnDrive().get(2));
+        System.out.println(GameFinder.getExecutablePathsOnDrive(GameFinder.getNameOfGamesOnDrive()));
 
 
-        frame.setVisible(true);
+//        frame.setVisible(true);
     }
 }
