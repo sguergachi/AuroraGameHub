@@ -91,6 +91,7 @@ public class GameSearch implements Runnable {
 
         //clear library grid if not already clear
         if (AppendedName.length() > 1) {
+
             //Delay search to allow for Lag Free typing :)
             sleep = 260;
 
@@ -257,8 +258,7 @@ public class GameSearch implements Runnable {
 
             try {
             	if (logger.isDebugEnabled()) {
-            		logger.debug(db.searchAprox("AuroraTable", "FILE_NAME",
-                            "GAME_NAME", AppendedName.toString()));
+            		logger.debug("Searching for" + AppendedName.toString());
             	}
 
                 foundArray = db.searchAprox("AuroraTable", "FILE_NAME",

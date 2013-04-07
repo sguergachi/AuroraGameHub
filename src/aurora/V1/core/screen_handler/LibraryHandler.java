@@ -398,7 +398,8 @@ public class LibraryHandler implements
                     || e.getKeyCode() == KeyEvent.VK_8
                     || e.getKeyCode() == KeyEvent.VK_9
                     || e.getKeyCode() == KeyEvent.VK_0
-                    || e.getKeyCode() == KeyEvent.VK_QUOTE) {
+                    || e.getKeyCode() == KeyEvent.VK_QUOTE
+                    || e.getKeyCode() == KeyEvent.VK_PERIOD) {
                     gridSearch.typedChar(e.getKeyChar()); //Sends the key to the search engine to be appended and check for match
 
                 } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
@@ -462,7 +463,8 @@ public class LibraryHandler implements
                         || e.getKeyCode() == KeyEvent.VK_8
                         || e.getKeyCode() == KeyEvent.VK_9
                         || e.getKeyCode() == KeyEvent.VK_0
-                        || e.getKeyCode() == KeyEvent.VK_QUOTE) {
+                        || e.getKeyCode() == KeyEvent.VK_QUOTE
+                        || e.getKeyCode() == KeyEvent.VK_PERIOD) {
 
                     SearchBar.setText(String.valueOf(e.getKeyChar())); //Set first character of Search Box to the key typed
                     gridSearch.resetAppendedName();//Clear appended text if there is anything still in there
@@ -532,7 +534,8 @@ public class LibraryHandler implements
                 || e.getKeyCode() == KeyEvent.VK_8
                 || e.getKeyCode() == KeyEvent.VK_9
                 || e.getKeyCode() == KeyEvent.VK_0
-                || e.getKeyCode() == KeyEvent.VK_QUOTE) {
+                || e.getKeyCode() == KeyEvent.VK_QUOTE
+                || e.getKeyCode() == KeyEvent.VK_PERIOD) {
                 gameSearch.typedChar(e.getKeyChar()); //Sends the key to the search engine to be appended and check for match
 
             } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
@@ -699,11 +702,12 @@ public class LibraryHandler implements
 
             Game game = gameSearch.getFoundGameCover();
 
-            if(!game.isLoaded()){
+            if (!game.isLoaded()) {
                 try {
                     game.update();
                 } catch (MalformedURLException ex) {
-                    java.util.logging.Logger.getLogger(LibraryHandler.class.getName()).
+                    java.util.logging.Logger.getLogger(LibraryHandler.class
+                            .getName()).
                             log(Level.SEVERE, null, ex);
                 }
             }
