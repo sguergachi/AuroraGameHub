@@ -37,6 +37,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -671,7 +672,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         Date d = null;
         if (timePlayed == null) {
-            timePlayed = "0:0";
+            timePlayed = "00:00";
         }
         try {
             d = df.parse(timePlayed);
@@ -1207,9 +1208,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlShortcutLbl.add(lblShortcut);
         pnlShortcutImage.add(pnlShortcutLbl, BorderLayout.SOUTH);
 
-        pnlTopImageContainer = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
+        pnlTopImageContainer = new JPanel(
+                new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlTopImageContainer.setBorder(BorderFactory.createEmptyBorder(20, 0,
-                0, (width/5)));
+                0, (width / 5)));
         pnlTopImageContainer.setPreferredSize(new Dimension(topImageWidth,
                 topImageHeight + 30));
         pnlTopImageContainer.setOpaque(false);
@@ -1233,14 +1235,71 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlInteractivePane.add(pnlFlipContainer, BorderLayout.CENTER, 1);
         pnlInteractivePane.revalidate();
 
-        //Show data
+
+        // Show Data
+        // ----------------------------------------------------------------.
+
+        if (this.timePlayed == null) {
+            this.timePlayed = "00:00";
+        }
+
+        // Parse time //
+        String hoursPlayed = timePlayed.substring(0, timePlayed.indexOf(":"));
+        String minutesPlayed = timePlayed.substring(timePlayed.indexOf(':') + 1,
+                timePlayed.length());
+
+        if (!hoursPlayed.equals("0")) {
+            hoursPlayed = hoursPlayed.replaceFirst("0", "");
+        }
+        if (!minutesPlayed.equals("0")) {
+            minutesPlayed = minutesPlayed.replaceFirst("0", "");
+        }
+
+        // convert to ints, check for plurals
+
+        int hours = Integer.parseInt(hoursPlayed);
+        int mins = Integer.parseInt(minutesPlayed);
+
+        String hourTxt = "hr";
+        String minTxt = "min";
+
+        if (hours > 1) {
+            hourTxt = "hrs";
+        }
+        if (mins > 1) {
+            minTxt = "mins";
+        }
+
+        // parse to textbox
+
+        if ((minutesPlayed.equals("0")) && (hoursPlayed.equals("0"))) {
+
+            txtHoursPlayed.setText("None");
+
+        } else if (minutesPlayed.equals("0")) {
+
+            txtHoursPlayed.setText(hoursPlayed + hourTxt);
+
+        } else if (hoursPlayed.equals("0")) {
+
+            txtHoursPlayed.setText(minutesPlayed + minTxt);
+
+        } else {
+
+            txtHoursPlayed.setText(hoursPlayed + hourTxt + " " + minutesPlayed
+                                   + minTxt);
+        }
         txtHoursPlayed.getTextBox().setEnabled(false);
-        txtHoursPlayed.setText(this.getTotalTimePlayed());
         txtHoursPlayed.revalidate();
 
         txtTimesPlayed.getTextBox().setEnabled(false);
-        txtTimesPlayed.setText(Integer.toString(this.getOccurencesPlayed())
-                               + " Times");
+        String occurence = Integer.toString(this.getOccurencesPlayed());
+        if (occurence.equals("0")) {
+            txtTimesPlayed.setText("None");
+        } else {
+            txtTimesPlayed.setText(occurence + " Times");
+
+        }
         txtTimesPlayed.revalidate();
 
         txtLastPlayed.getTextBox().setEnabled(false);
