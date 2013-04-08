@@ -1,4 +1,5 @@
 **What**
+------------
 
 The **Aurora Game Hub** is a slick desktop application
 built from ground up to enable PC gamers to better *manage*, *play* and *experience* their entire game library in the best way possible.
