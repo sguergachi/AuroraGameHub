@@ -1240,14 +1240,24 @@ public class LibraryUI extends AuroraApp {
     }
 
     public void showAddGameUI() {
+
+
+
+
         pnlGlass.setVisible(true);
         addGameUI_Visible = true;
 
         addGameAnimator = new AAnimate(pnlAddGamePane);
 
+        int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
+        ASound showSound = new ASound("swoop_" + num + ".wav", false);
+        showSound.Play();
+
         AThreadWorker addGameWorker = new AThreadWorker(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+
 
                 buildAddGameUI();
             }
@@ -1282,6 +1292,10 @@ public class LibraryUI extends AuroraApp {
         if (addGameUI_Visible == true) {
             addGameUI_Visible = false;
             addGameToLibButton.setVisible(false);
+
+            int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
+            ASound showSound = new ASound("reverse_swoop_" + num + ".wav", false);
+            showSound.Play();
 
             //* Animate Up Add Game UI *//
             addGameAnimator.moveVertical(-485, 33);

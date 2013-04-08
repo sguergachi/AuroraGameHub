@@ -20,6 +20,7 @@ package aurora.V1.core;
 import aurora.V1.core.screen_handler.LibraryHandler;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.APostHandler;
+import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AScrollBar;
@@ -205,6 +206,10 @@ public class AboutBox {
 
     public void showAboutBox() {
 
+        int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
+        ASound showSound = new ASound("swoop_" + num + ".wav", false);
+        showSound.Play();
+
         pnlGlass.add(pnlAboutPane);
         pnlGlass.setLayout(null);
         pnlGlass.setOpaque(false);
@@ -226,6 +231,11 @@ public class AboutBox {
     public void hideAboutBox() {
 
         if (isAboutVisible) {
+
+            int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
+            ASound showSound = new ASound("reverse_swoop_" + num + ".wav", false);
+            showSound.Play();
+
             aboutBoxAnimator.moveVertical(-485, 33);
             aboutBoxAnimator.addPostAnimationListener(new APostHandler() {
                 @Override

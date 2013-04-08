@@ -510,7 +510,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                 ATimeLabel.TIME_24HOUR);
 
         //* Tracker Data *//
-        game.setLastPlayed(ATimeLabel.current(ATimeLabel.DATE_LETTERS));
+        game.setLastPlayed(ATimeLabel.current(ATimeLabel.DATE));
         game.setOcurrencesPlayed(game.getOccurencesPlayed() + 1);
 
 
@@ -535,7 +535,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
             launchGameProcess.waitFor();
         } catch (InterruptedException ex) {
             logger.error(ex);
-          
+
         }
 
     }

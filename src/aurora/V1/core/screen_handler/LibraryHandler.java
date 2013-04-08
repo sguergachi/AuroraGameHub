@@ -31,6 +31,7 @@ import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.ASimpleDB;
+import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.AButton;
@@ -773,8 +774,14 @@ public class LibraryHandler implements
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (!libraryUI.isAddGameUI_Visible()) {
 
-            libraryUI.showAddGameUI();
+                libraryUI.showAddGameUI();
+
+            } else {
+
+                libraryUI.hideAddGameUI();
+            }
 
         }
     }

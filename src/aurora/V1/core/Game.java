@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -75,7 +76,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private String gamePath;
 
-    private String timePlayed = "0:0";
+    private String timePlayed = null;
 
     private String lastPlayed;
 
@@ -1239,55 +1240,59 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // Show Data
         // ----------------------------------------------------------------.
 
-        if (this.timePlayed == null) {
-            this.timePlayed = "00:00";
-        }
+        if (this.timePlayed != null) {
 
-        // Parse time //
-        String hoursPlayed = timePlayed.substring(0, timePlayed.indexOf(":"));
-        String minutesPlayed = timePlayed.substring(timePlayed.indexOf(':') + 1,
-                timePlayed.length());
+            // Parse time //
+            String hoursPlayed = timePlayed
+                    .substring(0, timePlayed.indexOf(":"));
+            String minutesPlayed = timePlayed.substring(timePlayed.indexOf(':')
+                                                        + 1,
+                    timePlayed.length());
 
-        if (!hoursPlayed.equals("0")) {
-            hoursPlayed = hoursPlayed.replaceFirst("0", "");
-        }
-        if (!minutesPlayed.equals("0")) {
-            minutesPlayed = minutesPlayed.replaceFirst("0", "");
-        }
+            if (!hoursPlayed.equals("0")) {
+                hoursPlayed = hoursPlayed.replaceFirst("0", "");
+            }
+            if (!minutesPlayed.equals("0")) {
+                minutesPlayed = minutesPlayed.replaceFirst("0", "");
+            }
 
-        // convert to ints, check for plurals
+            // convert to ints, check for plurals
 
-        int hours = Integer.parseInt(hoursPlayed);
-        int mins = Integer.parseInt(minutesPlayed);
+            int hours = Integer.parseInt(hoursPlayed);
+            int mins = Integer.parseInt(minutesPlayed);
 
-        String hourTxt = "hr";
-        String minTxt = "min";
+            String hourTxt = "hr";
+            String minTxt = "min";
 
-        if (hours > 1) {
-            hourTxt = "hrs";
-        }
-        if (mins > 1) {
-            minTxt = "mins";
-        }
+            if (hours > 1) {
+                hourTxt = "hrs";
+            }
+            if (mins > 1) {
+                minTxt = "mins";
+            }
 
-        // parse to textbox
+            // parse to textbox
 
-        if ((minutesPlayed.equals("0")) && (hoursPlayed.equals("0"))) {
+            if ((minutesPlayed.equals("0")) && (hoursPlayed.equals("0"))) {
 
+                txtHoursPlayed.setText("Under a min");
+
+            } else if (minutesPlayed.equals("0")) {
+
+                txtHoursPlayed.setText(hoursPlayed + hourTxt);
+
+            } else if (hoursPlayed.equals("0")) {
+
+                txtHoursPlayed.setText(minutesPlayed + minTxt);
+
+            } else {
+
+                txtHoursPlayed.setText(hoursPlayed + hourTxt + " "
+                                       + minutesPlayed
+                                       + minTxt);
+            }
+        }else{
             txtHoursPlayed.setText("None");
-
-        } else if (minutesPlayed.equals("0")) {
-
-            txtHoursPlayed.setText(hoursPlayed + hourTxt);
-
-        } else if (hoursPlayed.equals("0")) {
-
-            txtHoursPlayed.setText(minutesPlayed + minTxt);
-
-        } else {
-
-            txtHoursPlayed.setText(hoursPlayed + hourTxt + " " + minutesPlayed
-                                   + minTxt);
         }
         txtHoursPlayed.getTextBox().setEnabled(false);
         txtHoursPlayed.revalidate();
@@ -1297,13 +1302,55 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         if (occurence.equals("0")) {
             txtTimesPlayed.setText("None");
         } else {
-            txtTimesPlayed.setText(occurence + " Times");
-
+            if (Integer.parseInt(occurence) > 1) {
+                txtTimesPlayed.setText(occurence + " Times");
+            } else {
+                txtTimesPlayed.setText(occurence + " Time");
+            }
         }
         txtTimesPlayed.revalidate();
 
         txtLastPlayed.getTextBox().setEnabled(false);
-        txtLastPlayed.setText(this.getLastPlayed());
+
+        // Calculate days past //
+        SimpleDateFormat format = new SimpleDateFormat(ATimeLabel.DATE);
+        Date past = null;
+
+        String daysPast;
+        if (this.lastPlayed != null) {
+            try {
+                past = format.parse(lastPlayed);
+            } catch (ParseException ex) {
+                java.util.logging.Logger.getLogger(Game.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            }
+            Date now = new Date();
+
+
+            daysPast = Long.toString(TimeUnit.MILLISECONDS.toDays(now
+                    .getTime() - past.getTime()));
+            if (daysPast.equals("0")) {
+
+                txtLastPlayed.setText("Today");
+
+            } else {
+
+                if (Integer.parseInt(daysPast) > 30) {
+                    txtLastPlayed.setText("A month ago");
+                } else if (Integer.parseInt(daysPast) > 1) {
+                    txtLastPlayed.setText(daysPast + "days ago");
+                } else {
+                    txtLastPlayed.setText("Yesterday");
+                }
+
+            }
+        } else {
+
+            txtLastPlayed.setText("Not Played");
+        }
+
+
+
         txtLastPlayed.revalidate();
 
     }
