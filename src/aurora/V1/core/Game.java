@@ -1412,7 +1412,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             launcher = new AuroraLauncher(coreUI);
 
-            launcher.launchGame(copy());
+            launcher.launchGame(thisGame());
         }
     }
 
