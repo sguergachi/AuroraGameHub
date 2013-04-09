@@ -24,10 +24,11 @@ package aurora.V1.core.screen_ui;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraMini;
 import aurora.V1.core.AuroraStorage;
-import aurora.V1.core.screen_handler.StartScreenHandler;
-import aurora.V1.core.screen_handler.StartScreenHandler;
-import aurora.V1.core.screen_handler.StartScreenHandler.FrameKeyListener;
-import aurora.V1.core.screen_logic.StartScreenLogic;
+import aurora.V1.core.main;
+import aurora.V1.core.screen_handler.WelcomeHandler;
+import aurora.V1.core.screen_handler.WelcomeHandler;
+import aurora.V1.core.screen_handler.WelcomeHandler.FrameKeyListener;
+import aurora.V1.core.screen_logic.WelcomeLogic;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.ANuance;
 import aurora.engine.V1.Logic.APostHandler;
@@ -44,22 +45,25 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
+
 /**
  * .------------------------------------------------------------------------.
- * | StartScreenUI :: Aurora App Class
+ * | WelcomeUI :: Aurora App Class
  * .------------------------------------------------------------------------.
  * |
  * | This class contains the UI for the Start Screen associated with an
@@ -68,8 +72,8 @@ import javax.swing.JPanel;
  * |
  * | This class must follow the rules stated in the AuroraScreenUI
  * | Interface found in the Aurora Engine. The *Handler* and *Logic* classes
- * | The Handler class is called: StartScreenHandler
- * | The Logic class is called: StartScreenLogic
+ * | The Handler class is called: WelcomeHandler
+ * | The Logic class is called: WelcomeLogic
  * |
  * .........................................................................
  *
@@ -77,7 +81,7 @@ import javax.swing.JPanel;
  * @author Carlos Machado <camachado@gmail.com>
  *
  */
-public final class StartScreenUI implements Runnable, AuroraScreenUI {
+public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
     private JFrame frame;
 
@@ -97,7 +101,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     public static boolean Online = false;
 
-    private String path = "AuroraData";
+    private String path = "//AuroraData//";
 
     private JPanel pnlUserButton;
 
@@ -119,7 +123,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private int displayFontSize;
 
-    private final StartScreenHandler handler;
+    private final WelcomeHandler handler;
 
     private FrameKeyListener startKeyHandler;
 
@@ -127,7 +131,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private Object toolkit;
 
-    private final StartScreenLogic logic;
+    private final WelcomeLogic logic;
 
     private DashboardUI loadedDashboardUI;
 
@@ -135,13 +139,15 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
     private boolean loadedData;
 
-    public StartScreenUI(Boolean startMini) {
+    static final Logger logger = Logger.getLogger(WelcomeUI.class);
 
-        StartScreenUI.START_WITH_MINI = startMini;
+    public WelcomeUI(Boolean startMini) {
+
+        WelcomeUI.START_WITH_MINI = startMini;
         frame = new JFrame("Aurora Game Manager ~ V1");
         coreUI = new AuroraCoreUI(this.frame);
-        handler = new StartScreenHandler(this);
-        logic = new StartScreenLogic(this);
+        handler = new WelcomeHandler(this);
+        logic = new WelcomeLogic(this);
         handler.setLogic(logic);
         logic.setHandler(handler);
     }
@@ -163,44 +169,34 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                         "/aurora/V1/resources/icon.png")).getImage());
 
             } catch (Exception exx) {
-                Logger.getLogger(StartScreenUI.class.getName()).
-                        log(Level.SEVERE, null, exx);
+                logger.error(exx);
             }
         }
 
         try {
             coreUI.setUI();
         } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         } catch (IOException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         } catch (LineUnavailableException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         } catch (InterruptedException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         } catch (FontFormatException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         }
 
         try {
             coreUI.setSFX();
         } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         } catch (IOException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         } catch (LineUnavailableException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         } catch (InterruptedException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         }
 
         progressWheel = new AProgressWheel("app_progressWheel.png");
@@ -208,7 +204,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
         imgHexPane.setIgnoreRepaint(true);
         imgHexPane.setDoubleBuffered(true);
 
-        fileIO = new AFileManager("");
+        fileIO = new AFileManager(System.getProperty("user.home"));
         loadingPane = new JPanel();
         loadingPane.setLayout(new BorderLayout());
         loadingPane.setOpaque(false);
@@ -290,8 +286,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
         try {
             backgroundLoad();
         } catch (IOException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         }
 
         //* Add Background containing CoreUI to Frame *//
@@ -323,15 +318,16 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     }
 
     public ArrayList<String> generatePrompts() {
-        System.out.println(fileIO.getPath() + path + "/User Data");
-        try {
-            auroraVI = new ANuance(fileIO
-                .getPath() + "AuroraData/User Data/AIDictionary.txt");
 
-        } catch (IOException ex) {
-            Logger.getLogger(StartScreenUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+        if (logger.isDebugEnabled()) {
+            logger.debug(fileIO.getPath() + path + "/User Data");
         }
+
+        auroraVI = new ANuance(System.getProperty("user.home")
+                               + "/AuroraData/User Data/AIDictionary.txt");
+
+
+
         ArrayList<String> toDisplayList = new ArrayList<String>();
         if (checkUser()) {
 
@@ -347,7 +343,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
             toDisplayList
                     .add(
-                    auroraVI.VI(ANuance.inx_Welcome) + " to Aurora Game Manager");
+                    auroraVI.VI(ANuance.inx_Welcome) + " to Aurora Game Hub");
 
             toDisplayList.add(
                     auroraVI.VI(ANuance.inx_Preparing) + " for First Time Use");
@@ -388,7 +384,12 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                 auroraStorage = new AuroraStorage();
                 Boolean FirstTimeLoad = false;
 
-                //* Check if Main Folder "AuroraData" Exists *//
+                // Back-Compatible, Check if folder is in My Documents //
+
+                backCheckMyDoc();
+
+
+                // Check if Main Folder "AuroraData" Exists //
                 if (!checkMainDir()) {
 
                     FirstTimeLoad = true;
@@ -396,7 +397,9 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                     fileIO.setPath(fileIO.getPath() + path);
                     fileIO.createFolder("User Data");
                     fileIO.createFolder("Game Data");
+
                     //Load Databases
+                    moveAuroraDB();
                     auroraStorage.getStoredLibrary()
                             .setUpDatabase(FirstTimeLoad,
                             fileIO.getPath() + "/Game Data/");
@@ -412,12 +415,13 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                     //* Check if both Sub folders Exist *//
                 } else if (!checkSubDir()) {
                     FirstTimeLoad = true;
-                    promptDisplay.add("Unable To Find Subfolders");
-                    promptDisplay.add("Attempting to Create New Ones...");
+                    promptDisplay.add("Attempting to Create Subfolders...");
+                    fileIO.setPath(fileIO.getPath() + path);
                     fileIO.createFolder("User Data");
                     fileIO.createFolder("Game Data");
 
                     //Load Databases
+                    moveAuroraDB();
                     auroraStorage.getStoredLibrary()
                             .setUpDatabase(FirstTimeLoad,
                             fileIO.getPath() + "/Game Data/");
@@ -429,19 +433,24 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                             fileIO.getPath() + "/User Data/");
 
                 } else if (!checkDBFiles()) {
-                    FirstTimeLoad = true;
-                    promptDisplay.add("Unable To Find a Data Files");
-                    promptDisplay.add("Attempting to Create New Ones...");
-                    //Load Databases
-                    auroraStorage.getStoredLibrary()
-                            .setUpDatabase(FirstTimeLoad,
-                            fileIO.getPath() + "/Game Data/");
-                    auroraStorage.getStoredProfile()
-                            .setUpDatabase(FirstTimeLoad,
-                            fileIO.getPath() + "/User Data/");
-                    auroraStorage.getStoredSettings().setUpDatabase(
-                            FirstTimeLoad,
-                            fileIO.getPath() + "/User Data/");
+                    FirstTimeLoad = false;
+                    fileIO.setPath(fileIO.getPath() + path);
+                    moveAuroraDB();
+                    System.out.println("Moved AuroraDB");
+                    if (!checkDBFiles()) {
+                        FirstTimeLoad = true;
+                        promptDisplay.add("Creating Missing Database Files...");
+                        //Load Databases
+                        auroraStorage.getStoredLibrary()
+                                .setUpDatabase(FirstTimeLoad,
+                                fileIO.getPath() + "/Game Data/");
+                        auroraStorage.getStoredProfile()
+                                .setUpDatabase(FirstTimeLoad,
+                                fileIO.getPath() + "/User Data/");
+                        auroraStorage.getStoredSettings().setUpDatabase(
+                                FirstTimeLoad,
+                                fileIO.getPath() + "/User Data/");
+                    }
                 } else {
                     fileIO.setPath(fileIO.getPath() + path);
                 }
@@ -457,7 +466,7 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 >>>>>>> origin/dev
                     Online = false;
                     promptDisplay.add(
-                            "I Can't Connect To AuroraDB, Let Me Try Again...",
+                            "Can't Connect To AuroraDB, Let Me Try Again...",
                             Color.RED);
 
                     //*
@@ -490,15 +499,19 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                     } else {
                         promptDisplay
                                 .add(
-                                "I Seem To Have Finnally Esstablished Connection...");
+                                "I Seem To Have Finally Established Connection...");
                     }
                 } else {
                     Online = true;
 
                 }
 
+<<<<<<< HEAD:src/aurora/V1/core/screen_ui/StartScreenUI.java
 <<<<<<< HEAD
 =======
+=======
+
+>>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
                 logic.sendAnalytics();
 
 >>>>>>> origin/dev
@@ -509,10 +522,12 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
                             .setUpDatabase(FirstTimeLoad,
                             fileIO.getPath() + "/Game Data/");
                     auroraStorage.getStoredLibrary().storeFromDatabase();
+
                     auroraStorage.getStoredProfile()
                             .setUpDatabase(FirstTimeLoad,
                             fileIO.getPath() + "/User Data/");
                     auroraStorage.getStoredProfile().storeFromDatabase();
+
                     auroraStorage.getStoredSettings().setUpDatabase(
                             FirstTimeLoad,
                             fileIO.getPath() + "/User Data/");
@@ -524,7 +539,11 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 
                 //* load DashboardUI *//
                 loadedDashboardUI = new DashboardUI(coreUI, this);
-                System.out.println("Loading Dashboard...");
+
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Loading Dashboard...");
+                }
+
                 promptDisplay
                         .add("Loading Dashboard...", new Color(0, 191, 255));
                 loadedDashboardUI.loadUI();
@@ -540,20 +559,25 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
             if (dashboardLoaded) {
 
                 promptDisplay.add("Loading Complete", new Color(0, 191, 255));
-                System.out.println("Loading COMPLETED!!");
+
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Loading COMPLETED!!");
+                }
 
                 try {
                     Thread.sleep(16);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(StartScreenUI.class.getName()).
-                            log(Level.SEVERE, null, ex);
+                    logger.error(ex);
                 }
 
                 promptDisplay.done();
                 break;
             } else {
                 promptDisplay.add("Loading...", new Color(0, 191, 255));
-                System.out.println(">> Still Loading Dashboard...");
+
+                if (logger.isDebugEnabled()) {
+                    logger.debug(">> Still Loading Dashboard...");
+                }
             }
         }
 
@@ -576,10 +600,12 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
             displayYpos = 10;
             displayFontSize = coreUI.getBottomPanelSize() / 12;
 
+
         }
 
     }
 
+<<<<<<< HEAD:src/aurora/V1/core/screen_ui/StartScreenUI.java
 <<<<<<< HEAD
     private boolean checkOnline(String URL) {
         final URL url;
@@ -609,9 +635,43 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
 =======
 
 >>>>>>> origin/dev
+=======
+    private void moveAuroraDB() {
+        logger.info("Moving AuroraDB to AuroraData folder..");
+
+        String auroraDbPath = WelcomeUI.class.getProtectionDomain()
+                .getCodeSource().getLocation().getPath().replaceFirst(
+                "Aurora.jar", "").replaceAll("%20", " ") + "lib/AuroraDB.h2.db";
+        logger.info(" >>> Resource Path1 " + auroraDbPath);
+
+
+
+        if (fileIO.checkFile(auroraDbPath) && !fileIO
+                .checkFile(fileIO
+                .getPath() + "AuroraDB.h2.db")) {
+            try {
+                fileIO.copyFile(new File(auroraDbPath), new File(fileIO
+                        .getPath() + "AuroraDB.h2.db"));
+            } catch (IOException ex) {
+                java.util.logging.Logger
+                        .getLogger(WelcomeUI.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            }
+        } else {
+            logger.info("Did Not Move AuroraDB to AuroraData");
+        }
+    }
+
+    private void backCheckMyDoc() {
+        if (fileIO.checkFile(fileIO.getMyDocPath() + path)) {
+            fileIO.moveFolder(fileIO.getMyDocPath() + path, fileIO.getPath()
+                                                            + path);
+        }
+    }
+>>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
 
     private boolean checkUser() {
-        if (checkMainDir() && checkSubDir() && checkDBFiles()) {
+        if (checkSubDir()) {
             return true;
         } else {
             return false;
@@ -637,9 +697,11 @@ public final class StartScreenUI implements Runnable, AuroraScreenUI {
     }
 
     private boolean checkDBFiles() {
-        if (fileIO.checkFile(fileIO.getPath() + path + "/User Data/User.h2.db")
+        if (fileIO.checkFile(fileIO.getPath() + "/User Data/User.h2.db")
             && fileIO.
-                checkFile(fileIO.getPath() + path + "/Game Data/Games.h2.db")) {
+                checkFile(fileIO.getPath() + "/Game Data/Games.h2.db")
+            && fileIO.
+                checkFile(fileIO.getPath() + "/AuroraDB.h2.db")) {
             return true;
         } else {
             return false;

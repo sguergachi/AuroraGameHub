@@ -22,6 +22,7 @@ import aurora.engine.V1.UI.AGridPanel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JComponent;
+import org.apache.log4j.Logger;
 
 /**
  * GridManager An array of aGridPanels Provides methods to manipulate and get
@@ -56,6 +57,8 @@ public class GridManager {
     private boolean isTransitioningGame;
 
     private int visibleGrid;
+
+    static final Logger logger = Logger.getLogger(GridManager.class);
 
     /**
      * Manages GridPanels for GameLibrary
@@ -99,35 +102,44 @@ public class GridManager {
 
                     Grids.get(i).addToGrid(game);
                     isTransitioningGame = false; // Is Not Being Added to next Grid
-                    System.out.println("Added Game To GridPanel: " + game
-                            .getName());
-                    System.out.println("to Grid " + i);
+
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("Added Game To GridPanel: " + game
+                                .getName());
+                        logger.debug("to Grid " + i);
+                    }
 
                 } else if (containsPlaceHolders(Grids.get(i))) {
 
                     replacePlaceHolder(Grids.get(i), game, listener);
+                    break;
 
                 } else {
-                    System.out.println("FAILED To add: " + game.getName());
-                    System.out.println("Grid " + i + " is Full!");
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("FAILED To add: " + game.getName());
+                        logger.debug("Grid " + i + " is Full!");
+                    }
+
                     fullGrids++;
                     //when Full make new Grid
                     if (fullGrids == Grids.size()) {
                         createGrid(row, col, Grids.size());
                         Grids.get(Grids.size() - 1).addToGrid(game);
                         isTransitioningGame = true; // Is Being Added to next Grid
-                        System.out.println("Added Game: " + game.getName());
-                        System.out.println("to Grid " + (Grids.size() - 1));
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("Added Game: " + game.getName());
+                            logger.debug("to Grid " + (Grids.size() - 1));
+                        }
 
                     }
                 }
             } else {
                 ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
-                        "Cannot Add Duplicate Box Art", ui.getDefaultFont()
+                        "Cannot Add Duplicate Game", ui.getDefaultFont()
                         .deriveFont(25));
                 info.showDialog();
                 info.setVisible(true);
-                echoGame(game).selected();
+                echoGame(game).setSelected();
             }
 
         }
@@ -188,18 +200,26 @@ public class GridManager {
         this.width = width;
         this.height = height;
 
+
+        this.blankAddGame = new GamePlaceholder();
+        blankAddGame.setUp(width, height,
+                "library_placeholder_bg.png");
+        blankAddGame.addButton("library_placeholder_add_norm.png",
+                "library_placeholder_add_down.png",
+                "library_placeholder_add_over.png", listener);
+
         if (!Grids.get(Grids.size() - 1).isGridFull()) {
 
-
-
-            this.blankAddGame = new GamePlaceholder();
-            blankAddGame.setUp(width + 10, height + 10,
-                    "library_placeholder_bg.png");
-            blankAddGame.addButton("library_placeholder_add_norm.png",
-                    "library_placeholder_add_down.png",
-                    "library_placeholder_add_over.png", listener);
             Grids.get(Grids.size() - 1).addToGrid(blankAddGame);
 
+        } else if (fullGrids == Grids.size() - 1) {
+            fullGrids++;
+            //when Full make new Grid
+            createGrid(row, col, Grids.size());
+            Grids.get(Grids.size() - 1).addToGrid(blankAddGame);
+            if (logger.isDebugEnabled()) {
+                logger.debug("Created new Grid: " + (Grids.size() - 1));
+            }
         }
 
         addPlaceHolders(width, height);
@@ -215,7 +235,7 @@ public class GridManager {
     public void addPlaceHolders(int width, int height) {
         while (!Grids.get(Grids.size() - 1).isGridFull()) {
             this.placeholder = new GamePlaceholder();
-            placeholder.setUp(width + 10, height + 10,
+            placeholder.setUp(width, height,
                     "library_placeholder_bg.png");
 
             Grids.get(Grids.size() - 1).addToGrid(placeholder);
@@ -223,7 +243,7 @@ public class GridManager {
     }
 
     /**
-     * check if any other cover was selected and sets it to unselected
+     * check if any other cover was setSelected and sets it to setUnselected
      */
     public void unselectPrevious() {
         for (int i = 0; i < Grids.size(); i++) {
@@ -231,7 +251,7 @@ public class GridManager {
                 if (!(Grids.get(i).getArray().get(j) instanceof GamePlaceholder)) {
                     Game game = (Game) Grids.get(i).getArray().get(j);
                     if (game.isSelected()) {
-                        game.unselected();
+                        game.setUnselected();
                         game.getGameBar().setVisible(false);
                         game.revalidate();
                     }
@@ -240,13 +260,18 @@ public class GridManager {
 
         }
     }
-//attempts to remove everything in grid.
 
+    /**
+     * attempts to remove everything in grid.
+     * <p/>
+     */
     public void clearAllGrids() {
         for (int i = 0; i < Grids.size(); i++) {
 
             try {
-                System.out.println("Clearing Grid... " + i);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Clearing Grid... " + i);
+                }
 
                 Grids.get(i).getArray().clear();
                 Grids.get(i).update();
@@ -254,17 +279,20 @@ public class GridManager {
 
 
             } catch (RuntimeException ex) {
-                System.err.println(ex);
+                logger.error(ex);
             }
 
         }
     }
 
+    /*
+     * Replace placeholder with Game then add placeholder at the end
+     * using finilize
+     */
     private void replacePlaceHolder(AGridPanel gridPanel, Game game,
                                     ActionListener addGameHandler) {
 
-        //Replace placeholder with Game then add placeholder at the end
-        //using finilize
+
 
         for (int a = (gridPanel.getArray().size() - 1); a >= 0; a--) {
             if (!(gridPanel.getArray().get(a) instanceof Game)) {
@@ -275,12 +303,14 @@ public class GridManager {
 
         gridPanel.addToGrid(game);
         gridPanel.update();
-        this.finalizeGrid(addGameHandler, game.getWidth(), game.getHeight());
         gridPanel.update();
     }
 
     /**
-     * find a game in any Grid int[0] = Grid int[1] = GridPosition
+     * find a game in any Grid.
+     *
+     * int[0] = Grid
+     * int[1] = Index Position inside Grid
      *
      * @param GameCover object
      */
@@ -304,8 +334,11 @@ public class GridManager {
     public boolean gameExists(Game game) {
 
         for (int i = 0; i < Grids.size(); i++) {
-            System.out.println("GameName " + game.getName());
-            System.out.println(Grids.get(i).find(game));
+            if (logger.isDebugEnabled()) {
+                logger.debug("GameName " + game.getName());
+                logger.debug(Grids.get(i).find(game));
+            }
+
             if (Grids.get(i).find(game) != -1) {
                 return true;
             }
@@ -391,6 +424,30 @@ public class GridManager {
     }
 
     /**
+     * .-----------------------------------------------------------------------.
+     * | getGameFromName(String)
+     * .-----------------------------------------------------------------------.
+     * | Returns the Game object if its in the Library by searching through
+     * | all of the grids.
+     * .........................................................................
+     *
+     * <p/>
+     */
+    public Game getGameFromName(String GameName) {
+        Game gameFound = null;
+
+        try {
+            gameFound = (Game) this.getGrid(this.findGameName(GameName)[0])
+                    .getArray().get(this.findGameName(GameName)[1]);
+        } catch (Exception ex) {
+            gameFound = null;
+        }
+
+        return gameFound;
+
+    }
+
+    /**
      * removes a game in any Grid
      *
      * @param GameCover object
@@ -401,8 +458,11 @@ public class GridManager {
 
         // get the grid location of where the game is contained
         int[] gridLocation = this.findGame(game);
-        System.out.println("Game as found in grid location: " + gridLocation[0]
-                           + "," + gridLocation[1]);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Game as found in grid location: " + gridLocation[0]
+                         + "," + gridLocation[1]);
+        }
 
         // grab the index of where the grid is located in the manager
         int index = gridLocation[0];
@@ -417,7 +477,11 @@ public class GridManager {
         System.out.println("Number of grids that exist: " + Grids.size());
 
         if ((Grids.size() - 1) > index) {
-        	System.out.println("grid.size is > index");
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("grid.size is > index");
+            }
+
             for (int i = index; i < Grids.size() - 1; i++) {
                 AGridPanel currentGrid = this.getGrid(i);
                 AGridPanel nextGrid = this.getGrid(i + 1);
@@ -435,17 +499,16 @@ public class GridManager {
                     }
                 }
 
-
-
             }
-         
+
             // finalize the grid if there is no placeholder and it is the last grid in
             // in the library
-        } else if (((Grids.size() - 1) == index) && (!containsAddPlaceHolders(grid))) {
+        } else if (((Grids.size() - 1) == index) && (!containsAddPlaceHolders(
+                grid))) {
 
             needFinalizing = true;
 
-        } 
+        }
 
         if (needFinalizing) {
 
@@ -457,7 +520,64 @@ public class GridManager {
 
         grid.update();
 
+    }
 
+    /**
+     * removes a game in any Grid
+     *
+     * @param GameCover object
+     */
+    public void moveFavorite(Game game) {
+
+        // get the grid location of where the game is contained
+        int[] gridLocation = this.findGame(game);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Game was found in grid location: " + gridLocation[0]
+                         + "," + gridLocation[1]);
+        }
+
+        // grab the index of where the grid is located in the manager
+        int index = gridLocation[0];
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Game was found in index: " + index);
+        }
+
+        // get the grid where the game is located
+        AGridPanel grid = this.getGrid(index);
+
+        System.out.println("Number of grids that exist: " + Grids.size());
+
+        if (index == 0) {
+            grid.removeComp(game);
+            grid.addToGrid(game, 0);
+            grid.update();
+        } else if (index > 0) {
+            // alternative to remove the game
+            grid.removeComp(game);
+
+            AGridPanel firstGrid = this.getGrid(0);
+
+            for (int i = index - 1; i >= 0; i--) {
+                System.out.println("Index = " + i);
+                System.out.println("Index + 1 = " + i + 1);
+                AGridPanel currentGrid = this.getGrid(i);
+                AGridPanel previousGrid = this.getGrid(i + 1);
+                Game lastGame = (Game) currentGrid.getComponent(7);
+                currentGrid.removeComp(lastGame);
+                currentGrid.update();
+                previousGrid.addToGrid(lastGame, 0);
+                previousGrid.update();
+            }
+
+            firstGrid.addToGrid(game, 0);
+            firstGrid.update();
+
+        }
+
+        grid.update();
+        ui.getFrame().repaint();
     }
 
     /**
@@ -491,7 +611,7 @@ public class GridManager {
     }
 
     /**
-     * check if any other cover was selected and sets it to unselected
+     * check if any other cover was setSelected and sets it to setUnselected
      */
     public AGridPanel getSelectedGrid() {
         for (int i = 0; i < Grids.size(); i++) {

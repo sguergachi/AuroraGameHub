@@ -17,6 +17,8 @@
  */
 package aurora.V1.core;
 
+import org.apache.log4j.Logger;
+
 import aurora.engine.V1.Logic.AStorage;
 
 /**
@@ -31,6 +33,7 @@ public class StoredSettings extends AStorage {
     public boolean surface;
     public boolean soundfx;
     public boolean bgsoundfx;
+    static final Logger logger = Logger.getLogger(StoredSettings.class);
 
     @Override
     public void storeFromDatabase() {

@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JPanel;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -37,6 +38,7 @@ public class GamePlaceholder extends AImagePane {
     private JPanel buttonPane;
     private int allWidth;
     private int allHeight;
+    static final Logger logger = Logger.getLogger(GamePlaceholder.class);
 
     public GamePlaceholder() {
     }
@@ -67,12 +69,9 @@ public class GamePlaceholder extends AImagePane {
         this.addMouseListener(new ButtonMouseListener());
         buttonPane.setPreferredSize(new Dimension(allWidth, allHeight));
         buttonPane.addMouseListener(new ButtonMouseListener());
-
-
         buttonPane.add(button);
 
         this.add(buttonPane);
-
 
         this.setPreferredSize(new Dimension(allWidth, allHeight));
         this.revalidate();

@@ -28,9 +28,9 @@ import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.StartScreenUI;
 =======
 import aurora.V1.core.main;
-import aurora.V1.core.screen_handler.StartScreenHandler;
+import aurora.V1.core.screen_handler.WelcomeHandler;
 import aurora.V1.core.screen_ui.DashboardUI;
-import aurora.V1.core.screen_ui.StartScreenUI;
+import aurora.V1.core.screen_ui.WelcomeUI;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
 >>>>>>> origin/dev
 import aurora.engine.V1.Logic.ASound;
@@ -41,6 +41,7 @@ import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AProgressWheel;
 import aurora.engine.V1.UI.AScrollingImage;
+import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FontFormatException;
@@ -53,32 +54,33 @@ import java.net.MalformedURLException;
 =======
 import java.net.URL;
 import java.net.URLConnection;
+<<<<<<< HEAD:src/aurora/V1/core/screen_logic/StartScreenLogic.java
 >>>>>>> origin/dev
 import java.util.logging.Level;
 import java.util.logging.Logger;
+=======
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
+>>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
+
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class StartScreenLogic implements AuroraScreenLogic {
+public class WelcomeLogic implements AuroraScreenLogic {
 
-    private final StartScreenUI startScreenUI;
+    private final WelcomeUI startScreenUI;
 
-    private StartScreenHandler startHandler;
+    private WelcomeHandler startHandler;
 
     private final AuroraCoreUI coreUI;
 
-    private JPanel bottomOfTopPane;
-
     private AScrollingImage imgHexPane;
-
-    private AImagePane headerPane;
-
-    private JPanel centerPane;
 
     private AImage imgTopLogo;
 
@@ -96,11 +98,15 @@ public class StartScreenLogic implements AuroraScreenLogic {
 
     private DashboardUI dashboardUI;
 
-    private AProgressWheel progressWheel;
+    static final Logger logger = Logger.getLogger(WelcomeLogic.class);
 
-    private ASound backgrounSFX;
+    private int frameControlHeight;
 
-    public StartScreenLogic(StartScreenUI aStartScreenUI) {
+    private int logoHeight;
+
+    private int logoWidth;
+
+    public WelcomeLogic(WelcomeUI aStartScreenUI) {
 
         this.startScreenUI = aStartScreenUI;
         this.coreUI = startScreenUI.getCoreUI();
@@ -109,47 +115,35 @@ public class StartScreenLogic implements AuroraScreenLogic {
 
     @Override
     public void setHandler(AuroraScreenHandler handler) {
-        startHandler = (StartScreenHandler) handler;
+        startHandler = (WelcomeHandler) handler;
     }
 
     private void loadTransitionUI() {
 
-
-
-        bottomOfTopPane = coreUI.getSouthFromTopPanel();
-        headerPane = coreUI.getTopPane();
-        centerPane = coreUI.getCenterPanel();
+        setSize();
 
         imgHexPane = startScreenUI.getImgHexPane();
         imgTopLogo = coreUI.getLogoImage();
         imgTopLogoSmall = new AImage("dash_header_logo.png");
 
 
-        setSize();
-
         imgTopLogoSmall.setImageSize(topSmallImageWidth, topSmallImageHeight);
-
-
 
     }
 
     public void startBackgroundMusic() {
 
-        try {
-            coreUI.getBackgroundSound().Play();
-        } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        } catch (LineUnavailableException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(StartScreenLogic.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            coreUI.getBackgroundSound().Play();
+//        } catch (UnsupportedAudioFileException ex) {
+//            logger.error(ex);
+//        } catch (IOException ex) {
+//            logger.error(ex);
+//        } catch (LineUnavailableException ex) {
+//            logger.error(ex);
+//        } catch (InterruptedException ex) {
+//            logger.error(ex);
+//        }
 
     }
 
@@ -160,8 +154,8 @@ public class StartScreenLogic implements AuroraScreenLogic {
         animateTransision = new AThreadWorker(new ActionListener() {
             //* Times cycling through threadWorker loop *//
             private int c = 0;
-            //* Scale of Hex Image growning *//
 
+            //* Scale of Hex Image growning *//
             private int scale = 0;
 
             @Override
@@ -176,8 +170,9 @@ public class StartScreenLogic implements AuroraScreenLogic {
                     imgHexPane.stop();
 
                     //* Remove Panel Containing Frame Controls*//
-                    headerPane.remove(bottomOfTopPane);
-                    headerPane.revalidate();
+                    coreUI.getTopPane().remove(coreUI.getSouthFromTopPanel());
+                    coreUI.getSouthFromTopPanel().setVisible(false);
+                    coreUI.getTopPane().revalidate();
 
                     imgHexPane.setCenterToFrame(coreUI.getFrame());
                     imgHexPane.repaint();
@@ -190,14 +185,17 @@ public class StartScreenLogic implements AuroraScreenLogic {
 
                     //* Change Component Sizes *//
                     imgHexPane.grow(scale);
-                    headerPane.setImageHeight(topHeight);
+                    coreUI.getTopPane().setImageHeight(topHeight);
                     imgHexPane.repaint();
                     imgHexPane.revalidate();
 
-                    headerPane.setPreferredSize(new Dimension(headerPane
+                    coreUI.getTopPane().setPreferredSize(new Dimension(coreUI
+                            .getTopPane()
                             .getWidth(),
                             topHeight - 50));
-                    centerPane.setPreferredSize(new Dimension(centerPane
+                    coreUI.getCenterPanel()
+                            .setPreferredSize(new Dimension(coreUI
+                            .getCenterPanel()
                             .getWidth(),
                             centerHeight));
 
@@ -209,7 +207,7 @@ public class StartScreenLogic implements AuroraScreenLogic {
                         centerHeight = centerHeight - 2;
                         topHeight = imgTopLogoSmall.getImgIcon().getIconHeight()
                                     + 50;
-                        headerPane.setImageHeight(topHeight);
+                        coreUI.getTopPane().setImageHeight(topHeight);
 
                     }
 
@@ -243,10 +241,23 @@ public class StartScreenLogic implements AuroraScreenLogic {
             public void actionPerformed(ActionEvent e) {
 
                 //* Re-add Frame Controls *//
-                bottomOfTopPane.setVisible(true);
+
                 coreUI.getTopPane().add(BorderLayout.PAGE_END, coreUI
                         .getSouthFromTopPanel());
                 coreUI.getTopPane().revalidate();
+                coreUI.getSouthFromTopPanel().revalidate();
+
+                //* Set bigger background image for Frame Control panel *//
+                coreUI.getFrameControlImagePane().setImage(
+                        "dash_frameControl_bg.png");
+                coreUI.getFrameControlImagePane().repaint();
+                coreUI.getFrameControlImagePane().setImageHeight(
+                        frameControlHeight);
+                coreUI.getFrameControlImagePane().revalidate();
+
+
+//                coreUI.getSouthFromTopPanel().setVisible(true);
+
 
                 //* Remove all components in Center Panel *//
                 coreUI.getCenterPanel().removeAll();
@@ -255,15 +266,21 @@ public class StartScreenLogic implements AuroraScreenLogic {
                 dashboardUI = startScreenUI.getLoadedDashboardUI();
 
                 if (dashboardUI == null) {
-                    System.out.println("Creating New Dashboard");
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("Creating New Dashboard");
+                    }
                     dashboardUI = new DashboardUI(coreUI, startScreenUI);
                     dashboardUI.loadUI();
                 } else {
-                    System.out.println("Using LOADED Dashboard");
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("Using LOADED dashboard");
+                    }
                 }
 
                 //* Build DashboardUI *//
                 dashboardUI.buildUI();
+
+                coreUI.getSouthFromTopPanel().setVisible(true);
 
 
             }
@@ -273,9 +290,13 @@ public class StartScreenLogic implements AuroraScreenLogic {
 
     }
 
+<<<<<<< HEAD:src/aurora/V1/core/screen_logic/StartScreenLogic.java
 <<<<<<< HEAD
 =======
      public boolean checkOnline(String URL) {
+=======
+    public boolean checkOnline(String URL) {
+>>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
         final URL url;
         try {
             url = new URL("http://" + URL);
@@ -284,36 +305,55 @@ public class StartScreenLogic implements AuroraScreenLogic {
                 final URLConnection conn = url.openConnection();
                 conn.connect();
             } catch (IOException ex) {
-                System.out.println("Computer is NOT online");
+                logger.warn("Computer is not online");
                 return false;
-
-
-
             }
         } catch (MalformedURLException ex) {
-            Logger.getLogger(StartScreenUI.class
-                    .getName()).log(Level.SEVERE,
-                    null, ex);
-
+            logger.error(ex);
         }
 
-        System.out.println("Computer is Online");
+        if (logger.isDebugEnabled()) {
+            logger.debug("Computer is online");
+        }
+
         return true;
     }
 
+    public void sendAnalytics() {
+        AMixpanelAnalytics analytics = new AMixpanelAnalytics(
+                "f5f777273e62089193a68f99f4885a55");
+        analytics.addProperty("Version", main.VERSION + " b" + coreUI
+                .getBuildNumber());
+        analytics.addProperty("Resolution", coreUI.getScreenHeight() + "x"
+                                            + coreUI.getScreenWidth());
+        analytics
+                .addProperty("Java Version", System.getProperty("java.version"));
+        analytics.addProperty("OS", System.getProperty("os.name"));
+        analytics.sendEventProperty("Launched Aurora");
 
-    public void sendAnalytics(){
-        AMixpanelAnalytics analytics = new AMixpanelAnalytics("f5f777273e62089193a68f99f4885a55");
-        analytics.sendEvent("LAUNCHED APP " + main.VERSION);
+
     }
 
 >>>>>>> origin/dev
     private void setSize() {
 
-        topHeight = headerPane.getHeight();
-        centerHeight = centerPane.getHeight() + 60;
-        topSmallImageHeight = coreUI.getCenterPanel().getHeight() / 16 + 20;
-        topSmallImageWidth = coreUI.getFrame().getWidth() / 2 + 20;
+
+
+        if (coreUI.isLargeScreen()) {
+            frameControlHeight = 0;
+            topHeight = coreUI.getTopPane().getHeight();
+            centerHeight = coreUI.getCenterPanel().getHeight() + 60;
+            topSmallImageHeight = coreUI.getCenterPanel().getHeight() / 16 + 20;
+            topSmallImageWidth = coreUI.getFrame().getWidth() / 2 + 20;
+        } else {
+            frameControlHeight = coreUI.getFrameControlImagePane().getImgIcon()
+                    .getIconHeight();
+            topHeight = coreUI.getTopPane().getHeight();
+            centerHeight = coreUI.getCenterPanel().getHeight() + 60;
+            topSmallImageHeight = coreUI.getCenterPanel().getHeight() / 16 + 20;
+            topSmallImageWidth = coreUI.getFrame().getWidth() / 2 + 20;
+        }
+
 
     }
 }

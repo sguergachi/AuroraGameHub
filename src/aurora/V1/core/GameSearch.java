@@ -21,14 +21,15 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_ui.GameLibraryUI;
+import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.UI.AImagePane;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
+
 
 /**
  * For the AddGameUI to search through the AuroraDB for games.
@@ -39,7 +40,7 @@ public class GameSearch implements Runnable {
 
     private AuroraCoreUI ui;
 
-    private GameLibraryUI libraryUI;
+    private LibraryUI libraryUI;
 
     private ASimpleDB db;
 
@@ -47,7 +48,7 @@ public class GameSearch implements Runnable {
 
     private char typed;
 
-    private String AppendedName = ""; //This is the concatination of all characters
+    private String AppendedName = ""; //This is the concatenation of all characters
 
     private String foundGame;
 
@@ -63,10 +64,12 @@ public class GameSearch implements Runnable {
 
     private AuroraStorage storage;
 
+    static final Logger logger = Logger.getLogger(GameSearch.class);
+
     /////////////////////
     /////Constructor/////
     /////////////////////
-    public GameSearch(GameLibraryUI gameLibraryUI, ASimpleDB database,
+    public GameSearch(LibraryUI gameLibraryUI, ASimpleDB database,
                       AuroraStorage storage) {
 
         this.ui = gameLibraryUI.getCoreUI();
@@ -79,15 +82,20 @@ public class GameSearch implements Runnable {
 
     public void typedChar(char typedChar) {
         typed = typedChar; // Set variable to typeChar
-        System.out.println("TYPED Character: " + String.valueOf(typed));
+        if (logger.isDebugEnabled()) {
+        	logger.debug("TYPED Character: " + String.valueOf(typed));
+        }
 
         //Append character to var
         AppendedName = AppendedName.concat(String.valueOf(typed));
 
-        System.out.println("Appended GAME name: " + AppendedName);
+        if (logger.isDebugEnabled()) {
+        	logger.debug("Appended GAME name: " + AppendedName);
+        }
 
         //clear library grid if not already clear
         if (AppendedName.length() > 1) {
+
             //Delay search to allow for Lag Free typing :)
             sleep = 260;
 
@@ -101,7 +109,7 @@ public class GameSearch implements Runnable {
             try {
                 typeThread.start();
             } catch (IllegalThreadStateException ex) {
-                System.err.println(ex);
+            	logger.error(ex);
             }
 
         }
@@ -120,7 +128,9 @@ public class GameSearch implements Runnable {
             searchGame();
         }
 
-        System.out.println("Appended name: " + AppendedName);
+        if (logger.isDebugEnabled()) {
+        	logger.debug("Appended name: " + AppendedName);
+        }
 
         //Start search only when more than 1 character is typed
         if (AppendedName.length() > 1) {
@@ -177,8 +187,7 @@ public class GameSearch implements Runnable {
                         "FILE_NAME"}, "GAME_NAME='" + gameName
                     .replace("'", "''") + "'", "FILE_NAME")[0];
         } catch (Exception ex) {
-            Logger.getLogger(GameSearch.class.getName()).log(Level.SEVERE, null,
-                    ex);
+        	logger.error(ex);
             foundGame = null;
         }
 
@@ -207,8 +216,7 @@ public class GameSearch implements Runnable {
             try {
                 foundGameCover.setCoverUrl(foundGame);
             } catch (MalformedURLException ex) {
-                Logger.getLogger(GameSearch.class.getName()).log(Level.SEVERE,
-                        null, ex);
+            	logger.error(ex);
             }
             foundGameCover.setCoverSize(libraryUI.getPnlBlankCoverGame()
                     .getWidth(), libraryUI.getPnlBlankCoverGame().getHeight());
@@ -217,10 +225,9 @@ public class GameSearch implements Runnable {
             libraryUI.getCoverPane().add(foundGameCover);
             try {
                 foundGameCover.update();
-                foundGameCover.removeInteraction();
+                foundGameCover.removeOverlayUI();
             } catch (MalformedURLException ex) {
-                Logger.getLogger(GameSearch.class.getName()).log(Level.SEVERE,
-                        null, ex);
+            	logger.error(ex);
             }
 
             //Change notification
@@ -241,7 +248,11 @@ public class GameSearch implements Runnable {
         //What Happends When The Length is zero
         if (AppendedName.length() <= 0 || libraryUI.getGameSearchBar().getText()
                 .length() == 0) {
-            System.out.println("RESETING PANE");
+
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("RESETTING PANE");
+        	}
+
             resetCover();
             libraryUI.getCoverPane().repaint();
             libraryUI.getCoverPane().revalidate();
@@ -250,20 +261,22 @@ public class GameSearch implements Runnable {
             //Query the database
 
             try {
-                System.out.println(db.searchAprox("AuroraTable", "FILE_NAME",
-                        "GAME_NAME", AppendedName.toString()));
+            	if (logger.isDebugEnabled()) {
+            		logger.debug("Searching for" + AppendedName.toString());
+            	}
+
                 foundArray = db.searchAprox("AuroraTable", "FILE_NAME",
                         "GAME_NAME", AppendedName.toString());
             } catch (SQLException ex) {
-                Logger.getLogger(GameSearch.class.getName()).log(Level.SEVERE,
-                        null, ex);
-
+            	logger.error(ex);
             }
             try {
                 //Get the first game name as a seperate string to show
                 //in cover Art
                 foundGame = (String) foundArray[0];
-                System.out.println(foundGame);
+                if (logger.isDebugEnabled()) {
+                	logger.debug(foundGame);
+                }
 
                 //Add rest of found items to the List to allow for selection of other games
                 for (int i = 0; i <= 10 && i < foundArray.length; i++) {
@@ -299,15 +312,13 @@ public class GameSearch implements Runnable {
 
                 libraryUI.getCoverPane().removeAll();
 
-
                 //Set up GameCover object with First Database item found
                 foundGameCover = new Game(libraryUI.getGridSplit(), ui,
                         libraryUI.getDashboardUI(), storage);
                 try {
                     foundGameCover.setCoverUrl(foundGame); //use seperate string
                 } catch (MalformedURLException ex) {
-                    Logger.getLogger(GameSearch.class.getName()).log(
-                            Level.SEVERE, null, ex);
+                	logger.error(ex);
                 }
                 foundGameCover.setCoverSize(libraryUI.getPnlBlankCoverGame()
                         .getWidth(), libraryUI.getPnlBlankCoverGame()
@@ -319,10 +330,9 @@ public class GameSearch implements Runnable {
                 //Show GameCover
                 try {
                     foundGameCover.update();
-                    foundGameCover.removeInteraction();
+                    foundGameCover.removeOverlayUI();
                 } catch (MalformedURLException ex) {
-                    Logger.getLogger(GameSearch.class.getName()).log(
-                            Level.SEVERE, null, ex);
+                	logger.error(ex);
                 }
 
                 //Trun notifier Green
@@ -339,11 +349,13 @@ public class GameSearch implements Runnable {
 
         while (Thread.currentThread() == typeThread) {
             try {
-                System.out.println("WATING FOR SEARCH");
+            	if (logger.isDebugEnabled()) {
+            		logger.debug("WAITING FOR SEARCH");
+            	}
+
                 Thread.sleep(sleep);
             } catch (InterruptedException ex) {
-                Logger.getLogger(GameSearch.class.getName()).log(Level.SEVERE,
-                        null, ex);
+            	logger.error(ex);
             }
             break;
         }

@@ -17,9 +17,10 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_handler.GameLibraryHandler;
+import aurora.V1.core.screen_handler.LibraryHandler;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.APostHandler;
+import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AScrollBar;
@@ -44,12 +45,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneLayout;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class AboutOverlay {
+public class AboutBox {
 
     private final AuroraCoreUI coreUI;
 
@@ -83,7 +85,9 @@ public class AboutOverlay {
 
     private JPanel pnlCenterContainer;
 
-    public AboutOverlay(AuroraCoreUI CoreUI) {
+    static final Logger logger = Logger.getLogger(AboutBox.class);
+
+    public AboutBox(AuroraCoreUI CoreUI) {
 
         coreUI = CoreUI;
         this.buildNumber = coreUI.getBuildNumber();
@@ -123,7 +127,7 @@ public class AboutOverlay {
 
         // Scroll Bar //
         scrollBar = new JScrollBar();
-        scrollBar.setUnitIncrement(14);
+        scrollBar.setUnitIncrement(30);
         scrollBar.setUI(new AScrollBar("app_scrollBar.png", "app_scrollBG.png"));
 
         scrollPane = new JScrollPane(pnlCenterContainer,
@@ -133,24 +137,18 @@ public class AboutOverlay {
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
 
-
-
         // Components //
 
         pnlVersion = new JPanel();
         pnlVersion.setOpaque(false);
         pnlVersion.setLayout(new BoxLayout(pnlVersion, BoxLayout.Y_AXIS));
 
-
         lblVersion = new ASlickLabel(main.VERSION);
         lblBuild = new ASlickLabel("build: " + buildNumber.trim());
-
 
     }
 
     public void buildAboutUI() {
-
-
 
         // Top Panel //
         lblVersion.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN, 46));
@@ -174,11 +172,12 @@ public class AboutOverlay {
         addContent();
 
         pnlCenterContainer.setPreferredSize(new Dimension(pnlCenter
-                .getRealImageWidth(), pnlAboutPane.getRealImageHeight() * 2 + 30));
+                .getRealImageWidth(), (pnlAboutPane.getRealImageHeight() / 2)
+                                      * 5));
 
         pnlCenter.add(scrollPane);
 
-        // Bottom Pane//
+        // Bottom Pane //
         pnlBottom.add(imgLogo);
         imgLogo.setPreferredSize(new Dimension(imgLogo.getRealImageWidth(),
                 imgLogo.getRealImageHeight()));
@@ -206,6 +205,11 @@ public class AboutOverlay {
     }
 
     public void showAboutBox() {
+
+        int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
+        ASound showSound = new ASound("swoop_" + num + ".wav", false);
+        showSound.Play();
+
         pnlGlass.add(pnlAboutPane);
         pnlGlass.setLayout(null);
         pnlGlass.setOpaque(false);
@@ -227,6 +231,11 @@ public class AboutOverlay {
     public void hideAboutBox() {
 
         if (isAboutVisible) {
+
+            int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
+            ASound showSound = new ASound("reverse_swoop_" + num + ".wav", false);
+            showSound.Play();
+
             aboutBoxAnimator.moveVertical(-485, 33);
             aboutBoxAnimator.addPostAnimationListener(new APostHandler() {
                 @Override
@@ -235,8 +244,6 @@ public class AboutOverlay {
                     pnlGlass.setVisible(false);
                 }
             });
-
-
 
             isAboutVisible = false;
         }
@@ -262,11 +269,9 @@ public class AboutOverlay {
 
         pnlCenterContainer.add(pnlMadeBy);
 
-
         // Seperator //
         AImage seperator1 = new AImage("app_seperator.png");
         pnlCenterContainer.add(seperator1);
-
 
         // Code Credit //
 
@@ -313,20 +318,27 @@ public class AboutOverlay {
         lblJSONParser.setForeground(Color.WHITE);
         lblJSONParser.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        ASlickLabel lblLogger = new ASlickLabel(
+                "Apache log4j - Logging Library for Java.");
+        lblLogger.setLink("http://logging.apache.org/log4j/1.2/");
+        lblLogger.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                20));
+        lblLogger.setForeground(Color.WHITE);
+        lblLogger.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         pnlCodeCredit.add(lblCodeCreditTitle);
         pnlCodeCredit.add(Box.createVerticalStrut(30));
         pnlCodeCredit.add(lblRSSParser);
         pnlCodeCredit.add(lblh2Database);
         pnlCodeCredit.add(lblJSONParser);
+        pnlCodeCredit.add(lblLogger);
 
 
         pnlCenterContainer.add(pnlCodeCredit);
 
-
         // Seperator //
         AImage seperator2 = new AImage("app_seperator.png");
         pnlCenterContainer.add(seperator2);
-
 
         // Special Thanks //
 
@@ -358,20 +370,20 @@ public class AboutOverlay {
         lblStackOverflow.setForeground(Color.WHITE);
         lblStackOverflow.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        ASlickLabel lblSound = new ASlickLabel(
-                "Abyssal Echo (by Vajragio) -  Background Music");
-        lblSound.setLink("https://soundcloud.com/giovanniangel");
-        lblSound.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+        ASlickLabel lblUsers = new ASlickLabel(
+                "Our Users and Fans -  We Love You! <3");
+        lblUsers.setLink("https://soundcloud.com/giovanniangel");
+        lblUsers.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
-        lblSound.setForeground(Color.WHITE);
-        lblSound.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblUsers.setForeground(Color.WHITE);
+        lblUsers.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
         pnlSpecialThanks.add(lblSpecialThanks);
         pnlSpecialThanks.add(Box.createVerticalStrut(30));
         pnlSpecialThanks.add(lblJeno);
         pnlSpecialThanks.add(lblStackOverflow);
-        pnlSpecialThanks.add(lblSound);
+        pnlSpecialThanks.add(lblUsers);
 
         pnlCenterContainer.add(pnlSpecialThanks);
 
@@ -406,7 +418,8 @@ public class AboutOverlay {
                 + " WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br>"
                 + " See the License for the specific language governing permissions and<br>"
                 + " limitations under the License. </html>");
-        lblLicenseText.setLink("http://creativecommons.org/licenses/by-nc-nd/3.0/");
+        lblLicenseText.setLink(
+                "http://creativecommons.org/licenses/by-nc-nd/3.0/");
         lblLicenseText.setFont(coreUI.getRopaFont().deriveFont(
                 Font.PLAIN,
                 16));
@@ -420,12 +433,6 @@ public class AboutOverlay {
 
         pnlCenterContainer.add(pnlLicense);
 
-
-
-
-
-
-
     }
 
     private class AboutBoxFocusListener implements FocusListener {
@@ -435,13 +442,20 @@ public class AboutOverlay {
 
         @Override
         public void focusGained(FocusEvent e) {
-            System.out.println("About Box Focus");
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("About Box Focus");
+            }
+
         }
 
         @Override
         public void focusLost(FocusEvent e) {
 
-            System.out.println("Hide About Box");
+            if (logger.isDebugEnabled()) {
+                logger.debug("Hide About Box");
+            }
+
             hideAboutBox();
         }
     }

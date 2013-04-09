@@ -29,8 +29,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -38,6 +36,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -47,7 +46,7 @@ public class AuroraMini {
 
     private JDialog mini;
 
-    private AuroraCoreUI ui;
+    private AuroraCoreUI coreUI;
 
     private AImagePane pnlBackground;
 
@@ -85,8 +84,10 @@ public class AuroraMini {
 
     private PaneAnimateHandler animationHander;
 
+    static final Logger logger = Logger.getLogger(AuroraMini.class);
+
     public AuroraMini(AuroraCoreUI ui, String mode) {
-        this.ui = ui;
+        this.coreUI = ui;
         this.mode = mode;
     }
 
@@ -111,17 +112,15 @@ public class AuroraMini {
             mini.setBackground(Color.BLACK);
             mini.setResizable(false);
             mini.setSize(300, 65);
-            mini.setLocation(ui.getScreenWidth() - 65, ui.getScreenHeight()
-                                                       - 160);
+            mini.setLocation(coreUI.getScreenWidth() - 65, coreUI
+                    .getScreenHeight()
+                                                           - 160);
 
             mini.setAlwaysOnTop(true);
 
-
-
-
             //SET FRAME ICON
             try {
-                mini.setIconImage(new ImageIcon(new URL(ui.getResource()
+                mini.setIconImage(new ImageIcon(new URL(coreUI.getResource()
                         .getSurfacePath() + "/aurora/V1/resources/icon.png"))
                         .getImage());
             } catch (MalformedURLException ex) {
@@ -131,8 +130,7 @@ public class AuroraMini {
                             "/aurora/V1/resources/icon.png")).getImage());
 
                 } catch (Exception exx) {
-                    Logger.getLogger(AuroraMini.class.getName()).log(
-                            Level.SEVERE, null, exx);
+                    logger.fatal(exx);
                 }
             }
 
@@ -154,7 +152,7 @@ public class AuroraMini {
 
 
             lblStatus = new ASlickLabel();
-            lblStatus.setFont(ui.getDefaultFont().deriveFont(Font.BOLD, 30));
+            lblStatus.setFont(coreUI.getDefaultFont().deriveFont(Font.BOLD, 30));
             lblStatus.setForeground(Color.LIGHT_GRAY);
 
             pnlStatus = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
@@ -197,20 +195,17 @@ public class AuroraMini {
             mini.getContentPane().add(pnlBackground);
         }
         mini.setVisible(true);
-        try{
+        try {
             AWTUtilities.setWindowShape(mini, new RoundRectangle2D.Double(0, 0,
                     mini
                     .getWidth(), mini.getHeight(), 30,
                     27));
-        }catch (UnsupportedOperationException  ex){
-            System.err.println("System does not support Shapes");
+        } catch (UnsupportedOperationException ex) {
+            logger.fatal("System does not support Shapes");
         }
-
 
         executeMode();
         mini.requestFocusInWindow();
-
-
 
     }
 
@@ -218,7 +213,7 @@ public class AuroraMini {
         icon.setImgURl("icon.png");
 
         if (mode.equals("minimize")) {
-            mini.setLocation((ui.getScreenWidth() - 70) - 170, mini.getY()); //pop out
+            mini.setLocation((coreUI.getScreenWidth() - 70) - 170, mini.getY()); //pop out
             animateIN();                                                          //Animate in
             lblStatus.setText(" READY");
 
@@ -233,7 +228,7 @@ public class AuroraMini {
             pnlBackground.add(close);
 
         } else if (mode.equals("startup")) {
-            mini.setLocation((ui.getScreenWidth() - 70) - 150, mini.getY());
+            mini.setLocation((coreUI.getScreenWidth() - 70) - 150, mini.getY());
             animateIN();
             lblStatus.setText("LOADING");
             pnlBackground.add(new AProgressWheel("Aurora_wheel.png"));
@@ -282,7 +277,8 @@ public class AuroraMini {
                 firstClick = false;
                 lblStatus.setText(" EXIT? ");
             } else {
-                System.exit(0);
+                coreUI.getFrame().getWindowListeners()[0].windowClosing(null);
+                coreUI.getFrame().getWindowListeners()[0].windowClosed(null);
             }
         }
     }
@@ -302,7 +298,7 @@ public class AuroraMini {
 
             count++; //Accelerator
 
-            if (mini.getX() > (ui.getScreenWidth() - 70) - 170) {
+            if (mini.getX() > (coreUI.getScreenWidth() - 70) - 170) {
                 mini.setLocation(mini.getX() - 4 - count, mini.getY());
             } else {
                 timer.stop();
@@ -322,11 +318,11 @@ public class AuroraMini {
 
             count++; //Accelerator
 
-            if (mini.getX() < (ui.getScreenWidth() - 70)) {                //Stop Here
+            if (mini.getX() < (coreUI.getScreenWidth() - 70)) {                //Stop Here
                 mini.setLocation(mini.getX() + 4 + count, mini.getY());         //Animate
             } else {
                 timer.stop();
-                if (ui.getOS().contains("Mac")) {
+                if (coreUI.getOS().contains("Mac")) {
                     mini.setBackground(new Color(0f, 0f, 0f, 0.7f));
                 } else {
                     AWTUtilities.setWindowOpacity(mini, 0.7f);
@@ -357,7 +353,7 @@ public class AuroraMini {
         public void mouseEntered(MouseEvent e) {
 
             animateOUT();
-            if (ui.getOS().contains("Mac")) {
+            if (coreUI.getOS().contains("Mac")) {
                 mini.setBackground(new Color(0f, 0f, 0f, 1.0f));
             } else {
                 AWTUtilities.setWindowOpacity(mini, 1.0f);
@@ -387,9 +383,6 @@ public class AuroraMini {
             yPos = location.y - pressed.getY() + me.getY();
             mini.setLocation(location.x, yPos);
             isDrag = true;
-
-
-
         }
 
         @Override
@@ -417,7 +410,9 @@ public class AuroraMini {
         public void mouseReleased(MouseEvent e) {
 
             isDrag = false;
-            System.out.println("Mouse Released");
+            if (logger.isDebugEnabled()) {
+                logger.debug("Mouse Release");
+            }
             if (isMouseExited) {
                 icon.setImgURl("icon.png");
             } else {
@@ -429,7 +424,7 @@ public class AuroraMini {
         public void mouseEntered(MouseEvent e) {
             isMouseExited = false;
 
-            if (ui.getOS().contains("Mac")) {
+            if (coreUI.getOS().contains("Mac")) {
                 mini.setBackground(new Color(0f, 0f, 0f, 1.0f));
             } else {
                 AWTUtilities.setWindowOpacity(mini, 1.0f);
@@ -440,7 +435,7 @@ public class AuroraMini {
         public void mouseExited(MouseEvent e) {
             isMouseExited = true;
             icon.setImgURl("icon.png");
-            if (ui.getOS().contains("Mac")) {
+            if (coreUI.getOS().contains("Mac")) {
                 mini.setBackground(new Color(0f, 0f, 0f, 0.7f));
             } else {
                 AWTUtilities.setWindowOpacity(mini, 0.7f);
@@ -467,7 +462,7 @@ public class AuroraMini {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            if (ui.getOS().contains("Mac")) {
+            if (coreUI.getOS().contains("Mac")) {
                 mini.setBackground(new Color(0f, 0f, 0f, 1.0f));
             } else {
                 AWTUtilities.setWindowOpacity(mini, 1.0f);
@@ -493,20 +488,17 @@ public class AuroraMini {
             if (!isDrag) {
 
                 mini.setVisible(false);
-                ui.getFrame().setLocation(ui.getFrame().getWidth(), 0);
-                ui.getFrame().requestFocus();
+                coreUI.getFrame().setLocation(coreUI.getFrame().getWidth(), 0);
+                coreUI.getFrame().requestFocus();
                 isMinimode = false;
-                ui.getFrame().setVisible(true);
-                ui.getFrame().setState(JFrame.NORMAL);
-                ui.getFrame().repaint();
-
-                ui.getBackgroundSound().Resume();
+                coreUI.getFrame().setVisible(true);
+                coreUI.getFrame().setState(JFrame.NORMAL);
+                coreUI.getFrame().repaint();
 
                 try {
                     Thread.sleep(16);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(AuroraMini.class.getName()).
-                            log(Level.SEVERE, null, ex);
+                    logger.error(ex);
                 }
 
                 moveFrameIn();
@@ -526,14 +518,11 @@ public class AuroraMini {
         @Override
         public void mouseEntered(MouseEvent e) {
 
-
             if (timer != null) {
                 timer.stop();
             }
 
             icon.setImgURl("app_miniMode_back.png");
-
-
         }
 
         @Override
@@ -542,6 +531,7 @@ public class AuroraMini {
             if (timer != null && !timer.isRunning()) {
                 timer.start();
             }
+
             icon.setImgURl("icon.png");
         }
 
@@ -558,24 +548,24 @@ public class AuroraMini {
          */
         private void moveFrameIn() {
 
-            //* Don't Interupt UI Thread *//
+            //* Don't Interrupt UI Thread *//
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     int acc = 0;
-                    while (!(ui.getFrame().getLocation().x <= 0)) {
+                    while (!(coreUI.getFrame().getLocation().x <= 0)) {
 
-                        ui.getFrame().repaint();
+                        coreUI.getFrame().repaint();
 
                         //* accelerate ease in up to Half way*//
-                        if (ui.getFrame().getLocation().x > ui.getFrame()
+                        if (coreUI.getFrame().getLocation().x > coreUI
+                                .getFrame()
                                 .getWidth() / 2) {
 
-
                             acc++;
                             acc++;
 
-                        } else if (ui.getFrame().getLocation().x <= ui
+                        } else if (coreUI.getFrame().getLocation().x <= coreUI
                                 .getFrame()
                                 .getWidth() / 4) {
 
@@ -592,10 +582,10 @@ public class AuroraMini {
                         }
                         System.out.println(acc);
                         //* move Frame from left smoothly *//
-                        ui.getFrame()
-                                .setBounds(ui.getFrame().getLocation().x
-                                           - (3 + acc), 0, ui.getFrame()
-                                .getWidth(), ui
+                        coreUI.getFrame()
+                                .setBounds(coreUI.getFrame().getLocation().x
+                                           - (3 + acc), 0, coreUI.getFrame()
+                                .getWidth(), coreUI
                                 .getFrame().getHeight());
 
 
@@ -603,19 +593,17 @@ public class AuroraMini {
                         try {
                             Thread.sleep(16);
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(AuroraMini.class.getName()).
-                                    log(Level.SEVERE, null, ex);
+                            logger.error(ex);
                         }
-
 
                     }
 
                     //* Reset to correct location *//
-                    ui.getFrame()
-                            .setBounds(0, 0, ui.getFrame()
-                            .getWidth(), ui
+                    coreUI.getFrame()
+                            .setBounds(0, 0, coreUI.getFrame()
+                            .getWidth(), coreUI
                             .getFrame().getHeight());
-                    ui.getFrame().requestFocusInWindow();
+                    coreUI.getFrame().requestFocusInWindow();
                 }
             });
 

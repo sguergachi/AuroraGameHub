@@ -20,6 +20,7 @@ package aurora.V1.core;
 import aurora.engine.V1.Logic.AAnimate;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
+import org.apache.log4j.Logger;
 
 /**
  * Moves Grid Panels through animation for transition to next Grid of Games
@@ -37,6 +38,8 @@ public class GridAnimation {
     private AAnimate animator1;
 
     private AAnimate animator2;
+    
+    static final Logger logger = Logger.getLogger(GridAnimation.class);
 
     public GridAnimation(GridManager GridSplit, JPanel ContentPanel) {
         this.GridSplit = GridSplit;

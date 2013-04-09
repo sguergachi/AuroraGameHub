@@ -21,7 +21,8 @@
  */
 package aurora.V1.core.screen_handler;
 
-import aurora.V1.core.screen_ui.StartScreenUI;
+import aurora.V1.core.main;
+import aurora.V1.core.screen_ui.WelcomeUI;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
 import java.awt.event.ActionEvent;
@@ -29,17 +30,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import org.apache.log4j.Logger;
+
 /**
 <<<<<<< HEAD
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
 =======
  * .------------------------------------------------------------------------.
- * | StartScreenHandler
+ * | WelcomeHandler
  * .------------------------------------------------------------------------.
  * |
  * | This class contains all Listeners/Handlers attached to UI elements
- * | found in StartScreenUI. The handlers may access the logic or simply
+ * | found in WelcomeUI. The handlers may access the logic or simply
  * | make simple processing within each Handler/Listeners.
  * |
  * | Each Handler is attached to UI components to listen for different actions
@@ -54,12 +57,13 @@ import java.awt.event.KeyListener;
  *
 >>>>>>> origin/dev
  */
-public class StartScreenHandler implements AuroraScreenHandler {
+public class WelcomeHandler implements AuroraScreenHandler {
 
-    private final StartScreenUI ui;
+    private final WelcomeUI ui;
     private AuroraScreenLogic startLogic;
+    static final Logger logger = Logger.getLogger(WelcomeHandler.class);
 
-    public StartScreenHandler(StartScreenUI ui) {
+    public WelcomeHandler(WelcomeUI ui) {
         this.ui = ui;
     }
 

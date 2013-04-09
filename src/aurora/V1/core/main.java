@@ -19,10 +19,14 @@ package aurora.V1.core;
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import aurora.engine.V1.Logic.aSurface;
 import aurora.engine.V1.UI.aDialog;
 =======
 import aurora.V1.core.screen_ui.StartScreenUI;
+=======
+import aurora.V1.core.screen_ui.WelcomeUI;
+>>>>>>> origin/dev
 import aurora.engine.V1.Logic.ASurface;
 import aurora.engine.V1.UI.ADialog;
 >>>>>>> origin/dev
@@ -37,6 +41,8 @@ import java.io.IOException;
 import java.net.URL;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -56,13 +62,17 @@ public class main {
     private static ASurface ressource = null;
 >>>>>>> origin/dev
     private static boolean startMini = false;
-    public static String VERSION = "Alpha 5";
+    public static String VERSION = "Alpha 7";
+    static final Logger logger = Logger.getLogger(main.class);
 
     public static void main(String[] args) throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException, FontFormatException {
-        if (args.length > 0 && args[0].equals("startup")) {
 
+    	if (args.length > 0 && args[0].equalsIgnoreCase("Startup")) {
+        	logger.info("Start Up Mode");
             startMini = true;
         } else {
+        	logger.info("No start up");
+          //  System.out.println("No start up");
             startMini = false;
         }
 
@@ -72,20 +82,24 @@ public class main {
                 && Integer.parseInt(System.getProperty("java.version").substring(6, 8)) >= 17) {
 
             //Initiate The LoginWindow
-            System.out.println("Running Java Version: " + System.getProperty("java.version"));
-            System.out.println("OS: " + System.getProperty("os.name"));
+        	logger.info("Running Java Version: " + System.getProperty("java.version"));
+           // System.out.println("Running Java Version: " + System.getProperty("java.version"));
+            logger.info("OS: " + System.getProperty("os.name"));
+        	//System.out.println("OS: " + System.getProperty("os.name"));
             setLAF();
-            StartScreenUI aurora_StartUp = new StartScreenUI(startMini);
+            WelcomeUI aurora_StartUp = new WelcomeUI(startMini);
             aurora_StartUp.loadUI();
 
         } else if (Double.parseDouble(System.getProperty("java.version").substring(0, 3)) == 1.7) {
             //Initiate The LoginWindow
-            System.out.println("Running Java Version: " + System.getProperty("java.version"));
-            System.out.println("OS: " + System.getProperty("os.name"));
+        	logger.info("Running Java Version: " + System.getProperty("java.version"));
+        	logger.info("OS: " + System.getProperty("os.name"));
+            //System.out.println("Running Java Version: " + System.getProperty("java.version"));
+            //System.out.println("OS: " + System.getProperty("os.name"));
 
             setLAF();
 
-            StartScreenUI aurora_StartUp = new StartScreenUI(startMini);
+            WelcomeUI aurora_StartUp = new WelcomeUI(startMini);
             aurora_StartUp.loadUI();
 
 
@@ -108,8 +122,10 @@ public class main {
             err = new ADialog(ADialog.aDIALOG_ERROR, "Latest Version of Java 6 is required", FontRegular);
             err.setVisible(true);
 
-            System.out.println("Running Java Version: " + System.getProperty("java.version"));
-            System.out.println("Cannot Run Aurora, Java Version is Bellow minimum (J6u17)");
+            logger.info("Running Java Version: " + System.getProperty("java.version"));
+            logger.error("Cannot Run Aurora, Java Version is below minimum (J6u17)");
+           // System.out.println("Running Java Version: " + System.getProperty("java.version"));
+           // System.out.println("Cannot Run Aurora, Java Version is Bellow minimum (J6u17)");
 
         }
 

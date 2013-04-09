@@ -1,5 +1,16 @@
 /*
- * Made By Sardonix Creative.
+<<<<<<< HEAD
+ * Copyright 2012 Sardonix Creative.
+ *
+ * This work is licensed under the 
+ * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
+ * To view a copy of this license, visit 
+ *
+ *      http://creativecommons.org/licenses/by-nc-nd/3.0/
+ *
+ * or send a letter to Creative Commons, 444 Castro Street, Suite 900, 
+=======
+ *  Made By Sardonix Creative.
  *
  * This work is licensed under the
  * Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -8,6 +19,7 @@
  *      http://creativecommons.org/licenses/by-nc-nd/3.0/
  *
  * or send a letter to Creative Commons, 444 Castro Street, Suite 900,
+>>>>>>> origin/dev
  * Mountain View, California, 94041, USA.
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,12 +28,23 @@
  * limitations under the License.
  */
 
-package aurora.V1.core;
+package aurora.V1.core.screen_handler;
+
+import org.apache.log4j.Logger;
+
+import aurora.V1.core.main;
+import aurora.V1.core.screen_logic.*;
 
 /**
+<<<<<<< HEAD
+ * 
+=======
  *
+>>>>>>> origin/dev
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class TrackingEngine {
+public class ProfileHandler {
+
+	static final Logger logger = Logger.getLogger(ProfileHandler.class);
 
 }

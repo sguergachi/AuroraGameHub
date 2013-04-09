@@ -21,21 +21,26 @@
  */
 package aurora.V1.core.screen_ui;
 
+import org.apache.log4j.Logger;
+
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.main;
 
 /**
  *
  * @author Sammy
  * @version 0.2
  */
-public class GamerProfileUI extends AuroraApp {
+public class ProfileUI extends AuroraApp {
 
     private final DashboardUI dashboardUI;
 
     private final AuroraCoreUI coreUI;
 
-    public GamerProfileUI(DashboardUI dahsboardUi, AuroraCoreUI auroraCoreUi) {
+    static final Logger logger = Logger.getLogger(ProfileUI.class);
+
+    public ProfileUI(DashboardUI dahsboardUi, AuroraCoreUI auroraCoreUi) {
 
         this.appName = "Gamer Profile";
         this.dashboardUI = dahsboardUi;

@@ -22,12 +22,15 @@
 package aurora.V1.core.screen_ui;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import aurora.V1.core.AboutOverlay;
 >>>>>>> origin/dev
+=======
+import aurora.V1.core.AboutBox;
+>>>>>>> origin/dev
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
-import aurora.V1.core.Game;
 import aurora.V1.core.screen_handler.DashboardHandler;
 import aurora.V1.core.screen_logic.DashboardLogic;
 import aurora.engine.V1.Logic.AuroraScreenUI;
@@ -38,18 +41,18 @@ import aurora.engine.V1.UI.ACarouselTitle;
 import aurora.engine.V1.UI.ACarouselTitle.TitleType;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
-import aurora.engine.V1.UI.AInfoFeed;
-import aurora.engine.V1.UI.AInfoFeedLabel;
 import aurora.engine.V1.UI.AMarqueePanel;
+<<<<<<< HEAD
 <<<<<<< HEAD
 import aurora.engine.V1.UI.ScrollText;
 =======
 >>>>>>> origin/dev
 
+=======
+>>>>>>> origin/dev
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 <<<<<<< HEAD
@@ -57,17 +60,16 @@ import java.net.UnknownHostException;
 =======
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 >>>>>>> origin/dev
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import org.apache.log4j.Logger;
 
 /**
  * .------------------------------------------------------------------------.
@@ -319,7 +321,7 @@ public class DashboardUI implements AuroraScreenUI {
     /**
      * This is the Previous Screen, which contains the Local Storage Instance.
      */
-    private final StartScreenUI startUI;
+    private final WelcomeUI startUI;
 
     /**
      * This is the CoreUI Canvas.
@@ -346,15 +348,24 @@ public class DashboardUI implements AuroraScreenUI {
     private JPanel infoFeedContainer;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     private AboutOverlay aboutBox;
 
     private ArrayList<JLabel> infoFeedLabelList;
 
 >>>>>>> origin/dev
+=======
+    private AboutBox aboutBox;
+
+    private ArrayList<JLabel> infoFeedLabelList;
+
+    static final Logger logger = Logger.getLogger(DashboardUI.class);
+
+>>>>>>> origin/dev
     /**
      * .-----------------------------------------------------------------------.
-     * | DashboardUI(AuroraCoreUI, StartScreenUI)
+     * | DashboardUI(AuroraCoreUI, WelcomeUI)
      * .-----------------------------------------------------------------------.
      * |
      * | This is the Constructor of the Dashboard UI class.
@@ -365,11 +376,11 @@ public class DashboardUI implements AuroraScreenUI {
      * .........................................................................
      *
      * @param auroraCoreUi  AuroraCoreUI
-     * @param startScreenUi StartScreenUI
+     * @param startScreenUi WelcomeUI
      *
      */
     public DashboardUI(final AuroraCoreUI auroraCoreUi,
-                       final StartScreenUI startScreenUi) {
+                       final WelcomeUI startScreenUi) {
         // Other core objects //
         this.startUI = startScreenUi;
         this.storage = startUI.getAuroraStorage();
@@ -467,15 +478,20 @@ public class DashboardUI implements AuroraScreenUI {
         // Marquee Panel Text
         // --------------------------------------------------------------------.
 <<<<<<< HEAD
+<<<<<<< HEAD
         ArrayList<JLabel> infoFeedLabelList;
 =======
        // ArrayList<JLabel> infoFeedLabelList;
+>>>>>>> origin/dev
+=======
+        // ArrayList<JLabel> infoFeedLabelList;
 >>>>>>> origin/dev
 
         infoFeed = new AMarqueePanel(infoFeedWidth, infoFeedHeight,
                 "dash_infoBar_bg.png");
         infoFeed.setVisible(false);
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         int fontSize = 20;
 
@@ -486,29 +502,33 @@ public class DashboardUI implements AuroraScreenUI {
         Iterator<JLabel> it = infoFeedLabelList.iterator();
 =======
       //  int fontSize = 20;
+=======
+        //  int fontSize = 20;
+>>>>>>> origin/dev
 
         infoFeedLabelList = logic.createRssFeed();
         loadInfoFeed(infoFeedLabelList);
 
         infoFeed.setPostCycleListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("refreshing feed");
-				infoFeed.removeAll();
-				infoFeedLabelList = logic.refreshRssFeed(infoFeedLabelList);
-				loadInfoFeed(infoFeedLabelList);
-				infoFeed.startScrolling();
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Refreshing feed");
+                }
 
-			}
+                infoFeed.removeAll();
+                infoFeedLabelList = logic.refreshRssFeed(infoFeedLabelList);
+                loadInfoFeed(infoFeedLabelList);
+                infoFeed.startScrolling();
 
-
+            }
         });
 
 
 
         // About Box //
-        aboutBox = new AboutOverlay(coreUI);
+        aboutBox = new AboutBox(coreUI);
 
 
         // Finalize
@@ -521,8 +541,10 @@ public class DashboardUI implements AuroraScreenUI {
 
         lblKeyAction = new JLabel(" Move ");
 
+        if (logger.isDebugEnabled()) {
+            logger.debug("DashboardUI loaded");
+        }
 
-        System.out.println("DashboardUI loaded");
         dashboardUiLoaded = true;
 
     }
@@ -577,44 +599,38 @@ public class DashboardUI implements AuroraScreenUI {
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-            Logger.getLogger(DashboardUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         }
         btnCarouselRight.setVisible(true);
         btnCarouselLeft.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-            Logger.getLogger(DashboardUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         }
         carousel.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-            Logger.getLogger(DashboardUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         }
         paneLibrary.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-            Logger.getLogger(DashboardUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         }
         paneNet.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-            Logger.getLogger(DashboardUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         }
         paneProfile.setVisible(true);
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
-            Logger.getLogger(DashboardUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
         }
         paneSettings.setVisible(true);
     }
@@ -623,7 +639,8 @@ public class DashboardUI implements AuroraScreenUI {
     public final void buildUI() {
 
         //* Indicate to User DashboardUI is loading. *//
-        coreUI.getTitleLabel().setText(".: Loading :.");
+        coreUI.getTitleLabel().setText("  " + ".: Loading :.");
+
 
         //* Set bigger Logo to Header *//
         coreUI.getLogoImage().setImgURl("dash_header_logo.png");
@@ -633,11 +650,6 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getLogoImage().addMouseListener(new HeaderMouseListener());
 >>>>>>> origin/dev
 
-        //* Set bigger background image for Frame Control panel *//
-        coreUI.getFrameControlImagePane().setImage(
-                "dash_frameControl_bg.png");
-        coreUI.getFrameControlImagePane().setImageHeight(frameControlHeight);
-        coreUI.getFrameControlImagePane().repaint();
 
         // Carousel
         // --------------------------------------------------------------------.
@@ -831,7 +843,7 @@ public class DashboardUI implements AuroraScreenUI {
                 addKeyListener(handler.new DashboardlKeyListener());
 
         //* Finished loading so change text *//
-        coreUI.getTitleLabel().setText(" Dashboard ");
+        coreUI.getTitleLabel().setText("  " + " Dashboard ");
 
 
 
@@ -929,43 +941,54 @@ public class DashboardUI implements AuroraScreenUI {
             frameControlHeight = coreUI.getFrameControlImagePane().getImgIcon()
                     .getIconHeight();
 
-            System.out.println("INFO FEED WIDTH = " + infoFeedWidth);
-            System.out.println("INFO FEED HEIGHT = " + infoFeedHeight);
+            if (logger.isDebugEnabled()) {
+                logger.debug("INFO FEED WIDTH = " + infoFeedWidth);
+                logger.debug("INFO FEED HEIGHT = " + infoFeedHeight);
+                logger.debug("WIDTH " + carouselWidth);
+            }
 
-            System.out.println("WIDTH " + carouselWidth);
         }
 
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     private class HeaderMouseListener implements MouseListener {
 
         public HeaderMouseListener() {
         }
+=======
+    /**
+     * .-----------------------------------------------------------------------.
+     * | HeaderMouseListener()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This is a MouseListener for when you click on the Header icon
+     * | this is used to open the About box
+     * |
+     */
+    private class HeaderMouseListener extends MouseAdapter {
+>>>>>>> origin/dev
 
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mouseClicked(final MouseEvent  e) {
             aboutBox.showAboutBox();
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {
+        public void mousePressed(final MouseEvent e) {
             aboutBox.showAboutBox();
         }
 
         @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
+        public void mouseEntered(final MouseEvent e) {
             coreUI.getLogoImage().setImgURl("dash_header_logo_hover.png");
             coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
         }
 
         @Override
-        public void mouseExited(MouseEvent e) {
+        public void mouseExited(final MouseEvent e) {
             coreUI.getLogoImage().setImgURl("dash_header_logo.png");
             coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
         }
@@ -993,7 +1016,7 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Get the AuroraCoreUI generated by StartScreenUI.
+     * Get the AuroraCoreUI generated by WelcomeUI.
      * <p/>
      * @return AuroraCoreUI
      */
@@ -1002,7 +1025,7 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Get the AuroraStorage instance generated by StartScreenUI.
+     * Get the AuroraStorage instance generated by WelcomeUI.
      * <p/>
      * @return AuroraStorage
      */
@@ -1013,9 +1036,9 @@ public class DashboardUI implements AuroraScreenUI {
     /**
      * Get the DashboardLogic instance generated in DashboardUI.
      * <p/>
-     * @return StartScreenUI
+     * @return WelcomeUI
      */
-    public final StartScreenUI getStartUI() {
+    public final WelcomeUI getStartUI() {
         return startUI;
     }
 
