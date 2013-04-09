@@ -22,7 +22,6 @@ import aurora.V1.core.screen_handler.LibraryHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.GameLibraryKeyListener;
 import aurora.V1.core.screen_handler.LibraryHandler.HoverButtonLeft;
 import aurora.V1.core.screen_handler.LibraryHandler.HoverButtonRight;
-import aurora.V1.core.screen_handler.LibraryHandler.MoveToGrid;
 import aurora.V1.core.screen_handler.LibraryHandler.ShowAddGameUiHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.searchBoxHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.searchFocusHandler;
@@ -34,23 +33,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
-import java.util.prefs.Preferences;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -70,13 +63,9 @@ import org.apache.log4j.Logger;
  * .---------------------------------------------------------------------------.
  * | LibraryUI :: Aurora App Class
  * .---------------------------------------------------------------------------.
- * |
- * | This class contains the UI for the GameLibrary Screen which has a Handler
- * | and a Logic class associated to it.
- * |
- * | This is an AuroraApp meaning it also implements the AuroraScreenUI
- * | interface.
- * |
+ * | | This class contains the UI for the GameLibrary Screen which has a Handler
+ * | and a Logic class associated to it. | | This is an AuroraApp meaning it
+ * also implements the AuroraScreenUI | interface. |
  * .............................................................................
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
@@ -89,353 +78,256 @@ public class LibraryUI extends AuroraApp {
      * Zoom In Button.
      */
     private AButton btnZoomPlus;
-
     /**
      * Zoom Out Button.
      */
     private AButton btnZoomLess;
-
     /**
      * Search Button to activate focus on Library Search Bar.
      */
     private AButton btnSearch;
-
     /**
      * Button to show add game UI.
      */
     private AButton btnShowAddGameUI;
-
     /**
      * Button to Exit out of Library Search.
      */
     private AButton removeSearchButton;
-
     /**
      * Button to Add Searched Game to Library.
      */
     private AButton addGameToLibButton;
-
     /**
      * Button to Close Add Game UI.
      */
     private AButton btnCloseAddUI;
-
     /**
      * Hover Button to navigate Right in Library.
      */
     private AHoverButton btnGameRight;
-
     /**
      * Hover Button to navigate Left in Library.
      */
     private AHoverButton btnGameLeft;
-
     /**
      * Panel Containing Hover Buttons and the Library Grids.
      */
     private JPanel paneLibraryContainer;
-
     /**
      * Panel Containing imgSelectedGamePane.
      */
     private JPanel pnlBottomCenterContainer;
-
     /**
      * Panel Containing SearchBarBG.
      */
     private JPanel pnlSearchBar;
-
     /**
      * Panel Containing Text box for Search Bar.
      */
     private JPanel pnlSearchText;
-
     /**
      * Panel Containing Button Panel and Search Text box Pane for Search Box.
      */
     private JPanel pnlSearchContainer;
-
     /**
      * Panel Containing Search Button for Search Box.
      */
     private JPanel pnlSearchButton;
-
     /**
      * AddGameUI Panel Containing Search box.
      */
     private JPanel pnlAddGameSearchContainer;
-
     /**
      * AddGameUI Panel Containing Center Content for picking game to add.
      */
     private JPanel pnlCenter;
-
     /**
      * AddGameUI Panel Containing Top part of Bottom Panel.
      */
     private JPanel pnTopOfBottom;
-
     /**
      * AddGameUI Panel Containing Top part of Center Panel.
      */
     private JPanel pnlTopOfCenter;
-
     /**
      * AddGameUI Panel Containing Left part of Center Panel.
      */
     private JPanel pnlLeftOfTopCenter;
-
     /**
      * AddGameUI Panel Containing Right part of Top Part of Center Panel.
      */
     private JPanel pnlRightOfTop;
-
     /**
      * AddGameUI Panel Containing Top part of Panel.
      */
     private JPanel pnlTopPane;
-
     /**
      * AddGameUI Panel Containing Left part of Bottom Part of Center Panel.
      */
     private JPanel pnlLeftOfBottom;
-
     /**
      * AddGameUI Panel Containing Right part of Bottom Part of Center Panel.
      */
     private JPanel pnlRightOfBottom;
-
     /**
      * AddGameUI Panel Containing Bottom part of Center Panel.
      */
     private JPanel pnlBottomOfCenter;
-
     /**
      * AddGameUI Panel Containing Right part of Bottom Panel.
      */
     private JPanel pnlRightOfBottomContainer;
-
     /**
      * AddGameUI Main Panel Containing All Other Panels.
      */
     private JPanel pnlAddGameContainer;
-
     /**
      * AddGameUI Glass Panel from current JFrame.
      */
     private JPanel pnlGlass;
-
     /**
      * AddGameUI Bottom panel.
      */
     private JPanel pnlBottomPane;
-
     /**
      * Panel Containing background image of Currently Selected game label.
      */
     private AImagePane imgSelectedGamePane;
-
     /**
      * Background image for Search Bar.
      */
     private AImagePane pnlSearchBarBG;
-
     /**
      * AddGameUI Image Panel representing AddGameUI.
      */
     private AImagePane pnlAddGamePane;
-
     /**
      * Image Panel Containing Search Text Box for Search Bar.
      */
     private AImagePane pnlSearchBG;
-
     /**
      * AddGameUI Panel that contains the Game Cover.
      */
     private AImagePane pnlCoverPane;
-
     /**
      * AddGameUI Image that is a Blank Case as a place holder Game Cover.
      */
     private AImagePane pnlBlankCoverGame;
-
     /**
      * AddGameUI Background Image of Button Panel.
      */
     private AImagePane pnlSearchButtonBG;
-
     /**
      * AddGameUI Shortcut button to Steam games dir.
      */
     private AButton btnGoToSteam;
-
     /**
      * AddGameUI Shortcut button to Programs dir.
      */
     private AButton btnGoToProgram;
-
     /**
      * AddGameUI Pane containing Shortcut buttons.
      */
     private JPanel pnlRightOfTopEast;
-
     /**
      * Image for keyboard icon.
      */
     private AImage imgKeyIco;
-
     /**
      * Image for Favorite logo on side of library.
      */
     private AImage imgFavoritesSideBar;
-
     /**
      * Image Step One badge.
      */
     private AImage statusBadge1;
-
     /**
      * Image Step Two badge.
      */
     private AImage statusBadge2;
-
     /**
      * AddGameUI Label explaining left side of panel.
      */
     private JLabel lblLeftTitle;
-
     /**
      * AddGameUI Label explaining right side of panel.
      */
     private JLabel lblRightTitle;
-
     /**
      * AddGameUI Label explaining Keyboard action.
      */
     private JLabel lblKeyAction;
-
     /**
      * AddGameUI Label with Title of Selected Game.
      */
     public static JLabel lblGameName;
-
     private ArrayList<AImagePane> gameCover;
-
     private int zoom;
-
     private GridManager GridSplit;
-
     private int currentIndex;
-
     private ArrayList<Boolean> loadedPanels;
-
     private GridAnimation GridAnimate;
-
     private JTextField searchTextField;
-
     private LibraryHandler handler;
-
     private ASimpleDB CoverDB;
-
     private AAnimate addGameAnimator;
-
     private JTextField addGameSearchField;
-
     private GameSearch gameSearch;
-
     private searchBoxHandler searchBoxHandler;
-
     private searchFocusHandler searchFocusHandler;
-
     private boolean addGameUI_Visible = false;
-
     private JList gamesList;
-
     private JScrollPane gameScrollPane;
-
     private JFileChooser gameFileChooser;
-
     private DefaultListModel listModel;
-
     private String currentPath;
-
     private AAnimate addGameToLibButtonAnimator;
-
     private AuroraStorage storage;
-
     private HoverButtonLeft moveLibraryLeftHandler;
-
     private HoverButtonRight moveLibraryRightHandler;
-
     private boolean isAddGameUILoaded = false;
-
     private boolean isGameLibraryKeyListenerAdded = false;
-
     private int SearchBarWidth;
-
     public static int gameCoverWidth;
-
     public static int zoomButtonHeight;
-
     public static int selectedGameBarHeight;
-
     public static int selectedGameBarWidth;
-
     public static int addGameWidth;
-
     public static int addGameHeight;
-
     public static int gameNameFontSize;
-
     public static int gameCoverHeight;
-
     private boolean isScreenLoaded = false;
-
     private int btnBackWidth;
-
     private int btnBackHeight;
-
     private final DashboardUI dashboardUI;
-
     private final AuroraCoreUI coreUI;
-
     private final LibraryLogic logic;
-
     private AButton btnOrganizeGames;
-
     private int listFontSize;
-
     private int gridSearchFontSize;
-
     private int addGameFontSize;
-
     private int bottomTopPadding;
-
     static final Logger logger = Logger.getLogger(LibraryUI.class);
-
     private JPanel pnlRightOfTopEastContainer;
 
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
      * .-----------------------------------------------------------------------.
-     * |
-     * | This is the Constructor of the LibraryUI UI class.
-     * |
-     * | The Constructor of Screen Classes must initialize/create both a
-     * | Handler and a Logic object which should contain the UI as a parameter
-     * |
+     * | | This is the Constructor of the LibraryUI UI class. | | The
+     * Constructor of Screen Classes must initialize/create both a | Handler and
+     * a Logic object which should contain the UI as a parameter |
      * .........................................................................
      *
      * @param auroraStorage AuroraStorage
-     * @param dashboardUi   DashboardUI
-     * @param auroraCoreUI  AuroraCoreUI
+     * @param dashboardUi DashboardUI
+     * @param auroraCoreUI AuroraCoreUI
      *
      */
     public LibraryUI(final AuroraStorage auroraStorage,
-                     final DashboardUI dashboardUi,
-                     final AuroraCoreUI auroraCoreUI) {
+            final DashboardUI dashboardUi,
+            final AuroraCoreUI auroraCoreUI) {
         this.appName = "Game Library";
         this.coreUI = auroraCoreUI;
         this.storage = auroraStorage;
@@ -716,11 +608,9 @@ public class LibraryUI extends AuroraApp {
      * .-----------------------------------------------------------------------.
      * | attactchHandlers()
      * .-----------------------------------------------------------------------.
-     * |
-     * | Attaches Handlers/Listeners to UI components that have previously
-     * | never had them attached or been scrubbed of them through being an
-     * | AuroraApp
-     * |
+     * | | Attaches Handlers/Listeners to UI components that have previously |
+     * never had them attached or been scrubbed of them through being an |
+     * AuroraApp |
      * .........................................................................
      *
      */
@@ -818,10 +708,8 @@ public class LibraryUI extends AuroraApp {
      * .-----------------------------------------------------------------------.
      * | loadAddGameUI()
      * .-----------------------------------------------------------------------.
-     * |
-     * | load the components to the Add Game UI
-     * | this method is called in the loadUI method of the LibraryUI class
-     * |
+     * | | load the components to the Add Game UI | this method is called in the
+     * loadUI method of the LibraryUI class |
      * .........................................................................
      *
      */
@@ -848,10 +736,8 @@ public class LibraryUI extends AuroraApp {
         btnGoToSteam.setMargin(new Insets(0, 0, 0, 0));
         btnGoToSteam.addActionListener(new GoToSteamListener());
 
-        // Check that steam exists before showing the
-        if (logic.fetchSteamDirOnWindows() == null) {
-            btnGoToSteam.setVisible(false);
-        }
+
+        btnGoToSteam.setVisible(false);
 
         if (coreUI.getOS().contains("Mac")) {
             btnGoToProgram = new AButton("addUI_btnGoToApps_norm.png",
@@ -978,13 +864,9 @@ public class LibraryUI extends AuroraApp {
      * .-----------------------------------------------------------------------.
      * | buildAddGameUI()
      * .-----------------------------------------------------------------------.
-     * |
-     * | This method builds the entire AddGameUI overlay that pops up when
-     * | a new game is to be added.
-     * |
-     * | This UI is loaded the first time a new game is to be added, but never
-     * | reloaded again.
-     * |
+     * | | This method builds the entire AddGameUI overlay that pops up when | a
+     * new game is to be added. | | This UI is loaded the first time a new game
+     * is to be added, but never | reloaded again. |
      * .........................................................................
      *
      */
@@ -1047,13 +929,21 @@ public class LibraryUI extends AuroraApp {
 
             // Set up Go To Shortcuts //
 
-            pnlRightOfTopEastContainer.add(btnGoToProgram);
-            pnlRightOfTopEastContainer.add(btnGoToSteam);
 
+            int rightOfTopEastWidth;
+            // Check that steam exists before showing the
+            if (logic.fetchSteamDirOnWindows() != null) {
+                pnlRightOfTopEastContainer.add(btnGoToSteam);
+                rightOfTopEastWidth = 4;
+            } else {
+                rightOfTopEastWidth = 3;
+            }
+            
+            pnlRightOfTopEastContainer.add(btnGoToProgram);
 
             pnlRightOfTopEast.add(Box.createHorizontalStrut(pnlRightOfTop
                     .getPreferredSize().width
-                                                            / 4));
+                    / rightOfTopEastWidth));
             pnlRightOfTopEast.add(pnlRightOfTopEastContainer, BorderLayout.EAST);
 
 
@@ -1123,9 +1013,9 @@ public class LibraryUI extends AuroraApp {
             pnlGlass.setOpaque(false);
             //* Set Location for Add Game UI panels *//
             pnlAddGamePane.setLocation((coreUI.getFrame().getWidth() / 2)
-                                       - (pnlAddGamePane.getImgIcon()
+                    - (pnlAddGamePane.getImgIcon()
                     .getIconWidth()
-                                          / 2), -380);
+                    / 2), -380);
             pnlAddGamePane
                     .setSize(
                     new Dimension(pnlAddGamePane.getImgIcon()
@@ -1133,7 +1023,7 @@ public class LibraryUI extends AuroraApp {
             pnlAddGamePane.revalidate();
 
             addGameToLibButton.setLocation((coreUI.getFrame().getWidth() / 2)
-                                           - addGameToLibButton.getWidth() / 2,
+                    - addGameToLibButton.getWidth() / 2,
                     pnlAddGamePane
                     .getImgIcon()
                     .getIconHeight() - 90);
@@ -1457,8 +1347,8 @@ public class LibraryUI extends AuroraApp {
     }
 
     /**
-     * Listener for the btnGoToProgram button to make gameFileChooser
-     * point to the Programs folder based on the OS
+     * Listener for the btnGoToProgram button to make gameFileChooser point to
+     * the Programs folder based on the OS
      */
     private class GoToProgramsListener implements ActionListener {
 
@@ -1496,8 +1386,8 @@ public class LibraryUI extends AuroraApp {
     }
 
     /**
-     * Listener for the btnGoToProgram button to make gameFileChooser
-     * point to the Steam games folder.
+     * Listener for the btnGoToProgram button to make gameFileChooser point to
+     * the Steam games folder.
      */
     private class GoToSteamListener implements ActionListener {
 
@@ -1538,10 +1428,10 @@ public class LibraryUI extends AuroraApp {
 
         if (coreUI.isLargeScreen()) {
             gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio
-                                                                   / 10)
-                              + 5;
+                    / 10)
+                    + 5;
             gameCoverWidth = coreUI.getFrame().getWidth() / 5
-                             - (Ratio / 10) - 5;
+                    - (Ratio / 10) - 5;
             zoomButtonHeight = 30;
             selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
             selectedGameBarWidth = coreUI.getFrame().getWidth() / 3;
@@ -1560,9 +1450,9 @@ public class LibraryUI extends AuroraApp {
             btnBackWidth = 30;
             btnBackHeight = 35;
             gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio
-                                                                   / 10);
+                    / 10);
             gameCoverWidth = coreUI.getFrame().getWidth() / 5
-                             - (Ratio / 10);
+                    - (Ratio / 10);
             zoomButtonHeight = 25;
             addGameWidth = coreUI.getFrame().getWidth() / 3 - 20;
             addGameHeight = 40;

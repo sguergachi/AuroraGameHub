@@ -535,7 +535,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
         }
 
 
