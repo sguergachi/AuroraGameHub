@@ -17,16 +17,16 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_handler.GameLibraryHandler;
-import aurora.V1.core.screen_ui.GameLibraryUI;
+import aurora.V1.core.screen_handler.LibraryHandler;
+import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.UI.AImage;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 /**
  * GridSearch Searches through Game Library
@@ -38,11 +38,11 @@ public class GridSearch {
 
     private char typed; // This is the character user types
 
-    private String AppendedName = ""; //This is the concatination of all characters
+    private String AppendedName = ""; //This is the concatenation of all characters
 
     private AuroraCoreUI ui; // The is the UI object
 
-    private GameLibraryUI libraryUI; // This is the Library View Object
+    private LibraryUI libraryUI; // This is the Library View Object
 
     private AImage sideSearchImage; // The Image To The Side of The Grid that says: Search
 
@@ -58,12 +58,14 @@ public class GridSearch {
 
     private FavListener FaveListener;
 
-    private final GameLibraryHandler handler;
+    private final LibraryHandler handler;
 
     private GridAnimation SearchGridAnimator;
 
-    public GridSearch(AuroraCoreUI ui, GameLibraryUI aLibraryUI,
-                      GameLibraryHandler aLibraryHandler) {
+    static final Logger logger = Logger.getLogger(GridSearch.class);
+
+    public GridSearch(AuroraCoreUI ui, LibraryUI aLibraryUI,
+                      LibraryHandler aLibraryHandler) {
         this.ui = ui;
         this.libraryUI = aLibraryUI;
         this.handler = aLibraryHandler;
@@ -73,12 +75,14 @@ public class GridSearch {
 
     public void typedChar(char typedChar) {
         typed = typedChar; // Set variable to typeChar
-        System.out.println("TYPED Character: " + String.valueOf(typed));
 
         //Append to Appended Name
         AppendedName = AppendedName.concat(String.valueOf(typed));
 
-        System.out.println("Appended name: " + AppendedName);
+        if (logger.isDebugEnabled()) {
+        	logger.debug("TYPED Character: " + String.valueOf(typed));
+        	logger.debug("Appended name: " + AppendedName);
+        }
 
         //clear library grid if not already clear
         if (!ClearedGrid) {
@@ -103,8 +107,7 @@ public class GridSearch {
                 libraryUI.getGameBack().revalidate(); // Refreshes the Grid.
 
             } catch (MalformedURLException ex) {
-                Logger.getLogger(GridSearch.class.getName()).log(Level.SEVERE,
-                        null, ex);
+            	logger.error(ex);
             }
         }
         //Remove ONE Character From End of Appended Name
@@ -114,8 +117,9 @@ public class GridSearch {
 
         }
 
-        System.out.println("Appended name: " + AppendedName);
-
+        if (logger.isDebugEnabled()) {
+        	logger.debug("Appended name: " + AppendedName);
+        }
 
         searchGame();
 
@@ -137,12 +141,17 @@ public class GridSearch {
 
         this.clearSearchGrid();
 
-        System.out.println("Check EXACT Search: " + checkGameExistsInLibrary(
-                AppendedName));
+        if (logger.isDebugEnabled()) {
+        	logger.debug("Check EXACT Search: " + checkGameExistsInLibrary(
+                    AppendedName));
+        }
 
         //EXACT SEARCH
         if (checkGameExistsInLibrary(AppendedName)) { // Check if game is exact match to library game
-            System.out.println("Performing Exact Search: " + AppendedName);
+
+        	 if (logger.isDebugEnabled()) {
+             	logger.debug("Performing Exact Search: " + AppendedName);
+             }
 
             //Remove what ever is in the search grid
 
@@ -153,17 +162,15 @@ public class GridSearch {
                 displayGames();
 
             } catch (MalformedURLException ex) {
-                Logger.getLogger(GridSearch.class.getName()).log(Level.SEVERE,
-                        null, ex);
+            	logger.error(ex);
             }
-
-
-
 
             //LENIENT SEARCH
         } else if (AppendedName.length() > 0) {
 
-            System.out.println("Performing Lenient Search: " + AppendedName);
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("Performing Lenient Search: " + AppendedName);
+        	}
 
             //Search Each Grid
             for (int g = 0; g < libraryUI.getGridSplit().getArray().size(); g++) {
@@ -191,12 +198,11 @@ public class GridSearch {
                             String appendedSub = AppendedName.substring(0,
                                     checkLength).toLowerCase();
 
-                            System.out.println("!Substring of Appended is: "
-                                               + appendedSub);
-                            System.out.println("!Substring of Game is: "
-                                               + gameSub);
-                            System.out.println("!!Match Found?: " + gameSub
-                                    .equals(appendedSub));
+                            if (logger.isDebugEnabled()) {
+                            	logger.debug("!Substring of Appended is: " + appendedSub);
+                            	logger.debug("!Substring of Game is: " + gameSub);
+                            	logger.debug("!!Match Found?: " + gameSub.equals(appendedSub));
+                            }
 
                             if (gameSub.equals(appendedSub)) {
 
@@ -207,9 +213,7 @@ public class GridSearch {
                                         displayGames();
 
                                     } catch (MalformedURLException ex) {
-                                        Logger.getLogger(GridSearch.class
-                                                .getName()).log(Level.SEVERE,
-                                                null, ex);
+                                    	logger.error(ex);
                                     }
                                 }
                             }
@@ -281,17 +285,19 @@ public class GridSearch {
         foundGame.setGameName(GameOriginal.getName());
         foundGame
                 .setCoverSize(GameOriginal.getWidth(), GameOriginal.getHeight());
-        foundGame.setDashObj(GameOriginal.getDashObj());
+        foundGame.setDashboardUI(GameOriginal.getDashboardUI());
         foundGame.setStorage(GameOriginal.getStorage());
 
         foundGameList.add(foundGame);
-        System.out.println(foundGameList);
+
+        if (logger.isDebugEnabled()) {
+        	logger.debug(foundGameList);
+        }
 
     }
 
     //Live Display of GameCover Found
     private void displayGames() throws MalformedURLException {
-
 
         //Go through Array and add to Grid
         for (int i = 0; i < foundGameList.size(); i++) {
@@ -299,7 +305,11 @@ public class GridSearch {
             if (!checkGameExistsInSearch(foundGameList.get(i).getName())) {
 
                 SearchManager.addGame(foundGameList.get(i)); // add to the grid.
-                System.out.println(handler);
+
+                if (logger.isDebugEnabled()) {
+                	logger.debug(handler);
+                }
+
                 foundGameList.get(i)
                         .addFocusListener(handler.new searchLostFocusHandler(
                         ));
@@ -315,7 +325,6 @@ public class GridSearch {
 
                 FaveListener = new FavListener(foundGame, GameOriginal);
 
-
                 foundGameList.get(i).getFavoriteButton().addActionListener(
                         FaveListener);
 
@@ -326,16 +335,22 @@ public class GridSearch {
                 SearchManager.getGrid(0).repaint();
             }
 
-
         }
     }
 
     //Clears Search grid and foundGameList
     public void clearSearchGrid() {
-        System.out.println("Clearing Search Grid");
+
+    	if (logger.isDebugEnabled()) {
+    		logger.debug("Clearing Search Grid");
+    	}
+
         SearchManager.clearAllGrids();
         foundGameList.removeAll(foundGameList);
-        System.out.println(foundGameList);
+
+        if (logger.isDebugEnabled()) {
+    		logger.debug(foundGameList);
+    	}
 
     }
 
@@ -346,7 +361,6 @@ public class GridSearch {
 
         //Tells Every body here that this method has already been executed
         ClearedGrid = true;
-
 
         //Remove Favorite Side Image
         libraryUI.getGameBack().remove(0);
@@ -364,7 +378,6 @@ public class GridSearch {
 
         setUpGrid();
 
-
     }
 
     public GridManager getGridManager() {
@@ -378,7 +391,6 @@ public class GridSearch {
 
         ClearedGrid = false;
 
-
         libraryUI.getGameBack().removeAll();
 
         libraryUI.getGameBack().add(libraryUI.getImgFavorite(),
@@ -391,7 +403,6 @@ public class GridSearch {
         libraryUI.getGameBack().revalidate();
         libraryUI.getGameBack().repaint();
 
-
     }
 
     //New Grid for Search
@@ -403,7 +414,6 @@ public class GridSearch {
 
         this.SearchGridAnimator = new GridAnimation(SearchManager, libraryUI
                 .getGameBack());
-
 
     }
 

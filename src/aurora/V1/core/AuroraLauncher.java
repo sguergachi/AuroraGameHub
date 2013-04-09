@@ -17,8 +17,10 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_ui.StartScreenUI;
+import aurora.V1.core.screen_logic.WelcomeLogic;
+import aurora.V1.core.screen_ui.WelcomeUI;
 import aurora.engine.V1.Logic.AAnimate;
+import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.ADialog;
@@ -32,14 +34,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Collection;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -47,6 +50,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -96,6 +100,10 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
     private AButton btnReturnToAurora;
 
+    static final Logger logger = Logger.getLogger(AuroraLauncher.class);
+
+    private String timeStarted;
+
     public AuroraLauncher(AuroraCoreUI ui) {
         this.coreUI = ui;
         loadUI();
@@ -114,7 +122,18 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
 
         launchPane.addWindowFocusListener(new LaunchFrameFocusListener());
-
+        launchPane.addWindowListener(new WindowAdapter() {
+             @Override
+            public void windowClosing(WindowEvent e) {
+                logger.info("AuroraLauncher Exiting");
+                gameExited();
+            }
+            @Override
+            public void windowClosed(WindowEvent e) {
+                logger.info("AuroraLauncher Exited");
+                gameExited();
+            }
+        });
 
         try {
             launchPane.setIconImage(new ImageIcon(new URL(coreUI.getResource().
@@ -127,8 +146,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
                         "/aurora/V1/resources/icon.png")).getImage());
 
             } catch (Exception exx) {
-                Logger.getLogger(StartScreenUI.class.getName()).
-                        log(Level.SEVERE, null, exx);
+                logger.error(exx);
+
             }
         }
 
@@ -231,8 +250,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
         //* Set Game Cover Image *//
         imgGameCover.setImage(game);
         imgGameCover.setImageHeight(launchPane.getHeight() / 3 + 80);
-        imgGameCover.setImageWidth((int) (imgGameCover.getImageHeight()
-                                          - imgGameCover.getImageHeight() / 15));
+        imgGameCover.setImageWidth(imgGameCover.getImageHeight()
+                                   - imgGameCover.getImageHeight() / 15);
         imgGameCover.setPreferredSize(new Dimension(imgGameCover.getImageWidth()
                                                     + 20, imgGameCover
                 .getImageHeight()));
@@ -254,8 +273,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
         //* Bottom Panel *//
         pnlBottom.add(lblGameName);
 
-
-
         pnlTop.add(pnlTopContainer);
 
         //* Add All To Background Panel *//
@@ -269,7 +286,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
         launchPane.repaint();
 
         pnlTimePlayed.setVisible(false);
-
 
     }
 
@@ -286,17 +302,18 @@ public class AuroraLauncher implements Runnable, MouseListener {
         }
         launcherThread.setName("Launch Game Thread");
         //* start run() *//
+        AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
+                "f5f777273e62089193a68f99f4885a55");
+        mixpanelAnalytics.addProperty("Game being Launched", game.getName());
+        mixpanelAnalytics.addProperty("Times a game launched", true);
+        mixpanelAnalytics.sendEventProperty("Launched Game");
+
         launcherThread.start();
     }
 
     @Override
     public void run() {
         while (Thread.currentThread() == launcherThread) {
-
-
-            //* Stop Music *//
-            coreUI.getBackgroundSound().Pause();
-
 
             try {
 
@@ -313,10 +330,13 @@ public class AuroraLauncher implements Runnable, MouseListener {
                         ProcessBuilder processBuild = new ProcessBuilder(game
                                 .getGamePath());
 
-                        System.out.println("EXE Directory: " + game
-                                .getGamePath()
-                                .substring(0, game.getGamePath().lastIndexOf(
-                                "\\") + 1).replace("\\", "\\"));
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("EXE Directory: " + game
+                                    .getGamePath()
+                                    .substring(0, game.getGamePath()
+                                    .lastIndexOf(
+                                    "\\") + 1).replace("\\", "\\"));
+                        }
 
                         processBuild.directory(new File(game.getGamePath()
                                 .substring(0, game.getGamePath().lastIndexOf(
@@ -339,8 +359,9 @@ public class AuroraLauncher implements Runnable, MouseListener {
                                 .lastIndexOf("\\") + 1) + '"' + currentDir
                                 .substring(currentDir.lastIndexOf("\\") + 1,
                                 currentDir.length()) + '"';
-                        System.out.println("Shortcut Directory: " + currentDir);
-
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("Shortcut Directory: " + currentDir);
+                        }
 
                         //* Set Commands to launch shortcut *//
                         ProcessBuilder processBuild = new ProcessBuilder();
@@ -377,9 +398,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                     launchGameProcess(processBuild);
 
 
-                    //* Tracker Data *//
-                    game.setNumberTimesPlayed(game.getNumberTimesPlayed() + 1);
-                    game.setLastPlayed(coreUI.getTimeLabel().getText());
+
 
                 }
             } catch (IOException ex) {
@@ -402,8 +421,9 @@ public class AuroraLauncher implements Runnable, MouseListener {
                     }
                 });
                 error.setVisible(true);
-                Logger.getLogger(AuroraLauncher.class.getName()).log(
-                        Level.SEVERE, null, ex);
+                logger.error(ex);
+                //Logger.getLogger(AuroraLauncher.class.getName()).log(
+                //        Level.SEVERE, null, ex);
             }
 
             // Game Has Exited
@@ -418,14 +438,10 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
                 showManualTimerUI();
 
-
                 break;
             } else {
                 //* Change Title *//
                 imgTitle.setImage("app_launch_standBy.png");
-
-                //* Start Music Again *//
-                coreUI.getBackgroundSound().Resume();
 
                 launchPane.setAlwaysOnTop(true);
 
@@ -434,12 +450,35 @@ public class AuroraLauncher implements Runnable, MouseListener {
                 break;
             }
 
-
         }
 
         if (!manualMode) {
             goBackToAurora();
         }
+    }
+
+    private void gameExited() {
+         // Game Has Exited
+            // ----------------------------------------------------------------.
+
+            //* Calculate Time *//
+
+            calculateTimePlayed();
+
+            //* Decide whether the game has trully quit *//
+            if (manualMode) {
+
+                showManualTimerUI();
+
+            } else {
+                //* Change Title *//
+                imgTitle.setImage("app_launch_standBy.png");
+
+                launchPane.setAlwaysOnTop(true);
+
+                showTimeSpentPlaying();
+
+            }
     }
 
     public void showManualTimerUI() {
@@ -461,17 +500,18 @@ public class AuroraLauncher implements Runnable, MouseListener {
         try {
             launchGameProcess = processBuild.start();
         } catch (IOException ex) {
-            Logger.getLogger(AuroraLauncher.class.getName()).
-                    log(Level.SEVERE, null, ex);
+            logger.error(ex);
+
         }
         coreUI.getFrame().setState(JFrame.ICONIFIED);
         coreUI.getFrame().setVisible(false);
 
-        //* Game Cover Tracker Data *//
-        game.setNumberTimesPlayed(game.getNumberTimesPlayed()
-                                  + 1);
-        game.setLastPlayed(ATimeLabel.current(
-                ATimeLabel.TIME_24HOUR));
+        timeStarted = ATimeLabel.current(
+                ATimeLabel.TIME_24HOUR);
+
+        //* Tracker Data *//
+        game.setLastPlayed(ATimeLabel.current(ATimeLabel.DATE));
+        game.setOcurrencesPlayed(game.getOccurencesPlayed() + 1);
 
 
 
@@ -479,12 +519,12 @@ public class AuroraLauncher implements Runnable, MouseListener {
         try {
             Thread.sleep(4000);
         } catch (InterruptedException ex) {
-            Logger.getLogger(AuroraLauncher.class.getName())
-                    .log(Level.SEVERE, null, ex);
+            logger.error(ex);
+
         }
 
 
-        //* Change Title *//
+        //* Change Title to "Playing..." *//
         imgTitle.setImage("app_launch_playing.png");
 
         //* Allow for Alt-Tabing  while playing Game *//
@@ -494,35 +534,35 @@ public class AuroraLauncher implements Runnable, MouseListener {
         try {
             launchGameProcess.waitFor();
         } catch (InterruptedException ex) {
-            Logger.getLogger(AuroraLauncher.class.getName())
-                    .log(Level.SEVERE, null, ex);
+            logger.error(ex);
+
         }
 
     }
 
     private void calculateTimePlayed() {
         timeAfter = ATimeLabel.current(ATimeLabel.TIME_24HOUR);
-        System.out.println(game.getLastPlayed());
-        System.out.println(timeAfter);
+        logger.info(game.getLastPlayed());
+        logger.info(timeAfter);
 
         //* Elapsed Time Calculation *//
         int hoursDiff = Math.abs(Integer.parseInt(timeAfter.substring(0, 2))
-                                 - Integer.parseInt(game.getLastPlayed()
+                                 - Integer.parseInt(timeStarted
                 .substring(0, 2))) * 60;
         int minDiff = Math.abs(Integer.parseInt(timeAfter.substring(3, 5))
-                               - Integer.parseInt(game.getLastPlayed()
+                               - Integer.parseInt(timeStarted
                 .substring(3, 5)));
         //ELAPSED TIME IN MIN IS ((HOURS*60) - MIN FROM TIME1) + MIN FROM TIME2
         int elapsedTime = Math.abs((hoursDiff - Integer.parseInt(timeAfter
-                .substring(3, 5))) + Integer.parseInt(game.getLastPlayed()
+                .substring(3, 5))) + Integer.parseInt(timeStarted
                 .substring(3, 5)));
 
         hoursDiff = elapsedTime / 60;
         minDiff = elapsedTime - (hoursDiff * 60);
 
-        System.out.println("Elapsed " + elapsedTime);
-        System.out.println("Hours " + hoursDiff);
-        System.out.println("Min " + minDiff);
+        logger.info("Elapsed " + elapsedTime);
+        logger.info("Hours " + hoursDiff);
+        logger.info("Min " + minDiff);
 
         if (minDiff <= 1 && hoursDiff < 1) {
             lblPlayedTime.setText("Under 1 min  ");
@@ -536,6 +576,9 @@ public class AuroraLauncher implements Runnable, MouseListener {
             lblPlayedTime.setText(hoursDiff + "hr and "
                                   + minDiff + "min  ");
         }
+
+        // Add to total time played this game //
+        game.addTime(minDiff, hoursDiff);
     }
 
     /**
@@ -568,8 +611,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
-            Logger.getLogger(AuroraLauncher.class.getName())
-                    .log(Level.SEVERE, null, ex);
+            logger.error(ex);
+
         }
 
 
@@ -592,12 +635,14 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
     private void goBackToAurora() {
 
-        //* Wait a bit before returning to Aurora *//
+        //* Save Metadata Then Go Back To Aurora *//
+
+        game.saveMetadata();
+
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
         } catch (InterruptedException ex) {
-            Logger.getLogger(AuroraLauncher.class.getName()).log(
-                    Level.SEVERE, null, ex);
+            logger.error(ex);
         }
 
         launchPane.setVisible(false);
@@ -625,7 +670,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        System.out.println("Mouse Entered <<");
         launchPane.requestFocusInWindow();
     }
 
@@ -651,9 +695,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
                     pnlTop.add(pnlTopContainer);
                     pnlTop.revalidate();
                     imgTitle.setImage("app_launch_standBy.png");
-                    //* Start Music Again *//
-                    coreUI.getBackgroundSound().Resume();
-
                     calculateTimePlayed();
                     showTimeSpentPlaying();
 
@@ -679,7 +720,10 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         @Override
         public void windowGainedFocus(WindowEvent e) {
-            System.out.println("LAUNCH FRAME FOCUS GAINED");
+            if (logger.isDebugEnabled()) {
+                logger.debug("LAUNCH FRAME FOCUS GAINED");
+            }
+
             if (manualMode) {
 
                 pnlTop.removeAll();
@@ -692,7 +736,10 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         @Override
         public void windowLostFocus(WindowEvent e) {
-            System.out.println("LAUNCH FRAME FOCUS LOST");
+            if (logger.isDebugEnabled()) {
+                logger.debug("LAUNCH FRAME FOCUS LOST");
+            }
+
             if (manualMode) {
                 pnlTop.removeAll();
                 pnlTop.validate();

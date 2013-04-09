@@ -1,8 +1,9 @@
 ============AURORA CHANGE LOG==================
-=Current MileStone: >Alpha 5<
-=Author: Sammy Guergachi, Carlos Machado
+=  Current MileStone: >Alpha 5<
+=  Crafted by the Sardonix Creative team
 ===============================================
 
+<<<<<<< HEAD
 ////////////////////////////////////////////--------------------------------
 <<<<<<< HEAD
 //Aurora_Alpha 5  Build:500  Date:  || Sammy Guergachi, Carlos Machado
@@ -12,6 +13,42 @@
 =======
 //Aurora_Alpha 5  Build:500  Date:1/13/2013  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////--------------------------------
+=======
+////////////////////////////////////////////------------------------------------
+// Aurora_Alpha 7  Build:700  Date:1/16/2013  || Sammy Guergachi, Carlos Machado
+////////////////////////////////////////////------------------------------------
++ Added shortcut buttons in AddGameUI for Steam and Programs folders
++ Added pin to first grid functionality when you favorite a game
++ Added ability to save metadata to database
++ Added ability to view metadata by flipping game
+- fixed popovers not showing
+- fixed app not launching in Windows 8
+- fixed period not being searched in Aurora
+- removed background music
+- minor UI fixes and enhancements (its all in the details! :D )
+
+
+////////////////////////////////////////////------------------------------------
+// Aurora_Alpha 6  Build:625  Date:1/16/2013  || Sammy Guergachi, Carlos Machado, Borne Mace
+////////////////////////////////////////////------------------------------------
++ added Logging ability
++ added more useful analytics
+- fixed carousel bug for big screens
+- using native Windows file chooser instead of dumb java one
+- minor UI change to infoFeed
+- moved AuroraData folder to user.home
+- access to AuroraDB is now from the AuroraData which is copied from local package
+
+////////////////////////////////////////////------------------------------------
+// Aurora_Alpha 5  Build:578  Date:1/16/2013  || Sammy Guergachi, Carlos Machado
+////////////////////////////////////////////------------------------------------
+- fixed world's stupidest bug that prevented app for launching.
+
+
+////////////////////////////////////////////------------------------------------
+// Aurora_Alpha 5  Build:560  Date:1/13/2013  || Sammy Guergachi, Carlos Machado
+////////////////////////////////////////////------------------------------------
+>>>>>>> origin/dev
 ++ new Onix 2.0 Surface with Name Change!
 ++ Revamped Info Feed with real gaming news!
 >>>>>>> origin/dev
@@ -37,9 +74,8 @@
 
 >>>>>>> origin/dev
 
-
 ////////////////////////////////////////////--------------------------------
-//Aurora_r255  Build:442 Date: 06/10/2012 || Sammy Guergachi, Carlos Machado
+// Aurora_r255  Build:442 Date: 06/10/2012 || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////--------------------------------
 +Ability To Navigate Library with Arrow Keys
 +Ability To Navigate Library with WASD keys
@@ -56,9 +92,9 @@
 -Fixed unable to go to Library by clicking on Game Image instead of Green panel
 -A few minor UI changes
 
-////////////////////////////////////////////--------------------------------
-//Aurora_r209  Build:425 Date: 06/10/2012 || Sammy Guergachi, Carlos Machado
-////////////////////////////////////////////--------------------------------
+////////////////////////////////////////////
+// Aurora_r209  Build:425 Date: 06/10/2012 || Sammy Guergachi, Carlos Machado
+////////////////////////////////////////////
 +Ability to select game while dragging mouse
 +AuroraMini can run while Aurora Loads
 +AuroraMini will load after firstTimeLoad
@@ -76,9 +112,9 @@
 -fixed vista related bug
 
 
-////////////////////////////////////////////--------------------------------
-//Aurora_r204  Build:410 Date: 05/10/2012 || Sammy Guergachi, Carlos Machado
-////////////////////////////////////////////--------------------------------
+////////////////////////////////////////////
+// Aurora_r204  Build:410 Date: 05/10/2012 || Sammy Guergachi, Carlos Machado
+////////////////////////////////////////////
 *******************************************
 **********ALPHA MILESTONE RELEASE**********
 *******************************************
@@ -121,7 +157,7 @@ Known Bugs:
 
 
 ////////////////////////////////////////////
-//Aurora_r134  Build:365 Date: 03/2/2012 || Sammy Guergachi, Carlos Machado
+// Aurora_r134  Build:365 Date: 03/2/2012 || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////
 
 + improved aPrompter to load up faster
@@ -142,7 +178,7 @@ Known issues:
 -Keyboard handler still needs more fixing
 
 ////////////////////////////////////////////
-//Aurora_r112  Build:327 Date: 02/16/2012 || Sammy Guergachi, Carlos Machado
+// Aurora_r112  Build:327 Date: 02/16/2012 || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////
 
 
@@ -160,7 +196,7 @@ Known Issues:
 
 
 ////////////////////////////////////////////
-//Aurora_r110  Build:317 Date: 02/8/2012 || Sammy Guergachi
+// Aurora_r110  Build:317 Date: 02/8/2012 || Sammy Guergachi
 ////////////////////////////////////////////
 
 
