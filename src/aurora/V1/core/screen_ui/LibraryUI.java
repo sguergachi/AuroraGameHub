@@ -939,6 +939,8 @@ public class LibraryUI extends AuroraApp {
                 rightOfTopEastWidth = 3;
             }
             
+            //changed
+            
             pnlRightOfTopEastContainer.add(btnGoToProgram);
 
             pnlRightOfTopEast.add(Box.createHorizontalStrut(pnlRightOfTop
