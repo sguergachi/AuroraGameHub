@@ -16,6 +16,7 @@ local.properties
 .settings/
 .loadpath
 nbproject/
+build/
 # External tool builders
 .externalToolBuilders/
 
