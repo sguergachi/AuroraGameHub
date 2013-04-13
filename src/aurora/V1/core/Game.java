@@ -1002,15 +1002,18 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlShortcutBtn.setPreferredSize(new Dimension(width - width / 4, 60));
         pnlShortcutBtn.setOpaque(false);
 
+        int btnWidth = topImageWidth / 4;
+        int btnHeight = btnWidth - 4;
+
         btnWatch = new AButton("game_btn_watch_norm.png",
                 "game_btn_watch_down.png",
-                "game_btn_watch_over.png", 46, 42);
+                "game_btn_watch_over.png", btnWidth, btnHeight);
         btnHelp = new AButton("game_btn_help_norm.png",
                 "game_btn_help_down.png",
-                "game_btn_help_over.png", 46, 42);
+                "game_btn_help_over.png", btnWidth, btnHeight);
         btnLearn = new AButton("game_btn_learn_norm.png",
                 "game_btn_learn_down.png",
-                "game_btn_learn_over.png", 46, 42);
+                "game_btn_learn_over.png", btnWidth, btnHeight);
 
         // Content Pane //
         pnlFlipContentPane = new JPanel(new BorderLayout(0, 0));
@@ -1338,7 +1341,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 if (Integer.parseInt(daysPast) > 30) {
                     txtLastPlayed.setText("A month ago");
                 } else if (Integer.parseInt(daysPast) > 1) {
-                    txtLastPlayed.setText(daysPast + "days ago");
+                    txtLastPlayed.setText(daysPast + " days ago");
                 } else {
                     txtLastPlayed.setText("Yesterday");
                 }
