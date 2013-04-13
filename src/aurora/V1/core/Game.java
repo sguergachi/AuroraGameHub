@@ -1004,13 +1004,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         btnWatch = new AButton("game_btn_watch_norm.png",
                 "game_btn_watch_down.png",
-                "game_btn_watch_over.png", 46, 42);
+                "game_btn_watch_over.png", 56, 52);
         btnHelp = new AButton("game_btn_help_norm.png",
                 "game_btn_help_down.png",
-                "game_btn_help_over.png", 46, 42);
+                "game_btn_help_over.png", 56, 52);
         btnLearn = new AButton("game_btn_learn_norm.png",
                 "game_btn_learn_down.png",
-                "game_btn_learn_over.png", 46, 42);
+                "game_btn_learn_over.png", 56, 52);
 
         // Content Pane //
         pnlFlipContentPane = new JPanel(new BorderLayout(0, 0));
