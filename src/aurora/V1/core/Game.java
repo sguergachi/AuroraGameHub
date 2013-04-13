@@ -996,14 +996,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         pnlShortcutLbl = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlShortcutLbl.setOpaque(false);
-        pnlShortcutLbl.setPreferredSize(new Dimension(width - width / 4, 12));
+        pnlShortcutLbl.setPreferredSize(new Dimension(width - width / 4, 10));
 
         pnlShortcutBtn = new JPanel(new FlowLayout(FlowLayout.LEFT, -16, 0));
         pnlShortcutBtn.setPreferredSize(new Dimension(width - width / 4, 60));
         pnlShortcutBtn.setOpaque(false);
 
-        int btnWidth = topImageWidth / 4;
-        int btnHeight = btnWidth - 4;
+        int btnWidth = topImageWidth / 4 + 2;
+        int btnHeight = btnWidth - 2;
 
         btnWatch = new AButton("game_btn_watch_norm.png",
                 "game_btn_watch_down.png",
