@@ -25,7 +25,9 @@ public class Sandbox {
 
 
 //        System.out.println(GameFinder.getNameOfGamesOnDrive().get(2));
+         System.out.println(GameFinder.getNameOfGamesOnDrive());
         System.out.println(GameFinder.getExecutablePathsOnDrive(GameFinder.getNameOfGamesOnDrive()));
+
 
 
 //        frame.setVisible(true);
