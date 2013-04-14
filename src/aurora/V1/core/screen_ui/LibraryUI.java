@@ -559,14 +559,17 @@ public class LibraryUI extends AuroraApp {
 
         // Add InfoFeed to bottom //
         getDashboardUI().getInfoFeed().setImageSize(getCoreUI()
-                .getScreenWidth(), getDashboardUI().getInfoFeed()
-                .getImageHeight() - 10);
+                .getScreenWidth() - 20, getDashboardUI().getInfoFeed()
+                .getImageHeight() - 5);
         getDashboardUI().getInfoFeed()
-                .setPreferredSize(new Dimension(getDashboardUI()
-                .getInfoFeed().getPreferredSize().width,
+                .setPreferredSize(new Dimension(getDashboardUI().getInfoFeed().getImageWidth(),
                 getDashboardUI().getInfoFeed().getImageHeight()));
+
+        coreUI.getBottomContentPane().add(Box.createVerticalStrut(4), BorderLayout.NORTH);
+        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10), BorderLayout.EAST);
         coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer(),
-                BorderLayout.NORTH);
+                BorderLayout.CENTER);
+        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10), BorderLayout.WEST);
         coreUI.getBottomContentPane().setPreferredSize(new Dimension(dashboardUI
                 .getInfoFeed().getImageWidth(), dashboardUI.getInfoFeed()
                 .getImageHeight()));
@@ -938,9 +941,9 @@ public class LibraryUI extends AuroraApp {
             } else {
                 rightOfTopEastWidth = 3;
             }
-            
+
             //changed
-            
+
             pnlRightOfTopEastContainer.add(btnGoToProgram);
 
             pnlRightOfTopEast.add(Box.createHorizontalStrut(pnlRightOfTop
@@ -1347,6 +1350,60 @@ public class LibraryUI extends AuroraApp {
         hideAddGameUI();
 
     }
+    
+      public void setSize() {
+
+        double Ratio = ((double) coreUI.getFrame().getWidth()
+                / (double) coreUI.getFrame().getHeight());
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Ratio " + Ratio);
+            logger.debug("Height " + coreUI.getFrame().getHeight());
+            logger.debug("Width " + coreUI.getFrame().getWidth());
+
+        }
+
+        if (coreUI.isLargeScreen()) {
+            gameCoverHeight = coreUI.getFrame().getHeight() / 3 + 5;
+            gameCoverWidth = coreUI.getFrame().getWidth() / 5
+                    - 5;
+            selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
+            selectedGameBarWidth = coreUI.getFrame().getWidth() / 3;
+            addGameWidth = coreUI.getFrame().getWidth() / 3;
+            addGameHeight = coreUI.getBottomPane().getHeight() / 3;
+            gameNameFontSize = 32;
+            SearchBarWidth = 880;
+            btnBackWidth = 0;
+            btnBackHeight = 0;
+            listFontSize = 19;
+            gridSearchFontSize = 35;
+            addGameFontSize = 28;
+            bottomTopPadding = 10;
+
+        } else {
+            btnBackWidth = 30;
+            btnBackHeight = 35;
+            gameCoverHeight = (int) ((coreUI.getFrame().getHeight()
+                    + (coreUI.getTopPanelHeight() * 2)) / (Ratio * 2.5));
+            gameCoverWidth = (int) ((coreUI.getFrame().getWidth()
+                    + coreUI.getTopPanelHeight()) / (Ratio * 3.5));
+            addGameWidth = coreUI.getFrame().getWidth() / 3 - 20;
+            addGameWidth = gameCoverWidth;
+            addGameHeight = 40;
+            selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
+            selectedGameBarWidth = coreUI.getFrame().getWidth() / 3 - 20;
+            gameNameFontSize = 30;
+            SearchBarWidth = coreUI.getFrame().getWidth() / 2 + coreUI
+                    .getControlWidth() / 2;
+            listFontSize = 19;
+            gridSearchFontSize = 35;
+            addGameFontSize = 28;
+            bottomTopPadding = -4;
+        }
+
+
+    }
+
 
     /**
      * Listener for the btnGoToProgram button to make gameFileChooser point to
@@ -1416,62 +1473,7 @@ public class LibraryUI extends AuroraApp {
         }
     }
 
-    public void setSize() {
-
-        int Ratio = (coreUI.getFrame().getWidth() - coreUI.getFrame()
-                .getHeight()) / 2;
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("Ratio " + Ratio);
-            logger.debug("Height " + coreUI.getFrame().getHeight());
-            logger.debug("Width " + coreUI.getFrame().getWidth());
-
-        }
-
-        if (coreUI.isLargeScreen()) {
-            gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio
-                    / 10)
-                    + 5;
-            gameCoverWidth = coreUI.getFrame().getWidth() / 5
-                    - (Ratio / 10) - 5;
-            zoomButtonHeight = 30;
-            selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
-            selectedGameBarWidth = coreUI.getFrame().getWidth() / 3;
-            addGameWidth = coreUI.getFrame().getWidth() / 3;
-            addGameHeight = coreUI.getBottomPane().getHeight() / 3;
-            gameNameFontSize = 32;
-            SearchBarWidth = 880;
-            btnBackWidth = 0;
-            btnBackHeight = 0;
-            listFontSize = 19;
-            gridSearchFontSize = 35;
-            addGameFontSize = 28;
-            bottomTopPadding = 10;
-
-        } else {
-            btnBackWidth = 30;
-            btnBackHeight = 35;
-            gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio
-                    / 10);
-            gameCoverWidth = coreUI.getFrame().getWidth() / 5
-                    - (Ratio / 10);
-            zoomButtonHeight = 25;
-            addGameWidth = coreUI.getFrame().getWidth() / 3 - 20;
-            addGameHeight = 40;
-            selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
-            selectedGameBarWidth = coreUI.getFrame().getWidth() / 3 - 20;
-            gameNameFontSize = 30;
-            SearchBarWidth = coreUI.getFrame().getWidth() / 2 + coreUI
-                    .getControlWidth() / 2;
-            listFontSize = 19;
-            gridSearchFontSize = 35;
-            addGameFontSize = 28;
-            bottomTopPadding = -4;
-        }
-
-
-    }
-
+  
     // Getters and Setters
     // ----------------------------------------------------------------.
     public AAnimate getAddGameAnimator() {

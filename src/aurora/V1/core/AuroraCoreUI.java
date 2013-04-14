@@ -70,18 +70,13 @@ import javax.swing.JWindow;
 import org.apache.log4j.Logger;
 
 /**
- * .------------------------------------------------------------------------.
- * | AuroraCoreUI
- * .------------------------------------------------------------------------.
- * |
- * | This is the Core UI class, it contains the persistent UI components
- * | that encompasses the main center UI
- * |
- * | It contains the surrounding frame which is to be manipulated and added
- * | to by Aurora Screens.
- * | This class is loaded when the first Aurora Screen is loaded.
- * |
- * |
+ * .------------------------------------------------------------------------. |
+ * AuroraCoreUI
+ * .------------------------------------------------------------------------. |
+ * | This is the Core UI class, it contains the persistent UI components | that
+ * encompasses the main center UI | | It contains the surrounding frame which is
+ * to be manipulated and added | to by Aurora Screens. | This class is loaded
+ * when the first Aurora Screen is loaded. | |
  * .........................................................................
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
@@ -94,316 +89,249 @@ public class AuroraCoreUI {
      * Get revision based on Month Number and Day Number and Year Number.
      */
     private final String revision = ATimeLabel.current(ATimeLabel.DATE_NUM);
-
     /**
      * Generate full Version string to be used at the bottom of UI.
      */
     private final String version =
-                         "             //BUILD: " + getResourceBundleToken(
+            "             //BUILD: " + getResourceBundleToken(
             "BUILD")
-                         + "  //REVISION: " + revision
-                         + "  //AURORA.ENGINE.VERSION = 0.1." + (Integer
+            + "  //REVISION: " + revision
+            + "  //AURORA.ENGINE.VERSION = 0.1." + (Integer
             .parseInt(revision));
-
     /**
      * Size Constant.
      */
-    private int topPanelSize;
-
+    private int topPanelHeight;
     /**
      * Size Constant.
      */
     private int centerPanelSize;
-
     /**
      * Size Constant.
      */
     private int bottomPanelSize;
-
     /**
      * Size Constant.
      */
     private int controlHeight;
-
     /**
      * Size Constant.
      */
     private int controlWidth;
-
     /**
      * Size Constant.
      */
     private int welcomeFontSize;
-
     /**
      * Size Constant.
      */
     private int keysFontSize;
-
     /**
      * Size Constant.
      */
     private int keyIconWidth;
-
     /**
      * Size Constant.
      */
     private int keyIconHeight;
-
     /**
      * Size Constant.
      */
     private int versionFontSize;
-
     /**
      * Size Constant.
      */
     private int timeFontSize;
-
     /**
      * Size Constant.
      */
     private int logoHeight;
-
     /**
      * Size Constant.
      */
     private int logoWidth;
-
     /**
      * Size Constant.
      */
     private int exitButtonWidth;
-
     /**
      * Size Constant.
      */
     private int exitButtonHeight;
-
     /**
      * Size Constant.
      */
     private int minimizeButtonWidth;
-
     /**
      * Size Constant.
      */
     private int minimizeButtonHeight;
-
     /**
      * Size Constant.
      */
     private static int screenWidth;
-
     final static int OPTIMAL_SCREEN_WIDTH = 1920;
-
     /**
      * Size Constant.
      */
     private static int screenHeight;
-
     final static int OPTIMAL_SCREEN_HEIGHT = 1080;
-
     /**
      * Boolean for whether screen is of larger type or smaller type.
      */
     private boolean isLargeScreen;
-
     /**
      * Warning dialog window.
      */
     private ADialog warningDialog;
-
     /**
      * Error dialog window.
      */
     private ADialog errorDialog;
-
     /**
      * Logo image.
      */
     private AImage imgLogo;
-
     /**
      * Key icon image.
      */
     private AImage imgKeyIcon;
-
     /**
      * Background image pane.
      */
     private AImagePane paneBackground;
-
     /**
      * Bottom image pane.
      */
     private AImagePane paneBottom;
-
     /**
-     * Panel that holds the back, minimize, exit
-     * buttons.
+     * Panel that holds the back, minimize, exit buttons.
      */
     private AImagePane paneFrameControl;
-
     /**
      * Top image.
      */
     private AImagePane paneTop;
-
     /**
      * Reference to the available Surface resources.
      */
     private ASurface resources;
-
     /**
      * Reference to the Nuance virtual intelligence.
      */
     private ANuance vi;
-
     /**
      * Regular font.
      */
     private Font regularFont;
-
     /**
      * Bold font.
      */
     private Font boldFont;
-
     /**
      * Exit button.
      */
     private JButton btnExit;
-
     /**
      * Minimize button.
      */
     private JButton btnMinimize;
-
     /**
      * The JFrame where the Core UI is placed on.
      */
     private JFrame frame;
-
     /**
-     * Center panel that displays the main part of Aurora
-     * ie. Dashboard, Library, etc.
+     * Center panel that displays the main part of Aurora ie. Dashboard,
+     * Library, etc.
      */
     private JPanel paneCenter;
-
     /**
      * Panel that holds the keys to press images and labels.
      */
     private JPanel paneKeyToPress;
-
     /**
      * Panel located south of the top panel.
      */
     private JPanel southFromTopPanel;
-
     /**
      * Panel that holds the Aurora logo.
      */
     private JPanel logoPanel;
-
     /**
      * Panel that holds the screen label.
      */
     private JPanel screenLabelPanel;
-
     /**
      * Panel that holds the current version of Aurora.
      */
     private JPanel versionPanel;
-
     /**
      * Header panel that is located in pnlCenterFromBottom.
      */
     private JPanel paneHeaderOfCenterFromBottom;
-
     /**
-     * Panel that is located in the center of the
-     * bottom panel.
+     * Panel that is located in the center of the bottom panel.
      */
     private JPanel paneCenterFromBottom;
-
     /**
      * Panel that holds the current time.
      */
     private JPanel paneTime;
-
     /**
      * Panel that holds the app title.
      */
     private JPanel paneTitle;
-
     /**
      * The Container to the panel paneFrameControl.
      */
     private JPanel paneFrameControlContainer;
-
     /**
      *
      */
     private JPanel paneBottomCenterContent;
-
     /**
      * Label for the version panel.
      */
     private JLabel lblVersion;
-
     /**
      * Label for the title panel.
      */
     private JLabel lblTitle;
-
     /**
      * Label for the key image icon.
      */
     private JLabel lblKeyAction;
-
     /**
      * The instance of AuroraMini which activates when you minimize Aurora.
      */
     private AuroraMini miniMode;
-
     /**
      * Listener to listen for when Aurora is minimized.
      */
     private MinimizeListener minimizeHandler;
-
     /**
      * Label indicating the current time.
      */
     public static ATimeLabel lblTime;
-
     /**
-     * Detects what is the current build number using the
-     * version.properties file.
+     * Detects what is the current build number using the version.properties
+     * file.
      */
     final static ResourceBundle resourceBundle = ResourceBundle.getBundle(
             "version");
-
     private ATimeLabel lblDate;
-
     private JPanel paneTimeContainer;
-
     private ASound backgrounSFX;
-
     private AFileManager fileIO;
-
     private Font ropaFont;
-
     static final Logger logger = Logger.getLogger(AuroraCoreUI.class);
 
     /**
      * .-----------------------------------------------------------------------.
      * | AuroraCoreUI(JFrame)
      * .-----------------------------------------------------------------------.
-     * |
-     * | This is the Constructor of the AuroraCoreUI class.
-     * |
-     * | The constructor sets up the Aurora app main frame
+     * | | This is the Constructor of the AuroraCoreUI class. | | The
+     * constructor sets up the Aurora app main frame
      * .........................................................................
      *
      * @param aFrame JFrame
@@ -429,24 +357,20 @@ public class AuroraCoreUI {
      * .-----------------------------------------------------------------------
      * | setUI()
      * .-----------------------------------------------------------------------
-     * |
-     * | Sets up the Aurora UI
-     * |
-     * | This method sets up all the key UI components that make up the core UI
-     * | for Aurora
-     * |
+     * | | Sets up the Aurora UI | | This method sets up all the key UI
+     * components that make up the core UI | for Aurora |
      * .........................................................................
      * <p/>
      * @throws UnsupportedAudioFileException Exception
-     * @throws IOException                   Exception
-     * @throws LineUnavailableException      Exception
-     * @throws InterruptedException          Exception
-     * @throws FontFormatException           Exception
+     * @throws IOException Exception
+     * @throws LineUnavailableException Exception
+     * @throws InterruptedException Exception
+     * @throws FontFormatException Exception
      */
     public final void setUI() throws UnsupportedAudioFileException, IOException,
-                                     LineUnavailableException,
-                                     InterruptedException,
-                                     FontFormatException {
+            LineUnavailableException,
+            InterruptedException,
+            FontFormatException {
 
         //* Determine Global Size based on Screen Size *//
 
@@ -458,7 +382,7 @@ public class AuroraCoreUI {
                 .getScreenDevices()[0].getDisplayMode().getHeight();
 
         logger.info("Current Screen Resolution: " + screenWidth + "x"
-                    + screenHeight);
+                + screenHeight);
 
         //*
         // Check the resolution (in pixels) of the screen to
@@ -530,9 +454,9 @@ public class AuroraCoreUI {
         //*
 
         paneTop = new AImagePane("app_header.png",
-                frame.getSize().width, (frame.getSize().height / 6), true);
+                frame.getSize().width, topPanelHeight, true);
         paneTop.setPreferredSize(new Dimension(frame.getSize().width,
-                (frame.getSize().height / 6)));
+                topPanelHeight));
 
         paneTop.setIgnoreRepaint(true);
         paneTop.setLayout(new BorderLayout());
@@ -556,9 +480,9 @@ public class AuroraCoreUI {
         // the Time and the Login Controls
         //*
         paneBottom = new AImagePane("app_footer.png",
-                frame.getSize().width, frame.getSize().height / 6, true);
+                frame.getSize().width, topPanelHeight, true);
         paneBottom.setPreferredSize(new Dimension(frame.getSize().width,
-                frame.getSize().height / 6));
+                topPanelHeight));
         paneBottom.setOpaque(false);
         paneBottom.setLayout(new BorderLayout());
 
@@ -666,7 +590,7 @@ public class AuroraCoreUI {
         // ---------------------------------------------------------------------
 
         paneHeaderOfCenterFromBottom = new JPanel(new BorderLayout());
-        lblTime = new ATimeLabel(ATimeLabel.TIME) ;
+        lblTime = new ATimeLabel(ATimeLabel.TIME);
         lblTime.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
         lblTime.setForeground(new Color(0, 178, 178));
         lblTime.revalidate();
@@ -837,7 +761,8 @@ public class AuroraCoreUI {
     private void setSizes() {
         double Ratio = (frame.getWidth() - frame.getHeight()) / 2;
         if (isLargeScreen) {
-            topPanelSize = frame.getHeight() / 4;
+            topPanelHeight = (frame.getSize().height / 6);
+
             centerPanelSize = frame.getHeight() / 2 + frame.getHeight() / 40;
             bottomPanelSize = frame.getHeight() / 4 + frame.getHeight() / 40;
             controlHeight = 55;
@@ -846,7 +771,7 @@ public class AuroraCoreUI {
             welcomeFontSize = 22;
             versionFontSize = 14;
             timeFontSize = bottomPanelSize / 13;
-            logoHeight = topPanelSize / 3 + (int) (Ratio / 21);
+            logoHeight = (frame.getHeight() / 12) + (int) (Ratio / 21);
             logoWidth = frame.getWidth() / 2 + (int) (Ratio / 5);
             exitButtonWidth = 0;
             exitButtonHeight = 0;
@@ -855,14 +780,14 @@ public class AuroraCoreUI {
             keyIconWidth = 0;
             keyIconHeight = 0;
         } else {
-            topPanelSize = frame.getHeight() / 4;
+            topPanelHeight = (frame.getSize().height / 6);
             centerPanelSize = frame.getHeight() / 2 + frame.getHeight() / 40;
             bottomPanelSize = frame.getHeight() / 4 + frame.getHeight() / 40;
             keysFontSize = frame.getHeight() / 50;
             welcomeFontSize = 21;
             versionFontSize = 14;
             timeFontSize = bottomPanelSize / 13;
-            logoHeight = topPanelSize / 3 + (int) (Ratio / 21);
+            logoHeight = (frame.getHeight() / 12) + (int) (Ratio / 21);
             logoWidth = frame.getWidth() / 2;
             controlHeight = 45;
             controlWidth = 150;
@@ -879,16 +804,13 @@ public class AuroraCoreUI {
      * .-----------------------------------------------------------------------
      * | setSFX()
      * .-----------------------------------------------------------------------
-     * |
-     * | Background sound
-     * |
-     * | This is a method that will set the background sound effects for Aurora
-     * |
+     * | | Background sound | | This is a method that will set the background
+     * sound effects for Aurora |
      * .........................................................................
      *
      */
     public void setSFX() throws UnsupportedAudioFileException, IOException,
-                                LineUnavailableException, InterruptedException {
+            LineUnavailableException, InterruptedException {
         //*
         // Background Sound
         //*
@@ -909,12 +831,9 @@ public class AuroraCoreUI {
      * .-----------------------------------------------------------------------
      * | showExitDialog()
      * .-----------------------------------------------------------------------
-     * |
-     * | This method displays the exit dialog
-     * |
-     * | After the user clicks on the Exit button, the user will be presented
-     * | with a warning dialog asking them if they are sure they want to exit
-     * | the application.
+     * | | This method displays the exit dialog | | After the user clicks on the
+     * Exit button, the user will be presented | with a warning dialog asking
+     * them if they are sure they want to exit | the application.
      * .........................................................................
      *
      */
@@ -982,11 +901,8 @@ public class AuroraCoreUI {
      * .-----------------------------------------------------------------------.
      * | setCursor()
      * .-----------------------------------------------------------------------.
-     * |
-     * | This method sets the mouse pointer cursor and states
-     * |
-     * | Customize the look of the mouse pointer cursor in various states
-     * |
+     * | | This method sets the mouse pointer cursor and states | | Customize
+     * the look of the mouse pointer cursor in various states |
      * .........................................................................
      *
      */
@@ -1053,17 +969,14 @@ public class AuroraCoreUI {
          * Glass Pane from Frame.
          */
         private JPanel glass;
-
         /**
          * ImagePane containing Unfocused Background Image.
          */
         private AImagePane paneUnfocused;
-
         private boolean wasVisible;
 
         /**
-         * FrameFocusListener()
-         * Detect when Frame is out of focus.
+         * FrameFocusListener() Detect when Frame is out of focus.
          */
         public FrameFocusListener() {
             paneUnfocused = new AImagePane("Aurora_Unfocused.png", frame
@@ -1138,7 +1051,6 @@ public class AuroraCoreUI {
     public class MinimizeListener implements ActionListener {
 
         private AuroraCoreUI ui;
-
         private String arg;
 
         public MinimizeListener(AuroraCoreUI ui, String arg) {
@@ -1308,12 +1220,12 @@ public class AuroraCoreUI {
         return centerPanelSize;
     }
 
-    public void setTopPanelSize(int topPanelSize) {
-        this.topPanelSize = topPanelSize;
+    public void setTopPanelHeight(int topPanelSize) {
+        this.topPanelHeight = topPanelSize;
     }
 
-    public int getTopPanelSize() {
-        return topPanelSize;
+    public int getTopPanelHeight() {
+        return topPanelHeight;
     }
 
     public void setWelcomeFontSize(int welcomeFontSize) {
