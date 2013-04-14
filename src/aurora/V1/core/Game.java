@@ -903,6 +903,38 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         storage.getStoredProfile().SaveGameMetadata(this);
     }
 
+    private class EnterGameTypeListener implements ActionListener {
+
+        public EnterGameTypeListener() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+             txtGameType.getTextBox().setFocusable(false);
+             txtGameType.getTextBox().setFocusable(true);
+
+        }
+    }
+
+    private class GameTypeListener implements FocusListener {
+
+        public GameTypeListener() {
+        }
+
+        @Override
+        public void focusGained(FocusEvent e) {
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            if (txtGameType.getTextBox().getText().length() > 0) {
+                setGameType(txtGameType.getText());
+                saveMetadata();
+            }
+        }
+    }
+
     private class FlipButtonListener implements ActionListener {
 
         private Game tempGame;
@@ -1115,6 +1147,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         txtGameType.getTextBox().setCaretColor(Color.CYAN);
         txtGameType.getTextBox().setForeground(new Color(0, 255, 0));
 
+        txtGameType.getTextBox().addFocusListener(new GameTypeListener());
+        txtGameType.getTextBox().addActionListener(new EnterGameTypeListener());
+
 
         // Add To Panels
         // ----------------------------------------------------------------.
@@ -1122,14 +1157,16 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // Add to Left Panel //
 
         lblHoursPlayed.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-        JPanel pnlHoursPlayedLbl = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0,
+        JPanel pnlHoursPlayedLbl = new JPanel(
+                new FlowLayout(FlowLayout.RIGHT, 0,
                 0));
         pnlHoursPlayedLbl.setOpaque(false);
         pnlHoursPlayedLbl.add(lblHoursPlayed);
         pnlLeftPane.add(pnlHoursPlayedLbl);
 
         lblTimesPlayed.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-        JPanel pnlTimesPlayedLbl = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0,
+        JPanel pnlTimesPlayedLbl = new JPanel(
+                new FlowLayout(FlowLayout.RIGHT, 0,
                 0));
         pnlTimesPlayedLbl.setOpaque(false);
         pnlTimesPlayedLbl.add(lblTimesPlayed);
@@ -1240,7 +1277,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlInteractivePane.revalidate();
 
 
-        // Show Data
+        // Hours Played
         // ----------------------------------------------------------------.
 
         if (this.timePlayed != null) {
@@ -1294,11 +1331,16 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                                        + minutesPlayed
                                        + minTxt);
             }
-        }else{
+        } else {
             txtHoursPlayed.setText("None");
         }
         txtHoursPlayed.getTextBox().setEnabled(false);
         txtHoursPlayed.revalidate();
+
+
+
+        // Occurences Played
+        // ----------------------------------------------------------------.
 
         txtTimesPlayed.getTextBox().setEnabled(false);
         String occurence = Integer.toString(this.getOccurencesPlayed());
@@ -1312,6 +1354,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
         }
         txtTimesPlayed.revalidate();
+
+
+
+        // Last Time Played
+        // ----------------------------------------------------------------.
+
 
         txtLastPlayed.getTextBox().setEnabled(false);
 
@@ -1351,10 +1399,16 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             txtLastPlayed.setText("Not Played");
         }
-
-
-
         txtLastPlayed.revalidate();
+
+
+
+        // Game Type
+        // ----------------------------------------------------------------.
+
+        txtGameType.setText(this.getGameType());
+
+
 
     }
 
@@ -1371,7 +1425,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 storage.getStoredLibrary().SaveFavState(thisGame());
             } else {
 
-                AThreadWorker favWorker = new AThreadWorker(new ActionListener() {
+                AThreadWorker favWorker = new AThreadWorker(
+                        new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
