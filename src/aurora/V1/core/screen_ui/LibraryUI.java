@@ -78,237 +78,327 @@ public class LibraryUI extends AuroraApp {
      * Zoom In Button.
      */
     private AButton btnZoomPlus;
+
     /**
      * Zoom Out Button.
      */
     private AButton btnZoomLess;
+
     /**
      * Search Button to activate focus on Library Search Bar.
      */
     private AButton btnSearch;
+
     /**
      * Button to show add game UI.
      */
     private AButton btnShowAddGameUI;
+
     /**
      * Button to Exit out of Library Search.
      */
     private AButton removeSearchButton;
+
     /**
      * Button to Add Searched Game to Library.
      */
     private AButton addGameToLibButton;
+
     /**
      * Button to Close Add Game UI.
      */
     private AButton btnCloseAddUI;
+
     /**
      * Hover Button to navigate Right in Library.
      */
     private AHoverButton btnGameRight;
+
     /**
      * Hover Button to navigate Left in Library.
      */
     private AHoverButton btnGameLeft;
+
     /**
      * Panel Containing Hover Buttons and the Library Grids.
      */
     private JPanel paneLibraryContainer;
+
     /**
      * Panel Containing imgSelectedGamePane.
      */
     private JPanel pnlBottomCenterContainer;
+
     /**
      * Panel Containing SearchBarBG.
      */
     private JPanel pnlSearchBar;
+
     /**
      * Panel Containing Text box for Search Bar.
      */
     private JPanel pnlSearchText;
+
     /**
      * Panel Containing Button Panel and Search Text box Pane for Search Box.
      */
     private JPanel pnlSearchContainer;
+
     /**
      * Panel Containing Search Button for Search Box.
      */
     private JPanel pnlSearchButton;
+
     /**
      * AddGameUI Panel Containing Search box.
      */
     private JPanel pnlAddGameSearchContainer;
+
     /**
      * AddGameUI Panel Containing Center Content for picking game to add.
      */
     private JPanel pnlCenter;
+
     /**
      * AddGameUI Panel Containing Top part of Bottom Panel.
      */
     private JPanel pnTopOfBottom;
+
     /**
      * AddGameUI Panel Containing Top part of Center Panel.
      */
     private JPanel pnlTopOfCenter;
+
     /**
      * AddGameUI Panel Containing Left part of Center Panel.
      */
     private JPanel pnlLeftOfTopCenter;
+
     /**
      * AddGameUI Panel Containing Right part of Top Part of Center Panel.
      */
     private JPanel pnlRightOfTop;
+
     /**
      * AddGameUI Panel Containing Top part of Panel.
      */
     private JPanel pnlTopPane;
+
     /**
      * AddGameUI Panel Containing Left part of Bottom Part of Center Panel.
      */
     private JPanel pnlLeftOfBottom;
+
     /**
      * AddGameUI Panel Containing Right part of Bottom Part of Center Panel.
      */
     private JPanel pnlRightOfBottom;
+
     /**
      * AddGameUI Panel Containing Bottom part of Center Panel.
      */
     private JPanel pnlBottomOfCenter;
+
     /**
      * AddGameUI Panel Containing Right part of Bottom Panel.
      */
     private JPanel pnlRightOfBottomContainer;
+
     /**
      * AddGameUI Main Panel Containing All Other Panels.
      */
     private JPanel pnlAddGameContainer;
+
     /**
      * AddGameUI Glass Panel from current JFrame.
      */
     private JPanel pnlGlass;
+
     /**
      * AddGameUI Bottom panel.
      */
     private JPanel pnlBottomPane;
+
     /**
      * Panel Containing background image of Currently Selected game label.
      */
     private AImagePane imgSelectedGamePane;
+
     /**
      * Background image for Search Bar.
      */
     private AImagePane pnlSearchBarBG;
+
     /**
      * AddGameUI Image Panel representing AddGameUI.
      */
     private AImagePane pnlAddGamePane;
+
     /**
      * Image Panel Containing Search Text Box for Search Bar.
      */
     private AImagePane pnlSearchBG;
+
     /**
      * AddGameUI Panel that contains the Game Cover.
      */
     private AImagePane pnlCoverPane;
+
     /**
      * AddGameUI Image that is a Blank Case as a place holder Game Cover.
      */
     private AImagePane pnlBlankCoverGame;
+
     /**
      * AddGameUI Background Image of Button Panel.
      */
     private AImagePane pnlSearchButtonBG;
+
     /**
      * AddGameUI Shortcut button to Steam games dir.
      */
     private AButton btnGoToSteam;
+
     /**
      * AddGameUI Shortcut button to Programs dir.
      */
     private AButton btnGoToProgram;
+
     /**
      * AddGameUI Pane containing Shortcut buttons.
      */
     private JPanel pnlRightOfTopEast;
+
     /**
      * Image for keyboard icon.
      */
     private AImage imgKeyIco;
+
     /**
      * Image for Favorite logo on side of library.
      */
     private AImage imgFavoritesSideBar;
+
     /**
      * Image Step One badge.
      */
     private AImage statusBadge1;
+
     /**
      * Image Step Two badge.
      */
     private AImage statusBadge2;
+
     /**
      * AddGameUI Label explaining left side of panel.
      */
     private JLabel lblLeftTitle;
+
     /**
      * AddGameUI Label explaining right side of panel.
      */
     private JLabel lblRightTitle;
+
     /**
      * AddGameUI Label explaining Keyboard action.
      */
     private JLabel lblKeyAction;
+
     /**
      * AddGameUI Label with Title of Selected Game.
      */
     public static JLabel lblGameName;
+
     private ArrayList<AImagePane> gameCover;
+
     private int zoom;
+
     private GridManager GridSplit;
+
     private int currentIndex;
+
     private ArrayList<Boolean> loadedPanels;
+
     private GridAnimation GridAnimate;
+
     private JTextField searchTextField;
+
     private LibraryHandler handler;
+
     private ASimpleDB CoverDB;
+
     private AAnimate addGameAnimator;
+
     private JTextField addGameSearchField;
+
     private GameSearch gameSearch;
+
     private searchBoxHandler searchBoxHandler;
+
     private searchFocusHandler searchFocusHandler;
+
     private boolean addGameUI_Visible = false;
+
     private JList gamesList;
+
     private JScrollPane gameScrollPane;
+
     private JFileChooser gameFileChooser;
+
     private DefaultListModel listModel;
+
     private String currentPath;
+
     private AAnimate addGameToLibButtonAnimator;
+
     private AuroraStorage storage;
+
     private HoverButtonLeft moveLibraryLeftHandler;
+
     private HoverButtonRight moveLibraryRightHandler;
+
     private boolean isAddGameUILoaded = false;
+
     private boolean isGameLibraryKeyListenerAdded = false;
+
     private int SearchBarWidth;
+
     public static int gameCoverWidth;
+
     public static int zoomButtonHeight;
+
     public static int selectedGameBarHeight;
+
     public static int selectedGameBarWidth;
+
     public static int addGameWidth;
+
     public static int addGameHeight;
+
     public static int gameNameFontSize;
+
     public static int gameCoverHeight;
+
     private boolean isScreenLoaded = false;
-    private int btnBackWidth;
-    private int btnBackHeight;
+
     private final DashboardUI dashboardUI;
+
     private final AuroraCoreUI coreUI;
+
     private final LibraryLogic logic;
+
     private AButton btnOrganizeGames;
+
     private int listFontSize;
+
     private int gridSearchFontSize;
+
     private int addGameFontSize;
+
     private int bottomTopPadding;
+
     static final Logger logger = Logger.getLogger(LibraryUI.class);
+
     private JPanel pnlRightOfTopEastContainer;
 
     /**
@@ -321,13 +411,13 @@ public class LibraryUI extends AuroraApp {
      * .........................................................................
      *
      * @param auroraStorage AuroraStorage
-     * @param dashboardUi DashboardUI
-     * @param auroraCoreUI AuroraCoreUI
+     * @param dashboardUi   DashboardUI
+     * @param auroraCoreUI  AuroraCoreUI
      *
      */
     public LibraryUI(final AuroraStorage auroraStorage,
-            final DashboardUI dashboardUi,
-            final AuroraCoreUI auroraCoreUI) {
+                     final DashboardUI dashboardUi,
+                     final AuroraCoreUI auroraCoreUI) {
         this.appName = "Game Library";
         this.coreUI = auroraCoreUI;
         this.storage = auroraStorage;
@@ -562,14 +652,18 @@ public class LibraryUI extends AuroraApp {
                 .getScreenWidth() - 20, getDashboardUI().getInfoFeed()
                 .getImageHeight() - 5);
         getDashboardUI().getInfoFeed()
-                .setPreferredSize(new Dimension(getDashboardUI().getInfoFeed().getImageWidth(),
+                .setPreferredSize(new Dimension(getDashboardUI().getInfoFeed()
+                .getImageWidth(),
                 getDashboardUI().getInfoFeed().getImageHeight()));
 
-        coreUI.getBottomContentPane().add(Box.createVerticalStrut(4), BorderLayout.NORTH);
-        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10), BorderLayout.EAST);
+        coreUI.getBottomContentPane().add(Box.createVerticalStrut(4),
+                BorderLayout.NORTH);
+        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10),
+                BorderLayout.EAST);
         coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer(),
                 BorderLayout.CENTER);
-        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10), BorderLayout.WEST);
+        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10),
+                BorderLayout.WEST);
         coreUI.getBottomContentPane().setPreferredSize(new Dimension(dashboardUI
                 .getInfoFeed().getImageWidth(), dashboardUI.getInfoFeed()
                 .getImageHeight()));
@@ -948,7 +1042,7 @@ public class LibraryUI extends AuroraApp {
 
             pnlRightOfTopEast.add(Box.createHorizontalStrut(pnlRightOfTop
                     .getPreferredSize().width
-                    / rightOfTopEastWidth));
+                                                            / rightOfTopEastWidth));
             pnlRightOfTopEast.add(pnlRightOfTopEastContainer, BorderLayout.EAST);
 
 
@@ -1018,9 +1112,9 @@ public class LibraryUI extends AuroraApp {
             pnlGlass.setOpaque(false);
             //* Set Location for Add Game UI panels *//
             pnlAddGamePane.setLocation((coreUI.getFrame().getWidth() / 2)
-                    - (pnlAddGamePane.getImgIcon()
+                                       - (pnlAddGamePane.getImgIcon()
                     .getIconWidth()
-                    / 2), -380);
+                                          / 2), -380);
             pnlAddGamePane
                     .setSize(
                     new Dimension(pnlAddGamePane.getImgIcon()
@@ -1028,7 +1122,7 @@ public class LibraryUI extends AuroraApp {
             pnlAddGamePane.revalidate();
 
             addGameToLibButton.setLocation((coreUI.getFrame().getWidth() / 2)
-                    - addGameToLibButton.getWidth() / 2,
+                                           - addGameToLibButton.getWidth() / 2,
                     pnlAddGamePane
                     .getImgIcon()
                     .getIconHeight() - 90);
@@ -1350,11 +1444,11 @@ public class LibraryUI extends AuroraApp {
         hideAddGameUI();
 
     }
-    
-      public void setSize() {
+
+    public void setSize() {
 
         double Ratio = ((double) coreUI.getFrame().getWidth()
-                / (double) coreUI.getFrame().getHeight());
+                        / (double) coreUI.getFrame().getHeight());
 
         if (logger.isDebugEnabled()) {
             logger.debug("Ratio " + Ratio);
@@ -1366,27 +1460,25 @@ public class LibraryUI extends AuroraApp {
         if (coreUI.isLargeScreen()) {
             gameCoverHeight = coreUI.getFrame().getHeight() / 3 + 5;
             gameCoverWidth = coreUI.getFrame().getWidth() / 5
-                    - 5;
+                             - 5;
             selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
             selectedGameBarWidth = coreUI.getFrame().getWidth() / 3;
             addGameWidth = coreUI.getFrame().getWidth() / 3;
             addGameHeight = coreUI.getBottomPane().getHeight() / 3;
             gameNameFontSize = 32;
             SearchBarWidth = 880;
-            btnBackWidth = 0;
-            btnBackHeight = 0;
             listFontSize = 19;
             gridSearchFontSize = 35;
             addGameFontSize = 28;
             bottomTopPadding = 10;
 
         } else {
-            btnBackWidth = 30;
-            btnBackHeight = 35;
             gameCoverHeight = (int) ((coreUI.getFrame().getHeight()
-                    + (coreUI.getTopPanelHeight() * 2)) / (Ratio * 2.5));
+                                      + (coreUI.getTopPanelHeight() * 2))
+                                     / (Ratio * 2.5));
             gameCoverWidth = (int) ((coreUI.getFrame().getWidth()
-                    + coreUI.getTopPanelHeight()) / (Ratio * 3.5));
+                                     + coreUI.getTopPanelHeight()) / (Ratio
+                                                                      * 3.5));
             addGameWidth = coreUI.getFrame().getWidth() / 3 - 20;
             addGameWidth = gameCoverWidth;
             addGameHeight = 40;
@@ -1403,7 +1495,6 @@ public class LibraryUI extends AuroraApp {
 
 
     }
-
 
     /**
      * Listener for the btnGoToProgram button to make gameFileChooser point to
@@ -1473,7 +1564,6 @@ public class LibraryUI extends AuroraApp {
         }
     }
 
-  
     // Getters and Setters
     // ----------------------------------------------------------------.
     public AAnimate getAddGameAnimator() {
