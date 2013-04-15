@@ -20,6 +20,7 @@ package aurora.V1.core;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.V1.core.screen_ui.WelcomeUI;
+import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.ADialog;
@@ -911,8 +912,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-             txtGameType.getTextBox().setFocusable(false);
-             txtGameType.getTextBox().setFocusable(true);
+            txtGameType.getTextBox().setFocusable(false);
+            txtGameType.getTextBox().setFocusable(true);
 
         }
     }
@@ -948,7 +949,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 logger.debug("Flip button pressed");
             }
 
-            if (!isFliped) {
+            if (!isFliped) { // Flip Game
+
+                // Sound FX
+
+                ASound flipSFX = new ASound("tick_3.wav", false);
+                flipSFX.Play();
 
                 // Replace Game Cover art with Fliped image //
                 tempGame = thisGame();
@@ -976,7 +982,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                 thisGame().revalidate();
                 isFliped = true;
-            } else {
+
+            } else { // Un-flip game
+
+                ASound flipSFX = new ASound("tick_4.wav", false);
+                flipSFX.Play();
+
+
+                // replace with
                 thisGame().clearImage();
                 thisGame().setImage(tempGame.getCoverImagePane().getImgIcon(),
                         height, width);
@@ -1406,7 +1419,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // Game Type
         // ----------------------------------------------------------------.
 
-        txtGameType.setText(this.getGameType());
+        if (this.getGameType() != null && !this.getGameType().equals("null")) {
+            txtGameType.setText(this.getGameType());
+        }
 
 
 
