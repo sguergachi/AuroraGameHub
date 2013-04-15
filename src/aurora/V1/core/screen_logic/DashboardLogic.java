@@ -233,60 +233,6 @@ public class DashboardLogic implements AuroraScreenLogic {
 
     }
 
-    /**
-     * .-----------------------------------------------------------------------.
-     * | createFeed(ArrayList<String>) --> ArrayList <String>
-     * .-----------------------------------------------------------------------.
-     * |
-     * | This method takes an array and fills it up with field for the info
-     * | feed to output.
-     * |
-     * | An ArrayList which should contain nothing is required and in the output
-     * | An ArrayList filled with latest info is given. This ArrayList should go
-     * | into the InfoFeed component.
-     * |
-     * | If No ArrayList is provided (null) then this method will be super smart
-     * | and not crash and totally be nice by creating one for you then
-     * | offering it to you filled with sweet info totally for free
-     * |
-     * .........................................................................
-     *
-     * @param array ArrayList
-     * <p/>
-     * @return an ArrayList with info
-     */
-    public final ArrayList<String> createFeed(final ArrayList<String> array) {
-
-        ArrayList<String> Array = null;
-
-        if (array == null) {
-            Array = new ArrayList<String>();
-        } else {
-            Array = array;
-        }
-
-
-        try {
-            ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
-                    "http://www.rssmix.com/u/3635025/rss.xml");
-            auroraGameHubFeed = auroraGameHubParser.readFeed();
-        } catch (Exception ex) {
-            //* fall back if above feed mixer dies *//
-            ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
-                    "http://www.gamespot.com/rss/game_updates.php?platform=5");
-            auroraGameHubFeed = auroraGameHubParser.readFeed();
-        }
-
-
-        for (Iterator<ARssReader.FeedMessage> it = auroraGameHubFeed
-                .getMessages().
-                iterator(); it.hasNext();) {
-            ARssReader.FeedMessage message = it.next();
-            Array.add(message.getTitle());
-        }
-
-        return Array;
-    }
 
     public final ArrayList<JLabel> createRssFeed() {
 
@@ -296,12 +242,18 @@ public class DashboardLogic implements AuroraScreenLogic {
 
         // read in the RSS feed
         try {
+            logger.error("Connect to RSS mixer!");
             ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
                     "http://www.rssmix.com/u/3635025/rss.xml");
             auroraGameHubFeed = auroraGameHubParser.readFeed();
+            
+            logger.error("Unable to connect to RSS mixer!");
 
             // catch the exception if there is a problem reading the RSS feed
         } catch (Exception ex) {
+            
+            logger.error("Unable to connect to RSS mixer!");
+            
             URL url;
             rssFeedAvailable = false;
             try {
