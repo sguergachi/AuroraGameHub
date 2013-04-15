@@ -653,7 +653,7 @@ public class LibraryUI extends AuroraApp {
                 .getImageHeight() - 5);
         getDashboardUI().getInfoFeed()
                 .setPreferredSize(new Dimension(getDashboardUI().getInfoFeed()
-                .getImageWidth(),
+                .getPreferredSize().width,
                 getDashboardUI().getInfoFeed().getImageHeight()));
 
         coreUI.getBottomContentPane().add(Box.createVerticalStrut(4),
@@ -1036,7 +1036,7 @@ public class LibraryUI extends AuroraApp {
                 rightOfTopEastWidth = 3;
             }
 
-            //changed
+            // Add Go To Program
 
             pnlRightOfTopEastContainer.add(btnGoToProgram);
 
@@ -1450,6 +1450,10 @@ public class LibraryUI extends AuroraApp {
         double Ratio = ((double) coreUI.getFrame().getWidth()
                         / (double) coreUI.getFrame().getHeight());
 
+        int Ratio2 = (coreUI.getFrame().getWidth() - coreUI.getFrame()
+                .getHeight()) / 2;
+
+
         if (logger.isDebugEnabled()) {
             logger.debug("Ratio " + Ratio);
             logger.debug("Height " + coreUI.getFrame().getHeight());
@@ -1458,8 +1462,9 @@ public class LibraryUI extends AuroraApp {
         }
 
         if (coreUI.isLargeScreen()) {
-            gameCoverHeight = coreUI.getFrame().getHeight() / 3 + 5;
-            gameCoverWidth = coreUI.getFrame().getWidth() / 5
+            gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio2 / 10)
+                              + 5;
+            gameCoverWidth = coreUI.getFrame().getWidth() / 5 - (Ratio2 / 10)
                              - 5;
             selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
             selectedGameBarWidth = coreUI.getFrame().getWidth() / 3;

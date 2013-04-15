@@ -275,8 +275,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     .getGameCoverWidth(), libraryUI.getGameCoverHeight());
 
             //Load First Grid by default
-            loadGames(
-                    0);
+            loadGames(0);
         } catch (MalformedURLException ex) {
             logger.error(ex);
         }

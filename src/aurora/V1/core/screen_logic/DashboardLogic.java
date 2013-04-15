@@ -246,14 +246,14 @@ public class DashboardLogic implements AuroraScreenLogic {
             ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
                     "http://www.rssmix.com/u/3635025/rss.xml");
             auroraGameHubFeed = auroraGameHubParser.readFeed();
-            
-            logger.error("Unable to connect to RSS mixer!");
+
+
 
             // catch the exception if there is a problem reading the RSS feed
         } catch (Exception ex) {
-            
+
             logger.error("Unable to connect to RSS mixer!");
-            
+
             URL url;
             rssFeedAvailable = false;
             try {
