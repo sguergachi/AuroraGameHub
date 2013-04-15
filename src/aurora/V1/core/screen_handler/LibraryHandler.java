@@ -176,7 +176,7 @@ public class LibraryHandler implements
             libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(),
                     BorderLayout.NORTH);
             libraryUI.getCoreUI().getFrame().requestFocus();
-            libraryUI.getGameBack().revalidate();
+            libraryUI.getGamesContainer().revalidate();
         }
     }
 
@@ -698,7 +698,7 @@ public class LibraryHandler implements
 
             currentPath = libraryUI.getCurrentPath();
             gridManager = libraryUI.getGridSplit();
-            GameBack = libraryUI.getGameBack();
+            GameBack = libraryUI.getGamesContainer();
             storage = libraryUI.getStorage();
 
             Game game = gameSearch.getFoundGameCover();
@@ -878,7 +878,7 @@ public class LibraryHandler implements
 
         public HoverButtonLeft() {
             gridManager = libraryUI.getGridSplit();
-            GameBack = libraryUI.getGameBack();
+            GameBack = libraryUI.getGamesContainer();
         }
 
         @Override
@@ -992,7 +992,7 @@ public class LibraryHandler implements
         public HoverButtonRight() {
             this.coreUI = libraryUI.getCoreUI();
 
-            GameBack = libraryUI.getGameBack();
+            GameBack = libraryUI.getGamesContainer();
             imgGameLeft = libraryUI.getImgGameLeft();
             imgGameRight = libraryUI.getImgGameRight();
             imgFavorite = libraryUI.getImgFavorite();
@@ -1041,7 +1041,7 @@ public class LibraryHandler implements
 
                 coreUI.getCenterPanel().removeAll();
                 coreUI.getCenterPanel().add(BorderLayout.CENTER, libraryUI
-                        .getGameBack());
+                        .getGamesContainer());
 
                 GameBack.repaint();
                 GameBack.revalidate();
@@ -1083,7 +1083,7 @@ public class LibraryHandler implements
 
         public GameLibraryKeyListener() {
             this.coreUI = libraryUI.getCoreUI();
-            GameBack = libraryUI.getGameBack();
+            GameBack = libraryUI.getGamesContainer();
         }
 
         @Override
@@ -1541,7 +1541,7 @@ public class LibraryHandler implements
             //GameBack is the Panel Containing all the game grids///
 
             currentIndex = gridManager.getArray().indexOf(libraryUI
-                    .getGameBack()
+                    .getGamesContainer()
                     .getComponent(1));
             libraryUI.setCurrentIndex(currentIndex);
 

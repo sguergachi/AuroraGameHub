@@ -441,6 +441,8 @@ public class LibraryUI extends AuroraApp {
         //* Create Components for Library *//
 
         paneLibraryContainer = new JPanel(true);
+        paneLibraryContainer.setBorder(BorderFactory.createEmptyBorder(4,
+                0, 0, 0));
 
         imgFavoritesSideBar = new AImage("library_favourites.png");
 
@@ -1688,7 +1690,7 @@ public class LibraryUI extends AuroraApp {
         return pnlSearchButton;
     }
 
-    public JPanel getGameBack() {
+    public JPanel getGamesContainer() {
         return paneLibraryContainer;
     }
 

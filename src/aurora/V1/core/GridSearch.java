@@ -104,7 +104,7 @@ public class GridSearch {
             try {
                 restoreGrid(); //Restores to The original Library
                 resetAppendedName(); // Resets AppendName variable
-                libraryUI.getGameBack().revalidate(); // Refreshes the Grid.
+                libraryUI.getGamesContainer().revalidate(); // Refreshes the Grid.
 
             } catch (MalformedURLException ex) {
             	logger.error(ex);
@@ -228,13 +228,13 @@ public class GridSearch {
             //If Nothing Found clear grid
             if (foundGameList.isEmpty()) {
                 this.clearSearchGrid();
-                libraryUI.getGameBack().repaint();
+                libraryUI.getGamesContainer().repaint();
             }
 
             //Clear grid
         } else if (AppendedName.length() != 0) {
             this.clearSearchGrid();
-            libraryUI.getGameBack().repaint();
+            libraryUI.getGamesContainer().repaint();
 
         }
 
@@ -328,8 +328,8 @@ public class GridSearch {
                 foundGameList.get(i).getFavoriteButton().addActionListener(
                         FaveListener);
 
-                libraryUI.getGameBack().revalidate();
-                libraryUI.getGameBack().repaint();
+                libraryUI.getGamesContainer().revalidate();
+                libraryUI.getGamesContainer().repaint();
 
                 SearchManager.getGrid(0).revalidate();
                 SearchManager.getGrid(0).repaint();
@@ -363,18 +363,18 @@ public class GridSearch {
         ClearedGrid = true;
 
         //Remove Favorite Side Image
-        libraryUI.getGameBack().remove(0);
-        libraryUI.getGameBack().remove(libraryUI.getImgFavorite());
+        libraryUI.getGamesContainer().remove(0);
+        libraryUI.getGamesContainer().remove(libraryUI.getImgFavorite());
         //Add search Side image
         this.sideSearchImage = new AImage("library_search.png");
-        libraryUI.getGameBack().add(sideSearchImage, BorderLayout.WEST);
+        libraryUI.getGamesContainer().add(sideSearchImage, BorderLayout.WEST);
         for (int i = 0; i < libraryUI.getGridSplit().getArray().size(); i++) {
-            libraryUI.getGameBack().remove(libraryUI.getGridSplit().getGrid(i));
+            libraryUI.getGamesContainer().remove(libraryUI.getGridSplit().getGrid(i));
 
         }
 
-        libraryUI.getGameBack().revalidate();
-        libraryUI.getGameBack().repaint();
+        libraryUI.getGamesContainer().revalidate();
+        libraryUI.getGamesContainer().repaint();
 
         setUpGrid();
 
@@ -391,17 +391,17 @@ public class GridSearch {
 
         ClearedGrid = false;
 
-        libraryUI.getGameBack().removeAll();
+        libraryUI.getGamesContainer().removeAll();
 
-        libraryUI.getGameBack().add(libraryUI.getImgFavorite(),
+        libraryUI.getGamesContainer().add(libraryUI.getImgFavorite(),
                 BorderLayout.WEST);
-        libraryUI.getGameBack().add(libraryUI.getGridSplit().getGrid(0),
+        libraryUI.getGamesContainer().add(libraryUI.getGridSplit().getGrid(0),
                 BorderLayout.CENTER);
-        libraryUI.getGameBack().add(libraryUI.getImgGameRight(),
+        libraryUI.getGamesContainer().add(libraryUI.getImgGameRight(),
                 BorderLayout.EAST);
 
-        libraryUI.getGameBack().revalidate();
-        libraryUI.getGameBack().repaint();
+        libraryUI.getGamesContainer().revalidate();
+        libraryUI.getGamesContainer().repaint();
 
     }
 
@@ -409,11 +409,11 @@ public class GridSearch {
     private void setUpGrid() {
         this.SearchManager = new GridManager(2, 4, ui);
         SearchManager.initiateGrid(0);
-        libraryUI.getGameBack().add(SearchManager.getGrid(0),
+        libraryUI.getGamesContainer().add(SearchManager.getGrid(0),
                 BorderLayout.CENTER);
 
         this.SearchGridAnimator = new GridAnimation(SearchManager, libraryUI
-                .getGameBack());
+                .getGamesContainer());
 
     }
 
