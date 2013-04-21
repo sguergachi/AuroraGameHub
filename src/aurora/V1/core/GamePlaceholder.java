@@ -60,20 +60,19 @@ public class GamePlaceholder extends AImagePane {
     }
 
     public void addButton(String up, String down, String over, ActionListener handler) {
-        
-        buttonPadding = - (allWidth / 20);
-        
+
+
+        buttonPadding = - (allWidth / 20) + (allHeight / 20);
+
         button = new AButton(up, down, over, allWidth, allHeight);
         button.addActionListener(handler);
         buttonPane = new JPanel(new FlowLayout(FlowLayout.LEFT, buttonPadding, 0)); //Contains the Add Game Button
         buttonPane.setOpaque(false);
-        
 
 
-//        button.setPreferredSize(new Dimension(allWidth, allHeight));
+
         button.addMouseListener(new ButtonMouseListener());
         this.addMouseListener(new ButtonMouseListener());
-//        buttonPane.setPreferredSize(new Dimension(allWidth , allHeight));
         buttonPane.addMouseListener(new ButtonMouseListener());
         buttonPane.add(button);
         buttonPane.add(Box.createHorizontalStrut(allWidth));
