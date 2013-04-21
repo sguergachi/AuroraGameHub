@@ -10,6 +10,8 @@
 + Added pin to first grid functionality when you favorite a game
 + Added ability to save metadata to database
 + Added ability to view metadata by flipping game
++ added subtle sound fx in some components (more soon!)
+- improvements to UI for smaller resolutions/screens
 - fixed popovers not showing
 - fixed app not launching in Windows 8
 - fixed period not being searched in Aurora
