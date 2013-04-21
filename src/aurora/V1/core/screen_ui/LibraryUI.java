@@ -1420,7 +1420,7 @@ public class LibraryUI extends AuroraApp {
             listFontSize = 19;
             gridSearchFontSize = 35;
             addGameFontSize = 28;
-            bottomTopPadding = -4;
+            bottomTopPadding = -5;
         }
 
 

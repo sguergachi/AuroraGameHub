@@ -270,9 +270,10 @@ public abstract class AuroraApp implements AuroraScreenUI {
         getCoreUI().getCenterPanel().setPreferredSize(new Dimension(getCoreUI()
                 .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
                                               - getCoreUI().getBottomPane()
-                .getHeight() - getCoreUI().getTopPane().getHeight()));
+                .getHeight() - getCoreUI().getTopPane().getHeight() - 5));
 
         //* Clear Bottom of Top Pane and re-add the Frame Conrols *//
+        getCoreUI().getSouthFromTopPanel().setOpaque(false);
         getCoreUI().getSouthFromTopPanel().removeAll();
         getCoreUI().getSouthFromTopPanel()
                 .add(getCoreUI().getFrameControlContainerPanel(),
