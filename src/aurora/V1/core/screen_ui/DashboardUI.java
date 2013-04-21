@@ -51,13 +51,17 @@ import org.apache.log4j.Logger;
 /**
  * .------------------------------------------------------------------------. |
  * DashboardUI :: Aurora App Class
- * .------------------------------------------------------------------------. |
- * | This class contains the UI for the Dashboard Screen associated with an |
- * appropriate *Handler* and *Logic* class which handle the actions caused | by
- * the UI components found here | | This class must follow the rules stated in
- * the AuroraScreenUI | Interface found in the Aurora Engine. The *Handler* and
- * *Logic* classes | The Handler class is called: DashboardHandler | The Logic
- * class is called: DashboardLogic |
+ * .------------------------------------------------------------------------. 
+ * |
+ * | This class contains the UI for the Dashboard Screen associated with an 
+ * | appropriate *Handler* and *Logic* class which handle the actions caused 
+ * | by the UI components found here 
+ * | 
+ * | This class must follow the rules stated in the AuroraScreenUI 
+ * | Interface found in the Aurora Engine. The *Handler* and *Logic* classes 
+ * | The Handler class is called: DashboardHandler 
+ * | The Logic class is called: DashboardLogic 
+ * |
  * .........................................................................
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
@@ -276,17 +280,20 @@ public class DashboardUI implements AuroraScreenUI {
      * .-----------------------------------------------------------------------.
      * | DashboardUI(AuroraCoreUI, WelcomeUI)
      * .-----------------------------------------------------------------------.
-     * | | This is the Constructor of the Dashboard UI class. | | The
-     * Constructor of Screen Classes must initialize/create both a | Handler and
-     * a Logic object which should contain the UI as a parameter |
+     * |
+     * | This is the Constructor of the Dashboard UI class.
+     * |
+     * | The Constructor of Screen Classes must initialize/create both a
+     * | Handler and a Logic object which should contain the UI as a parameter
+     * |
      * .........................................................................
      *
-     * @param auroraCoreUi AuroraCoreUI
+     * @param auroraCoreUi  AuroraCoreUI
      * @param startScreenUi WelcomeUI
      *
      */
     public DashboardUI(final AuroraCoreUI auroraCoreUi,
-            final WelcomeUI startScreenUi) {
+                       final WelcomeUI startScreenUi) {
         // Other core objects //
         this.startUI = startScreenUi;
         this.storage = startUI.getAuroraStorage();
@@ -354,7 +361,7 @@ public class DashboardUI implements AuroraScreenUI {
         paneLibrary.setVisible(false);
 
         paneNet = new ACarouselPane("dash_carousel_bg.png", (int) carouselWidth
-                + 25,
+                                                            + 25,
                 carouselHeight - 25, true, titleAuroraNet, "auroranet");
         paneNet.setVisible(false);
 
@@ -709,10 +716,13 @@ public class DashboardUI implements AuroraScreenUI {
      * .-----------------------------------------------------------------------.
      * | setSizes()
      * .-----------------------------------------------------------------------.
-     * | | This method generates the initial size of each component in this UI |
+     * |
+     * | This method generates the initial size of each component in this UI
+     * |
      * | The set size uses some trial and error based calculations to determine
-     * | sizes for large screens and for small screens. This method is not |
-     * Perfect but its an improvement on previous implementations |
+     * | sizes for large screens and for small screens. This method is not
+     * | Perfect but its an improvement on previous implementations
+     * |
      */
     private void setSizes() {
 
@@ -727,7 +737,7 @@ public class DashboardUI implements AuroraScreenUI {
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
             carouselImageWidth = carouselHeight - (2 * carouselHeight / 6);
             carouselImageHeight = (int) carouselWidth
-                    - (int) (carouselWidth / 4) - 20;
+                                  - (int) (carouselWidth / 4) - 20;
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
@@ -738,7 +748,7 @@ public class DashboardUI implements AuroraScreenUI {
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
             infoFeedWidth = coreUI.getFrame().getSize().width
-                    - (carouselButtonWidth * 2) - 70;
+                            - (carouselButtonWidth * 2) - 70;
             infoFeedHeight = 55;
 
 
@@ -756,7 +766,7 @@ public class DashboardUI implements AuroraScreenUI {
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 3);
             carouselImageWidth = (int) carouselWidth - 400 / 2;
             carouselImageHeight = carouselHeight - (450 / 2)
-                    - 55;
+                                  - 55;
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
@@ -767,8 +777,9 @@ public class DashboardUI implements AuroraScreenUI {
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
             infoFeedWidth = coreUI.getFrame().getSize().width
-                    - (carouselButtonWidth * 2) - 70;
-            infoFeedHeight = carouselButtonHeight - (bottomPaneHeightAdjust / 18);
+                            - (carouselButtonWidth * 2) - 70;
+            infoFeedHeight = carouselButtonHeight
+                             - (bottomPaneHeightAdjust / 18);
 
 
             if (logger.isDebugEnabled()) {

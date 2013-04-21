@@ -17,7 +17,6 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_logic.WelcomeLogic;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.ANuance;
@@ -28,7 +27,6 @@ import aurora.engine.V1.UI.ACursor;
 import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
-import aurora.engine.V1.UI.ASlickLabel;
 import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -36,11 +34,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,15 +43,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
-import java.awt.event.WindowStateListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.Box;
@@ -66,17 +56,20 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JWindow;
 import org.apache.log4j.Logger;
 
 /**
+ * .------------------------------------------------------------------------.
+ * | AuroraCoreUI
  * .------------------------------------------------------------------------. |
- * AuroraCoreUI
- * .------------------------------------------------------------------------. |
- * | This is the Core UI class, it contains the persistent UI components | that
- * encompasses the main center UI | | It contains the surrounding frame which is
- * to be manipulated and added | to by Aurora Screens. | This class is loaded
- * when the first Aurora Screen is loaded. | |
+ * | This is the Core UI class, it contains the persistent UI components
+ * | that encompasses the main center UI
+ * |
+ * | It contains the surrounding frame which is to be manipulated and added
+ * | to by Aurora Screens.
+ * | This class is loaded when the first Aurora Screen is loaded.
+ * |
+ * |
  * .........................................................................
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
@@ -93,10 +86,10 @@ public class AuroraCoreUI {
      * Generate full Version string to be used at the bottom of UI.
      */
     private final String version =
-            "             //BUILD: " + getResourceBundleToken(
+                         "             //BUILD: " + getResourceBundleToken(
             "BUILD")
-            + "  //REVISION: " + revision
-            + "  //AURORA.ENGINE.VERSION = 0.1." + (Integer
+                         + "  //REVISION: " + revision
+                         + "  //AURORA.ENGINE.VERSION = 0.1." + (Integer
             .parseInt(revision));
     /**
      * Size Constant.
@@ -330,8 +323,10 @@ public class AuroraCoreUI {
      * .-----------------------------------------------------------------------.
      * | AuroraCoreUI(JFrame)
      * .-----------------------------------------------------------------------.
-     * | | This is the Constructor of the AuroraCoreUI class. | | The
-     * constructor sets up the Aurora app main frame
+     * |
+     * | This is the Constructor of the AuroraCoreUI class.
+     * |
+     * | The constructor sets up the Aurora app main frame
      * .........................................................................
      *
      * @param aFrame JFrame
@@ -357,20 +352,24 @@ public class AuroraCoreUI {
      * .-----------------------------------------------------------------------
      * | setUI()
      * .-----------------------------------------------------------------------
-     * | | Sets up the Aurora UI | | This method sets up all the key UI
-     * components that make up the core UI | for Aurora |
+     * |
+     * | Sets up the Aurora UI
+     * |
+     * | This method sets up all the key UI components that make up the core UI
+     * | for Aurora
+     * |
      * .........................................................................
      * <p/>
      * @throws UnsupportedAudioFileException Exception
-     * @throws IOException Exception
-     * @throws LineUnavailableException Exception
-     * @throws InterruptedException Exception
-     * @throws FontFormatException Exception
+     * @throws IOException                   Exception
+     * @throws LineUnavailableException      Exception
+     * @throws InterruptedException          Exception
+     * @throws FontFormatException           Exception
      */
     public final void setUI() throws UnsupportedAudioFileException, IOException,
-            LineUnavailableException,
-            InterruptedException,
-            FontFormatException {
+                                     LineUnavailableException,
+                                     InterruptedException,
+                                     FontFormatException {
 
         //* Determine Global Size based on Screen Size *//
 
@@ -382,7 +381,7 @@ public class AuroraCoreUI {
                 .getScreenDevices()[0].getDisplayMode().getHeight();
 
         logger.info("Current Screen Resolution: " + screenWidth + "x"
-                + screenHeight);
+                    + screenHeight);
 
         //*
         // Check the resolution (in pixels) of the screen to
@@ -804,13 +803,16 @@ public class AuroraCoreUI {
      * .-----------------------------------------------------------------------
      * | setSFX()
      * .-----------------------------------------------------------------------
-     * | | Background sound | | This is a method that will set the background
-     * sound effects for Aurora |
+     * |
+     * | Background sound
+     * |
+     * | This is a method that will set the background sound effects for Aurora
+     * |
      * .........................................................................
      *
      */
     public void setSFX() throws UnsupportedAudioFileException, IOException,
-            LineUnavailableException, InterruptedException {
+                                LineUnavailableException, InterruptedException {
         //*
         // Background Sound
         //*
@@ -831,9 +833,12 @@ public class AuroraCoreUI {
      * .-----------------------------------------------------------------------
      * | showExitDialog()
      * .-----------------------------------------------------------------------
-     * | | This method displays the exit dialog | | After the user clicks on the
-     * Exit button, the user will be presented | with a warning dialog asking
-     * them if they are sure they want to exit | the application.
+     * |
+     * | This method displays the exit dialog
+     * |
+     * | After the user clicks on the Exit button, the user will be presented
+     * | with a warning dialog asking them if they are sure they want to exit
+     * | the application.
      * .........................................................................
      *
      */
