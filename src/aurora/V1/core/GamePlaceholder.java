@@ -66,7 +66,7 @@ public class GamePlaceholder extends AImagePane {
 
         button = new AButton(up, down, over, allWidth, allHeight);
         button.addActionListener(handler);
-        buttonPane = new JPanel(new FlowLayout(FlowLayout.LEFT, buttonPadding, 0)); //Contains the Add Game Button
+        buttonPane = new JPanel(new FlowLayout(FlowLayout.LEFT, -buttonPadding, 0)); //Contains the Add Game Button
         buttonPane.setOpaque(false);
 
 
