@@ -31,20 +31,17 @@ import aurora.engine.V1.UI.ATextField;
 import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -69,162 +66,88 @@ import org.apache.log4j.Logger;
 public class Game extends AImagePane implements Runnable, Cloneable {
 
     private static final long serialVersionUID = 1L;
-
     private String name;
-
     private String coverUrl;
-
     private String gamePath;
-
     private String timePlayed = null;
-
     private String lastPlayed;
-
     private String gameType;
-
     private int numberTimesPlayed;
-
     private int width;
-
     private int height;
-
     private int SIZE_TOPPANE_COMP;
-
     private int SIZE_BottomPaneHeight;
-
     private Thread gameCoverThread;
-
     private boolean isFavorite;
-
     private boolean isLoaded = false;
-
     private boolean isSelected;
-
     private boolean isRemoved = false;
-
     private AProgressWheel progressWheel;
-
     private AImagePane coverImagePane;
-
     private AImagePane blankImagePane;
-
     private AImagePane imgSelectedGlow;
-
     private AImagePane imgStarIcon;
-
     private AImagePane imgOverlayBar;
-
     private AImagePane removeImagePane;
-
     private AImagePane imgConfirmPromptImagePane;
-
     private JPanel pnlInteractivePane;
-
     private JPanel topPanel;
-
     private JPanel playButtonPanel;
-
     private JPanel pnlFlipPane;
-
     private JPanel pnlFavoritePane;
-
     private JPanel bottomPanel;
-
     private JPanel pnlOverlayContainer;
-
     private JPanel confirmPanel;
-
     private JPanel denyPanel;
-
     private AButton btnRemove;
-
     private AButton btnFavorite;
-
     private AButton btnFlip;
-
     private AButton btnPlay;
-
     private AButton confirmButton;
-
     private AButton denyButton;
-
     private ADialog dbErrorDialog;
-
     private GridManager manager;
-
     private AuroraCoreUI coreUI;
-
     private DashboardUI dashboardUi;
-
     private AuroraStorage storage;
-
     private final String rootCoverDBPath = "https://s3.amazonaws.com/CoverArtDB/";
-
     private PlayButtonListener playButtonListener;
-
     private boolean isGameRemoveMode;
-
     private int removeButtonWidth;
-
     private int removeButtonSeperation;
-
     private boolean isFliped;
-
     static final Logger logger = Logger.getLogger(Game.class);
-
     private AButton btnAward;
-
     private JPanel pnlAwardPane;
-
     private AButton btnSetting;
-
     private String gameNameFormat;
-
     private ASlickLabel lblHoursPlayed;
-
     private ASlickLabel lblLastPlayed;
-
     private ASlickLabel lblTimesPlayed;
-
     private ASlickLabel lblGameType;
-
     private ATextField txtHoursPlayed;
-
     private ATextField txtLastPlayed;
-
     private ATextField txtTimesPlayed;
-
     private ATextField txtGameType;
-
     private AImagePane pnlShortcutImage;
-
     private JScrollPane pnlFlipScrollPane;
-
     private JScrollBar flipScrollBar;
-
     private JPanel pnlFlipContentPane;
-
     private JPanel pnlLeftPane;
-
     private JPanel pnlRightPane;
-
     private JPanel pnlFlipContainer;
-
     private JPanel pnlTopImageContainer;
-
     private boolean isFlipUIReady;
-
     private ASlickLabel lblShortcut;
-
     private JPanel pnlShortcutLbl;
-
     private AButton btnWatch;
-
     private AButton btnHelp;
-
     private AButton btnLearn;
-
     private JPanel pnlShortcutBtn;
+    private int flipShortcutWidth;
+    private int flipShortcutHeight;
+    private int labelFontSize;
+    private int flipPadding;
 
     public Game() {
     }
@@ -911,8 +834,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-             txtGameType.getTextBox().setFocusable(false);
-             txtGameType.getTextBox().setFocusable(true);
+            txtGameType.getTextBox().setFocusable(false);
+            txtGameType.getTextBox().setFocusable(true);
 
         }
     }
@@ -995,10 +918,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
         }
     }
-    private int labelFontSize = 18;
-
     private int textBoxWidth;
-
     private int textBoxHeight;
 
     private void setUpFlipedUI() {
@@ -1006,18 +926,16 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         textBoxWidth = width / 3 - 4;
         textBoxHeight = height / 12;
 
-        int topImageWidth = (width / 2) + (width / 10);
-        int topImageHeight = height / 6 + 5;
 
         // Create main Panels
         // ----------------------------------------------------------------.
 
         // Shortcut Pane //
         pnlShortcutImage = new AImagePane("game_flip_shortcutsBG.png",
-                topImageWidth,
-                topImageHeight, new BorderLayout());
+                flipShortcutWidth,
+                flipShortcutHeight, new BorderLayout());
         pnlShortcutImage.setPreferredSize(
-                new Dimension(topImageWidth, topImageHeight));
+                new Dimension(flipShortcutWidth, flipShortcutHeight));
         pnlShortcutImage.setBorder(BorderFactory.createEmptyBorder(0, 5,
                 2, 5));
 
@@ -1030,11 +948,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlShortcutLbl.setOpaque(false);
         pnlShortcutLbl.setPreferredSize(new Dimension(width - width / 4, 10));
 
-        pnlShortcutBtn = new JPanel(new FlowLayout(FlowLayout.LEFT, -16, 0));
+        pnlShortcutBtn = new JPanel(new FlowLayout(FlowLayout.LEFT, -17, 0));
         pnlShortcutBtn.setPreferredSize(new Dimension(width - width / 4, 60));
         pnlShortcutBtn.setOpaque(false);
 
-        int btnWidth = topImageWidth / 4 + 2;
+        int btnWidth = flipShortcutWidth / 4 + 2;
         int btnHeight = btnWidth - 2;
 
         btnWatch = new AButton("game_btn_watch_norm.png",
@@ -1233,7 +1151,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlFlipContainer.setOpaque(false);
         pnlFlipContainer.setPreferredSize(pnlFlipContentPane.getPreferredSize());
         pnlFlipContainer.add(pnlFlipScrollPane, BorderLayout.CENTER);
-        pnlFlipContainer.add(Box.createHorizontalStrut(width / 3 - 5),
+        pnlFlipContainer.add(Box.createHorizontalStrut(width / 3 - flipPadding),
                 BorderLayout.EAST);
 
 
@@ -1253,8 +1171,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlTopImageContainer.setBorder(BorderFactory.createEmptyBorder(20, 0,
                 0, (width / 5)));
-        pnlTopImageContainer.setPreferredSize(new Dimension(topImageWidth,
-                topImageHeight + 30));
+        pnlTopImageContainer.setPreferredSize(new Dimension(flipShortcutWidth,
+                flipShortcutHeight + 30));
         pnlTopImageContainer.setOpaque(false);
 
 
@@ -1647,12 +1565,22 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             SIZE_BottomPaneHeight = (50 * 2) - 10;
             SIZE_TOPPANE_COMP = 5;
+
+            flipShortcutWidth = (width / 2) + (width / 10);
+            flipShortcutHeight = height / 6 + 5;
+            labelFontSize = 18;
+            flipPadding = 5;
         } else {
+            flipShortcutWidth = (width / 2) + (width / 10);
+            flipShortcutHeight = height / 6 + flipShortcutWidth / 12;
             removeButtonWidth = this.width / 2 - 40;
             removeButtonSeperation = -removeButtonWidth / 6 + 5;
 
             SIZE_TOPPANE_COMP = 0;
             SIZE_BottomPaneHeight = (50 * 2) - 10;
+            
+            labelFontSize = 16;
+            flipPadding = 3;
         }
 
         if (logger.isDebugEnabled()) {
