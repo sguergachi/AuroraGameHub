@@ -759,11 +759,14 @@ public class DashboardUI implements AuroraScreenUI {
             topHeight = coreUI.getCenterPanel().getHeight() / 8;
             btnBackWidth = 30;
             btnBackHeight = 35;
-            carouselWidth = coreUI.getFrame().getWidth() / 40 * 16;
+            
+            carouselWidth = (coreUI.getFrame().getWidth() / 40 + topHeight/55) * 16;
             carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
                     getFrame().getWidth() / 7);
+            
             gameCoverHeight = carouselHeight - (2 * carouselHeight / 5);
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 3);
+            
             carouselImageWidth = (int) carouselWidth - 400 / 2;
             carouselImageHeight = carouselHeight - (450 / 2)
                                   - 55;
