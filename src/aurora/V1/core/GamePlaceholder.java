@@ -36,10 +36,15 @@ public class GamePlaceholder extends AImagePane {
     //A Place Holder Component similar to the Game Component.
 
     private AButton button = null;
+
     private JPanel buttonPane;
+
     private int allWidth;
+
     private int allHeight;
+
     static final Logger logger = Logger.getLogger(GamePlaceholder.class);
+
     private int buttonPadding;
 
     public GamePlaceholder() {
@@ -59,14 +64,22 @@ public class GamePlaceholder extends AImagePane {
 
     }
 
-    public void addButton(String up, String down, String over, ActionListener handler) {
+    public void addButton(String up, String down, String over,
+                          ActionListener handler) {
 
 
-        buttonPadding = Math.abs(((allWidth * 2) - (allHeight * 2)) / 2 + ((int) Math.round((double)(allWidth / allHeight) * 0.8)));
+        buttonPadding = Math.abs(((allWidth * 2) - (allHeight * 2)) / 2
+                                 + ((int) Math.round((double) (allWidth
+                                                               / allHeight)
+                                                     * 0.8)));
+        if (buttonPadding > 23) {
+            buttonPadding = 0;
+        }
 
         button = new AButton(up, down, over, allWidth, allHeight);
         button.addActionListener(handler);
-        buttonPane = new JPanel(new FlowLayout(FlowLayout.LEFT, - buttonPadding, 0)); //Contains the Add Game Button
+        buttonPane = new JPanel(new FlowLayout(FlowLayout.LEFT, -buttonPadding,
+                0)); //Contains the Add Game Button
         buttonPane.setOpaque(false);
 
 
@@ -109,12 +122,10 @@ public class GamePlaceholder extends AImagePane {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-
         }
     }
 }
