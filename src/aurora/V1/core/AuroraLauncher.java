@@ -59,49 +59,27 @@ import org.apache.log4j.Logger;
 public class AuroraLauncher implements Runnable, MouseListener {
 
     private Game game;
-
     private JFrame launchPane;
-
     private AuroraCoreUI coreUI;
-
     private AImagePane pnlBackground;
-
     private JPanel pnlTopContainer;
-
     private JPanel pnlTop;
-
     private JLabel lblGameName;
-
     private AImagePane imgGameCover;
-
     private AImagePane imgTitle;
-
     private JPanel pnlCenter;
-
     private JPanel pnlBottom;
-
     private Thread launcherThread;
-
-    private String timeAfter;
-
+    private String timeAfter = null;
     private Process launchGameProcess;
-
     private ASlickLabel lblPlayedInfo;
-
     private ASlickLabel lblPlayedTime;
-
     private boolean manualMode;
-
     private JPanel pnlTimePlayed;
-
     private boolean debug = true;
-
     private AImagePane imgManualMode;
-
     private AButton btnReturnToAurora;
-
     static final Logger logger = Logger.getLogger(AuroraLauncher.class);
-
     private String timeStarted;
 
     public AuroraLauncher(AuroraCoreUI ui) {
@@ -123,11 +101,12 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         launchPane.addWindowFocusListener(new LaunchFrameFocusListener());
         launchPane.addWindowListener(new WindowAdapter() {
-             @Override
+            @Override
             public void windowClosing(WindowEvent e) {
                 logger.info("AuroraLauncher Exiting");
                 gameExited();
             }
+
             @Override
             public void windowClosed(WindowEvent e) {
                 logger.info("AuroraLauncher Exited");
@@ -458,27 +437,28 @@ public class AuroraLauncher implements Runnable, MouseListener {
     }
 
     private void gameExited() {
-         // Game Has Exited
-            // ----------------------------------------------------------------.
 
-            //* Calculate Time *//
+        // Game Has Exited
+        // ----------------------------------------------------------------.
 
+        //* Calculate Time *//
+        if (timeAfter == null) {
             calculateTimePlayed();
+        }
+        //* Decide whether the game has trully quit *//
+        if (manualMode) {
 
-            //* Decide whether the game has trully quit *//
-            if (manualMode) {
+            showManualTimerUI();
 
-                showManualTimerUI();
+        } else {
+            //* Change Title *//
+            imgTitle.setImage("app_launch_standBy.png");
 
-            } else {
-                //* Change Title *//
-                imgTitle.setImage("app_launch_standBy.png");
+            launchPane.setAlwaysOnTop(true);
 
-                launchPane.setAlwaysOnTop(true);
+            showTimeSpentPlaying();
 
-                showTimeSpentPlaying();
-
-            }
+        }
     }
 
     public void showManualTimerUI() {
@@ -541,6 +521,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
     }
 
     private void calculateTimePlayed() {
+
         timeAfter = ATimeLabel.current(ATimeLabel.TIME_24HOUR);
         logger.info(game.getLastPlayed());
         logger.info(timeAfter);
@@ -579,6 +560,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         // Add to total time played this game //
         game.addTime(minDiff, hoursDiff);
+
     }
 
     /**
