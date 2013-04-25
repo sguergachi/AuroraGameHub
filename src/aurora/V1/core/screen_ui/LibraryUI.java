@@ -63,12 +63,12 @@ import org.apache.log4j.Logger;
  * .---------------------------------------------------------------------------.
  * | LibraryUI :: Aurora App Class
  * .---------------------------------------------------------------------------.
- * | 
+ * |
  * | This class contains the UI for the GameLibrary Screen which has a Handler
- * | and a Logic class associated to it. 
- * | 
- * | This is an AuroraApp meaning it also implements the AuroraScreenUI 
- * | interface. 
+ * | and a Logic class associated to it.
+ * |
+ * | This is an AuroraApp meaning it also implements the AuroraScreenUI
+ * | interface.
  * |
  * .............................................................................
  *
@@ -317,11 +317,11 @@ public class LibraryUI extends AuroraApp {
      * .-----------------------------------------------------------------------.
      * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
      * .-----------------------------------------------------------------------.
-     * | 
-     * | This is the Constructor of the LibraryUI UI class. 
-     * | 
-     * | The Constructor of Screen Classes must initialize/create both a 
-     * | Handler and a Logic object which should contain the UI as a parameter 
+     * |
+     * | This is the Constructor of the LibraryUI UI class.
+     * |
+     * | The Constructor of Screen Classes must initialize/create both a
+     * | Handler and a Logic object which should contain the UI as a parameter
      * |
      * .........................................................................
      *
@@ -754,8 +754,6 @@ public class LibraryUI extends AuroraApp {
         btnGoToSteam.setMargin(new Insets(0, 0, 0, 0));
         btnGoToSteam.addActionListener(new GoToSteamListener());
 
-
-        btnGoToSteam.setVisible(false);
 
         if (coreUI.getOS().contains("Mac")) {
             btnGoToProgram = new AButton("addUI_btnGoToApps_norm.png",

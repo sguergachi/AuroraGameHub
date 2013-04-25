@@ -405,7 +405,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         if (Thread.currentThread() == gameCoverThread) {
             progressWheel = new AProgressWheel("Aurora_Loader.png");
             progressWheel.setPreferredSize(this.getPreferredSize());
-            
+
             if (!java.util.Arrays.asList(this.getComponents())
                     .contains(progressWheel)) {
                 this.add(progressWheel, BorderLayout.NORTH);
@@ -512,7 +512,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             if (isFavorite) {
                 setFavorite();
             }
+
+
         }
+
+        this.remove(progressWheel);
+        this.revalidate();
+        this.repaint();
 
     }
 
