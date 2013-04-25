@@ -703,15 +703,15 @@ public class LibraryHandler implements
 
             Game game = gameSearch.getFoundGameCover();
 
-            if (!game.isLoaded()) {
-                try {
-                    game.update();
-                } catch (MalformedURLException ex) {
-                    java.util.logging.Logger.getLogger(LibraryHandler.class
-                            .getName()).
-                            log(Level.SEVERE, null, ex);
-                }
-            }
+//            if (!game.isLoaded()) {
+//                try {
+//                    game.update();
+//                } catch (MalformedURLException ex) {
+//                    java.util.logging.Logger.getLogger(LibraryHandler.class
+//                            .getName()).
+//                            log(Level.SEVERE, null, ex);
+//                }
+//            }
 
             game.setGamePath(currentPath);
             game.setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
@@ -721,6 +721,8 @@ public class LibraryHandler implements
                 storage.getStoredLibrary()
                         .SaveGame(gameSearch.getFoundGameCover());
             }
+            
+            
             gridManager.addGame(game);
             gridManager.finalizeGrid(new ShowAddGameUiHandler(),
                     libraryUI

@@ -405,8 +405,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         if (Thread.currentThread() == gameCoverThread) {
             progressWheel = new AProgressWheel("Aurora_Loader.png");
             progressWheel.setPreferredSize(this.getPreferredSize());
-            this.add(progressWheel, BorderLayout.NORTH);
-
+            
+            if (!java.util.Arrays.asList(this.getComponents())
+                    .contains(progressWheel)) {
+                this.add(progressWheel, BorderLayout.NORTH);
+            }
 
             // Try to Get Image Locally //
             if (dashboardUi.getStartUI().getFileIO().findImg("Game Data",
@@ -470,6 +473,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                 } catch (Exception ex) {
                     logger.error(ex);
+                }finally{
+                    this.remove(progressWheel);
                 }
             }
         }
@@ -1592,8 +1597,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             removeButtonSeperation = -removeButtonWidth / 6 + 5;
 
             SIZE_TOPPANE_COMP = 0;
-            SIZE_BottomPaneHeight = (51 * 2) - (height / 18) + (width  / height + 1);
-            
+            SIZE_BottomPaneHeight = (51 * 2) - (height / 18) + (width / height
+                                                                + 1);
+
             labelFontSize = 16;
             flipPadding = 3;
         }
