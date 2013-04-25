@@ -20,6 +20,7 @@ package aurora.V1.core;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.UI.AImagePane;
+import java.awt.Dimension;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -278,11 +279,9 @@ public class GameSearch implements Runnable {
                                 }
                             }
                         }
-                        
 
                     }
                 });
-                
                 
                 libraryUI.getGamesList().revalidate();
             } catch (Exception ex) {
@@ -299,11 +298,17 @@ public class GameSearch implements Runnable {
                 notFound = new AImagePane("library_noGameFound.png", libraryUI
                         .getPnlBlankCoverGame().getWidth(), libraryUI
                         .getPnlBlankCoverGame().getHeight());
+                notFound.setPreferredSize(new Dimension(libraryUI
+                        .getPnlBlankCoverGame().getWidth(), libraryUI
+                        .getPnlBlankCoverGame().getHeight()));
                 libraryUI.getCoverPane().add(notFound);
                 foundGameCover = null;
+                
                 libraryUI.getStatusBadge1().setImgURl("addUI_badge_invalid.png");
                 libraryUI.getLogic().checkNotifiers();
+                
                 libraryUI.getListModel().removeAllElements();
+                
                 libraryUI.getCoverPane().repaint();
                 libraryUI.getCoverPane().revalidate();
 
