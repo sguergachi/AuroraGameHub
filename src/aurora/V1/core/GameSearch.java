@@ -23,9 +23,9 @@ import aurora.engine.V1.UI.AImagePane;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
-
 
 /**
  * For the AddGameUI to search through the AuroraDB for games.
@@ -35,31 +35,17 @@ import org.apache.log4j.Logger;
 public class GameSearch implements Runnable {
 
     private AuroraCoreUI ui;
-
     private LibraryUI libraryUI;
-
     private ASimpleDB db;
-
-    private ArrayList foundGameList;
-
     private char typed;
-
     private String AppendedName = ""; //This is the concatenation of all characters
-
     private String foundGame;
-
     private static Game foundGameCover;
-
     private AImagePane notFound;
-
     private Thread typeThread;
-
     private int sleep;
-
     private Object[] foundArray;
-
     private AuroraStorage storage;
-
     static final Logger logger = Logger.getLogger(GameSearch.class);
 
     /////////////////////
@@ -72,21 +58,20 @@ public class GameSearch implements Runnable {
         this.db = database;
         this.storage = storage;
         libraryUI = gameLibraryUI;
-        foundGameList = new ArrayList();
 
     }
 
     public void typedChar(char typedChar) {
         typed = typedChar; // Set variable to typeChar
         if (logger.isDebugEnabled()) {
-        	logger.debug("TYPED Character: " + String.valueOf(typed));
+            logger.debug("TYPED Character: " + String.valueOf(typed));
         }
 
         //Append character to var
         AppendedName = AppendedName.concat(String.valueOf(typed));
 
         if (logger.isDebugEnabled()) {
-        	logger.debug("Appended GAME name: " + AppendedName);
+            logger.debug("Appended GAME name: " + AppendedName);
         }
 
         //clear library grid if not already clear
@@ -105,7 +90,7 @@ public class GameSearch implements Runnable {
             try {
                 typeThread.start();
             } catch (IllegalThreadStateException ex) {
-            	logger.error(ex);
+                logger.error(ex);
             }
 
         }
@@ -125,7 +110,7 @@ public class GameSearch implements Runnable {
         }
 
         if (logger.isDebugEnabled()) {
-        	logger.debug("Appended name: " + AppendedName);
+            logger.debug("Appended name: " + AppendedName);
         }
 
         //Start search only when more than 1 character is typed
@@ -180,10 +165,10 @@ public class GameSearch implements Runnable {
     public void searchSpecificGame(String gameName) {
         try {
             foundGame = (String) db.getRowFlex("AuroraTable", new String[]{
-                        "FILE_NAME"}, "GAME_NAME='" + gameName
+                "FILE_NAME"}, "GAME_NAME='" + gameName
                     .replace("'", "''") + "'", "FILE_NAME")[0];
         } catch (Exception ex) {
-        	logger.error(ex);
+            logger.error(ex);
             foundGame = null;
         }
 
@@ -212,7 +197,7 @@ public class GameSearch implements Runnable {
             try {
                 foundGameCover.setCoverUrl(foundGame);
             } catch (MalformedURLException ex) {
-            	logger.error(ex);
+                logger.error(ex);
             }
             foundGameCover.setCoverSize(libraryUI.getPnlBlankCoverGame()
                     .getWidth(), libraryUI.getPnlBlankCoverGame().getHeight());
@@ -223,7 +208,7 @@ public class GameSearch implements Runnable {
                 foundGameCover.update();
                 foundGameCover.removeOverlayUI();
             } catch (MalformedURLException ex) {
-            	logger.error(ex);
+                logger.error(ex);
             }
 
             //Change notification
@@ -245,9 +230,9 @@ public class GameSearch implements Runnable {
         if (AppendedName.length() <= 0 || libraryUI.getGameSearchBar().getText()
                 .length() == 0) {
 
-        	if (logger.isDebugEnabled()) {
-        		logger.debug("RESETTING PANE");
-        	}
+            if (logger.isDebugEnabled()) {
+                logger.debug("RESETTING PANE");
+            }
 
             resetCover();
             libraryUI.getCoverPane().repaint();
@@ -257,35 +242,53 @@ public class GameSearch implements Runnable {
             //Query the database
 
             try {
-            	if (logger.isDebugEnabled()) {
-            		logger.debug("Searching for" + AppendedName.toString());
-            	}
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Searching for" + AppendedName.toString());
+                }
 
                 foundArray = db.searchAprox("AuroraTable", "FILE_NAME",
                         "GAME_NAME", AppendedName.toString());
             } catch (SQLException ex) {
-            	logger.error(ex);
+                logger.error(ex);
             }
             try {
                 //Get the first game name as a seperate string to show
                 //in cover Art
                 foundGame = (String) foundArray[0];
                 if (logger.isDebugEnabled()) {
-                	logger.debug(foundGame);
+                    logger.debug(foundGame);
                 }
 
-                //Add rest of found items to the List to allow for selection of other games
-                for (int i = 0; i <= 10 && i < foundArray.length; i++) {
-                    if (foundArray[i] != null) {
-                        String gameItem = (String) foundArray[i];
-                        libraryUI.getListModel().addElement(gameItem
-                                .replace("-", " ").replace(".png", ""));
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        
+                        //Add rest of found items to the List to allow for selection of other games
+                        for (int i = 0; i <= 10 && i < foundArray.length; i++) {
+                            if (foundArray[i] != null) {
+                                String gameItem = (String) foundArray[i];
+                                if (!libraryUI.getListModel().contains(gameItem
+                                        .replace("-", " ").replace(".png", ""))) {
+                                    libraryUI.getListModel().addElement(gameItem
+                                            .replace("-", " ").replace(".png",
+                                            ""));
+
+                                    libraryUI.getGamesList().revalidate();
+                                    libraryUI.getGamesList().repaint();
+                                }
+                            }
+                        }
+                        
+
                     }
-                }
+                });
+                
+                
                 libraryUI.getGamesList().revalidate();
             } catch (Exception ex) {
                 foundGame = null;
             }
+
 
 
             //If Can't Get the game then show a Placeholder Image
@@ -314,7 +317,7 @@ public class GameSearch implements Runnable {
                 try {
                     foundGameCover.setCoverUrl(foundGame); //use seperate string
                 } catch (MalformedURLException ex) {
-                	logger.error(ex);
+                    logger.error(ex);
                 }
                 foundGameCover.setCoverSize(libraryUI.getPnlBlankCoverGame()
                         .getWidth(), libraryUI.getPnlBlankCoverGame()
@@ -328,7 +331,7 @@ public class GameSearch implements Runnable {
                     foundGameCover.update();
                     foundGameCover.removeOverlayUI();
                 } catch (MalformedURLException ex) {
-                	logger.error(ex);
+                    logger.error(ex);
                 }
 
                 //Trun notifier Green
@@ -345,13 +348,13 @@ public class GameSearch implements Runnable {
 
         while (Thread.currentThread() == typeThread) {
             try {
-            	if (logger.isDebugEnabled()) {
-            		logger.debug("WAITING FOR SEARCH");
-            	}
+                if (logger.isDebugEnabled()) {
+                    logger.debug("WAITING FOR SEARCH");
+                }
 
                 Thread.sleep(sleep);
             } catch (InterruptedException ex) {
-            	logger.error(ex);
+                logger.error(ex);
             }
             break;
         }
