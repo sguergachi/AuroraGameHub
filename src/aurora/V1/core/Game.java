@@ -1618,6 +1618,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             if (isFavorite) {
                 unfavorite();
                 storage.getStoredLibrary().SaveFavState(thisGame());
+                manager.moveUnfavorite(Game.this);
             } else {
 
                 AThreadWorker favWorker = new AThreadWorker(
