@@ -703,15 +703,6 @@ public class LibraryHandler implements
 
             Game game = gameSearch.getFoundGameCover();
 
-//            if (!game.isLoaded()) {
-//                try {
-//                    game.update();
-//                } catch (MalformedURLException ex) {
-//                    java.util.logging.Logger.getLogger(LibraryHandler.class
-//                            .getName()).
-//                            log(Level.SEVERE, null, ex);
-//                }
-//            }
 
             game.setGamePath(currentPath);
             game.setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
@@ -721,8 +712,8 @@ public class LibraryHandler implements
                 storage.getStoredLibrary()
                         .SaveGame(gameSearch.getFoundGameCover());
             }
-            
-            
+
+
             gridManager.addGame(game);
             gridManager.finalizeGrid(new ShowAddGameUiHandler(),
                     libraryUI
@@ -735,6 +726,17 @@ public class LibraryHandler implements
 
             libraryUI.setCurrentIndex(
                     gridManager.getArray().indexOf(GameBack.getComponent(1)));
+
+
+            if (!game.isLoaded()) {
+                try {
+                    game.update();
+                } catch (MalformedURLException ex) {
+                    java.util.logging.Logger.getLogger(LibraryHandler.class
+                            .getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            }
 
             GridMove = new MoveToGrid(game);
             //* Transition towards to left most grid to see the game added *//

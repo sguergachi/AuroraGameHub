@@ -17,16 +17,12 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_logic.WelcomeLogic;
-import aurora.V1.core.screen_ui.WelcomeUI;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.ADialog;
-import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
-import aurora.engine.V1.UI.AProgressWheel;
 import aurora.engine.V1.UI.ASlickLabel;
 import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.*;
@@ -37,19 +33,15 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collection;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 /**

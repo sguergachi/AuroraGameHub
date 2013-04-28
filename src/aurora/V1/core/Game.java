@@ -67,87 +67,169 @@ import org.apache.log4j.Logger;
 public class Game extends AImagePane implements Runnable, Cloneable {
 
     private static final long serialVersionUID = 1L;
+
     private String name;
+
     private String coverUrl;
+
     private String gamePath;
+
     private String timePlayed = null;
+
     private String lastPlayed;
+
     private String gameType;
+
     private int numberTimesPlayed;
+
     private int width;
+
     private int height;
+
     private int SIZE_TOPPANE_COMP;
+
     private int SIZE_BottomPaneHeight;
+
     private Thread gameCoverThread;
+
     private boolean isFavorite;
+
     private boolean isLoaded = false;
+
     private boolean isSelected;
+
     private boolean isRemoved = false;
+
     private AProgressWheel progressWheel;
+
     private AImagePane coverImagePane;
+
     private AImagePane blankImagePane;
+
     private AImagePane imgSelectedGlow;
+
     private AImagePane imgStarIcon;
+
     private AImagePane imgOverlayBar;
+
     private AImagePane removeImagePane;
+
     private AImagePane imgConfirmPromptImagePane;
+
     private JPanel pnlInteractivePane;
+
     private JPanel topPanel;
+
     private JPanel playButtonPanel;
+
     private JPanel pnlFlipPane;
+
     private JPanel pnlFavoritePane;
+
     private JPanel bottomPanel;
+
     private JPanel pnlOverlayContainer;
+
     private JPanel confirmPanel;
+
     private JPanel denyPanel;
+
     private AButton btnRemove;
+
     private AButton btnFavorite;
+
     private AButton btnFlip;
+
     private AButton btnPlay;
+
     private AButton confirmButton;
+
     private AButton denyButton;
+
     private ADialog dbErrorDialog;
+
     private GridManager manager;
+
     private AuroraCoreUI coreUI;
+
     private DashboardUI dashboardUi;
+
     private AuroraStorage storage;
+
     private final String rootCoverDBPath = "https://s3.amazonaws.com/CoverArtDB/";
+
     private PlayButtonListener playButtonListener;
+
     private boolean isGameRemoveMode;
+
     private int removeButtonWidth;
+
     private int removeButtonSeperation;
+
     private boolean isFliped;
+
     static final Logger logger = Logger.getLogger(Game.class);
+
     private AButton btnAward;
+
     private JPanel pnlAwardPane;
+
     private AButton btnSetting;
+
     private String gameNameFormat;
+
     private ASlickLabel lblHoursPlayed;
+
     private ASlickLabel lblLastPlayed;
+
     private ASlickLabel lblTimesPlayed;
+
     private ASlickLabel lblGameType;
+
     private ATextField txtHoursPlayed;
+
     private ATextField txtLastPlayed;
+
     private ATextField txtTimesPlayed;
+
     private ATextField txtGameType;
+
     private AImagePane pnlShortcutImage;
+
     private JScrollPane pnlFlipScrollPane;
+
     private JScrollBar flipScrollBar;
+
     private JPanel pnlFlipContentPane;
+
     private JPanel pnlLeftPane;
+
     private JPanel pnlRightPane;
+
     private JPanel pnlFlipContainer;
+
     private JPanel pnlTopImageContainer;
+
     private boolean isFlipUIReady;
+
     private ASlickLabel lblShortcut;
+
     private JPanel pnlShortcutLbl;
+
     private AButton btnWatch;
+
     private AButton btnHelp;
+
     private AButton btnLearn;
+
     private JPanel pnlShortcutBtn;
+
     private int flipShortcutWidth;
+
     private int flipShortcutHeight;
+
     private int labelFontSize;
+
     private int flipPadding;
 
     public Game() {
@@ -473,7 +555,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                 } catch (Exception ex) {
                     logger.error(ex);
-                }finally{
+                } finally {
                     this.remove(progressWheel);
                 }
             }
@@ -883,66 +965,70 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 logger.debug("Flip button pressed");
             }
 
-            if (!isFliped) { // Flip Game
+            if (isLoaded) {
+                if (!isFliped) { // Flip Game
 
-                // Sound FX
+                    // Sound FX
 
-                ASound flipSFX = new ASound("tick_3.wav", false);
-                flipSFX.Play();
+                    ASound flipSFX = new ASound("tick_3.wav", false);
+                    flipSFX.Play();
 
-                // Replace Game Cover art with Fliped image //
-                tempGame = thisGame();
+                    // Replace Game Cover art with Fliped image //
+                    tempGame = thisGame();
 
-                thisGame().clearImage();
-                thisGame().setImage("Reverse-Case.png", height, width);
+                    thisGame().clearImage();
+                    thisGame().setImage("Reverse-Case.png", height, width);
 
-                btnFlip.setButtonStates("game_btn_reverseLeft_norm.png",
-                        "game_btn_reverseLeft_down.png",
-                        "game_btn_reverseLeft_over.png");
+                    btnFlip.setButtonStates("game_btn_reverseLeft_norm.png",
+                            "game_btn_reverseLeft_down.png",
+                            "game_btn_reverseLeft_over.png");
 
-                pnlOverlayContainer.removeAll();
-                pnlOverlayContainer.validate();
+                    pnlOverlayContainer.removeAll();
+                    pnlOverlayContainer.validate();
 
-                pnlOverlayContainer.add(pnlAwardPane);
-                pnlOverlayContainer.add(btnSetting);
-                pnlOverlayContainer.add(pnlFlipPane);
-                pnlOverlayContainer.revalidate();
+                    pnlOverlayContainer.add(pnlAwardPane);
+                    pnlOverlayContainer.add(btnSetting);
+                    pnlOverlayContainer.add(pnlFlipPane);
+                    pnlOverlayContainer.revalidate();
 
-                if (isFlipUIReady) {
-                    showFlipUIContent();
-                } else {
-                    setUpFlipedUI();
+                    if (isFlipUIReady) {
+                        showFlipUIContent();
+                    } else {
+                        setUpFlipedUI();
+                    }
+
+                    thisGame().revalidate();
+                    isFliped = true;
+
+                } else { // Un-flip game
+
+                    ASound flipSFX = new ASound("tick_4.wav", false);
+                    flipSFX.Play();
+
+
+                    // replace with
+                    thisGame().clearImage();
+                    thisGame().setImage(tempGame.getCoverImagePane()
+                            .getImgIcon(),
+                            height, width);
+                    btnFlip.setButtonStates("game_btn_reverseRight_norm.png",
+                            "game_btn_reverseRight_down.png",
+                            "game_btn_reverseRight_over.png");
+
+
+                    // reset to normal overlay UI //
+                    reAddInteractive();
+                    select();
+
+
+                    thisGame().revalidate();
+                    isFliped = false;
                 }
-
-                thisGame().revalidate();
-                isFliped = true;
-
-            } else { // Un-flip game
-
-                ASound flipSFX = new ASound("tick_4.wav", false);
-                flipSFX.Play();
-
-
-                // replace with
-                thisGame().clearImage();
-                thisGame().setImage(tempGame.getCoverImagePane().getImgIcon(),
-                        height, width);
-                btnFlip.setButtonStates("game_btn_reverseRight_norm.png",
-                        "game_btn_reverseRight_down.png",
-                        "game_btn_reverseRight_over.png");
-
-
-                // reset to normal overlay UI //
-                reAddInteractive();
-                select();
-
-
-                thisGame().revalidate();
-                isFliped = false;
             }
         }
     }
     private int textBoxWidth;
+
     private int textBoxHeight;
 
     private void setUpFlipedUI() {
@@ -1508,7 +1594,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             StoredLibrary libraryStorage = storage.getStoredLibrary();
             libraryStorage.search(name);
             libraryStorage.removeGame(Game.this);
-            storage.getStoredProfile().removeGameMetadata(Game.this);
+            if (storage.getStoredProfile().getGameNames().size() > 0) {
+                storage.getStoredProfile().removeGameMetadata(Game.this);
+            }
             manager.removeGame(Game.this);
 
 
