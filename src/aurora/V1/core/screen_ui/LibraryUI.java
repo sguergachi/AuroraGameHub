@@ -1011,9 +1011,9 @@ public class LibraryUI extends AuroraApp {
 
 
             //* Set Up Textfield where user will search for game to add *//
-            addGameSearchField.setFont(coreUI.getDefaultFont().deriveFont(
+            addGameSearchField.setFont(coreUI.getRopaFont().deriveFont(
                     Font.PLAIN,
-                    addGameFontSize));
+                    addGameFontSize - 3));
             addGameSearchField.setForeground(Color.gray);
             addGameSearchField.setOpaque(false);
             addGameSearchField.setBorder(BorderFactory.createEmptyBorder());

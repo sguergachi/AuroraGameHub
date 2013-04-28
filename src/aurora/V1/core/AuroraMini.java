@@ -242,7 +242,7 @@ public class AuroraMini {
             timer.stop();
         }
         timer = null;
-        timer = new Timer(30, new AnimateINFrameListener());
+        timer = new Timer(20, new AnimateINFrameListener());
         timer.setInitialDelay(900);
         timer.setRepeats(true);
 
@@ -258,7 +258,7 @@ public class AuroraMini {
             timer.stop();
         }
         timer = null;
-        timer = new Timer(30, new AnimateOUTFrameListener());
+        timer = new Timer(20, new AnimateOUTFrameListener());
         timer.setInitialDelay(200);
         timer.setRepeats(true);
         timer.start();
@@ -298,7 +298,7 @@ public class AuroraMini {
 
             count++; //Accelerator
 
-            if (mini.getX() > (coreUI.getScreenWidth() - 70) - 170) {
+            if (mini.getX() > (coreUI.getScreenWidth() - 75) - 170) {
                 mini.setLocation(mini.getX() - 4 - count, mini.getY());
             } else {
                 timer.stop();
@@ -318,7 +318,7 @@ public class AuroraMini {
 
             count++; //Accelerator
 
-            if (mini.getX() < (coreUI.getScreenWidth() - 70)) {                //Stop Here
+            if (mini.getX() < (coreUI.getScreenWidth() - 75)) {                //Stop Here
                 mini.setLocation(mini.getX() + 4 + count, mini.getY());         //Animate
             } else {
                 timer.stop();

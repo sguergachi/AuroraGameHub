@@ -32,7 +32,10 @@ import aurora.engine.V1.UI.ATextField;
 import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -920,6 +923,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         storage.getStoredProfile().SaveGameMetadata(this);
     }
 
+
+
     private class EnterGameTypeListener implements ActionListener {
 
         public EnterGameTypeListener() {
@@ -1068,12 +1073,17 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         btnWatch = new AButton("game_btn_watch_norm.png",
                 "game_btn_watch_down.png",
                 "game_btn_watch_over.png", btnWidth, btnHeight);
+        btnWatch.addActionListener(new WatchListener());
+
         btnHelp = new AButton("game_btn_help_norm.png",
                 "game_btn_help_down.png",
                 "game_btn_help_over.png", btnWidth, btnHeight);
+        btnHelp.addActionListener(new FixListener());
+
         btnLearn = new AButton("game_btn_learn_norm.png",
                 "game_btn_learn_down.png",
                 "game_btn_learn_over.png", btnWidth, btnHeight);
+        btnLearn.addActionListener(new LearnListener());
 
         // Content Pane //
         pnlFlipContentPane = new JPanel(new BorderLayout(0, 0));
@@ -1293,6 +1303,89 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
+
+     private class WatchListener implements ActionListener {
+
+        public WatchListener() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String url = "http://www.youtube.com/results?search_query=";
+            String gameName = getName().replace(" ", "+").replace("'", "");;
+            url += gameName;
+
+            try {
+                try {
+                    Desktop.getDesktop().browse(new URI(url));
+                } catch (URISyntaxException ex) {
+                    java.util.logging.Logger.getLogger(Game.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(Game.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            }
+
+        }
+    }
+
+     private class FixListener implements ActionListener {
+
+        public FixListener() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String url = "http://pcgamingwiki.com/wiki/";
+            String gameName = getName().replace(" ", "_").replace("'", "");
+            url += gameName;
+
+            try {
+                try {
+                    Desktop.getDesktop().browse(new URI(url));
+                } catch (URISyntaxException ex) {
+                    java.util.logging.Logger.getLogger(Game.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(Game.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            }
+
+        }
+    }
+
+
+     private class LearnListener implements ActionListener {
+
+        public LearnListener() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String url = ".wikia.com";
+            String gameName = "http://www." + getName().replace(" ", "").replace("'", "");;
+            url = gameName + url;
+
+            try {
+                try {
+                    Desktop.getDesktop().browse(new URI(url));
+                } catch (URISyntaxException ex) {
+                    java.util.logging.Logger.getLogger(Game.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(Game.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            }
+
+        }
+    }
+
     private void showFlipUIContent() {
 
         topPanel.removeAll();
@@ -1441,6 +1534,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
 
     }
+
+
 
     class FavoriteButtonListener implements ActionListener {
 
