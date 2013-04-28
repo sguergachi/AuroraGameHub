@@ -879,6 +879,20 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
+     /**
+     * .-----------------------------------------------------------------------.
+     * | animateFavouriteMove()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Replaces the Game Cover and shows the Favorited Image cover for a
+     * | second then re-shows the game cover.
+     * |
+     * | This is used as a visual cue to indicate that a game has been favorited
+     * | and moved because of that.
+     * |
+     * .........................................................................
+     * <p/>
+     */
     private void animateFavouriteMove() {
 
         hideOverlayUI();
@@ -1036,6 +1050,18 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private int textBoxHeight;
 
+
+     /**
+     * .-----------------------------------------------------------------------.
+     * | setUpFlipedUI()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Sets up the UI that is shown when the Flip button on the game is
+     * | selected.
+     * |
+     * .........................................................................
+     * <p/>
+     */
     private void setUpFlipedUI() {
 
         textBoxWidth = width / 3 - 4;
@@ -1304,6 +1330,17 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
 
+    /**
+     * .-----------------------------------------------------------------------.
+     * | WatchListener
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Listener for the Watch shortcut button to link to the Youtube search
+     * | results for the game
+     * |
+     * .........................................................................
+     * <p/>
+     */
      private class WatchListener implements ActionListener {
 
         public WatchListener() {
@@ -1331,6 +1368,18 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | FixListener
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Listener for the Watch shortcut button to link to the PCgamingWiki
+     * | search results for the game
+     * |
+     * .........................................................................
+     * <p/>
+     */
      private class FixListener implements ActionListener {
 
         public FixListener() {
@@ -1359,6 +1408,17 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
 
+     /**
+     * .-----------------------------------------------------------------------.
+     * | LearnListener
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Listener for the Watch shortcut button to link to the Wikia
+     * | search results for the game
+     * |
+     * .........................................................................
+     * <p/>
+     */
      private class LearnListener implements ActionListener {
 
         public LearnListener() {
@@ -1386,6 +1446,16 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
+     /**
+     * .-----------------------------------------------------------------------.
+     * | showFlipUIContent()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Shows the flip UI which has been loaded using the setUpFlipedUI()
+     * |
+     * .........................................................................
+     * <p/>
+     */
     private void showFlipUIContent() {
 
         topPanel.removeAll();

@@ -11,7 +11,8 @@
 + Added ability to save metadata to database
 + Added ability to view metadata by flipping game
 + Added shortcuts to Watch, Fix and Learn about games in new Flip UI.
-+ Added subtle sound fx in some components (more soon!)
++ Added subtle sound FX in some components (more soon!)
++ Added 50 more games to AuroraDB
 - updated h2 database engine do r171 for more speed and stability
 - improvements to UI for smaller resolutions/screens
 - fixed popovers of File browser in add game UI not showing
