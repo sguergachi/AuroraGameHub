@@ -575,9 +575,9 @@ public class GridManager {
         grid.update();
         ui.getFrame().repaint();
     }
-    
+
     /**
-     * Moves a game that has been unfavorited.  The unfavorited game will be moved
+     * Moves a game that has been unfavorited. The unfavorited game will be moved
      * to the location before the first unfavorited game that is found in the library
      *
      * @param GameCover object
@@ -598,119 +598,118 @@ public class GridManager {
         if (logger.isDebugEnabled()) {
             logger.debug("Game was found in index: " + index);
         }
-        
+
         // get the grid where the game is located
         AGridPanel grid = this.getGrid(index);
-                
+
         int firstUnfavoriteGridIndex = 0;
         int firstUnfavoriteGameIndex = 0;
         int i = index;
         int j = gridLocation[1] + 1;
         boolean firstUnfavouriteFound = false;
         AGridPanel currentGrid = null;
-        	
+
         while ((i < Grids.size()) && !firstUnfavouriteFound) {
             currentGrid = this.getGrid(i);
             int lastGameIndex = currentGrid.getLastIndexOf(Game.class);
             Game lastGame = (Game) currentGrid.getComponent(lastGameIndex);
-           
-            if (!lastGame.isFavorite()){
-            	// if the last game is not a favourite then we know to look in this grid
-            	// for the first game that is not favourited
-            	
-            	while ((j <= lastGameIndex) && !firstUnfavouriteFound) {
-            		Game g = (Game) currentGrid.getComponent(j);
-            		if (!g.isFavorite()) {
-            			firstUnfavouriteFound = true;
-            			firstUnfavoriteGridIndex = i;
-            			firstUnfavoriteGameIndex = j;
-            		}
-            		j++;
-            	}
-            }                    
+
+            if (!lastGame.isFavorite()) {
+                // if the last game is not a favourite then we know to look in this grid
+                // for the first game that is not favourited
+
+                while ((j <= lastGameIndex) && !firstUnfavouriteFound) {
+                    Game g = (Game) currentGrid.getComponent(j);
+                    if (!g.isFavorite()) {
+                        firstUnfavouriteFound = true;
+                        firstUnfavoriteGridIndex = i;
+                        firstUnfavoriteGameIndex = j;
+                    }
+                    j++;
+                }
+            }
             i++;
             j = 0;
         }
-         	
-          if (index == firstUnfavoriteGridIndex) {
-        	  grid.removeComp(game);
-              grid.update();
-        	  grid.addToGrid(game, firstUnfavoriteGameIndex - 1);
-        	  grid.update();
-        	  
-        	  // if the first unfavourite game is found in a grid different
-        	  // than the grid where the game was selected as unfavourite
-          } else if (index < firstUnfavoriteGridIndex) {
-        	  
-        	  AGridPanel prevGrid = grid;
-        	  AGridPanel currGrid = null;
-        	  
-        	  // check to see if the first unfavourite game is in the next grid and if so, is it
-        	  // the first game in the grid.  If it is, then we simply move the unfavourite
-        	  // game to the end of the current grid it is in
-        	  
-        	  if (firstUnfavoriteGameIndex == 0) {
-        		  if ((index + 1) == firstUnfavoriteGridIndex) {
-        			  prevGrid.removeComp(game);
-        			  prevGrid.update();
-        			  prevGrid.addToGrid(game, 7);
-        			  prevGrid.update();
-        		  } else if ((index + 1) < firstUnfavoriteGridIndex) {
-        			  for (int k = index + 1; k < firstUnfavoriteGridIndex; k++) {
-            			  
-            			  // remove the unfavourited game
-            			  prevGrid.removeComp(game);
-            			  prevGrid.update();
-            			  
-            			  // get the first game of the next 
-                		  currGrid = this.getGrid(k);
-                		  // get the first game of the next grid and move
-                		  // it to the previous grid
-                		  Game tempGame = (Game) currGrid.getComponent(0);
-                		  currGrid.removeComp(tempGame);
-                		  currGrid.update();
-                		  prevGrid.addToGrid(tempGame, 7);
-                		  prevGrid.update();
-                		  
-                		  currGrid.addToGrid(game, 7);
-                		  currGrid.update();
-                		  prevGrid = currGrid;
-                	  }
-        		  }
-        	  } else if (firstUnfavoriteGameIndex > 0) {
-        		  
-        		  for (int k = index + 1; k <= firstUnfavoriteGridIndex; k++) {
-        			  
-        			  // remove the unfavourited game
-        			  prevGrid.removeComp(game);
-        			  prevGrid.update();
-        			  
-        			  // get the first game of the next 
-            		  currGrid = this.getGrid(k);
-            		  
-            		  // get the first game of the next grid and move
-                	  // it to the previous grid
-                	  Game tempGame = (Game) currGrid.getComponent(0);
-                	  currGrid.removeComp(tempGame);
-                	  currGrid.update();
-                	  prevGrid.addToGrid(tempGame, 7);
-                	  prevGrid.update();
-            		  
-            		  
-            		  if (k == firstUnfavoriteGridIndex) {
-            			  currGrid.addToGrid(game, firstUnfavoriteGameIndex - 1);
-                		  currGrid.update();  
-            		  }
-            		  
-            		  prevGrid = currGrid;
-            	  }  
-        	  }    	  
-          }
+
+        if (index == firstUnfavoriteGridIndex) {
+            grid.removeComp(game);
+            grid.update();
+            grid.addToGrid(game, firstUnfavoriteGameIndex - 1);
+            grid.update();
+
+            // if the first unfavourite game is found in a grid different
+            // than the grid where the game was selected as unfavourite
+        } else if (index < firstUnfavoriteGridIndex) {
+
+            AGridPanel prevGrid = grid;
+            AGridPanel currGrid = null;
+
+            // check to see if the first unfavourite game is in the next grid and if so, is it
+            // the first game in the grid.  If it is, then we simply move the unfavourite
+            // game to the end of the current grid it is in
+
+            if (firstUnfavoriteGameIndex == 0) {
+                if ((index + 1) == firstUnfavoriteGridIndex) {
+                    prevGrid.removeComp(game);
+                    prevGrid.update();
+                    prevGrid.addToGrid(game, 7);
+                    prevGrid.update();
+                } else if ((index + 1) < firstUnfavoriteGridIndex) {
+                    for (int k = index + 1; k < firstUnfavoriteGridIndex; k++) {
+
+                        // remove the unfavourited game
+                        prevGrid.removeComp(game);
+                        prevGrid.update();
+
+                        // get the first game of the next
+                        currGrid = this.getGrid(k);
+                        // get the first game of the next grid and move
+                        // it to the previous grid
+                        Game tempGame = (Game) currGrid.getComponent(0);
+                        currGrid.removeComp(tempGame);
+                        currGrid.update();
+                        prevGrid.addToGrid(tempGame, 7);
+                        prevGrid.update();
+
+                        currGrid.addToGrid(game, 7);
+                        currGrid.update();
+                        prevGrid = currGrid;
+                    }
+                }
+            } else if (firstUnfavoriteGameIndex > 0) {
+
+                for (int k = index + 1; k <= firstUnfavoriteGridIndex; k++) {
+
+                    // remove the unfavourited game
+                    prevGrid.removeComp(game);
+                    prevGrid.update();
+
+                    // get the first game of the next
+                    currGrid = this.getGrid(k);
+
+                    // get the first game of the next grid and move
+                    // it to the previous grid
+                    Game tempGame = (Game) currGrid.getComponent(0);
+                    currGrid.removeComp(tempGame);
+                    currGrid.update();
+                    prevGrid.addToGrid(tempGame, 7);
+                    prevGrid.update();
+
+
+                    if (k == firstUnfavoriteGridIndex) {
+                        currGrid.addToGrid(game, firstUnfavoriteGameIndex - 1);
+                        currGrid.update();
+                    }
+
+                    prevGrid = currGrid;
+                }
+            }
+        }
 
         grid.update();
         ui.getFrame().repaint();
     }
-    
 
     /**
      * Create and add a new GridPanel to the Grids ArrayList

@@ -879,7 +879,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
-     /**
+    /**
      * .-----------------------------------------------------------------------.
      * | animateFavouriteMove()
      * .-----------------------------------------------------------------------.
@@ -923,6 +923,55 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         thisGame().setImage(temp.getCoverImagePane().getImgIcon(),
                 height, width);
         showOverlayUI();
+        select();
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | animateUnFavouriteMove()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Replaces the Game Cover and shows the Un-Favorited Image cover for a
+     * | second then re-shows the game cover.
+     * |
+     * | This is used as a visual cue to indicate that a game has been
+     * | un-favorited
+     * | and moved because of that.
+     * |
+     * .........................................................................
+     * <p/>
+     */
+    private void animateUnFavouriteMove() {
+
+        hideOverlayUI();
+        revalidate();
+        thisGame().setEnabled(false);
+        Game temp = thisGame();
+
+        AImagePane favouritedImg = new AImagePane("library_unfavourited_bg.png",
+                width, height);
+
+
+        thisGame().clearImage();
+        thisGame().setImage(favouritedImg);
+
+        try {
+            Thread.sleep(920);
+            thisGame().repaint();
+            thisGame().revalidate();
+
+        } catch (InterruptedException ex) {
+            java.util.logging.Logger.getLogger(Game.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
+        thisGame().setEnabled(true);
+        thisGame().setVisible(false);
+
+        thisGame().clearImage();
+        thisGame().setImage(temp.getCoverImagePane().getImgIcon(),
+                height, width);
+        showOverlayUI();
+        select();
     }
 
     public final void showRemoveBtn() {
@@ -936,8 +985,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     public final void saveMetadata() {
         storage.getStoredProfile().SaveGameMetadata(this);
     }
-
-
 
     private class EnterGameTypeListener implements ActionListener {
 
@@ -1037,7 +1084,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                     // reset to normal overlay UI //
                     reAddInteractive();
-                    select();
+                    showOverlayUI();
 
 
                     thisGame().revalidate();
@@ -1050,8 +1097,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private int textBoxHeight;
 
-
-     /**
+    /**
      * .-----------------------------------------------------------------------.
      * | setUpFlipedUI()
      * .-----------------------------------------------------------------------.
@@ -1329,7 +1375,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
-
     /**
      * .-----------------------------------------------------------------------.
      * | WatchListener
@@ -1341,7 +1386,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      * .........................................................................
      * <p/>
      */
-     private class WatchListener implements ActionListener {
+    private class WatchListener implements ActionListener {
 
         public WatchListener() {
         }
@@ -1368,7 +1413,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
-
     /**
      * .-----------------------------------------------------------------------.
      * | FixListener
@@ -1380,7 +1424,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      * .........................................................................
      * <p/>
      */
-     private class FixListener implements ActionListener {
+    private class FixListener implements ActionListener {
 
         public FixListener() {
         }
@@ -1407,8 +1451,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
-
-     /**
+    /**
      * .-----------------------------------------------------------------------.
      * | LearnListener
      * .-----------------------------------------------------------------------.
@@ -1419,7 +1462,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      * .........................................................................
      * <p/>
      */
-     private class LearnListener implements ActionListener {
+    private class LearnListener implements ActionListener {
 
         public LearnListener() {
         }
@@ -1428,7 +1471,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         public void actionPerformed(ActionEvent e) {
 
             String url = ".wikia.com";
-            String gameName = "http://www." + getName().replace(" ", "").replace("'", "");;
+            String gameName = "http://www." + getName().replace(" ", "")
+                    .replace("'", "");;
             url = gameName + url;
 
             try {
@@ -1446,7 +1490,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
-     /**
+    /**
      * .-----------------------------------------------------------------------.
      * | showFlipUIContent()
      * .-----------------------------------------------------------------------.
@@ -1605,9 +1649,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
-
-
     class FavoriteButtonListener implements ActionListener {
+
+        boolean isFavouriting;
+
+        boolean isUnfavoriting;
 
         @Override
         public void actionPerformed(final ActionEvent e) {
@@ -1616,40 +1662,86 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
 
             if (isFavorite) {
-                unfavorite();
-                storage.getStoredLibrary().SaveFavState(thisGame());
-                manager.moveUnfavorite(Game.this);
-            } else {
+
+                // Unfavoriting
 
                 AThreadWorker favWorker = new AThreadWorker(
                         new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
-                        setFavorite();
-                        storage.getStoredLibrary().SaveFavState(thisGame());
+                            isUnfavoriting = true;
 
-                        // Give time to change decision
-                        try {
-                            Thread.sleep(850);
-                        } catch (InterruptedException ex) {
-                            java.util.logging.Logger.getLogger(Game.class
-                                    .getName()).
-                                    log(Level.SEVERE, null, ex);
-                        }
-                        // Check if still favourited
-                        if (isFavorite) {
+                            unfavorite();
 
-                            animateFavouriteMove();
-                            manager.moveFavorite(Game.this);
-                            thisGame().setVisible(true);
+                            // Give time to change decision
+                            try {
+                                Thread.sleep(850);
+                            } catch (InterruptedException ex) {
+                                java.util.logging.Logger.getLogger(Game.class
+                                        .getName()).
+                                        log(Level.SEVERE, null, ex);
+                            }
+                            // Check if still favourited
+                            if (!isFavorite && !isFavouriting) {
+                                storage.getStoredLibrary().SaveFavState(
+                                        thisGame());
+                                animateUnFavouriteMove();
+                                manager.moveUnfavorite(Game.this);
+                                thisGame().setVisible(true);
 
-                        }
+                            }
 
+
+                            isUnfavoriting = false;
+                    }
+                });
+
+                favWorker.startOnce();
+
+
+
+            } else {
+                // Favoriting
+
+                AThreadWorker favWorker = new AThreadWorker(
+                        new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+
+                            isFavouriting = true;
+
+                            setFavorite();
+
+
+                            // Give time to change decision
+                            try {
+                                Thread.sleep(850);
+                            } catch (InterruptedException ex) {
+                                java.util.logging.Logger.getLogger(Game.class
+                                        .getName()).
+                                        log(Level.SEVERE, null, ex);
+                            }
+
+
+                            // Check if still favourited
+                            if (isFavorite && !isUnfavoriting) {
+                                storage.getStoredLibrary().SaveFavState(
+                                        thisGame());
+                                animateFavouriteMove();
+                                manager.moveFavorite(Game.this);
+                                thisGame().setVisible(true);
+
+                            }
+
+                            isFavouriting = false;
                     }
                 });
                 favWorker.startOnce();
             }
+
+
         }
     }
 
@@ -1770,6 +1862,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     private void select() {
+
+
+        manager.unselectPrevious();
         showOverlayUI();
 
     }
@@ -1779,6 +1874,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         if (logger.isDebugEnabled()) {
             logger.debug("GAME UNSELECTED");
+
+
         }
     }
 
@@ -1801,7 +1898,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 } else {
 
                     unSelectPrevious();
-                    select();
+                    showOverlayUI();
 
                     if (logger.isDebugEnabled()) {
                         logger.debug("SELECTED");
