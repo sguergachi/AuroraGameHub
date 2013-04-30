@@ -44,6 +44,7 @@ import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -602,7 +603,30 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
             }
         } else {
             logger.info("Did Not Move AuroraDB to AuroraData");
+
+            if (!fileIO
+                    .checkFile(fileIO
+                    .getPath() + "AuroraDB.h2.db")) {
+                downloadAuroraDB();
+
+
+            }
+
         }
+    }
+
+    private void downloadAuroraDB() {
+        try {
+            fileIO.downloadFile(new URL(
+                    "http://s3.amazonaws.com/AuroraStorage/AuroraDB.h2.db"),
+                    new File(fileIO.getPath() + "/AuroraDB.h2.db"));
+
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(WelcomeUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
+
+
     }
 
     private void backCheckMyDoc() {
