@@ -1649,11 +1649,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
+    boolean isFavoriting;
+
+    boolean isUnfavoriting;
+
+    boolean prevState;
+
     class FavoriteButtonListener implements ActionListener {
-
-        boolean isFavouriting;
-
-        boolean isUnfavoriting;
 
         @Override
         public void actionPerformed(final ActionEvent e) {
@@ -1661,85 +1663,89 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 logger.debug("Favourite button pressed");
             }
 
-            if (isFavorite) {
 
-                // Unfavoriting
 
-                AThreadWorker favWorker = new AThreadWorker(
-                        new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
 
-                            isUnfavoriting = true;
+            AThreadWorker favWorker = new AThreadWorker(
+                    new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
+                    if (isFavorite) {
+                        // Unfavoriting
+
+                        if (isFavoriting == false) {
+                            prevState = isFavorite;
+                        }
+
+                        isUnfavoriting = true;
+
+                        unfavorite();
+
+                        // Give time to change decision
+                        try {
+                            Thread.sleep(850);
+                        } catch (InterruptedException ex) {
+                            java.util.logging.Logger.getLogger(Game.class
+                                    .getName()).
+                                    log(Level.SEVERE, null, ex);
+                        }
+
+                        // Check if still favourited
+                        if (!isFavorite && !isFavoriting && prevState
+                                                            != isFavorite) {
+                            storage.getStoredLibrary().SaveFavState(
+                                    thisGame());
+                            animateUnFavouriteMove();
+                            manager.moveUnfavorite(Game.this);
+                            thisGame().setVisible(true);
+
+                        }
+                        isUnfavoriting = false;
+
+                    } else {
+                        //Favoriting
+
+                        if (isUnfavoriting == false) {
+                            prevState = isFavorite;
+                        }
+
+
+                        isFavoriting = true;
+                        setFavorite();
+
+
+                        // Give time to change decision
+                        try {
+                            Thread.sleep(850);
+                        } catch (InterruptedException ex) {
+                            java.util.logging.Logger.getLogger(Game.class
+                                    .getName()).
+                                    log(Level.SEVERE, null, ex);
+                        }
+
+
+                        // Check if still favourited
+                        if (isFavorite && !isUnfavoriting && prevState
+                                                             != isFavorite) {
+                            storage.getStoredLibrary().SaveFavState(
+                                    thisGame());
                             unfavorite();
-
-                            // Give time to change decision
-                            try {
-                                Thread.sleep(850);
-                            } catch (InterruptedException ex) {
-                                java.util.logging.Logger.getLogger(Game.class
-                                        .getName()).
-                                        log(Level.SEVERE, null, ex);
-                            }
-                            // Check if still favourited
-                            if (!isFavorite && !isFavouriting) {
-                                storage.getStoredLibrary().SaveFavState(
-                                        thisGame());
-                                animateUnFavouriteMove();
-                                manager.moveUnfavorite(Game.this);
-                                thisGame().setVisible(true);
-
-                            }
-
-
-                            isUnfavoriting = false;
-                    }
-                });
-
-                favWorker.startOnce();
-
-
-
-            } else {
-                // Favoriting
-
-                AThreadWorker favWorker = new AThreadWorker(
-                        new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-
-                            isFavouriting = true;
-
+                            animateFavouriteMove();
                             setFavorite();
+                            manager.moveFavorite(Game.this);
+                            thisGame().setVisible(true);
 
+                        }
+                        isFavoriting = false;
 
-                            // Give time to change decision
-                            try {
-                                Thread.sleep(850);
-                            } catch (InterruptedException ex) {
-                                java.util.logging.Logger.getLogger(Game.class
-                                        .getName()).
-                                        log(Level.SEVERE, null, ex);
-                            }
-
-
-                            // Check if still favourited
-                            if (isFavorite && !isUnfavoriting) {
-                                storage.getStoredLibrary().SaveFavState(
-                                        thisGame());
-                                animateFavouriteMove();
-                                manager.moveFavorite(Game.this);
-                                thisGame().setVisible(true);
-
-                            }
-
-                            isFavouriting = false;
                     }
-                });
-                favWorker.startOnce();
-            }
+
+                }
+            });
+
+
+            favWorker.startOnce();
 
 
         }
