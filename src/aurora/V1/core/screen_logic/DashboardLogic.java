@@ -119,6 +119,7 @@ public class DashboardLogic implements AuroraScreenLogic {
     private String sourceName;
 
     static final Logger logger = Logger.getLogger(DashboardLogic.class);
+    private boolean isRssLoaded;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -236,7 +237,7 @@ public class DashboardLogic implements AuroraScreenLogic {
 
     public final ArrayList<JLabel> createRssFeed() {
 
-        
+        isRssLoaded = false;
 
         ArrayList<JLabel> array = new ArrayList<JLabel>();
         boolean internetConnectionUp = true;
@@ -353,8 +354,17 @@ public class DashboardLogic implements AuroraScreenLogic {
             }
         }
 
+        isRssLoaded = true;
         return array;
 
+    }
+
+    public boolean isIsRssLoaded() {
+        return isRssLoaded;
+    }
+
+    public void setIsRssLoaded(boolean isRssLoaded) {
+        this.isRssLoaded = isRssLoaded;
     }
 
     public ArrayList<JLabel> refreshRssFeed(ArrayList<JLabel> list) {
