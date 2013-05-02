@@ -469,12 +469,14 @@ public class DashboardUI implements AuroraScreenUI {
                         loadInfoFeed(infoFeedLabelList);
                         infoFeed.startScrolling();
 
+                        infoFeed.repaint();
                     }
                 });
             }
         });
 
         loadRSS.startOnce();
+        infoFeed.repaint();
 
 
         // About Box //
