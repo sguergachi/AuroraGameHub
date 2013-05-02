@@ -454,24 +454,24 @@ public class DashboardUI implements AuroraScreenUI {
             public void actionPerformed(ActionEvent e) {
                 infoFeedLabelList = logic.createRssFeed();
                 loadInfoFeed(infoFeedLabelList);
+            }
+        });
 
-                infoFeed.setPostCycleListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(final ActionEvent e) {
+        infoFeed.setPostCycleListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
 
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("Refreshing feed");
-                        }
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Refreshing feed");
+                }
 
-                        infoFeed.removeAll();
-                        infoFeedLabelList = logic.refreshRssFeed(
-                                infoFeedLabelList);
-                        loadInfoFeed(infoFeedLabelList);
-                        infoFeed.startScrolling();
+                infoFeed.removeAll();
+                infoFeedLabelList = logic.refreshRssFeed(
+                        infoFeedLabelList);
+                loadInfoFeed(infoFeedLabelList);
+                infoFeed.startScrolling();
 
-                        infoFeed.repaint();
-                    }
-                });
+
             }
         });
 
