@@ -75,258 +75,206 @@ public class DashboardUI implements AuroraScreenUI {
      * The main carousel used to navigate AuroraApps.
      */
     private ACarousel carousel;
-
     /**
      * Button to make carousel move left.
      */
     private AButton btnCarouselLeft;
-
     /**
      * Button to make carousel move right.
      */
     private AButton btnCarouselRight;
-
     /**
      * Image with Glow state of the Profile TitleType.
      */
     private AImage titleProfileGlow;
-
     /**
      * Image with Normal state of the Profile TitleType.
      */
     private AImage titleProfileNorm;
-
     /**
      * Image with Glow state of the Settings TitleType.
      */
     private AImage titleSettingGlow;
-
     /**
      * Image with Normal state of the Settings TitleType.
      */
     private AImage titleSettingNorm;
-
     /**
      * Image with Glow state of the Library TitleType.
      */
     private AImage titleLibraryGlow;
-
     /**
      * Image with Normal state of the Library TitleType.
      */
     private AImage titleLibraryNorm;
-
     /**
      * Image with Glow state of the AuroraNet TitleType.
      */
     private AImage titleAuroraNetGlow;
-
     /**
      * Image with Normal state of the AuroraNet TitleType.
      */
     private AImage titleAuroraNetNorm;
-
     /**
      * TitleType component containing both Glow and Normal state of Profile
      * item.
      */
     private ACarouselTitle titleProfile;
-
     /**
      * TitleType component containing both Glow and Normal state of Settings
      * item.
      */
     private ACarouselTitle titleSetting;
-
     /**
      * TitleType component containing both Glow and Normal state of Library
      * item.
      */
     private ACarouselTitle titleLibrary;
-
     /**
      * TitleType component containing both Glow and Normal state of AuroraNet
      * item.
      */
     private ACarouselTitle titleAuroraNet;
-
     /**
      * Panel Containing TitleType and Icon representing the Library in Carousel.
      */
     private ACarouselPane paneLibrary;
-
     /**
      * Panel Containing TitleType and Icon representing the Library in Settings.
      */
     private ACarouselPane paneSettings;
-
     /**
      * Panel Containing TitleType and Icon representing the Library in Profile.
      */
     private ACarouselPane paneProfile;
-
     /**
      * Panel Containing TitleType and Icon representing the Library in
      * AuroraNet.
      */
     private ACarouselPane paneNet;
-
     /**
      * Image of Icon representing AuroraNet Carousel pane.
      */
     private AImage icoNet;
-
     /**
      * Image of Icon representing Profile Carousel pane.
      */
     private AImage icoProfile;
-
     /**
      * Image of Icon representing Settings Carousel pane.
      */
     private AImage icoSetting;
-
     /**
      * Image of Icon representing Library Carousel pane.
      */
     private AImagePane icoLibrary;
-
     /**
      * Image of Keyboard Arrows indicating ability to use keyboard to navigate.
      */
     private AImage keyArrows;
-
     /**
      * Label describing what the Keyboard Icon will do.
      */
     private JLabel lblKeyAction;
-
     /**
      * the InfoFeed which displays news etc. at the bottom of the Dashboard
      */
     private AMarqueePanel infoFeed;
-
     /**
      * Size Constant.
      */
     private int btnBackWidth;
-
     /**
      * Size Constant.
      */
     private int btnBackHeight;
-
     /**
      * Size Constant.
      */
     private double carouselWidth;
-
     /**
      * Size Constant.
      */
     private int carouselHeight;
-
     /**
      * Size Constant.
      */
     private int gameCoverHeight;
-
     /**
      * Size Constant.
      */
     private int gameCoverWidth;
-
     /**
      * Size Constant.
      */
     private int carouselImageWidth;
-
     /**
      * Size Constant.
      */
     private int carouselImageHeight;
-
     /**
      * Size Constant.
      */
     private int logoHeight;
-
     /**
      * Size Constant.
      */
     private int infoFeedWidth;
-
     /**
      * Size Constant.
      */
     private int infoFeedHeight;
-
     /**
      * Size Constant.
      */
     private int bottomPaneHeightAdjust;
-
     /**
      * Size Constant.
      */
     private int topPaneHeighAdjust;
-
     /**
      * Size Constant.
      */
     private int topHeight;
-
     /**
      * Size Constant.
      */
     private int logoWidth;
-
     /**
      * Size Constant.
      */
     private int carouselButtonWidth;
-
     /**
      * Size Constant.
      */
     private int carouselButtonHeight;
-
     /**
      * This is the Local Storage Instance.
      */
     private AuroraStorage storage;
-
     /**
      * This is the Previous Screen, which contains the Local Storage Instance.
      */
     private final WelcomeUI startUI;
-
     /**
      * This is the CoreUI Canvas.
      */
     private AuroraCoreUI coreUI;
-
     /**
      * This is the Handler for the DashboardUIs Actions.
      */
     private DashboardHandler handler;
-
     /**
      * This is the Logic for the DashboardUIs Processing.
      */
     private final DashboardLogic logic;
-
     /**
      * Boolean to see when the loadedUI() method is completed.
      */
     private boolean dashboardUiLoaded;
-
     private JPanel infoFeedContainer;
-
     private AboutBox aboutBox;
-
     private ArrayList<JLabel> infoFeedLabelList;
-
     static final Logger logger = Logger.getLogger(DashboardUI.class);
 
     /**
@@ -454,29 +402,32 @@ public class DashboardUI implements AuroraScreenUI {
             public void actionPerformed(ActionEvent e) {
                 infoFeedLabelList = logic.createRssFeed();
                 loadInfoFeed(infoFeedLabelList);
+
+                infoFeed.setPostCycleListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(final ActionEvent e) {
+
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("Refreshing feed");
+                        }
+
+                        infoFeed.removeAll();
+                        infoFeedLabelList = logic.refreshRssFeed(
+                                infoFeedLabelList);
+                        loadInfoFeed(infoFeedLabelList);
+                        infoFeed.startScrolling();
+
+
+                    }
+                });
+
+
             }
         });
 
-        infoFeed.setPostCycleListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Refreshing feed");
-                }
-
-                infoFeed.removeAll();
-                infoFeedLabelList = logic.refreshRssFeed(
-                        infoFeedLabelList);
-                loadInfoFeed(infoFeedLabelList);
-                infoFeed.startScrolling();
-
-
-            }
-        });
 
         loadRSS.startOnce();
-        infoFeed.repaint();
+        
 
 
         // About Box //
@@ -566,6 +517,8 @@ public class DashboardUI implements AuroraScreenUI {
             logger.error(ex);
         }
         paneSettings.setVisible(true);
+        
+        infoFeed.repaint();
     }
 
     @Override
