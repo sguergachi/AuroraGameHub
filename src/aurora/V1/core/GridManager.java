@@ -454,8 +454,6 @@ public class GridManager {
      */
     public void removeGame(Game game) {
 
-        //TODO support appostrophe removal
-
         // get the grid location of where the game is contained
         int[] gridLocation = this.findGame(game);
 
@@ -608,10 +606,11 @@ public class GridManager {
         int j = gridLocation[1] + 1;
         boolean firstUnfavouriteFound = false;
         AGridPanel currentGrid = null;
+        int lastGameIndex = 0;
 
         while ((i < Grids.size()) && !firstUnfavouriteFound) {
             currentGrid = this.getGrid(i);
-            int lastGameIndex = currentGrid.getLastIndexOf(Game.class);
+            lastGameIndex = currentGrid.getLastIndexOf(Game.class);
             Game lastGame = (Game) currentGrid.getComponent(lastGameIndex);
 
             if (!lastGame.isFavorite()) {
@@ -628,6 +627,7 @@ public class GridManager {
                     j++;
                 }
             }
+
             i++;
             j = 0;
         }
@@ -635,6 +635,12 @@ public class GridManager {
         if (index == firstUnfavoriteGridIndex) {
             grid.removeComp(game);
             grid.update();
+
+            //if all is faved, move to last possible cell
+            if (firstUnfavoriteGameIndex == 0) {
+                firstUnfavoriteGameIndex = lastGameIndex + 1;
+            }
+
             grid.addToGrid(game, firstUnfavoriteGameIndex - 1);
             grid.update();
 

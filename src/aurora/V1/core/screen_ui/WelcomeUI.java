@@ -616,6 +616,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
     }
 
     private void downloadAuroraDB() {
+        logger.info("Downloading AuroraDB...");
         try {
             fileIO.downloadFile(new URL(
                     "http://s3.amazonaws.com/AuroraStorage/AuroraDB.h2.db"),
@@ -624,7 +625,9 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(WelcomeUI.class.getName()).
                     log(Level.SEVERE, null, ex);
+            logger.info("Un-Sucessful Download!");
         }
+        logger.info("Successful Download");
 
 
     }
