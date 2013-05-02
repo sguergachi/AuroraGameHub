@@ -236,6 +236,8 @@ public class DashboardLogic implements AuroraScreenLogic {
 
     public final ArrayList<JLabel> createRssFeed() {
 
+        
+
         ArrayList<JLabel> array = new ArrayList<JLabel>();
         boolean internetConnectionUp = true;
         boolean rssFeedAvailable = true;
