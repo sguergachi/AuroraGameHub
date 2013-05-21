@@ -32,14 +32,20 @@ import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.Logic.ASound;
+import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.AGridPanel;
 import aurora.engine.V1.UI.AHoverButton;
 import aurora.engine.V1.UI.AImage;
+import aurora.engine.V1.UI.AImagePane;
+import aurora.engine.V1.UI.APopupMenu;
+import aurora.engine.V1.UI.ASlickLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,12 +64,15 @@ import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
+import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -790,6 +799,102 @@ public class LibraryHandler implements
         }
     }
 
+    public class ShowOrganizeGameHandler implements ActionListener {
+
+        private AButton btn;
+
+        public ShowOrganizeGameHandler(AButton btnOrganize) {
+            this.btn = btnOrganize;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            final APopupMenu organizeMenu = new APopupMenu();
+            organizeMenu.setOpaque(false);
+
+
+
+            // Background Panes //
+
+            AImagePane top = new AImagePane("library_organize_top.png",
+                    new FlowLayout(FlowLayout.LEFT,10,5));
+            top.setPreferredSize(new Dimension(top.getRealImageWidth(), top
+                    .getRealImageHeight()));
+
+            AImagePane middle = new AImagePane("library_organize_middle.png",
+                    new FlowLayout(FlowLayout.LEFT,10,5));
+            middle.setPreferredSize(new Dimension(middle.getRealImageWidth(),
+                    middle.getRealImageHeight()));
+
+            AImagePane bottom = new AImagePane("library_organize_bottom.png",
+                    new FlowLayout(FlowLayout.LEFT,10,5));
+            bottom.setPreferredSize(new Dimension(bottom.getRealImageWidth(),
+                    bottom.getRealImageHeight()));
+
+
+
+            // Labels //
+
+            ASlickLabel lblFavorite = new ASlickLabel("Favorite");
+            lblFavorite.setFont(libraryUI.getCoreUI().getRopaFont().deriveFont(
+                    Font.PLAIN, 19));
+            lblFavorite.setForeground(Color.WHITE);
+
+            ASlickLabel lblAlphabetic = new ASlickLabel("Alphabetic");
+            lblAlphabetic.setFont(libraryUI.getCoreUI().getRopaFont()
+                    .deriveFont(
+                    Font.PLAIN, 19));
+            lblAlphabetic.setForeground(Color.WHITE);
+
+            ASlickLabel lblGametype = new ASlickLabel("Game Type");
+            lblGametype.setFont(libraryUI.getCoreUI().getRopaFont().deriveFont(
+                    Font.PLAIN, 19));
+            lblGametype.setForeground(Color.WHITE);
+
+            // Icons //
+
+            AImage icoFavorite = new AImage("library_organize_favorite.png");
+
+            AImage icoAlphabetic = new AImage("library_organize_alphabetic.png");
+
+            AImage icoGametype = new AImage("library_organize_gameType.png");
+
+
+            top.add(icoFavorite);
+            top.add(lblFavorite);
+
+            middle.add(icoAlphabetic);
+            middle.add(lblAlphabetic);
+
+            bottom.add(icoGametype);
+            bottom.add(lblGametype);
+
+
+
+            organizeMenu.add(top);
+
+            organizeMenu.add(middle);
+
+            organizeMenu.add(bottom);
+
+            organizeMenu
+                    .show(btn, (btn.getBounds().x - 2 * middle
+                    .getRealImageWidth() - btn.getBounds().width / 6 - 4),
+                    btn.getBounds().y - middle.getRealImageHeight()
+                                        * organizeMenu.getComponentCount());
+
+            AThreadWorker loadMenu = new AThreadWorker(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                }
+            });
+
+//            loadMenu.startOnce();
+
+        }
+    }
+
     //Transisions towards the Grid where the game is located
     //To show game added (apple iOS style :P )
     public class MoveToGrid implements Runnable {
@@ -1320,8 +1425,9 @@ public class LibraryHandler implements
 
                             if (logger.isDebugEnabled()) {
                                 logger
-                                               .debug("visible grid after moving right = "
-                                                      + visibleGridIndex);
+                                        .debug(
+                                        "visible grid after moving right = "
+                                        + visibleGridIndex);
                             }
 
                             currentIndex = gridManager.getArray()
@@ -1448,8 +1554,9 @@ public class LibraryHandler implements
 
                             if (logger.isDebugEnabled()) {
                                 logger
-                                               .debug("visible grid after moving right = "
-                                                      + visibleGridIndex);
+                                        .debug(
+                                        "visible grid after moving right = "
+                                        + visibleGridIndex);
                             }
 
                             currentIndex = gridManager.getArray()
