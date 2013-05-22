@@ -818,17 +818,17 @@ public class LibraryHandler implements
             // Background Panes //
 
             AImagePane top = new AImagePane("library_organize_top.png",
-                    new FlowLayout(FlowLayout.LEFT,10,5));
+                    new FlowLayout(FlowLayout.LEFT, 10, 5));
             top.setPreferredSize(new Dimension(top.getRealImageWidth(), top
                     .getRealImageHeight()));
 
             AImagePane middle = new AImagePane("library_organize_middle.png",
-                    new FlowLayout(FlowLayout.LEFT,10,5));
+                    new FlowLayout(FlowLayout.LEFT, 10, 5));
             middle.setPreferredSize(new Dimension(middle.getRealImageWidth(),
                     middle.getRealImageHeight()));
 
             AImagePane bottom = new AImagePane("library_organize_bottom.png",
-                    new FlowLayout(FlowLayout.LEFT,10,5));
+                    new FlowLayout(FlowLayout.LEFT, 10, 5));
             bottom.setPreferredSize(new Dimension(bottom.getRealImageWidth(),
                     bottom.getRealImageHeight()));
 
