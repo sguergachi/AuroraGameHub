@@ -818,17 +818,17 @@ public class LibraryHandler implements
             // Background Panes //
 
             AImagePane top = new AImagePane("library_organize_top.png",
-                    new FlowLayout(FlowLayout.LEFT,10,5));
+                    new FlowLayout(FlowLayout.LEFT, 10, 5));
             top.setPreferredSize(new Dimension(top.getRealImageWidth(), top
                     .getRealImageHeight()));
 
             AImagePane middle = new AImagePane("library_organize_middle.png",
-                    new FlowLayout(FlowLayout.LEFT,10,5));
+                    new FlowLayout(FlowLayout.LEFT, 10, 5));
             middle.setPreferredSize(new Dimension(middle.getRealImageWidth(),
                     middle.getRealImageHeight()));
 
             AImagePane bottom = new AImagePane("library_organize_bottom.png",
-                    new FlowLayout(FlowLayout.LEFT,10,5));
+                    new FlowLayout(FlowLayout.LEFT, 10, 5));
             bottom.setPreferredSize(new Dimension(bottom.getRealImageWidth(),
                     bottom.getRealImageHeight()));
 
@@ -879,10 +879,8 @@ public class LibraryHandler implements
             organizeMenu.add(bottom);
 
             organizeMenu
-                    .show(btn, btn.getBounds().x - (btn.getBounds().width * 2) + (middle
-                    .getRealImageWidth() / 2) - 5,
-                    (btn.getBounds().y - middle.getRealImageHeight())
-                                        * organizeMenu.getComponentCount() + (middle.getRealImageHeight() / 2) + 5);
+                    .show(btn, btn.getBounds().x - btn.getBounds().width - middle.getRealImageWidth(),
+                    btn.getBounds().y - btn.getBounds().height - middle.getRealImageHeight());
 
             AThreadWorker loadMenu = new AThreadWorker(new ActionListener() {
                 @Override
