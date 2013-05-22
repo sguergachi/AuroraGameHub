@@ -791,6 +791,9 @@ public class LibraryHandler implements
 
         private AButton btn;
 
+        private int Xpadding;
+        private int YPadding;
+
         public ShowOrganizeGameHandler(AButton btnOrganize) {
             this.btn = btnOrganize;
         }
@@ -866,11 +869,31 @@ public class LibraryHandler implements
 
             organizeMenu.add(bottom);
 
+            if (libraryUI.getCoreUI().isLargeScreen()) {
+
+                Xpadding = libraryUI.getCoreUI().getScreenWidth() / middle
+                        .getRealImageWidth();
+
+                YPadding =  -libraryUI.getCoreUI().getScreenHeight() / (middle
+                        .getRealImageHeight() * 3);
+
+
+            } else {
+
+                Xpadding = libraryUI.getCoreUI().getScreenWidth() / middle
+                        .getRealImageWidth();
+
+                YPadding = libraryUI.getCoreUI().getScreenHeight() / (middle
+                        .getRealImageHeight() * 5);
+
+
+            }
+
             organizeMenu
                     .show(btn, btn.getBounds().x - btn.getBounds().width
-                               - middle.getRealImageWidth(),
+                               - middle.getRealImageWidth() + Xpadding -2,
                     btn.getBounds().y - btn.getBounds().height - middle
-                    .getRealImageHeight());
+                    .getRealImageHeight() + YPadding - 2);
 
             AThreadWorker loadMenu = new AThreadWorker(new ActionListener() {
                 @Override
