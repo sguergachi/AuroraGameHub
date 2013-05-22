@@ -647,8 +647,7 @@ public class DashboardUI implements AuroraScreenUI {
         icoNet.addMouseListener(handler.new CarouselPaneMouseListener(paneNet));
         icoLibrary.setPreferredSize(new Dimension(gameCoverWidth,
                 gameCoverHeight));
-        icoLibrary.addMouseListener(handler.new CarouselPaneMouseListener(
-                paneLibrary));
+        icoLibrary.addMouseListener(handler.new CarouselPaneMouseListener(paneLibrary));
 
         //* Check for the Enter Button Press OR Mouse Click *//
         paneProfile

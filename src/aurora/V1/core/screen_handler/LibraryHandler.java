@@ -879,10 +879,10 @@ public class LibraryHandler implements
             organizeMenu.add(bottom);
 
             organizeMenu
-                    .show(btn, (btn.getBounds().x - 2 * middle
-                    .getRealImageWidth() - btn.getBounds().width / 6 - 4),
-                    btn.getBounds().y - middle.getRealImageHeight()
-                                        * organizeMenu.getComponentCount());
+                    .show(btn, btn.getBounds().x - (btn.getBounds().width * 2) + (middle
+                    .getRealImageWidth() / 2) - 5,
+                    (btn.getBounds().y - middle.getRealImageHeight())
+                                        * organizeMenu.getComponentCount() + (middle.getRealImageHeight() / 2) + 5);
 
             AThreadWorker loadMenu = new AThreadWorker(new ActionListener() {
                 @Override
