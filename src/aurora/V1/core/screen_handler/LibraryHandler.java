@@ -880,11 +880,11 @@ public class LibraryHandler implements
 
             } else {
 
-                Xpadding = libraryUI.getCoreUI().getScreenWidth() / middle
-                        .getRealImageWidth();
+                Xpadding = 3 * libraryUI.getCoreUI().getScreenWidth() /  middle
+                        .getRealImageWidth() - 3;
 
                 YPadding = libraryUI.getCoreUI().getScreenHeight() / (middle
-                        .getRealImageHeight() * 5);
+                        .getRealImageHeight() * 3);
 
 
             }
