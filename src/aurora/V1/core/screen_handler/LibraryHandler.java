@@ -107,18 +107,13 @@ public class LibraryHandler implements
      * LibraryLogic instance.
      */
     private LibraryLogic libraryLogic;
-
     /**
      * LibraryUI instance.
      */
     private final LibraryUI libraryUI;
-
     private final GridSearch gridSearch;
-
     private final GameSearch gameSearch;
-
     private ASimpleDB coverDB;
-
     static final Logger logger = Logger.getLogger(LibraryHandler.class);
 
     /**
@@ -247,7 +242,6 @@ public class LibraryHandler implements
     public class searchFocusHandler implements FocusListener {
 
         private JTextField SearchBar;
-
         private JButton SearchButton;
 
         public searchFocusHandler() {
@@ -692,13 +686,9 @@ public class LibraryHandler implements
     public class AddToLibraryHandler implements ActionListener {
 
         private GridManager gridManager;
-
         private JPanel GameBack;
-
         private MoveToGrid GridMove;
-
         private AuroraStorage storage;
-
         private String currentPath;
 
         @Override
@@ -756,9 +746,7 @@ public class LibraryHandler implements
     public class SelectListHandler implements ListSelectionListener {
 
         private JList gamesList;
-
         private DefaultListModel listModel;
-
         private JTextField gameSearchBar;
 
         public SelectListHandler() {
@@ -906,7 +894,6 @@ public class LibraryHandler implements
     public class MoveToGrid implements Runnable {
 
         private final Game game;
-
         private final int gameGrid;
 
         public MoveToGrid(Game game) {
@@ -980,15 +967,10 @@ public class LibraryHandler implements
     public class HoverButtonLeft extends MouseAdapter {
 
         private GridManager gridManager;
-
         private JPanel GameBack;
-
         private AHoverButton imgGameLeft;
-
         private AHoverButton imgGameRight;
-
         private AImage imgFavorite;
-
         private GridAnimation GridAnimate;
 
         public HoverButtonLeft() {
@@ -1091,17 +1073,11 @@ public class LibraryHandler implements
     public class HoverButtonRight extends MouseAdapter {
 
         private GridManager gridManager;
-
         private JPanel GameBack;
-
         private AHoverButton imgGameLeft;
-
         private AHoverButton imgGameRight;
-
         private AImage imgFavorite;
-
         private GridAnimation GridAnimate;
-
         private final AuroraCoreUI coreUI;
 
         public HoverButtonRight() {
@@ -1191,9 +1167,7 @@ public class LibraryHandler implements
     public class GameLibraryKeyListener extends KeyAdapter {
 
         private GridManager gridManager;
-
         private JPanel GameBack;
-
         private final AuroraCoreUI coreUI;
 
         public GameLibraryKeyListener() {
