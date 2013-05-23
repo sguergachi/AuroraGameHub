@@ -403,6 +403,8 @@ public class LibraryUI extends AuroraApp {
 
     private JPanel pnlRightOfTopEastContainer;
 
+    private APopupMenu organizeMenu;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
@@ -732,8 +734,8 @@ public class LibraryUI extends AuroraApp {
         moveLibraryRightHandler = handler.new HoverButtonRight();
 
         btnShowAddGameUI.addActionListener(handler.new ShowAddGameUiHandler());
-        btnOrganizeGames.addActionListener(handler.new ShowOrganizeGameHandler(
-                btnOrganizeGames));
+        btnOrganizeGames
+                .addActionListener(handler.new ShowOrganizeGameHandler());
 
         btnGameRight.setMouseListener(moveLibraryRightHandler);
         btnGameLeft.setMouseListener(moveLibraryLeftHandler);
@@ -1243,10 +1245,155 @@ public class LibraryUI extends AuroraApp {
         }
     }
 
+    public void showOrganizeUI() {
+        organizeMenu = new APopupMenu();
+        organizeMenu.setOpaque(false);
+
+
+
+        // Background Panes //
+
+        ARadioButton top = new ARadioButton("library_organize_top.png",
+                "library_organize_top_selected.png");
+        top.setLayout(
+                new FlowLayout(FlowLayout.CENTER));
+        top.setPreferredSize(new Dimension(top.getRealImageWidth(), top
+                .getRealImageHeight()));
+
+
+
+
+        ARadioButton middle = new ARadioButton("library_organize_middle.png",
+                "library_organize_middle_selected.png");
+        middle.setLayout(
+                new FlowLayout(FlowLayout.CENTER));
+        middle.setPreferredSize(new Dimension(middle.getRealImageWidth(),
+                middle.getRealImageHeight()));
+
+
+
+
+        ARadioButton bottom = new ARadioButton("library_organize_bottom.png",
+                "library_organize_bottom_selected.png");
+        bottom.setLayout(
+                new FlowLayout(FlowLayout.CENTER));
+        bottom.setPreferredSize(new Dimension(bottom.getRealImageWidth(),
+                bottom.getRealImageHeight()));
+
+
+        ARadioButtonManager manager = new ARadioButtonManager();
+        manager.addButton(bottom);
+        manager.addButton(middle);
+        manager.addButton(top);
+        manager.setRadioButton();
+
+
+        // Labels //
+
+        ASlickLabel lblFavorite = new ASlickLabel("Favorite");
+        lblFavorite.setFont(getCoreUI().getRopaFont().deriveFont(
+                Font.PLAIN, 19));
+        lblFavorite.setForeground(new Color(173, 173, 173));
+
+        ASlickLabel lblAlphabetic = new ASlickLabel("Alphabetic");
+        lblAlphabetic.setFont(getCoreUI().getRopaFont()
+                .deriveFont(
+                Font.PLAIN, 19));
+        lblAlphabetic.setForeground(new Color(173, 173, 173));
+
+        ASlickLabel lblMostPlayed = new ASlickLabel("Most Played");
+        lblMostPlayed.setFont(getCoreUI().getRopaFont()
+                .deriveFont(
+                Font.PLAIN, 19));
+        lblMostPlayed.setForeground(new Color(173, 173, 173));
+
+        // Icons //
+        AImage icoFavorite = new AImage("library_organize_favorite.png");
+
+        AImage icoAlphabetic = new AImage("library_organize_alphabetic.png");
+
+        AImage icoMostPlayed = new AImage("library_organize_mostPlayed.png");
+
+
+        // Containers //
+        JPanel favoritePane = new JPanel(new FlowLayout(FlowLayout.LEFT, 10,
+                2));
+        favoritePane.setPreferredSize(new Dimension(bottom
+                .getRealImageWidth(),
+                bottom.getRealImageHeight()));
+        favoritePane.setOpaque(false);
+
+        JPanel alphabeticPane = new JPanel(new FlowLayout(FlowLayout.LEFT,
+                10, 2));
+        alphabeticPane.setPreferredSize(new Dimension(bottom
+                .getRealImageWidth(),
+                bottom.getRealImageHeight()));
+        alphabeticPane.setOpaque(false);
+
+        JPanel mostplayedPane = new JPanel(new FlowLayout(FlowLayout.LEFT,
+                10, 2));
+        mostplayedPane.setPreferredSize(new Dimension(bottom
+                .getRealImageWidth(),
+                bottom.getRealImageHeight()));
+        mostplayedPane.setOpaque(false);
+
+
+        // Handlers //
+        top.addMouseListener(handler.new OrganizeItemListener(
+                lblFavorite));
+        middle.addMouseListener(
+                handler.new OrganizeItemListener(lblAlphabetic));
+        bottom.addMouseListener(handler.new OrganizeItemListener(
+                lblMostPlayed));
+
+
+        // Add to panels //
+
+        favoritePane.add(icoFavorite);
+        favoritePane.add(lblFavorite);
+
+        top.add(favoritePane);
+
+
+        alphabeticPane.add(icoAlphabetic);
+        alphabeticPane.add(lblAlphabetic);
+
+        middle.add(alphabeticPane);
+
+
+        mostplayedPane.add(icoMostPlayed);
+        mostplayedPane.add(lblMostPlayed);
+
+        bottom.add(mostplayedPane);
+
+
+        organizeMenu.add(top);
+        organizeMenu.add(middle);
+        organizeMenu.add(bottom);
+
+        organizeMenu
+                .show(getCoreUI().getFrame(), btnOrganizeGames
+                .getLocationOnScreen().x + ((btnOrganizeGames.getBounds().width)
+                                            / 3
+                                            - (btnOrganizeGames.getBounds().width)
+                                              / 5)
+                                              - 3,
+                btnOrganizeGames.getLocationOnScreen().y - btnOrganizeGames
+                .getBounds().height
+                - middle
+                .getRealImageHeight());
+
+
+        AThreadWorker loadMenu = new AThreadWorker(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+
+//            loadMenu.startOnce();
+    }
+
     public void showAddGameUI() {
-
-
-
 
         pnlGlass.setVisible(true);
         addGameUI_Visible = true;

@@ -41,6 +41,8 @@ import aurora.engine.V1.UI.AHoverButton;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.APopupMenu;
+import aurora.engine.V1.UI.ARadioButton;
+import aurora.engine.V1.UI.ARadioButtonManager;
 import aurora.engine.V1.UI.ASlickLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -69,6 +71,7 @@ import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLayeredPane;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -107,13 +110,18 @@ public class LibraryHandler implements
      * LibraryLogic instance.
      */
     private LibraryLogic libraryLogic;
+
     /**
      * LibraryUI instance.
      */
     private final LibraryUI libraryUI;
+
     private final GridSearch gridSearch;
+
     private final GameSearch gameSearch;
+
     private ASimpleDB coverDB;
+
     static final Logger logger = Logger.getLogger(LibraryHandler.class);
 
     /**
@@ -242,6 +250,7 @@ public class LibraryHandler implements
     public class searchFocusHandler implements FocusListener {
 
         private JTextField SearchBar;
+
         private JButton SearchButton;
 
         public searchFocusHandler() {
@@ -686,9 +695,13 @@ public class LibraryHandler implements
     public class AddToLibraryHandler implements ActionListener {
 
         private GridManager gridManager;
+
         private JPanel GameBack;
+
         private MoveToGrid GridMove;
+
         private AuroraStorage storage;
+
         private String currentPath;
 
         @Override
@@ -746,7 +759,9 @@ public class LibraryHandler implements
     public class SelectListHandler implements ListSelectionListener {
 
         private JList gamesList;
+
         private DefaultListModel listModel;
+
         private JTextField gameSearchBar;
 
         public SelectListHandler() {
@@ -789,102 +804,51 @@ public class LibraryHandler implements
 
     public class ShowOrganizeGameHandler implements ActionListener {
 
-        private AButton btn;
-
-        private int Xpadding;
-
-        private int YPadding;
-
-        public ShowOrganizeGameHandler(AButton btnOrganize) {
-            this.btn = btnOrganize;
+        public ShowOrganizeGameHandler() {
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            final APopupMenu organizeMenu = new APopupMenu();
-            organizeMenu.setOpaque(false);
+            libraryUI.showOrganizeUI();
 
+        }
+    }
 
+    public class OrganizeItemListener implements MouseListener {
 
-            // Background Panes //
+        private final ASlickLabel label;
 
-            AImagePane top = new AImagePane("library_organize_top.png",
-                    new FlowLayout(FlowLayout.LEFT, 10, 5));
-            top.setPreferredSize(new Dimension(top.getRealImageWidth(), top
-                    .getRealImageHeight()));
+        private boolean isSelected;
 
-            AImagePane middle = new AImagePane("library_organize_middle.png",
-                    new FlowLayout(FlowLayout.LEFT, 10, 5));
-            middle.setPreferredSize(new Dimension(middle.getRealImageWidth(),
-                    middle.getRealImageHeight()));
+        public OrganizeItemListener(ASlickLabel label) {
+            this.label = label;
+        }
 
-            AImagePane bottom = new AImagePane("library_organize_bottom.png",
-                    new FlowLayout(FlowLayout.LEFT, 10, 5));
-            bottom.setPreferredSize(new Dimension(bottom.getRealImageWidth(),
-                    bottom.getRealImageHeight()));
+        @Override
+        public void mouseClicked(MouseEvent e) {
+        }
 
+        @Override
+        public void mousePressed(MouseEvent e) {
+        }
 
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
 
-            // Labels //
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            if (!((ARadioButton) e.getSource()).isSelected) {
+                label.setForeground(Color.white);
+            }
+        }
 
-            ASlickLabel lblFavorite = new ASlickLabel("Favorite");
-            lblFavorite.setFont(libraryUI.getCoreUI().getRopaFont().deriveFont(
-                    Font.PLAIN, 19));
-            lblFavorite.setForeground(Color.WHITE);
-
-            ASlickLabel lblAlphabetic = new ASlickLabel("Alphabetic");
-            lblAlphabetic.setFont(libraryUI.getCoreUI().getRopaFont()
-                    .deriveFont(
-                    Font.PLAIN, 19));
-            lblAlphabetic.setForeground(Color.WHITE);
-
-            ASlickLabel lblGametype = new ASlickLabel("Game Type");
-            lblGametype.setFont(libraryUI.getCoreUI().getRopaFont().deriveFont(
-                    Font.PLAIN, 19));
-            lblGametype.setForeground(Color.WHITE);
-
-            // Icons //
-
-            AImage icoFavorite = new AImage("library_organize_favorite.png");
-
-            AImage icoAlphabetic = new AImage("library_organize_alphabetic.png");
-
-            AImage icoGametype = new AImage("library_organize_gameType.png");
-
-
-            top.add(icoFavorite);
-            top.add(lblFavorite);
-
-            middle.add(icoAlphabetic);
-            middle.add(lblAlphabetic);
-
-            bottom.add(icoGametype);
-            bottom.add(lblGametype);
-
-
-
-            organizeMenu.add(top);
-
-            organizeMenu.add(middle);
-
-            organizeMenu.add(bottom);
-
-            organizeMenu
-                    .show(libraryUI.getCoreUI().getFrame(), btn
-                    .getLocationOnScreen().x + ((btn.getBounds().width)/3 - (btn.getBounds().width) /5) - 3,
-                    btn.getLocationOnScreen().y - btn.getBounds().height
-                    - middle
-                    .getRealImageHeight());
-
-
-            AThreadWorker loadMenu = new AThreadWorker(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                }
-            });
-
-//            loadMenu.startOnce();
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if (!((ARadioButton) e.getSource()).isSelected) {
+                label.setForeground(new Color(173, 173, 173));
+            }
 
         }
     }
@@ -894,6 +858,7 @@ public class LibraryHandler implements
     public class MoveToGrid implements Runnable {
 
         private final Game game;
+
         private final int gameGrid;
 
         public MoveToGrid(Game game) {
@@ -967,10 +932,15 @@ public class LibraryHandler implements
     public class HoverButtonLeft extends MouseAdapter {
 
         private GridManager gridManager;
+
         private JPanel GameBack;
+
         private AHoverButton imgGameLeft;
+
         private AHoverButton imgGameRight;
+
         private AImage imgFavorite;
+
         private GridAnimation GridAnimate;
 
         public HoverButtonLeft() {
@@ -1073,11 +1043,17 @@ public class LibraryHandler implements
     public class HoverButtonRight extends MouseAdapter {
 
         private GridManager gridManager;
+
         private JPanel GameBack;
+
         private AHoverButton imgGameLeft;
+
         private AHoverButton imgGameRight;
+
         private AImage imgFavorite;
+
         private GridAnimation GridAnimate;
+
         private final AuroraCoreUI coreUI;
 
         public HoverButtonRight() {
@@ -1167,7 +1143,9 @@ public class LibraryHandler implements
     public class GameLibraryKeyListener extends KeyAdapter {
 
         private GridManager gridManager;
+
         private JPanel GameBack;
+
         private final AuroraCoreUI coreUI;
 
         public GameLibraryKeyListener() {
