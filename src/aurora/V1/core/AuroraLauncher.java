@@ -36,7 +36,11 @@ import java.awt.event.WindowFocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.logging.Level;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -51,28 +55,58 @@ import org.apache.log4j.Logger;
 public class AuroraLauncher implements Runnable, MouseListener {
 
     private Game game;
+
     private JFrame launchPane;
+
     private AuroraCoreUI coreUI;
+
     private AImagePane pnlBackground;
+
     private JPanel pnlTopContainer;
+
     private JPanel pnlTop;
+
     private JLabel lblGameName;
+
     private AImagePane imgGameCover;
+
     private AImagePane imgTitle;
+
     private JPanel pnlCenter;
+
     private JPanel pnlBottom;
+
     private Thread launcherThread;
+
     private String timeAfter = null;
+
     private Process launchGameProcess;
+
     private ASlickLabel lblPlayedInfo;
+
     private ASlickLabel lblPlayedTime;
+
     private boolean manualMode;
+
     private JPanel pnlTimePlayed;
+
     private boolean debug = true;
+
     private AImagePane imgManualMode;
+
     private AButton btnReturnToAurora;
+
     static final Logger logger = Logger.getLogger(AuroraLauncher.class);
+
     private String timeStarted;
+
+    private AButton btnWatch;
+
+    private AButton btnFix;
+
+    private AButton btnLearn;
+
+    private JPanel pnlShortcuts;
 
     public AuroraLauncher(AuroraCoreUI ui) {
         this.coreUI = ui;
@@ -97,6 +131,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
             public void windowClosing(WindowEvent e) {
                 logger.info("AuroraLauncher Exiting");
                 gameExited();
+                goBackToAurora();
             }
 
             @Override
@@ -141,6 +176,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
         pnlCenter.setOpaque(false);
 
         pnlBottom = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 50));
+        pnlBottom.setLayout(new BoxLayout(pnlBottom, BoxLayout.Y_AXIS));
         pnlBottom.setOpaque(false);
 
         pnlTimePlayed = new JPanel();
@@ -155,6 +191,27 @@ public class AuroraLauncher implements Runnable, MouseListener {
         lblPlayedInfo = new ASlickLabel("You Played");
 
         lblPlayedTime = new ASlickLabel();
+
+        // Shortcut Buttons //
+
+
+        btnWatch = new AButton("game_btn_watch_norm.png",
+                "game_btn_watch_down.png",
+                "game_btn_watch_over.png");
+        btnWatch.addActionListener(new WatchListener());
+
+        btnFix = new AButton("game_btn_help_norm.png",
+                "game_btn_help_down.png",
+                "game_btn_help_over.png");
+        btnFix.addActionListener(new FixListener());
+
+        btnLearn = new AButton("game_btn_learn_norm.png",
+                "game_btn_learn_down.png",
+                "game_btn_learn_over.png");
+        btnLearn.addActionListener(new LearnListener());
+
+        pnlShortcuts = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        pnlShortcuts.setOpaque(false);
 
         //* Game Cover Icon representing Game *//
         imgGameCover = new AImagePane();
@@ -242,7 +299,22 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
 
         //* Bottom Panel *//
+
+
+        pnlShortcuts.add(btnWatch);
+        pnlShortcuts.add(btnFix);
+        pnlShortcuts.add(btnLearn);
+
+        lblGameName.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlShortcuts.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        pnlBottom.add(pnlShortcuts);
         pnlBottom.add(lblGameName);
+
+
+
+
+        pnlBottom.add(Box.createVerticalStrut(40));
 
         pnlTop.add(pnlTopContainer);
 
@@ -393,8 +465,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                 });
                 error.setVisible(true);
                 logger.error(ex);
-                //Logger.getLogger(AuroraLauncher.class.getName()).log(
-                //        Level.SEVERE, null, ex);
+
             }
 
             // Game Has Exited
@@ -542,6 +613,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
             if (!manualMode) {
                 manualMode = true;
 
+
             }
         } else if (hoursDiff < 1 && minDiff > 1) {
             lblPlayedTime.setText(minDiff + " min  ");
@@ -549,6 +621,10 @@ public class AuroraLauncher implements Runnable, MouseListener {
             lblPlayedTime.setText(hoursDiff + "hr and "
                                   + minDiff + "min  ");
         }
+
+        launchPane.setAlwaysOnTop(true);
+        launchPane.requestFocusInWindow();
+        launchPane.setAlwaysOnTop(false);
 
         // Add to total time played this game //
         game.addTime(minDiff, hoursDiff);
@@ -719,6 +795,121 @@ public class AuroraLauncher implements Runnable, MouseListener {
                 pnlTop.validate();
                 pnlTop.add(pnlTopContainer);
                 pnlTop.revalidate();
+            }
+
+        }
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | WatchListener
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Listener for the Watch shortcut button to link to the Youtube search
+     * | results for the game
+     * |
+     * .........................................................................
+     * <p/>
+     */
+    private class WatchListener implements ActionListener {
+
+        public WatchListener() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String url = "http://www.youtube.com/results?search_query=";
+            String gameName = game.getName().replace(" ", "+").replace("'", "");;
+            url += gameName;
+
+            try {
+                try {
+                    Desktop.getDesktop().browse(new URI(url));
+                } catch (URISyntaxException ex) {
+                    java.util.logging.Logger.getLogger(Game.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(Game.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            }
+
+        }
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | FixListener
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Listener for the Watch shortcut button to link to the PCgamingWiki
+     * | search results for the game
+     * |
+     * .........................................................................
+     * <p/>
+     */
+    private class FixListener implements ActionListener {
+
+        public FixListener() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String url = "http://pcgamingwiki.com/wiki/";
+            String gameName = game.getName().replace(" ", "_").replace("'", "");
+            url += gameName;
+
+            try {
+                try {
+                    Desktop.getDesktop().browse(new URI(url));
+                } catch (URISyntaxException ex) {
+                    java.util.logging.Logger.getLogger(Game.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(Game.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            }
+
+        }
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | LearnListener
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Listener for the Watch shortcut button to link to the Wikia
+     * | search results for the game
+     * |
+     * .........................................................................
+     * <p/>
+     */
+    private class LearnListener implements ActionListener {
+
+        public LearnListener() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String url = ".wikia.com";
+            String gameName = "http://www." + game.getName().replace(" ", "")
+                    .replace("'", "");;
+            url = gameName + url;
+
+            try {
+                try {
+                    Desktop.getDesktop().browse(new URI(url));
+                } catch (URISyntaxException ex) {
+                    java.util.logging.Logger.getLogger(Game.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(Game.class.getName()).
+                        log(Level.SEVERE, null, ex);
             }
 
         }

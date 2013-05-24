@@ -221,7 +221,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private AButton btnWatch;
 
-    private AButton btnHelp;
+    private AButton btnFix;
 
     private AButton btnLearn;
 
@@ -1147,10 +1147,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 "game_btn_watch_over.png", btnWidth, btnHeight);
         btnWatch.addActionListener(new WatchListener());
 
-        btnHelp = new AButton("game_btn_help_norm.png",
+        btnFix = new AButton("game_btn_help_norm.png",
                 "game_btn_help_down.png",
                 "game_btn_help_over.png", btnWidth, btnHeight);
-        btnHelp.addActionListener(new FixListener());
+        btnFix.addActionListener(new FixListener());
 
         btnLearn = new AButton("game_btn_learn_norm.png",
                 "game_btn_learn_down.png",
@@ -1351,7 +1351,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // Add Shortcut buttons to panel //
 
         pnlShortcutBtn.add(btnWatch);
-        pnlShortcutBtn.add(btnHelp);
+        pnlShortcutBtn.add(btnFix);
         pnlShortcutBtn.add(btnLearn);
         pnlShortcutImage.add(pnlShortcutBtn, BorderLayout.WEST);
 

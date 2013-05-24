@@ -1384,13 +1384,6 @@ public class LibraryUI extends AuroraApp {
                 .getRealImageHeight());
 
 
-        AThreadWorker loadMenu = new AThreadWorker(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-
-//            loadMenu.startOnce();
     }
 
     public void showAddGameUI() {

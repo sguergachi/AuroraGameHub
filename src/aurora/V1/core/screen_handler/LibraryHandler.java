@@ -30,6 +30,7 @@ import aurora.V1.core.screen_handler.LibraryHandler.MoveToGrid;
 import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AFileManager;
+import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.AThreadWorker;
@@ -692,6 +693,8 @@ public class LibraryHandler implements
         }
     }
 
+    // Listener for when the Add Game To Library Button is pressed in the
+    // Add Game UI
     public class AddToLibraryHandler implements ActionListener {
 
         private GridManager gridManager;
@@ -753,6 +756,12 @@ public class LibraryHandler implements
             GridMove = new MoveToGrid(game);
             //* Transition towards to left most grid to see the game added *//
             GridMove.runMover();
+
+
+            AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
+                    "f5f777273e62089193a68f99f4885a55");
+            mixpanelAnalytics.addProperty("Game Added", game.getName());
+            mixpanelAnalytics.sendEventProperty("Added Game");
         }
     }
 

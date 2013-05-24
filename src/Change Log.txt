@@ -3,6 +3,16 @@
 |  Crafted With Care by the Sardonix Creative Team |
 ====================================================
 
+
+////////////////////////////////////////////------------------------------------
+// Aurora_Alpha 8  Build:669  Date:4/21/2013  || Sammy Guergachi, Carlos Machado
+////////////////////////////////////////////------------------------------------
++ Added Shortcut buttons to launcher
+- small UX improvements to launcher
+- lots of minor UI fixes and enhancements (details do matter!)
+
+
+
 ////////////////////////////////////////////------------------------------------
 // Aurora_Alpha 7  Build:669  Date:4/21/2013  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------
