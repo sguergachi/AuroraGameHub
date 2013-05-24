@@ -199,18 +199,29 @@ public class AuroraLauncher implements Runnable, MouseListener {
                 "game_btn_watch_down.png",
                 "game_btn_watch_over.png");
         btnWatch.addActionListener(new WatchListener());
-
+        btnWatch.setMargin(new Insets(0, 0, 0, 0));
+        btnWatch.setBorder(null);
+        btnWatch.setBorderPainted(false);
+        
+        
         btnFix = new AButton("game_btn_help_norm.png",
                 "game_btn_help_down.png",
                 "game_btn_help_over.png");
         btnFix.addActionListener(new FixListener());
-
+        btnFix.setMargin(new Insets(0, 0, 0, 0));
+        btnFix.setBorder(null);
+        btnFix.setBorderPainted(false);
+        
+        
         btnLearn = new AButton("game_btn_learn_norm.png",
                 "game_btn_learn_down.png",
                 "game_btn_learn_over.png");
         btnLearn.addActionListener(new LearnListener());
+        btnLearn.setMargin(new Insets(0, 0, 0, 0));
+        btnLearn.setBorder(null);
+        btnLearn.setBorderPainted(false);
 
-        pnlShortcuts = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        pnlShortcuts = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         pnlShortcuts.setOpaque(false);
 
         //* Game Cover Icon representing Game *//
@@ -312,9 +323,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
         pnlBottom.add(lblGameName);
 
 
-
-
-        pnlBottom.add(Box.createVerticalStrut(40));
+        pnlBottom.add(Box.createVerticalStrut(20));
 
         pnlTop.add(pnlTopContainer);
 
