@@ -627,6 +627,10 @@ public class LibraryUI extends AuroraApp {
     public final void addToCanvas() {
         coreUI.getTitleLabel().setText("   Loading...   ");
 
+        coreUI.getLblKeyActionEnter().setText(" Play ");
+
+        dashboardUI.getLblKeyActionArrow().setText(" Nav ");
+
         attactchHandlers();
 
         // Add Components with listeners to volatile listener bank

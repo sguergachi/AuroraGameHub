@@ -293,7 +293,7 @@ public class AuroraCoreUI {
     /**
      * Label for the key image icon.
      */
-    private JLabel lblKeyAction;
+    private JLabel lblKeyActionEnter;
     /**
      * The instance of AuroraMini which activates when you minimize Aurora.
      */
@@ -622,10 +622,10 @@ public class AuroraCoreUI {
 
         imgKeyIcon = new AImage("KeyboardKeys/enter.png");
         imgKeyIcon.setImageSize(keyIconWidth, keyIconHeight);
-        lblKeyAction = new JLabel(" Select ");
+        lblKeyActionEnter = new JLabel(" Select ");
 
-        lblKeyAction.setFont(regularFont.deriveFont(Font.PLAIN, keysFontSize));
-        lblKeyAction.setForeground(new Color(0, 178, 178));
+        lblKeyActionEnter.setFont(regularFont.deriveFont(Font.PLAIN, keysFontSize));
+        lblKeyActionEnter.setForeground(new Color(0, 178, 178));
 
         paneHeaderOfCenterFromBottom.add(BorderLayout.WEST, paneKeyToPress);
         paneCenterFromBottom.add(BorderLayout.NORTH,
@@ -671,6 +671,10 @@ public class AuroraCoreUI {
         frame.addKeyListener(new FrameKeyListener());
         frame.requestFocus();
 
+    }
+
+    public JLabel getLblKeyActionEnter() {
+        return lblKeyActionEnter;
     }
 
     public ADialog getWarningDialog() {
@@ -1350,11 +1354,11 @@ public class AuroraCoreUI {
     }
 
     public void setKeyActionLabel(JLabel keyActionLabel) {
-        this.lblKeyAction = keyActionLabel;
+        this.lblKeyActionEnter = keyActionLabel;
     }
 
     public JLabel getKeyActionLabel() {
-        return lblKeyAction;
+        return lblKeyActionEnter;
     }
 
     public static void setTimeLabel(ATimeLabel timeLabel) {

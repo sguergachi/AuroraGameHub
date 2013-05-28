@@ -200,7 +200,7 @@ public class DashboardUI implements AuroraScreenUI {
     /**
      * Label describing what the Keyboard Icon will do.
      */
-    private JLabel lblKeyAction;
+    private JLabel lblKeyActionArrow;
 
     /**
      * the InfoFeed which displays news etc. at the bottom of the Dashboard
@@ -504,7 +504,7 @@ public class DashboardUI implements AuroraScreenUI {
         keyArrows = new AImage("KeyboardKeys/arrows.png", coreUI.
                 getKeyIconWidth(), coreUI.getKeyIconHeight());
 
-        lblKeyAction = new JLabel(" Move ");
+        lblKeyActionArrow = new JLabel();
 
         if (logger.isDebugEnabled()) {
             logger.debug("DashboardUI loaded");
@@ -713,9 +713,12 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getSouthFromTopPanel().revalidate();
 
         //* Set Font of Keyboard Action Label *//
-        lblKeyAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
+        lblKeyActionArrow.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
                 coreUI.getKeysFontSize()));
-        lblKeyAction.setForeground(new Color(0, 178, 178));
+        lblKeyActionArrow.setForeground(new Color(0, 178, 178));
+        lblKeyActionArrow.setText(" Move ");
+
+        coreUI.getLblKeyActionEnter().setText(" Launch ");
 
 
 
@@ -724,7 +727,7 @@ public class DashboardUI implements AuroraScreenUI {
 
         //* Add Arrow Keys Icons *//
         coreUI.getKeyToPressPanel().add(keyArrows);
-        coreUI.getKeyToPressPanel().add(lblKeyAction);
+        coreUI.getKeyToPressPanel().add(lblKeyActionArrow);
 
         //* Add Enter Key Icons *//
         coreUI.getKeyToPressPanel().add(coreUI.getKeyIconImage());
@@ -1195,8 +1198,8 @@ public class DashboardUI implements AuroraScreenUI {
      * <p/>
      * @return JLabel
      */
-    public final JLabel getLblKeyAction() {
-        return lblKeyAction;
+    public final JLabel getLblKeyActionArrow() {
+        return lblKeyActionArrow;
     }
 
     /**
@@ -1205,7 +1208,7 @@ public class DashboardUI implements AuroraScreenUI {
      * @param aLblKeyAction JLabel
      */
     public final void setLblKeyAction(final JLabel aLblKeyAction) {
-        this.lblKeyAction = aLblKeyAction;
+        this.lblKeyActionArrow = aLblKeyAction;
     }
 
     /**
