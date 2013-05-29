@@ -87,7 +87,7 @@ public class StoredSettings extends AStorage {
         // Then create the columns where the data will reside
         //-
 
-        if (FirstTime) {
+        if (db.checkTable("Settings")) {
             try {
                 db.addTable("Settings", false);
 
@@ -188,7 +188,8 @@ public class StoredSettings extends AStorage {
         // To use as little database resources as needed
         //-
         try {
-            if (!settingValues.get(settingNames.indexOf(settingName)).equals(settingValue)) {
+            if (!settingValues.get(settingNames.indexOf(settingName)).equals(
+                    settingValue)) {
 
                 db.setColValue("Settings",
                         "Setting_Value",

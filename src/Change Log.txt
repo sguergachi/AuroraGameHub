@@ -5,9 +5,10 @@
 
 
 ////////////////////////////////////////////------------------------------------
-// Aurora_Alpha 8  Build:669  Date:4/21/2013  || Sammy Guergachi, Carlos Machado
+// Aurora_Alpha 8  Build:700  Date:4/21/2013  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------
 + Added Shortcut buttons to launcher
+- settings states saved in Database
 - small UX improvements to launcher
 - lots of minor UI fixes and enhancements (details do matter!)
 
