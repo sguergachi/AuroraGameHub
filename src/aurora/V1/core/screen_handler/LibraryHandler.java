@@ -25,6 +25,7 @@ import aurora.V1.core.GameSearch;
 import aurora.V1.core.GridAnimation;
 import aurora.V1.core.GridManager;
 import aurora.V1.core.GridSearch;
+import aurora.V1.core.StoredSettings;
 import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.LibraryHandler.MoveToGrid;
 import aurora.V1.core.screen_logic.LibraryLogic;
@@ -820,6 +821,53 @@ public class LibraryHandler implements
         public void actionPerformed(ActionEvent e) {
 
             libraryUI.showOrganizeUI();
+
+        }
+    }
+
+    public class SelectedItemListener implements ActionListener {
+
+        private final ASlickLabel label;
+
+        private final String settingValue;
+
+        private final StoredSettings storage;
+
+        public SelectedItemListener(ASlickLabel lbl, StoredSettings settings,
+                                    String SettingValue) {
+
+            label = lbl;
+            settingValue = SettingValue;
+            storage = settings;
+
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+
+            storage.saveSetting("organize", settingValue);
+
+            label.setForeground(Color.white);
+
+
+        }
+    }
+
+    public class UnSelectedItemListener implements ActionListener {
+
+        private final ASlickLabel label;
+
+        public UnSelectedItemListener(ASlickLabel lbl) {
+
+            label = lbl;
+
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            label.setForeground(new Color(173, 173, 173));
 
         }
     }

@@ -628,7 +628,6 @@ public class LibraryUI extends AuroraApp {
         coreUI.getTitleLabel().setText("   Loading...   ");
 
         coreUI.getLblKeyActionEnter().setText(" Play ");
-
         dashboardUI.getLblKeyActionArrow().setText(" Nav ");
 
         attactchHandlers();
@@ -1345,12 +1344,46 @@ public class LibraryUI extends AuroraApp {
         // Handlers //
         top.addMouseListener(handler.new OrganizeItemListener(
                 lblFavorite));
+        top.setSelectedHandler(handler.new SelectedItemListener(lblFavorite,
+                storage.getStoredSettings(),
+                "Favorite"));
+        top
+                .setUnSelectedHandler(handler.new UnSelectedItemListener(
+                lblFavorite));
+
+
         middle.addMouseListener(
                 handler.new OrganizeItemListener(lblAlphabetic));
+        middle.setSelectedHandler(
+                handler.new SelectedItemListener(lblAlphabetic, storage
+                .getStoredSettings(), "Alphabetic"));
+        middle.setUnSelectedHandler(handler.new UnSelectedItemListener(
+                lblAlphabetic));
+
         bottom.addMouseListener(handler.new OrganizeItemListener(
                 lblMostPlayed));
+        bottom.setSelectedHandler(
+                handler.new SelectedItemListener(lblMostPlayed, storage
+                .getStoredSettings(), "MostPlayed"));
+        bottom.setUnSelectedHandler(handler.new UnSelectedItemListener(
+                lblMostPlayed));
 
+        // States //
 
+        String value = storage.getStoredSettings().getSettingValue("organize");
+        if (value != null) {
+            if (value.equals("Favorite")) {
+                top.setSelected();
+
+            } else if (value.equals("Alphabetic")) {
+                middle.setSelected();
+
+            } else if (value.equals("MostPlayed")) {
+                bottom.setSelected();
+            }
+        }
+
+        
         // Add to panels //
 
         favoritePane.add(icoFavorite);

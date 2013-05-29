@@ -22,6 +22,7 @@ import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.Logic.AStorage;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import org.apache.log4j.Logger;
 
@@ -198,18 +199,23 @@ public class StoredLibrary extends AStorage {
      */
     @Override
     public void storeFromDatabase() {
-
-        Favestates = getDatabaseArray("Library", "FavState");
-        GameNames = getDatabaseArray("Library", "Game_Name");
-        GamePaths = getDatabaseArray("Library", "Executable_Path");
-        BoxArtPaths = getDatabaseArray("Library", "BoxArt_Path");
-
+        try {
+            Favestates = getDatabaseArray("Library", "FavState");
+            GameNames = getDatabaseArray("Library", "Game_Name");
+            GamePaths = getDatabaseArray("Library", "Executable_Path");
+            BoxArtPaths = getDatabaseArray("Library", "BoxArt_Path");
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(StoredLibrary.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
+        
         if (GameNames == null) {
             GameNames = new ArrayList<String>();
             GamePaths = new ArrayList<String>();
             BoxArtPaths = new ArrayList<String>();
             Favestates = new ArrayList<Boolean>();
         }
+
 
     }
 

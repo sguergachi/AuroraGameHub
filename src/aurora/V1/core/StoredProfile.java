@@ -23,6 +23,7 @@ import aurora.engine.V1.Logic.AStorage;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import org.apache.log4j.Logger;
 
@@ -117,7 +118,7 @@ public class StoredProfile extends AStorage implements Serializable {
     /*
      * Saves a specific game to database Handles Appostrophe
      */
-    public void SaveGameMetadata(Game game) {
+    public void saveGameMetadata(Game game) {
 
         if (game != null) {
             if (logger.isDebugEnabled()) {
@@ -182,13 +183,16 @@ public class StoredProfile extends AStorage implements Serializable {
     @Override
     @SuppressWarnings("unchecked")
     public void storeFromDatabase() {
-
-        GameNames = getDatabaseArray("Profile", "Game_Name");
-        GameTypes = getDatabaseArray("Profile", "Game_Type");
-        TotalTimes = getDatabaseArray("Profile", "Total_Time");
-        OccurrenceTimes = getDatabaseArray("Profile", "Occurence_Time");
-        LastTimes = getDatabaseArray("Profile", "Last_Time");
-
+        try {
+            GameNames = getDatabaseArray("Profile", "Game_Name");
+            GameTypes = getDatabaseArray("Profile", "Game_Type");
+            TotalTimes = getDatabaseArray("Profile", "Total_Time");
+            OccurrenceTimes = getDatabaseArray("Profile", "Occurence_Time");
+            LastTimes = getDatabaseArray("Profile", "Last_Time");
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(StoredProfile.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
         if (GameNames == null) {
 
             GameNames = new ArrayList<String>();
@@ -197,6 +201,7 @@ public class StoredProfile extends AStorage implements Serializable {
             OccurrenceTimes = new ArrayList<Integer>();
             LastTimes = new ArrayList<String>();
         }
+
 
     }
 
@@ -261,11 +266,11 @@ public class StoredProfile extends AStorage implements Serializable {
 
             db.addRowFlex("Profile",
                     new String[]{"Game_Name",
-                        "Game_Type",
-                        "Total_Time",
-                        "Occurence_Time",
-                        "Last_Time"
-                    },
+                "Game_Type",
+                "Total_Time",
+                "Occurence_Time",
+                "Last_Time"
+            },
                     ("'" + GameName + "'" + ","
                      + "'" + GameType + "'" + ","
                      + "'" + TotalTime + "'" + ","

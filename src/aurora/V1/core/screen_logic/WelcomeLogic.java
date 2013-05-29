@@ -232,9 +232,6 @@ public class WelcomeLogic implements AuroraScreenLogic {
                 coreUI.getFrameControlImagePane().revalidate();
 
 
-//                coreUI.getSouthFromTopPanel().setVisible(true);
-
-
                 //* Remove all components in Center Panel *//
                 coreUI.getCenterPanel().removeAll();
 

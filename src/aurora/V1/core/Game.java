@@ -983,7 +983,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public final void saveMetadata() {
-        storage.getStoredProfile().SaveGameMetadata(this);
+        storage.getStoredProfile().saveGameMetadata(this);
     }
 
     private class EnterGameTypeListener implements ActionListener {
