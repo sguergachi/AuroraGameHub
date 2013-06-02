@@ -26,6 +26,7 @@ import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.APostHandler;
+import aurora.engine.V1.Logic.ASort;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
@@ -34,6 +35,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.prefs.Preferences;
 import org.apache.log4j.Logger;
 
@@ -87,6 +89,8 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     private AAnimate addGameToLibButtonAnimator;
 
+    private boolean isLoaded;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryLogic(LibraryUI)
@@ -138,6 +142,8 @@ public class LibraryLogic implements AuroraScreenLogic {
      */
     public final void addGamesToLibrary() {
         try {
+
+
             //* check that favorites are not null *//
             if (libraryUI.getStorage().getStoredLibrary().getFaveStates()
                 != null) {
@@ -145,80 +151,55 @@ public class LibraryLogic implements AuroraScreenLogic {
             }
 
 
+            //clear grids to start
+            libraryUI.getGridSplit().clearAllGrids();
 
             int librarySize = libraryUI.getStorage().getStoredLibrary()
                     .getGameNames()
                     .size() - 1;
 
-            //* Reverse Add Games Marked Fav first *//
+            String organize = libraryUI.getStorage().getStoredSettings()
+                    .getSettingValue(
+                    "organize");
+
+            ASort sorter = new ASort();
+
+            ArrayList<Game> gamesList = new ArrayList<Game>();
+
+            // Create Array of Games //
             for (int i = librarySize; i >= 0;
                     i--) {
 
                 Game Game = new Game(libraryUI.getGridSplit(), coreUI,
                         dashboardUI, libraryUI.getStorage());
-                if (libHasFavourites && libraryUI.getStorage()
+
+                Game.setGameName(libraryUI.getStorage()
                         .getStoredLibrary()
-                        .getFaveStates()
-                        .get(i)) {
-                    Game.setGameName(libraryUI.getStorage()
-                            .getStoredLibrary()
-                            .getGameNames()
-                            .get(i));
-                    Game.setCoverUrl(libraryUI.getStorage()
-                            .getStoredLibrary()
-                            .getBoxArtPath()
-                            .get(i));
-                    //* Handle appostrophese in game path *//
-                    Game.setGamePath(libraryUI.getStorage()
-                            .getStoredLibrary()
-                            .getGamePath()
-                            .get(i).replace("'", "''"));
+                        .getGameNames()
+                        .get(i));
+                Game.setCoverUrl(libraryUI.getStorage()
+                        .getStoredLibrary()
+                        .getBoxArtPath()
+                        .get(i));
+
+                if (libHasFavourites) {
                     Game.setFavorite(libraryUI.getStorage()
                             .getStoredLibrary()
                             .getFaveStates()
                             .get(i));
-                    Game.setCoverSize(libraryUI.getGameCoverWidth(),
-                            libraryUI
-                            .getGameCoverHeight());
-
-                    libraryUI.getGridSplit().addGame(Game);
                 }
-            }
 
-
-            //* Add Non-Fav games after *//
-
-            for (int i = 0; i <= librarySize;
-                    i++) {
-
-                Game Game = new Game(libraryUI.getGridSplit(), coreUI,
-                        dashboardUI, libraryUI.getStorage());
-                if (!libHasFavourites || !libraryUI.getStorage()
+                //* Handle appostrophese in game path *//
+                Game.setGamePath(libraryUI.getStorage()
                         .getStoredLibrary()
-                        .getFaveStates()
-                        .get(i)) {
-                    Game.setGameName(libraryUI.getStorage().getStoredLibrary()
-                            .getGameNames()
-                            .get(i));
-                    Game.setCoverUrl(libraryUI.getStorage().getStoredLibrary()
-                            .getBoxArtPath()
-                            .get(i));
-                    //* Handle appostrophese in game path *//
-                    Game.setGamePath(libraryUI.getStorage().getStoredLibrary()
-                            .getGamePath()
-                            .get(i).replace("'", "''"));
-                    if (libHasFavourites) {
-                        Game.setFavorite(libraryUI.getStorage()
-                                .getStoredLibrary()
-                                .getFaveStates()
-                                .get(i));
-                    }
+                        .getGamePath()
+                        .get(i).replace("'", "''"));
 
-                    Game.setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
-                            .getGameCoverHeight());
+                Game.setCoverSize(libraryUI.getGameCoverWidth(),
+                        libraryUI
+                        .getGameCoverHeight());
 
-                    libraryUI.getGridSplit().addGame(Game);
-                }
+                gamesList.add(Game);
 
             }
 
@@ -268,17 +249,129 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             }
 
+            // Check if Organization Type is "Favorite" //
+            if (organize.equalsIgnoreCase("Favorite")) {
+
+                //* Reverse Add Games Marked Fav first *//
+                for (int i = librarySize; i >= 0;
+                        i--) {
+
+                    Game Game = new Game(libraryUI.getGridSplit(), coreUI,
+                            dashboardUI, libraryUI.getStorage());
+                    if (libHasFavourites && libraryUI.getStorage()
+                            .getStoredLibrary()
+                            .getFaveStates()
+                            .get(i)) {
+                        Game.setGameName(libraryUI.getStorage()
+                                .getStoredLibrary()
+                                .getGameNames()
+                                .get(i));
+                        Game.setCoverUrl(libraryUI.getStorage()
+                                .getStoredLibrary()
+                                .getBoxArtPath()
+                                .get(i));
+
+                        //* Handle appostrophese in game path *//
+                        Game.setGamePath(libraryUI.getStorage()
+                                .getStoredLibrary()
+                                .getGamePath()
+                                .get(i).replace("'", "''"));
+                        Game.setFavorite(libraryUI.getStorage()
+                                .getStoredLibrary()
+                                .getFaveStates()
+                                .get(i));
+                        Game.setCoverSize(libraryUI.getGameCoverWidth(),
+                                libraryUI
+                                .getGameCoverHeight());
+
+                        libraryUI.getGridSplit().addGame(Game);
+                    }
+                }
+
+
+                //* Add Non-Fav games after *//
+
+                for (int i = 0; i <= librarySize;
+                        i++) {
+
+                    Game Game = new Game(libraryUI.getGridSplit(), coreUI,
+                            dashboardUI, libraryUI.getStorage());
+                    if (!libHasFavourites || !libraryUI.getStorage()
+                            .getStoredLibrary()
+                            .getFaveStates()
+                            .get(i)) {
+                        Game.setGameName(libraryUI.getStorage()
+                                .getStoredLibrary()
+                                .getGameNames()
+                                .get(i));
+                        Game.setCoverUrl(libraryUI.getStorage()
+                                .getStoredLibrary()
+                                .getBoxArtPath()
+                                .get(i));
+                        //* Handle appostrophese in game path *//
+                        Game.setGamePath(libraryUI.getStorage()
+                                .getStoredLibrary()
+                                .getGamePath()
+                                .get(i).replace("'", "''"));
+                        if (libHasFavourites) {
+                            Game.setFavorite(libraryUI.getStorage()
+                                    .getStoredLibrary()
+                                    .getFaveStates()
+                                    .get(i));
+                        }
+
+                        Game.setCoverSize(libraryUI.getGameCoverWidth(),
+                                libraryUI
+                                .getGameCoverHeight());
+
+                        libraryUI.getGridSplit().addGame(Game);
+                    }
+
+                }
+
+                // Check if Organization Type is "Favorite" //
+            } else if (organize.equalsIgnoreCase("Alphabetic")) {
+
+                String[] alphaArray = new String[gamesList.size()];
+
+                for (int i = librarySize; i >= 0;
+                        i--) {
+
+                    alphaArray[i] = gamesList.get(i).getName();
+                }
+
+
+                alphaArray = sorter.firstToLast(alphaArray);
+
+                ArrayList<Game> alphaGamesList = new ArrayList<Game>();
+                for (int i = 0; i < librarySize;
+                        i++) {
+                    int h = 0;
+                    while (!gamesList.get(h).getName().equals(alphaArray[i])) {
+                        h++;
+                    }
+
+                    libraryUI.getGridSplit().addGame(gamesList.get(h));
+
+                }
+            } else if (organize.equalsIgnoreCase("Most Played")) {
+            }
+
 
             libraryUI.getGridSplit()
                     .finalizeGrid(libraryHandler.new ShowAddGameUiHandler(),
                     libraryUI
                     .getGameCoverWidth(), libraryUI.getGameCoverHeight());
 
+
             //Load First Grid by default
             loadGames(0);
         } catch (MalformedURLException ex) {
             logger.error(ex);
         }
+    }
+
+    public final void addAllGamesToLibrary() {
     }
 
     /**
@@ -308,6 +401,7 @@ public class LibraryLogic implements AuroraScreenLogic {
         if (logger.isDebugEnabled()) {
             logger.debug("current panel: " + currentGrid);
         }
+
 
 
         //Load First Panels

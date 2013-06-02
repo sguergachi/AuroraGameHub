@@ -94,6 +94,11 @@ public class GridManager {
      * @param GameCover object
      */
     public void addGame(Game game) {
+
+        ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
+                "Cannot Add Duplicate Game", ui.getRegularFont()
+                .deriveFont(25));
+
         fullGrids = 0;
         for (int i = 0; i < Grids.size(); i++) {
             if (!isDupicate(game) || isTransitioningGame) {
@@ -134,12 +139,10 @@ public class GridManager {
                     }
                 }
             } else {
-                ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
-                        "Cannot Add Duplicate Game", ui.getDefaultFont()
-                        .deriveFont(25));
-                info.showDialog();
-                info.setVisible(true);
-                echoGame(game).setSelected();
+                if (!info.isVisible()) {
+                    info.showDialog();
+                    info.setVisible(true);
+                }
             }
 
         }
@@ -171,9 +174,7 @@ public class GridManager {
      * Finds Same Game and returns that game in the library
      *
      * @param game
-     *             <
-     *             p/>
-     * <p/>
+     *             <p/>
      * @return
      */
     public Game echoGame(Game game) {

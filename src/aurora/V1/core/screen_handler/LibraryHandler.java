@@ -851,6 +851,8 @@ public class LibraryHandler implements
             label.setForeground(Color.white);
 
 
+
+
         }
     }
 
@@ -868,6 +870,8 @@ public class LibraryHandler implements
         public void actionPerformed(ActionEvent e) {
 
             label.setForeground(new Color(173, 173, 173));
+
+             libraryLogic.addGamesToLibrary();
 
         }
     }
