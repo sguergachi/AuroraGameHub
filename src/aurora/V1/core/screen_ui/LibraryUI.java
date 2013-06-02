@@ -1342,31 +1342,31 @@ public class LibraryUI extends AuroraApp {
 
 
         // Handlers //
-        top.addMouseListener(handler.new OrganizeItemListener(
+        top.addMouseListener(handler.new OrganizeMouseListener(
                 lblFavorite));
-        top.setSelectedHandler(handler.new SelectedItemListener(lblFavorite,
+        top.setSelectedHandler(handler.new SelectedOrganizeListener(lblFavorite,
                 storage.getStoredSettings(),
                 "Favorite"));
         top
-                .setUnSelectedHandler(handler.new UnSelectedItemListener(
-                lblFavorite));
+                .setUnSelectedHandler(handler.new UnSelectedOrganizeListener(
+                lblFavorite, organizeMenu));
 
 
         middle.addMouseListener(
-                handler.new OrganizeItemListener(lblAlphabetic));
+                handler.new OrganizeMouseListener(lblAlphabetic));
         middle.setSelectedHandler(
-                handler.new SelectedItemListener(lblAlphabetic, storage
+                handler.new SelectedOrganizeListener(lblAlphabetic, storage
                 .getStoredSettings(), "Alphabetic"));
-        middle.setUnSelectedHandler(handler.new UnSelectedItemListener(
-                lblAlphabetic));
+        middle.setUnSelectedHandler(handler.new UnSelectedOrganizeListener(
+                lblAlphabetic, organizeMenu));
 
-        bottom.addMouseListener(handler.new OrganizeItemListener(
+        bottom.addMouseListener(handler.new OrganizeMouseListener(
                 lblMostPlayed));
         bottom.setSelectedHandler(
-                handler.new SelectedItemListener(lblMostPlayed, storage
+                handler.new SelectedOrganizeListener(lblMostPlayed, storage
                 .getStoredSettings(), "MostPlayed"));
-        bottom.setUnSelectedHandler(handler.new UnSelectedItemListener(
-                lblMostPlayed));
+        bottom.setUnSelectedHandler(handler.new UnSelectedOrganizeListener(
+                lblMostPlayed, organizeMenu));
 
         // States //
 
@@ -1383,7 +1383,7 @@ public class LibraryUI extends AuroraApp {
             }
         }
 
-        
+
         // Add to panels //
 
         favoritePane.add(icoFavorite);

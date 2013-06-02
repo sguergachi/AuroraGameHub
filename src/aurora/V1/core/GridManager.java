@@ -279,6 +279,8 @@ public class GridManager {
             }
 
         }
+
+        System.gc();
     }
 
     /*

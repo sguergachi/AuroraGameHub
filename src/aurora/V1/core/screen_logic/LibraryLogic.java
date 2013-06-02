@@ -38,6 +38,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import org.apache.log4j.Logger;
 
 /**
@@ -170,44 +171,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             ASort sorter = new ASort();
 
-            ArrayList<Game> gamesList = new ArrayList<Game>();
 
-            // Create Array of Games //
-            for (int i = librarySize; i >= 0;
-                    i--) {
-
-                Game Game = new Game(libraryUI.getGridSplit(), coreUI,
-                        dashboardUI, libraryUI.getStorage());
-
-                Game.setGameName(libraryUI.getStorage()
-                        .getStoredLibrary()
-                        .getGameNames()
-                        .get(i));
-                Game.setCoverUrl(libraryUI.getStorage()
-                        .getStoredLibrary()
-                        .getBoxArtPath()
-                        .get(i));
-
-                if (libHasFavourites) {
-                    Game.setFavorite(libraryUI.getStorage()
-                            .getStoredLibrary()
-                            .getFaveStates()
-                            .get(i));
-                }
-
-                //* Handle appostrophese in game path *//
-                Game.setGamePath(libraryUI.getStorage()
-                        .getStoredLibrary()
-                        .getGamePath()
-                        .get(i).replace("'", "''"));
-
-                Game.setCoverSize(libraryUI.getGameCoverWidth(),
-                        libraryUI
-                        .getGameCoverHeight());
-
-                gamesList.add(Game);
-
-            }
 
 
             // Add Metadata to games from database if it exists //
@@ -338,6 +302,45 @@ public class LibraryLogic implements AuroraScreenLogic {
                 // Check if Organization Type is "Favorite" //
             } else if (organize.equalsIgnoreCase("Alphabetic")) {
 
+                final ArrayList<Game> gamesList = new ArrayList<Game>();
+
+                // Create Array of Games //
+                for (int i = librarySize; i >= 0;
+                        i--) {
+
+                    Game Game = new Game(libraryUI.getGridSplit(), coreUI,
+                            dashboardUI, libraryUI.getStorage());
+
+                    Game.setGameName(libraryUI.getStorage()
+                            .getStoredLibrary()
+                            .getGameNames()
+                            .get(i));
+                    Game.setCoverUrl(libraryUI.getStorage()
+                            .getStoredLibrary()
+                            .getBoxArtPath()
+                            .get(i));
+
+                    if (libHasFavourites) {
+                        Game.setFavorite(libraryUI.getStorage()
+                                .getStoredLibrary()
+                                .getFaveStates()
+                                .get(i));
+                    }
+
+                    //* Handle appostrophese in game path *//
+                    Game.setGamePath(libraryUI.getStorage()
+                            .getStoredLibrary()
+                            .getGamePath()
+                            .get(i).replace("'", "''"));
+
+                    Game.setCoverSize(libraryUI.getGameCoverWidth(),
+                            libraryUI
+                            .getGameCoverHeight());
+
+                    gamesList.add(Game);
+
+                }
+
                 String[] alphaArray = new String[gamesList.size()];
 
                 for (int i = librarySize; i >= 0;
@@ -349,17 +352,18 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                 alphaArray = sorter.firstToLast(alphaArray);
 
-                ArrayList<Game> alphaGamesList = new ArrayList<Game>();
-                for (int i = 0; i < librarySize;
+                for (int i = 0; i <= librarySize;
                         i++) {
                     int h = 0;
                     while (!gamesList.get(h).getName().equals(alphaArray[i])) {
                         h++;
                     }
 
+
                     libraryUI.getGridSplit().addGame(gamesList.get(h));
 
                 }
+
             } else if (organize.equalsIgnoreCase("Most Played")) {
             }
 

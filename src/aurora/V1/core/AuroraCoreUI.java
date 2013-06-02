@@ -82,6 +82,7 @@ public class AuroraCoreUI {
      * Get revision based on Month Number and Day Number and Year Number.
      */
     private final String revision = ATimeLabel.current(ATimeLabel.DATE_NUM);
+
     /**
      * Generate full Version string to be used at the bottom of UI.
      */
@@ -91,232 +92,294 @@ public class AuroraCoreUI {
                          + "  //REVISION: " + revision
                          + "  //AURORA.ENGINE.VERSION = 0.1." + (Integer
             .parseInt(revision));
+
     /**
      * Size Constant.
      */
     private int topPanelHeight;
+
     /**
      * Size Constant.
      */
     private int centerPanelSize;
+
     /**
      * Size Constant.
      */
     private int bottomPanelSize;
+
     /**
      * Size Constant.
      */
     private int controlHeight;
+
     /**
      * Size Constant.
      */
     private int controlWidth;
+
     /**
      * Size Constant.
      */
     private int welcomeFontSize;
+
     /**
      * Size Constant.
      */
     private int keysFontSize;
+
     /**
      * Size Constant.
      */
     private int keyIconWidth;
+
     /**
      * Size Constant.
      */
     private int keyIconHeight;
+
     /**
      * Size Constant.
      */
     private int versionFontSize;
+
     /**
      * Size Constant.
      */
     private int timeFontSize;
+
     /**
      * Size Constant.
      */
     private int logoHeight;
+
     /**
      * Size Constant.
      */
     private int logoWidth;
+
     /**
      * Size Constant.
      */
     private int exitButtonWidth;
+
     /**
      * Size Constant.
      */
     private int exitButtonHeight;
+
     /**
      * Size Constant.
      */
     private int minimizeButtonWidth;
+
     /**
      * Size Constant.
      */
     private int minimizeButtonHeight;
+
     /**
      * Size Constant.
      */
     private static int screenWidth;
+
     final static int OPTIMAL_SCREEN_WIDTH = 1920;
+
     /**
      * Size Constant.
      */
     private static int screenHeight;
+
     final static int OPTIMAL_SCREEN_HEIGHT = 1080;
+
     /**
      * Boolean for whether screen is of larger type or smaller type.
      */
     private boolean isLargeScreen;
+
     /**
      * Warning dialog window.
      */
     private ADialog warningDialog;
+
     /**
      * Error dialog window.
      */
     private ADialog errorDialog;
+
     /**
      * Logo image.
      */
     private AImage imgLogo;
+
     /**
      * Key icon image.
      */
     private AImage imgKeyIcon;
+
     /**
      * Background image pane.
      */
     private AImagePane paneBackground;
+
     /**
      * Bottom image pane.
      */
     private AImagePane paneBottom;
+
     /**
      * Panel that holds the back, minimize, exit buttons.
      */
     private AImagePane paneFrameControl;
+
     /**
      * Top image.
      */
     private AImagePane paneTop;
+
     /**
      * Reference to the available Surface resources.
      */
     private ASurface resources;
+
     /**
      * Reference to the Nuance virtual intelligence.
      */
     private ANuance vi;
+
     /**
      * Regular font.
      */
     private Font regularFont;
+
     /**
      * Bold font.
      */
     private Font boldFont;
+
     /**
      * Exit button.
      */
     private JButton btnExit;
+
     /**
      * Minimize button.
      */
     private JButton btnMinimize;
+
     /**
      * The JFrame where the Core UI is placed on.
      */
     private JFrame frame;
+
     /**
      * Center panel that displays the main part of Aurora ie. Dashboard,
      * Library, etc.
      */
     private JPanel paneCenter;
+
     /**
      * Panel that holds the keys to press images and labels.
      */
     private JPanel paneKeyToPress;
+
     /**
      * Panel located south of the top panel.
      */
     private JPanel southFromTopPanel;
+
     /**
      * Panel that holds the Aurora logo.
      */
     private JPanel logoPanel;
+
     /**
      * Panel that holds the screen label.
      */
     private JPanel screenLabelPanel;
+
     /**
      * Panel that holds the current version of Aurora.
      */
     private JPanel versionPanel;
+
     /**
      * Header panel that is located in pnlCenterFromBottom.
      */
     private JPanel paneHeaderOfCenterFromBottom;
+
     /**
      * Panel that is located in the center of the bottom panel.
      */
     private JPanel paneCenterFromBottom;
+
     /**
      * Panel that holds the current time.
      */
     private JPanel paneTime;
+
     /**
      * Panel that holds the app title.
      */
     private JPanel paneTitle;
+
     /**
      * The Container to the panel paneFrameControl.
      */
     private JPanel paneFrameControlContainer;
+
     /**
      *
      */
     private JPanel paneBottomCenterContent;
+
     /**
      * Label for the version panel.
      */
     private JLabel lblVersion;
+
     /**
      * Label for the title panel.
      */
     private JLabel lblTitle;
+
     /**
      * Label for the key image icon.
      */
     private JLabel lblKeyActionEnter;
+
     /**
      * The instance of AuroraMini which activates when you minimize Aurora.
      */
     private AuroraMini miniMode;
+
     /**
      * Listener to listen for when Aurora is minimized.
      */
     private MinimizeListener minimizeHandler;
+
     /**
      * Label indicating the current time.
      */
     public static ATimeLabel lblTime;
+
     /**
      * Detects what is the current build number using the version.properties
      * file.
      */
     final static ResourceBundle resourceBundle = ResourceBundle.getBundle(
             "version");
+
     private ATimeLabel lblDate;
+
     private JPanel paneTimeContainer;
+
     private ASound backgrounSFX;
+
     private AFileManager fileIO;
+
     private Font ropaFont;
+
     static final Logger logger = Logger.getLogger(AuroraCoreUI.class);
 
     /**
@@ -624,7 +687,8 @@ public class AuroraCoreUI {
         imgKeyIcon.setImageSize(keyIconWidth, keyIconHeight);
         lblKeyActionEnter = new JLabel(" Select ");
 
-        lblKeyActionEnter.setFont(regularFont.deriveFont(Font.PLAIN, keysFontSize));
+        lblKeyActionEnter.setFont(regularFont.deriveFont(Font.PLAIN,
+                keysFontSize));
         lblKeyActionEnter.setForeground(new Color(0, 178, 178));
 
         paneHeaderOfCenterFromBottom.add(BorderLayout.WEST, paneKeyToPress);
@@ -934,8 +998,9 @@ public class AuroraCoreUI {
 
         @Override
         public void windowOpened(WindowEvent e) {
-            analytics.addProperty("Start Time", ATimeLabel.current(
-                    ATimeLabel.TIME_PLUS) + " <");
+            String time = ATimeLabel.current(
+                    ATimeLabel.TIME_PLUS);
+            analytics.addProperty("Start Time", time);
 
         }
 
@@ -978,10 +1043,12 @@ public class AuroraCoreUI {
          * Glass Pane from Frame.
          */
         private JPanel glass;
+
         /**
          * ImagePane containing Unfocused Background Image.
          */
         private AImagePane paneUnfocused;
+
         private boolean wasVisible;
 
         /**
@@ -1060,6 +1127,7 @@ public class AuroraCoreUI {
     public class MinimizeListener implements ActionListener {
 
         private AuroraCoreUI ui;
+
         private String arg;
 
         public MinimizeListener(AuroraCoreUI ui, String arg) {

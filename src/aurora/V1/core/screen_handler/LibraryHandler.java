@@ -70,6 +70,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -80,6 +81,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
@@ -838,7 +841,7 @@ public class LibraryHandler implements
         }
     }
 
-    public class SelectedItemListener implements ActionListener {
+    public class SelectedOrganizeListener implements ActionListener {
 
         private final ASlickLabel label;
 
@@ -846,8 +849,9 @@ public class LibraryHandler implements
 
         private final StoredSettings storage;
 
-        public SelectedItemListener(ASlickLabel lbl, StoredSettings settings,
-                                    String SettingValue) {
+        public SelectedOrganizeListener(ASlickLabel lbl, StoredSettings settings,
+                                        String SettingValue) {
+
 
             label = lbl;
             settingValue = SettingValue;
@@ -869,33 +873,41 @@ public class LibraryHandler implements
         }
     }
 
-    public class UnSelectedItemListener implements ActionListener {
+    public class UnSelectedOrganizeListener implements ActionListener {
 
         private final ASlickLabel label;
 
-        public UnSelectedItemListener(ASlickLabel lbl) {
+        private final APopupMenu organizeUI;
+
+        public UnSelectedOrganizeListener(ASlickLabel lbl, APopupMenu popup) {
 
             label = lbl;
-
+            organizeUI = popup;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
             label.setForeground(new Color(173, 173, 173));
-
             libraryLogic.addGamesToLibrary();
+            Timer timer = new Timer(500, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    organizeUI.setVisible(false);
+                    ((Timer) e.getSource()).stop();
+                }
+            });
+
+            timer.start();
 
         }
     }
 
-    public class OrganizeItemListener implements MouseListener {
+    public class OrganizeMouseListener implements MouseListener {
 
         private final ASlickLabel label;
 
-        private boolean isSelected;
-
-        public OrganizeItemListener(ASlickLabel label) {
+        public OrganizeMouseListener(ASlickLabel label) {
             this.label = label;
         }
 
