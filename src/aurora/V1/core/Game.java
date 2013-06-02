@@ -20,6 +20,7 @@ package aurora.V1.core;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.V1.core.screen_ui.WelcomeUI;
+import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.UI.AButton;
@@ -1648,7 +1649,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
 
     }
-
     boolean isFavoriting;
 
     boolean isUnfavoriting;
@@ -1762,7 +1762,18 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 logger.debug("Play button pressed");
             }
 
-            launcher = new AuroraLauncher(coreUI);
+            if (AFileManager.checkFile(getGamePath())) {
+
+                launcher = new AuroraLauncher(coreUI);
+                
+            } else {
+
+                ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
+                        "Cannot Find Game Location", coreUI.getRegularFont()
+                        .deriveFont(25));
+
+            }
+
 
             launcher.launchGame(thisGame());
         }

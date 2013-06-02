@@ -8,8 +8,10 @@
 // Aurora_Alpha 8  Build:700  Date:4/21/2013  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------
 + Added Shortcut buttons to launcher
++ Added ability to organize library in 3 different ways
 - settings states saved in Database
 - small UX improvements to launcher
+- added guard against launching game if location not available
 - lots of minor UI fixes and enhancements (details do matter!)
 
 

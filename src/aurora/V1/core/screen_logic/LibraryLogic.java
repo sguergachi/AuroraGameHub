@@ -37,6 +37,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
+import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 /**
@@ -152,7 +153,12 @@ public class LibraryLogic implements AuroraScreenLogic {
 
 
             //clear grids to start
+
+
             libraryUI.getGridSplit().clearAllGrids();
+
+
+
 
             int librarySize = libraryUI.getStorage().getStoredLibrary()
                     .getGameNames()

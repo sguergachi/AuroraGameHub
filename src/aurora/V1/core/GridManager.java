@@ -93,11 +93,7 @@ public class GridManager {
      *
      * @param GameCover object
      */
-    public void addGame(Game game) {
-
-        ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
-                "Cannot Add Duplicate Game", ui.getRegularFont()
-                .deriveFont(25));
+    public Boolean addGame(Game game) {
 
         fullGrids = 0;
         for (int i = 0; i < Grids.size(); i++) {
@@ -138,15 +134,13 @@ public class GridManager {
 
                     }
                 }
+
             } else {
-                if (!info.isVisible()) {
-                    info.showDialog();
-                    info.setVisible(true);
-                }
+                return false;
             }
 
         }
-
+        return true;
 
     }
 
@@ -267,7 +261,8 @@ public class GridManager {
      * <p/>
      */
     public void clearAllGrids() {
-        for (int i = 0; i < Grids.size(); i++) {
+
+        for (int i = 0; i <= Grids.size(); i++) {
 
             try {
                 if (logger.isDebugEnabled()) {

@@ -38,6 +38,7 @@ import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.AButton;
+import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AGridPanel;
 import aurora.engine.V1.UI.AHoverButton;
 import aurora.engine.V1.UI.AImage;
@@ -730,7 +731,19 @@ public class LibraryHandler implements
             }
 
 
-            gridManager.addGame(game);
+            if (!gridManager.addGame(game)) {
+
+                ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
+                        "Cannot Add Duplicate Game", libraryUI.getCoreUI()
+                        .getRegularFont()
+                        .deriveFont(Font.BOLD, 28));
+
+                info.showDialog();
+                info.setVisible(true);
+
+                gridManager.echoGame(game).showOverlayUI();
+            }
+
             gridManager.finalizeGrid(new ShowAddGameUiHandler(),
                     libraryUI
                     .getGameCoverWidth(), libraryUI
@@ -871,7 +884,7 @@ public class LibraryHandler implements
 
             label.setForeground(new Color(173, 173, 173));
 
-             libraryLogic.addGamesToLibrary();
+            libraryLogic.addGamesToLibrary();
 
         }
     }
