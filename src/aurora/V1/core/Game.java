@@ -507,6 +507,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 coverImagePane.setPreferredSize(new Dimension(width, height));
                 coverImagePane.setDoubleBuffered(true);
                 this.remove(progressWheel);
+                progressWheel = null;
                 this.setImage(coverImagePane);
                 this.add(pnlInteractivePane);
                 this.revalidate();
@@ -544,7 +545,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                                     coverImagePane, coverUrl, "Game Data");
 
                             this.remove(progressWheel);
-
+                            progressWheel = null;
                             //Add Image To GameCover Cover
                             this.setImage(coverImagePane);
                             this.add(pnlInteractivePane);
@@ -553,6 +554,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         }
                     } else {
                         this.remove(progressWheel);
+                        progressWheel = null;
                         this.add(pnlInteractivePane);
                         this.revalidate();
                     }
@@ -561,6 +563,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     logger.error(ex);
                 } finally {
                     this.remove(progressWheel);
+                    progressWheel = null;
                 }
             }
         }
@@ -602,6 +605,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         }
 
+        
         this.remove(progressWheel);
         this.revalidate();
         this.repaint();
@@ -1765,7 +1769,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             if (AFileManager.checkFile(getGamePath())) {
 
                 launcher = new AuroraLauncher(coreUI);
-                
+
             } else {
 
                 ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
