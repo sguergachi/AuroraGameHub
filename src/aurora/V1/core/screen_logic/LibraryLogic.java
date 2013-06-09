@@ -19,26 +19,20 @@ package aurora.V1.core.screen_logic;
 
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.Game;
-import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.LibraryHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.GameLibraryKeyListener;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.APostHandler;
-import aurora.engine.V1.Logic.ASort;
-import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.prefs.Preferences;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 import org.apache.log4j.Logger;
 
 /**
@@ -155,7 +149,6 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             //clear grids to start
 
-
             libraryUI.getGridSplit().clearAllGrids();
 
 
@@ -169,8 +162,103 @@ public class LibraryLogic implements AuroraScreenLogic {
                     .getSettingValue(
                     "organize");
 
-            ASort sorter = new ASort();
 
+            ArrayList<Game> gamesList = new ArrayList<Game>();
+
+            // Create Array of Games //
+            for (int i = 0; i <= librarySize;
+                    i++) {
+
+                Game Game = new Game(libraryUI.getGridSplit(), coreUI,
+                        dashboardUI, libraryUI.getStorage());
+
+                Game.setGameName(libraryUI.getStorage()
+                        .getStoredLibrary()
+                        .getGameNames()
+                        .get(i));
+                Game.setCoverUrl(libraryUI.getStorage()
+                        .getStoredLibrary()
+                        .getBoxArtPath()
+                        .get(i));
+
+                if (libHasFavourites) {
+                    Game.setFavorite(libraryUI.getStorage()
+                            .getStoredLibrary()
+                            .getFaveStates()
+                            .get(i));
+                }
+
+                //* Handle appostrophese in game path *//
+                Game.setGamePath(libraryUI.getStorage()
+                        .getStoredLibrary()
+                        .getGamePath()
+                        .get(i).replace("'", "''"));
+
+                Game.setCoverSize(libraryUI.getGameCoverWidth(),
+                        libraryUI
+                        .getGameCoverHeight());
+
+                gamesList.add(Game);
+
+            }
+
+
+
+            // Add Metadata to games from database if it exists //
+            if (libraryUI.getStorage().getStoredProfile()
+                    .getGameNames() != null) {
+                for (int i = 0; i < libraryUI.getStorage().getStoredProfile()
+                        .getGameNames()
+                        .size();
+                        i++) {
+
+                    String gameName = libraryUI.getStorage().getStoredProfile()
+                            .getGameNames().get(i);
+//                    Game game = libraryUI.getGridSplit().getGameFromName(
+//                            gameName);
+                    int a = 0;
+                    Game game = null;
+                    while (a < gamesList.size()) {
+                        if (gamesList.get(a).getName().equals(gameName)) {
+                            game = gamesList.get(a);
+                            break;
+                        }
+                        a++;
+                    }
+
+
+
+                    if (game != null) {
+
+                        game.setGameType(libraryUI.getStorage()
+                                .getStoredProfile()
+                                .getGameTypes().get(i));
+                        game.setTotalTimePlayed(libraryUI.getStorage()
+                                .getStoredProfile()
+                                .getTotalTimes().get(i));
+                        game.setOcurrencesPlayed(libraryUI.getStorage()
+                                .getStoredProfile()
+                                .getOccurrenceTimes().get(i));
+                        game.setLastPlayed(libraryUI.getStorage()
+                                .getStoredProfile()
+                                .getLastTimes().get(i));
+
+                        logger.info("ProfileDB Game Name:" + game.getGameName());
+                        logger.info("ProfileDB Game Type:" + game.getGameType());
+                        logger.info("ProfileDB Last Played:" + game
+                                .getLastPlayed());
+                        logger.info("ProfileDB Occurences:" + game
+                                .getOccurencesPlayed());
+                        logger.info("ProfileDB Total Time:" + game
+                                .getTotalTimePlayed());
+
+
+
+                    }
+                }
+
+
+            }
 
 
 
@@ -181,8 +269,10 @@ public class LibraryLogic implements AuroraScreenLogic {
                 for (int i = librarySize; i >= 0;
                         i--) {
 
-                    Game Game = new Game(libraryUI.getGridSplit(), coreUI,
-                            dashboardUI, libraryUI.getStorage());
+//                    Game Game = new Game(libraryUI.getGridSplit(), coreUI,
+//                            dashboardUI, libraryUI.getStorage());
+                    Game Game = gamesList.get(i);
+
                     if (libHasFavourites && libraryUI.getStorage()
                             .getStoredLibrary()
                             .getFaveStates()
@@ -212,6 +302,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                         libraryUI.getGridSplit().addGame(Game);
                     }
                 }
+
+
 
 
                 //* Add Non-Fav games after *//
@@ -257,44 +349,9 @@ public class LibraryLogic implements AuroraScreenLogic {
                 // Check if Organization Type is "Favorite" //
             } else if (organize.equalsIgnoreCase("Alphabetic")) {
 
-                ArrayList<Game> gamesList = new ArrayList<Game>();
 
-                // Create Array of Games //
-                for (int i = librarySize; i >= 0;
-                        i--) {
 
-                    Game Game = new Game(libraryUI.getGridSplit(), coreUI,
-                            dashboardUI, libraryUI.getStorage());
 
-                    Game.setGameName(libraryUI.getStorage()
-                            .getStoredLibrary()
-                            .getGameNames()
-                            .get(i));
-                    Game.setCoverUrl(libraryUI.getStorage()
-                            .getStoredLibrary()
-                            .getBoxArtPath()
-                            .get(i));
-
-                    if (libHasFavourites) {
-                        Game.setFavorite(libraryUI.getStorage()
-                                .getStoredLibrary()
-                                .getFaveStates()
-                                .get(i));
-                    }
-
-                    //* Handle appostrophese in game path *//
-                    Game.setGamePath(libraryUI.getStorage()
-                            .getStoredLibrary()
-                            .getGamePath()
-                            .get(i).replace("'", "''"));
-
-                    Game.setCoverSize(libraryUI.getGameCoverWidth(),
-                            libraryUI
-                            .getGameCoverHeight());
-
-                    gamesList.add(Game);
-
-                }
 
                 String[] alphaArray = new String[gamesList.size()];
 
@@ -304,12 +361,12 @@ public class LibraryLogic implements AuroraScreenLogic {
                     alphaArray[i] = gamesList.get(i).getName();
                 }
 
-
-                alphaArray = sorter.firstToLast(alphaArray);
+                Arrays.sort(alphaArray);
 
                 for (int i = 0; i <= librarySize;
                         i++) {
                     int h = 0;
+
                     while (!gamesList.get(h).getName().equals(alphaArray[i])) {
                         h++;
                     }
@@ -325,50 +382,6 @@ public class LibraryLogic implements AuroraScreenLogic {
             }
 
 
-            // Add Metadata to games from database if it exists //
-            if (libraryUI.getStorage().getStoredProfile()
-                    .getGameNames() != null) {
-                for (int i = 0; i < libraryUI.getStorage().getStoredProfile()
-                        .getGameNames()
-                        .size();
-                        i++) {
-
-                    String gameName = libraryUI.getStorage().getStoredProfile()
-                            .getGameNames().get(i);
-                    Game game = libraryUI.getGridSplit().getGameFromName(
-                            gameName);
-
-                    if (game != null) {
-
-                        game.setGameType(libraryUI.getStorage()
-                                .getStoredProfile()
-                                .getGameTypes().get(i));
-                        game.setTotalTimePlayed(libraryUI.getStorage()
-                                .getStoredProfile()
-                                .getTotalTimes().get(i));
-                        game.setOcurrencesPlayed(libraryUI.getStorage()
-                                .getStoredProfile()
-                                .getOccurrenceTimes().get(i));
-                        game.setLastPlayed(libraryUI.getStorage()
-                                .getStoredProfile()
-                                .getLastTimes().get(i));
-
-                        logger.info("ProfileDB Game Name:" + game.getGameName());
-                        logger.info("ProfileDB Game Type:" + game.getGameType());
-                        logger.info("ProfileDB Last Played:" + game
-                                .getLastPlayed());
-                        logger.info("ProfileDB Occurences:" + game
-                                .getOccurencesPlayed());
-                        logger.info("ProfileDB Total Time:" + game
-                                .getTotalTimePlayed());
-
-
-
-                    }
-                }
-
-
-            }
 
 
             libraryUI.getGridSplit()

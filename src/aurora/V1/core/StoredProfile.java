@@ -298,6 +298,7 @@ public class StoredProfile extends AStorage implements Serializable {
     public ArrayList<String> getGameNames() {
         return GameNames;
     }
+    
 
     public ArrayList<String> getGameTypes() {
         return GameTypes;

@@ -602,11 +602,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 setFavorite();
             }
 
-
         }
 
-        
-        this.remove(progressWheel);
         this.revalidate();
         this.repaint();
 
