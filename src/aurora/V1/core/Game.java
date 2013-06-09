@@ -562,7 +562,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 } catch (Exception ex) {
                     logger.error(ex);
                 } finally {
-                    this.remove(progressWheel);
+                    //this.remove(progressWheel);
                     progressWheel = null;
                 }
             }

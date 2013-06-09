@@ -260,7 +260,11 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             }
 
-
+            if (organize == null){
+                organize = "favorite";
+                libraryUI.getStorage().getStoredSettings().saveSetting(organize,
+                        "favorite");
+            }
 
             // Check if Organization Type is "Favorite" //
             if (organize.equalsIgnoreCase("Favorite")) {
