@@ -1378,7 +1378,7 @@ public class LibraryUI extends AuroraApp {
             } else if (value.equals("Alphabetic")) {
                 middle.setSelected();
 
-            } else if (value.equals("MostPlayed")) {
+            } else if (value.equals("Most Played")) {
                 bottom.setSelected();
             }
         }
