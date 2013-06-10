@@ -1624,7 +1624,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             } else {
 
                 if (Integer.parseInt(daysPast) > 30) {
-                    txtLastPlayed.setText("A month ago");
+                    txtLastPlayed.setText("Over a month ago");
                 } else if (Integer.parseInt(daysPast) > 1) {
                     txtLastPlayed.setText(daysPast + " days ago");
                 } else {

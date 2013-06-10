@@ -1364,7 +1364,7 @@ public class LibraryUI extends AuroraApp {
                 lblMostPlayed));
         bottom.setSelectedHandler(
                 handler.new SelectedOrganizeListener(lblMostPlayed, storage
-                .getStoredSettings(), "MostPlayed"));
+                .getStoredSettings(), "Most Played"));
         bottom.setUnSelectedHandler(handler.new UnSelectedOrganizeListener(
                 lblMostPlayed, organizeMenu));
 

@@ -27,11 +27,20 @@ import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
+import aurora.engine.V1.UI.ATimeLabel;
 import java.io.File;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.prefs.Preferences;
 import org.apache.log4j.Logger;
 
@@ -214,8 +223,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                     String gameName = libraryUI.getStorage().getStoredProfile()
                             .getGameNames().get(i);
-//                    Game game = libraryUI.getGridSplit().getGameFromName(
-//                            gameName);
+
                     int a = 0;
                     Game game = null;
                     while (a < gamesList.size()) {
@@ -260,7 +268,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             }
 
-            if (organize == null){
+            if (organize == null) {
                 organize = "favorite";
                 libraryUI.getStorage().getStoredSettings().saveSetting(organize,
                         "favorite");
@@ -273,8 +281,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                 for (int i = librarySize; i >= 0;
                         i--) {
 
-//                    Game Game = new Game(libraryUI.getGridSplit(), coreUI,
-//                            dashboardUI, libraryUI.getStorage());
+
                     Game Game = gamesList.get(i);
 
                     if (libHasFavourites && libraryUI.getStorage()
@@ -311,7 +318,6 @@ public class LibraryLogic implements AuroraScreenLogic {
 
 
                 //* Add Non-Fav games after *//
-
                 for (int i = 0; i <= librarySize;
                         i++) {
 
@@ -353,10 +359,6 @@ public class LibraryLogic implements AuroraScreenLogic {
                 // Check if Organization Type is "Favorite" //
             } else if (organize.equalsIgnoreCase("Alphabetic")) {
 
-
-
-
-
                 String[] alphaArray = new String[gamesList.size()];
 
                 for (int i = librarySize; i >= 0;
@@ -369,8 +371,8 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                 for (int i = 0; i <= librarySize;
                         i++) {
-                    int h = 0;
 
+                    int h = 0;
                     while (!gamesList.get(h).getName().equals(alphaArray[i])) {
                         h++;
                     }
@@ -383,7 +385,62 @@ public class LibraryLogic implements AuroraScreenLogic {
                 gamesList = null;
 
             } else if (organize.equalsIgnoreCase("Most Played")) {
+
+
+
+
+
+                ArrayList<Game> timeList = new ArrayList<Game>();
+                for (int i = 0; i <= librarySize;
+                        i++) {
+                    if (gamesList.get(i)
+                            .getTotalTimePlayed() != null) {
+                        timeList.add(gamesList.get(i));
+                    }else{
+                        gamesList.get(i).setTotalTimePlayed("00:00");
+                        timeList.add(gamesList.get(i));
+                    }
+                }
+
+
+
+                Collections.sort(timeList, new Comparator<Game>() {
+                    @Override
+                    public int compare(Game g1, Game g2) {
+                        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+
+                        long time1 = 0;
+                        long time2 = 0;
+                        try {
+                            time1 = format.parse(g1.getTotalTimePlayed())
+                                    .getTime();
+                            time2 = format.parse(g2.getTotalTimePlayed())
+                                    .getTime();
+                        } catch (ParseException ex) {
+                            java.util.logging.Logger.getLogger(
+                                    LibraryLogic.class.getName()).
+                                    log(Level.SEVERE, null, ex);
+                        }
+
+
+                        return (int) (time2 - time1);
+
+                    }
+                });
+
+
+                for (int i = 0; i <= librarySize;
+                        i++) {
+
+                    libraryUI.getGridSplit().addGame(timeList.get(i));
+                }
+
+
+
             }
+
+
+
 
 
 
