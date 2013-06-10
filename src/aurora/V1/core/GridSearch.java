@@ -431,7 +431,7 @@ public class GridSearch {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (game.isFavorite()) {
-                original.unfavorite();
+                original.setUnFavorite();
             } else {
                 original.setFavorite();
             }

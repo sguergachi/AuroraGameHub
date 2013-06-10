@@ -873,7 +873,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
-    public final void unfavorite() {
+    public final void setUnFavorite() {
         if (isFavorite) {
             isFavorite = false;
             imgStarIcon.setVisible(false);
@@ -1672,73 +1672,90 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    if (isFavorite) {
-                        // Unfavoriting
+                    if (storage.getStoredSettings().getSettingValue("organize")
+                            .equalsIgnoreCase("Favorite")) {
 
-                        if (isFavoriting == false) {
-                            prevState = isFavorite;
-                        }
+                        if (isFavorite) {
+                            // Unfavoriting
 
-                        isUnfavoriting = true;
+                            if (isFavoriting == false) {
+                                prevState = isFavorite;
+                            }
 
-                        unfavorite();
+                            isUnfavoriting = true;
 
-                        // Give time to change decision
-                        try {
-                            Thread.sleep(850);
-                        } catch (InterruptedException ex) {
-                            java.util.logging.Logger.getLogger(Game.class
-                                    .getName()).
-                                    log(Level.SEVERE, null, ex);
-                        }
+                            setUnFavorite();
 
-                        // Check if still favourited
-                        if (!isFavorite && !isFavoriting && prevState
-                                                            != isFavorite) {
-                            storage.getStoredLibrary().SaveFavState(
-                                    thisGame());
-                            animateUnFavouriteMove();
-                            manager.moveUnfavorite(Game.this);
-                            thisGame().setVisible(true);
+                            // Give time to change decision
+                            try {
+                                Thread.sleep(850);
+                            } catch (InterruptedException ex) {
+                                java.util.logging.Logger.getLogger(Game.class
+                                        .getName()).
+                                        log(Level.SEVERE, null, ex);
+                            }
 
-                        }
-                        isUnfavoriting = false;
+                            // Check if still favourited
+                            if (!isFavorite && !isFavoriting && prevState
+                                                                != isFavorite) {
+                                storage.getStoredLibrary().SaveFavState(
+                                        thisGame());
+                                animateUnFavouriteMove();
+                                manager.moveUnfavorite(Game.this);
+                                thisGame().setVisible(true);
 
-                    } else {
-                        //Favoriting
+                            }
+                            isUnfavoriting = false;
 
-                        if (isUnfavoriting == false) {
-                            prevState = isFavorite;
-                        }
+                        } else {
+                            //Favoriting
 
-
-                        isFavoriting = true;
-                        setFavorite();
-
-
-                        // Give time to change decision
-                        try {
-                            Thread.sleep(850);
-                        } catch (InterruptedException ex) {
-                            java.util.logging.Logger.getLogger(Game.class
-                                    .getName()).
-                                    log(Level.SEVERE, null, ex);
-                        }
+                            if (isUnfavoriting == false) {
+                                prevState = isFavorite;
+                            }
 
 
-                        // Check if still favourited
-                        if (isFavorite && !isUnfavoriting && prevState
-                                                             != isFavorite) {
-                            storage.getStoredLibrary().SaveFavState(
-                                    thisGame());
-                            unfavorite();
-                            animateFavouriteMove();
+                            isFavoriting = true;
                             setFavorite();
-                            manager.moveFavorite(Game.this);
-                            thisGame().setVisible(true);
+
+
+                            // Give time to change decision
+                            try {
+                                Thread.sleep(850);
+                            } catch (InterruptedException ex) {
+                                java.util.logging.Logger.getLogger(Game.class
+                                        .getName()).
+                                        log(Level.SEVERE, null, ex);
+                            }
+
+
+                            // Check if still favourited
+                            if (isFavorite && !isUnfavoriting && prevState
+                                                                 != isFavorite) {
+                                storage.getStoredLibrary().SaveFavState(
+                                        thisGame());
+                                setUnFavorite();
+                                animateFavouriteMove();
+                                setFavorite();
+                                manager.moveFavorite(Game.this);
+                                thisGame().setVisible(true);
+
+                            }
+                            isFavoriting = false;
 
                         }
-                        isFavoriting = false;
+                    } else {
+                        if (isFavorite) {
+
+                            // Unfavoriting
+                            setUnFavorite();
+
+                        } else {
+
+                            //Favoriting
+                            setFavorite();
+
+                        }
 
                     }
 
