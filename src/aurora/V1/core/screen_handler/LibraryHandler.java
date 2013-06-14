@@ -728,6 +728,7 @@ public class LibraryHandler implements
             game.setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
                     .getGameCoverHeight());
             game.reAddInteractive();
+
             if (!gridManager.isDupicate(game)) {
                 storage.getStoredLibrary()
                         .SaveGame(gameSearch.getFoundGameCover());
@@ -745,40 +746,49 @@ public class LibraryHandler implements
                 info.setVisible(true);
 
                 gridManager.echoGame(game).showOverlayUI();
-            }
-
-            gridManager.finalizeGrid(new ShowAddGameUiHandler(),
-                    libraryUI
-                    .getGameCoverWidth(), libraryUI
-                    .getGameCoverHeight());
-            libraryUI.hideAddGameUI();
-
-            //* reset cover to blank cover *//
-            gameSearch.resetCover();
-
-            libraryUI.setCurrentIndex(
-                    gridManager.getArray().indexOf(GameBack.getComponent(1)));
+            } else {
 
 
-            if (!game.isLoaded()) {
-                try {
-                    game.update();
-                } catch (MalformedURLException ex) {
-                    java.util.logging.Logger.getLogger(LibraryHandler.class
-                            .getName()).
-                            log(Level.SEVERE, null, ex);
+                if (storage.getStoredSettings().getSettingValue("organize")
+                        .equalsIgnoreCase("alphabetic")) {
+
+                    gridManager.moveAlphabetic(game);
+
                 }
+
+                gridManager.finalizeGrid(new ShowAddGameUiHandler(),
+                        libraryUI
+                        .getGameCoverWidth(), libraryUI
+                        .getGameCoverHeight());
+                libraryUI.hideAddGameUI();
+
+                //* reset cover to blank cover *//
+                gameSearch.resetCover();
+
+                libraryUI.setCurrentIndex(
+                        gridManager.getArray().indexOf(GameBack.getComponent(1)));
+
+
+                if (!game.isLoaded()) {
+                    try {
+                        game.update();
+                    } catch (MalformedURLException ex) {
+                        java.util.logging.Logger.getLogger(LibraryHandler.class
+                                .getName()).
+                                log(Level.SEVERE, null, ex);
+                    }
+                }
+
+                GridMove = new MoveToGrid(game);
+                //* Transition towards to left most grid to see the game added *//
+                GridMove.runMover();
+
+
+                AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
+                        "f5f777273e62089193a68f99f4885a55");
+                mixpanelAnalytics.addProperty("Game Added", game.getName());
+                mixpanelAnalytics.sendEventProperty("Added Game");
             }
-
-            GridMove = new MoveToGrid(game);
-            //* Transition towards to left most grid to see the game added *//
-            GridMove.runMover();
-
-
-            AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
-                    "f5f777273e62089193a68f99f4885a55");
-            mixpanelAnalytics.addProperty("Game Added", game.getName());
-            mixpanelAnalytics.sendEventProperty("Added Game");
         }
     }
 
@@ -849,6 +859,8 @@ public class LibraryHandler implements
 
         private final StoredSettings storage;
 
+        private int i;
+
         public SelectedOrganizeListener(ASlickLabel lbl, StoredSettings settings,
                                         String SettingValue) {
 
@@ -856,14 +868,19 @@ public class LibraryHandler implements
             label = lbl;
             settingValue = SettingValue;
             storage = settings;
+            i = 0;
 
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-
+            String currentVal = storage.getSettingValue("organize");
             storage.saveSetting("organize", settingValue);
+
+            if (!currentVal.trim().equals(settingValue.trim())) {
+                libraryLogic.addGamesToLibrary();
+            }
 
             label.setForeground(Color.white);
 
@@ -889,7 +906,7 @@ public class LibraryHandler implements
         public void actionPerformed(ActionEvent e) {
 
             label.setForeground(new Color(173, 173, 173));
-            libraryLogic.addGamesToLibrary();
+
             Timer timer = new Timer(500, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {

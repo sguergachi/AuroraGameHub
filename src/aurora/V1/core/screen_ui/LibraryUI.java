@@ -405,6 +405,32 @@ public class LibraryUI extends AuroraApp {
 
     private APopupMenu organizeMenu;
 
+    private ARadioButtonManager organizeBtnManager;
+
+    private ARadioButton btnBottom;
+
+    private ARadioButton btnMiddle;
+
+    private ARadioButton btnTop;
+
+    private ASlickLabel lblFavorite;
+
+    private ASlickLabel lblAlphabetic;
+
+    private ASlickLabel lblMostPlayed;
+
+    private AImage icoFavorite;
+
+    private AImage icoAlphabetic;
+
+    private AImage icoMostPlayed;
+
+    private JPanel favoritePane;
+
+    private JPanel alphabeticPane;
+
+    private JPanel mostplayedPane;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
@@ -508,6 +534,9 @@ public class LibraryUI extends AuroraApp {
         //* Grid Animator *//
         this.GridAnimate = new GridAnimation(GridSplit, paneLibraryContainer);
 
+
+        //* Load Organize UI *//
+        loadOrganizeUI();
 
         //* Add Game UI *//
         loadAddGameUI();
@@ -1248,165 +1277,172 @@ public class LibraryUI extends AuroraApp {
         }
     }
 
-    public void showOrganizeUI() {
+    private void loadOrganizeUI() {
+
         organizeMenu = new APopupMenu();
         organizeMenu.setOpaque(false);
 
-
-
         // Background Panes //
 
-        ARadioButton top = new ARadioButton("library_organize_top.png",
+        btnTop = new ARadioButton("library_organize_top.png",
                 "library_organize_top_selected.png");
-        top.setLayout(
+        btnTop.setLayout(
                 new FlowLayout(FlowLayout.CENTER));
-        top.setPreferredSize(new Dimension(top.getRealImageWidth(), top
+        btnTop.setPreferredSize(new Dimension(btnTop.getRealImageWidth(), btnTop
                 .getRealImageHeight()));
 
 
 
 
-        ARadioButton middle = new ARadioButton("library_organize_middle.png",
+        btnMiddle = new ARadioButton("library_organize_middle.png",
                 "library_organize_middle_selected.png");
-        middle.setLayout(
+        btnMiddle.setLayout(
                 new FlowLayout(FlowLayout.CENTER));
-        middle.setPreferredSize(new Dimension(middle.getRealImageWidth(),
-                middle.getRealImageHeight()));
+        btnMiddle.setPreferredSize(new Dimension(btnMiddle.getRealImageWidth(),
+                btnMiddle.getRealImageHeight()));
 
 
 
 
-        ARadioButton bottom = new ARadioButton("library_organize_bottom.png",
+        btnBottom = new ARadioButton("library_organize_bottom.png",
                 "library_organize_bottom_selected.png");
-        bottom.setLayout(
+        btnBottom.setLayout(
                 new FlowLayout(FlowLayout.CENTER));
-        bottom.setPreferredSize(new Dimension(bottom.getRealImageWidth(),
-                bottom.getRealImageHeight()));
+        btnBottom.setPreferredSize(new Dimension(btnBottom.getRealImageWidth(),
+                btnBottom.getRealImageHeight()));
 
 
-        ARadioButtonManager manager = new ARadioButtonManager();
-        manager.addButton(bottom);
-        manager.addButton(middle);
-        manager.addButton(top);
-        manager.setRadioButton();
+        organizeBtnManager = new ARadioButtonManager();
+        organizeBtnManager.addButton(btnBottom);
+        organizeBtnManager.addButton(btnMiddle);
+        organizeBtnManager.addButton(btnTop);
+        organizeBtnManager.setRadioButton();
 
 
         // Labels //
 
-        ASlickLabel lblFavorite = new ASlickLabel("Favorite");
+        lblFavorite = new ASlickLabel("Favorite");
         lblFavorite.setFont(getCoreUI().getRopaFont().deriveFont(
                 Font.PLAIN, 19));
         lblFavorite.setForeground(new Color(173, 173, 173));
 
-        ASlickLabel lblAlphabetic = new ASlickLabel("Alphabetic");
+        lblAlphabetic = new ASlickLabel("Alphabetic");
         lblAlphabetic.setFont(getCoreUI().getRopaFont()
                 .deriveFont(
                 Font.PLAIN, 19));
         lblAlphabetic.setForeground(new Color(173, 173, 173));
 
-        ASlickLabel lblMostPlayed = new ASlickLabel("Most Played");
+        lblMostPlayed = new ASlickLabel("Most Played");
         lblMostPlayed.setFont(getCoreUI().getRopaFont()
                 .deriveFont(
                 Font.PLAIN, 19));
         lblMostPlayed.setForeground(new Color(173, 173, 173));
 
         // Icons //
-        AImage icoFavorite = new AImage("library_organize_favorite.png");
+        icoFavorite = new AImage("library_organize_favorite.png");
 
-        AImage icoAlphabetic = new AImage("library_organize_alphabetic.png");
+        icoAlphabetic = new AImage("library_organize_alphabetic.png");
 
-        AImage icoMostPlayed = new AImage("library_organize_mostPlayed.png");
+        icoMostPlayed = new AImage("library_organize_mostPlayed.png");
 
 
         // Containers //
-        JPanel favoritePane = new JPanel(new FlowLayout(FlowLayout.LEFT, 10,
+        favoritePane = new JPanel(new FlowLayout(FlowLayout.LEFT, 10,
                 2));
-        favoritePane.setPreferredSize(new Dimension(bottom
+        favoritePane.setPreferredSize(new Dimension(btnBottom
                 .getRealImageWidth(),
-                bottom.getRealImageHeight()));
+                btnBottom.getRealImageHeight()));
         favoritePane.setOpaque(false);
 
-        JPanel alphabeticPane = new JPanel(new FlowLayout(FlowLayout.LEFT,
+        alphabeticPane = new JPanel(new FlowLayout(FlowLayout.LEFT,
                 10, 2));
-        alphabeticPane.setPreferredSize(new Dimension(bottom
+        alphabeticPane.setPreferredSize(new Dimension(btnBottom
                 .getRealImageWidth(),
-                bottom.getRealImageHeight()));
+                btnBottom.getRealImageHeight()));
         alphabeticPane.setOpaque(false);
 
-        JPanel mostplayedPane = new JPanel(new FlowLayout(FlowLayout.LEFT,
+        mostplayedPane = new JPanel(new FlowLayout(FlowLayout.LEFT,
                 10, 2));
-        mostplayedPane.setPreferredSize(new Dimension(bottom
+        mostplayedPane.setPreferredSize(new Dimension(btnBottom
                 .getRealImageWidth(),
-                bottom.getRealImageHeight()));
+                btnBottom.getRealImageHeight()));
         mostplayedPane.setOpaque(false);
 
 
         // Handlers //
-        top.addMouseListener(handler.new OrganizeMouseListener(
+        btnTop.addMouseListener(handler.new OrganizeMouseListener(
                 lblFavorite));
-        top.setSelectedHandler(handler.new SelectedOrganizeListener(lblFavorite,
+        btnTop.setSelectedHandler(handler.new SelectedOrganizeListener(
+                lblFavorite,
                 storage.getStoredSettings(),
                 "Favorite"));
-        top
-                .setUnSelectedHandler(handler.new UnSelectedOrganizeListener(
+        btnTop.setUnSelectedHandler(handler.new UnSelectedOrganizeListener(
                 lblFavorite, organizeMenu));
 
 
-        middle.addMouseListener(
+        btnMiddle.addMouseListener(
                 handler.new OrganizeMouseListener(lblAlphabetic));
-        middle.setSelectedHandler(
+        btnMiddle.setSelectedHandler(
                 handler.new SelectedOrganizeListener(lblAlphabetic, storage
                 .getStoredSettings(), "Alphabetic"));
-        middle.setUnSelectedHandler(handler.new UnSelectedOrganizeListener(
+        btnMiddle.setUnSelectedHandler(handler.new UnSelectedOrganizeListener(
                 lblAlphabetic, organizeMenu));
 
-        bottom.addMouseListener(handler.new OrganizeMouseListener(
+        btnBottom.addMouseListener(handler.new OrganizeMouseListener(
                 lblMostPlayed));
-        bottom.setSelectedHandler(
+        btnBottom.setSelectedHandler(
                 handler.new SelectedOrganizeListener(lblMostPlayed, storage
                 .getStoredSettings(), "Most Played"));
-        bottom.setUnSelectedHandler(handler.new UnSelectedOrganizeListener(
+        btnBottom.setUnSelectedHandler(handler.new UnSelectedOrganizeListener(
                 lblMostPlayed, organizeMenu));
-
-        // States //
-
-        String value = storage.getStoredSettings().getSettingValue("organize");
-        if (value != null) {
-            if (value.equals("Favorite")) {
-                top.setSelected();
-
-            } else if (value.equals("Alphabetic")) {
-                middle.setSelected();
-
-            } else if (value.equals("Most Played")) {
-                bottom.setSelected();
-            }
-        }
-
 
         // Add to panels //
 
         favoritePane.add(icoFavorite);
         favoritePane.add(lblFavorite);
 
-        top.add(favoritePane);
+        btnTop.add(favoritePane);
 
 
         alphabeticPane.add(icoAlphabetic);
         alphabeticPane.add(lblAlphabetic);
 
-        middle.add(alphabeticPane);
+        btnMiddle.add(alphabeticPane);
 
 
         mostplayedPane.add(icoMostPlayed);
         mostplayedPane.add(lblMostPlayed);
 
-        bottom.add(mostplayedPane);
+        btnBottom.add(mostplayedPane);
 
 
-        organizeMenu.add(top);
-        organizeMenu.add(middle);
-        organizeMenu.add(bottom);
+        organizeMenu.add(btnTop);
+        organizeMenu.add(btnMiddle);
+        organizeMenu.add(btnBottom);
+    }
+
+    public void showOrganizeUI() {
+
+
+        // States //
+
+        if (!btnTop.isSelected && !btnMiddle.isSelected && !btnBottom.isSelected) {
+            String value = storage.getStoredSettings().getSettingValue(
+                    "organize");
+            if (value != null) {
+                if (value.equals("Favorite")) {
+                    btnTop.setSelected();
+
+                } else if (value.equals("Alphabetic")) {
+                    btnMiddle.setSelected();
+
+                } else if (value.equals("Most Played")) {
+                    btnBottom.setSelected();
+                }
+            }
+        }
+
+
 
         organizeMenu
                 .show(getCoreUI().getFrame(), btnOrganizeGames
@@ -1417,7 +1453,7 @@ public class LibraryUI extends AuroraApp {
                                               - 3,
                 btnOrganizeGames.getLocationOnScreen().y - btnOrganizeGames
                 .getBounds().height
-                - middle
+                - btnMiddle
                 .getRealImageHeight());
 
 

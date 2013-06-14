@@ -346,6 +346,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Create Overlay UI Components //
         coverImagePane = new AImagePane();
+        coverImagePane.setName(name);
         blankImagePane = new AImagePane();
         imgSelectedGlow = new AImagePane("game_selectedGlow.png", width + 10,
                 height + 10);
@@ -533,7 +534,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                             if (dbErrorDialog == null) {
                                 dbErrorDialog = new ADialog(
                                         ADialog.aDIALOG_ERROR,
-                                        "AuroraDB Error! Can't Access BoxArt",
+                                        "Can't Download BoxArt for: " + name,
                                         coreUI.getRegularFont().deriveFont(
                                         Font.BOLD, 28));
                                 dbErrorDialog.showDialog();
@@ -608,6 +609,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.repaint();
 
     }
+
+
 
     /**
      * .-----------------------------------------------------------------------.
@@ -1789,6 +1792,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
                         "Cannot Find Game Location", coreUI.getRegularFont()
                         .deriveFont(25));
+                info.showDialog();
+                info.setVisible(true);
 
             }
 
@@ -2135,7 +2140,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
-    protected AImagePane getCoverImagePane() {
+    public AImagePane getCoverImagePane() {
         return coverImagePane;
     }
 

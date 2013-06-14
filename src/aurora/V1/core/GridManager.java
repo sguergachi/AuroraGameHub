@@ -21,6 +21,8 @@ import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AGridPanel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
@@ -59,6 +61,8 @@ public class GridManager {
     private int visibleGrid;
 
     static final Logger logger = Logger.getLogger(GridManager.class);
+
+    private int numGames;
 
     /**
      * Manages GridPanels for GameLibrary
@@ -102,11 +106,13 @@ public class GridManager {
                 if (!Grids.get(i).isGridFull()) {
 
                     Grids.get(i).addToGrid(game);
+                    numGames++;
                     isTransitioningGame = false; // Is Not Being Added to next Grid
 
                     if (logger.isDebugEnabled()) {
                         logger.debug("Added Game To GridPanel: " + game
                                 .getName());
+
                         logger.debug("to Grid " + i);
                     }
 
@@ -399,8 +405,8 @@ public class GridManager {
 
         //Go Through all Grids
         for (int i = 0; i < Grids.size(); i++) {
-            //Go Through All panels in Each Grid
 
+            //Go Through All panels in Each Grid
             for (int a = 0; a < Grids.get(i).getArray().size(); a++) {
                 try {
                     Game game = (Game) Grids.get(i).getArray().get(a);
@@ -419,6 +425,27 @@ public class GridManager {
         find[1] = GridPosition;
 
         return find;
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | getGame(int)
+     * .-----------------------------------------------------------------------.
+     * | Returns the Game object using index across all grids
+     * .........................................................................
+     *
+     * <p/>
+     */
+    public Game getGame(int Index) {
+
+
+
+        // Calculate what grid the game should be added to //
+        int gridIndex = (Index / (row * col));
+        // Calculate what index in specific grid the game should be added
+        int gameIndex = Index % (row * col);
+
+        return (Game) Grids.get(gridIndex).getArray().get(gameIndex);
     }
 
     /**
@@ -515,6 +542,7 @@ public class GridManager {
         }
 
         grid.update();
+        numGames--;
 
     }
 
@@ -713,6 +741,84 @@ public class GridManager {
 
         grid.update();
         ui.getFrame().repaint();
+    }
+
+    /**
+     * Moves game to proper alphabetic positioning in library.
+     *
+     * @param game
+     */
+    public void moveAlphabetic(Game game) {
+
+
+        ArrayList<String> alphaArray = new ArrayList<String>();
+
+
+        //Go Through all Grids
+        for (int i = 0; i < Grids.size(); i++) {
+
+            //Go Through All panels in Each Grid
+            for (int a = 0; a < Grids.get(i).getArray().size(); a++) {
+
+                alphaArray.add(((Game) Grids.get(i).getArray().get(a))
+                        .getName());
+
+            }
+
+        }
+
+        Collections.sort(alphaArray);
+
+        int alphaIndex = alphaArray.indexOf(game.getName());
+
+        // Calculate what grid the game should be added to //
+        int gridIndex = Math.round((alphaIndex / (row * col)))
+                        - 1;
+        // Calculate what index in specific grid the game should be added
+        int gameIndex = alphaIndex % (row * col) - 1;
+
+        // get the grid location of where the game is contained
+        int[] gridLocation = this.findGame(game);
+
+
+        // grab the index of where the grid is located in the manager
+        int index = gridLocation[0];
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Game was found in index: " + index);
+        }
+
+        // get the grid where the game is located
+        AGridPanel grid = this.getGrid(index);
+
+        if (index == 0) {
+            grid.removeComp(game);
+            grid.addToGrid(game, 0);
+            grid.update();
+        } else if (index > 0) {
+            // alternative to remove the game
+            grid.removeComp(game);
+
+            AGridPanel firstGrid = this.getGrid(gridIndex);
+
+            for (int i = index - 1; i >= 0; i--) {
+                AGridPanel currentGrid = this.getGrid(i);
+                AGridPanel previousGrid = this.getGrid(i + 1);
+                Game lastGame = (Game) currentGrid.getComponent(7);
+                currentGrid.removeComp(lastGame);
+                currentGrid.update();
+                previousGrid.addToGrid(lastGame, 0);
+                previousGrid.update();
+            }
+
+            firstGrid.addToGrid(game, gameIndex);
+            firstGrid.update();
+
+        }
+
+        grid.update();
+        ui.getFrame().repaint();
+        alphaArray = null;
     }
 
     /**
