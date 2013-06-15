@@ -25,9 +25,12 @@ import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.APostHandler;
+import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.ATimeLabel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -294,7 +297,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                     if (libHasFavourites && gamesList.get(i).isFavorite()) {
 
-                         libraryUI.getGridSplit().addGame(gamesList.get(i));
+                        libraryUI.getGridSplit().addGame(gamesList.get(i));
 
                     }
 
@@ -404,12 +407,19 @@ public class LibraryLogic implements AuroraScreenLogic {
             //Load First Grid by default
             loadGames(0);
 
+
+            AThreadWorker garbage = new AThreadWorker(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.gc();
+                }
+            });
+
+            garbage.startOnce();
+
         } catch (MalformedURLException ex) {
             logger.error(ex);
         }
-    }
-
-    public final void addAllGamesToLibrary() {
     }
 
     /**

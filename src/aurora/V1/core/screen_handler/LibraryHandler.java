@@ -715,80 +715,104 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            AThreadWorker add = new AThreadWorker(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
-            currentPath = libraryUI.getCurrentPath();
-            gridManager = libraryUI.getGridSplit();
-            GameBack = libraryUI.getGamesContainer();
-            storage = libraryUI.getStorage();
+                    currentPath = libraryUI.getCurrentPath();
+                    gridManager = libraryUI.getGridSplit();
+                    GameBack = libraryUI.getGamesContainer();
+                    storage = libraryUI.getStorage();
 
-            Game game = gameSearch.getFoundGameCover();
-
-
-            game.setGamePath(currentPath);
-            game.setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
-                    .getGameCoverHeight());
-            game.reAddInteractive();
-
-            if (!gridManager.isDupicate(game)) {
-                storage.getStoredLibrary()
-                        .SaveGame(gameSearch.getFoundGameCover());
-            }
+                    Game game = gameSearch.getFoundGameCover();
 
 
-            if (!gridManager.addGame(game)) {
+                    game.setGamePath(currentPath);
+                    game.setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
+                            .getGameCoverHeight());
+                    game.reAddInteractive();
 
-                ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
-                        "Cannot Add Duplicate Game", libraryUI.getCoreUI()
-                        .getRegularFont()
-                        .deriveFont(Font.BOLD, 28));
+                    if (!gridManager.isDupicate(game)) {
+                        storage.getStoredLibrary()
+                                .SaveGame(gameSearch.getFoundGameCover());
+                    } else {
+                        ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
+                                "Cannot Add Duplicate Game", libraryUI
+                                .getCoreUI()
+                                .getRegularFont()
+                                .deriveFont(Font.BOLD, 28));
 
-                info.showDialog();
-                info.setVisible(true);
+                        info.showDialog();
+                        info.setVisible(true);
 
-                gridManager.echoGame(game).showOverlayUI();
-            } else {
-
-
-                if (storage.getStoredSettings().getSettingValue("organize")
-                        .equalsIgnoreCase("alphabetic")) {
-
-                    gridManager.moveAlphabetic(game);
-
-                }
-
-                gridManager.finalizeGrid(new ShowAddGameUiHandler(),
-                        libraryUI
-                        .getGameCoverWidth(), libraryUI
-                        .getGameCoverHeight());
-                libraryUI.hideAddGameUI();
-
-                //* reset cover to blank cover *//
-                gameSearch.resetCover();
-
-                libraryUI.setCurrentIndex(
-                        gridManager.getArray().indexOf(GameBack.getComponent(1)));
-
-
-                if (!game.isLoaded()) {
-                    try {
-                        game.update();
-                    } catch (MalformedURLException ex) {
-                        java.util.logging.Logger.getLogger(LibraryHandler.class
-                                .getName()).
-                                log(Level.SEVERE, null, ex);
+                        gridManager.echoGame(game).showOverlayUI();
                     }
+
+
+
+
+                    gridManager.addGame(game);
+
+
+
+                    if (storage.getStoredSettings().getSettingValue(
+                            "organize")
+                            .equalsIgnoreCase("alphabetic")) {
+
+                        libraryLogic.addGamesToLibrary();
+
+
+                    } else {
+
+                        gridManager.finalizeGrid(new ShowAddGameUiHandler(),
+                                libraryUI
+                                .getGameCoverWidth(), libraryUI
+                                .getGameCoverHeight());
+
+                    }
+
+                    libraryUI.hideAddGameUI();
+
+                    //* reset cover to blank cover *//
+                    gameSearch.resetCover();
+
+                    libraryUI.setCurrentIndex(
+                            gridManager.getArray().indexOf(GameBack
+                            .getComponent(1)));
+
+
+                    if (!game.isLoaded()) {
+                        try {
+                            game.update();
+                        } catch (MalformedURLException ex) {
+                            java.util.logging.Logger.getLogger(
+                                    LibraryHandler.class
+                                    .getName()).
+                                    log(Level.SEVERE, null, ex);
+                        }
+                    }
+
+                    GridMove = new MoveToGrid(game);
+                    //* Transition towards to left most grid to see the game added *//
+                    GridMove.runMover();
+
+
+                    AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
+                            "f5f777273e62089193a68f99f4885a55");
+                    mixpanelAnalytics.addProperty("Game Added", game
+                            .getName());
+                    mixpanelAnalytics.sendEventProperty("Added Game");
+
+                    gridManager.unselectPrevious();
+                    game.showOverlayUI();
+
+
+
+
                 }
+            });
 
-                GridMove = new MoveToGrid(game);
-                //* Transition towards to left most grid to see the game added *//
-                GridMove.runMover();
-
-
-                AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
-                        "f5f777273e62089193a68f99f4885a55");
-                mixpanelAnalytics.addProperty("Game Added", game.getName());
-                mixpanelAnalytics.sendEventProperty("Added Game");
-            }
+            add.startOnce();
         }
     }
 

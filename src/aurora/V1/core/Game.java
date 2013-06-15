@@ -507,7 +507,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 coverImagePane.setImageSize(width, height);
                 coverImagePane.setPreferredSize(new Dimension(width, height));
                 coverImagePane.setDoubleBuffered(true);
-                this.remove(progressWheel);
+                try {
+                    this.remove(progressWheel);
+                } catch (NullPointerException e) {
+                    this.remove(0);
+                    e.printStackTrace();
+                }
                 progressWheel = null;
                 this.setImage(coverImagePane);
                 this.add(pnlInteractivePane);
@@ -609,8 +614,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.repaint();
 
     }
-
-
 
     /**
      * .-----------------------------------------------------------------------.

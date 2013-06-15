@@ -445,7 +445,7 @@ public class GridManager {
         // Calculate what index in specific grid the game should be added
         int gameIndex = Index % (row * col);
 
-        return (Game) Grids.get(gridIndex).getArray().get(gameIndex);
+        return (Game) (Grids.get(gridIndex).getArray().get(gameIndex));
     }
 
     /**
@@ -772,10 +772,9 @@ public class GridManager {
         int alphaIndex = alphaArray.indexOf(game.getName());
 
         // Calculate what grid the game should be added to //
-        int gridIndex = Math.round((alphaIndex / (row * col)))
-                        - 1;
+        int gridIndex = (alphaIndex / (row * col));
         // Calculate what index in specific grid the game should be added
-        int gameIndex = alphaIndex % (row * col) - 1;
+        int gameIndex = alphaIndex % (row * col);
 
         // get the grid location of where the game is contained
         int[] gridLocation = this.findGame(game);
@@ -793,7 +792,7 @@ public class GridManager {
 
         if (index == 0) {
             grid.removeComp(game);
-            grid.addToGrid(game, 0);
+            grid.addToGrid(game, gameIndex);
             grid.update();
         } else if (index > 0) {
             // alternative to remove the game
@@ -802,13 +801,33 @@ public class GridManager {
             AGridPanel firstGrid = this.getGrid(gridIndex);
 
             for (int i = index - 1; i >= 0; i--) {
-                AGridPanel currentGrid = this.getGrid(i);
-                AGridPanel previousGrid = this.getGrid(i + 1);
-                Game lastGame = (Game) currentGrid.getComponent(7);
-                currentGrid.removeComp(lastGame);
-                currentGrid.update();
-                previousGrid.addToGrid(lastGame, 0);
-                previousGrid.update();
+                AGridPanel currentGrid;
+                AGridPanel previousGrid;
+
+                currentGrid = this.getGrid(i);
+                previousGrid = this.getGrid(i + 1);
+
+
+                try {
+                    Game lastGame = (Game) currentGrid.getComponent(7);
+
+                    currentGrid.removeComp(lastGame);
+                    currentGrid.update();
+                    previousGrid.addToGrid(lastGame, 0);
+                    previousGrid.update();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+//
+//                    currentGrid = this.getGrid(i);
+//                    previousGrid = this.getGrid(i + 1);
+//                    Game lastGame = (Game) currentGrid.getComponent(7);
+//
+//                    currentGrid.removeComp(lastGame);
+//                    currentGrid.update();
+//                    previousGrid.addToGrid(lastGame, 0);
+//                    previousGrid.update();
+                }
             }
 
             firstGrid.addToGrid(game, gameIndex);
