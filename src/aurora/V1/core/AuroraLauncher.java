@@ -17,6 +17,7 @@
  */
 package aurora.V1.core;
 
+import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.AThreadWorker;
@@ -107,6 +108,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
     private AButton btnLearn;
 
     private JPanel pnlShortcuts;
+
 
     public AuroraLauncher(AuroraCoreUI ui) {
         this.coreUI = ui;
@@ -202,8 +204,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
         btnWatch.setMargin(new Insets(0, 0, 0, 0));
         btnWatch.setBorder(null);
         btnWatch.setBorderPainted(false);
-        
-        
+
+
         btnFix = new AButton("game_btn_help_norm.png",
                 "game_btn_help_down.png",
                 "game_btn_help_over.png");
@@ -211,8 +213,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
         btnFix.setMargin(new Insets(0, 0, 0, 0));
         btnFix.setBorder(null);
         btnFix.setBorderPainted(false);
-        
-        
+
+
         btnLearn = new AButton("game_btn_learn_norm.png",
                 "game_btn_learn_down.png",
                 "game_btn_learn_over.png");
@@ -698,11 +700,14 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         game.saveMetadata();
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            logger.error(ex);
-        }
+
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                logger.error(ex);
+            }
+
 
         launchPane.setVisible(false);
         launchPane.dispose();
@@ -710,6 +715,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
         coreUI.getFrame().setState(JFrame.NORMAL);
         manualMode = false;
 
+        game.showOverlayUI();
         pnlCenter.setLayout(new FlowLayout(FlowLayout.CENTER));
     }
 

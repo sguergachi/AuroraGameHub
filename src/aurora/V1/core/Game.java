@@ -17,6 +17,7 @@
  */
 package aurora.V1.core;
 
+import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.V1.core.screen_ui.WelcomeUI;
@@ -156,7 +157,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private AuroraCoreUI coreUI;
 
-    private DashboardUI dashboardUi;
+    private DashboardUI dashboardUI;
 
     private AuroraStorage storage;
 
@@ -236,13 +237,15 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private int flipPadding;
 
+    private LibraryLogic libraryLogic;
+
     public Game() {
     }
 
     public Game(final GridManager gridManager, final AuroraCoreUI auroraCoreUI,
                 final DashboardUI dashboardUi) {
 
-        this.dashboardUi = dashboardUi;
+        this.dashboardUI = dashboardUi;
         this.coreUI = auroraCoreUI;
         this.manager = gridManager;
         this.setOpaque(false);
@@ -255,9 +258,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public Game(final GridManager manager, final AuroraCoreUI ui,
-                final DashboardUI obj, final AuroraStorage storage) {
+                final DashboardUI dashboard, final AuroraStorage storage) {
 
-        this.dashboardUi = obj;
+        this.dashboardUI = dashboard;
         this.coreUI = ui;
         this.storage = storage;
         this.manager = manager;
@@ -285,12 +288,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
-    public Game(final String CoverURL, final DashboardUI obj) {
+    public Game(final String CoverURL, final DashboardUI dashboard) {
 
         this.setOpaque(false);
-        this.coreUI = obj.getCoreUI();
-        this.dashboardUi = obj;
+        this.coreUI = dashboard.getCoreUI();
+        this.dashboardUI = dashboard;
         this.coverUrl = CoverURL;
+        this.storage = dashboardUI.getStorage();
 
         //DEFAULT CASE
         this.setImage("Blank-Case.png", height, width);
@@ -298,11 +302,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
-    public Game(final DashboardUI obj) {
+    public Game(final DashboardUI dashboard) {
 
         this.setOpaque(false);
-        this.dashboardUi = obj;
-        this.coreUI = obj.getCoreUI();
+        this.dashboardUI = dashboard;
+        this.coreUI = dashboard.getCoreUI();
+        this.storage = dashboardUI.getStorage();
 
         //DEFAULT CASE
         this.setImage("Blank-Case.png", height, width);
@@ -493,17 +498,20 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             progressWheel = new AProgressWheel("Aurora_Loader.png");
             progressWheel.setPreferredSize(this.getPreferredSize());
 
+
+            AFileManager fileIO = dashboardUI.getStartUI().getFileIO();
+
             if (!java.util.Arrays.asList(this.getComponents())
                     .contains(progressWheel)) {
                 this.add(progressWheel, BorderLayout.NORTH);
             }
 
             // Try to Get Image Locally //
-            if (dashboardUi.getStartUI().getFileIO().findImg("Game Data",
+            if (fileIO.findImg("Game Data",
                     coverUrl) != null) {
 
-                coverImagePane.setImage(dashboardUi.getStartUI().getFileIO()
-                        .findImg("Game Data", coverUrl), width, height);
+                coverImagePane.setImage(fileIO.findImg("Game Data", coverUrl),
+                        width, height);
                 coverImagePane.setImageSize(width, height);
                 coverImagePane.setPreferredSize(new Dimension(width, height));
                 coverImagePane.setDoubleBuffered(true);
@@ -520,7 +528,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 this.repaint();
             } else {
 
-                // Load Image From Amazon //
+                // Load Image From S3 //
                 try {
 
                     if (WelcomeUI.Online) {
@@ -528,6 +536,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         if (logger.isDebugEnabled()) {
                             logger.debug(coverUrl);
                         }
+
 
                         coverImagePane.setURL(rootCoverDBPath + coverUrl);
 
@@ -541,13 +550,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                                         ADialog.aDIALOG_ERROR,
                                         "Can't Download BoxArt for: " + name,
                                         coreUI.getRegularFont().deriveFont(
-                                        Font.BOLD, 28));
+                                        Font.BOLD, 25));
                                 dbErrorDialog.showDialog();
 
                             }
                             dbErrorDialog.setVisible(true);
                         } else {
-                            dashboardUi.getStartUI().getFileIO().writeImage(
+                            fileIO.writeImage(
                                     coverImagePane, coverUrl, "Game Data");
 
                             this.remove(progressWheel);
@@ -990,8 +999,30 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
+    /**
+     *
+     * @param logic
+     */
+    public final void setLibraryLogic(LibraryLogic logic) {
+
+
+        this.libraryLogic = logic;
+
+    }
+
+    /**
+     * Saves the Metadata associated with this Game to the Stored Profile
+     *
+     */
     public final void saveMetadata() {
         storage.getStoredProfile().saveGameMetadata(this);
+
+        if (storage.getStoredSettings().getSettingValue("organize")
+                .equalsIgnoreCase("most played") && libraryLogic != null) {
+
+            libraryLogic.addGamesToLibrary();
+        }
+
     }
 
     private class EnterGameTypeListener implements ActionListener {
@@ -1787,7 +1818,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
 
             if (AFileManager.checkFile(getGamePath())) {
-
                 launcher = new AuroraLauncher(coreUI);
 
             } else {
@@ -1891,7 +1921,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 logger.debug("Remove button pressed for " + Game.this.getName());
             }
 
-            AuroraStorage storage = dashboardUi.getStorage();
             StoredLibrary libraryStorage = storage.getStoredLibrary();
             libraryStorage.search(name);
             libraryStorage.removeGame(Game.this);
@@ -2090,7 +2119,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public final DashboardUI getDashboardUI() {
-        return this.dashboardUi;
+        return this.dashboardUI;
     }
 
     public final void setCoverUrl(final String coverUrl) throws
@@ -2115,7 +2144,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public final void setDashboardUI(final DashboardUI dashboardUi) {
-        this.dashboardUi = dashboardUi;
+        this.dashboardUI = dashboardUi;
     }
 
     public final void setGameName(final String name) {

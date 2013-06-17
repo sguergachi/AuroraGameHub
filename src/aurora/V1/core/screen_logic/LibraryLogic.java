@@ -219,8 +219,6 @@ public class LibraryLogic implements AuroraScreenLogic {
             libraryUI.getGridSplit().clearAllGrids();
 
 
-
-
             // Add Metadata to games from database if it exists //
             if (!isLoaded) {
                 if (libraryUI.getStorage().getStoredProfile()
@@ -463,6 +461,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                 game = (Game) libraryUI.getGridSplit().getGrid(currentGrid)
                         .getArray().get(i);
                 game.addKeyListener(libraryHandler.new searchRefocusListener());
+                game.setLibraryLogic(this);
 
                 for (int j = 0; j < game.getKeyListeners().length; j++) {
                     if (game.getKeyListeners()[j] instanceof GameLibraryKeyListener) {

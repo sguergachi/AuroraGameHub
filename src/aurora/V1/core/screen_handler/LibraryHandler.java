@@ -731,6 +731,7 @@ public class LibraryHandler implements
                     game.setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
                             .getGameCoverHeight());
                     game.reAddInteractive();
+                    game.setLibraryLogic(libraryLogic);
 
                     if (!gridManager.isDupicate(game)) {
                         storage.getStoredLibrary()
