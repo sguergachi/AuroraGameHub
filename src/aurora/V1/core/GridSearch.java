@@ -204,7 +204,8 @@ public class GridSearch {
                             	logger.debug("!!Match Found?: " + gameSub.equals(appendedSub));
                             }
 
-                            if (gameSub.equals(appendedSub)) {
+                            //* check if name contains characters *//
+                            if (gameSub.contains(appendedSub)) {
 
                                 //Check for duplicates
                                 if (!foundGameList.contains(game)) {
