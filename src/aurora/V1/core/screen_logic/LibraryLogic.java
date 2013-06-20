@@ -335,7 +335,6 @@ public class LibraryLogic implements AuroraScreenLogic {
                     while (!gamesList.get(h).getName().equals(alphaArray[i])) {
                         h++;
                     }
-//                    gamesList.get(h).update();
                     libraryUI.getGridSplit().addGame(gamesList.get(h));
 
                 }
@@ -363,6 +362,8 @@ public class LibraryLogic implements AuroraScreenLogic {
 
 
                 Collections.sort(timeList, new Comparator<Game>() {
+                    private int time;
+
                     @Override
                     public int compare(Game g1, Game g2) {
                         SimpleDateFormat format = new SimpleDateFormat("hh:mm");
@@ -370,10 +371,15 @@ public class LibraryLogic implements AuroraScreenLogic {
                         long time1 = 0;
                         long time2 = 0;
                         try {
+
                             time1 = format.parse(g1.getTotalTimePlayed())
                                     .getTime();
                             time2 = format.parse(g2.getTotalTimePlayed())
                                     .getTime();
+                            time = format.parse(g2.getTotalTimePlayed())
+                                    .compareTo(format.parse(g1
+                                    .getTotalTimePlayed()));
+
                         } catch (ParseException ex) {
                             java.util.logging.Logger.getLogger(
                                     LibraryLogic.class.getName()).
@@ -381,7 +387,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                         }
 
 
-                        return (int) (time2 - time1);
+                        return time;
 
                     }
                 });
