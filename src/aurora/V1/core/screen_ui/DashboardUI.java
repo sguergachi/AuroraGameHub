@@ -824,7 +824,7 @@ public class DashboardUI implements AuroraScreenUI {
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
             bottomPaneHeightAdjust = coreUI.getBottomPanelSize() / 2 + coreUI.
-                    getFrame().getHeight() / 50 + 25;
+                    getFrame().getHeight() / 50 + 40;
             topPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5;
 
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
@@ -857,7 +857,7 @@ public class DashboardUI implements AuroraScreenUI {
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
             bottomPaneHeightAdjust = coreUI.getBottomPanelSize() / 2 + coreUI.
-                    getFrame().getHeight() / 90 + 30;
+                    getFrame().getHeight() / 90 + 35;
             topPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5;
 
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;

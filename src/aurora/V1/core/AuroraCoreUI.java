@@ -521,7 +521,7 @@ public class AuroraCoreUI {
                 topPanelHeight));
 
         paneTop.setIgnoreRepaint(true);
-        paneTop.setLayout(new BorderLayout());
+        paneTop.setLayout(new BorderLayout(0,0));
 
 
         //*
@@ -546,7 +546,7 @@ public class AuroraCoreUI {
         paneBottom.setPreferredSize(new Dimension(frame.getSize().width,
                 topPanelHeight));
         paneBottom.setOpaque(false);
-        paneBottom.setLayout(new BorderLayout());
+        paneBottom.setLayout(new BorderLayout(0,0));
 
         //*
         // Configure Panels:

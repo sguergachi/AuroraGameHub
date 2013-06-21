@@ -203,7 +203,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
         fileIO = new AFileManager(System.getProperty("user.home"));
         loadingPane = new JPanel();
-        loadingPane.setLayout(new BorderLayout());
+        loadingPane.setLayout(new BorderLayout(0,0));
         loadingPane.setOpaque(false);
 
         this.startKeyHandler = handler.new FrameKeyListener();
