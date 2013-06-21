@@ -366,16 +366,10 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                     @Override
                     public int compare(Game g1, Game g2) {
-                        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+                        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 
-                        long time1 = 0;
-                        long time2 = 0;
                         try {
 
-                            time1 = format.parse(g1.getTotalTimePlayed())
-                                    .getTime();
-                            time2 = format.parse(g2.getTotalTimePlayed())
-                                    .getTime();
                             time = format.parse(g2.getTotalTimePlayed())
                                     .compareTo(format.parse(g1
                                     .getTotalTimePlayed()));

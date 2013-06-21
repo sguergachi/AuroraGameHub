@@ -192,11 +192,11 @@ public class GridSearch {
 
                         if (checkLength < game.getName().length()) {
                             //String containing Substring of Games
-                            String gameSub = game.getName().toLowerCase()
-                                    .substring(0, checkLength).toString();
+                            String gameSub =  game.getName().toLowerCase();
                             //String Containing Substring of Text Typed
                             String appendedSub = AppendedName.substring(0,
                                     checkLength).toLowerCase();
+
 
                             if (logger.isDebugEnabled()) {
                             	logger.debug("!Substring of Appended is: " + appendedSub);

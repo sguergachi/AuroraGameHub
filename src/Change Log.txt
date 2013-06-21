@@ -9,7 +9,8 @@
 ////////////////////////////////////////////------------------------------------
 + Added Shortcut buttons to launch screen
 + Added ability to organize library in 3 different ways
-- settings states saved in Database
+- settings states saved in new Database
+- improved library search to be more lenient
 - small UX improvements to launcher
 - fixed bug where time didn't update
 - added guard against launching game if location not available
