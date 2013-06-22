@@ -1409,8 +1409,12 @@ public class LibraryUI extends AuroraApp {
     public void hideAddGameUI() {
         if (addGameUI_Visible == true) {
             addGameUI_Visible = false;
-            addGameToLibButton.setVisible(false);
-
+            try{
+                addGameToLibButton.setVisible(false);
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+            
             int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
             ASound showSound = new ASound("reverse_swoop_" + num + ".wav", false);
             showSound.Play();

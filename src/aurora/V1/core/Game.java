@@ -258,6 +258,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlInteractivePane = new JPanel(new BorderLayout());
         pnlInteractivePane.setOpaque(false);
         pnlInteractivePane.addMouseListener(new Game.InteractiveListener());
+        pnlInteractivePane.setName("pnlInteractivePane");
         this.addMouseListener(new Game.InteractiveListener());
         this.add(pnlInteractivePane);
         this.revalidate();
@@ -442,7 +443,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 try {
                     this.remove(progressWheel);
                 } catch (NullPointerException e) {
-                    this.remove(0);
                     e.printStackTrace();
                 }
                 progressWheel = null;
@@ -560,6 +560,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      */
     public final void reAddInteractive() {
 
+        
         isRemoved = false;
         setSize();
         pnlInteractivePane.setVisible(true);
@@ -798,6 +799,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     public final void removeOverlayUI() {
         this.remove(pnlInteractivePane);
         this.isRemoved = true;
+    }
+    
+     public final void addOverlayUI() {
+        this.add(pnlInteractivePane);
+        this.isRemoved = false;
     }
 
     public final void setFavorite() {
@@ -1127,7 +1133,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // Right Pane //
         pnlRightPane = new JPanel();
         pnlRightPane.setLayout(new BoxLayout(pnlRightPane, BoxLayout.Y_AXIS));
-        pnlRightPane.setLayout(new GridLayout(4, 0, 0, 15));
+        pnlRightPane.setLayout(new GridLayout(4, 0, 0, 13));
         pnlRightPane.setOpaque(false);
 
         // Scroll Bar and Scroll Panes
@@ -1156,22 +1162,22 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         lblHoursPlayed = new ASlickLabel("Hours Played");
         lblHoursPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                labelFontSize));
+                labelFontSize - 2));
         lblHoursPlayed.setForeground(new Color(202, 202, 217));
 
         lblLastPlayed = new ASlickLabel("Last Played");
         lblLastPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                labelFontSize));
+                labelFontSize - 2));
         lblLastPlayed.setForeground(new Color(202, 202, 217));
 
         lblTimesPlayed = new ASlickLabel("Times Played");
         lblTimesPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                labelFontSize));
+                labelFontSize - 2));
         lblTimesPlayed.setForeground(new Color(202, 202, 217));
 
         lblGameType = new ASlickLabel("Game Type");
         lblGameType.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                labelFontSize));
+                labelFontSize - 2));
         lblGameType.setForeground(new Color(202, 202, 217));
 
 
@@ -1206,7 +1212,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         txtLastPlayed.setTextboxSize(textBoxWidth, textBoxHeight);
         txtLastPlayed.getTextBox().setFont(this.coreUI.getRopaFont()
                 .deriveFont(Font.PLAIN,
-                labelFontSize - 2));
+                labelFontSize));
         txtLastPlayed.getTextBox().setDisabledTextColor(new Color(0, 255, 0));
 
         txtGameType = new ATextField("game_textLabel_inactive.png",
@@ -1214,7 +1220,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         txtGameType.setTextboxSize(textBoxWidth, textBoxHeight);
         txtGameType.getTextBox().setFont(this.coreUI.getRopaFont()
                 .deriveFont(Font.PLAIN,
-                labelFontSize - 2));
+                labelFontSize));
         txtGameType.getTextBox().setCaretColor(Color.CYAN);
         txtGameType.getTextBox().setForeground(new Color(0, 255, 0));
 
@@ -1862,12 +1868,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             if (!isRemoved) {
                 requestFocus();
                 if (isSelected()) {
-
                     unselect();
-
-
                 } else {
-
                     unSelectPrevious();
                     showOverlayUI();
 
@@ -1885,7 +1887,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         @Override
         public void mouseEntered(final MouseEvent e) {
-
+            // Mouse being dragged over game
             if (e.getModifiers() == MouseEvent.BUTTON1_MASK) {
 
                 if (!isRemoved) {
@@ -1928,7 +1930,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             SIZE_BottomPaneHeight = (51 * 2) - (height / 18) + (width / height
                                                                 + 1);
 
-            labelFontSize = 16;
+            labelFontSize = 17;
             flipPadding = 3;
         }
 

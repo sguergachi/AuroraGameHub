@@ -415,6 +415,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                     System.gc();
                 }
             });
+            
+            
 
             garbage.startOnce();
 
@@ -484,14 +486,14 @@ public class LibraryLogic implements AuroraScreenLogic {
                 }
 
 
-                if (!game.isLoaded()) {
+//                if (!game.isLoaded()) {
                     game.update();
 
                     if (logger.isDebugEnabled()) {
                         logger.debug("loading: " + game.getGameName());
                     }
 
-                }
+//                }
             } catch (RuntimeException ex) {
                 logger.error(ex);
             }

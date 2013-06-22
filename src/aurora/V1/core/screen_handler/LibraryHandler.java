@@ -699,23 +699,24 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            AThreadWorker add = new AThreadWorker(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
+//            AThreadWorker add = new AThreadWorker(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
 
                     currentPath = libraryUI.getCurrentPath();
                     gridManager = libraryUI.getGridSplit();
                     GameBack = libraryUI.getGamesContainer();
                     storage = libraryUI.getStorage();
 
-                    Game game = gameSearch.getFoundGameCover().copy();
+                    Game game = gameSearch.getFoundGameCover();
 
 
                     game.setGamePath(currentPath);
                     game.setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
                             .getGameCoverHeight());
-                    game.reAddInteractive();
                     game.setLibraryLogic(libraryLogic);
+                    game.reAddInteractive();
+//                    game.addOverlayUI();
 
                     if (!gridManager.isDupicate(game)) {
                         storage.getStoredLibrary()
@@ -730,14 +731,13 @@ public class LibraryHandler implements
                         info.showDialog();
                         info.setVisible(true);
 
-                        gridManager.echoGame(game).showOverlayUI();
+                        gridManager.echoGame(game).setSelected();
                     }
 
 
 
 
                     gridManager.addGame(game);
-
 
                     if (storage.getStoredSettings().getSettingValue(
                             "organize") == null) {
@@ -754,6 +754,8 @@ public class LibraryHandler implements
 
                     } else {
 
+                       
+                        
                         gridManager.finalizeGrid(new ShowAddGameUiHandler(),
                                 libraryUI
                                 .getGameCoverWidth(), libraryUI
@@ -769,7 +771,8 @@ public class LibraryHandler implements
                     libraryUI.setCurrentIndex(
                             gridManager.getArray().indexOf(GameBack
                             .getComponent(1)));
-
+                    
+                    
 
                     if (!game.isLoaded()) {
                         try {
@@ -787,24 +790,25 @@ public class LibraryHandler implements
                     GridMove.runMover();
 
                     gridManager.unselectPrevious();
-                    game.showOverlayUI();
-                    
+
+
                     AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
                             "f5f777273e62089193a68f99f4885a55");
                     mixpanelAnalytics.addProperty("Game Added", game
                             .getName());
                     mixpanelAnalytics.sendEventProperty("Added Game");
 
-
-
-
-
-
                 }
-            });
-
-            add.startOnce();
-        }
+//            }, new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                }
+//            });
+//
+//            add.startOnce();
+//
+//
+//        }
     }
 
     public class SelectListHandler implements ListSelectionListener {
