@@ -116,13 +116,18 @@ public class LibraryHandler implements
      * LibraryLogic instance.
      */
     private LibraryLogic libraryLogic;
+
     /**
      * LibraryUI instance.
      */
     private final LibraryUI libraryUI;
+
     private final GridSearch gridSearch;
+
     private final GameSearch gameSearch;
+
     private ASimpleDB coverDB;
+
     static final Logger logger = Logger.getLogger(LibraryHandler.class);
 
     /**
@@ -245,6 +250,7 @@ public class LibraryHandler implements
     public class searchFocusHandler implements FocusListener {
 
         private JTextField SearchBar;
+
         private JButton SearchButton;
 
         public searchFocusHandler() {
@@ -691,9 +697,13 @@ public class LibraryHandler implements
     public class AddToLibraryHandler implements ActionListener {
 
         private GridManager gridManager;
+
         private JPanel GameBack;
+
         private MoveToGrid GridMove;
+
         private AuroraStorage storage;
+
         private String currentPath;
 
         @Override
@@ -710,10 +720,12 @@ public class LibraryHandler implements
                     GameBack = libraryUI.getGamesContainer();
                     storage = libraryUI.getStorage();
 
+                    libraryUI.hideAddGameUI();
+
 
                     game.setGamePath(currentPath);
                     game.setLibraryLogic(libraryLogic);
-                    
+
 
                     if (!gridManager.isDupicate(game)) {
                         storage.getStoredLibrary()
@@ -731,7 +743,6 @@ public class LibraryHandler implements
                         gridManager.echoGame(game).setSelected();
                     }
 
-                    libraryUI.hideAddGameUI();
 
                     //* reset cover to blank cover *//
                     gameSearch.resetCover();
@@ -795,7 +806,7 @@ public class LibraryHandler implements
                         GridMove.runMover();
 
                         gridManager.unselectPrevious();
-
+                        game.showOverlayUI();
 
                         AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
                                 "f5f777273e62089193a68f99f4885a55");
@@ -817,7 +828,9 @@ public class LibraryHandler implements
     public class SelectListHandler implements ListSelectionListener {
 
         private JList gamesList;
+
         private DefaultListModel listModel;
+
         private JTextField gameSearchBar;
 
         public SelectListHandler() {
@@ -874,8 +887,11 @@ public class LibraryHandler implements
     public class SelectedOrganizeListener implements ActionListener {
 
         private final ASlickLabel label;
+
         private final String settingValue;
+
         private final StoredSettings storage;
+
         private int i;
 
         public SelectedOrganizeListener(ASlickLabel lbl, StoredSettings settings,
@@ -910,6 +926,7 @@ public class LibraryHandler implements
     public class UnSelectedOrganizeListener implements ActionListener {
 
         private final ASlickLabel label;
+
         private final APopupMenu organizeUI;
 
         public UnSelectedOrganizeListener(ASlickLabel lbl, APopupMenu popup) {
@@ -977,6 +994,7 @@ public class LibraryHandler implements
     public class MoveToGrid implements Runnable {
 
         private final Game game;
+
         private final int gameGrid;
 
         public MoveToGrid(Game game) {
@@ -1050,10 +1068,15 @@ public class LibraryHandler implements
     public class HoverButtonLeft extends MouseAdapter {
 
         private GridManager gridManager;
+
         private JPanel GameBack;
+
         private AHoverButton imgGameLeft;
+
         private AHoverButton imgGameRight;
+
         private AImage imgFavorite;
+
         private GridAnimation GridAnimate;
 
         public HoverButtonLeft() {
@@ -1156,11 +1179,17 @@ public class LibraryHandler implements
     public class HoverButtonRight extends MouseAdapter {
 
         private GridManager gridManager;
+
         private JPanel GameBack;
+
         private AHoverButton imgGameLeft;
+
         private AHoverButton imgGameRight;
+
         private AImage imgFavorite;
+
         private GridAnimation GridAnimate;
+
         private final AuroraCoreUI coreUI;
 
         public HoverButtonRight() {
@@ -1250,7 +1279,9 @@ public class LibraryHandler implements
     public class GameLibraryKeyListener extends KeyAdapter {
 
         private GridManager gridManager;
+
         private JPanel GameBack;
+
         private final AuroraCoreUI coreUI;
 
         public GameLibraryKeyListener() {
