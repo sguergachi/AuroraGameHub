@@ -116,18 +116,13 @@ public class LibraryHandler implements
      * LibraryLogic instance.
      */
     private LibraryLogic libraryLogic;
-
     /**
      * LibraryUI instance.
      */
     private final LibraryUI libraryUI;
-
     private final GridSearch gridSearch;
-
     private final GameSearch gameSearch;
-
     private ASimpleDB coverDB;
-
     static final Logger logger = Logger.getLogger(LibraryHandler.class);
 
     /**
@@ -171,13 +166,6 @@ public class LibraryHandler implements
 
     public class RemoveSearchHandler implements ActionListener {
 
-        private final AButton SearchButton;
-
-        public RemoveSearchHandler() {
-            this.SearchButton = libraryUI.getSearchButton();
-
-        }
-
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
@@ -186,6 +174,7 @@ public class LibraryHandler implements
                 logger.error(ex);
             }
             gridSearch.resetAppendedName();
+            libraryUI.getSearchBar().setText("");
             libraryUI.getSearchBar().setText("Start Typing To Search...");
             libraryUI.getSearchBar().setForeground(Color.darkGray);
             libraryUI.getSearchBarBG()
@@ -256,7 +245,6 @@ public class LibraryHandler implements
     public class searchFocusHandler implements FocusListener {
 
         private JTextField SearchBar;
-
         private JButton SearchButton;
 
         public searchFocusHandler() {
@@ -703,13 +691,9 @@ public class LibraryHandler implements
     public class AddToLibraryHandler implements ActionListener {
 
         private GridManager gridManager;
-
         private JPanel GameBack;
-
         private MoveToGrid GridMove;
-
         private AuroraStorage storage;
-
         private String currentPath;
 
         @Override
@@ -724,7 +708,7 @@ public class LibraryHandler implements
                     GameBack = libraryUI.getGamesContainer();
                     storage = libraryUI.getStorage();
 
-                    Game game = gameSearch.getFoundGameCover();
+                    Game game = gameSearch.getFoundGameCover().copy();
 
 
                     game.setGamePath(currentPath);
@@ -755,6 +739,11 @@ public class LibraryHandler implements
                     gridManager.addGame(game);
 
 
+                    if (storage.getStoredSettings().getSettingValue(
+                            "organize") == null) {
+                        storage.getStoredSettings().saveSetting("organize",
+                                "favorite");
+                    }
 
                     if (storage.getStoredSettings().getSettingValue(
                             "organize")
@@ -797,15 +786,16 @@ public class LibraryHandler implements
                     //* Transition towards to left most grid to see the game added *//
                     GridMove.runMover();
 
-
+                    gridManager.unselectPrevious();
+                    game.showOverlayUI();
+                    
                     AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
                             "f5f777273e62089193a68f99f4885a55");
                     mixpanelAnalytics.addProperty("Game Added", game
                             .getName());
                     mixpanelAnalytics.sendEventProperty("Added Game");
 
-                    gridManager.unselectPrevious();
-                    game.showOverlayUI();
+
 
 
 
@@ -820,9 +810,7 @@ public class LibraryHandler implements
     public class SelectListHandler implements ListSelectionListener {
 
         private JList gamesList;
-
         private DefaultListModel listModel;
-
         private JTextField gameSearchBar;
 
         public SelectListHandler() {
@@ -879,11 +867,8 @@ public class LibraryHandler implements
     public class SelectedOrganizeListener implements ActionListener {
 
         private final ASlickLabel label;
-
         private final String settingValue;
-
         private final StoredSettings storage;
-
         private int i;
 
         public SelectedOrganizeListener(ASlickLabel lbl, StoredSettings settings,
@@ -918,7 +903,6 @@ public class LibraryHandler implements
     public class UnSelectedOrganizeListener implements ActionListener {
 
         private final ASlickLabel label;
-
         private final APopupMenu organizeUI;
 
         public UnSelectedOrganizeListener(ASlickLabel lbl, APopupMenu popup) {
@@ -986,7 +970,6 @@ public class LibraryHandler implements
     public class MoveToGrid implements Runnable {
 
         private final Game game;
-
         private final int gameGrid;
 
         public MoveToGrid(Game game) {
@@ -1060,15 +1043,10 @@ public class LibraryHandler implements
     public class HoverButtonLeft extends MouseAdapter {
 
         private GridManager gridManager;
-
         private JPanel GameBack;
-
         private AHoverButton imgGameLeft;
-
         private AHoverButton imgGameRight;
-
         private AImage imgFavorite;
-
         private GridAnimation GridAnimate;
 
         public HoverButtonLeft() {
@@ -1080,7 +1058,7 @@ public class LibraryHandler implements
         public void mouseClicked(MouseEvent e) {
             imgGameLeft = libraryUI.getImgGameLeft();
             imgGameRight = libraryUI.getImgGameRight();
-            imgFavorite = libraryUI.getImgFavorite();
+            imgFavorite = libraryUI.getImgOrganizeType();
             GridAnimate = libraryUI.getGridAnimate();
 
             gridManager = libraryUI.getGridSplit();
@@ -1146,7 +1124,7 @@ public class LibraryHandler implements
         public void mouseEntered(MouseEvent e) {
             imgGameLeft = libraryUI.getImgGameLeft();
             imgGameRight = libraryUI.getImgGameRight();
-            imgFavorite = libraryUI.getImgFavorite();
+            imgFavorite = libraryUI.getImgOrganizeType();
             GridAnimate = libraryUI.getGridAnimate();
             GridAnimate = libraryUI.getGridAnimate();
             imgGameLeft = libraryUI.getImgGameLeft();
@@ -1161,7 +1139,7 @@ public class LibraryHandler implements
         public void mouseExited(MouseEvent e) {
             imgGameLeft = libraryUI.getImgGameLeft();
             imgGameRight = libraryUI.getImgGameRight();
-            imgFavorite = libraryUI.getImgFavorite();
+            imgFavorite = libraryUI.getImgOrganizeType();
             GridAnimate = libraryUI.getGridAnimate();
             imgGameLeft.mouseExit();
 
@@ -1171,17 +1149,11 @@ public class LibraryHandler implements
     public class HoverButtonRight extends MouseAdapter {
 
         private GridManager gridManager;
-
         private JPanel GameBack;
-
         private AHoverButton imgGameLeft;
-
         private AHoverButton imgGameRight;
-
         private AImage imgFavorite;
-
         private GridAnimation GridAnimate;
-
         private final AuroraCoreUI coreUI;
 
         public HoverButtonRight() {
@@ -1190,7 +1162,7 @@ public class LibraryHandler implements
             GameBack = libraryUI.getGamesContainer();
             imgGameLeft = libraryUI.getImgGameLeft();
             imgGameRight = libraryUI.getImgGameRight();
-            imgFavorite = libraryUI.getImgFavorite();
+            imgFavorite = libraryUI.getImgOrganizeType();
             GridAnimate = libraryUI.getGridAnimate();
         }
 
@@ -1271,9 +1243,7 @@ public class LibraryHandler implements
     public class GameLibraryKeyListener extends KeyAdapter {
 
         private GridManager gridManager;
-
         private JPanel GameBack;
-
         private final AuroraCoreUI coreUI;
 
         public GameLibraryKeyListener() {

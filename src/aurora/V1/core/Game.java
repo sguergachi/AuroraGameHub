@@ -432,6 +432,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 coverImagePane.setImageSize(width, height);
                 coverImagePane.setPreferredSize(new Dimension(width, height));
                 coverImagePane.setDoubleBuffered(true);
+
+
+                this.setImage(coverImagePane);
+                this.add(pnlInteractivePane);
+                this.revalidate();
+                this.repaint();
+
                 try {
                     this.remove(progressWheel);
                 } catch (NullPointerException e) {
@@ -439,10 +446,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     e.printStackTrace();
                 }
                 progressWheel = null;
-                this.setImage(coverImagePane);
-                this.add(pnlInteractivePane);
-                this.revalidate();
-                this.repaint();
             } else {
 
                 // Load Image From S3 //
@@ -476,18 +479,21 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                             fileIO.writeImage(
                                     coverImagePane, coverUrl, "Game Data");
 
-                            this.remove(progressWheel);
-                            progressWheel = null;
+
                             //Add Image To GameCover Cover
                             this.setImage(coverImagePane);
                             this.add(pnlInteractivePane);
                             this.revalidate();
                             this.repaint();
+
+                            this.remove(progressWheel);
+                            progressWheel = null;
                         }
                     } else {
+
+                        this.add(pnlInteractivePane);
                         this.remove(progressWheel);
                         progressWheel = null;
-                        this.add(pnlInteractivePane);
                         this.revalidate();
                     }
 

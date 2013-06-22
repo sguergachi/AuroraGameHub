@@ -318,6 +318,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                 // Organize according to Alphabetic Game Name //
             } else if (organize.equalsIgnoreCase("Alphabetic")) {
 
+                libraryUI.getImgOrganizeType().setImgURl("library_alphabetic.png");
+                
                 String[] alphaArray = new String[gamesList.size()];
 
                 for (int i = librarySize; i >= 0;
@@ -346,6 +348,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                 // Organize according to Time Played //
             } else if (organize.equalsIgnoreCase("Most Played")) {
 
+                libraryUI.getImgOrganizeType().setImgURl("library_mostplayed.png");
 
                 ArrayList<Game> timeList = new ArrayList<Game>();
                 for (int i = 0; i <= librarySize;

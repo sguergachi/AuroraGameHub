@@ -365,7 +365,7 @@ public class GridSearch {
 
         //Remove Favorite Side Image
         libraryUI.getGamesContainer().remove(0);
-        libraryUI.getGamesContainer().remove(libraryUI.getImgFavorite());
+        libraryUI.getGamesContainer().remove(libraryUI.getImgOrganizeType());
         //Add search Side image
         this.sideSearchImage = new AImage("library_search.png");
         libraryUI.getGamesContainer().add(sideSearchImage, BorderLayout.WEST);
@@ -394,7 +394,7 @@ public class GridSearch {
 
         libraryUI.getGamesContainer().removeAll();
 
-        libraryUI.getGamesContainer().add(libraryUI.getImgFavorite(),
+        libraryUI.getGamesContainer().add(libraryUI.getImgOrganizeType(),
                 BorderLayout.WEST);
         libraryUI.getGamesContainer().add(libraryUI.getGridSplit().getGrid(0),
                 BorderLayout.CENTER);
