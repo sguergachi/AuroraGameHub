@@ -699,24 +699,21 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
-//            AThreadWorker add = new AThreadWorker(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
+            final Game game = gameSearch.getFoundGameCover();
+
+            AThreadWorker add = new AThreadWorker(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
                     currentPath = libraryUI.getCurrentPath();
                     gridManager = libraryUI.getGridSplit();
                     GameBack = libraryUI.getGamesContainer();
                     storage = libraryUI.getStorage();
 
-                    Game game = gameSearch.getFoundGameCover();
-
 
                     game.setGamePath(currentPath);
-                    game.setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
-                            .getGameCoverHeight());
                     game.setLibraryLogic(libraryLogic);
-                    game.reAddInteractive();
-//                    game.addOverlayUI();
+                    
 
                     if (!gridManager.isDupicate(game)) {
                         storage.getStoredLibrary()
@@ -734,81 +731,87 @@ public class LibraryHandler implements
                         gridManager.echoGame(game).setSelected();
                     }
 
-
-
-
-                    gridManager.addGame(game);
-
-                    if (storage.getStoredSettings().getSettingValue(
-                            "organize") == null) {
-                        storage.getStoredSettings().saveSetting("organize",
-                                "favorite");
-                    }
-
-                    if (storage.getStoredSettings().getSettingValue(
-                            "organize")
-                            .equalsIgnoreCase("alphabetic")) {
-
-                        libraryLogic.addGamesToLibrary();
-
-
-                    } else {
-
-                       
-                        
-                        gridManager.finalizeGrid(new ShowAddGameUiHandler(),
-                                libraryUI
-                                .getGameCoverWidth(), libraryUI
-                                .getGameCoverHeight());
-
-                    }
-
                     libraryUI.hideAddGameUI();
 
                     //* reset cover to blank cover *//
                     gameSearch.resetCover();
 
-                    libraryUI.setCurrentIndex(
-                            gridManager.getArray().indexOf(GameBack
-                            .getComponent(1)));
-                    
-                    
 
-                    if (!game.isLoaded()) {
-                        try {
-                            game.update();
-                        } catch (MalformedURLException ex) {
-                            java.util.logging.Logger.getLogger(
-                                    LibraryHandler.class
-                                    .getName()).
-                                    log(Level.SEVERE, null, ex);
-                        }
-                    }
-
-                    GridMove = new MoveToGrid(game);
-                    //* Transition towards to left most grid to see the game added *//
-                    GridMove.runMover();
-
-                    gridManager.unselectPrevious();
-
-
-                    AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
-                            "f5f777273e62089193a68f99f4885a55");
-                    mixpanelAnalytics.addProperty("Game Added", game
-                            .getName());
-                    mixpanelAnalytics.sendEventProperty("Added Game");
 
                 }
-//            }, new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                }
-//            });
-//
-//            add.startOnce();
-//
-//
-//        }
+            }, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    game.setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
+                            .getGameCoverHeight());
+                    game.reAddInteractive();
+
+                    if (gridManager.addGame(game)) {
+
+                        if (storage.getStoredSettings().getSettingValue(
+                                "organize") == null) {
+                            storage.getStoredSettings().saveSetting("organize",
+                                    "favorite");
+                        }
+
+                        if (storage.getStoredSettings().getSettingValue(
+                                "organize")
+                                .equalsIgnoreCase("alphabetic")) {
+
+                            libraryLogic.addGamesToLibrary();
+
+
+                        } else {
+
+                            gridManager.finalizeGrid(new ShowAddGameUiHandler(),
+                                    libraryUI
+                                    .getGameCoverWidth(), libraryUI
+                                    .getGameCoverHeight());
+
+                        }
+
+
+
+                        libraryUI.setCurrentIndex(
+                                gridManager.getArray().indexOf(GameBack
+                                .getComponent(1)));
+
+
+
+                        if (!game.isLoaded()) {
+                            try {
+                                game.update();
+                            } catch (MalformedURLException ex) {
+                                java.util.logging.Logger.getLogger(
+                                        LibraryHandler.class
+                                        .getName()).
+                                        log(Level.SEVERE, null, ex);
+                            }
+                        }
+
+                        GridMove = new MoveToGrid(game);
+                        //* Transition towards to left most grid to see the game added *//
+                        GridMove.runMover();
+
+                        gridManager.unselectPrevious();
+
+
+                        AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
+                                "f5f777273e62089193a68f99f4885a55");
+                        mixpanelAnalytics.addProperty("Game Added", game
+                                .getName());
+                        mixpanelAnalytics.sendEventProperty("Added Game");
+                    }
+
+
+                }
+            });
+
+            add.startOnce();
+
+
+        }
     }
 
     public class SelectListHandler implements ListSelectionListener {

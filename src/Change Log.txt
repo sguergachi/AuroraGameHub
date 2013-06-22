@@ -14,6 +14,7 @@
 - improved flipped UI layout to show more text
 - more sound effects used
 - small UX improvements to launcher
+- improved loading of games
 - fixed bug where time didn't update
 - added guard against launching game if location not available
 - lots of minor UI fixes and enhancements (details do matter!)

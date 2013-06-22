@@ -47,6 +47,7 @@ import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -155,6 +156,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private int labelFontSize;
     private int flipPadding;
     private LibraryLogic libraryLogic;
+    private ImageIcon localImage;
 
     public Game() {
     }
@@ -425,10 +427,17 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
 
             // Try to Get Image Locally //
-            if (fileIO.findImg("Game Data",
-                    coverUrl) != null) {
+            
+            Boolean loadedImage = true;
+            try{
+               localImage =  fileIO.findImg("Game Data",
+                    coverUrl);
+            }catch (Exception ex){
+                loadedImage = false;
+            }
+            if (localImage != null && loadedImage) {
 
-                coverImagePane.setImage(fileIO.findImg("Game Data", coverUrl),
+                coverImagePane.setImage(localImage,
                         width, height);
                 coverImagePane.setImageSize(width, height);
                 coverImagePane.setPreferredSize(new Dimension(width, height));
@@ -491,8 +500,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         }
                     } else {
 
-                        this.add(pnlInteractivePane);
                         this.remove(progressWheel);
+                        this.add(pnlInteractivePane);
+
                         progressWheel = null;
                         this.revalidate();
                     }
@@ -540,9 +550,16 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
 
         }
+        
+        try {
+            this.remove(progressWheel);
+        } catch (Exception e) {
+        }
 
         this.revalidate();
         this.repaint();
+
+        
 
     }
 
@@ -560,7 +577,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      */
     public final void reAddInteractive() {
 
-        
+
         isRemoved = false;
         setSize();
         pnlInteractivePane.setVisible(true);
@@ -800,8 +817,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.remove(pnlInteractivePane);
         this.isRemoved = true;
     }
-    
-     public final void addOverlayUI() {
+
+    public final void addOverlayUI() {
         this.add(pnlInteractivePane);
         this.isRemoved = false;
     }
