@@ -11,6 +11,7 @@
 + Added ability to organize library in 3 different ways
 - settings states saved in new Database
 - improved library search to be more lenient
+- improved flipped UI layout to show more
 - small UX improvements to launcher
 - fixed bug where time didn't update
 - added guard against launching game if location not available

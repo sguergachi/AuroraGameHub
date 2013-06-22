@@ -1149,8 +1149,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      */
     private void setUpFlipedUI() {
 
-        textBoxWidth = width / 3 - 4;
-        textBoxHeight = height / 12;
 
 
         // Create main Panels
@@ -1204,16 +1202,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlFlipContentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlFlipContentPane.addMouseListener(new InteractiveListener());
 
-        // Left Pane //
-        pnlLeftPane = new JPanel();
-        pnlLeftPane.setLayout(new BoxLayout(pnlLeftPane, BoxLayout.Y_AXIS));
-        pnlLeftPane.setLayout(new GridLayout(4, 0, 0, 25));
-        pnlLeftPane.setOpaque(false);
 
         // Right Pane //
         pnlRightPane = new JPanel();
         pnlRightPane.setLayout(new BoxLayout(pnlRightPane, BoxLayout.Y_AXIS));
-        pnlRightPane.setLayout(new GridLayout(4, 0, 0, 20));
+        pnlRightPane.setLayout(new GridLayout(4, 0, 0, 15));
         pnlRightPane.setOpaque(false);
 
         // Scroll Bar and Scroll Panes
@@ -1263,6 +1256,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Text boxes //
 
+        textBoxWidth = width / 2 + 22 + flipPadding;
+        textBoxHeight = height / 12;
+
+
         txtHoursPlayed = new ATextField("game_textLabel_inactive.png",
                 "game_textLabel_active.png");
         txtHoursPlayed.setTextboxSize(textBoxWidth, textBoxHeight);
@@ -1303,76 +1300,55 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // Add To Panels
         // ----------------------------------------------------------------.
 
-        // Add to Left Panel //
-
-        lblHoursPlayed.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-        JPanel pnlHoursPlayedLbl = new JPanel(
-                new FlowLayout(FlowLayout.RIGHT, 0,
-                0));
-        pnlHoursPlayedLbl.setOpaque(false);
-        pnlHoursPlayedLbl.add(lblHoursPlayed);
-        pnlLeftPane.add(pnlHoursPlayedLbl);
-
-        lblTimesPlayed.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-        JPanel pnlTimesPlayedLbl = new JPanel(
-                new FlowLayout(FlowLayout.RIGHT, 0,
-                0));
-        pnlTimesPlayedLbl.setOpaque(false);
-        pnlTimesPlayedLbl.add(lblTimesPlayed);
-        pnlLeftPane.add(pnlTimesPlayedLbl);
-
-        lblLastPlayed.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-        JPanel pnlLastPlayedLbl = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0,
-                0));
-        pnlLastPlayedLbl.setOpaque(false);
-        pnlLastPlayedLbl.add(lblLastPlayed);
-        pnlLeftPane.add(pnlLastPlayedLbl);
-
-        lblGameType.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-        JPanel pnlGameTypeLbl = new JPanel(
-                new FlowLayout(FlowLayout.RIGHT, 0, 0));
-        pnlGameTypeLbl.setOpaque(false);
-        pnlGameTypeLbl.add(lblGameType);
-        pnlLeftPane.add(pnlGameTypeLbl);
-
 
         // Add to Right Panel //
 
+        lblHoursPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         txtHoursPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        JPanel pnlHoursPlayedTxt = new JPanel(new FlowLayout(FlowLayout.LEFT, 0,
-                0));
-        pnlHoursPlayedTxt.setOpaque(false);
-        pnlHoursPlayedTxt.add(txtHoursPlayed);
+        JPanel pnlHoursPlayedLbl = new JPanel();
+        pnlHoursPlayedLbl.setOpaque(false);
+        pnlHoursPlayedLbl.setLayout(new BoxLayout(pnlHoursPlayedLbl,
+                BoxLayout.Y_AXIS));
+        pnlHoursPlayedLbl.add(lblHoursPlayed);
+        pnlHoursPlayedLbl.add(txtHoursPlayed);
+        pnlRightPane.add(pnlHoursPlayedLbl);
 
-        pnlRightPane.add(pnlHoursPlayedTxt);
 
+
+        lblTimesPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         txtTimesPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        JPanel pnlTimesPlayedTxt = new JPanel(new FlowLayout(FlowLayout.LEFT, 0,
-                0));
-        pnlTimesPlayedTxt.setOpaque(false);
-        pnlTimesPlayedTxt.add(txtTimesPlayed);
+        JPanel pnlTimesPlayedLbl = new JPanel();
+        pnlTimesPlayedLbl.setLayout(new BoxLayout(pnlTimesPlayedLbl,
+                BoxLayout.Y_AXIS));
+        pnlTimesPlayedLbl.setOpaque(false);
+        pnlTimesPlayedLbl.add(lblTimesPlayed);
+        pnlTimesPlayedLbl.add(txtTimesPlayed);
+        pnlRightPane.add(pnlTimesPlayedLbl);
 
-        pnlRightPane.add(pnlTimesPlayedTxt);
-
+        lblLastPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         txtLastPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        JPanel pnlLastPlayedTxt = new JPanel(new FlowLayout(FlowLayout.LEFT, 0,
-                0));
-        pnlLastPlayedTxt.setOpaque(false);
-        pnlLastPlayedTxt.add(txtLastPlayed);
+        JPanel pnlLastPlayedLbl = new JPanel();
+        pnlLastPlayedLbl.setLayout(new BoxLayout(pnlLastPlayedLbl,
+                BoxLayout.Y_AXIS));
+        pnlLastPlayedLbl.setOpaque(false);
+        pnlLastPlayedLbl.add(lblLastPlayed);
+        pnlLastPlayedLbl.add(txtLastPlayed);
+        pnlRightPane.add(pnlLastPlayedLbl);
 
-        pnlRightPane.add(pnlLastPlayedTxt);
-
+        lblGameType.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         txtGameType.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        JPanel pnlGameTypeTxt = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        pnlGameTypeTxt.setOpaque(false);
-        pnlGameTypeTxt.add(txtGameType);
-
-        pnlRightPane.add(pnlGameTypeTxt);
+        JPanel pnlGameTypeLbl = new JPanel();
+        pnlGameTypeLbl.setLayout(new BoxLayout(pnlGameTypeLbl,
+                BoxLayout.Y_AXIS));
+        pnlGameTypeLbl.setOpaque(false);
+        pnlGameTypeLbl.add(lblGameType);
+        pnlGameTypeLbl.add(txtGameType);
+        pnlRightPane.add(pnlGameTypeLbl);
 
 
         // Add to Content Pane //
 
-        pnlFlipContentPane.add(pnlLeftPane);
+        pnlFlipContentPane.add(Box.createHorizontalStrut(20));
         pnlFlipContentPane.add(pnlRightPane);
 
         // Add scroll pane to container //
@@ -1403,7 +1379,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlTopImageContainer.setBorder(BorderFactory.createEmptyBorder(20, 0,
                 0, (width / 5)));
         pnlTopImageContainer.setPreferredSize(new Dimension(flipShortcutWidth,
-                flipShortcutHeight + 30));
+                flipShortcutHeight + 25));
         pnlTopImageContainer.setOpaque(false);
 
 
