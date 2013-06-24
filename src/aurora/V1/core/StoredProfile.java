@@ -213,7 +213,8 @@ public class StoredProfile extends AStorage implements Serializable {
         // To use as little database resources as needed
         //-
         try {
-            if (!GameTypes.get(GameNames.indexOf(GameName)).equals(GameType)) {
+            if (GameTypes.get(GameNames.indexOf(GameName)) != null && !GameTypes
+                    .get(GameNames.indexOf(GameName)).equals(GameType)) {
                 db.setColValue("Profile",
                         "Game_Type",
                         "Game_Name",
@@ -298,7 +299,6 @@ public class StoredProfile extends AStorage implements Serializable {
     public ArrayList<String> getGameNames() {
         return GameNames;
     }
-    
 
     public ArrayList<String> getGameTypes() {
         return GameTypes;

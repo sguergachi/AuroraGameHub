@@ -323,9 +323,9 @@ public class AuroraMini {
             } else {
                 timer.stop();
                 if (coreUI.getOS().contains("Mac")) {
-                    mini.setBackground(new Color(0f, 0f, 0f, 0.7f));
+                    mini.setBackground(new Color(0f, 0f, 0f, 0.5f));
                 } else {
-                    AWTUtilities.setWindowOpacity(mini, 0.7f);
+                    AWTUtilities.setWindowOpacity(mini, 0.5f);
                 }
             }
 
@@ -436,9 +436,9 @@ public class AuroraMini {
             isMouseExited = true;
             icon.setImgURl("icon.png");
             if (coreUI.getOS().contains("Mac")) {
-                mini.setBackground(new Color(0f, 0f, 0f, 0.7f));
+                mini.setBackground(new Color(0f, 0f, 0f, 0.5f));
             } else {
-                AWTUtilities.setWindowOpacity(mini, 0.7f);
+                AWTUtilities.setWindowOpacity(mini, 0.5f);
             }
         }
     }
@@ -472,8 +472,8 @@ public class AuroraMini {
 
         @Override
         public void mouseExited(MouseEvent e) {
-            AWTUtilities.setWindowOpacity(mini, 0.7f);
-            mini.setBackground(new Color(0f, 0f, 0f, 0.7f));
+            AWTUtilities.setWindowOpacity(mini, 0.5f);
+            mini.setBackground(new Color(0f, 0f, 0f, 0.5f));
         }
     }
 

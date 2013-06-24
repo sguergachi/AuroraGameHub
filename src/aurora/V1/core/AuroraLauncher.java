@@ -109,7 +109,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
     private JPanel pnlShortcuts;
 
-
     public AuroraLauncher(AuroraCoreUI ui) {
         this.coreUI = ui;
         loadUI();
@@ -274,7 +273,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         lblPlayedInfo
                 .setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN, 60));
-        lblPlayedInfo.setForeground(new Color(42, 51, 69));
+        lblPlayedInfo.setForeground(new Color(45, 59, 75));
 
 
 
@@ -483,7 +482,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
             // ----------------------------------------------------------------.
 
             //* Calculate Time *//
-
             calculateTimePlayed();
 
             //* Decide whether the game has trully quit *//
@@ -640,6 +638,9 @@ public class AuroraLauncher implements Runnable, MouseListener {
         // Add to total time played this game //
         game.addTime(minDiff, hoursDiff);
 
+        minDiff = 0;
+        hoursDiff = 0;
+
     }
 
     /**
@@ -657,6 +658,9 @@ public class AuroraLauncher implements Runnable, MouseListener {
      *
      */
     private void showTimeSpentPlaying() {
+
+
+
 
         pnlTimePlayed.setVisible(true);
         pnlTimePlayed.repaint();
@@ -697,16 +701,16 @@ public class AuroraLauncher implements Runnable, MouseListener {
     private void goBackToAurora() {
 
         //* Save Metadata Then Go Back To Aurora *//
-
+        logger.info("Saved Metadata");
         game.saveMetadata();
 
 
 
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                logger.error(ex);
-            }
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            logger.error(ex);
+        }
 
 
         launchPane.setVisible(false);
@@ -760,7 +764,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                     pnlTop.add(pnlTopContainer);
                     pnlTop.revalidate();
                     imgTitle.setImage("app_launch_standBy.png");
-                    calculateTimePlayed();
+//                    calculateTimePlayed();
                     showTimeSpentPlaying();
 
                 }
