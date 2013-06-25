@@ -764,7 +764,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                     pnlTop.add(pnlTopContainer);
                     pnlTop.revalidate();
                     imgTitle.setImage("app_launch_standBy.png");
-//                    calculateTimePlayed();
+                    calculateTimePlayed();
                     showTimeSpentPlaying();
 
                 }
