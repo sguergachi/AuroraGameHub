@@ -72,31 +72,24 @@ public class LibraryLogic implements AuroraScreenLogic {
      * Library UI instance.
      */
     private final LibraryUI libraryUI;
-
     /**
      * Library Handler instance.
      */
     private LibraryHandler libraryHandler;
-
     /**
      * Core UI instance.
      */
     private final AuroraCoreUI coreUI;
-
     /**
      * Dashboard UI instance.
      */
     private final DashboardUI dashboardUI;
-
     /**
      * Boolean on whether the library even has a single favorite game in DB.
      */
     private boolean libHasFavourites;
-
     static final Logger logger = Logger.getLogger(LibraryLogic.class);
-
     private AAnimate addGameToLibButtonAnimator;
-
     private boolean isLoaded = false;
 
     /**
@@ -287,6 +280,11 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             // Check if Organization Type is "Favorite" //
             if (organize.equalsIgnoreCase("Favorite")) {
+                if (!libraryUI.getImgOrganizeType().getImgURl().equals(
+                        "library_favourites.png")) {
+                    libraryUI.getImgOrganizeType().setImgURl(
+                            "library_favourites.png");
+                }
 
                 //* Reverse Add Games Marked Fav first *//
                 for (int i = librarySize; i >= 0;
@@ -318,8 +316,9 @@ public class LibraryLogic implements AuroraScreenLogic {
                 // Organize according to Alphabetic Game Name //
             } else if (organize.equalsIgnoreCase("Alphabetic")) {
 
-                libraryUI.getImgOrganizeType().setImgURl("library_alphabetic.png");
-                
+                libraryUI.getImgOrganizeType().setImgURl(
+                        "library_alphabetic.png");
+
                 String[] alphaArray = new String[gamesList.size()];
 
                 for (int i = librarySize; i >= 0;
@@ -348,7 +347,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                 // Organize according to Time Played //
             } else if (organize.equalsIgnoreCase("Most Played")) {
 
-                libraryUI.getImgOrganizeType().setImgURl("library_mostplayed.png");
+                libraryUI.getImgOrganizeType().setImgURl(
+                        "library_mostplayed.png");
 
                 ArrayList<Game> timeList = new ArrayList<Game>();
                 for (int i = 0; i <= librarySize;
@@ -415,8 +415,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                     System.gc();
                 }
             });
-            
-            
+
+
 
             garbage.startOnce();
 

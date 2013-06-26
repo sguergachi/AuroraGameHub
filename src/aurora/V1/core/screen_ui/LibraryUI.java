@@ -241,7 +241,7 @@ public class LibraryUI extends AuroraApp {
     /**
      * Image for Favorite logo on side of library.
      */
-    private AImage imgFavoritesSideBar;
+    private AImage imgOrganizeTypeSideBar;
     /**
      * Image Step One badge.
      */
@@ -372,7 +372,7 @@ public class LibraryUI extends AuroraApp {
         paneLibraryContainer.setBorder(BorderFactory.createEmptyBorder(4,
                 0, 0, 0));
 
-        imgFavoritesSideBar = new AImage("library_favourites.png");
+        imgOrganizeTypeSideBar = new AImage("library_favourites.png");
 
         btnGameRight = new AHoverButton(3,
                 "library_navRight_norm.png", "library_navRight_over.png");
@@ -394,13 +394,13 @@ public class LibraryUI extends AuroraApp {
                 new FlowLayout(FlowLayout.CENTER, 0, 5));
         imgLibraryStatusPane.setLayout(new BorderLayout());
 
-        lblLibraryStatus = new APrompter(Color.gray,coreUI
+        lblLibraryStatus = new APrompter(Color.lightGray,coreUI
                 .getDefaultFont().deriveFont(Font.PLAIN,
                 gameNameFontSize));
         lblLibraryStatus.add("Select a Game");
-        lblLibraryStatus.setUp(imgLibraryStatusPane.getRealImageHeight(),
+        lblLibraryStatus.setUp(0,
                 imgLibraryStatusPane.getRealImageWidth());
-
+        lblLibraryStatus.enableSinglePause();
 
         lblLibraryStatus.revalidate();
         lblLibraryStatus.setIgnoreRepaint(true);
@@ -536,7 +536,7 @@ public class LibraryUI extends AuroraApp {
 
 
             //* Add Components to Central Container *//
-            paneLibraryContainer.add(BorderLayout.WEST, imgFavoritesSideBar);
+            paneLibraryContainer.add(BorderLayout.WEST, imgOrganizeTypeSideBar);
             paneLibraryContainer.add(BorderLayout.CENTER, GridSplit.getGrid(0));
             paneLibraryContainer.add(BorderLayout.EAST, btnGameRight);
 
@@ -1485,7 +1485,7 @@ public class LibraryUI extends AuroraApp {
                 if (currentIndex - 1 <= 0) {
                     //Far Left Image
                     paneLibraryContainer.remove(0);
-                    paneLibraryContainer.add(imgFavoritesSideBar,
+                    paneLibraryContainer.add(imgOrganizeTypeSideBar,
                             BorderLayout.WEST, 0);
 
                 } else {
@@ -1991,7 +1991,7 @@ public class LibraryUI extends AuroraApp {
     }
 
     public AImage getImgOrganizeType() {
-        return imgFavoritesSideBar;
+        return imgOrganizeTypeSideBar;
     }
 
     public AHoverButton getImgGameLeft() {
