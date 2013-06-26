@@ -253,8 +253,6 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         promptDisplay.add(promptList);
         promptDisplay.setUp(displayYpos, promptDisplay.getWidth());
 
-        promptDisplay.setPreferredSize(
-                new Dimension(displayYpos, promptDisplay.getWidth()));
 
         promptDisplay.revalidate();
         promptDisplay.setIgnoreRepaint(true);

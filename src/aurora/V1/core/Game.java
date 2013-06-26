@@ -882,7 +882,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         showRemoveBtn();
         imgOverlayBar.setVisible(true);
         setSelected();
-        LibraryUI.lblGameName.setText(getName());
+        LibraryUI.lblLibraryStatus.add(getName());
 
     }
 

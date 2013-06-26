@@ -197,7 +197,7 @@ public class LibraryUI extends AuroraApp {
     /**
      * Panel Containing background image of Currently Selected game label.
      */
-    private AImagePane imgSelectedGamePane;
+    private AImagePane imgLibraryStatusPane;
     /**
      * Background image for Search Bar.
      */
@@ -265,7 +265,7 @@ public class LibraryUI extends AuroraApp {
     /**
      * AddGameUI Label with Title of Selected Game.
      */
-    public static JLabel lblGameName;
+    public static APrompter lblLibraryStatus;
     private ArrayList<AImagePane> gameCover;
     private int zoom;
     private GridManager GridSplit;
@@ -389,11 +389,22 @@ public class LibraryUI extends AuroraApp {
         pnlBottomCenterContainer = new JPanel(new FlowLayout(FlowLayout.CENTER,
                 0, bottomTopPadding));
 
-        imgSelectedGamePane = new AImagePane("library_selectedGameBar_bg.png",
+        imgLibraryStatusPane = new AImagePane("library_selectedGameBar_bg.png",
                 selectedGameBarWidth, selectedGameBarHeight,
                 new FlowLayout(FlowLayout.CENTER, 0, 5));
+        imgLibraryStatusPane.setLayout(new BorderLayout());
 
-        lblGameName = new JLabel("Select A Game For Info");
+        lblLibraryStatus = new APrompter(Color.gray,coreUI
+                .getDefaultFont().deriveFont(Font.PLAIN,
+                gameNameFontSize));
+        lblLibraryStatus.add("Select a Game");
+        lblLibraryStatus.setUp(imgLibraryStatusPane.getRealImageHeight(),
+                imgLibraryStatusPane.getRealImageWidth());
+
+
+        lblLibraryStatus.revalidate();
+        lblLibraryStatus.setIgnoreRepaint(true);
+
 
 
         //* Add Game Button *//
@@ -456,20 +467,17 @@ public class LibraryUI extends AuroraApp {
             //* Bottom Center Bar *//
             pnlBottomCenterContainer.setOpaque(false);
 
-            lblGameName.setOpaque(false);
-            lblGameName.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
-                    gameNameFontSize));
-            lblGameName.setForeground(Color.LIGHT_GRAY);
 
-            imgSelectedGamePane.setPreferredSize(new Dimension(
+
+            imgLibraryStatusPane.setPreferredSize(new Dimension(
                     selectedGameBarWidth, selectedGameBarHeight));
-            imgSelectedGamePane.add(lblGameName);
+            imgLibraryStatusPane.add(lblLibraryStatus);
 
             //* Organize Games Button *//
             pnlBottomCenterContainer.add(btnOrganizeGames);
 
             //* Selected Game Bar *//
-            pnlBottomCenterContainer.add(imgSelectedGamePane);
+            pnlBottomCenterContainer.add(imgLibraryStatusPane);
 
             //* Add Game Button *//
             pnlBottomCenterContainer.add(btnShowAddGameUI);
@@ -567,7 +575,7 @@ public class LibraryUI extends AuroraApp {
         addToVolatileListenerBank(coreUI.getFrameControlImagePane());
         addToVolatileListenerBank(coreUI.getTopPane());
         addToVolatileListenerBank(this.paneLibraryContainer);
-        addToVolatileListenerBank(this.imgSelectedGamePane);
+        addToVolatileListenerBank(this.imgLibraryStatusPane);
         addToVolatileListenerBank(this.btnGameLeft);
         addToVolatileListenerBank(this.btnGameRight);
 
@@ -726,9 +734,9 @@ public class LibraryUI extends AuroraApp {
         this.paneLibraryContainer
                 .addKeyListener(handler.new GameLibraryKeyListener());
 
-        this.imgSelectedGamePane
+        this.imgLibraryStatusPane
                 .addKeyListener(handler.new searchRefocusListener());
-        this.imgSelectedGamePane
+        this.imgLibraryStatusPane
                 .addKeyListener(handler.new GameLibraryKeyListener());
 
         this.btnGameLeft.addKeyListener(handler.new searchRefocusListener());
@@ -1409,12 +1417,12 @@ public class LibraryUI extends AuroraApp {
     public void hideAddGameUI() {
         if (addGameUI_Visible == true) {
             addGameUI_Visible = false;
-            try{
+            try {
                 addGameToLibButton.setVisible(false);
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            
+
             int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
             ASound showSound = new ASound("reverse_swoop_" + num + ".wav", false);
             showSound.Play();
@@ -1708,8 +1716,8 @@ public class LibraryUI extends AuroraApp {
         return addGameAnimator;
     }
 
-    public JLabel getLblGameName() {
-        return lblGameName;
+    public APrompter getLblLibraryStatus() {
+        return lblLibraryStatus;
     }
 
     public boolean IsGameLibraryKeyListenerAdded() {
@@ -1999,7 +2007,7 @@ public class LibraryUI extends AuroraApp {
     }
 
     public AImagePane getImgSelectedGamePane() {
-        return imgSelectedGamePane;
+        return imgLibraryStatusPane;
     }
 
     public JLabel getLblKeyAction() {
