@@ -594,6 +594,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 } catch (Exception ex) {
                     logger.error(ex);
                 } finally {
+                    try {
+                        this.remove(progressWheel);
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
                     progressWheel = null;
                 }
             }
@@ -882,7 +887,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         showRemoveBtn();
         imgOverlayBar.setVisible(true);
         setSelected();
-        LibraryUI.lblLibraryStatus.add(getName());
+        LibraryUI.lblLibraryStatus.setText(getName());
 
     }
 

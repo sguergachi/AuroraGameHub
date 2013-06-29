@@ -51,11 +51,10 @@ public class GamePlaceholder extends AImagePane {
     }
 
     public void setUp(int Width, int Height, String BGimg) {
-        this.allWidth = Width;
+        this.allWidth = Width ;
         this.allHeight = Height;
 
         this.setImage(BGimg, allHeight, allWidth);
-        this.setPreferredSize(new Dimension(allWidth, allHeight));
         this.revalidate();
         this.repaint();
         this.setOpaque(false);
@@ -68,10 +67,10 @@ public class GamePlaceholder extends AImagePane {
                           ActionListener handler) {
 
 
-        buttonPadding = - (allWidth / 20) * (allHeight / 120) + (allWidth / 7);
+        buttonPadding = - (allWidth / 20) * ((allHeight) / 120) + (allWidth / 7);
 
 
-        button = new AButton(up, down, over, allWidth, allHeight);
+        button = new AButton(up, down, over, allWidth , allHeight);
         button.addActionListener(handler);
         buttonPane = new JPanel(new FlowLayout(FlowLayout.LEFT, - buttonPadding,
                 0)); //Contains the Add Game Button
@@ -87,7 +86,6 @@ public class GamePlaceholder extends AImagePane {
 
         this.add(buttonPane);
 
-        this.setPreferredSize(new Dimension(allWidth, allHeight));
         this.revalidate();
         buttonPane.revalidate();
         this.repaint();
