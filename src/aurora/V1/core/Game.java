@@ -963,7 +963,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             LibraryUI.lblLibraryStatus.setForeground(Color.yellow);
             LibraryUI.lblLibraryStatus.setText("Favorited a Game");
 
-            Thread.sleep(1000);
+            Thread.sleep(900);
             thisGame().repaint();
             thisGame().revalidate();
 
@@ -1018,7 +1018,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             LibraryUI.lblLibraryStatus.setForeground(Color.yellow);
             LibraryUI.lblLibraryStatus.setText("Un-Favorited a Game");
 
-            Thread.sleep(1000);
+            Thread.sleep(900);
             thisGame().repaint();
             thisGame().revalidate();
 
@@ -1975,7 +1975,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     LibraryUI.lblLibraryStatus.setText("Removed Game");
 
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(900);
                     } catch (InterruptedException ex) {
                         java.util.logging.Logger.getLogger(Game.class.getName())
                                 .log(Level.SEVERE, null, ex);

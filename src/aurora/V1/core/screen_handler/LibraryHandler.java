@@ -715,6 +715,8 @@ public class LibraryHandler implements
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
+
+
                     currentPath = libraryUI.getCurrentPath();
                     gridManager = libraryUI.getGridSplit();
                     GameBack = libraryUI.getGamesContainer();
@@ -730,6 +732,8 @@ public class LibraryHandler implements
                     if (!gridManager.isDupicate(game)) {
                         storage.getStoredLibrary()
                                 .SaveGame(gameSearch.getFoundGameCover());
+
+
                     } else {
                         ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
                                 "Cannot Add Duplicate Game", libraryUI
@@ -740,12 +744,13 @@ public class LibraryHandler implements
                         info.showDialog();
                         info.setVisible(true);
 
-                        gridManager.echoGame(game).setSelected();
+                        gridManager.echoGame(game).showOverlayUI();
                     }
 
 
                     //* reset cover to blank cover *//
                     gameSearch.resetCover();
+
 
 
 
@@ -806,13 +811,31 @@ public class LibraryHandler implements
                         GridMove.runMover();
 
                         gridManager.unselectPrevious();
-                        game.showOverlayUI();
+
+
+                        LibraryUI.lblLibraryStatus.setForeground(Color.green);
+                        LibraryUI.lblLibraryStatus.setText("Added Game");
 
                         AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
                                 "f5f777273e62089193a68f99f4885a55");
                         mixpanelAnalytics.addProperty("Game Added", game
                                 .getName());
                         mixpanelAnalytics.sendEventProperty("Added Game");
+
+
+                        try {
+                            Thread.sleep(900);
+                        } catch (InterruptedException ex) {
+                            java.util.logging.Logger.getLogger(
+                                    LibraryHandler.class.getName()).
+                                    log(Level.SEVERE, null, ex);
+                        }
+
+                        game.showOverlayUI();
+
+//                        LibraryUI.lblLibraryStatus
+//                                .setForeground(Color.lightGray);
+//                        LibraryUI.lblLibraryStatus.setText(game.getName());
                     }
 
 
@@ -820,6 +843,8 @@ public class LibraryHandler implements
             });
 
             add.startOnce();
+
+
 
 
         }
