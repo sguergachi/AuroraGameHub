@@ -887,6 +887,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         showRemoveBtn();
         imgOverlayBar.setVisible(true);
         setSelected();
+        LibraryUI.lblLibraryStatus.setForeground(Color.lightGray);
         LibraryUI.lblLibraryStatus.setText(getName());
 
     }
@@ -959,9 +960,15 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         thisGame().setImage(favouritedImg);
 
         try {
-            Thread.sleep(920);
+            LibraryUI.lblLibraryStatus.setForeground(Color.yellow);
+            LibraryUI.lblLibraryStatus.setText("Favorited a Game");
+
+            Thread.sleep(1000);
             thisGame().repaint();
             thisGame().revalidate();
+
+            LibraryUI.lblLibraryStatus.setForeground(Color.lightGray);
+            LibraryUI.lblLibraryStatus.setText(getName());
 
         } catch (InterruptedException ex) {
             java.util.logging.Logger.getLogger(Game.class.getName()).
@@ -1007,9 +1014,19 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         thisGame().setImage(favouritedImg);
 
         try {
-            Thread.sleep(920);
+
+            LibraryUI.lblLibraryStatus.setForeground(Color.yellow);
+            LibraryUI.lblLibraryStatus.setText("Un-Favorited a Game");
+
+            Thread.sleep(1000);
             thisGame().repaint();
             thisGame().revalidate();
+
+
+            LibraryUI.lblLibraryStatus.setForeground(Color.lightGray);
+            LibraryUI.lblLibraryStatus.setText(getName());
+
+
 
         } catch (InterruptedException ex) {
             java.util.logging.Logger.getLogger(Game.class.getName()).
@@ -1832,7 +1849,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
 
             if (AFileManager.checkFile(getGamePath())) {
+
+                LibraryUI.lblLibraryStatus.setForeground(Color.green);
+                LibraryUI.lblLibraryStatus.setText("Launching Game");
+
                 launcher = new AuroraLauncher(coreUI);
+                launcher.launchGame(thisGame());
 
             } else {
 
@@ -1844,8 +1866,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             }
 
+            LibraryUI.lblLibraryStatus.setForeground(Color.lightGray);
+            LibraryUI.lblLibraryStatus.setText(getName());
 
-            launcher.launchGame(thisGame());
+
+
         }
     }
 
@@ -1944,6 +1969,25 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     if (storage.getStoredProfile().getGameNames().size() > 0) {
                         storage.getStoredProfile().removeGameMetadata(Game.this);
                     }
+
+                    LibraryUI.lblLibraryStatus.setForeground(new Color(194, 40,
+                            35));
+                    LibraryUI.lblLibraryStatus.setText("Removed Game");
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(Game.class.getName())
+                                .log(Level.SEVERE, null, ex);
+                    }
+
+
+                }
+            }, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    LibraryUI.lblLibraryStatus.setForeground(Color.lightGray);
+                    LibraryUI.lblLibraryStatus.setText("Select a Game");
                 }
             });
 
