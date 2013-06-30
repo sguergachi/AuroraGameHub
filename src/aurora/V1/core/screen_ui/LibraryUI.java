@@ -174,14 +174,14 @@ public class LibraryUI extends AuroraApp {
     private JPanel pnlTopOfCenter;
 
     /**
-     * AddGameUI Panel Containing Left part of Center Panel.
+     * AddGameUI ImagePane Containing Left part of Center Panel.
      */
-    private JPanel pnlLeftOfTopCenter;
+    private AImagePane pnlLeftOfTopCenter;
 
     /**
-     * AddGameUI Panel Containing Right part of Top Part of Center Panel.
+     * AddGameUI ImagePane Containing Right part of Top Part of Center Panel.
      */
-    private JPanel pnlRightOfTop;
+    private AImagePane pnlRightOfTop;
 
     /**
      * AddGameUI Panel Containing Top part of Panel.
@@ -910,10 +910,10 @@ public class LibraryUI extends AuroraApp {
         pnlTopOfCenter = new JPanel(new BorderLayout());
         pnlTopOfCenter.setOpaque(false);
 
-        pnlLeftOfTopCenter = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        pnlLeftOfTopCenter.setOpaque(false);
-        pnlRightOfTop = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 7));
-        pnlRightOfTop.setOpaque(false);
+        pnlLeftOfTopCenter = new AImagePane("addUI_status_container.png",
+                new FlowLayout(FlowLayout.LEFT));
+        pnlRightOfTop = new AImagePane("addUI_status_container.png",
+                new FlowLayout(FlowLayout.LEFT, 0, 5));
 
         pnlRightOfTopEast = new JPanel(new BorderLayout(0, 0));
         pnlRightOfTopEast.setOpaque(false);
@@ -936,6 +936,7 @@ public class LibraryUI extends AuroraApp {
         pnlRightOfBottomContainer.setOpaque(false);
         pnlAddGameContainer = new JPanel(new BorderLayout(0, 0));
         pnlAddGameContainer.setOpaque(false);
+
 
         lblLeftTitle = new JLabel("Name");
         lblRightTitle = new JLabel("Location");
