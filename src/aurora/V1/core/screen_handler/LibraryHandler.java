@@ -628,6 +628,20 @@ public class LibraryHandler implements
             libraryUI.hideAddGameUI();
         }
     }
+    
+     public class HideEditAddUIHandler implements ActionListener {
+
+        private LibraryUI libraryUI;
+
+        public HideEditAddUIHandler(LibraryUI gameLibraryUI) {
+            this.libraryUI = gameLibraryUI;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            libraryUI.hideEditGameUI();
+        }
+    }
 
     public class ExecutableChooserHandler implements ActionListener {
 

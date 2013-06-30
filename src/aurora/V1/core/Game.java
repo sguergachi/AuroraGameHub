@@ -1051,15 +1051,21 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     /**
-     *
+     * Pass the Library Logic Object to this game
      * @param logic
      */
     public final void setLibraryLogic(LibraryLogic logic) {
 
-
         this.libraryLogic = logic;
 
     }
+    
+    
+    public void setSettingsListener(ActionListener action){
+        
+        btnSetting.addActionListener(action);
+    }
+    
 
     /**
      * Saves the Metadata associated with this Game to the Stored Profile

@@ -467,6 +467,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                         .getArray().get(i);
                 game.addKeyListener(libraryHandler.new searchRefocusListener());
                 game.setLibraryLogic(this);
+                
 
                 for (int j = 0; j < game.getKeyListeners().length; j++) {
                     if (game.getKeyListeners()[j] instanceof GameLibraryKeyListener) {
@@ -494,6 +495,15 @@ public class LibraryLogic implements AuroraScreenLogic {
                     }
 
                 }
+                
+                game.setSettingsListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        libraryUI.showEditGameUI();
+                    
+                    }
+                });
             } catch (RuntimeException ex) {
                 logger.error(ex);
             }
