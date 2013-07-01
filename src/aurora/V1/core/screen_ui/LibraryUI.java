@@ -30,6 +30,7 @@ import aurora.engine.V1.Logic.*;
 import aurora.engine.V1.UI.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -442,6 +443,12 @@ public class LibraryUI extends AuroraApp {
     private boolean editGameUI_Visible = false;
 
     private AAnimate editGameAnimator;
+
+    private JPanel pnlAddGameType;
+
+    private ARadioButton btnManual;
+
+    private ARadioButton btnAuto;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -892,10 +899,22 @@ public class LibraryUI extends AuroraApp {
 
         //* TOP PANEL COMPONENTS *//
         pnlTopPane_addUI = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 4));
+        pnlTopPane_addUI.setLayout(new BorderLayout(10, 4));
         pnlTopPane_addUI.setOpaque(false);
+
         btnClose_addUI = new AButton("addUI_btnClose_norm.png",
                 "addUI_btnClose_down.png", "addUI_btnClose_over.png");
 
+        pnlAddGameType = new JPanel(new FlowLayout(FlowLayout.CENTER, -18, 0));
+        pnlAddGameType.setOpaque(false);
+
+
+        // Manual Mode
+        // ----------------------------------------------------------------.
+
+        btnManual = new ARadioButton("addUI_btnManual_norm.png",
+                "addUI_btnManual_down.png");
+        btnManual.setBorder(null);
 
         btnGoToSteam = new AButton("addUI_btnGoToSteam_norm.png",
                 "addUI_btnGoToSteam_down.png", "addUI_btnGoToSteam_over.png");
@@ -918,7 +937,6 @@ public class LibraryUI extends AuroraApp {
         btnGoToProgram.setMargin(new Insets(0, 0, 0, 0));
 
         btnGoToProgram.addActionListener(new GoToProgramsListener());
-
 
 
 
@@ -1022,6 +1040,15 @@ public class LibraryUI extends AuroraApp {
         addGameToLibButton = new AButton("addUI_btnAdd_norm.png",
                 "addUI_btnAdd_down.png", "addUI_btnAdd_over.png");
         addGameToLibButton.setVisible(false);
+
+
+
+        // Auto Mode
+        // ----------------------------------------------------------------.
+
+        btnAuto = new ARadioButton("addUI_btnAuto_norm.png",
+                "addUI_btnAuto_down.png");
+
 
     }
 
@@ -1208,8 +1235,22 @@ public class LibraryUI extends AuroraApp {
             //* TOP PANEL COMPONENTS *//
 
             //* Add the Close button to the Top most Panel *//
-            pnlTopPane_addUI.add(btnClose_addUI);
+            pnlTopPane_addUI.add(btnClose_addUI, BorderLayout.EAST);
 
+            //* Type Panel *//
+            ARadioButtonManager rdbManager = new ARadioButtonManager();
+            rdbManager.addButton(btnManual);
+            rdbManager.addButton(btnAuto);
+            rdbManager.setRadioButton();
+
+            btnManual.setSelected();
+
+            pnlAddGameType.add(btnManual);
+            pnlAddGameType.add(btnAuto);
+
+            pnlTopPane_addUI.add(pnlAddGameType, BorderLayout.CENTER);
+
+            pnlTopPane_addUI.add(Box.createHorizontalStrut(82), BorderLayout.WEST);
 
             //* BOTTOM PANEL COMPONENTS *//
 

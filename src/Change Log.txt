@@ -7,18 +7,20 @@
 ////////////////////////////////////////////------------------------------------
 // Aurora_Alpha 8  Build:688  Date:7/01/2013  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------
-+ Added Shortcut buttons to launch screen
 + Added ability to organize library in 3 different ways
++ Added shortcut buttons to launch screen
 - settings states saved in new Database
 - improved library search to be more lenient
 - improved flipped UI layout to show more text
+- improved the use of status messages in Library
 - more sound effects used
 - small UX improvements to launcher
 - improved loading of games
 - improved removing games
+- minimized Aurora now takes a spot on the task bar
 - fixed bug where time didn't update
-- fixed bug where add game UI gets stuck
-- added guard against launching game if location not available
+- fixed bug where add game UI gets stuck sliding down
+- added guard against launching game if not found
 - lots of minor UI fixes and enhancements (details do matter!)
 
 

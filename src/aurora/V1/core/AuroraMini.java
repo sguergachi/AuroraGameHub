@@ -44,7 +44,7 @@ import org.apache.log4j.Logger;
  */
 public class AuroraMini {
 
-    private JDialog mini;
+    private JFrame mini;
 
     private AuroraCoreUI coreUI;
 
@@ -106,7 +106,7 @@ public class AuroraMini {
         if (mini == null) { // retain state
 
             //SET UP FRAME
-            mini = new JDialog();
+            mini = new JFrame();
 
             mini.setUndecorated(true);
             mini.setBackground(Color.BLACK);
