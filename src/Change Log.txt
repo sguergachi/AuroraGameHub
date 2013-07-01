@@ -5,7 +5,7 @@
 
 
 ////////////////////////////////////////////------------------------------------
-// Aurora_Alpha 8  Build:687  Date:6/20/2013  || Sammy Guergachi, Carlos Machado
+// Aurora_Alpha 8  Build:688  Date:7/01/2013  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------
 + Added Shortcut buttons to launch screen
 + Added ability to organize library in 3 different ways
@@ -17,6 +17,7 @@
 - improved loading of games
 - improved removing games
 - fixed bug where time didn't update
+- fixed bug where add game UI gets stuck
 - added guard against launching game if location not available
 - lots of minor UI fixes and enhancements (details do matter!)
 

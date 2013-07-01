@@ -89,7 +89,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
      * String with the name of the app for reference
      */
     public String appName;
-    
+
     static final Logger logger = Logger.getLogger(AuroraApp.class);
 
     /**
@@ -170,6 +170,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
         //* remove back button *//
         getCoreUI().getFrameControlImagePane().remove(btnBack);
+        getCoreUI().getFrameControlImagePane().setImage("dash_frameControl_bg.png");
 
         getCoreUI().getFrame().requestFocusInWindow();
 
@@ -437,7 +438,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
      * .........................................................................
      */
     public final void setUpApp() {
-    	
+
         setSizes();
         isInApp = true;
         btnBack = new AButton("app_btn_back_norm.png",
@@ -459,7 +460,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
         if (logger.isDebugEnabled()) {
         	logger.debug("ADDED BACK BUTTON");
         }
-      
+
         if (getCoreUI().getFrameControlImagePane().getComponent(0) != btnBack) {
             getCoreUI().getFrameControlImagePane().add(btnBack, 0);
         }
