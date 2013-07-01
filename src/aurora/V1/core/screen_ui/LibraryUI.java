@@ -34,6 +34,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,7 +46,9 @@ import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -449,6 +452,34 @@ public class LibraryUI extends AuroraApp {
     private ARadioButton btnManual;
 
     private ARadioButton btnAuto;
+
+    private AImagePane pnlRightPane_editUI;
+
+    private JPanel pnlCenter_editUI;
+
+    private ARadioButton btnGameLocation_editUI;
+
+    private ARadioButton btnGameCover_editUI;
+
+    private ARadioButton btnOther_editUI;
+
+    private JPanel pnlTopRightPane_editUI;
+
+    private JPanel pnlLeftPane_editUI;
+
+    private ASlickLabel lblCurrentName_editUI;
+
+    private ASlickLabel lblGameLocation_editUI;
+
+    private ASlickLabel lblGameCover_editUI;
+
+    private AButton btnDone_editUI;
+
+    private ASlickLabel lblOther_editUI;
+
+    private AImagePane imgCurrentGame_editUI;
+
+    private JPanel pnlCenterRight_editUI;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -1250,7 +1281,8 @@ public class LibraryUI extends AuroraApp {
 
             pnlTopPane_addUI.add(pnlAddGameType, BorderLayout.CENTER);
 
-            pnlTopPane_addUI.add(Box.createHorizontalStrut(82), BorderLayout.WEST);
+            pnlTopPane_addUI.add(Box.createHorizontalStrut(82),
+                    BorderLayout.WEST);
 
             //* BOTTOM PANEL COMPONENTS *//
 
@@ -1350,11 +1382,70 @@ public class LibraryUI extends AuroraApp {
         pnlEditGamePane = new AImagePane("editUI_bg.png",
                 new BorderLayout());
 
-        //* TOP PANEL COMPONENTS *//
+        //* Top Panel Components *//
         pnlTopPane_editUI = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 4));
         pnlTopPane_editUI.setOpaque(false);
         btnClose_editUI = new AButton("addUI_btnClose_norm.png",
                 "addUI_btnClose_down.png", "addUI_btnClose_over.png");
+
+        //* Center Panel *//
+
+        pnlCenter_editUI = new JPanel(new BorderLayout());
+        pnlCenter_editUI.setOpaque(false);
+
+
+
+        //* Right Menu Pane *//
+
+        pnlRightPane_editUI = new AImagePane("editUI_right.png");
+        pnlRightPane_editUI.setPreferredSize(new Dimension(pnlRightPane_editUI
+                .getRealImageWidth(), pnlRightPane_editUI.getRealImageHeight()));
+        pnlRightPane_editUI.setLayout(new BoxLayout(pnlRightPane_editUI,
+                BoxLayout.Y_AXIS));
+
+        // Panel containing current Game cover with game name
+        pnlTopRightPane_editUI = new JPanel();
+        pnlTopRightPane_editUI.setLayout(new BoxLayout(pnlTopRightPane_editUI,
+                BoxLayout.Y_AXIS));
+        pnlTopRightPane_editUI.setOpaque(false);
+
+        lblCurrentName_editUI = new ASlickLabel("Game Name");
+
+        imgCurrentGame_editUI = new AImagePane("Blank-Case.png");
+        imgCurrentGame_editUI.setImageSize(pnlRightPane_editUI
+                .getRealImageWidth() / 2 - 25,
+                imgCurrentGame_editUI.getRealImageHeight() / 4);
+        imgCurrentGame_editUI.setPreferredSize(new Dimension(
+                imgCurrentGame_editUI.getImageWidth(), imgCurrentGame_editUI
+                .getImageHeight() - 10));
+
+        // Panel containing Buttons to go between diffrent settings
+        pnlCenterRight_editUI = new JPanel();
+        pnlCenterRight_editUI.setOpaque(false);
+        pnlCenterRight_editUI.setLayout(new GridLayout(3, 1,0,-15));
+
+        btnGameLocation_editUI = new ARadioButton("editUI_btnSetting_norm.png",
+                "editUI_btnSetting_down.png");
+        btnGameCover_editUI = new ARadioButton("editUI_btnSetting_norm.png",
+                "editUI_btnSetting_down.png");
+        btnOther_editUI = new ARadioButton("editUI_btnSetting_norm.png",
+                "editUI_btnSetting_down.png");
+
+        lblGameLocation_editUI = new ASlickLabel(" Game Location ");
+        lblGameCover_editUI = new ASlickLabel(" Box Art ");
+        lblOther_editUI = new ASlickLabel(" Other ");
+
+        // Panel containing Buttons to go between diffrent settings
+        btnDone_editUI = new AButton("editUI_btnDone_norm.png",
+                "editUI_btnDone_down.png", "editUI_btnDone_over.png");
+
+
+
+
+        //* Left Content Pane *//
+        pnlLeftPane_editUI = new JPanel();
+        pnlLeftPane_editUI.setOpaque(false);
+
 
     }
 
@@ -1388,10 +1479,56 @@ public class LibraryUI extends AuroraApp {
             //* Add the Close button to the Top most Panel *//
             pnlTopPane_editUI.add(btnClose_editUI);
 
+
+            //* Right Menu Pane *//
+
+            lblCurrentName_editUI.setFont(getCoreUI().getRopaFont().deriveFont(
+                    Font.PLAIN, 13));
+            lblCurrentName_editUI.setForeground(Color.GRAY);
+
+            imgCurrentGame_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            lblCurrentName_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            pnlTopRightPane_editUI.add(imgCurrentGame_editUI);
+            pnlTopRightPane_editUI.add(lblCurrentName_editUI);
+
+
+            ARadioButtonManager rdbManager = new ARadioButtonManager();
+            rdbManager.addButton(btnGameLocation_editUI);
+            rdbManager.addButton(btnGameCover_editUI);
+            rdbManager.addButton(btnOther_editUI);
+            rdbManager.setRadioButton();
+
+            btnGameLocation_editUI.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+            btnGameCover_editUI.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+            btnOther_editUI.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+            pnlCenterRight_editUI.add(btnGameLocation_editUI);
+            pnlCenterRight_editUI.add(btnGameCover_editUI);
+            pnlCenterRight_editUI.add(btnOther_editUI);
+
+
+            pnlTopRightPane_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            pnlCenterRight_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            btnDone_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            pnlRightPane_editUI.add(pnlTopRightPane_editUI);
+            pnlRightPane_editUI.add(pnlCenterRight_editUI);
+            pnlRightPane_editUI.add(btnDone_editUI);
+            pnlRightPane_editUI.add(Box.createVerticalStrut(30));
+
+            //* Left Content Panel *//
+
+
+
+
+
             //-
             // Add major panels to component
             //-
+
+            pnlCenter_editUI.add(pnlRightPane_editUI, BorderLayout.EAST);
+            pnlCenter_editUI.add(pnlLeftPane_editUI, BorderLayout.CENTER);
+
             pnlEditGamePane.add(pnlTopPane_editUI, BorderLayout.PAGE_START);
+            pnlEditGamePane.add(pnlCenter_editUI, BorderLayout.CENTER);
 
             pnlGlass.add(pnlEditGamePane);
 
