@@ -75,6 +75,7 @@ import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
@@ -628,8 +629,8 @@ public class LibraryHandler implements
             libraryUI.hideAddGameUI();
         }
     }
-    
-     public class HideEditAddUIHandler implements ActionListener {
+
+    public class HideEditAddUIHandler implements ActionListener {
 
         private LibraryUI libraryUI;
 
@@ -1075,6 +1076,61 @@ public class LibraryHandler implements
                     logger.error(ex);
                 }
             }
+
+        }
+    }
+
+    public class GameLocationSettingListener implements ActionListener {
+        private final JLabel label;
+
+        public GameLocationSettingListener(JLabel lbl) {
+            this.label = lbl;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            label.setForeground(Color.white);
+        }
+    }
+
+    public class GameCoverSettingListener implements ActionListener {
+        private final JLabel label;
+
+        public GameCoverSettingListener(JLabel lbl) {
+            this.label = lbl;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            label.setForeground(Color.white);
+        }
+    }
+
+    public class OtherSettingListener implements ActionListener {
+        private final JLabel label;
+
+        public OtherSettingListener(JLabel lbl) {
+             this.label = lbl;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            label.setForeground(Color.white);
+        }
+    }
+
+
+    public class UnselectSettingListener implements ActionListener {
+        private final JLabel label;
+
+        public UnselectSettingListener(JLabel lbl) {
+            this.label = lbl;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            label.setForeground(Color.lightGray);
 
         }
     }
