@@ -1471,7 +1471,7 @@ public class LibraryUI extends AuroraApp {
                 .setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlCurrentImage_editUI.setPreferredSize(new Dimension(
                 pnlRightPane_editUI.getRealImageWidth(), imgCurrentGame_editUI
-                .getImageHeight() - 18));
+                .getImageHeight() - 10));
 
 
         // Panel containing Buttons to go between diffrent settings
@@ -1687,8 +1687,9 @@ public class LibraryUI extends AuroraApp {
             btnDone_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
             pnlRightPane_editUI.add(pnlTopRightPane_editUI);
             pnlRightPane_editUI.add(pnlCenterRight_editUI);
+            pnlRightPane_editUI.add(Box.createVerticalStrut(10));
             pnlRightPane_editUI.add(btnDone_editUI);
-            pnlRightPane_editUI.add(Box.createVerticalStrut(30));
+            pnlRightPane_editUI.add(Box.createVerticalStrut(25));
 
             //* Left Content Panel *//
 

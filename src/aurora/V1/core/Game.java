@@ -1989,7 +1989,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     LibraryUI.lblLibraryStatus.setText("Removed Game");
 
                     try {
-                        Thread.sleep(900);
+                        Thread.sleep(1200);
                     } catch (InterruptedException ex) {
                         java.util.logging.Logger.getLogger(Game.class.getName())
                                 .log(Level.SEVERE, null, ex);

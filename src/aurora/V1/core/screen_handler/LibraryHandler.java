@@ -740,23 +740,61 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (libraryUI.isGameLocation()) {
-                // Check if valid
-                if (libraryUI.getImgGameLocationStatus().getImgURl().equals(
-                        "addUI_badge_valid.png")) {
 
-                    //Set new path
-                    libraryUI.getCurrentGame_editUI().setGamePath(libraryUI
-                            .getTxtNewLocation_editUI().getText());
-                    // Save
-                    libraryUI.getStorage().getStoredLibrary()
-                            .SaveGame(libraryUI.getCurrentGame_editUI());
+
+
+
+
+            AThreadWorker doneTask = new AThreadWorker(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (libraryUI.isGameLocation()) {
+                        // Check if valid
+                        if (libraryUI.getImgGameLocationStatus().getImgURl()
+                                .equals(
+                                "addUI_badge_valid.png")) {
+
+                            //Set new path
+                            libraryUI.getCurrentGame_editUI().setGamePath(
+                                    libraryUI
+                                    .getTxtNewLocation_editUI().getText());
+                            // Save
+                            libraryUI.getStorage().getStoredLibrary()
+                                    .SaveGame(libraryUI.getCurrentGame_editUI());
+
+                            LibraryUI.lblLibraryStatus.setForeground(
+                                    Color.orange);
+                            LibraryUI.lblLibraryStatus.setText(
+                                    "Changed Game Path");
+                        }
+                    }
+
+                    libraryUI.hideEditGameUI();
+
 
                 }
-            }
+            }, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    try {
+                        Thread.sleep(1200);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(LibraryHandler.class
+                                .getName()).
+                                log(Level.SEVERE, null, ex);
+                    }
+
+                    LibraryUI.lblLibraryStatus.setForeground(Color.lightGray);
+                    LibraryUI.lblLibraryStatus.setText(libraryUI
+                            .getCurrentGame_editUI().getName());
+
+                }
+            });
+
+            doneTask.startOnce();
 
 
-            libraryUI.hideEditGameUI();
         }
     }
 
@@ -892,7 +930,7 @@ public class LibraryHandler implements
 
 
                         try {
-                            Thread.sleep(900);
+                            Thread.sleep(1200);
                         } catch (InterruptedException ex) {
                             java.util.logging.Logger.getLogger(
                                     LibraryHandler.class.getName()).
@@ -901,9 +939,6 @@ public class LibraryHandler implements
 
                         game.showOverlayUI();
 
-//                        LibraryUI.lblLibraryStatus
-//                                .setForeground(Color.lightGray);
-//                        LibraryUI.lblLibraryStatus.setText(game.getName());
                     }
 
 
