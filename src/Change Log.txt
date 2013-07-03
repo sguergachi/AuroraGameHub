@@ -5,9 +5,10 @@
 
 
 ////////////////////////////////////////////------------------------------------
-// Aurora_Alpha 8  Build:688  Date:7/01/2013  || Sammy Guergachi, Carlos Machado
+// Aurora_Alpha 8  Build:692  Date:7/01/2013  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------
 + Added ability to organize library in 3 different ways
++ Added Ability to change some settings of a specific game (flip game > gear button)
 + Added shortcut buttons to launch screen
 - settings states saved in new Database
 - improved library search to be more lenient
@@ -21,6 +22,7 @@
 - fixed bug where time didn't update
 - fixed bug where add game UI gets stuck sliding down
 - added guard against launching game if not found
+- added guard against adding a game with a path/file that doesn't exist
 - lots of minor UI fixes and enhancements (details do matter!)
 
 

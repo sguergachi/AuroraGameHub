@@ -655,14 +655,42 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (gameLocator.getSelectedFile() != null) {
+            if (gameLocator.getSelectedFile() != null && AFileManager.checkFile(
+                    gameLocator.getSelectedFile().getAbsolutePath())) {
                 libraryUI
                         .setCurrentPath(gameLocator.getSelectedFile().getPath());
                 libraryUI.getStatusBadge2().setImgURl("addUI_badge_valid.png");
                 libraryLogic.checkNotifiers();
-                System.out.println(libraryUI.getCurrentPath());
             } else {
                 libraryUI.getStatusBadge2().setImgURl("addUI_badge_invalid.png");
+            }
+        }
+    }
+
+    public class GameEditFileChooserHandler implements ActionListener {
+
+        private JFileChooser gameLocator;
+
+        public GameEditFileChooserHandler(JFileChooser locator) {
+            gameLocator = locator;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (gameLocator.getSelectedFile() != null && AFileManager.checkFile(
+                    gameLocator.getSelectedFile().getAbsolutePath())) {
+
+                libraryUI.getImgGameLocationStatus().setImgURl(
+                        "addUI_badge_valid.png");
+                libraryUI.getTxtNewLocation_editUI().setText(gameLocator
+                        .getSelectedFile().getAbsolutePath());
+                libraryUI.setIsGameLocation(true);
+
+            } else {
+                libraryUI.getImgGameLocationStatus().setImgURl(
+                        "addUI_badge_invalid.png");
+                libraryUI.setIsGameLocation(false);
             }
         }
     }
@@ -704,6 +732,31 @@ public class LibraryHandler implements
         @Override
         public String getDescription() {
             return "Executable Files & Shortcuts";
+        }
+    }
+
+    public class GameSettingDoneHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (libraryUI.isGameLocation()) {
+                // Check if valid
+                if (libraryUI.getImgGameLocationStatus().getImgURl().equals(
+                        "addUI_badge_valid.png")) {
+
+                    //Set new path
+                    libraryUI.getCurrentGame_editUI().setGamePath(libraryUI
+                            .getTxtNewLocation_editUI().getText());
+                    // Save
+                    libraryUI.getStorage().getStoredLibrary()
+                            .SaveGame(libraryUI.getCurrentGame_editUI());
+
+                }
+            }
+
+
+            libraryUI.hideEditGameUI();
         }
     }
 
@@ -1081,6 +1134,7 @@ public class LibraryHandler implements
     }
 
     public class GameLocationSettingListener implements ActionListener {
+
         private final JLabel label;
 
         public GameLocationSettingListener(JLabel lbl) {
@@ -1090,10 +1144,14 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
             label.setForeground(Color.white);
+
+            libraryUI.showGameLocationUI();
+
         }
     }
 
     public class GameCoverSettingListener implements ActionListener {
+
         private final JLabel label;
 
         public GameCoverSettingListener(JLabel lbl) {
@@ -1103,24 +1161,28 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
             label.setForeground(Color.white);
+            libraryUI.showGameCoverUI();
         }
     }
 
     public class OtherSettingListener implements ActionListener {
+
         private final JLabel label;
 
         public OtherSettingListener(JLabel lbl) {
-             this.label = lbl;
+            this.label = lbl;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             label.setForeground(Color.white);
+            libraryUI.showOtherUI();
+
         }
     }
 
-
     public class UnselectSettingListener implements ActionListener {
+
         private final JLabel label;
 
         public UnselectSettingListener(JLabel lbl) {

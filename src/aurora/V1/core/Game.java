@@ -1061,6 +1061,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
+    public LibraryLogic getLibraryLogic() {
+        return libraryLogic;
+    }
+
     public void setSettingsListener(final ActionListener action) {
 
         btnSetting.addActionListener(new ActionListener() {

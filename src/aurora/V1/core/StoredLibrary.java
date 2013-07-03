@@ -162,12 +162,16 @@ public class StoredLibrary extends AStorage {
             GamePath = game.getGamePath();
             BoxArtPath = game.getBoxArtUrl().replace("'", "''");
 
-            GameNames.add(GameName);
-            GamePaths.add(GamePath);
-            BoxArtPaths.add(BoxArtPath);
-            Favestate = false;
-
-            storeToDatabase();
+            if (!GameNames.contains(GameName)) {
+                GameNames.add(GameName);
+                GamePaths.add(GamePath);
+                BoxArtPaths.add(BoxArtPath);
+                Favestate = false;
+                storeToDatabase();
+            } else {
+                Favestate = game.isFavorite();
+                updateStateToDatabase();
+            }
 
 
             if (logger.isDebugEnabled()) {
@@ -192,6 +196,23 @@ public class StoredLibrary extends AStorage {
         removeFromDatabase(gameName);
     }
 
+    /*
+     * Changes the state of a game by updating a row in the database
+     */
+    public void storeStateToDatabase() {
+
+        try {
+            db.setColValue("Library", "FavState", "Game_Name", "'" + GameName
+                                                               + "'", Favestate);
+            db.CloseConnection();
+        } catch (SQLException ex) {
+            logger.error(ex);
+        }
+
+        GameName = "";
+        Favestate = false;
+    }
+
     /**
      * Store Everything from the database into this storage
      *
@@ -208,7 +229,7 @@ public class StoredLibrary extends AStorage {
             java.util.logging.Logger.getLogger(StoredLibrary.class.getName()).
                     log(Level.SEVERE, null, ex);
         }
-        
+
         if (GameNames == null) {
             GameNames = new ArrayList<String>();
             GamePaths = new ArrayList<String>();
@@ -222,18 +243,29 @@ public class StoredLibrary extends AStorage {
     /*
      * Changes the state of a game by updating a row in the database
      */
-    public void storeStateToDatabase() {
+    public void updateStateToDatabase() {
 
         try {
             db.setColValue("Library", "FavState", "Game_Name", "'" + GameName
                                                                + "'", Favestate);
+            db.setColValue("Library", "Executable_Path", "Game_Name", "'"
+                                                                      + GameName
+                                                                      + "'",
+                    GamePath);
+            db.setColValue("Library", "BoxArt_Path", "Game_Name", "'" + GameName
+                                                                  + "'",
+                    BoxArtPath);
             db.CloseConnection();
         } catch (SQLException ex) {
             logger.error(ex);
         }
 
+        GamePath = "";
+        BoxArtPath = "";
         GameName = "";
         Favestate = false;
+
+        logger.debug("Updated Game " + GameName);
     }
 
     /*

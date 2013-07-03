@@ -72,24 +72,31 @@ public class LibraryLogic implements AuroraScreenLogic {
      * Library UI instance.
      */
     private final LibraryUI libraryUI;
+
     /**
      * Library Handler instance.
      */
     private LibraryHandler libraryHandler;
+
     /**
      * Core UI instance.
      */
     private final AuroraCoreUI coreUI;
+
     /**
      * Dashboard UI instance.
      */
     private final DashboardUI dashboardUI;
+
     /**
      * Boolean on whether the library even has a single favorite game in DB.
      */
     private boolean libHasFavourites;
+
     static final Logger logger = Logger.getLogger(LibraryLogic.class);
+
     private AAnimate addGameToLibButtonAnimator;
+
     private boolean isLoaded = false;
 
     /**
@@ -466,7 +473,9 @@ public class LibraryLogic implements AuroraScreenLogic {
                 game = (Game) libraryUI.getGridSplit().getGrid(currentGrid)
                         .getArray().get(i);
                 game.addKeyListener(libraryHandler.new searchRefocusListener());
-                game.setLibraryLogic(this);
+                if (game.getLibraryLogic() == null) {
+                    game.setLibraryLogic(this);
+                }
 
 
                 for (int j = 0; j < game.getKeyListeners().length; j++) {
