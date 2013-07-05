@@ -312,7 +312,7 @@ public class GridSearch {
                 }
 
                 foundGameList.get(i)
-                        .addFocusListener(handler.new searchLostFocusHandler(
+                        .addFocusListener(handler.new SearchLostFocusHandler(
                         ));
                 foundGameList.get(i).update();
 

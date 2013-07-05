@@ -597,7 +597,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     try {
                         this.remove(progressWheel);
                     } catch (NullPointerException e) {
-                        e.printStackTrace();
+
                     }
                     progressWheel = null;
                 }

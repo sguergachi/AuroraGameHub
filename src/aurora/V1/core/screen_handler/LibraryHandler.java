@@ -195,7 +195,7 @@ public class LibraryHandler implements
 
     //////Search Library Bar//////////
     ///What to do if Click on Search Box
-    public class searchSelectHandler extends MouseAdapter {
+    public class SearchSelectHandler extends MouseAdapter {
 
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -217,7 +217,7 @@ public class LibraryHandler implements
         }
     }
 
-    public class searchButtonHandler implements ActionListener {
+    public class SearchButtonHandler implements ActionListener {
         //Handles the Search Button Besides the Search Box
 
         @Override
@@ -236,7 +236,7 @@ public class LibraryHandler implements
         }
     }
 
-    public class searchLostFocusHandler implements FocusListener {
+    public class SearchLostFocusHandler implements FocusListener {
 
         @Override
         public void focusGained(FocusEvent e) {
@@ -248,13 +248,13 @@ public class LibraryHandler implements
         }
     }
 
-    public class searchFocusHandler implements FocusListener {
+    public class SearchFocusHandler implements FocusListener {
 
         private JTextField SearchBar;
 
         private JButton SearchButton;
 
-        public searchFocusHandler() {
+        public SearchFocusHandler() {
             this.SearchBar = libraryUI.getSearchBar();
             this.SearchButton = libraryUI.getSearchButton();
 
@@ -365,7 +365,7 @@ public class LibraryHandler implements
         }
     }
 
-    public class searchBoxHandler extends KeyAdapter {
+    public class SearchBoxHandler extends KeyAdapter {
         //Handles Typing In Search Box, when it is in focus
 
         @Override
@@ -425,7 +425,7 @@ public class LibraryHandler implements
         }
     }
 
-    public class searchRefocusListener extends KeyAdapter {
+    public class SearchRefocusListener extends KeyAdapter {
         //Handles When User Starts Typing While Components other than the
         //Search Box are in focus.
         //Must get first key typed and put it in the searchbox
@@ -433,7 +433,7 @@ public class LibraryHandler implements
 
         private JTextField SearchBar;
 
-        public searchRefocusListener() {
+        public SearchRefocusListener() {
             this.SearchBar = libraryUI.getSearchBar();
         }
 
@@ -501,7 +501,7 @@ public class LibraryHandler implements
     }
 
     /////////////////////////////////////////////////////////////
-    public class addGameSearchBoxHandler extends KeyAdapter {
+    public class AddGameSearchBoxHandler extends KeyAdapter {
         //Handles Typing In Search Box, when it is in focus
 
         @Override
@@ -550,7 +550,8 @@ public class LibraryHandler implements
                 || e.getKeyCode() == KeyEvent.VK_0
                 || e.getKeyCode() == KeyEvent.VK_QUOTE
                 || e.getKeyCode() == KeyEvent.VK_PERIOD) {
-                gameSearch.typedChar(e.getKeyChar()); //Sends the key to the search engine to be appended and check for match
+                //Sends the key to the search engine to be appended and check for match
+                gameSearch.typedChar(e.getKeyChar());
 
             } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                 // If backspace is pressed tell search engine to search for name - 1 character
@@ -560,15 +561,31 @@ public class LibraryHandler implements
         }
     }
 
+    public class AddGameSearchClear implements ActionListener {
+
+        private final JTextField txtField;
+
+        public AddGameSearchClear(JTextField searchField) {
+            txtField = searchField;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            txtField.setText("");
+            gameSearch.resetCover();
+            txtField.requestFocusInWindow();
+        }
+    }
+
     ////Add Game UI////////
     //For when you select the Textfield in the add Game UI
-    public class addGameMouseHandler extends MouseAdapter {
+    public class AddGameMouseHandler extends MouseAdapter {
 
         @Override
         public void mousePressed(MouseEvent e) {
 
             if (libraryUI.getSearchText().getText().equals(
-                    "Search For Game To Add...")) {
+                    "Search For Game...")) {
                 libraryUI.getSearchText().requestFocus();
                 libraryUI.getSearchText().setText("");
                 gameSearch.resetCover();
@@ -579,12 +596,12 @@ public class LibraryHandler implements
         }
     }
 
-    public class addGameFocusHandler implements FocusListener {
+    public class AddGameFocusHandler implements FocusListener {
 
         @Override
         public void focusGained(FocusEvent e) {
             if (libraryUI.getSearchText().getText().equals(
-                    "Search For Game To Add...")) {
+                    "Search For Game...")) {
                 libraryUI.getSearchText().setText("");
                 gameSearch.resetCover();
                 libraryUI.getSearchText().setForeground(new Color(23, 139, 255));
@@ -606,7 +623,7 @@ public class LibraryHandler implements
                 }
                 if (libraryUI.getSearchText().getText().length() <= 1) {
                     libraryUI.getSearchText().setText(
-                            "Search For Game To Add...");
+                            "Search For Game...");
                     libraryUI.getSearchText().setForeground(Color.darkGray);
                     libraryUI.getPnlSearchBG().setImage(
                             "addUI_text_inactive.png");
@@ -739,10 +756,6 @@ public class LibraryHandler implements
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
-
-
-
 
 
             AThreadWorker doneTask = new AThreadWorker(new ActionListener() {

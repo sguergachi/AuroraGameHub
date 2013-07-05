@@ -472,7 +472,7 @@ public class LibraryLogic implements AuroraScreenLogic {
             try {
                 game = (Game) libraryUI.getGridSplit().getGrid(currentGrid)
                         .getArray().get(i);
-                game.addKeyListener(libraryHandler.new searchRefocusListener());
+                game.addKeyListener(libraryHandler.new SearchRefocusListener());
                 if (game.getLibraryLogic() == null) {
                     game.setLibraryLogic(this);
                 }
