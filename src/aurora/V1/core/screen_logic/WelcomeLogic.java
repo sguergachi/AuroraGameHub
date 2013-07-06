@@ -22,6 +22,7 @@ import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.WelcomeHandler;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.WelcomeUI;
+import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.AThreadWorker;
@@ -84,10 +85,6 @@ public class WelcomeLogic implements AuroraScreenLogic {
 
     private int frameControlHeight;
 
-    private int logoHeight;
-
-    private int logoWidth;
-
     public WelcomeLogic(WelcomeUI aStartScreenUI) {
 
         this.startScreenUI = aStartScreenUI;
@@ -114,7 +111,6 @@ public class WelcomeLogic implements AuroraScreenLogic {
     }
 
     public void startBackgroundMusic() {
-
 //        try {
 //            coreUI.getBackgroundSound().Play();
 //        } catch (UnsupportedAudioFileException ex) {
@@ -126,8 +122,8 @@ public class WelcomeLogic implements AuroraScreenLogic {
 //        } catch (InterruptedException ex) {
 //            logger.error(ex);
 //        }
-
     }
+
 
     public void transisionToDashboard() {
 

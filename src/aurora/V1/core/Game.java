@@ -597,7 +597,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     try {
                         this.remove(progressWheel);
                     } catch (NullPointerException e) {
-
                     }
                     progressWheel = null;
                 }
@@ -1872,9 +1871,19 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             } else {
 
-                ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
-                        "Cannot Find Game Location", coreUI.getRegularFont()
-                        .deriveFont(25));
+                final ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
+                        "Can't Find Game. Would You Like To REMOVE It From Library?      ",
+                        coreUI.getRegularFont()
+                        .deriveFont(Font.BOLD,23));
+                info.setOKButtonListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        new RemoveGameHandler().actionPerformed(e);
+                        info.setVisible(false);
+                    }
+                });
                 info.showDialog();
                 info.setVisible(true);
 

@@ -49,6 +49,7 @@ import aurora.engine.V1.UI.ARadioButtonManager;
 import aurora.engine.V1.UI.ASlickLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -71,8 +72,11 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -82,13 +86,16 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 
 import org.apache.log4j.Logger;
+import sun.swing.DefaultLookup;
 
 /**
  * .------------------------------------------------------------------------.
@@ -425,6 +432,71 @@ public class LibraryHandler implements
         }
     }
 
+    public class listRender extends DefaultListCellRenderer {
+
+        private static final long serialVersionUID = 1L;
+
+        public listRender() {
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value,
+                                                      int index,
+                                                      boolean isSelected,
+                                                      boolean cellHasFocus) {
+
+
+
+            setComponentOrientation(list.getComponentOrientation());
+
+            Color bg = null;
+            Color fg = null;
+
+            JList.DropLocation dropLocation = list.getDropLocation();
+            if (dropLocation != null
+                && !dropLocation.isInsert()
+                && dropLocation.getIndex() == index) {
+
+                bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
+                fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
+
+                isSelected = true;
+            }
+
+            if (isSelected) {
+                setBackground(bg == null ? list.getSelectionBackground() : bg);
+                setForeground(fg == null ? list.getSelectionForeground() : fg);
+            } else {
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
+            }
+
+            if (value instanceof Icon) {
+                setIcon((Icon) value);
+                setText("");
+            } else {
+                setIcon(null);
+                setText((value == null) ? "" : value.toString());
+            }
+
+            setEnabled(list.isEnabled());
+            setFont(list.getFont());
+
+            Border border = BorderFactory.createEmptyBorder(3, 1, 3,
+                    0);
+            if (isSelected) {
+                setBorder(border);
+            } else {
+                setBorder(border);
+            }
+
+
+            return this;
+
+        }
+    }
+
     public class SearchRefocusListener extends KeyAdapter {
         //Handles When User Starts Typing While Components other than the
         //Search Box are in focus.
@@ -500,7 +572,7 @@ public class LibraryHandler implements
         }
     }
 
-    /////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
     public class AddGameSearchBoxHandler extends KeyAdapter {
         //Handles Typing In Search Box, when it is in focus
 
@@ -577,8 +649,8 @@ public class LibraryHandler implements
         }
     }
 
-    ////Add Game UI////////
-    //For when you select the Textfield in the add Game UI
+////Add Game UI////////
+//For when you select the Textfield in the add Game UI
     public class AddGameMouseHandler extends MouseAdapter {
 
         @Override
@@ -731,7 +803,8 @@ public class LibraryHandler implements
             if (extension != null) {
                 if (extension.equals("exe")
                     || extension.equals("app")
-                    || extension.equals("lnk")) {
+                    || extension.equals("lnk")
+                    || extension.equals("url")) {
 
                     return true;
                 } else {
@@ -811,8 +884,8 @@ public class LibraryHandler implements
         }
     }
 
-    // Listener for when the Add Game To Library Button is pressed in the
-    // Add Game UI
+// Listener for when the Add Game To Library Button is pressed in the
+// Add Game UI
     public class AddToLibraryHandler implements ActionListener {
 
         private GridManager gridManager;
@@ -1130,8 +1203,8 @@ public class LibraryHandler implements
         }
     }
 
-    //Transisions towards the Grid where the game is located
-    //To show game added (apple iOS style :P )
+//Transisions towards the Grid where the game is located
+//To show game added (apple iOS style :P )
     public class MoveToGrid implements Runnable {
 
         private final Game game;
@@ -1245,8 +1318,8 @@ public class LibraryHandler implements
         }
     }
 
-    //Prevents from clicking Through the Aurora Add Game UI and select Games in the
-    //Background
+//Prevents from clicking Through the Aurora Add Game UI and select Games in the
+//Background
     public class EmptyMouseHandler extends MouseAdapter {
 
         @Override
@@ -1480,7 +1553,7 @@ public class LibraryHandler implements
         }
     }
 
-    //Handler for the Navigation using Keyboard
+//Handler for the Navigation using Keyboard
     public class GameLibraryKeyListener extends KeyAdapter {
 
         private GridManager gridManager;

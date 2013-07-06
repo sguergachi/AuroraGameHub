@@ -48,6 +48,7 @@ import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -56,6 +57,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.PopupFactory;
 import javax.swing.SwingUtilities;
@@ -1077,6 +1079,8 @@ public class LibraryUI extends AuroraApp {
                 new FlowLayout(FlowLayout.RIGHT, -10, 10));
         pnlBlankCoverGame_addUI = new AImagePane("Blank-Case.png", 240, 260);
         gamesList_addUI = new JList();
+
+
         gameFileChooser_addUI = new JFileChooser(System.getProperty("user.home"));
 
         // Set up File Chooser UI //
@@ -1101,9 +1105,9 @@ public class LibraryUI extends AuroraApp {
                     .getLogger(LibraryUI.class.getName()).
                     log(Level.SEVERE, null, ex);
         }
-
         //* Set up File Chooser *//
         SwingUtilities.updateComponentTreeUI(gameFileChooser_addUI);
+
 
         gameFileChooser_addUI.setApproveButtonText("Select");
         gameFileChooser_addUI.setDragEnabled(false);
@@ -1112,6 +1116,27 @@ public class LibraryUI extends AuroraApp {
         gameFileChooser_addUI.setAcceptAllFileFilterUsed(true);
         gameFileChooser_addUI.setEnabled(true);
         gameFileChooser_addUI.revalidate();
+
+        try {
+            UIManager.setLookAndFeel(UIManager
+                    .getCrossPlatformLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
 
 
         //* BOTTOM PANEL COMPONENTS *//
@@ -1245,9 +1270,10 @@ public class LibraryUI extends AuroraApp {
 
             // Set up Game List //
 
+
             gamesList_addUI.setPreferredSize(
                     new Dimension(pnlCoverPane_addUI.getImgIcon().getIconWidth()
-                                  + 80,
+                                  + 85,
                     pnlCoverPane_addUI.getImgIcon().getIconHeight()));
             gamesList_addUI.setBackground(new Color(38, 46, 60));
             gamesList_addUI.setForeground(Color.lightGray);
@@ -1256,14 +1282,17 @@ public class LibraryUI extends AuroraApp {
                     listFontSize));
             gamesList_addUI
                     .setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            gamesList_addUI.setSelectionBackground(new Color(54,95,143));
+            gamesList_addUI.setSelectionForeground(new Color(238,243,249));
+            gamesList_addUI.setBorder(null);
+
             gamesList_addUI.setLayoutOrientation(JList.VERTICAL);
             gamesList_addUI.setVisibleRowCount(10);
 
             //* List model for JList Containing Game Names *//
             listModel_addUI = new DefaultListModel();
             gamesList_addUI.setModel(listModel_addUI);
-
-
+            gamesList_addUI.setCellRenderer(handler.new listRender());
 
             try {
                 Field field = PopupFactory.class.getDeclaredField(
@@ -1587,7 +1616,60 @@ public class LibraryUI extends AuroraApp {
                 0, 0));
         pnlGameFileChooser_editUI.setOpaque(true);
 
-        gameFileChooser_editUI = new JFileChooser();
+        gameFileChooser_editUI = new JFileChooser(System
+                .getProperty("user.home"));
+
+        try {
+            UIManager.setLookAndFeel(UIManager
+                    .getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
+
+        //* Set up File Chooser *//
+        SwingUtilities.updateComponentTreeUI(gameFileChooser_editUI);
+
+        gameFileChooser_editUI.setApproveButtonText("Select");
+        gameFileChooser_editUI.setDragEnabled(false);
+        gameFileChooser_editUI.setDialogType(JFileChooser.OPEN_DIALOG);
+        gameFileChooser_editUI.setMultiSelectionEnabled(false);
+        gameFileChooser_editUI.setAcceptAllFileFilterUsed(true);
+        gameFileChooser_editUI.setEnabled(true);
+
+        try {
+            UIManager.setLookAndFeel(UIManager
+                    .getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger
+                    .getLogger(LibraryUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
 
 
         imgGameLocationStatus = new AImage("addUI_badge_idle.png");
@@ -1789,7 +1871,26 @@ public class LibraryUI extends AuroraApp {
                     .getRealImageHeight() / 2 + 10));
             pnlGameFileChooser_editUI.setBackground(new Color(38, 46, 60));
 
+
+            try {
+                Field field = PopupFactory.class.getDeclaredField(
+                        "forceHeavyWeightPopupKey");
+                field.setAccessible(true);
+                gameFileChooser_editUI.putClientProperty(field.get(null), true);
+            } catch (Exception e) {
+                logger.error(e);
+                e.printStackTrace();
+            }
+
+            // Set up File Chooser UI //
+
+
+            gameFileChooser_editUI.setPreferredSize(new Dimension(
+                    pnlGameFileChooser_editUI.getPreferredSize().width,
+                    pnlGameFileChooser_editUI.getPreferredSize().height));
+
             pnlGameFileChooser_editUI.add(gameFileChooser_editUI);
+
 
             pnlGameLocationCenter.add(imgGameLocationStatus);
             pnlGameLocationCenter.add(Box.createHorizontalStrut(40));
@@ -1800,55 +1901,8 @@ public class LibraryUI extends AuroraApp {
             pnlGameLocationBottom.add(txtNewLocation_editUI);
 
 
-            // Set up File Chooser UI //
-
-            try {
-                UIManager.setLookAndFeel(UIManager
-                        .getSystemLookAndFeelClassName());
-            } catch (ClassNotFoundException ex) {
-                java.util.logging.Logger
-                        .getLogger(LibraryUI.class.getName()).
-                        log(Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-                java.util.logging.Logger
-                        .getLogger(LibraryUI.class.getName()).
-                        log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                java.util.logging.Logger
-                        .getLogger(LibraryUI.class.getName()).
-                        log(Level.SEVERE, null, ex);
-            } catch (UnsupportedLookAndFeelException ex) {
-                java.util.logging.Logger
-                        .getLogger(LibraryUI.class.getName()).
-                        log(Level.SEVERE, null, ex);
-            }
-
-            //* Set up File Chooser *//
-            SwingUtilities.updateComponentTreeUI(gameFileChooser_editUI);
-
-            gameFileChooser_editUI.setApproveButtonText("Select");
-            gameFileChooser_editUI.setDragEnabled(false);
-            gameFileChooser_editUI.setDialogType(JFileChooser.OPEN_DIALOG);
-            gameFileChooser_editUI.setMultiSelectionEnabled(false);
-            gameFileChooser_editUI.setAcceptAllFileFilterUsed(true);
-            gameFileChooser_editUI.setEnabled(true);
 
 
-
-            gameFileChooser_editUI.setPreferredSize(new Dimension(
-                    pnlGameFileChooser_editUI.getPreferredSize().width,
-                    pnlGameFileChooser_editUI.getPreferredSize().height));
-
-            try {
-                Field field = PopupFactory.class.getDeclaredField(
-                        "forceHeavyWeightPopupKey");
-                field.setAccessible(true);
-                gameFileChooser_editUI.putClientProperty(field.get(null), true);
-            } catch (Exception e) {
-                logger.error(e);
-            }
-
-            gameFileChooser_editUI.revalidate();
 
             pnlGameLocation_editUI.add(Box.createVerticalStrut(25));
             pnlGameLocation_editUI.add(pnlGameLocationTop);
@@ -1883,6 +1937,9 @@ public class LibraryUI extends AuroraApp {
                                   + 110,
                     pnlCoverPane_editUI.getImgIcon().getIconHeight()));
             gamesList_editUI.setForeground(Color.lightGray);
+            gamesList_editUI.setBackground(new Color(38, 46, 60));
+            gamesList_addUI.setSelectionBackground(new Color(54,95,143));
+            gamesList_addUI.setSelectionForeground(new Color(238,243,249));
             gamesList_editUI.setFont(coreUI.getDefaultFont().deriveFont(
                     Font.BOLD,
                     listFontSize));
@@ -1890,8 +1947,8 @@ public class LibraryUI extends AuroraApp {
                     ListSelectionModel.SINGLE_SELECTION);
             gamesList_editUI.setLayoutOrientation(JList.VERTICAL);
             gamesList_editUI.setVisibleRowCount(10);
-            gamesList_editUI.setBackground(new Color(38, 46, 60));
 
+            gamesList_addUI.setCellRenderer(handler.new listRender());
             gamesList_editUI.setModel(listModel_editUI);
 
 

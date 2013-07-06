@@ -5,11 +5,12 @@
 
 
 ////////////////////////////////////////////------------------------------------
-// Aurora_Alpha 8  Build:692  Date:7/01/2013  || Sammy Guergachi, Carlos Machado
+// Aurora_Alpha 8  Build:694  Date:7/05/2013  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------
 + Added ability to organize library in 3 different ways
 + Added Ability to change some settings of a specific game (flip game > gear button)
 + Added shortcut buttons to launch screen
++ Added support for adding .url shortcut files (i.e. Steam shortcuts)
 - settings states saved in new Database
 - improved library search to be more lenient
 - improved flipped UI layout to show more text
@@ -18,6 +19,7 @@
 - small UX improvements to launcher
 - improved loading of games
 - improved removing games
+- reduced log file size
 - minimized Aurora now takes a spot on the task bar
 - fixed bug where time didn't update
 - fixed bug where add game UI gets stuck sliding down

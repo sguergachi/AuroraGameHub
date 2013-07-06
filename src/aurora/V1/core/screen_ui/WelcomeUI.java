@@ -100,15 +100,11 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
     private String path = "//AuroraData//";
 
-    private JPanel pnlUserButton;
-
     private JPanel loadingPane;
 
     private AFileManager fileIO;
 
     private AuroraStorage auroraStorage;
-
-    private ASurface resource;
 
     private Thread backgroundLoadThread;
 
@@ -123,10 +119,6 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
     private final WelcomeHandler handler;
 
     private FrameKeyListener startKeyHandler;
-
-    private AImage cursorImage;
-
-    private Object toolkit;
 
     private final WelcomeLogic logic;
 
@@ -147,6 +139,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         logic = new WelcomeLogic(this);
         handler.setLogic(logic);
         logic.setHandler(handler);
+
     }
 
     @Override
@@ -706,4 +699,6 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
     public AuroraCoreUI getCoreUI() {
         return coreUI;
     }
+
+
 }

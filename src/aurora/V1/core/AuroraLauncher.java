@@ -551,9 +551,9 @@ public class AuroraLauncher implements Runnable, MouseListener {
     private void launchGameProcess(ProcessBuilder processBuild) {
         try {
             launchGameProcess = processBuild.start();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             logger.error(ex);
-
+            ex.printStackTrace();
         }
         coreUI.getFrame().setState(JFrame.ICONIFIED);
         coreUI.getFrame().setVisible(false);
@@ -585,8 +585,9 @@ public class AuroraLauncher implements Runnable, MouseListener {
         //* Wait For Game To Exit *//
         try {
             launchGameProcess.waitFor();
-        } catch (InterruptedException ex) {
+        } catch (Exception ex) {
             logger.error(ex);
+            ex.printStackTrace();
 
         }
 
