@@ -22,6 +22,8 @@ import aurora.engine.V1.Logic.ASurface;
 import aurora.engine.V1.UI.ADialog;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import javax.sound.sampled.LineUnavailableException;
@@ -38,15 +40,10 @@ import org.apache.log4j.Logger;
 public class main {
 
     private static ADialog err;
-
     private static Font FontRegular;
-
     private static ASurface ressource = null;
-
     private static boolean startMini = false;
-
     public static String VERSION = "Alpha 8";
-
     static final Logger logger = Logger.getLogger(main.class);
 
     public static void main(String[] args) throws InterruptedException,
@@ -66,32 +63,16 @@ public class main {
 
 
         if (Double.parseDouble(System.getProperty("java.version")
-                .substring(2, 3)) >= 6
+                .substring(2, 3)) >= 7
             && Integer.parseInt(System.getProperty("java.version").substring(6,
-                8)) >= 17) {
+                8)) >= 9) {
 
             //Initiate The LoginWindow
             logger.info("Running Java Version: " + System.getProperty(
                     "java.version"));
             logger.info("OS: " + System.getProperty("os.name"));
-//            setLAF();
             WelcomeUI aurora_StartUp = new WelcomeUI(startMini);
             aurora_StartUp.loadUI();
-
-        } else if (Double.parseDouble(System.getProperty("java.version")
-                .substring(0, 3)) == 1.7) {
-            //Initiate The LoginWindow
-            logger.info("Running Java Version: " + System.getProperty(
-                    "java.version"));
-            logger.info("OS: " + System.getProperty("os.name"));
-
-
-//            setLAF();
-
-            WelcomeUI aurora_StartUp = new WelcomeUI(startMini);
-            aurora_StartUp.loadUI();
-
-
 
         } else {
             ressource = new ASurface("");
@@ -104,15 +85,20 @@ public class main {
                         .getResourceAsStream("/aurora/V1/resources/AGENCYR.TTF"));
             }
             err = new ADialog(ADialog.aDIALOG_ERROR,
-                    "Latest Version of Java 6 is required", FontRegular);
+                    "Latest Version of Java 7 is Required   ", FontRegular
+                    .deriveFont(Font.BOLD, 25),new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.exit(0);
+
+                }
+            });
             err.setVisible(true);
 
             logger.info("Running Java Version: " + System.getProperty(
                     "java.version"));
             logger.error(
-                    "Cannot Run Aurora, Java Version is below minimum (J6u17)");
-            // System.out.println("Running Java Version: " + System.getProperty("java.version"));
-            // System.out.println("Cannot Run Aurora, Java Version is Bellow minimum (J6u17)");
+                    "Cannot Run Aurora, Java Version is below minimum");
 
         }
 

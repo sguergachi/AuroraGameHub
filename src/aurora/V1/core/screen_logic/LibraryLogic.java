@@ -19,6 +19,8 @@ package aurora.V1.core.screen_logic;
 
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.Game;
+import aurora.V1.core.GameSearch;
+import aurora.V1.core.GridSearch;
 import aurora.V1.core.screen_handler.LibraryHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.GameLibraryKeyListener;
 import aurora.V1.core.screen_ui.DashboardUI;
@@ -26,6 +28,7 @@ import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.APostHandler;
+import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
@@ -36,6 +39,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,32 +77,29 @@ public class LibraryLogic implements AuroraScreenLogic {
      * Library UI instance.
      */
     private final LibraryUI libraryUI;
-
     /**
      * Library Handler instance.
      */
     private LibraryHandler libraryHandler;
-
     /**
      * Core UI instance.
      */
     private final AuroraCoreUI coreUI;
-
     /**
      * Dashboard UI instance.
      */
     private final DashboardUI dashboardUI;
-
     /**
      * Boolean on whether the library even has a single favorite game in DB.
      */
     private boolean libHasFavourites;
-
     static final Logger logger = Logger.getLogger(LibraryLogic.class);
-
     private AAnimate addGameToLibButtonAnimator;
-
     private boolean isLoaded = false;
+    private ASimpleDB coverDB;
+    private GameSearch gameSearch_addUI;
+    private GridSearch gridSearch;
+    private GameSearch gameSearch_editUI;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -125,6 +126,8 @@ public class LibraryLogic implements AuroraScreenLogic {
         this.libraryUI = gamelibraryUi;
         this.coreUI = gamelibraryUi.getCoreUI();
         this.dashboardUI = gamelibraryUi.getDashboardUI();
+
+        setUpCoverDB();
     }
 
     @Override
@@ -132,6 +135,48 @@ public class LibraryLogic implements AuroraScreenLogic {
 
         this.libraryHandler = (LibraryHandler) handler;
 
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | setUpCoverDB()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method will start connection with CoverDB and will initialize 
+     * | gameSearch and gridSeach methods.
+     * |
+     * .........................................................................
+     *
+     * <p/>
+     */
+    private void setUpCoverDB() {
+        //* Start Aurora Dabatase connection *//
+        try {
+            coverDB = new ASimpleDB("AuroraDB", "AuroraTable", false, System
+                    .getProperty("user.home") + "//AuroraData//");
+        } catch (SQLException ex) {
+            logger.error(ex);
+        }
+
+        gridSearch = new GridSearch(libraryUI.getCoreUI(), libraryUI,
+                libraryHandler);
+        gameSearch_addUI = new GameSearch(libraryUI, coverDB,
+                libraryUI.getStorage());
+        gameSearch_editUI = new GameSearch(libraryUI, coverDB,
+                libraryUI.getStorage());
+
+    }
+
+    public GameSearch getGameSearch_addUI() {
+        return gameSearch_addUI;
+    }
+
+    public GridSearch getGridSearch() {
+        return gridSearch;
+    }
+
+    public GameSearch getGameSearch_editUI() {
+        return gameSearch_editUI;
     }
 
     /**
@@ -433,8 +478,6 @@ public class LibraryLogic implements AuroraScreenLogic {
         }
     }
 
-
-
     /**
      * .-----------------------------------------------------------------------.
      * | loadGames(int currentGridIndex)
@@ -575,7 +618,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     /**
      * .-----------------------------------------------------------------------.
-     * | checkNotifiers()
+     * | checkAddGameStatus()
      * .-----------------------------------------------------------------------.
      * |
      * | This method checks if both Add Game UI badges are Green meaning
@@ -585,7 +628,7 @@ public class LibraryLogic implements AuroraScreenLogic {
      *
      * @throws MalformedURLException Exception
      */
-    public void checkNotifiers() {
+    public void checkAddGameStatus() {
 
         if (libraryUI.getStatusBadge1().getImgURl().equals(
                 "addUI_badge_valid.png")

@@ -47,6 +47,7 @@ import aurora.engine.V1.UI.APopupMenu;
 import aurora.engine.V1.UI.ARadioButton;
 import aurora.engine.V1.UI.ARadioButtonManager;
 import aurora.engine.V1.UI.ASlickLabel;
+import aurora.engine.V1.UI.ATextField;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -87,6 +88,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.Border;
@@ -124,18 +126,10 @@ public class LibraryHandler implements
      * LibraryLogic instance.
      */
     private LibraryLogic libraryLogic;
-
     /**
      * LibraryUI instance.
      */
     private final LibraryUI libraryUI;
-
-    private final GridSearch gridSearch;
-
-    private final GameSearch gameSearch;
-
-    private ASimpleDB coverDB;
-
     static final Logger logger = Logger.getLogger(LibraryHandler.class);
 
     /**
@@ -155,19 +149,7 @@ public class LibraryHandler implements
      */
     public LibraryHandler(final LibraryUI aLibraryUI) {
         this.libraryUI = aLibraryUI;
-        //* Start Aurora Dabatase connection *//
-        AFileManager fileIO = new AFileManager("AuroraData");
-        try {
-            coverDB = new ASimpleDB("AuroraDB", "AuroraTable", false, System
-                    .getProperty("user.home") + "//AuroraData//");
-        } catch (SQLException ex) {
-            logger.error(ex);
-        }
 
-        this.gridSearch = new GridSearch(libraryUI.getCoreUI(), libraryUI,
-                this);
-        this.gameSearch = new GameSearch(libraryUI, coverDB,
-                libraryUI.getStorage());
     }
 
     @Override
@@ -182,13 +164,13 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                gridSearch.restoreGrid();
+                libraryLogic.getGridSearch().restoreGrid();
             } catch (MalformedURLException ex) {
                 logger.error(ex);
             }
-            gridSearch.resetAppendedName();
+            libraryLogic.getGridSearch().resetAppendedName();
             libraryUI.getSearchBar().setText("");
-            libraryUI.getSearchBar().setText("Start Typing To Search...");
+            libraryUI.getSearchBar().setText("Search Here...");
             libraryUI.getSearchBar().setForeground(Color.darkGray);
             libraryUI.getSearchBarBG()
                     .setImage("library_searchBar_inactive.png");
@@ -211,7 +193,7 @@ public class LibraryHandler implements
         @Override
         public void mousePressed(MouseEvent e) {
             if (libraryUI.getSearchBar().getText().equals(
-                    "Start Typing To Search...")) {
+                    "Search Here...")) {
                 libraryUI.getSearchBar().setText("");
                 libraryUI.getSearchBar().setForeground(Color.darkGray);
                 libraryUI.getSearchBarBG().setImage(
@@ -219,7 +201,7 @@ public class LibraryHandler implements
                 libraryUI.getSearchButtonBG().removeAll();
                 libraryUI.getSearchButtonBG().add(libraryUI
                         .getRemoveSearchButton(), BorderLayout.NORTH);
-                gridSearch.resetAppendedName();
+                libraryLogic.getGridSearch().resetAppendedName();
             }
         }
     }
@@ -258,7 +240,6 @@ public class LibraryHandler implements
     public class SearchFocusHandler implements FocusListener {
 
         private JTextField SearchBar;
-
         private JButton SearchButton;
 
         public SearchFocusHandler() {
@@ -272,10 +253,10 @@ public class LibraryHandler implements
         //reset text and append string
         public void focusGained(FocusEvent e) {
             if (libraryUI.getSearchBar().getText().equals(
-                    "Start Typing To Search...")) {
+                    "Search Here...")) {
                 if (e.getOppositeComponent() == SearchButton) {
                     SearchBar.setText("");
-                    gridSearch.resetAppendedName();
+                    libraryLogic.getGridSearch().resetAppendedName();
                     libraryUI.getSearchBar().setForeground(Color.darkGray);
                     libraryUI.getSearchBarBG().setImage(
                             "library_searchBar_active.png");
@@ -298,17 +279,20 @@ public class LibraryHandler implements
                 if (e.getOppositeComponent() != SearchButton) {
                     //if focus lost then searches thru all Grid Panels, then inside each grid
                     try {
-                        for (int i = 0; i < gridSearch.getGridManager()
+                        for (int i = 0; i < libraryLogic.getGridSearch()
+                                .getGridManager()
                                 .getArray()
                                 .size(); i++) {
-                            for (int j = 0; j < gridSearch.getGridManager()
+                            for (int j = 0; j < libraryLogic.getGridSearch()
+                                    .getGridManager()
                                     .getGrid(
                                     i).getArray().size(); j++) {
                                 //If the focus was not lost due to a GameCover Obj in the Search Grid
 
                                 if (e.getOppositeComponent() instanceof GamePlaceholder) {
                                     if (e.getOppositeComponent()
-                                        != (Game) gridSearch.getGridManager()
+                                        != (Game) libraryLogic.getGridSearch()
+                                            .getGridManager()
                                             .getGrid(i).getArray().get(j)) {
                                         if (logger.isDebugEnabled()) {
                                             logger.debug(e
@@ -317,12 +301,14 @@ public class LibraryHandler implements
 
                                         //Attempt to restore to GameCover Library Grid
                                         try {
-                                            gridSearch.restoreGrid();
+                                            libraryLogic.getGridSearch()
+                                                    .restoreGrid();
                                         } catch (MalformedURLException ex) {
                                             logger.error(ex);
                                         }
                                         //reset Search Box and append string
-                                        gridSearch.resetAppendedName();
+                                        libraryLogic.getGridSearch()
+                                                .resetAppendedName();
 
                                     }
                                 }
@@ -346,12 +332,14 @@ public class LibraryHandler implements
 
                                         //Attempt to restore to GameCover Library Grid
                                         try {
-                                            gridSearch.restoreGrid();
+                                            libraryLogic.getGridSearch()
+                                                    .restoreGrid();
                                         } catch (MalformedURLException exx) {
                                             logger.error(exx);
                                         }
                                         //reset Search Box and append string
-                                        gridSearch.resetAppendedName();
+                                        libraryLogic.getGridSearch()
+                                                .resetAppendedName();
 
                                     }
                                 }
@@ -360,7 +348,7 @@ public class LibraryHandler implements
 
                     }
 
-                    SearchBar.setText("Start Typing To Search...");
+                    SearchBar.setText("Search Here...");
                     libraryUI.getSearchBar().setForeground(Color.darkGray);
                     libraryUI.getSearchBarBG()
                             .setImage("library_searchBar_inactive.png");
@@ -421,11 +409,11 @@ public class LibraryHandler implements
                     || e.getKeyCode() == KeyEvent.VK_0
                     || e.getKeyCode() == KeyEvent.VK_QUOTE
                     || e.getKeyCode() == KeyEvent.VK_PERIOD) {
-                    gridSearch.typedChar(e.getKeyChar()); //Sends the key to the search engine to be appended and check for match
+                    libraryLogic.getGridSearch().typedChar(e.getKeyChar()); //Sends the key to the search engine to be appended and check for match
 
                 } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     // If backspace is pressed tell search engine to search for name - 1 character
-                    gridSearch.removeChar(e.getKeyChar());
+                    libraryLogic.getGridSearch().removeChar(e.getKeyChar());
 
                 }
             }
@@ -553,9 +541,9 @@ public class LibraryHandler implements
                         || e.getKeyCode() == KeyEvent.VK_PERIOD) {
 
                     SearchBar.setText(String.valueOf(e.getKeyChar())); //Set first character of Search Box to the key typed
-                    gridSearch.resetAppendedName();//Clear appended text if there is anything still in there
-                    gridSearch.clearGameGrid(); //clear and prep for search mode
-                    gridSearch.typedChar(e.getKeyChar()); // Pass to search engine first character
+                    libraryLogic.getGridSearch().resetAppendedName();//Clear appended text if there is anything still in there
+                    libraryLogic.getGridSearch().clearGameGrid(); //clear and prep for search mode
+                    libraryLogic.getGridSearch().typedChar(e.getKeyChar()); // Pass to search engine first character
                     SearchBar.requestFocus(); // Get focus of Search Box
 
                     libraryUI.getSearchBar().setForeground(Color.darkGray);
@@ -574,7 +562,13 @@ public class LibraryHandler implements
 
 /////////////////////////////////////////////////////////////
     public class AddGameSearchBoxHandler extends KeyAdapter {
+
+        private final GameSearch gameSearch;
         //Handles Typing In Search Box, when it is in focus
+
+        public AddGameSearchBoxHandler(GameSearch searchEngine) {
+            this.gameSearch = searchEngine;
+        }
 
         @Override
         public void keyReleased(KeyEvent e) {
@@ -636,9 +630,12 @@ public class LibraryHandler implements
     public class AddGameSearchClear implements ActionListener {
 
         private final JTextField txtField;
+        private final GameSearch gameSearch;
 
-        public AddGameSearchClear(JTextField searchField) {
+        public AddGameSearchClear(JTextField searchField,
+                                  GameSearch searchEngine) {
             txtField = searchField;
+            gameSearch = searchEngine;
         }
 
         @Override
@@ -653,16 +650,29 @@ public class LibraryHandler implements
 //For when you select the Textfield in the add Game UI
     public class AddGameMouseHandler extends MouseAdapter {
 
+        private final JTextField txtField;
+        private final GameSearch gameSearch;
+        private final AImagePane searchBG;
+
+        public AddGameMouseHandler(JTextField searchField,
+                                   AImagePane searchBackground,
+                                   GameSearch searchEngine) {
+            txtField = searchField;
+            gameSearch = searchEngine;
+            searchBG = searchBackground;
+        }
+
         @Override
         public void mousePressed(MouseEvent e) {
 
-            if (libraryUI.getSearchText().getText().equals(
+            if (txtField.getText().equals(
                     "Search For Game...")) {
-                libraryUI.getSearchText().requestFocus();
-                libraryUI.getSearchText().setText("");
+                txtField.requestFocus();
+                txtField.setText("");
                 gameSearch.resetCover();
-                libraryUI.getSearchText().setForeground(new Color(23, 139, 255));
-                libraryUI.getPnlSearchBG().setImage(
+                txtField.setForeground(new Color(23, 139,
+                        255));
+                searchBG.setImage(
                         "addUI_text_active.png");
             }
         }
@@ -670,14 +680,28 @@ public class LibraryHandler implements
 
     public class AddGameFocusHandler implements FocusListener {
 
+        private final JTextField txtField;
+        private final AImagePane txtBackground;
+        private final GameSearch gameSearch;
+
+        public AddGameFocusHandler(JTextField textField,
+                                   AImagePane txtBackground,
+                                   GameSearch searchEngine) {
+
+            this.txtField = textField;
+            this.txtBackground = txtBackground;
+            this.gameSearch = searchEngine;
+
+        }
+
         @Override
         public void focusGained(FocusEvent e) {
-            if (libraryUI.getSearchText().getText().equals(
+            if (txtField.getText().equals(
                     "Search For Game...")) {
-                libraryUI.getSearchText().setText("");
+                txtField.setText("");
                 gameSearch.resetCover();
-                libraryUI.getSearchText().setForeground(new Color(23, 139, 255));
-                libraryUI.getPnlSearchBG().setImage(
+                txtField.setForeground(new Color(23, 139, 255));
+                txtBackground.setImage(
                         "addUI_text_active.png");
             }
 
@@ -689,15 +713,15 @@ public class LibraryHandler implements
             if (e.getOppositeComponent() instanceof JList || e
                     .getOppositeComponent() instanceof JFileChooser == false) {
                 try {
-                    gridSearch.restoreGrid();
+                    libraryLogic.getGridSearch().restoreGrid();
                 } catch (MalformedURLException ex) {
                     logger.error(ex);
                 }
-                if (libraryUI.getSearchText().getText().length() <= 1) {
-                    libraryUI.getSearchText().setText(
+                if (txtField.getText().length() <= 1) {
+                    txtField.setText(
                             "Search For Game...");
-                    libraryUI.getSearchText().setForeground(Color.darkGray);
-                    libraryUI.getPnlSearchBG().setImage(
+                    txtField.setForeground(Color.darkGray);
+                    txtBackground.setImage(
                             "addUI_text_inactive.png");
                 }
 
@@ -749,7 +773,7 @@ public class LibraryHandler implements
                 libraryUI
                         .setCurrentPath(gameLocator.getSelectedFile().getPath());
                 libraryUI.getStatusBadge2().setImgURl("addUI_badge_valid.png");
-                libraryLogic.checkNotifiers();
+                libraryLogic.checkAddGameStatus();
             } else {
                 libraryUI.getStatusBadge2().setImgURl("addUI_badge_invalid.png");
             }
@@ -889,14 +913,15 @@ public class LibraryHandler implements
     public class AddToLibraryHandler implements ActionListener {
 
         private GridManager gridManager;
-
         private JPanel GameBack;
-
         private MoveToGrid GridMove;
-
         private AuroraStorage storage;
-
         private String currentPath;
+        private final GameSearch gameSearch;
+
+        public AddToLibraryHandler(GameSearch searchEngine) {
+            this.gameSearch = searchEngine;
+        }
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1042,22 +1067,21 @@ public class LibraryHandler implements
     public class SelectListHandler implements ListSelectionListener {
 
         private JList gamesList;
-
         private DefaultListModel listModel;
-
         private JTextField gameSearchBar;
+        private final GameSearch gameSearch;
 
-        public SelectListHandler() {
-            gamesList = libraryUI.getGamesList();
-            listModel = libraryUI.getListModel();
-            gameSearchBar = libraryUI.getGameSearchBar();
+        public SelectListHandler(GameSearch searchEngine,
+                                 JTextField searchField) {
+            gameSearch = searchEngine;
+            gameSearchBar = searchField;
         }
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
-
+            gamesList = (JList) e.getSource();
+            listModel = (DefaultListModel) ((JList) e.getSource()).getModel();
             if (gamesList.getSelectedIndex() != -1) {
-                System.out.println();
                 String gameSelected = (String) listModel.get(gamesList
                         .getSelectedIndex());
                 gameSearchBar.setText(gameSelected);
@@ -1101,11 +1125,8 @@ public class LibraryHandler implements
     public class SelectedOrganizeListener implements ActionListener {
 
         private final ASlickLabel label;
-
         private final String settingValue;
-
         private final StoredSettings storage;
-
         private int i;
 
         public SelectedOrganizeListener(ASlickLabel lbl, StoredSettings settings,
@@ -1140,7 +1161,6 @@ public class LibraryHandler implements
     public class UnSelectedOrganizeListener implements ActionListener {
 
         private final ASlickLabel label;
-
         private final APopupMenu organizeUI;
 
         public UnSelectedOrganizeListener(ASlickLabel lbl, APopupMenu popup) {
@@ -1208,7 +1228,6 @@ public class LibraryHandler implements
     public class MoveToGrid implements Runnable {
 
         private final Game game;
-
         private final int gameGrid;
 
         public MoveToGrid(Game game) {
@@ -1346,15 +1365,10 @@ public class LibraryHandler implements
     public class HoverButtonLeft extends MouseAdapter {
 
         private GridManager gridManager;
-
         private JPanel GameBack;
-
         private AHoverButton imgGameLeft;
-
         private AHoverButton imgGameRight;
-
         private AImage imgFavorite;
-
         private GridAnimation GridAnimate;
 
         public HoverButtonLeft() {
@@ -1457,17 +1471,11 @@ public class LibraryHandler implements
     public class HoverButtonRight extends MouseAdapter {
 
         private GridManager gridManager;
-
         private JPanel GameBack;
-
         private AHoverButton imgGameLeft;
-
         private AHoverButton imgGameRight;
-
         private AImage imgFavorite;
-
         private GridAnimation GridAnimate;
-
         private final AuroraCoreUI coreUI;
 
         public HoverButtonRight() {
@@ -1557,9 +1565,7 @@ public class LibraryHandler implements
     public class GameLibraryKeyListener extends KeyAdapter {
 
         private GridManager gridManager;
-
         private JPanel GameBack;
-
         private final AuroraCoreUI coreUI;
 
         public GameLibraryKeyListener() {
