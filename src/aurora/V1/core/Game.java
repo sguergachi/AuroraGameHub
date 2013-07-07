@@ -2124,6 +2124,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
+    public void refresh(){
+         coverImagePane.setURL(rootCoverDBPath + coverUrl);
+    }
+
     // Getters & Setters
     // -----------------------------------------------------------------------.
     public final AuroraStorage getStorage() {
@@ -2210,6 +2214,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     public final void setCoverUrl(final String coverUrl) throws
             MalformedURLException {
         this.coverUrl = coverUrl;
+
     }
 
     public final void setFavorite(final boolean favorite) {

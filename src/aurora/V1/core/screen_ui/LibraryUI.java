@@ -1905,17 +1905,18 @@ public class LibraryUI extends AuroraApp {
 
 
             try {
-                 try {
-                String name = "javax.swing.ClientPropertyKey";
-                Class<?> keyClazz = Class.forName(name);
-                Field field = keyClazz.getDeclaredField(
-                        "PopupFactory_FORCE_HEAVYWEIGHT_POPUP");
-                field.setAccessible(true);
-                Object fieldValue = field.get(null);
-                pnlGameFileChooser_editUI.putClientProperty(fieldValue, true);
-            } catch (Exception e) {
-                logger.error(e);
-            }
+                try {
+                    String name = "javax.swing.ClientPropertyKey";
+                    Class<?> keyClazz = Class.forName(name);
+                    Field field = keyClazz.getDeclaredField(
+                            "PopupFactory_FORCE_HEAVYWEIGHT_POPUP");
+                    field.setAccessible(true);
+                    Object fieldValue = field.get(null);
+                    pnlGameFileChooser_editUI
+                            .putClientProperty(fieldValue, true);
+                } catch (Exception e) {
+                    logger.error(e);
+                }
             } catch (Exception e) {
                 logger.error(e);
                 e.printStackTrace();
@@ -1938,9 +1939,6 @@ public class LibraryUI extends AuroraApp {
             // Bottom
             pnlGameLocationBottom.add(lblNewLocation_editUI);
             pnlGameLocationBottom.add(txtNewLocation_editUI);
-
-
-
 
 
             pnlGameLocation_editUI.add(Box.createVerticalStrut(25));
@@ -2016,7 +2014,6 @@ public class LibraryUI extends AuroraApp {
 
 
             // Bottom
-
             lblGameCoverSearch.setForeground(Color.LIGHT_GRAY);
             lblGameCoverSearch.setFont(getCoreUI().getRopaFont().deriveFont(
                     Font.PLAIN, 22));
@@ -2044,7 +2041,6 @@ public class LibraryUI extends AuroraApp {
             pnlGameCover_editUI.add(pnlGameCoverBottom);
 
             isEditUILoaded = true;
-
 
 
 
@@ -2086,7 +2082,6 @@ public class LibraryUI extends AuroraApp {
 
 
 
-
             gamesList_editUI.addListSelectionListener(
                     handler.new SelectListHandler(logic.getGameSearch_editUI(),
                     txtGameCoverSearch_editUI.getTextBox()));
@@ -2120,8 +2115,11 @@ public class LibraryUI extends AuroraApp {
         }
 
 
+        // reset UI
         txtNewLocation_editUI.setText("");
         imgGameLocationStatus.setImgURl("addUI_badge_idle.png");
+        imgGameCoverStatus.setImgURl("addUI_badge_idle.png");
+        logic.getGameSearch_editUI().resetCover();
 
         try {
             gameFileChooser_editUI.setCurrentDirectory(null);
@@ -2514,6 +2512,8 @@ public class LibraryUI extends AuroraApp {
 
             txtGameCoverSearch_editUI.getTextBox().requestFocusInWindow();
 
+            setIsGameCover(true);
+            
             pnlLeftPane_editUI.add(pnlGameCover_editUI);
             pnlLeftPane_editUI.revalidate();
             pnlLeftPane_editUI.repaint();
@@ -3135,6 +3135,10 @@ public class LibraryUI extends AuroraApp {
 
     public void setCurrentIndex(int index) {
         currentIndex = index;
+    }
+
+    public AImage getImgGameCoverStatus() {
+        return imgGameCoverStatus;
     }
 
     public String getCurrentPath() {
