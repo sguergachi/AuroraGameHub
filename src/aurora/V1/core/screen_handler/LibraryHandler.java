@@ -126,10 +126,12 @@ public class LibraryHandler implements
      * LibraryLogic instance.
      */
     private LibraryLogic libraryLogic;
+
     /**
      * LibraryUI instance.
      */
     private final LibraryUI libraryUI;
+
     static final Logger logger = Logger.getLogger(LibraryHandler.class);
 
     /**
@@ -240,6 +242,7 @@ public class LibraryHandler implements
     public class SearchFocusHandler implements FocusListener {
 
         private JTextField SearchBar;
+
         private JButton SearchButton;
 
         public SearchFocusHandler() {
@@ -630,6 +633,7 @@ public class LibraryHandler implements
     public class AddGameSearchClear implements ActionListener {
 
         private final JTextField txtField;
+
         private final GameSearch gameSearch;
 
         public AddGameSearchClear(JTextField searchField,
@@ -651,7 +655,9 @@ public class LibraryHandler implements
     public class AddGameMouseHandler extends MouseAdapter {
 
         private final JTextField txtField;
+
         private final GameSearch gameSearch;
+
         private final AImagePane searchBG;
 
         public AddGameMouseHandler(JTextField searchField,
@@ -681,7 +687,9 @@ public class LibraryHandler implements
     public class AddGameFocusHandler implements FocusListener {
 
         private final JTextField txtField;
+
         private final AImagePane txtBackground;
+
         private final GameSearch gameSearch;
 
         public AddGameFocusHandler(JTextField textField,
@@ -879,6 +887,38 @@ public class LibraryHandler implements
                         }
                     }
 
+                    if (libraryUI.isGameCover()) {
+
+                        // Check if valid
+                        if (libraryUI.getImgGameCoverStatus().getImgURl()
+                                .equals(
+                                "addUI_badge_valid.png")) {
+                            try {
+                                //Set new path
+                                libraryUI.getCurrentGame_editUI().setCoverUrl(
+                                        libraryLogic.getGameSearch_editUI()
+                                        .getFoundGameCover().getBoxArtUrl());
+                            } catch (MalformedURLException ex) {
+                                java.util.logging.Logger.getLogger(
+                                        LibraryHandler.class.getName()).
+                                        log(Level.SEVERE, null, ex);
+                            }
+
+                            //refresh
+                            libraryUI.getCurrentGame_editUI().refresh();
+
+                            // Save
+                            libraryUI.getStorage().getStoredLibrary()
+                                    .SaveGame(libraryUI.getCurrentGame_editUI());
+
+                            LibraryUI.lblLibraryStatus.setForeground(
+                                    Color.orange);
+                            LibraryUI.lblLibraryStatus.setText(
+                                    "Changed Game Cover");
+                        }
+
+                    }
+
                     libraryUI.hideEditGameUI();
 
 
@@ -913,10 +953,15 @@ public class LibraryHandler implements
     public class AddToLibraryHandler implements ActionListener {
 
         private GridManager gridManager;
+
         private JPanel GameBack;
+
         private MoveToGrid GridMove;
+
         private AuroraStorage storage;
+
         private String currentPath;
+
         private final GameSearch gameSearch;
 
         public AddToLibraryHandler(GameSearch searchEngine) {
@@ -1067,8 +1112,11 @@ public class LibraryHandler implements
     public class SelectListHandler implements ListSelectionListener {
 
         private JList gamesList;
+
         private DefaultListModel listModel;
+
         private JTextField gameSearchBar;
+
         private final GameSearch gameSearch;
 
         public SelectListHandler(GameSearch searchEngine,
@@ -1125,8 +1173,11 @@ public class LibraryHandler implements
     public class SelectedOrganizeListener implements ActionListener {
 
         private final ASlickLabel label;
+
         private final String settingValue;
+
         private final StoredSettings storage;
+
         private int i;
 
         public SelectedOrganizeListener(ASlickLabel lbl, StoredSettings settings,
@@ -1161,6 +1212,7 @@ public class LibraryHandler implements
     public class UnSelectedOrganizeListener implements ActionListener {
 
         private final ASlickLabel label;
+
         private final APopupMenu organizeUI;
 
         public UnSelectedOrganizeListener(ASlickLabel lbl, APopupMenu popup) {
@@ -1228,6 +1280,7 @@ public class LibraryHandler implements
     public class MoveToGrid implements Runnable {
 
         private final Game game;
+
         private final int gameGrid;
 
         public MoveToGrid(Game game) {
@@ -1365,10 +1418,15 @@ public class LibraryHandler implements
     public class HoverButtonLeft extends MouseAdapter {
 
         private GridManager gridManager;
+
         private JPanel GameBack;
+
         private AHoverButton imgGameLeft;
+
         private AHoverButton imgGameRight;
+
         private AImage imgFavorite;
+
         private GridAnimation GridAnimate;
 
         public HoverButtonLeft() {
@@ -1471,11 +1529,17 @@ public class LibraryHandler implements
     public class HoverButtonRight extends MouseAdapter {
 
         private GridManager gridManager;
+
         private JPanel GameBack;
+
         private AHoverButton imgGameLeft;
+
         private AHoverButton imgGameRight;
+
         private AImage imgFavorite;
+
         private GridAnimation GridAnimate;
+
         private final AuroraCoreUI coreUI;
 
         public HoverButtonRight() {
@@ -1565,7 +1629,9 @@ public class LibraryHandler implements
     public class GameLibraryKeyListener extends KeyAdapter {
 
         private GridManager gridManager;
+
         private JPanel GameBack;
+
         private final AuroraCoreUI coreUI;
 
         public GameLibraryKeyListener() {
