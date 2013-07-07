@@ -19,4 +19,3 @@ Currently you need **5** components to build the Aurora Game Hub.
 
 - **Fourth** you need the [H2 Database Engine](http://h2database.com "H2 Database Engine"), which is the current JDBC SQL database Aurora Game Hub uses
 
-- **Lastly** you need the AuroraCoverDB.h2 Database which is hosted here on the root directory
