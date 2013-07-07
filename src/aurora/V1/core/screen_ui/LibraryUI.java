@@ -955,17 +955,7 @@ public class LibraryUI extends AuroraApp {
                     log(Level.SEVERE, null, ex);
         }
 
-        try {
-            field = PopupFactory.class.getDeclaredField(
-                    "forceHeavyWeightPopupKey");
-            field.setAccessible(true);
-        } catch (NoSuchFieldException ex) {
-            java.util.logging.Logger.getLogger(LibraryUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            java.util.logging.Logger.getLogger(LibraryUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        }
+
 
         //* Set up File Chooser *//
         SwingUtilities.updateComponentTreeUI(gameFileChooser_addUI);
@@ -1028,7 +1018,7 @@ public class LibraryUI extends AuroraApp {
         logic.getGameSearch_addUI().setUpGameSearch(pnlBlankCoverGame_addUI,
                 pnlCoverPane_addUI,
                 listModel_addUI, statusBadge1, txtSearchField_addUI);
-        
+
         // Auto Mode
         // ----------------------------------------------------------------.
 
@@ -1157,13 +1147,13 @@ public class LibraryUI extends AuroraApp {
             gamesList_addUI.setVisibleRowCount(10);
 
             //* List model for JList Containing Game Names *//
-            
+
             gamesList_addUI.setModel(listModel_addUI);
             gamesList_addUI.setCellRenderer(handler.new listRender());
 
             try {
-
-                gameFileChooser_addUI.putClientProperty(field.get(null), true);
+                gameFileChooser_addUI.getComponentPopupMenu()
+                        .setLightWeightPopupEnabled(false);
             } catch (Exception e) {
                 logger.error(e);
             }
@@ -1753,7 +1743,8 @@ public class LibraryUI extends AuroraApp {
 
 
             try {
-                gameFileChooser_editUI.putClientProperty(field.get(null), true);
+                gameFileChooser_editUI.putClientProperty("ClientPropertyKey.PopupFactory_FORCE_HEAVYWEIGHT_POPUP",true);
+                gameFileChooser_editUI.updateUI();
             } catch (Exception e) {
                 logger.error(e);
                 e.printStackTrace();
