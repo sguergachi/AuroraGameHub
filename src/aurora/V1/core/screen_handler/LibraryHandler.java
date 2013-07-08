@@ -474,7 +474,7 @@ public class LibraryHandler implements
             setEnabled(list.isEnabled());
             setFont(list.getFont());
 
-            Border border = BorderFactory.createEmptyBorder(3, 1, 3,
+            Border border = BorderFactory.createEmptyBorder(3, 3, 3,
                     0);
             if (isSelected) {
                 setBorder(border);

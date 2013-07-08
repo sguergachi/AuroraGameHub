@@ -1975,8 +1975,8 @@ public class LibraryUI extends AuroraApp {
                     pnlCoverPane_editUI.getImgIcon().getIconHeight()));
             gamesList_editUI.setForeground(Color.lightGray);
             gamesList_editUI.setBackground(new Color(38, 46, 60));
-            gamesList_addUI.setSelectionBackground(new Color(54, 95, 143));
-            gamesList_addUI.setSelectionForeground(new Color(238, 243, 249));
+            gamesList_editUI.setSelectionBackground(new Color(54, 95, 143));
+            gamesList_editUI.setSelectionForeground(new Color(238, 243, 249));
             gamesList_editUI.setFont(coreUI.getDefaultFont().deriveFont(
                     Font.BOLD,
                     listFontSize));
@@ -1985,7 +1985,7 @@ public class LibraryUI extends AuroraApp {
             gamesList_editUI.setLayoutOrientation(JList.VERTICAL);
             gamesList_editUI.setVisibleRowCount(10);
 
-            gamesList_addUI.setCellRenderer(handler.new listRender());
+            gamesList_editUI.setCellRenderer(handler.new listRender());
             gamesList_editUI.setModel(listModel_editUI);
 
 
