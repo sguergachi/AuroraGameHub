@@ -576,7 +576,7 @@ public class LibraryUI extends AuroraApp {
 
         handler.setLogic(logic);
         logic.setHandler(handler);
-
+        logic.setUpCoverDB();
 
 
     }
@@ -2080,7 +2080,10 @@ public class LibraryUI extends AuroraApp {
                     handler.new AddGameSearchBoxHandler(logic
                     .getGameSearch_editUI()));
 
-
+            btnClearSearch_editUI.addActionListener(
+                    handler.new AddGameSearchClear(txtGameCoverSearch_editUI
+                    .getTextBox(), logic
+                    .getGameSearch_editUI()));
 
             gamesList_editUI.addListSelectionListener(
                     handler.new SelectListHandler(logic.getGameSearch_editUI(),
@@ -2513,7 +2516,7 @@ public class LibraryUI extends AuroraApp {
             txtGameCoverSearch_editUI.getTextBox().requestFocusInWindow();
 
             setIsGameCover(true);
-            
+
             pnlLeftPane_editUI.add(pnlGameCover_editUI);
             pnlLeftPane_editUI.revalidate();
             pnlLeftPane_editUI.repaint();

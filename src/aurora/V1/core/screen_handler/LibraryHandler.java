@@ -195,7 +195,7 @@ public class LibraryHandler implements
         @Override
         public void mousePressed(MouseEvent e) {
             if (libraryUI.getSearchBar().getText().equals(
-                    "Search Here...")) {
+                    "Just Start Typing...")) {
                 libraryUI.getSearchBar().setText("");
                 libraryUI.getSearchBar().setForeground(Color.darkGray);
                 libraryUI.getSearchBarBG().setImage(
@@ -256,7 +256,7 @@ public class LibraryHandler implements
         //reset text and append string
         public void focusGained(FocusEvent e) {
             if (libraryUI.getSearchBar().getText().equals(
-                    "Search Here...")) {
+                    "Just Type To Search...")) {
                 if (e.getOppositeComponent() == SearchButton) {
                     SearchBar.setText("");
                     libraryLogic.getGridSearch().resetAppendedName();
@@ -351,7 +351,7 @@ public class LibraryHandler implements
 
                     }
 
-                    SearchBar.setText("Search Here...");
+                    SearchBar.setText("Just Start Typing...");
                     libraryUI.getSearchBar().setForeground(Color.darkGray);
                     libraryUI.getSearchBarBG()
                             .setImage("library_searchBar_inactive.png");
@@ -709,8 +709,11 @@ public class LibraryHandler implements
                 txtField.setText("");
                 gameSearch.resetCover();
                 txtField.setForeground(new Color(23, 139, 255));
-                txtBackground.setImage(
-                        "addUI_text_active.png");
+                if (!(txtBackground instanceof ATextField)) {
+                    txtBackground.setImage(
+                            "addUI_text_active.png");
+                }
+
             }
 
         }
@@ -729,8 +732,10 @@ public class LibraryHandler implements
                     txtField.setText(
                             "Search For Game...");
                     txtField.setForeground(Color.darkGray);
-                    txtBackground.setImage(
-                            "addUI_text_inactive.png");
+                    if (!(txtBackground instanceof ATextField)) {
+                        txtBackground.setImage(
+                                "addUI_text_inactive.png");
+                    }
                 }
 
             }

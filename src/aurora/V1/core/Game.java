@@ -1065,13 +1065,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public void setSettingsListener(final ActionListener action) {
-
-        btnSetting.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                action.actionPerformed(new ActionEvent(thisGame(), 0, ""));
-            }
-        });
+        if (btnSetting.getActionListeners().length == 0) {
+            btnSetting.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    action.actionPerformed(new ActionEvent(thisGame(), 0, ""));
+                }
+            });
+        }
     }
 
     /**
@@ -1874,9 +1875,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 final ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
                         "Can't Find Game. Would You Like To REMOVE It From Library?      ",
                         coreUI.getRegularFont()
-                        .deriveFont(Font.BOLD,23));
+                        .deriveFont(Font.BOLD, 23));
                 info.setOKButtonListener(new ActionListener() {
-
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
@@ -2124,8 +2124,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
-    public void refresh(){
-         coverImagePane.setURL(rootCoverDBPath + coverUrl);
+    public void refresh() {
+        coverImagePane.setURL(rootCoverDBPath + coverUrl);
     }
 
     // Getters & Setters

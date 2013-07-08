@@ -127,7 +127,6 @@ public class LibraryLogic implements AuroraScreenLogic {
         this.coreUI = gamelibraryUi.getCoreUI();
         this.dashboardUI = gamelibraryUi.getDashboardUI();
 
-        setUpCoverDB();
     }
 
     @Override
@@ -142,14 +141,14 @@ public class LibraryLogic implements AuroraScreenLogic {
      * | setUpCoverDB()
      * .-----------------------------------------------------------------------.
      * |
-     * | This method will start connection with CoverDB and will initialize 
+     * | This method will start connection with CoverDB and will initialize
      * | gameSearch and gridSeach methods.
      * |
      * .........................................................................
      *
      * <p/>
      */
-    private void setUpCoverDB() {
+    public void setUpCoverDB() {
         //* Start Aurora Dabatase connection *//
         try {
             coverDB = new ASimpleDB("AuroraDB", "AuroraTable", false, System

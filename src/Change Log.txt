@@ -8,7 +8,8 @@
 // Aurora_Alpha 8  Build:694  Date:7/05/2013  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------
 + Added ability to organize library in 3 different ways
-+ Added Ability to change some settings of a specific game (flip game > gear button)
++ Added ability to change some settings of a specific game (flip game > gear button)
++ Added ability to change game box art
 + Added shortcut buttons to launch screen
 + Added support for adding .url shortcut files (i.e. Steam shortcuts)
 - settings states saved in new Database

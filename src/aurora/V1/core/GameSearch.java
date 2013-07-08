@@ -39,22 +39,39 @@ import org.apache.log4j.Logger;
 public class GameSearch implements Runnable {
 
     private AuroraCoreUI ui;
+
     private LibraryUI libraryUI;
+
     private ASimpleDB db;
+
     private char typed;
+
     private String AppendedName = ""; //This is the concatenation of all characters
+
     private String foundGame;
+
     private static Game foundGameCover;
+
     private AImagePane notFound;
+
     private Thread typeThread;
+
     private int sleep;
+
     private Object[] foundArray;
+
     private AuroraStorage storage;
+
     static final Logger logger = Logger.getLogger(GameSearch.class);
+
     private AImagePane imgBlankCover;
+
     private AImagePane pnlGameCoverPane;
+
     private DefaultListModel listModel;
+
     private AImage imgStatus;
+
     private JTextField txtSearch;
 
     /////////////////////
@@ -292,17 +309,13 @@ public class GameSearch implements Runnable {
                                     listModel.addElement(gameItem
                                             .replace("-", " ").replace(".png",
                                             ""));
-                                    
-//                                    libraryUI.getGamesList().revalidate();
-//                                    libraryUI.getGamesList().repaint();
+
                                 }
                             }
                         }
 
                     }
                 });
-
-//                libraryUI.getGamesList().revalidate();
             } catch (Exception ex) {
                 foundGame = null;
             }

@@ -80,8 +80,8 @@ public class GridSearch {
         AppendedName = AppendedName.concat(String.valueOf(typed));
 
         if (logger.isDebugEnabled()) {
-        	logger.debug("TYPED Character: " + String.valueOf(typed));
-        	logger.debug("Appended name: " + AppendedName);
+            logger.debug("TYPED Character: " + String.valueOf(typed));
+            logger.debug("Appended name: " + AppendedName);
         }
 
         //clear library grid if not already clear
@@ -107,7 +107,7 @@ public class GridSearch {
                 libraryUI.getGamesContainer().revalidate(); // Refreshes the Grid.
 
             } catch (MalformedURLException ex) {
-            	logger.error(ex);
+                logger.error(ex);
             }
         }
         //Remove ONE Character From End of Appended Name
@@ -118,7 +118,7 @@ public class GridSearch {
         }
 
         if (logger.isDebugEnabled()) {
-        	logger.debug("Appended name: " + AppendedName);
+            logger.debug("Appended name: " + AppendedName);
         }
 
         searchGame();
@@ -142,16 +142,16 @@ public class GridSearch {
         this.clearSearchGrid();
 
         if (logger.isDebugEnabled()) {
-        	logger.debug("Check EXACT Search: " + checkGameExistsInLibrary(
+            logger.debug("Check EXACT Search: " + checkGameExistsInLibrary(
                     AppendedName));
         }
 
         //EXACT SEARCH
         if (checkGameExistsInLibrary(AppendedName)) { // Check if game is exact match to library game
 
-        	 if (logger.isDebugEnabled()) {
-             	logger.debug("Performing Exact Search: " + AppendedName);
-             }
+            if (logger.isDebugEnabled()) {
+                logger.debug("Performing Exact Search: " + AppendedName);
+            }
 
             //Remove what ever is in the search grid
 
@@ -162,15 +162,15 @@ public class GridSearch {
                 displayGames();
 
             } catch (MalformedURLException ex) {
-            	logger.error(ex);
+                logger.error(ex);
             }
 
             //LENIENT SEARCH
         } else if (AppendedName.length() > 0) {
 
-        	if (logger.isDebugEnabled()) {
-        		logger.debug("Performing Lenient Search: " + AppendedName);
-        	}
+            if (logger.isDebugEnabled()) {
+                logger.debug("Performing Lenient Search: " + AppendedName);
+            }
 
             //Search Each Grid
             for (int g = 0; g < libraryUI.getGridSplit().getArray().size(); g++) {
@@ -192,16 +192,20 @@ public class GridSearch {
 
                         if (checkLength < game.getName().length()) {
                             //String containing Substring of Games
-                            String gameSub =  game.getName().toLowerCase();
+                            String gameSub = game.getName().toLowerCase();
                             //String Containing Substring of Text Typed
                             String appendedSub = AppendedName.substring(0,
                                     checkLength).toLowerCase();
 
 
                             if (logger.isDebugEnabled()) {
-                            	logger.debug("!Substring of Appended is: " + appendedSub);
-                            	logger.debug("!Substring of Game is: " + gameSub);
-                            	logger.debug("!!Match Found?: " + gameSub.equals(appendedSub));
+                                logger.debug("!Substring of Appended is: "
+                                             + appendedSub);
+                                logger
+                                        .debug("!Substring of Game is: "
+                                               + gameSub);
+                                logger.debug("!!Match Found?: " + gameSub
+                                        .equals(appendedSub));
                             }
 
                             //* check if name contains characters *//
@@ -214,7 +218,7 @@ public class GridSearch {
                                         displayGames();
 
                                     } catch (MalformedURLException ex) {
-                                    	logger.error(ex);
+                                        logger.error(ex);
                                     }
                                 }
                             }
@@ -242,6 +246,9 @@ public class GridSearch {
         //add the place holders at the end
         SearchManager.addPlaceHolders(libraryUI.getGameCoverWidth(), libraryUI
                 .getGameCoverHeight());
+
+        SearchManager.getGrid(0).revalidate();
+        SearchManager.getGrid(0).repaint();
     }
 
     private boolean checkGameExistsInSearch(String name) {
@@ -289,10 +296,12 @@ public class GridSearch {
         foundGame.setDashboardUI(GameOriginal.getDashboardUI());
         foundGame.setStorage(GameOriginal.getStorage());
 
-        foundGameList.add(foundGame);
+        if (foundGameList.size() <= 7) {
+            foundGameList.add(foundGame);
+        }
 
         if (logger.isDebugEnabled()) {
-        	logger.debug(foundGameList);
+            logger.debug(foundGameList);
         }
 
     }
@@ -307,13 +316,9 @@ public class GridSearch {
 
                 SearchManager.addGame(foundGameList.get(i)); // add to the grid.
 
-                if (logger.isDebugEnabled()) {
-                	logger.debug(handler);
-                }
 
                 foundGameList.get(i)
-                        .addFocusListener(handler.new SearchLostFocusHandler(
-                        ));
+                        .addFocusListener(handler.new SearchLostFocusHandler());
                 foundGameList.get(i).update();
 
                 //Handle Remote Favorting to affect original game too
@@ -337,21 +342,24 @@ public class GridSearch {
             }
 
         }
+
+        SearchManager.addPlaceHolders(foundGame.getImageWidth(), foundGame
+                .getImageHeight());
     }
 
     //Clears Search grid and foundGameList
     public void clearSearchGrid() {
 
-    	if (logger.isDebugEnabled()) {
-    		logger.debug("Clearing Search Grid");
-    	}
+        if (logger.isDebugEnabled()) {
+            logger.debug("Clearing Search Grid");
+        }
 
         SearchManager.clearAllGrids();
         foundGameList.removeAll(foundGameList);
 
         if (logger.isDebugEnabled()) {
-    		logger.debug(foundGameList);
-    	}
+            logger.debug(foundGameList);
+        }
 
     }
 
@@ -370,7 +378,8 @@ public class GridSearch {
         this.sideSearchImage = new AImage("library_search.png");
         libraryUI.getGamesContainer().add(sideSearchImage, BorderLayout.WEST);
         for (int i = 0; i < libraryUI.getGridSplit().getArray().size(); i++) {
-            libraryUI.getGamesContainer().remove(libraryUI.getGridSplit().getGrid(i));
+            libraryUI.getGamesContainer().remove(libraryUI.getGridSplit()
+                    .getGrid(i));
 
         }
 
