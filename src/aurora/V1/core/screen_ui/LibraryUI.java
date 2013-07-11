@@ -715,6 +715,7 @@ public class LibraryUI extends AuroraApp {
 
             txtGridSearchField.setOpaque(false);
             txtGridSearchField.setBorder(null);
+            txtGridSearchField.setBorder(BorderFactory.createEmptyBorder());
             txtGridSearchField.setColumns(20);
             txtGridSearchField.setForeground(Color.darkGray);
             txtGridSearchField.setFont(coreUI.getDefaultFont()
@@ -1336,9 +1337,8 @@ public class LibraryUI extends AuroraApp {
                     addGameFontSize - 3));
             txtSearchField_addUI.setForeground(Color.gray);
             txtSearchField_addUI.setOpaque(false);
-            txtSearchField_addUI.setBorder(BorderFactory.createEmptyBorder());
             txtSearchField_addUI.setBorder(null);
-
+            txtSearchField_addUI.setBorder(BorderFactory.createEmptyBorder());
             txtSearchField_addUI.setPreferredSize(new Dimension(375, 50));
 
             //* Set up image sizes for the Search box *//
@@ -1543,12 +1543,12 @@ public class LibraryUI extends AuroraApp {
         lblCurrentName_editUI = new ASlickLabel("Game Name");
 
         imgCurrentGame_editUI = new AImagePane("Blank-Case.png");
-        imgCurrentGame_editUI.setImageSize((imgCurrentGame_editUI
-                .getRealImageWidth() / 4),
+        imgCurrentGame_editUI.setImageSize(((imgCurrentGame_editUI
+                .getRealImageWidth() / 4) + 3),
                 (imgCurrentGame_editUI.getRealImageHeight() / 4));
         imgCurrentGame_editUI.setPreferredSize(new Dimension(
                 imgCurrentGame_editUI.getImageWidth(), imgCurrentGame_editUI
-                .getImageHeight()));
+                .getImageHeight() + 2));
 
 
         pnlCurrentName_editUI = new JPanel();
@@ -1561,7 +1561,7 @@ public class LibraryUI extends AuroraApp {
                 .setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlCurrentImage_editUI.setPreferredSize(new Dimension(
                 pnlRightPane_editUI.getRealImageWidth(), imgCurrentGame_editUI
-                .getImageHeight() - 10));
+                .getImageHeight() - 5));
 
 
         // Panel containing Buttons to go between diffrent settings
@@ -1619,7 +1619,7 @@ public class LibraryUI extends AuroraApp {
         lblCurrentLocation_editUI.setFont(getCoreUI().getRopaFont().deriveFont(
                 Font.PLAIN, 21));
 
-        txtCurrentLocation_editUI = new ATextField("editUI_textbar.png");
+        txtCurrentLocation_editUI = new ATextField("editUI_textBar.png");
         txtCurrentLocation_editUI.setTextboxSize(0, 0);
         txtCurrentLocation_editUI.getTextBox().setEditable(false);
         txtCurrentLocation_editUI.getTextBox().setFont(getCoreUI()
@@ -1637,8 +1637,7 @@ public class LibraryUI extends AuroraApp {
                 10));
         pnlGameLocationCenter.setOpaque(false);
 
-        pnlGameFileChooser_editUI = new JPanel(new FlowLayout(FlowLayout.CENTER,
-                0, 0));
+        pnlGameFileChooser_editUI = new JPanel();
         pnlGameFileChooser_editUI.setOpaque(true);
 
         gameFileChooser_editUI = new JFileChooser(System
@@ -1674,6 +1673,7 @@ public class LibraryUI extends AuroraApp {
         gameFileChooser_editUI.setMultiSelectionEnabled(false);
         gameFileChooser_editUI.setAcceptAllFileFilterUsed(true);
         gameFileChooser_editUI.setEnabled(true);
+        gameFileChooser_editUI.revalidate();
 
         try {
             UIManager.setLookAndFeel(UIManager
@@ -1710,7 +1710,7 @@ public class LibraryUI extends AuroraApp {
         lblNewLocation_editUI.setFont(getCoreUI().getRopaFont().deriveFont(
                 Font.PLAIN, 21));
 
-        txtNewLocation_editUI = new ATextField("editUI_textbar.png");
+        txtNewLocation_editUI = new ATextField("editUI_textBar.png");
         txtNewLocation_editUI.setTextboxSize(0, 0);
         txtNewLocation_editUI.getTextBox().setEditable(false);
         txtNewLocation_editUI.getTextBox().setFont(getCoreUI().getRegularFont()
@@ -1891,17 +1891,7 @@ public class LibraryUI extends AuroraApp {
             // Game Location
             // ----------------------------------------------------------------.
 
-            // Top
-            pnlGameLocationTop.add(lblCurrentLocation_editUI);
-            pnlGameLocationTop.add(txtCurrentLocation_editUI);
 
-            // Center
-            pnlGameFileChooser_editUI
-                    .setPreferredSize(new Dimension(txtCurrentLocation_editUI
-                    .getRealImageWidth(),
-                    pnlEditGamePane
-                    .getRealImageHeight() / 2 + 10));
-            pnlGameFileChooser_editUI.setBackground(new Color(38, 46, 60));
 
 
             try {
@@ -1912,7 +1902,7 @@ public class LibraryUI extends AuroraApp {
                             "PopupFactory_FORCE_HEAVYWEIGHT_POPUP");
                     field.setAccessible(true);
                     Object fieldValue = field.get(null);
-                    pnlGameFileChooser_editUI
+                    gameFileChooser_editUI
                             .putClientProperty(fieldValue, true);
                 } catch (Exception e) {
                     logger.error(e);
@@ -1922,14 +1912,41 @@ public class LibraryUI extends AuroraApp {
                 e.printStackTrace();
             }
 
-            // Set up File Chooser UI //
+            //Sizes
 
+            pnlGameFileChooser_editUI
+                    .setPreferredSize(new Dimension(txtCurrentLocation_editUI
+                    .getImageWidth(),
+                    pnlEditGamePane
+                    .getRealImageHeight() / 2 + 15));
+            pnlGameFileChooser_editUI.setBackground(new Color(38, 46, 60));
+
+
+
+//            pnlGameLocation_editUI.setPreferredSize(new Dimension(
+//                    pnlEditGamePane.getRealImageWidth() - pnlRightPane_editUI
+//                    .getRealImageWidth(), pnlEditGamePane.getRealImageHeight()
+//                                          - 100));
+//
+//            pnlGameLocationCenter.setPreferredSize(new Dimension(
+//                    pnlGameFileChooser_editUI.getPreferredSize().width + 40
+//                    + imgGameLocationStatus.getImgWidth(),
+//                    pnlGameFileChooser_editUI.getPreferredSize().height + 25));
 
             gameFileChooser_editUI.setPreferredSize(new Dimension(
-                    pnlGameFileChooser_editUI.getPreferredSize().width,
-                    pnlGameFileChooser_editUI.getPreferredSize().height));
+                    pnlGameFileChooser_editUI
+                    .getPreferredSize().width,
+                    pnlGameFileChooser_editUI
+                    .getPreferredSize().height));
 
             pnlGameFileChooser_editUI.add(gameFileChooser_editUI);
+
+
+            // Top
+            pnlGameLocationTop.add(lblCurrentLocation_editUI);
+            pnlGameLocationTop.add(txtCurrentLocation_editUI);
+
+            // Center
 
 
             pnlGameLocationCenter.add(imgGameLocationStatus);
@@ -1941,11 +1958,16 @@ public class LibraryUI extends AuroraApp {
             pnlGameLocationBottom.add(txtNewLocation_editUI);
 
 
+
+
+
+            pnlGameLocationTop.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            pnlGameLocationCenter.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            pnlGameLocationBottom.setAlignmentX(JComponent.CENTER_ALIGNMENT);
             pnlGameLocation_editUI.add(Box.createVerticalStrut(25));
             pnlGameLocation_editUI.add(pnlGameLocationTop);
             pnlGameLocation_editUI.add(pnlGameLocationCenter);
             pnlGameLocation_editUI.add(pnlGameLocationBottom);
-
 
 
             //-
@@ -1995,7 +2017,7 @@ public class LibraryUI extends AuroraApp {
                     pnlCoverPane_editUI
                     .getImgIcon().getIconHeight()));
 
-            pnlCoverPane_addUI.setPreferredSize(new Dimension(
+            pnlCoverPane_editUI.setPreferredSize(new Dimension(
                     pnlCoverPane_editUI
                     .getImgIcon()
                     .getIconWidth(), pnlCoverPane_editUI.getImgIcon()
@@ -2486,18 +2508,21 @@ public class LibraryUI extends AuroraApp {
 
         if (isEditGameUI_Visible()) {
 
+
             pnlLeftPane_editUI.removeAll();
-            pnlLeftPane_editUI.revalidate();
 
             final File location = new File(currentGame_editUI.getGamePath());
 
             txtCurrentLocation_editUI.setText(location.getAbsolutePath());
 
 
+
             pnlLeftPane_editUI.add(pnlGameLocation_editUI);
             pnlLeftPane_editUI.revalidate();
             pnlLeftPane_editUI.repaint();
 
+            pnlGameLocation_editUI.revalidate();
+            pnlGameLocation_editUI.repaint();
 
         }
 

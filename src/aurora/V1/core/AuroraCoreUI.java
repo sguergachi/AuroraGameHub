@@ -653,14 +653,14 @@ public class AuroraCoreUI {
 
         paneHeaderOfCenterFromBottom = new JPanel(new BorderLayout());
         lblTime = new ATimeLabel(ATimeLabel.TIME);
-        lblTime.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
+        lblTime.setFont(regularFont.deriveFont(Font.PLAIN, timeFontSize));
         lblTime.setForeground(new Color(0, 178, 178));
         lblTime.revalidate();
         lblTime.repaint();
 
         lblDate = new ATimeLabel(ATimeLabel.DATE_LETTERS);
         lblDate.setForeground(Color.gray);
-        lblDate.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
+        lblDate.setFont(regularFont.deriveFont(Font.PLAIN, timeFontSize));
         lblDate.revalidate();
         lblDate.repaint();
 
@@ -837,7 +837,7 @@ public class AuroraCoreUI {
             keysFontSize = frame.getHeight() / 50;
             welcomeFontSize = 22;
             versionFontSize = 14;
-            timeFontSize = bottomPanelSize / 13;
+            timeFontSize = bottomPanelSize / 12;
             logoHeight = (frame.getHeight() / 12) + (int) (Ratio / 21);
             logoWidth = frame.getWidth() / 2 + (int) (Ratio / 5);
             exitButtonWidth = 0;
@@ -853,7 +853,7 @@ public class AuroraCoreUI {
             keysFontSize = frame.getHeight() / 50;
             welcomeFontSize = 21;
             versionFontSize = 14;
-            timeFontSize = bottomPanelSize / 13;
+            timeFontSize = bottomPanelSize / 12;
             logoHeight = (frame.getHeight() / 12) + (int) (Ratio / 21);
             logoWidth = frame.getWidth() / 2;
             controlHeight = 45;

@@ -14,23 +14,20 @@ public class Sandbox {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
 
-//        browser = new ABrowser(100,100);
-//        browser.goTo("google.com");
-//        browser.getPanelBrowser();
-//        JPanel panel = new JPanel();
 //
 //
-//        frame.add(browser);
+        JLabel im = new JLabel(new ImageIcon("C:\\Users\\Sammy\\Documents\\Aurora\\Onix 2 original\\app_Background.png"));
+        frame.add(im);
 
 
 
 //        System.out.println(GameFinder.getNameOfGamesOnDrive().get(2));
-        System.out.println(GameFinder.getNameOfGamesOnDrive());
-        System.out.println(GameFinder.getExecutablePathsOnDrive(GameFinder
-                .getNameOfGamesOnDrive()));
+//        System.out.println(GameFinder.getNameOfGamesOnDrive());
+//        System.out.println(GameFinder.getExecutablePathsOnDrive(GameFinder
+//                .getNameOfGamesOnDrive()));
 
 
 
-//        frame.setVisible(true);
+        frame.setVisible(true);
     }
 }
