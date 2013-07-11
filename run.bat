@@ -1,1 +1,0 @@
-java -jar C:\Users\Sammy\Documents\Aurora\AuroraGameHub\dist\AuroraGameHub.jar
