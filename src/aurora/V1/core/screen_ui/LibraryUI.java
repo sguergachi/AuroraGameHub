@@ -168,7 +168,7 @@ public class LibraryUI extends AuroraApp {
     /**
      * AddGameUI Panel Containing Center Content for picking game to add.
      */
-    private JPanel pnlCenter_addUI;
+    private JPanel pnlManualAdd;
 
     /**
      * AddGameUI Panel Containing Top part of Bottom Panel.
@@ -545,6 +545,8 @@ public class LibraryUI extends AuroraApp {
     private AButton btnClearSearch_editUI;
 
     private Field field;
+
+    private JPanel pnlAutoAdd;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -1013,7 +1015,9 @@ public class LibraryUI extends AuroraApp {
         // ----------------------------------------------------------------.
 
 
-
+        //* CENTRAL PANEL COMPONENTS *//
+        pnlManualAdd = new JPanel(new BorderLayout());
+        pnlManualAdd.setOpaque(false);
 
         btnManual = new ARadioButton("addUI_btnManual_norm.png",
                 "addUI_btnManual_down.png");
@@ -1043,9 +1047,7 @@ public class LibraryUI extends AuroraApp {
 
 
 
-        //* CENTRAL PANEL COMPONENTS *//
-        pnlCenter_addUI = new JPanel(new BorderLayout());
-        pnlCenter_addUI.setOpaque(false);
+
 
         pnlTopOfCenter = new JPanel(new BorderLayout());
         pnlTopOfCenter.setOpaque(false);
@@ -1163,7 +1165,7 @@ public class LibraryUI extends AuroraApp {
 
         txtSearchField_addUI = new JTextField("Search For Game...");
         pnlAddGameSearchContainer = new JPanel(new FlowLayout(
-                FlowLayout.LEFT, 80, 5));
+                FlowLayout.LEFT, 105, 5));
         pnlAddGameSearchContainer.setOpaque(false);
 
         btnClearSearch_addUI = new AButton("addUI_btnClearText_norm.png",
@@ -1183,7 +1185,8 @@ public class LibraryUI extends AuroraApp {
         btnAuto = new ARadioButton("addUI_btnAuto_norm.png",
                 "addUI_btnAuto_down.png");
 
-
+        pnlAutoAdd = new JPanel(new BorderLayout());
+        pnlAutoAdd.setOpaque(false);
 
 
 
@@ -1250,7 +1253,7 @@ public class LibraryUI extends AuroraApp {
                     .setPreferredSize(new Dimension(pnlAddGamePane
                     .getImgIcon().getIconWidth() / 2 - 10,
                     pnlCoverPane_addUI
-                    .getImgIcon().getIconHeight() ));
+                    .getImgIcon().getIconHeight()));
             pnlRightOfBottom.setBackground(new Color(38, 46, 60));
 
             pnlRightOfBottomContainer
@@ -1288,7 +1291,7 @@ public class LibraryUI extends AuroraApp {
 
             gamesList_addUI.setPreferredSize(
                     new Dimension(pnlCoverPane_addUI.getImgIcon().getIconWidth()
-                                  + 85,
+                                  + 90,
                     pnlCoverPane_addUI.getImgIcon().getIconHeight()));
             gamesList_addUI.setBackground(new Color(38, 46, 60));
             gamesList_addUI.setForeground(Color.lightGray);
@@ -1377,6 +1380,8 @@ public class LibraryUI extends AuroraApp {
 
             //* TOP PANEL COMPONENTS *//
 
+
+
             //* Add the Close button to the Top most Panel *//
             pnlTopPane_addUI.add(btnClose_addUI, BorderLayout.EAST);
 
@@ -1386,7 +1391,10 @@ public class LibraryUI extends AuroraApp {
             rdbManager.addButton(btnAuto);
             rdbManager.setRadioButton();
 
-            btnManual.setSelected();
+
+
+            btnManual.setSelectedHandler(handler.new ManualAddHandler());
+            btnAuto.setSelectedHandler(handler.new AutoAddHandler());
 
             pnlAddGameType.add(btnManual);
             pnlAddGameType.add(btnAuto);
@@ -1441,16 +1449,16 @@ public class LibraryUI extends AuroraApp {
             pnlTopOfCenter.add(pnlLeftOfTopCenter, BorderLayout.WEST);
             pnlTopOfCenter.add(pnlRightOfTop, BorderLayout.EAST);
 
-            pnlCenter_addUI.add(pnlTopOfCenter, BorderLayout.NORTH);
-            pnlCenter_addUI.add(pnlAddGameContainer, BorderLayout.CENTER);
-            pnlCenter_addUI.add(pnlBottomPane, BorderLayout.SOUTH);
+            pnlManualAdd.add(pnlTopOfCenter, BorderLayout.NORTH);
+            pnlManualAdd.add(pnlAddGameContainer, BorderLayout.CENTER);
+            pnlManualAdd.add(pnlBottomPane, BorderLayout.SOUTH);
 
             //*
             // Add the TOP the CENTER and the BOTTOM
             // panels to the Add Game UI
             //*
             pnlAddGamePane.add(pnlTopPane_addUI, BorderLayout.PAGE_START);
-            pnlAddGamePane.add(pnlCenter_addUI, BorderLayout.CENTER);
+            pnlAddGamePane.add(pnlManualAdd, BorderLayout.CENTER);
 
             pnlGlass.add(pnlAddGamePane);
             pnlGlass.add(btnGameToLib_addUI);
@@ -1498,6 +1506,8 @@ public class LibraryUI extends AuroraApp {
             pnlAddGamePane.revalidate();
 
             isAddGameUILoaded = true;
+
+            btnManual.setSelected();
         }
     }
 
@@ -2869,6 +2879,10 @@ public class LibraryUI extends AuroraApp {
         return currentGame_editUI;
     }
 
+    public AImagePane getPnlAddGamePane() {
+        return pnlAddGamePane;
+    }
+
     public boolean isGameLocation() {
         return isGameLocation;
     }
@@ -2891,6 +2905,14 @@ public class LibraryUI extends AuroraApp {
 
     public boolean isOther() {
         return isOther;
+    }
+
+    public JPanel getPnlManualAdd() {
+        return pnlManualAdd;
+    }
+
+    public JPanel getPnlAutoAdd() {
+        return pnlAutoAdd;
     }
 
     public JFileChooser getGameFileChooser_editUI() {

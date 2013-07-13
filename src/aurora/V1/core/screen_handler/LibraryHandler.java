@@ -475,7 +475,7 @@ public class LibraryHandler implements
             setFont(list.getFont());
 
             Border border1 = BorderFactory.createMatteBorder(3, 3, 3,
-                    2,Color.CYAN);
+                    2, Color.CYAN);
             Border border2 = BorderFactory.createEmptyBorder(3, 3, 3,
                     2);
             if (isSelected) {
@@ -951,6 +951,41 @@ public class LibraryHandler implements
 
             doneTask.startOnce();
 
+
+        }
+    }
+
+    public class ManualAddHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+
+            if (libraryUI.getPnlAddGamePane().getComponent(1) != libraryUI
+                    .getPnlManualAdd()) {
+                libraryUI.getPnlAddGamePane().remove(1);
+                libraryUI.getPnlAddGamePane().add(libraryUI.getPnlManualAdd());
+                libraryUI.getPnlAddGamePane().revalidate();
+                libraryUI.getPnlAddGamePane().repaint();
+            }
+
+
+        }
+    }
+
+    public class AutoAddHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+
+            if (libraryUI.getPnlAddGamePane().getComponent(1) != libraryUI
+                    .getPnlAutoAdd()) {
+                libraryUI.getPnlAddGamePane().remove(1);
+                libraryUI.getPnlAddGamePane().add(libraryUI.getPnlAutoAdd());
+                libraryUI.getPnlAddGamePane().revalidate();
+                libraryUI.getPnlAddGamePane().repaint();
+            }
 
         }
     }
