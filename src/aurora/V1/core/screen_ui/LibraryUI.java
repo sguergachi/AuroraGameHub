@@ -1055,7 +1055,7 @@ public class LibraryUI extends AuroraApp {
         pnlRightOfTop = new AImagePane("addUI_status_container.png",
                 new FlowLayout(FlowLayout.LEFT, 0, 5));
 
-        pnlRightOfTopEast = new JPanel(new BorderLayout(0, 0));
+        pnlRightOfTopEast = new JPanel(new BorderLayout(-2, 0));
         pnlRightOfTopEast.setOpaque(false);
 
 
@@ -1238,7 +1238,7 @@ public class LibraryUI extends AuroraApp {
             pnlLeftOfTopCenter.setPreferredSize(new Dimension(pnlAddGamePane
                     .getImgIcon().getIconWidth() / 2, 75));
             pnlRightOfTop.setPreferredSize(new Dimension(pnlAddGamePane
-                    .getImgIcon().getIconWidth() / 2, 75));
+                    .getImgIcon().getIconWidth() / 2, 50));
 
 
             pnlLeftOfBottom
@@ -1250,7 +1250,7 @@ public class LibraryUI extends AuroraApp {
                     .setPreferredSize(new Dimension(pnlAddGamePane
                     .getImgIcon().getIconWidth() / 2 - 10,
                     pnlCoverPane_addUI
-                    .getImgIcon().getIconHeight()));
+                    .getImgIcon().getIconHeight() ));
             pnlRightOfBottom.setBackground(new Color(38, 46, 60));
 
             pnlRightOfBottomContainer
@@ -1323,9 +1323,10 @@ public class LibraryUI extends AuroraApp {
 
 
 
-            gameFileChooser_addUI.setPreferredSize(new Dimension(pnlAddGamePane
-                    .getImgIcon().getIconWidth() / 2 - 10, pnlCoverPane_addUI
-                    .getImgIcon().getIconHeight()));
+            gameFileChooser_addUI.setPreferredSize(new Dimension(
+                    pnlRightOfBottom.getPreferredSize().width, pnlRightOfBottom
+                    .getPreferredSize().height + 5));
+            gameFileChooser_addUI.revalidate();
 
 
             //* BOTTOM PANEL COMPONENTS *//
@@ -1420,6 +1421,7 @@ public class LibraryUI extends AuroraApp {
             pnlRightOfTop.add(statusBadge2);
             pnlRightOfTop.add(lblRightTitle);
             pnlRightOfTop.add(pnlRightOfTopEast);
+
 
             pnlCoverPane_addUI.add(pnlBlankCoverGame_addUI, BorderLayout.SOUTH);
             pnlLeftOfBottom.add(Box.createHorizontalStrut(20));

@@ -474,12 +474,14 @@ public class LibraryHandler implements
             setEnabled(list.isEnabled());
             setFont(list.getFont());
 
-            Border border = BorderFactory.createEmptyBorder(3, 3, 3,
-                    0);
+            Border border1 = BorderFactory.createMatteBorder(3, 3, 3,
+                    2,Color.CYAN);
+            Border border2 = BorderFactory.createEmptyBorder(3, 3, 3,
+                    2);
             if (isSelected) {
-                setBorder(border);
+                setBorder(border2);
             } else {
-                setBorder(border);
+                setBorder(border2);
             }
 
 
