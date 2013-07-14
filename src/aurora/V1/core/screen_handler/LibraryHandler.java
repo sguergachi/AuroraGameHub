@@ -905,6 +905,10 @@ public class LibraryHandler implements
                                 libraryUI.getCurrentGame_editUI().setCoverUrl(
                                         libraryLogic.getGameSearch_editUI()
                                         .getFoundGameCover().getBoxArtUrl());
+                                //Set new name
+                                libraryUI.getCurrentGame_editUI().setName(
+                                        libraryLogic.getGameSearch_editUI()
+                                        .getFoundGameCover().getName());
                             } catch (MalformedURLException ex) {
                                 java.util.logging.Logger.getLogger(
                                         LibraryHandler.class.getName()).
@@ -965,6 +969,13 @@ public class LibraryHandler implements
                     .getPnlManualAdd()) {
                 libraryUI.getPnlAddGamePane().remove(1);
                 libraryUI.getPnlAddGamePane().add(libraryUI.getPnlManualAdd());
+                try {
+                    libraryUI.getPnlAddGamePane().setImageURL("addUI_bg.png");
+                } catch (MalformedURLException ex) {
+                    java.util.logging.Logger.getLogger(LibraryHandler.class
+                            .getName()).
+                            log(Level.SEVERE, null, ex);
+                }
                 libraryUI.getPnlAddGamePane().revalidate();
                 libraryUI.getPnlAddGamePane().repaint();
             }
@@ -981,8 +992,16 @@ public class LibraryHandler implements
 
             if (libraryUI.getPnlAddGamePane().getComponent(1) != libraryUI
                     .getPnlAutoAdd()) {
+
                 libraryUI.getPnlAddGamePane().remove(1);
                 libraryUI.getPnlAddGamePane().add(libraryUI.getPnlAutoAdd());
+                try {
+                    libraryUI.getPnlAddGamePane().setImageURL("addUI_bg2.png");
+                } catch (MalformedURLException ex) {
+                    java.util.logging.Logger.getLogger(LibraryHandler.class
+                            .getName()).
+                            log(Level.SEVERE, null, ex);
+                }
                 libraryUI.getPnlAddGamePane().revalidate();
                 libraryUI.getPnlAddGamePane().repaint();
             }
