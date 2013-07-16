@@ -548,6 +548,28 @@ public class LibraryUI extends AuroraApp {
 
     private JPanel pnlAutoAdd;
 
+    private JPanel pnlAutoTop;
+
+    private JPanel pnlAutoCenter;
+
+    private JPanel pnlAutoContent;
+
+    private JList gameList_autoUI;
+
+    private AImagePane pnlCoverPane_autoUI;
+
+    private DefaultListModel<Object> autoListModel;
+
+    private AImage imgAutoStatus;
+
+    private AImagePane pnlBlankCoverGame_autoUI;
+
+    private ASlickLabel lblAutoSelectGame;
+
+    private AImagePane pnlAutoStatusContainer;
+
+    private AScrollBar autoScrollBar;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
@@ -1087,9 +1109,9 @@ public class LibraryUI extends AuroraApp {
         statusBadge2 = new AImage("addUI_badge_idle.png");
 
         pnlCoverPane_addUI = new AImagePane("addUI_game_bg.png",
-                new FlowLayout(FlowLayout.RIGHT, -10, 10));
+                new FlowLayout(FlowLayout.RIGHT, -7, 10));
         pnlBlankCoverGame_addUI = new AImagePane("Blank-Case.png", 240, 260);
-        gamesList_addUI = new JList();
+        gamesList_addUI = new JList<>();
         listModel_addUI = new DefaultListModel();
 
         gameFileChooser_addUI = new JFileChooser(System.getProperty("user.home"));
@@ -1185,9 +1207,47 @@ public class LibraryUI extends AuroraApp {
         btnAuto = new ARadioButton("addUI_btnAuto_norm.png",
                 "addUI_btnAuto_down.png");
 
-        pnlAutoAdd = new JPanel(new BorderLayout());
+        //Panels
+
+        pnlAutoAdd = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pnlAutoAdd.setOpaque(false);
 
+        pnlAutoContent = new JPanel(new BorderLayout(0, 0));
+        pnlAutoContent.setOpaque(false);
+
+        pnlAutoTop = new JPanel(new BorderLayout(0, 0));
+        pnlAutoTop.setOpaque(false);
+
+        pnlAutoCenter = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        pnlAutoCenter.setOpaque(false);
+
+
+
+        //Components
+
+        pnlCoverPane_autoUI = new AImagePane("autoUI_coverBG.png",
+                new FlowLayout(
+                FlowLayout.RIGHT, 0, 15));
+
+        pnlBlankCoverGame_autoUI = new AImagePane("Blank-Case.png", 280, 300);
+
+        autoListModel = new DefaultListModel<>();
+
+        gameList_autoUI = new JList<>();
+        gameList_autoUI.setModel(autoListModel);
+        gameList_autoUI.setCellRenderer(handler.new listRender());
+
+        autoScrollBar = new AScrollBar("app_scrollBar.png", "app_scrollBG.png");
+
+        imgAutoStatus = new AImage("addUI_badge_idle.png");
+
+        lblAutoSelectGame = new ASlickLabel("Select Game");
+
+        pnlAutoStatusContainer = new AImagePane("addUI_status_container.png",
+                new FlowLayout(FlowLayout.LEFT, 0, 5));
+        pnlAutoStatusContainer.setImageSize(pnlAutoStatusContainer
+                .getRealImageWidth() + 35,
+                pnlAutoStatusContainer.getRealImageHeight());
 
 
     }
@@ -1210,11 +1270,11 @@ public class LibraryUI extends AuroraApp {
 
         if (!isAddGameUILoaded) {
 
-            // Set Up Components
+            // Manual UI
             // ----------------------------------------------------------------.
 
 
-            //* CENTRAL PANEL COMPONENTS *//
+            //* Center Panel *//
 
             //*
             // Set Up Title labels for both Left
@@ -1332,7 +1392,7 @@ public class LibraryUI extends AuroraApp {
             gameFileChooser_addUI.revalidate();
 
 
-            //* BOTTOM PANEL COMPONENTS *//
+            //* Bottom Panel *//
 
 
             //* Set Up Textfield where user will search for game to add *//
@@ -1375,14 +1435,13 @@ public class LibraryUI extends AuroraApp {
             btnGameToLib_addUI.setSize(new Dimension(340, 140));
 
 
+
             // Add to Components
             // ----------------------------------------------------------------.
 
-            //* TOP PANEL COMPONENTS *//
+            //* Top Panel *//
 
-
-
-            //* Add the Close button to the Top most Panel *//
+            // Add the Close button to the Top most Panel
             pnlTopPane_addUI.add(btnClose_addUI, BorderLayout.EAST);
 
             //* Type Panel *//
@@ -1431,7 +1490,7 @@ public class LibraryUI extends AuroraApp {
             pnlRightOfTop.add(pnlRightOfTopEast);
 
 
-            pnlCoverPane_addUI.add(pnlBlankCoverGame_addUI, BorderLayout.SOUTH);
+            pnlCoverPane_addUI.add(pnlBlankCoverGame_addUI);
             pnlLeftOfBottom.add(Box.createHorizontalStrut(20));
             pnlLeftOfBottom.add(pnlCoverPane_addUI);
             pnlLeftOfBottom.add(gamesList_addUI);
@@ -1453,10 +1512,10 @@ public class LibraryUI extends AuroraApp {
             pnlManualAdd.add(pnlAddGameContainer, BorderLayout.CENTER);
             pnlManualAdd.add(pnlBottomPane, BorderLayout.SOUTH);
 
-            //*
+            //-
             // Add the TOP the CENTER and the BOTTOM
             // panels to the Add Game UI
-            //*
+            //-
             pnlAddGamePane.add(pnlTopPane_addUI, BorderLayout.PAGE_START);
             pnlAddGamePane.add(pnlManualAdd, BorderLayout.CENTER);
 
@@ -1465,10 +1524,75 @@ public class LibraryUI extends AuroraApp {
 
 
 
+            // Auto UI
+            // ----------------------------------------------------------------.
+
+
+            //Top Panel
+
+            lblAutoSelectGame.setForeground(Color.lightGray);
+            lblAutoSelectGame.setFont(coreUI.getDefaultFont().deriveFont(
+                    Font.BOLD,
+                    33));
+
+            pnlAutoStatusContainer.add(imgAutoStatus);
+            pnlAutoStatusContainer.add(lblAutoSelectGame);
+
+            pnlAutoTop.add(pnlAutoStatusContainer, BorderLayout.WEST);
+
+
+            // Set up Game List //
+
+            gameList_autoUI.setPreferredSize(
+                    new Dimension(pnlAddGamePane.getPreferredSize().width / 2
+                                  - 50,
+                    pnlCoverPane_autoUI.getRealImageHeight()));
+
+            gameList_autoUI.setBackground(new Color(38, 46, 60));
+            gameList_autoUI.setForeground(Color.lightGray);
+            gameList_autoUI.setFont(coreUI.getDefaultFont()
+                    .deriveFont(Font.BOLD,
+                    listFontSize));
+            gameList_autoUI
+                    .setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            gameList_autoUI.setSelectionBackground(new Color(54, 95, 143));
+            gameList_autoUI.setSelectionForeground(new Color(238, 243, 249));
+            gameList_autoUI.setBorder(null);
+
+            gameList_autoUI.setLayoutOrientation(JList.VERTICAL);
+
+
+
+            //Center Panel
+
+            pnlBlankCoverGame_autoUI.setPreferredSize(new Dimension(
+                    pnlBlankCoverGame_autoUI.getImageWidth(),
+                    pnlBlankCoverGame_autoUI.getImageHeight()));
+
+            pnlCoverPane_autoUI.setPreferredSize(new Dimension(
+                    pnlCoverPane_autoUI.getRealImageWidth(), pnlCoverPane_autoUI
+                    .getRealImageHeight()));
+            pnlCoverPane_autoUI.add(pnlBlankCoverGame_autoUI);
+
+
+            pnlAutoCenter.add(pnlCoverPane_autoUI);
+            pnlAutoCenter.add(gameList_autoUI);
+
+
+
+            // Auto UI Content
+
+            pnlAutoContent.add(pnlAutoTop, BorderLayout.NORTH);
+            pnlAutoContent.add(pnlAutoCenter, BorderLayout.CENTER);
+
+            pnlAutoAdd.add(pnlAutoContent);
+
+
             // Handlers
             // ----------------------------------------------------------------.
 
-            btnClose_addUI.addActionListener(handler.new HideGameAddUIHandler(
+            btnClose_addUI
+                    .addActionListener(handler.new HideGameAddUIHandler(
                     this));
 
             pnlAddGamePane.addMouseListener(handler.new EmptyMouseHandler());
@@ -2159,7 +2283,8 @@ public class LibraryUI extends AuroraApp {
         logic.getGameSearch_editUI().resetCover();
 
         try {
-            gameFileChooser_editUI.setCurrentDirectory(new File(currentGame_editUI.getGamePath()));
+            gameFileChooser_editUI.setCurrentDirectory(new File(
+                    currentGame_editUI.getGamePath()));
         } catch (Exception e) {
         }
     }

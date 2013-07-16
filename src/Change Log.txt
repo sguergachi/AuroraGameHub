@@ -13,6 +13,7 @@
 + Added shortcut buttons to launch screen
 + Added support for adding .url shortcut files (i.e. Steam shortcuts)
 - settings states saved in new local Database
+- officially support Java 7 update 9 and up.
 - improved library search to be more lenient
 - improved flipped UI layout to show more text
 - improved the use of status messages in Library
