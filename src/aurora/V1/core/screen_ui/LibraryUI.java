@@ -2159,7 +2159,7 @@ public class LibraryUI extends AuroraApp {
         logic.getGameSearch_editUI().resetCover();
 
         try {
-            gameFileChooser_editUI.setCurrentDirectory(null);
+            gameFileChooser_editUI.setCurrentDirectory(new File(currentGame_editUI.getGamePath()));
         } catch (Exception e) {
         }
     }
@@ -2527,7 +2527,7 @@ public class LibraryUI extends AuroraApp {
 
             txtCurrentLocation_editUI.setText(location.getAbsolutePath());
 
-
+            gameFileChooser_editUI.setCurrentDirectory(location);
 
             pnlLeftPane_editUI.add(pnlGameLocation_editUI);
             pnlLeftPane_editUI.revalidate();
