@@ -1000,7 +1000,7 @@ public class LibraryHandler implements
             if (libraryUI.getPnlAddGamePane().getComponent(1) != libraryUI
                     .getPnlAutoAdd()) {
 
-                libraryLogic.autoSearchGames(model);
+                libraryLogic.autoFindGames(model);
 
                 libraryUI.getPnlAddGamePane().remove(1);
                 libraryUI.getPnlAddGamePane().add(libraryUI.getPnlAutoAdd());

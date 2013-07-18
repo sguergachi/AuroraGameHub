@@ -25,7 +25,7 @@ import java.util.prefs.Preferences;
 
 public final class GameFinder {
 
- public static String[] GameProviders = {"Ubisoft"}; //add your own
+ public static String[] GameProviders = {"Ubisoft","EA Games"}; //add your own
 
     /**
      * PRECONDITION: You are on a Windows PC, Java source 6 to compile
@@ -79,7 +79,7 @@ public final class GameFinder {
                 steamFile = new File(steamPath);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+//            ex.printStackTrace();
         }
         return steamFile;
     }
@@ -136,7 +136,7 @@ public final class GameFinder {
                 originFile = new File(originPath);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+//            ex.printStackTrace();
         }
         return originFile;
     }
@@ -165,7 +165,7 @@ public final class GameFinder {
         ArrayList<File> r = new ArrayList<File>();
         { //Steam
             File gameFolder = fetchSteamDir();
-            if (gameFolder.exists() && gameFolder.isDirectory()) {
+            if (gameFolder != null && gameFolder.exists() && gameFolder.isDirectory()) {
                 File[] games = gameFolder.listFiles();
                 for (File game : games) {
                     String n = game.getName();
@@ -189,7 +189,7 @@ public final class GameFinder {
         }
         { //Origin
             File gameFolder = fetchOriginDir();
-            if (gameFolder.exists() && gameFolder.isDirectory()) {
+            if (gameFolder != null && gameFolder.exists() && gameFolder.isDirectory()) {
                 File[] games = gameFolder.listFiles();
                 for (File game : games) {
                     String n = game.getName();
@@ -305,7 +305,7 @@ public final class GameFinder {
         ArrayList<String> r = new ArrayList<String>();
         { //Steam
             File gameFolder = fetchSteamDir();
-            if (gameFolder.exists() && gameFolder.isDirectory()) {
+            if (gameFolder != null && gameFolder.exists() && gameFolder.isDirectory()) {
                 File[] games = gameFolder.listFiles();
                 for (File game : games) {
                     String n = game.getName();
@@ -318,7 +318,7 @@ public final class GameFinder {
         }
         { //Origin
             File gameFolder = fetchOriginDir();
-            if (gameFolder.exists() && gameFolder.isDirectory()) {
+            if (gameFolder != null && gameFolder.exists() && gameFolder.isDirectory()) {
                 File[] games = gameFolder.listFiles();
                 for (File game : games) {
                     String n = game.getName();
@@ -331,7 +331,7 @@ public final class GameFinder {
         }
         { //Gamefly
             File gameFolderTop = new File(System.getenv("USERPROFILE") + "\\My Documents\\GameFly\\games\\");
-            if (gameFolderTop.exists() && gameFolderTop.isDirectory()) {
+            if (gameFolderTop != null && gameFolderTop.exists() && gameFolderTop.isDirectory()) {
                 File[] gameFolders = gameFolderTop.listFiles();
                 for (File gameFolder : gameFolders) {
                     File[] games = gameFolder.listFiles();
@@ -397,7 +397,7 @@ public final class GameFinder {
         if (!mainDir.isDirectory()) {
             try {
                 if (mainDir.getAbsolutePath().substring(mainDir.getAbsolutePath().lastIndexOf(".") + 1).compareTo(extensionOnly) == 0) {
-                    if (mainDir.getName().indexOf("install") < 0) {
+                    if (mainDir.getName().indexOf("install") < 0 && mainDir.getName().indexOf("unins") < 0) {
                         r.add(new Files(mainDir, 0));
                     }
                 }
@@ -411,7 +411,7 @@ public final class GameFinder {
                         if (!f.isDirectory()) {
                             try {
                                 if (f.getAbsolutePath().substring(f.getAbsolutePath().lastIndexOf(".") + 1).compareTo(extensionOnly) == 0) {
-                                    if (f.getName().indexOf("install") < 0) {
+                                    if (f.getName().indexOf("install") < 0&& mainDir.getName().indexOf("unins") < 0) {
                                         r.add(new Files(f, 1));
                                     }
                                 }
@@ -421,7 +421,7 @@ public final class GameFinder {
                             for (Files ff : getAllFilesInSubDirectories(f, 2)) {
                                 try {
                                     if (ff.getAbsolutePath().substring(ff.getAbsolutePath().lastIndexOf(".") + 1).compareTo(extensionOnly) == 0) {
-                                        if (ff.getName().indexOf("install") < 0) {
+                                        if (ff.getName().indexOf("install") < 0&& mainDir.getName().indexOf("unins") < 0) {
                                             r.add(ff);
                                         }
                                     }

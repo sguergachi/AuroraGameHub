@@ -19,6 +19,7 @@ package aurora.V1.core.screen_logic;
 
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.Game;
+import aurora.V1.core.GameFinder;
 import aurora.V1.core.GameSearch;
 import aurora.V1.core.GridSearch;
 import aurora.V1.core.screen_handler.LibraryHandler;
@@ -27,12 +28,14 @@ import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.AFileManager;
+import aurora.engine.V1.Logic.ANuance;
 import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.ATimeLabel;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -78,42 +81,32 @@ public class LibraryLogic implements AuroraScreenLogic {
      * Library UI instance.
      */
     private final LibraryUI libraryUI;
-
     /**
      * Library Handler instance.
      */
     private LibraryHandler libraryHandler;
-
     /**
      * Core UI instance.
      */
     private final AuroraCoreUI coreUI;
-
     /**
      * Dashboard UI instance.
      */
     private final DashboardUI dashboardUI;
-
     /**
      * Boolean on whether the library even has a single favorite game in DB.
      */
     private boolean libHasFavourites;
-
     static final Logger logger = Logger.getLogger(LibraryLogic.class);
-
     private AAnimate addGameToLibButtonAnimator;
-
     private boolean isLoaded = false;
-
     private ASimpleDB coverDB;
-
     private GameSearch gameSearch_addUI;
-
     private GridSearch gridSearch;
-
     private GameSearch gameSearch_editUI;
-
     private GameSearch gameSearch_autoUI;
+    private ArrayList<String> nameOfGames;
+    private ArrayList<File> executableGamePath;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -802,15 +795,46 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     /**
      * .-----------------------------------------------------------------------.
-     * | autoSearchGames()
+     * | autoFindGames()
      * .-----------------------------------------------------------------------.
      * |
-     * | searches Windows computers for
+     * | searches Windows computers for games on local drive using GameFinder
      * |
      * .........................................................................
      *
      */
-    public void autoSearchGames(DefaultListModel model) {
+    public void autoFindGames(final DefaultListModel model) {
+
+        AThreadWorker findGames = new AThreadWorker(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                LibraryUI.lblLibraryStatus.setForeground(Color.CYAN);
+                LibraryUI.lblLibraryStatus.setText(coreUI.getVi().VI(
+                        ANuance.inx_Searching) + " For Games");
+
+
+                nameOfGames = GameFinder.getNameOfGamesOnDrive();
+
+                executableGamePath = GameFinder.getExecutablePathsOnDrive(
+                        nameOfGames);
+
+
+
+                for (int i = 0; i < nameOfGames.size(); i++) {
+                    model.addElement(nameOfGames.get(i));
+                    System.out.println(nameOfGames.get(i));
+                }
+
+
+                LibraryUI.lblLibraryStatus.setForeground(Color.GREEN);
+                LibraryUI.lblLibraryStatus.setText("Finished");
+
+            }
+        });
+
+        findGames.startOnce();
 
 
     }
