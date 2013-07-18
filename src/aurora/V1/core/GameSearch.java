@@ -200,7 +200,7 @@ public class GameSearch implements Runnable {
      * @param gameName the name of the Game you want to search for
      *
      */
-    public void searchSpecificGame(String gameName) {
+    public Game searchSpecificGame(String gameName) {
         try {
             foundGame = (String) db.getRowFlex("AuroraTable", new String[]{
                 "FILE_NAME"}, "GAME_NAME='" + gameName
@@ -255,6 +255,8 @@ public class GameSearch implements Runnable {
             pnlGameCoverPane.revalidate();
 
         }
+
+        return foundGameCover;
     }
 
     public Game getFoundGameCover() {

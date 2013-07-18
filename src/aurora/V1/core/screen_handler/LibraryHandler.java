@@ -985,6 +985,13 @@ public class LibraryHandler implements
     }
 
     public class AutoAddHandler implements ActionListener {
+        private final DefaultListModel model;
+
+        public AutoAddHandler(DefaultListModel listModel) {
+            model = listModel;
+        }
+
+
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -992,6 +999,8 @@ public class LibraryHandler implements
 
             if (libraryUI.getPnlAddGamePane().getComponent(1) != libraryUI
                     .getPnlAutoAdd()) {
+
+                libraryLogic.autoSearchGames(model);
 
                 libraryUI.getPnlAddGamePane().remove(1);
                 libraryUI.getPnlAddGamePane().add(libraryUI.getPnlAutoAdd());
@@ -1198,6 +1207,44 @@ public class LibraryHandler implements
                 gameSearch.searchSpecificGame(gameSelected);
                 gameSearch.setAppendedName(gameSelected);
 
+            }
+        }
+    }
+
+    public class AutoSelectListHandler implements ListSelectionListener {
+
+        private JList gamesList;
+
+        private DefaultListModel listModel;
+
+        private final GameSearch gameSearch;
+
+        private final AImagePane gameCoverPane;
+
+        public AutoSelectListHandler(GameSearch searchEngine,
+                                     AImagePane pnlCoverPane) {
+            gameSearch = searchEngine;
+            gameCoverPane = pnlCoverPane;
+        }
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            gamesList = (JList) e.getSource();
+            listModel = (DefaultListModel) ((JList) e.getSource()).getModel();
+            if (gamesList.getSelectedIndex() != -1) {
+                String gameSelected = (String) listModel.get(gamesList
+                        .getSelectedIndex());
+                Game game = gameSearch.searchSpecificGame(gameSelected);
+
+                game.setImageSize(((AImagePane) gameCoverPane.getComponent(0))
+                        .getImageWidth(), ((AImagePane) gameCoverPane
+                        .getComponent(0)).getImageHeight());
+
+                gameCoverPane.removeAll();
+                gameCoverPane.add(game);
+
+                gameCoverPane.revalidate();
+                gameCoverPane.repaint();
             }
         }
     }

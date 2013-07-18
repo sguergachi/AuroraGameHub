@@ -1201,6 +1201,9 @@ public class LibraryUI extends AuroraApp {
                 pnlCoverPane_addUI,
                 listModel_addUI, statusBadge1, txtSearchField_addUI);
 
+
+
+
         // Auto Mode
         // ----------------------------------------------------------------.
 
@@ -1451,10 +1454,6 @@ public class LibraryUI extends AuroraApp {
             rdbManager.setRadioButton();
 
 
-
-            btnManual.setSelectedHandler(handler.new ManualAddHandler());
-            btnAuto.setSelectedHandler(handler.new AutoAddHandler());
-
             pnlAddGameType.add(btnManual);
             pnlAddGameType.add(btnAuto);
 
@@ -1608,9 +1607,11 @@ public class LibraryUI extends AuroraApp {
             txtSearchField_addUI
                     .addKeyListener(handler.new AddGameSearchBoxHandler(logic
                     .getGameSearch_addUI()));
+
             gamesList_addUI.addListSelectionListener(
                     handler.new SelectListHandler(logic.getGameSearch_addUI(),
                     txtSearchField_addUI));
+
             gameFileChooser_addUI.setFileFilter(
                     handler.new ExecutableFilterHandler());
             gameFileChooser_addUI
@@ -1619,6 +1620,17 @@ public class LibraryUI extends AuroraApp {
             btnGameToLib_addUI
                     .addActionListener(handler.new AddToLibraryHandler(logic
                     .getGameSearch_addUI()));
+
+            //Auto
+
+            gameList_autoUI.addListSelectionListener(
+                    handler.new AutoSelectListHandler(logic
+                    .getGameSearch_autoUI(),
+                    pnlCoverPane_autoUI));
+
+            btnManual.setSelectedHandler(handler.new ManualAddHandler());
+            btnAuto.setSelectedHandler(handler.new AutoAddHandler(
+                    listModel_addUI));
 
 
             // Finalize

@@ -50,6 +50,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.prefs.Preferences;
+import javax.swing.DefaultListModel;
 import org.apache.log4j.Logger;
 
 /**
@@ -77,29 +78,42 @@ public class LibraryLogic implements AuroraScreenLogic {
      * Library UI instance.
      */
     private final LibraryUI libraryUI;
+
     /**
      * Library Handler instance.
      */
     private LibraryHandler libraryHandler;
+
     /**
      * Core UI instance.
      */
     private final AuroraCoreUI coreUI;
+
     /**
      * Dashboard UI instance.
      */
     private final DashboardUI dashboardUI;
+
     /**
      * Boolean on whether the library even has a single favorite game in DB.
      */
     private boolean libHasFavourites;
+
     static final Logger logger = Logger.getLogger(LibraryLogic.class);
+
     private AAnimate addGameToLibButtonAnimator;
+
     private boolean isLoaded = false;
+
     private ASimpleDB coverDB;
+
     private GameSearch gameSearch_addUI;
+
     private GridSearch gridSearch;
+
     private GameSearch gameSearch_editUI;
+
+    private GameSearch gameSearch_autoUI;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -163,7 +177,13 @@ public class LibraryLogic implements AuroraScreenLogic {
                 libraryUI.getStorage());
         gameSearch_editUI = new GameSearch(libraryUI, coverDB,
                 libraryUI.getStorage());
+        gameSearch_autoUI = new GameSearch(libraryUI, coverDB,
+                libraryUI.getStorage());
 
+    }
+
+    public GameSearch getGameSearch_autoUI() {
+        return gameSearch_autoUI;
     }
 
     public GameSearch getGameSearch_addUI() {
@@ -651,6 +671,9 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     }
 
+    /**
+     * Animates the Add Game To Library Button to a visible state
+     */
     private void animateAddButtonDown() {
         addGameToLibButtonAnimator = new AAnimate(libraryUI
                 .getAddGameToLibButton());
@@ -669,6 +692,9 @@ public class LibraryLogic implements AuroraScreenLogic {
         addGameToLibButtonAnimator.removeAllListeners();
     }
 
+    /**
+     * Animates the Add Game To Library Button to hide behind the AddGamePane
+     */
     private void animateAddButtonUp() {
         addGameToLibButtonAnimator = new AAnimate(libraryUI
                 .getAddGameToLibButton());
@@ -685,10 +711,20 @@ public class LibraryLogic implements AuroraScreenLogic {
                 libraryUI.getAddGameToLibButton().setVisible(false);
             }
         });
-
     }
     private File steamFile = null;
 
+    /**
+     * .-----------------------------------------------------------------------.
+     * | fetchSteamDirOnWindows()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method looks through the Windows registry to find the Steam game
+     * | Directory
+     * |
+     * .........................................................................
+     *
+     */
     public File fetchSteamDirOnWindows() {
         final int HKEY_CURRENT_USER = 0x80000001;
         final int KEY_QUERY_VALUE = 1;
@@ -762,5 +798,20 @@ public class LibraryLogic implements AuroraScreenLogic {
         }
         result[str.length()] = 0;
         return result;
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | autoSearchGames()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | searches Windows computers for
+     * |
+     * .........................................................................
+     *
+     */
+    public void autoSearchGames(DefaultListModel model) {
+
+
     }
 }
