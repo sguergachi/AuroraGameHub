@@ -81,31 +81,45 @@ public class LibraryLogic implements AuroraScreenLogic {
      * Library UI instance.
      */
     private final LibraryUI libraryUI;
+
     /**
      * Library Handler instance.
      */
     private LibraryHandler libraryHandler;
+
     /**
      * Core UI instance.
      */
     private final AuroraCoreUI coreUI;
+
     /**
      * Dashboard UI instance.
      */
     private final DashboardUI dashboardUI;
+
     /**
      * Boolean on whether the library even has a single favorite game in DB.
      */
     private boolean libHasFavourites;
+
     static final Logger logger = Logger.getLogger(LibraryLogic.class);
+
     private AAnimate addGameToLibButtonAnimator;
+
     private boolean isLoaded = false;
+
     private ASimpleDB coverDB;
+
     private GameSearch gameSearch_addUI;
+
     private GridSearch gridSearch;
+
     private GameSearch gameSearch_editUI;
+
     private GameSearch gameSearch_autoUI;
+
     private ArrayList<String> nameOfGames;
+
     private ArrayList<File> executableGamePath;
 
     /**
@@ -816,7 +830,6 @@ public class LibraryLogic implements AuroraScreenLogic {
 
 
                 nameOfGames = GameFinder.getNameOfGamesOnDrive();
-
                 executableGamePath = GameFinder.getExecutablePathsOnDrive(
                         nameOfGames);
 
@@ -824,13 +837,27 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                 for (int i = 0; i < nameOfGames.size(); i++) {
                     model.addElement(nameOfGames.get(i));
-                    System.out.println(nameOfGames.get(i));
+                    try {
+                        Thread.sleep(16);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(LibraryLogic.class
+                                .getName()).
+                                log(Level.SEVERE, null, ex);
+                    }
                 }
-
 
                 LibraryUI.lblLibraryStatus.setForeground(Color.GREEN);
                 LibraryUI.lblLibraryStatus.setText("Finished");
 
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException ex) {
+                    java.util.logging.Logger.getLogger(LibraryLogic.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+
+                LibraryUI.lblLibraryStatus.setForeground(Color.LIGHT_GRAY);
+                LibraryUI.lblLibraryStatus.setText("Select a Game");
             }
         });
 

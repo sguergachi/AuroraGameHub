@@ -474,9 +474,7 @@ public class LibraryHandler implements
             setEnabled(list.isEnabled());
             setFont(list.getFont());
 
-            Border border1 = BorderFactory.createMatteBorder(3, 3, 3,
-                    2, Color.CYAN);
-            Border border2 = BorderFactory.createEmptyBorder(3, 3, 3,
+            Border border2 = BorderFactory.createEmptyBorder(3, 10, 3,
                     2);
             if (isSelected) {
                 setBorder(border2);
@@ -1235,16 +1233,16 @@ public class LibraryHandler implements
                 String gameSelected = (String) listModel.get(gamesList
                         .getSelectedIndex());
                 Game game = gameSearch.searchSpecificGame(gameSelected);
-
-                game.setImageSize(((AImagePane) gameCoverPane.getComponent(0))
-                        .getImageWidth(), ((AImagePane) gameCoverPane
-                        .getComponent(0)).getImageHeight());
-
-                gameCoverPane.removeAll();
-                gameCoverPane.add(game);
-
-                gameCoverPane.revalidate();
-                gameCoverPane.repaint();
+//
+//                game.setImageSize(((AImagePane) gameCoverPane.getComponent(0))
+//                        .getImageWidth(), ((AImagePane) gameCoverPane
+//                        .getComponent(0)).getImageHeight());
+//
+//                gameCoverPane.removeAll();
+//                gameCoverPane.add(game);
+//
+//                gameCoverPane.revalidate();
+//                gameCoverPane.repaint();
             }
         }
     }

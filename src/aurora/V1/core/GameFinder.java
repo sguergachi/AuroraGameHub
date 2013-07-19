@@ -25,13 +25,13 @@ import java.util.prefs.Preferences;
 
 public final class GameFinder {
 
- public static String[] GameProviders = {"Ubisoft","EA Games"}; //add your own
+    public static String[] GameProviders = {"Ubisoft", "EA Games"}; //add your own
 
     /**
      * PRECONDITION: You are on a Windows PC, Java source 6 to compile
      *
      * @return returns the game directory of Steam on the hard drive and if not
-     * found null
+     *         found null
      *
      */
     public static File fetchSteamDir() {
@@ -88,7 +88,7 @@ public final class GameFinder {
      * PRECONDITION: You are on a Windows PC, Java source 6 to compile
      *
      * @return returns the game directory of Origin on the hard drive and if not
-     * found null
+     *         found null
      *
      */
     public static File fetchOriginDir() {
@@ -154,25 +154,30 @@ public final class GameFinder {
      * PRECONDITION: You are on a Windows PC, Java source 6 to compile
      *
      * @param gameNames You must use "getNameOfGamesOnDrive()" for this
-     * parameter
+     *                  parameter
      *
      * @return ArrayList of File objects representing Games on hard drive from
-     * these game distributors Steam, and Origin. (game creators are in String
-     * array "GameProviders")
+     *         these game distributors Steam, and Origin. (game creators are in String
+     *         array "GameProviders")
      *
      */
-    public static ArrayList<File> getExecutablePathsOnDrive(ArrayList<String> gameNames) {
+    public static ArrayList<File> getExecutablePathsOnDrive(
+            ArrayList<String> gameNames) {
         ArrayList<File> r = new ArrayList<File>();
         { //Steam
             File gameFolder = fetchSteamDir();
-            if (gameFolder != null && gameFolder.exists() && gameFolder.isDirectory()) {
+            if (gameFolder != null && gameFolder.exists() && gameFolder
+                    .isDirectory()) {
                 File[] games = gameFolder.listFiles();
                 for (File game : games) {
                     String n = game.getName();
-                    int index1 = n.indexOf("launcher"), index2 = n.indexOf("Launcher");
+                    int index1 = n.indexOf("launcher"), index2 = n.indexOf(
+                            "Launcher");
                     if (index1 < 0 && index2 < 0) {
-                        ArrayList<Files> possibles = getAllFilesInSubDirectories(game, "exe");
-                        Files f = getSimilarNamedFile(possibles, gameNames.get(r.size()));
+                        ArrayList<Files> possibles = getAllFilesInSubDirectories(
+                                game, "exe");
+                        Files f = getSimilarNamedFile(possibles, gameNames.get(r
+                                .size()));
                         if (f != null) {
                             r.add(f);
                         } else {
@@ -189,14 +194,18 @@ public final class GameFinder {
         }
         { //Origin
             File gameFolder = fetchOriginDir();
-            if (gameFolder != null && gameFolder.exists() && gameFolder.isDirectory()) {
+            if (gameFolder != null && gameFolder.exists() && gameFolder
+                    .isDirectory()) {
                 File[] games = gameFolder.listFiles();
                 for (File game : games) {
                     String n = game.getName();
-                    int index1 = n.indexOf("launcher"), index2 = n.indexOf("Launcher");
+                    int index1 = n.indexOf("launcher"), index2 = n.indexOf(
+                            "Launcher");
                     if (index1 < 0 && index2 < 0) {
-                        ArrayList<Files> possibles = getAllFilesInSubDirectories(game, "exe");
-                        Files f = getSimilarNamedFile(possibles, gameNames.get(r.size()));
+                        ArrayList<Files> possibles = getAllFilesInSubDirectories(
+                                game, "exe");
+                        Files f = getSimilarNamedFile(possibles, gameNames.get(r
+                                .size()));
                         if (f != null) {
                             r.add(f);
                         } else {
@@ -212,21 +221,26 @@ public final class GameFinder {
             }
         }
         { //Gamefly
-            File gameFolderTop = new File(System.getenv("USERPROFILE") + "\\My Documents\\GameFly\\games\\");
+            File gameFolderTop = new File(System.getenv("USERPROFILE")
+                                          + "\\My Documents\\GameFly\\games\\");
             if (gameFolderTop.exists() && gameFolderTop.isDirectory()) {
                 File[] gameFolders = gameFolderTop.listFiles();
                 for (File gameFolder : gameFolders) {
                     File[] games = gameFolder.listFiles();
                     for (File game : games) {
                         String n = game.getName();
-                        int index1 = n.indexOf("launcher"), index2 = n.indexOf("Launcher");
+                        int index1 = n.indexOf("launcher"), index2 = n.indexOf(
+                                "Launcher");
                         if (index1 < 0 && index2 < 0) {
-                            ArrayList<Files> possibles = getAllFilesInSubDirectories(game, "exe");
-                            Files f = getSimilarNamedFile(possibles, gameNames.get(r.size()));
+                            ArrayList<Files> possibles = getAllFilesInSubDirectories(
+                                    game, "exe");
+                            Files f = getSimilarNamedFile(possibles, gameNames
+                                    .get(r.size()));
                             if (f != null) {
                                 r.add(f);
                             } else {
-                                ArrayList<Files> arr = getSmallestDepth(possibles);
+                                ArrayList<Files> arr = getSmallestDepth(
+                                        possibles);
                                 if (arr.size() == 1) {
                                     r.add(arr.get(0));
                                 } else {
@@ -241,19 +255,24 @@ public final class GameFinder {
         { //General Game Providers
             for (String providers : GameProviders) {
                 {
-                    File gameFolder = new File("C:\\Program Files (x86)\\" + providers);
+                    File gameFolder = new File("C:\\Program Files (x86)\\"
+                                               + providers);
                     if (gameFolder.exists() && gameFolder.isDirectory()) {
                         File[] games = gameFolder.listFiles();
                         for (File game : games) {
                             String n = game.getName();
-                            int index1 = n.indexOf("launcher"), index2 = n.indexOf("Launcher");
+                            int index1 = n.indexOf("launcher"), index2 = n
+                                    .indexOf("Launcher");
                             if (index1 < 0 && index2 < 0) {
-                                ArrayList<Files> possibles = getAllFilesInSubDirectories(game, "exe");
-                                Files f = getSimilarNamedFile(possibles, gameNames.get(r.size()));
+                                ArrayList<Files> possibles = getAllFilesInSubDirectories(
+                                        game, "exe");
+                                Files f = getSimilarNamedFile(possibles,
+                                        gameNames.get(r.size()));
                                 if (f != null) {
                                     r.add(f);
                                 } else {
-                                    ArrayList<Files> arr = getSmallestDepth(possibles);
+                                    ArrayList<Files> arr = getSmallestDepth(
+                                            possibles);
                                     if (arr.size() == 1) {
                                         r.add(arr.get(0));
                                     } else {
@@ -270,14 +289,18 @@ public final class GameFinder {
                         File[] games = gameFolder.listFiles();
                         for (File game : games) {
                             String n = game.getName();
-                            int index1 = n.indexOf("launcher"), index2 = n.indexOf("Launcher");
+                            int index1 = n.indexOf("launcher"), index2 = n
+                                    .indexOf("Launcher");
                             if (index1 < 0 && index2 < 0) {
-                                ArrayList<Files> possibles = getAllFilesInSubDirectories(game, "exe");
-                                Files f = getSimilarNamedFile(possibles, gameNames.get(r.size()));
+                                ArrayList<Files> possibles = getAllFilesInSubDirectories(
+                                        game, "exe");
+                                Files f = getSimilarNamedFile(possibles,
+                                        gameNames.get(r.size()));
                                 if (f != null) {
                                     r.add(f);
                                 } else {
-                                    ArrayList<Files> arr = getSmallestDepth(possibles);
+                                    ArrayList<Files> arr = getSmallestDepth(
+                                            possibles);
                                     if (arr.size() == 1) {
                                         r.add(arr.get(0));
                                     } else {
@@ -298,18 +321,20 @@ public final class GameFinder {
      * PRECONDITION: You are on a Windows PC, Java source 6 to compile
      *
      * @return ArrayList of String objects representing the name of Games on
-     * these game distributors Steam, and Origin. (game creators are in String
-     * array "GameProviders")
+     *         these game distributors Steam, and Origin. (game creators are in String
+     *         array "GameProviders")
      */
     public static ArrayList<String> getNameOfGamesOnDrive() {
         ArrayList<String> r = new ArrayList<String>();
         { //Steam
             File gameFolder = fetchSteamDir();
-            if (gameFolder != null && gameFolder.exists() && gameFolder.isDirectory()) {
+            if (gameFolder != null && gameFolder.exists() && gameFolder
+                    .isDirectory()) {
                 File[] games = gameFolder.listFiles();
                 for (File game : games) {
                     String n = game.getName();
-                    int index1 = n.indexOf("launcher"), index2 = n.indexOf("Launcher");
+                    int index1 = n.indexOf("launcher"), index2 = n.indexOf(
+                            "Launcher");
                     if (index1 < 0 && index2 < 0) {
                         r.add(n);
                     }
@@ -318,11 +343,13 @@ public final class GameFinder {
         }
         { //Origin
             File gameFolder = fetchOriginDir();
-            if (gameFolder != null && gameFolder.exists() && gameFolder.isDirectory()) {
+            if (gameFolder != null && gameFolder.exists() && gameFolder
+                    .isDirectory()) {
                 File[] games = gameFolder.listFiles();
                 for (File game : games) {
                     String n = game.getName();
-                    int index1 = n.indexOf("launcher"), index2 = n.indexOf("Launcher");
+                    int index1 = n.indexOf("launcher"), index2 = n.indexOf(
+                            "Launcher");
                     if (index1 < 0 && index2 < 0) {
                         r.add(n);
                     }
@@ -330,14 +357,17 @@ public final class GameFinder {
             }
         }
         { //Gamefly
-            File gameFolderTop = new File(System.getenv("USERPROFILE") + "\\My Documents\\GameFly\\games\\");
-            if (gameFolderTop != null && gameFolderTop.exists() && gameFolderTop.isDirectory()) {
+            File gameFolderTop = new File(System.getenv("USERPROFILE")
+                                          + "\\My Documents\\GameFly\\games\\");
+            if (gameFolderTop != null && gameFolderTop.exists() && gameFolderTop
+                    .isDirectory()) {
                 File[] gameFolders = gameFolderTop.listFiles();
                 for (File gameFolder : gameFolders) {
                     File[] games = gameFolder.listFiles();
                     for (File game : games) {
                         String n = game.getName();
-                        int index1 = n.indexOf("launcher"), index2 = n.indexOf("Launcher");
+                        int index1 = n.indexOf("launcher"), index2 = n.indexOf(
+                                "Launcher");
                         if (index1 < 0 && index2 < 0) {
                             r.add(n);
                         }
@@ -348,12 +378,14 @@ public final class GameFinder {
         { //General Game Providers
             for (String providers : GameProviders) {
                 {
-                    File gameFolder = new File("C:\\Program Files (x86)\\" + providers);
+                    File gameFolder = new File("C:\\Program Files (x86)\\"
+                                               + providers);
                     if (gameFolder.exists() && gameFolder.isDirectory()) {
                         File[] games = gameFolder.listFiles();
                         for (File game : games) {
                             String n = game.getName();
-                            int index1 = n.indexOf("launcher"), index2 = n.indexOf("Launcher");
+                            int index1 = n.indexOf("launcher"), index2 = n
+                                    .indexOf("Launcher");
                             if (index1 < 0 && index2 < 0) {
                                 r.add(n);
                             }
@@ -366,7 +398,8 @@ public final class GameFinder {
                         File[] games = gameFolder.listFiles();
                         for (File game : games) {
                             String n = game.getName();
-                            int index1 = n.indexOf("launcher"), index2 = n.indexOf("Launcher");
+                            int index1 = n.indexOf("launcher"), index2 = n
+                                    .indexOf("Launcher");
                             if (index1 < 0 && index2 < 0) {
                                 r.add(n);
                             }
@@ -382,22 +415,26 @@ public final class GameFinder {
      * PRECONDITION: You are on a Windows PC, Java source 6 to compile, and
      * mainDir is not null
      *
-     * @param mainDir A directory/file on the hard drive
+     * @param mainDir       A directory/file on the hard drive
      * @param extensionOnly Grabs files with a certain extension only
      *
      * @return ArrayList of Files objects representing every file in the
-     * directory denoted by mainDir and it's sub directories And only finds ones
-     * with the extension specified in the parameter extensionOnly
+     *         directory denoted by mainDir and it's sub directories And only finds ones
+     *         with the extension specified in the parameter extensionOnly
      *
      * @exception StackOverflowError When the search becomes too large (This is
-     * a recursive search)
+     *                               a recursive search)
      */
-    public static ArrayList<Files> getAllFilesInSubDirectories(File mainDir, String extensionOnly) {
+    public static ArrayList<Files> getAllFilesInSubDirectories(File mainDir,
+                                                               String extensionOnly) {
         ArrayList<Files> r = new ArrayList<Files>();
         if (!mainDir.isDirectory()) {
             try {
-                if (mainDir.getAbsolutePath().substring(mainDir.getAbsolutePath().lastIndexOf(".") + 1).compareTo(extensionOnly) == 0) {
-                    if (mainDir.getName().indexOf("install") < 0 && mainDir.getName().indexOf("unins") < 0) {
+                if (mainDir.getAbsolutePath().substring(mainDir
+                        .getAbsolutePath().lastIndexOf(".") + 1).compareTo(
+                        extensionOnly) == 0) {
+                    if (mainDir.getName().indexOf("install") < 0 && mainDir
+                            .getName().indexOf("unins") < 0) {
                         r.add(new Files(mainDir, 0));
                     }
                 }
@@ -410,8 +447,12 @@ public final class GameFinder {
                     if (f != null) {
                         if (!f.isDirectory()) {
                             try {
-                                if (f.getAbsolutePath().substring(f.getAbsolutePath().lastIndexOf(".") + 1).compareTo(extensionOnly) == 0) {
-                                    if (f.getName().indexOf("install") < 0&& mainDir.getName().indexOf("unins") < 0) {
+                                if (f.getAbsolutePath().substring(f
+                                        .getAbsolutePath().lastIndexOf(".") + 1)
+                                        .compareTo(extensionOnly) == 0) {
+                                    if (f.getName().indexOf("install") < 0
+                                        && mainDir.getName().indexOf("unins")
+                                           < 0) {
                                         r.add(new Files(f, 1));
                                     }
                                 }
@@ -420,8 +461,13 @@ public final class GameFinder {
                         } else {
                             for (Files ff : getAllFilesInSubDirectories(f, 2)) {
                                 try {
-                                    if (ff.getAbsolutePath().substring(ff.getAbsolutePath().lastIndexOf(".") + 1).compareTo(extensionOnly) == 0) {
-                                        if (ff.getName().indexOf("install") < 0&& mainDir.getName().indexOf("unins") < 0) {
+                                    if (ff.getAbsolutePath().substring(ff
+                                            .getAbsolutePath().lastIndexOf(".")
+                                                                       + 1)
+                                            .compareTo(extensionOnly) == 0) {
+                                        if (ff.getName().indexOf("install") < 0
+                                            && mainDir.getName()
+                                                .indexOf("unins") < 0) {
                                             r.add(ff);
                                         }
                                     }
@@ -440,17 +486,18 @@ public final class GameFinder {
      * PRECONDITION: You are on a Windows PC, Java source 6 to compile, and
      * mainDir is not null
      *
-     * @param mainDir A directory/file on the hard drive
+     * @param mainDir   A directory/file on the hard drive
      * @param iteration always will be zero (used to calculate depth of file in
-     * directories)
+     *                  directories)
      *
      * @return ArrayList of Files objects representing every file in the
-     * directory denoted by mainDir and it's sub directories
+     *         directory denoted by mainDir and it's sub directories
      *
      * @exception StackOverflowError When the search becomes too large (This is
-     * a recursive search)
+     *                               a recursive search)
      */
-    public static ArrayList<Files> getAllFilesInSubDirectories(File mainDir, int iteration) {
+    public static ArrayList<Files> getAllFilesInSubDirectories(File mainDir,
+                                                               int iteration) {
         ArrayList<Files> r = new ArrayList<Files>();
         if (!mainDir.isDirectory()) {
             r.add(new Files(mainDir, iteration));
@@ -462,7 +509,8 @@ public final class GameFinder {
                         if (!f.isDirectory()) {
                             r.add(new Files(f, iteration + 1));
                         } else {
-                            for (Files ff : getAllFilesInSubDirectories(f, iteration + 2)) {
+                            for (Files ff : getAllFilesInSubDirectories(f,
+                                    iteration + 2)) {
                                 r.add(ff);
                             }
                         }
@@ -479,14 +527,17 @@ public final class GameFinder {
      * @param possibles an Array of Files objects
      *
      * @return Files object that represents largest file in the Array denoted by
-     * the variable possibles
+     *         the variable possibles
      */
     public static Files getLargestFile(ArrayList<Files> possibles) {
-        Files r = possibles.get(0);
-        for (int i = 1; i < possibles.size(); i++) {
-            Files compare = possibles.get(i);
-            if (r.length() < compare.length()) {
-                r = compare;
+        Files r = null;
+        if (possibles.size() > 0) {
+            r = possibles.get(0);
+            for (int i = 1; i < possibles.size(); i++) {
+                Files compare = possibles.get(i);
+                if (r.length() < compare.length()) {
+                    r = compare;
+                }
             }
         }
         return r;
@@ -496,14 +547,15 @@ public final class GameFinder {
      * PRECONDITION: possibles is not null
      *
      * @param possibles an Array of Files objects
-     * @param gameName game name that will be used for searching for
-     * similarities
+     * @param gameName  game name that will be used for searching for
+     *                  similarities
      *
      * @return Files object that represents the earliest file in the Array
-     * denoted possibles that's name is most similar to the String gameName, and
-     * if none null is returned
+     *         denoted possibles that's name is most similar to the String gameName, and
+     *         if none null is returned
      */
-    public static Files getSimilarNamedFile(ArrayList<Files> possibles, String gameName) {
+    public static Files getSimilarNamedFile(ArrayList<Files> possibles,
+                                            String gameName) {
         for (int i = 0; i < possibles.size(); i++) {
             Files curr = possibles.get(i);
             StringTokenizer tokens = new StringTokenizer(gameName);
@@ -522,20 +574,22 @@ public final class GameFinder {
      * @param possibles an Array of Files objects
      *
      * @return An Array of Files objects that represents the files with the
-     * smallest depth in the Array denoted by the variable possibles
+     *         smallest depth in the Array denoted by the variable possibles
      */
     public static ArrayList<Files> getSmallestDepth(ArrayList<Files> possibles) {
         ArrayList<Files> r = new ArrayList<Files>();
-        Files first = possibles.get(0); //this is just here for efficiency
-        int currDepth = first.depth;
-        r.add(first);
-        for (int i = 1; i < possibles.size(); i++) {
-            Files curr = possibles.get(i);
-            if (curr.depth < currDepth) {
-                r.clear();
-                r.add(curr);
-            } else if (curr.depth == currDepth) {
-                r.add(curr);
+        if (possibles.size() > 0) {
+            Files first = possibles.get(0); //this is just here for efficiency
+            int currDepth = first.depth;
+            r.add(first);
+            for (int i = 1; i < possibles.size(); i++) {
+                Files curr = possibles.get(i);
+                if (curr.depth < currDepth) {
+                    r.clear();
+                    r.add(curr);
+                } else if (curr.depth == currDepth) {
+                    r.add(curr);
+                }
             }
         }
         return r;
