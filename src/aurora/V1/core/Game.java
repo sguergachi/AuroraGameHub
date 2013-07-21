@@ -438,17 +438,24 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         btnAward = new AButton("game_btn_award_norm.png",
                 "game_btn_award_down.png",
                 "game_btn_award_over.png");
+        if (main.LAUNCHES < 5) {
+            btnAward.setToolTipText("Unavailable");
+        }
 
         pnlAwardPane = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         pnlAwardPane.setPreferredSize(new Dimension(30, 40));
         pnlAwardPane.add(btnAward);
         pnlAwardPane.setOpaque(false);
 
+
         // Settings Button
         btnSetting = new AButton("game_btn_setting_norm.png",
                 "game_btn_setting_down.png",
                 "game_btn_setting_over.png");
         btnSetting.setPreferredSize(new Dimension(40, 40));
+        if (main.LAUNCHES < 5) {
+            btnSetting.setToolTipText("Settings");
+        }
 
 
         // Add Buttons to the Containers //

@@ -2052,7 +2052,7 @@ public class LibraryUI extends AuroraApp {
             btnOther_editUI.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
             pnlCenterRight_editUI.add(btnGameLocation_editUI);
             pnlCenterRight_editUI.add(btnGameCover_editUI);
-            pnlCenterRight_editUI.add(btnOther_editUI);
+//            pnlCenterRight_editUI.add(btnOther_editUI);
 
 
             pnlTopRightPane_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -2315,11 +2315,18 @@ public class LibraryUI extends AuroraApp {
         imgGameCoverStatus.setImgURl("addUI_badge_idle.png");
         logic.getGameSearch_editUI().resetCover();
 
-        try {
-            gameFileChooser_editUI.setCurrentDirectory(new File(
-                    currentGame_editUI.getGamePath()));
-        } catch (Exception e) {
-        }
+        AThreadWorker loadFileChooser = new AThreadWorker(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                    gameFileChooser_editUI.setCurrentDirectory(new File(
+                            currentGame_editUI.getGamePath()));
+
+            }
+        });
+
+        loadFileChooser.startOnce(); 
+
     }
 
     private void loadOrganizeUI() {
