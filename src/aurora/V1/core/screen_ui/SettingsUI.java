@@ -22,6 +22,12 @@ import org.apache.log4j.Logger;
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.main;
+import aurora.engine.V1.UI.AImagePane;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import javax.swing.Box;
+import javax.swing.JPanel;
 
 /**
  * Settings GUI
@@ -33,8 +39,12 @@ public class SettingsUI extends AuroraApp {
     private final DashboardUI dashboardUI;
 
     private final AuroraCoreUI coreUI;
-    
+
     static final Logger logger = Logger.getLogger(SettingsUI.class);
+
+    private AImagePane sorry;
+
+    private JPanel pnlContent;
 
     public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
@@ -45,10 +55,27 @@ public class SettingsUI extends AuroraApp {
 
     @Override
     public void loadUI() {
+
+        pnlContent = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 25));
+        pnlContent.setOpaque(false);
+        pnlContent.setPreferredSize(coreUI.getCenterPanel().getPreferredSize());
+
+        sorry = new AImagePane("inDev.png");
+        sorry.setPreferredSize(new Dimension(sorry.getRealImageWidth(), sorry
+                .getRealImageHeight()));
     }
 
     @Override
     public void buildUI() {
+        coreUI.getTitleLabel().setText("     Settings   ");
+
+        pnlContent.add(sorry);
+
+        //* Add Library Container to Center Panel *//
+        coreUI.getCenterPanel().add(BorderLayout.NORTH, Box.createVerticalStrut(
+                55));
+        coreUI.getCenterPanel().add(BorderLayout.CENTER, pnlContent);
+        coreUI.getCenterPanel().repaint();
     }
 
     @Override

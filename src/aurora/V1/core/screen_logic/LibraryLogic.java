@@ -122,6 +122,8 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     private ArrayList<File> executableGamePath;
 
+    private boolean isAutoLoadedOnce;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryLogic(LibraryUI)
@@ -827,6 +829,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                 LibraryUI.lblLibraryStatus.setForeground(Color.CYAN);
                 LibraryUI.lblLibraryStatus.setText(coreUI.getVi().VI(
                         ANuance.inx_Searching) + " For Games");
+                libraryUI.getPrgLibraryStatus().resume();
+
 
 
                 nameOfGames = GameFinder.getNameOfGamesOnDrive();
@@ -849,20 +853,31 @@ public class LibraryLogic implements AuroraScreenLogic {
                 LibraryUI.lblLibraryStatus.setForeground(Color.GREEN);
                 LibraryUI.lblLibraryStatus.setText("Finished");
 
+                libraryUI.getPrgLibraryStatus().stop();
+
                 try {
                     Thread.sleep(1500);
                 } catch (InterruptedException ex) {
-                    java.util.logging.Logger.getLogger(LibraryLogic.class.getName()).
+                    java.util.logging.Logger.getLogger(LibraryLogic.class
+                            .getName()).
                             log(Level.SEVERE, null, ex);
                 }
 
                 LibraryUI.lblLibraryStatus.setForeground(Color.LIGHT_GRAY);
                 LibraryUI.lblLibraryStatus.setText("Select a Game");
+
+                isAutoLoadedOnce = true;
             }
         });
 
-        findGames.startOnce();
+        if (!isAutoLoadedOnce) {
+            findGames.startOnce();
+        }
 
 
+    }
+
+    public boolean isIsAutoLoadedOnce() {
+        return isAutoLoadedOnce;
     }
 }

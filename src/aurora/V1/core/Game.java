@@ -182,8 +182,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private AButton btnSetting;
 
-    private String gameNameFormat;
-
     private ASlickLabel lblHoursPlayed;
 
     private ASlickLabel lblLastPlayed;
@@ -399,6 +397,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 "game_btn_star_down.png",
                 "game_btn_star_over.png");
         btnFavorite.addActionListener(new Game.FavoriteButtonListener());
+        if (main.LAUNCHES < 5) {
+            btnFavorite.setToolTipText("Favorite");
+        }
 
         pnlFavoritePane = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         pnlFavoritePane.setPreferredSize(new Dimension(30, 40));
@@ -411,6 +412,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 "game_btn_reverseRight_down.png",
                 "game_btn_reverseRight_over.png");
         btnFlip.addActionListener(new Game.FlipButtonListener());
+        if (main.LAUNCHES < 5) {
+            btnFlip.setToolTipText("Flip");
+        }
 
         pnlFlipPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
         pnlFlipPane.setPreferredSize(new Dimension(80, 40));
@@ -423,6 +427,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 "game_btn_play_over.png");
         playButtonListener = new Game.PlayButtonListener();
         btnPlay.addActionListener(playButtonListener);
+        if (main.LAUNCHES < 5) {
+            btnPlay.setToolTipText("Play");
+        }
         btnPlay.setPreferredSize(new Dimension(40, 40));
 
         //- Reverse Buttons -//
@@ -886,6 +893,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         showRemoveBtn();
         imgOverlayBar.setVisible(true);
         setSelected();
+        if (getName().length() > 20) {
+            LibraryUI.lblLibraryStatus.setFont(LibraryUI.lblLibraryStatus
+                    .getFont().deriveFont(Font.PLAIN, 27));
+        } else {
+            LibraryUI.lblLibraryStatus.setFont(LibraryUI.lblLibraryStatus
+                    .getFont()
+                    .deriveFont(Font.PLAIN, LibraryUI.gameNameFontSize));
+        }
         LibraryUI.lblLibraryStatus.setForeground(Color.lightGray);
         LibraryUI.lblLibraryStatus.setText(getName());
 

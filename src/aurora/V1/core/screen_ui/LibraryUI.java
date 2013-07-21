@@ -317,7 +317,7 @@ public class LibraryUI extends AuroraApp {
     private JLabel lblKeyAction;
 
     /**
-     * AddGameUI Label with Title of Selected Game.
+     * AddGameUI Label showing status of Library
      */
     public static AFadeLabel lblLibraryStatus;
 
@@ -573,6 +573,8 @@ public class LibraryUI extends AuroraApp {
 
     private JScrollPane scrollList_autoUI;
 
+    private AProgressWheel prgLibraryStatus;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
@@ -640,17 +642,16 @@ public class LibraryUI extends AuroraApp {
                 0, bottomTopPadding));
 
         imgLibraryStatusPane = new AImagePane("library_selectedGameBar_bg.png",
-                selectedGameBarWidth, selectedGameBarHeight,
-                new FlowLayout(FlowLayout.CENTER, 0, 5));
-        imgLibraryStatusPane.setLayout(new BorderLayout());
+                selectedGameBarWidth, selectedGameBarHeight);
+        imgLibraryStatusPane.setLayout(new BorderLayout(0, 10));
+
+        prgLibraryStatus = new AProgressWheel("app_progressWheel.png");
 
         lblLibraryStatus = new AFadeLabel("Select a Game");
         lblLibraryStatus.setForeground(Color.lightGray);
         lblLibraryStatus.setFont(coreUI
                 .getDefaultFont().deriveFont(Font.PLAIN,
                 gameNameFontSize));
-
-
 
 
         //* Add Game Button *//
@@ -719,7 +720,18 @@ public class LibraryUI extends AuroraApp {
 
             imgLibraryStatusPane.setPreferredSize(new Dimension(
                     selectedGameBarWidth, selectedGameBarHeight));
-            imgLibraryStatusPane.add(lblLibraryStatus);
+
+
+            prgLibraryStatus.stop();
+            imgLibraryStatusPane.add(lblLibraryStatus, BorderLayout.CENTER);
+            JPanel progressContainer = new JPanel(
+                    new FlowLayout(FlowLayout.LEFT, 0, 20));
+            progressContainer.setOpaque(false);
+            progressContainer.add(prgLibraryStatus);
+            progressContainer.setPreferredSize(new Dimension(50, 25));
+            imgLibraryStatusPane.add(progressContainer, BorderLayout.EAST);
+            imgLibraryStatusPane.add(Box.createHorizontalStrut(50),
+                    BorderLayout.WEST);
 
             //* Organize Games Button *//
             pnlBottomCenterContainer.add(btnOrganizeGames);
@@ -1579,7 +1591,7 @@ public class LibraryUI extends AuroraApp {
             scrollList_autoUI.setVerticalScrollBar(scrollBar);
             scrollList_autoUI.setPreferredSize(new Dimension(pnlAddGamePane
                     .getPreferredSize().width / 2
-                                                        - 50,
+                                                             - 50,
                     pnlCoverPane_autoUI.getRealImageHeight()));
 
 
@@ -3096,6 +3108,10 @@ public class LibraryUI extends AuroraApp {
 
     public HoverButtonLeft getMoveLibraryLeftHandler() {
         return moveLibraryLeftHandler;
+    }
+
+    public AProgressWheel getPrgLibraryStatus() {
+        return prgLibraryStatus;
     }
 
     public HoverButtonRight getMoveLibraryRightHandler() {

@@ -45,6 +45,7 @@ public class main {
     private static boolean startMini = false;
     public static String VERSION = "Alpha 8";
     static final Logger logger = Logger.getLogger(main.class);
+    public static int LAUNCHES;
 
     public static void main(String[] args) throws InterruptedException,
                                                   UnsupportedAudioFileException,

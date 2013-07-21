@@ -56,6 +56,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
 import org.apache.log4j.Logger;
 
 /**
@@ -465,6 +468,12 @@ public class AuroraCoreUI {
 
         setSizes();
 
+        //* Tooltip //
+        UIManager.put("ToolTip.background", new ColorUIResource(new Color(87,
+                140, 204)));
+        UIManager.put("ToolTip.foreground", new ColorUIResource(Color.BLACK));
+
+
         //* Get Font *//
 
         try {
@@ -521,7 +530,7 @@ public class AuroraCoreUI {
                 topPanelHeight));
 
         paneTop.setIgnoreRepaint(true);
-        paneTop.setLayout(new BorderLayout(0,0));
+        paneTop.setLayout(new BorderLayout(0, 0));
 
 
         //*
@@ -546,7 +555,7 @@ public class AuroraCoreUI {
         paneBottom.setPreferredSize(new Dimension(frame.getSize().width,
                 topPanelHeight));
         paneBottom.setOpaque(false);
-        paneBottom.setLayout(new BorderLayout(0,0));
+        paneBottom.setLayout(new BorderLayout(0, 0));
 
         //*
         // Configure Panels:
@@ -576,13 +585,17 @@ public class AuroraCoreUI {
                 "app_btn_close_down.png", "app_btn_close_over.png",
                 exitButtonWidth, exitButtonHeight);
         btnExit.addActionListener(new CloseListener());
-        btnExit.setToolTipText("Exit");
+        if (main.LAUNCHES < 5) {
+            btnExit.setToolTipText("Exit");
+        }
         btnMinimize = new AButton("app_btn_minimize_norm.png",
                 "app_btn_minimize_down.png", "app_btn_minimize_over.png",
                 minimizeButtonWidth, minimizeButtonHeight);
         minimizeHandler = new MinimizeListener(this, AuroraMini.MINIMIZE_MODE);
         btnMinimize.addActionListener(minimizeHandler);
-        btnMinimize.setToolTipText("Minimize");
+        if (main.LAUNCHES < 5) {
+            btnMinimize.setToolTipText("Minimize");
+        }
 
         // TOP PANEL
         // --------------------------------------------------------------------

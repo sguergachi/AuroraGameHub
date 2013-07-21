@@ -502,6 +502,9 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
                 }
 
+                //Increment number of times launched//
+                logic.incrementAuroraLaunch();
+
 
                 //* load DashboardUI *//
                 loadedDashboardUI = new DashboardUI(coreUI, this);
@@ -515,6 +518,8 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 loadedDashboardUI.loadUI();
 
                 loadedData = true;
+
+
 
 
             }
@@ -699,6 +704,8 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
     public AuroraCoreUI getCoreUI() {
         return coreUI;
     }
+
+
 
 
 }

@@ -170,7 +170,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
         //* remove back button *//
         getCoreUI().getFrameControlImagePane().remove(btnBack);
-        getCoreUI().getFrameControlImagePane().setImage("dash_frameControl_bg.png");
+        getCoreUI().getFrameControlImagePane().setImage(
+                "dash_frameControl_bg.png");
 
         getCoreUI().getFrame().requestFocusInWindow();
 
@@ -230,9 +231,9 @@ public abstract class AuroraApp implements AuroraScreenUI {
      */
     public final void clearUI(final Boolean isClearingApp) {
 
-    	if (logger.isDebugEnabled()) {
-    		logger.debug("CLEARING " + appName);
-    	}
+        if (logger.isDebugEnabled()) {
+            logger.debug("CLEARING " + appName);
+        }
 
         boolean clearForApp;
 
@@ -449,7 +450,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
             getCoreUI().getFrameControlImagePane().setImageURL(
                     "dash_frameControlBig_bg.png");
         } catch (MalformedURLException ex) {
-        	logger.error(ex);
+            logger.error(ex);
         }
 
         getCoreUI().getSouthFromTopPanel().setPreferredSize(
@@ -458,7 +459,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
                 .getFrameControlContainerPanel().getHeight()));
 
         if (logger.isDebugEnabled()) {
-        	logger.debug("ADDED BACK BUTTON");
+            logger.debug("ADDED BACK BUTTON");
         }
 
         if (getCoreUI().getFrameControlImagePane().getComponent(0) != btnBack) {
@@ -473,15 +474,15 @@ public abstract class AuroraApp implements AuroraScreenUI {
         KeyboardFocusManager.getCurrentKeyboardFocusManager()
                 .addKeyEventDispatcher(
                 new KeyEventDispatcher() {
-                    public boolean dispatchKeyEvent(KeyEvent e) {
+            public boolean dispatchKeyEvent(KeyEvent e) {
 
-                        if (e.getKeyChar() == KeyEvent.VK_ESCAPE && isInApp) {
-                            new BackButtonListener().actionPerformed(null);
-                            return true;
-                        }
-                        return false;
-                    }
-                });
+                if (e.getKeyChar() == KeyEvent.VK_ESCAPE && isInApp) {
+                    new BackButtonListener().actionPerformed(null);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private class BackButtonListener implements ActionListener {

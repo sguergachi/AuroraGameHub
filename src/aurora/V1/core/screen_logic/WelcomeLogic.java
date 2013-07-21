@@ -124,7 +124,6 @@ public class WelcomeLogic implements AuroraScreenLogic {
 //        }
     }
 
-
     public void transisionToDashboard() {
 
         loadTransitionUI();
@@ -294,6 +293,28 @@ public class WelcomeLogic implements AuroraScreenLogic {
         analytics.addProperty("OS", System.getProperty("os.name"));
         analytics.sendEventProperty("Launched Aurora");
 
+
+    }
+
+    public void incrementAuroraLaunch() {
+
+        String launches = startScreenUI.getAuroraStorage().getStoredSettings()
+                .getSettingValue(
+                "launch");
+
+        if (launches == null || launches.equals("null")) {
+            startScreenUI.getAuroraStorage().getStoredSettings().saveSetting(
+                    "launch", "1");
+             main.LAUNCHES = 1;
+        } else {
+            int value = Integer.parseInt(launches) + 1;
+            launches = Integer.toString(value);
+            startScreenUI.getAuroraStorage().getStoredSettings().saveSetting(
+                    "launch", launches);
+            main.LAUNCHES = Integer.parseInt(launches);
+        }
+
+        logger.info("Number of Launches: " + main.LAUNCHES);
 
     }
 
