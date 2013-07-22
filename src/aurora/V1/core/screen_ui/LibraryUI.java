@@ -399,7 +399,7 @@ public class LibraryUI extends AuroraApp {
 
     private AButton btnOrganizeGames;
 
-    private int listFontSize;
+    public static int listFontSize;
 
     private int gridSearchFontSize;
 
@@ -574,6 +574,14 @@ public class LibraryUI extends AuroraApp {
     private JScrollPane scrollList_autoUI;
 
     private AProgressWheel prgLibraryStatus;
+
+    private AImagePane pnlCheckBG;
+
+    private JPanel pnlScrollPane;
+
+    private JList pnlCheckList;
+
+    private DefaultListModel<Object> modelCheckList;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -1253,7 +1261,11 @@ public class LibraryUI extends AuroraApp {
 
         gameList_autoUI = new JList<>();
 
-        scrollList_autoUI = new JScrollPane(gameList_autoUI,
+        pnlScrollPane = new JPanel(new BorderLayout());
+        pnlScrollPane.setOpaque(false);
+
+
+        scrollList_autoUI = new JScrollPane(pnlScrollPane,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -1266,6 +1278,12 @@ public class LibraryUI extends AuroraApp {
         imgAutoStatus = new AImage("addUI_badge_idle.png");
 
         lblAutoSelectGame = new ASlickLabel("Select Game");
+
+        pnlCheckBG = new AImagePane("autoUI_BG.png", new BorderLayout(12, 0));
+
+        modelCheckList = new DefaultListModel<>();
+        pnlCheckList = new JList(modelCheckList);
+
 
         pnlAutoStatusContainer = new AImagePane("addUI_status_container.png",
                 new FlowLayout(FlowLayout.LEFT, 0, 5));
@@ -1578,9 +1596,33 @@ public class LibraryUI extends AuroraApp {
             gameList_autoUI.setSelectionForeground(new Color(238, 243, 249));
             gameList_autoUI.setBorder(null);
             gameList_autoUI.setLayoutOrientation(JList.VERTICAL);
+            gameList_autoUI.setFixedCellHeight(29);
 
             gameList_autoUI.setModel(listModel_autoUI);
             gameList_autoUI.setCellRenderer(handler.new listRender());
+            gameList_autoUI
+                    .removeMouseListener(pnlCheckList.getMouseListeners()[0]);
+
+
+            // Check Box Pane
+
+            pnlCheckBG.setPreferredSize(new Dimension(pnlCheckBG
+                    .getRealImageWidth(),
+                    scrollList_autoUI.getPreferredSize().height));
+
+            pnlCheckList.setBorder(BorderFactory.createEmptyBorder(0, 1,
+                    0, 0));
+            pnlCheckList.setOpaque(false);
+            pnlCheckList.setLayoutOrientation(JList.VERTICAL);
+            pnlCheckList.setCellRenderer(handler.new ComponentListRender());
+            pnlCheckList.setFixedCellHeight(29);
+            pnlCheckList.setFixedCellWidth(pnlCheckBG
+                    .getRealImageWidth());
+            pnlCheckList
+                    .removeMouseListener(pnlCheckList.getMouseListeners()[0]);
+
+            pnlCheckBG.add(pnlCheckList, BorderLayout.CENTER);
+
 
             // Set up Scroll Pane //
 
@@ -1590,9 +1632,12 @@ public class LibraryUI extends AuroraApp {
 
             scrollList_autoUI.setVerticalScrollBar(scrollBar);
             scrollList_autoUI.setPreferredSize(new Dimension(pnlAddGamePane
-                    .getPreferredSize().width / 2
-                                                             - 50,
+                    .getPreferredSize().width / 2 - 50,
                     pnlCoverPane_autoUI.getRealImageHeight()));
+
+
+            pnlScrollPane.add(gameList_autoUI, BorderLayout.CENTER);
+            pnlScrollPane.add(pnlCheckBG, BorderLayout.EAST);
 
 
             //Center Panel
@@ -1608,6 +1653,7 @@ public class LibraryUI extends AuroraApp {
 
             pnlAutoCenter.add(pnlCoverPane_autoUI);
             pnlAutoCenter.add(scrollList_autoUI);
+
 
 
 
@@ -2319,13 +2365,13 @@ public class LibraryUI extends AuroraApp {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                    gameFileChooser_editUI.setCurrentDirectory(new File(
-                            currentGame_editUI.getGamePath()));
+                gameFileChooser_editUI.setCurrentDirectory(new File(
+                        currentGame_editUI.getGamePath()));
 
             }
         });
 
-        loadFileChooser.startOnce(); 
+        loadFileChooser.startOnce();
 
     }
 
@@ -3068,6 +3114,10 @@ public class LibraryUI extends AuroraApp {
         return isGameCover;
     }
 
+    public AImagePane getPnlCheckBG() {
+        return pnlCheckBG;
+    }
+
     public boolean isOther() {
         return isOther;
     }
@@ -3203,6 +3253,14 @@ public class LibraryUI extends AuroraApp {
 
     public JTextField getSearchText_addUI() {
         return txtSearchField_addUI;
+    }
+
+    public DefaultListModel<Object> getModelCheckList() {
+        return modelCheckList;
+    }
+
+    public JList getPnlCheckList() {
+        return pnlCheckList;
     }
 
     public JPanel getButtonPane() {

@@ -487,6 +487,50 @@ public class LibraryHandler implements
         }
     }
 
+      public class ComponentListRender extends DefaultListCellRenderer {
+
+        private static final long serialVersionUID = 1L;
+
+        public ComponentListRender() {
+            setOpaque(false);
+        }
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value,
+                                                      int index,
+                                                      boolean isSelected,
+                                                      boolean cellHasFocus) {
+
+            setComponentOrientation(list.getComponentOrientation());
+
+            Color bg = null;
+            Color fg = null;
+
+            JList.DropLocation dropLocation = list.getDropLocation();
+            if (dropLocation != null
+                && !dropLocation.isInsert()
+                && dropLocation.getIndex() == index) {
+
+                bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
+                fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
+
+                isSelected = true;
+            }
+
+            this.setBorder(null);
+
+            if (value instanceof JPanel) {
+                return (Component) value;
+            }else{
+                return this;
+            }
+
+
+
+
+        }
+    }
+
     public class SearchRefocusListener extends KeyAdapter {
         //Handles When User Starts Typing While Components other than the
         //Search Box are in focus.

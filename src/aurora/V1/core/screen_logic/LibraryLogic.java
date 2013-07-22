@@ -34,10 +34,22 @@ import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
+import aurora.engine.V1.UI.AImagePane;
+import aurora.engine.V1.UI.ARadioButton;
+import aurora.engine.V1.UI.ASlickLabel;
 import aurora.engine.V1.UI.ATimeLabel;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -53,7 +65,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.prefs.Preferences;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.DefaultListModel;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 
 /**
@@ -808,7 +824,6 @@ public class LibraryLogic implements AuroraScreenLogic {
         result[str.length()] = 0;
         return result;
     }
-
     /**
      * .-----------------------------------------------------------------------.
      * | autoFindGames()
@@ -819,6 +834,8 @@ public class LibraryLogic implements AuroraScreenLogic {
      * .........................................................................
      *
      */
+    private boolean selected = false;
+
     public void autoFindGames(final DefaultListModel model) {
 
         AThreadWorker findGames = new AThreadWorker(new ActionListener() {
@@ -840,7 +857,42 @@ public class LibraryLogic implements AuroraScreenLogic {
 
 
                 for (int i = 0; i < nameOfGames.size(); i++) {
+
+
+                    //Create Check Box UI
+                    final AImagePane radioPanel = new AImagePane(
+                            "autoUI_checkBG_norm.png", new FlowLayout(
+                            FlowLayout.CENTER));
+                    radioPanel.setPreferredSize(new Dimension(radioPanel
+                            .getRealImageWidth(), radioPanel
+                            .getRealImageHeight()));
+                    radioPanel.setBorder(null);
+
+                    final ARadioButton radioButton = new ARadioButton(
+                            "autoUI_check_inactive.png",
+                            "autoUI_check_active.png");
+                    radioButton.setBorder(null);
+
+                    ASlickLabel label = new ASlickLabel(nameOfGames.get(i));
+                    label.setFont(coreUI.getDefaultFont()
+                            .deriveFont(Font.BOLD,
+                            LibraryUI.listFontSize));
+
+
+                    radioPanel.add(radioButton);
+                    radioPanel.setForeground(Color.black);
+
+
+
+                    radioPanel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+                    radioPanel.setAlignmentY(JComponent.TOP_ALIGNMENT);
+
+                    //Add Check box and Game name
+                    libraryUI.getModelCheckList().addElement(radioPanel);
+
+
                     model.addElement(nameOfGames.get(i));
+
                     try {
                         Thread.sleep(16);
                     } catch (InterruptedException ex) {
@@ -849,6 +901,122 @@ public class LibraryLogic implements AuroraScreenLogic {
                                 log(Level.SEVERE, null, ex);
                     }
                 }
+
+
+
+                libraryUI.getPnlCheckList().addMouseListener(
+                        new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+
+                        // Verify that the click occured on the selected cell
+                        final int index = libraryUI.getPnlCheckList()
+                                .locationToIndex(e.getPoint());
+
+
+                        if (((ARadioButton) ((AImagePane) libraryUI
+                                .getModelCheckList().get(index))
+                                .getComponent(0)).isSelected) {
+                            selected = true;
+
+                        } else {
+
+                            selected = false;
+                        }
+
+
+
+                        if (((ARadioButton) ((AImagePane) libraryUI
+                                .getModelCheckList().get(index))
+                                .getComponent(0)).isSelected) {
+
+                            ((ARadioButton) ((AImagePane) libraryUI
+                                    .getModelCheckList().get(index))
+                                    .getComponent(0))
+                                    .setUnSelected();
+
+
+                        } else {
+                            ((ARadioButton) ((AImagePane) libraryUI
+                                    .getModelCheckList().get(index))
+                                    .getComponent(0)).setSelected();
+                        }
+
+                        libraryUI.getPnlCheckList().revalidate();
+                        libraryUI.getPnlCheckList().repaint();
+
+
+                    }
+                });
+
+                libraryUI.getPnlCheckList().addMouseMotionListener(
+                        new MouseMotionListener() {
+                    @Override
+                    public void mouseDragged(MouseEvent e) {
+
+                        // Verify that the click occured on the selected cell
+                        final int index = libraryUI.getPnlCheckList()
+                                .locationToIndex(e.getPoint());
+
+
+                        if (selected) {
+
+                            ((ARadioButton) ((AImagePane) libraryUI
+                                    .getModelCheckList().get(index))
+                                    .getComponent(0))
+                                    .setUnSelected();
+                        } else {
+
+                            ((ARadioButton) ((AImagePane) libraryUI
+                                    .getModelCheckList().get(index))
+                                    .getComponent(0)).setSelected();
+                        }
+
+                        libraryUI.getPnlCheckList().revalidate();
+                        libraryUI.getPnlCheckList().repaint();
+
+                    }
+
+                    @Override
+                    public void mouseMoved(MouseEvent e) {
+                    }
+                });
+
+                libraryUI.getGamesList().addMouseListener(
+                        new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+
+                        System.out.println("CLICKED!");
+
+                        // Verify that the click occured on the selected cell
+                        final int index = libraryUI.getGamesList()
+                                .locationToIndex(e.getPoint());
+
+                        if (e.getClickCount() == 2) {
+                            if (((ARadioButton) ((AImagePane) libraryUI
+                                    .getModelCheckList().get(index))
+                                    .getComponent(0)).isSelected) {
+
+                                ((ARadioButton) ((AImagePane) libraryUI
+                                        .getModelCheckList().get(index))
+                                        .getComponent(0))
+                                        .setUnSelected();
+
+
+                            } else {
+                                ((ARadioButton) ((AImagePane) libraryUI
+                                        .getModelCheckList().get(index))
+                                        .getComponent(0)).setSelected();
+                            }
+                        }
+
+
+                    }
+                });
+
 
                 LibraryUI.lblLibraryStatus.setForeground(Color.GREEN);
                 LibraryUI.lblLibraryStatus.setText("Finished");
