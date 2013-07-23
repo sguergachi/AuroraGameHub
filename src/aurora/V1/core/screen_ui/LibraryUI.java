@@ -64,6 +64,8 @@ import javax.swing.PopupFactory;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.apache.log4j.Logger;
 
@@ -583,6 +585,17 @@ public class LibraryUI extends AuroraApp {
 
     private DefaultListModel<Object> modelCheckList;
 
+    private AButton btnAddAll;
+
+    private AButton btnClearAll;
+
+    private JPanel pnlAutoContainer;
+
+    private JPanel pnlListButtons_autoUI;
+
+    private JPanel pnlAutoTopContainer;
+    private AButton btnAutoRefresh;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
@@ -1036,7 +1049,7 @@ public class LibraryUI extends AuroraApp {
      */
     public final void loadAddGameUI() {
 
-        // Create Components
+        // Create Main Components
         // ----------------------------------------------------------------.
 
         //* Get Glass Pane to Put UI On *//
@@ -1054,6 +1067,7 @@ public class LibraryUI extends AuroraApp {
 
         pnlAddGameType = new JPanel(new FlowLayout(FlowLayout.CENTER, -18, 0));
         pnlAddGameType.setOpaque(false);
+
 
 
         // Manual Mode
@@ -1235,18 +1249,23 @@ public class LibraryUI extends AuroraApp {
 
         //Panels
 
-        pnlAutoAdd = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pnlAutoAdd = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlAutoAdd.setOpaque(false);
 
-        pnlAutoContent = new JPanel(new BorderLayout(0, 0));
+        pnlAutoContent = new JPanel(new BorderLayout(0, -25));
         pnlAutoContent.setOpaque(false);
 
-        pnlAutoTop = new JPanel(new BorderLayout(0, 0));
+        pnlAutoTop = new JPanel(new BorderLayout(0, 15));
         pnlAutoTop.setOpaque(false);
 
-        pnlAutoCenter = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        pnlAutoCenter.setOpaque(false);
+        pnlAutoTopContainer = new JPanel(new BorderLayout(0, -25));
+        pnlAutoTopContainer.setOpaque(false);
 
+        pnlAutoContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        pnlAutoContainer.setOpaque(false);
+
+        pnlAutoCenter = new JPanel(new BorderLayout(0, 0));
+        pnlAutoCenter.setOpaque(false);
 
 
         //Components
@@ -1266,7 +1285,7 @@ public class LibraryUI extends AuroraApp {
 
 
         scrollList_autoUI = new JScrollPane(pnlScrollPane,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         scrollList_autoUI.setOpaque(false);
@@ -1284,12 +1303,32 @@ public class LibraryUI extends AuroraApp {
         modelCheckList = new DefaultListModel<>();
         pnlCheckList = new JList(modelCheckList);
 
-
         pnlAutoStatusContainer = new AImagePane("addUI_status_container.png",
                 new FlowLayout(FlowLayout.LEFT, 0, 5));
         pnlAutoStatusContainer.setImageSize(pnlAutoStatusContainer
                 .getRealImageWidth() + 35,
                 pnlAutoStatusContainer.getRealImageHeight());
+
+
+        pnlListButtons_autoUI = new JPanel(new FlowLayout(FlowLayout.CENTER, 0,
+                0));
+        pnlListButtons_autoUI.setOpaque(false);
+
+        btnAddAll = new AButton("autoUI_btnAll_norm.png",
+                "autoUI_btnAll_down.png", "autoUI_btnAll_over.png");
+        btnAddAll.setBorder(null);
+        btnAddAll.setMargin(new Insets(0, 0, 0, 0));
+
+        btnClearAll = new AButton("autoUI_btnClear_norm.png",
+                "autoUI_btnClear_down.png", "autoUI_btnClear_over.png");
+        btnClearAll.setBorder(null);
+        btnClearAll.setMargin(new Insets(0, 0, 0, 0));
+
+        btnAutoRefresh = new AButton("autoUI_btnRefresh_norm.png",
+                "autoUI_btnRefresh_down.png", "autoUI_btnRefresh_over.png");
+        btnAutoRefresh.setBorder(null);
+        btnAutoRefresh.setMargin(new Insets(0, 0, 0, 0));
+
 
         logic.getGameSearch_autoUI().setUpGameSearch(pnlBlankCoverGame_autoUI,
                 pnlCoverPane_autoUI,
@@ -1608,7 +1647,23 @@ public class LibraryUI extends AuroraApp {
 
             pnlCheckBG.setPreferredSize(new Dimension(pnlCheckBG
                     .getRealImageWidth(),
-                    scrollList_autoUI.getPreferredSize().height));
+                    scrollList_autoUI.getViewport().getPreferredSize().height));
+
+            scrollList_autoUI.getViewport().addChangeListener(
+                    new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+
+                    pnlCheckBG.setImageSize(pnlCheckBG
+                            .getRealImageWidth(),
+                            scrollList_autoUI.getViewport().getPreferredSize().height);
+
+                    pnlCheckBG.setPreferredSize(new Dimension(pnlCheckBG
+                            .getRealImageWidth(),
+                            scrollList_autoUI.getViewport().getPreferredSize().height));
+
+                }
+            });
 
             pnlCheckList.setBorder(BorderFactory.createEmptyBorder(0, 1,
                     0, 0));
@@ -1639,6 +1694,25 @@ public class LibraryUI extends AuroraApp {
             pnlScrollPane.add(gameList_autoUI, BorderLayout.CENTER);
             pnlScrollPane.add(pnlCheckBG, BorderLayout.EAST);
 
+            // Above List Panel
+
+            btnAddAll.addActionListener(handler.new AutoAddAllButtonHandler());
+            btnClearAll.addActionListener(
+                    handler.new AutoClearAllButtonHandler());
+            btnAutoRefresh.addActionListener(
+                    handler.new AutoRefreshHandler());
+
+
+            pnlListButtons_autoUI.add(btnAutoRefresh);
+            pnlListButtons_autoUI.add(Box.createHorizontalStrut(150));
+            pnlListButtons_autoUI.add(btnAddAll);
+            pnlListButtons_autoUI.add(btnClearAll);
+            pnlListButtons_autoUI.add(Box.createHorizontalStrut(17));
+
+            pnlAutoTopContainer.add(pnlListButtons_autoUI, BorderLayout.EAST);
+
+
+
 
             //Center Panel
 
@@ -1651,8 +1725,11 @@ public class LibraryUI extends AuroraApp {
                     .getRealImageHeight()));
             pnlCoverPane_autoUI.add(pnlBlankCoverGame_autoUI);
 
-            pnlAutoCenter.add(pnlCoverPane_autoUI);
-            pnlAutoCenter.add(scrollList_autoUI);
+            pnlAutoContainer.add(pnlCoverPane_autoUI);
+            pnlAutoContainer.add(scrollList_autoUI);
+
+            pnlAutoCenter.add(pnlAutoTopContainer, BorderLayout.NORTH);
+            pnlAutoCenter.add(pnlAutoContainer, BorderLayout.CENTER);
 
 
 
@@ -1721,7 +1798,6 @@ public class LibraryUI extends AuroraApp {
 
             isAddGameUILoaded = true;
 
-            btnManual.setSelected();
         }
     }
 
@@ -2573,6 +2649,13 @@ public class LibraryUI extends AuroraApp {
             hideAddGameUI();
 
         } else {
+
+            if (main.LAUNCHES > 5 || storage.getStoredLibrary().getNumberGames()
+                                     > 0) {
+                btnManual.setSelected();
+                btnAuto.setUnSelected();
+            }
+
             pnlGlass.setVisible(true);
 
 

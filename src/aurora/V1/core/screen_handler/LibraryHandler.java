@@ -476,6 +476,7 @@ public class LibraryHandler implements
 
             Border border = BorderFactory.createEmptyBorder(3, 10, 3,
                     2);
+            Border border2 = BorderFactory.createDashedBorder(null);
             if (isSelected) {
             } else {
                 setBorder(border);
@@ -487,7 +488,7 @@ public class LibraryHandler implements
         }
     }
 
-      public class ComponentListRender extends DefaultListCellRenderer {
+    public class ComponentListRender extends DefaultListCellRenderer {
 
         private static final long serialVersionUID = 1L;
 
@@ -521,7 +522,7 @@ public class LibraryHandler implements
 
             if (value instanceof JPanel) {
                 return (Component) value;
-            }else{
+            } else {
                 return this;
             }
 
@@ -1025,14 +1026,45 @@ public class LibraryHandler implements
         }
     }
 
+    public class AutoClearAllButtonHandler implements ActionListener {
+
+        public AutoClearAllButtonHandler() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+
+            libraryLogic.autoClearAll();
+        }
+    }
+
+    public class AutoAddAllButtonHandler implements ActionListener {
+
+        public AutoAddAllButtonHandler() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            libraryLogic.autoSelectAll();
+        }
+    }
+    public class AutoRefreshHandler implements ActionListener {
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            libraryLogic.autoRefresh();
+        }
+    }
+
     public class AutoAddHandler implements ActionListener {
+
         private final DefaultListModel model;
 
         public AutoAddHandler(DefaultListModel listModel) {
             model = listModel;
         }
-
-
 
         @Override
         public void actionPerformed(ActionEvent e) {

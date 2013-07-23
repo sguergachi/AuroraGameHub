@@ -335,4 +335,8 @@ public class StoredLibrary extends AStorage {
     public ArrayList<String> getGamePath() {
         return GamePaths;
     }
+
+    public int getNumberGames(){
+         return GameNames.size();
+    }
 }

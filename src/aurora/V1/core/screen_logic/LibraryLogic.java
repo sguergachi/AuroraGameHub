@@ -140,6 +140,10 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     private boolean isAutoLoadedOnce;
 
+    private boolean refreshAuto;
+
+    private AThreadWorker findGames;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryLogic(LibraryUI)
@@ -838,164 +842,104 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     public void autoFindGames(final DefaultListModel model) {
 
-        AThreadWorker findGames = new AThreadWorker(new ActionListener() {
+
+        findGames = new AThreadWorker(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (!isAutoLoadedOnce || refreshAuto) {
 
+                    LibraryUI.lblLibraryStatus.setForeground(Color.CYAN);
+                    LibraryUI.lblLibraryStatus.setText(coreUI.getVi().VI(
+                            ANuance.inx_Searching) + " For Games");
+                    libraryUI.getPrgLibraryStatus().resume();
 
-                LibraryUI.lblLibraryStatus.setForeground(Color.CYAN);
-                LibraryUI.lblLibraryStatus.setText(coreUI.getVi().VI(
-                        ANuance.inx_Searching) + " For Games");
-                libraryUI.getPrgLibraryStatus().resume();
+                    nameOfGames = null;
+                    executableGamePath = null;
 
+                    libraryUI
+                            .getModelCheckList().removeAllElements();
+                    model.removeAllElements();
 
-
-                nameOfGames = GameFinder.getNameOfGamesOnDrive();
-                executableGamePath = GameFinder.getExecutablePathsOnDrive(
-                        nameOfGames);
-
-
-
-                for (int i = 0; i < nameOfGames.size(); i++) {
-
-
-                    //Create Check Box UI
-                    final AImagePane radioPanel = new AImagePane(
-                            "autoUI_checkBG_norm.png", new FlowLayout(
-                            FlowLayout.CENTER));
-                    radioPanel.setPreferredSize(new Dimension(radioPanel
-                            .getRealImageWidth(), radioPanel
-                            .getRealImageHeight()));
-                    radioPanel.setBorder(null);
-
-                    final ARadioButton radioButton = new ARadioButton(
-                            "autoUI_check_inactive.png",
-                            "autoUI_check_active.png");
-                    radioButton.setBorder(null);
-
-                    ASlickLabel label = new ASlickLabel(nameOfGames.get(i));
-                    label.setFont(coreUI.getDefaultFont()
-                            .deriveFont(Font.BOLD,
-                            LibraryUI.listFontSize));
-
-
-                    radioPanel.add(radioButton);
-                    radioPanel.setForeground(Color.black);
+                    nameOfGames = GameFinder.getNameOfGamesOnDrive();
+                    executableGamePath = GameFinder.getExecutablePathsOnDrive(
+                            nameOfGames);
 
 
 
-                    radioPanel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-                    radioPanel.setAlignmentY(JComponent.TOP_ALIGNMENT);
+                    for (int i = 0; i < nameOfGames.size(); i++) {
 
-                    //Add Check box and Game name
-                    libraryUI.getModelCheckList().addElement(radioPanel);
+                        if (!libraryUI.getStorage().getStoredLibrary()
+                                .getGameNames().contains(nameOfGames.get(i))) {
+                            //Create Check Box UI
+                            final AImagePane radioPanel = new AImagePane(
+                                    "autoUI_checkBG_norm.png", new FlowLayout(
+                                    FlowLayout.CENTER));
+                            radioPanel.setPreferredSize(new Dimension(radioPanel
+                                    .getRealImageWidth(), radioPanel
+                                    .getRealImageHeight()));
+                            radioPanel.setBorder(null);
 
+                            final ARadioButton radioButton = new ARadioButton(
+                                    "autoUI_check_inactive.png",
+                                    "autoUI_check_active.png");
+                            radioButton.setBorder(null);
 
-                    model.addElement(nameOfGames.get(i));
-
-                    try {
-                        Thread.sleep(16);
-                    } catch (InterruptedException ex) {
-                        java.util.logging.Logger.getLogger(LibraryLogic.class
-                                .getName()).
-                                log(Level.SEVERE, null, ex);
-                    }
-                }
-
-
-
-                libraryUI.getPnlCheckList().addMouseListener(
-                        new MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-
-
-                        // Verify that the click occured on the selected cell
-                        final int index = libraryUI.getPnlCheckList()
-                                .locationToIndex(e.getPoint());
+                            ASlickLabel label = new ASlickLabel(nameOfGames.get(
+                                    i));
+                            label.setFont(coreUI.getDefaultFont()
+                                    .deriveFont(Font.BOLD,
+                                    LibraryUI.listFontSize));
 
 
-                        if (((ARadioButton) ((AImagePane) libraryUI
-                                .getModelCheckList().get(index))
-                                .getComponent(0)).isSelected) {
-                            selected = true;
+                            radioPanel.add(radioButton);
+                            radioPanel.setForeground(Color.black);
 
-                        } else {
 
-                            selected = false;
+
+                            radioPanel
+                                    .setAlignmentX(JComponent.CENTER_ALIGNMENT);
+                            radioPanel.setAlignmentY(JComponent.TOP_ALIGNMENT);
+
+                            //Add Check box and Game name
+                            libraryUI.getModelCheckList().addElement(radioPanel);
+
+                            model.addElement(nameOfGames.get(i));
+
+                            try {
+                                Thread.sleep(16);
+                            } catch (InterruptedException ex) {
+                                java.util.logging.Logger.getLogger(
+                                        LibraryLogic.class
+                                        .getName()).
+                                        log(Level.SEVERE, null, ex);
+                            }
                         }
-
-
-
-                        if (((ARadioButton) ((AImagePane) libraryUI
-                                .getModelCheckList().get(index))
-                                .getComponent(0)).isSelected) {
-
-                            ((ARadioButton) ((AImagePane) libraryUI
-                                    .getModelCheckList().get(index))
-                                    .getComponent(0))
-                                    .setUnSelected();
-
-
-                        } else {
-                            ((ARadioButton) ((AImagePane) libraryUI
-                                    .getModelCheckList().get(index))
-                                    .getComponent(0)).setSelected();
-                        }
-
-                        libraryUI.getPnlCheckList().revalidate();
-                        libraryUI.getPnlCheckList().repaint();
-
-
-                    }
-                });
-
-                libraryUI.getPnlCheckList().addMouseMotionListener(
-                        new MouseMotionListener() {
-                    @Override
-                    public void mouseDragged(MouseEvent e) {
-
-                        // Verify that the click occured on the selected cell
-                        final int index = libraryUI.getPnlCheckList()
-                                .locationToIndex(e.getPoint());
-
-
-                        if (selected) {
-
-                            ((ARadioButton) ((AImagePane) libraryUI
-                                    .getModelCheckList().get(index))
-                                    .getComponent(0))
-                                    .setUnSelected();
-                        } else {
-
-                            ((ARadioButton) ((AImagePane) libraryUI
-                                    .getModelCheckList().get(index))
-                                    .getComponent(0)).setSelected();
-                        }
-
-                        libraryUI.getPnlCheckList().revalidate();
-                        libraryUI.getPnlCheckList().repaint();
-
                     }
 
-                    @Override
-                    public void mouseMoved(MouseEvent e) {
-                    }
-                });
 
-                libraryUI.getGamesList().addMouseListener(
-                        new MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e) {
+                    libraryUI.getPnlCheckList().addMouseListener(
+                            new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
 
 
-                        System.out.println("CLICKED!");
+                            // Verify that the click occured on the selected cell
+                            final int index = libraryUI.getPnlCheckList()
+                                    .locationToIndex(e.getPoint());
 
-                        // Verify that the click occured on the selected cell
-                        final int index = libraryUI.getGamesList()
-                                .locationToIndex(e.getPoint());
 
-                        if (e.getClickCount() == 2) {
+                            if (((ARadioButton) ((AImagePane) libraryUI
+                                    .getModelCheckList().get(index))
+                                    .getComponent(0)).isSelected) {
+                                selected = true;
+
+                            } else {
+
+                                selected = false;
+                            }
+
+
+
                             if (((ARadioButton) ((AImagePane) libraryUI
                                     .getModelCheckList().get(index))
                                     .getComponent(0)).isSelected) {
@@ -1011,41 +955,191 @@ public class LibraryLogic implements AuroraScreenLogic {
                                         .getModelCheckList().get(index))
                                         .getComponent(0)).setSelected();
                             }
+
+                            libraryUI.getPnlCheckList().revalidate();
+                            libraryUI.getPnlCheckList().repaint();
+
+
+                        }
+                    });
+
+                    libraryUI.getPnlCheckList().addMouseMotionListener(
+                            new MouseMotionListener() {
+                        @Override
+                        public void mouseDragged(MouseEvent e) {
+
+                            // Verify that the click occured on the selected cell
+                            final int index = libraryUI.getPnlCheckList()
+                                    .locationToIndex(e.getPoint());
+
+
+                            if (selected) {
+
+                                ((ARadioButton) ((AImagePane) libraryUI
+                                        .getModelCheckList().get(index))
+                                        .getComponent(0))
+                                        .setUnSelected();
+                            } else {
+
+                                ((ARadioButton) ((AImagePane) libraryUI
+                                        .getModelCheckList().get(index))
+                                        .getComponent(0)).setSelected();
+                            }
+
+                            libraryUI.getPnlCheckList().revalidate();
+                            libraryUI.getPnlCheckList().repaint();
+
                         }
 
+                        @Override
+                        public void mouseMoved(MouseEvent e) {
+                        }
+                    });
 
+                    libraryUI.getGamesList().addMouseListener(
+                            new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+
+
+                            System.out.println("CLICKED!");
+
+                            // Verify that the click occured on the selected cell
+                            final int index = libraryUI.getGamesList()
+                                    .locationToIndex(e.getPoint());
+
+                            if (e.getClickCount() == 2) {
+                                if (((ARadioButton) ((AImagePane) libraryUI
+                                        .getModelCheckList().get(index))
+                                        .getComponent(0)).isSelected) {
+
+                                    ((ARadioButton) ((AImagePane) libraryUI
+                                            .getModelCheckList().get(index))
+                                            .getComponent(0))
+                                            .setUnSelected();
+
+
+                                } else {
+                                    ((ARadioButton) ((AImagePane) libraryUI
+                                            .getModelCheckList().get(index))
+                                            .getComponent(0)).setSelected();
+                                }
+                            }
+
+
+                        }
+                    });
+
+
+                    LibraryUI.lblLibraryStatus.setForeground(Color.GREEN);
+                    LibraryUI.lblLibraryStatus.setText("Finished");
+
+                    libraryUI.getPrgLibraryStatus().stop();
+
+                    try {
+                        Thread.sleep(1500);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(LibraryLogic.class
+                                .getName()).
+                                log(Level.SEVERE, null, ex);
                     }
-                });
 
+                    LibraryUI.lblLibraryStatus.setForeground(Color.LIGHT_GRAY);
+                    LibraryUI.lblLibraryStatus.setText("Select a Game");
 
-                LibraryUI.lblLibraryStatus.setForeground(Color.GREEN);
-                LibraryUI.lblLibraryStatus.setText("Finished");
-
-                libraryUI.getPrgLibraryStatus().stop();
-
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException ex) {
-                    java.util.logging.Logger.getLogger(LibraryLogic.class
-                            .getName()).
-                            log(Level.SEVERE, null, ex);
+                    isAutoLoadedOnce = true;
+                    refreshAuto = false;
                 }
-
-                LibraryUI.lblLibraryStatus.setForeground(Color.LIGHT_GRAY);
-                LibraryUI.lblLibraryStatus.setText("Select a Game");
-
-                isAutoLoadedOnce = true;
             }
         });
 
-        if (!isAutoLoadedOnce) {
-            findGames.startOnce();
-        }
 
+        findGames.startOnce();
+    }
 
+    public void autoRefresh() {
+        refreshAuto = true;
+        findGames.startOnce();
     }
 
     public boolean isIsAutoLoadedOnce() {
         return isAutoLoadedOnce;
+    }
+
+    public void autoSelectAll() {
+
+        AThreadWorker select = new AThreadWorker(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (nameOfGames != null) {
+                    for (int i = 0; i < nameOfGames.size(); i++) {
+                        ((ARadioButton) ((AImagePane) libraryUI
+                                .getModelCheckList().get(i))
+                                .getComponent(0)).setSelected();
+
+                        libraryUI.getPnlCheckList().revalidate();
+                        libraryUI.getPnlCheckList().repaint();
+
+                        try {
+                            Thread.sleep(20);
+
+
+                        } catch (InterruptedException ex) {
+                            java.util.logging.Logger.getLogger(
+                                    LibraryLogic.class
+                                    .getName()).
+                                    log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+
+                libraryUI.getPnlCheckList().revalidate();
+                libraryUI.getPnlCheckList().repaint();
+
+            }
+        });
+
+        select.startOnce();
+
+
+
+    }
+
+    public void autoClearAll() {
+
+        AThreadWorker clear = new AThreadWorker(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (nameOfGames != null) {
+                    for (int i = 0; i < nameOfGames.size(); i++) {
+                        ((ARadioButton) ((AImagePane) libraryUI
+                                .getModelCheckList().get(i))
+                                .getComponent(0)).setUnSelected();
+
+                        libraryUI.getPnlCheckList().revalidate();
+                        libraryUI.getPnlCheckList().repaint();
+
+                        try {
+                            Thread.sleep(20);
+
+
+                        } catch (InterruptedException ex) {
+                            java.util.logging.Logger.getLogger(
+                                    LibraryLogic.class
+                                    .getName()).
+                                    log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+
+                libraryUI.getPnlCheckList().revalidate();
+                libraryUI.getPnlCheckList().repaint();
+
+            }
+        });
+
+        clear.startOnce();
     }
 }
