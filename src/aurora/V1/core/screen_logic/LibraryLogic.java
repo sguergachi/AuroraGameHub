@@ -910,8 +910,11 @@ public class LibraryLogic implements AuroraScreenLogic {
                                     imgStatusIcon.getRealImageHeight()));
 
 
+                            if (!gameSearch_autoUI.checkGameExist(gameName
+                                    .getText())) {
+                                pnlGameElement.add(imgStatusIcon);
+                            }
 
-                            pnlGameElement.add(imgStatusIcon);
                             pnlGameElement.add(gameName);
 
 
@@ -921,14 +924,6 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                             model.addElement(pnlGameElement);
 
-                            try {
-                                Thread.sleep(16);
-                            } catch (InterruptedException ex) {
-                                java.util.logging.Logger.getLogger(
-                                        LibraryLogic.class
-                                        .getName()).
-                                        log(Level.SEVERE, null, ex);
-                            }
                         }
                     }
 

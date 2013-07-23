@@ -1636,8 +1636,9 @@ public class LibraryUI extends AuroraApp {
             gameList_autoUI.setSelectionForeground(new Color(238, 243, 249));
             gameList_autoUI.setBorder(null);
             gameList_autoUI.setLayoutOrientation(JList.VERTICAL);
-            gameList_autoUI.setFixedCellHeight(29);
-            gameList_autoUI.setFixedCellWidth(scrollList_autoUI.getPreferredSize().width);
+            gameList_autoUI.setFixedCellHeight(30);
+            gameList_autoUI.setFixedCellWidth(scrollList_autoUI
+                    .getPreferredSize().width);
 
             gameList_autoUI.setModel(listModel_autoUI);
             gameList_autoUI.setCellRenderer(handler.new listPanelRender());
@@ -1782,8 +1783,7 @@ public class LibraryUI extends AuroraApp {
 
             gameList_autoUI.addListSelectionListener(
                     handler.new AutoSelectListHandler(logic
-                    .getGameSearch_autoUI(),
-                    pnlCoverPane_autoUI));
+                    .getGameSearch_autoUI()));
 
             btnManual.setSelectedHandler(handler.new ManualAddHandler());
             btnAuto.setSelectedHandler(handler.new AutoAddHandler(

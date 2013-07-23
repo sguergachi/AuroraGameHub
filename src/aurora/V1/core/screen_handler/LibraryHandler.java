@@ -1040,7 +1040,8 @@ public class LibraryHandler implements
                                                       boolean isSelected,
                                                       boolean cellHasFocus) {
 
-            JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane) ?
+            JLabel label = (JLabel) (!(((JPanel) value).getComponent(0)
+                    instanceof AImagePane) ?
                     ((JPanel) value).getComponent(0) : ((JPanel) value)
                     .getComponent(1));
 
@@ -1076,23 +1077,53 @@ public class LibraryHandler implements
             label.setFont(list.getFont());
 
 
-            Border border = BorderFactory.createEmptyBorder(1, 5, 5,
+            Border border = BorderFactory.createEmptyBorder(1, 5, 0,
                     2);
             Border border2 = BorderFactory.createDashedBorder(null);
 
             ((JPanel) value).setBorder(border);
-            ((JPanel) value).revalidate();
-            ((JPanel) value).repaint();
 
             return (JPanel) value;
 
         }
     }
 
+    public class AutoSelectListHandler implements ListSelectionListener {
+
+        private JList gamesList;
+
+        private DefaultListModel listModel;
+
+        private final GameSearch gameSearch;
+
+        public AutoSelectListHandler(GameSearch searchEngine) {
+            gameSearch = searchEngine;
+        }
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            gamesList = (JList) e.getSource();
+            listModel = (DefaultListModel) ((JList) e.getSource()).getModel();
+            if (gamesList.getSelectedIndex() != -1) {
+
+                Object value = listModel.get(gamesList
+                        .getSelectedIndex());
+
+                JLabel label = (JLabel) (!(((JPanel) value).getComponent(0)
+                        instanceof AImagePane) ?
+                        ((JPanel) value).getComponent(0) : ((JPanel) value)
+                        .getComponent(1));
+
+                String gameSelected = label.getText();
+
+                gameSearch.searchSpecificGame(gameSelected);
+
+            }
+        }
+    }
+
     public class AutoClearAllButtonHandler implements ActionListener {
 
-        public AutoClearAllButtonHandler() {
-        }
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1104,8 +1135,6 @@ public class LibraryHandler implements
 
     public class AutoAddAllButtonHandler implements ActionListener {
 
-        public AutoAddAllButtonHandler() {
-        }
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1342,35 +1371,6 @@ public class LibraryHandler implements
 
                 gameSearch.searchSpecificGame(gameSelected);
                 gameSearch.setAppendedName(gameSelected);
-
-            }
-        }
-    }
-
-    public class AutoSelectListHandler implements ListSelectionListener {
-
-        private JList gamesList;
-
-        private DefaultListModel listModel;
-
-        private final GameSearch gameSearch;
-
-        private final AImagePane gameCoverPane;
-
-        public AutoSelectListHandler(GameSearch searchEngine,
-                                     AImagePane pnlCoverPane) {
-            gameSearch = searchEngine;
-            gameCoverPane = pnlCoverPane;
-        }
-
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            gamesList = (JList) e.getSource();
-            listModel = (DefaultListModel) ((JList) e.getSource()).getModel();
-            if (gamesList.getSelectedIndex() != -1) {
-//                String gameSelected = (String) listModel.get(gamesList
-//                        .getSelectedIndex());
-//                gameSearch.searchSpecificGame(gameSelected);
 
             }
         }

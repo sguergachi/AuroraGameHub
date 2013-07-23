@@ -194,13 +194,31 @@ public class GameSearch implements Runnable {
         this.AppendedName = AppendedName;
     }
 
+    public Boolean checkGameExist(String gameName){
+
+         try {
+            foundGame = (String) db.getRowFlex("AuroraTable", new String[]{
+                "FILE_NAME"}, "GAME_NAME='" + gameName
+                    .replace("'", "''") + "'", "FILE_NAME")[0];
+        } catch (Exception ex) {
+            logger.error(ex);
+            foundGame = null;
+        }
+
+         if(foundGame == null){
+             return false;
+         }else{
+             return true;
+         }
+    }
+
     /**
      * Search from outside Class using specific String
      *
      * @param gameName the name of the Game you want to search for
      *
      */
-    public Game searchSpecificGame(String gameName) {
+    public AImagePane searchSpecificGame(String gameName) {
         try {
             foundGame = (String) db.getRowFlex("AuroraTable", new String[]{
                 "FILE_NAME"}, "GAME_NAME='" + gameName
@@ -227,8 +245,10 @@ public class GameSearch implements Runnable {
             pnlGameCoverPane.repaint();
             pnlGameCoverPane.revalidate();
 
+            return notFound;
+
             //Show the game Cover if a single database item is found
-        } else if (foundGame != null) {
+        } else{
 
             pnlGameCoverPane.removeAll();
             //Create the new GameCover object
@@ -257,9 +277,11 @@ public class GameSearch implements Runnable {
             pnlGameCoverPane.repaint();
             pnlGameCoverPane.revalidate();
 
+            return foundGameCover;
         }
 
-        return foundGameCover;
+
+
     }
 
     public Game getFoundGameCover() {
