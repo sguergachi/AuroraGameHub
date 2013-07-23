@@ -1026,6 +1026,69 @@ public class LibraryHandler implements
         }
     }
 
+    public class listPanelRender extends DefaultListCellRenderer {
+
+        private static final long serialVersionUID = 1L;
+
+        public listPanelRender() {
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value,
+                                                      int index,
+                                                      boolean isSelected,
+                                                      boolean cellHasFocus) {
+
+            JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane) ?
+                    ((JPanel) value).getComponent(0) : ((JPanel) value)
+                    .getComponent(1));
+
+
+
+            Color bg = null;
+            Color fg = null;
+
+            JList.DropLocation dropLocation = list.getDropLocation();
+            if (dropLocation != null
+                && !dropLocation.isInsert()
+                && dropLocation.getIndex() == index) {
+
+                bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
+                fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
+
+                isSelected = true;
+            }
+
+            if (isSelected) {
+                ((JPanel) value).setBackground(bg == null ? list
+                        .getSelectionBackground() : bg);
+
+                label.setForeground(fg == null ? list
+                        .getSelectionForeground() : fg);
+            } else {
+                ((JPanel) value).setBackground(list.getBackground());
+                label.setForeground(list.getForeground());
+            }
+
+            ((JPanel) value).setEnabled(list.isEnabled());
+
+            label.setFont(list.getFont());
+
+
+            Border border = BorderFactory.createEmptyBorder(1, 5, 5,
+                    2);
+            Border border2 = BorderFactory.createDashedBorder(null);
+
+            ((JPanel) value).setBorder(border);
+            ((JPanel) value).revalidate();
+            ((JPanel) value).repaint();
+
+            return (JPanel) value;
+
+        }
+    }
+
     public class AutoClearAllButtonHandler implements ActionListener {
 
         public AutoClearAllButtonHandler() {
@@ -1049,8 +1112,8 @@ public class LibraryHandler implements
             libraryLogic.autoSelectAll();
         }
     }
-    public class AutoRefreshHandler implements ActionListener {
 
+    public class AutoRefreshHandler implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1305,9 +1368,9 @@ public class LibraryHandler implements
             gamesList = (JList) e.getSource();
             listModel = (DefaultListModel) ((JList) e.getSource()).getModel();
             if (gamesList.getSelectedIndex() != -1) {
-                String gameSelected = (String) listModel.get(gamesList
-                        .getSelectedIndex());
-                gameSearch.searchSpecificGame(gameSelected);
+//                String gameSelected = (String) listModel.get(gamesList
+//                        .getSelectedIndex());
+//                gameSearch.searchSpecificGame(gameSelected);
 
             }
         }

@@ -594,6 +594,7 @@ public class LibraryUI extends AuroraApp {
     private JPanel pnlListButtons_autoUI;
 
     private JPanel pnlAutoTopContainer;
+
     private AButton btnAutoRefresh;
 
     /**
@@ -1636,9 +1637,10 @@ public class LibraryUI extends AuroraApp {
             gameList_autoUI.setBorder(null);
             gameList_autoUI.setLayoutOrientation(JList.VERTICAL);
             gameList_autoUI.setFixedCellHeight(29);
+            gameList_autoUI.setFixedCellWidth(scrollList_autoUI.getPreferredSize().width);
 
             gameList_autoUI.setModel(listModel_autoUI);
-            gameList_autoUI.setCellRenderer(handler.new listRender());
+            gameList_autoUI.setCellRenderer(handler.new listPanelRender());
             gameList_autoUI
                     .removeMouseListener(pnlCheckList.getMouseListeners()[0]);
 
@@ -1670,7 +1672,7 @@ public class LibraryUI extends AuroraApp {
             pnlCheckList.setOpaque(false);
             pnlCheckList.setLayoutOrientation(JList.VERTICAL);
             pnlCheckList.setCellRenderer(handler.new ComponentListRender());
-            pnlCheckList.setFixedCellHeight(29);
+            pnlCheckList.setFixedCellHeight(30);
             pnlCheckList.setFixedCellWidth(pnlCheckBG
                     .getRealImageWidth());
             pnlCheckList
@@ -3340,6 +3342,10 @@ public class LibraryUI extends AuroraApp {
 
     public DefaultListModel<Object> getModelCheckList() {
         return modelCheckList;
+    }
+
+    public JList getGameList_autoUI() {
+        return gameList_autoUI;
     }
 
     public JList getPnlCheckList() {

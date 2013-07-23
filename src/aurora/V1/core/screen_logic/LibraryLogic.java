@@ -34,6 +34,7 @@ import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
+import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.ARadioButton;
 import aurora.engine.V1.UI.ASlickLabel;
@@ -69,6 +70,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 
@@ -895,15 +897,29 @@ public class LibraryLogic implements AuroraScreenLogic {
                             radioPanel.setForeground(Color.black);
 
 
+                            JPanel pnlGameElement = new JPanel(new FlowLayout(
+                                    FlowLayout.LEFT, 5, 0));
 
-                            radioPanel
-                                    .setAlignmentX(JComponent.CENTER_ALIGNMENT);
-                            radioPanel.setAlignmentY(JComponent.TOP_ALIGNMENT);
+                            JLabel gameName = new JLabel(nameOfGames
+                                    .get(i));
+
+                            AImagePane imgStatusIcon = new AImagePane(
+                                    "autoUI_listIcon.png");
+                            imgStatusIcon.setPreferredSize(new Dimension(
+                                    imgStatusIcon.getRealImageWidth(),
+                                    imgStatusIcon.getRealImageHeight()));
+
+
+
+                            pnlGameElement.add(imgStatusIcon);
+                            pnlGameElement.add(gameName);
+
+
 
                             //Add Check box and Game name
                             libraryUI.getModelCheckList().addElement(radioPanel);
 
-                            model.addElement(nameOfGames.get(i));
+                            model.addElement(pnlGameElement);
 
                             try {
                                 Thread.sleep(16);
