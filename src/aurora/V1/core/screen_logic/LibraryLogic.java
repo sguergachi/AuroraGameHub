@@ -855,8 +855,15 @@ public class LibraryLogic implements AuroraScreenLogic {
                             ANuance.inx_Searching) + " For Games");
                     libraryUI.getPrgLibraryStatus().resume();
 
+                    libraryUI.getBtnAutoRefresh().setButtonStates(
+                            "autoUI_btnRefreshing.png",
+                            "autoUI_btnRefreshing.png",
+                            "autoUI_btnRefreshing.png");
+
                     nameOfGames = null;
                     executableGamePath = null;
+
+                    gameSearch_autoUI.resetCover();
 
                     libraryUI
                             .getModelCheckList().removeAllElements();
@@ -1041,6 +1048,13 @@ public class LibraryLogic implements AuroraScreenLogic {
                         }
                     });
 
+                    libraryUI.getGameList_autoUI().setSelectedIndex(0);
+
+                    libraryUI.getBtnAutoRefresh().setButtonStates(
+                            "autoUI_btnRefresh_norm.png",
+                            "autoUI_btnRefresh_down.png",
+                            "autoUI_btnRefresh_over.png");
+
 
                     LibraryUI.lblLibraryStatus.setForeground(Color.GREEN);
                     LibraryUI.lblLibraryStatus.setText("Finished");
@@ -1070,7 +1084,9 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     public void autoRefresh() {
         refreshAuto = true;
-        findGames.startOnce();
+        if (findGames != null && findGames.isStopped()) {
+            findGames.startOnce();
+        }
     }
 
     public boolean isIsAutoLoadedOnce() {

@@ -3568,4 +3568,8 @@ public class LibraryUI extends AuroraApp {
     public LibraryLogic getLogic() {
         return logic;
     }
+
+    public AButton getBtnAutoRefresh() {
+        return btnAutoRefresh;
+    }
 }

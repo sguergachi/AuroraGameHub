@@ -900,7 +900,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         showRemoveBtn();
         imgOverlayBar.setVisible(true);
         setSelected();
-        if (getName().length() > 20) {
+        if (getName().length() > 30) {
             LibraryUI.lblLibraryStatus.setFont(LibraryUI.lblLibraryStatus
                     .getFont().deriveFont(Font.PLAIN, 27));
         } else {
