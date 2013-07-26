@@ -186,7 +186,7 @@ public class GameSearch implements Runnable {
         foundArray = null;
         listModel.removeAllElements();
         imgStatus.setImgURl("addUI_badge_invalid.png");
-        libraryUI.getLogic().checkAddGameStatus();
+        libraryUI.getLogic().checkManualAddGameStatus();
 
     }
 
@@ -241,7 +241,7 @@ public class GameSearch implements Runnable {
 
 
             imgStatus.setImgURl("addUI_badge_invalid.png");
-            libraryUI.getLogic().checkAddGameStatus();
+            libraryUI.getLogic().checkManualAddGameStatus();
             pnlGameCoverPane.repaint();
             pnlGameCoverPane.revalidate();
 
@@ -273,7 +273,7 @@ public class GameSearch implements Runnable {
 
             //Change notification
             imgStatus.setImgURl("addUI_badge_valid.png");
-            libraryUI.getLogic().checkAddGameStatus();
+            libraryUI.getLogic().checkManualAddGameStatus();
             pnlGameCoverPane.repaint();
             pnlGameCoverPane.revalidate();
 
@@ -363,7 +363,7 @@ public class GameSearch implements Runnable {
                 foundGameCover = null;
 
                 imgStatus.setImgURl("addUI_badge_invalid.png");
-                libraryUI.getLogic().checkAddGameStatus();
+                libraryUI.getLogic().checkManualAddGameStatus();
 
                 listModel.removeAllElements();
 
@@ -399,7 +399,7 @@ public class GameSearch implements Runnable {
 
                 //Trun notifier Green
                 imgStatus.setImgURl("addUI_badge_valid.png");
-                libraryUI.getLogic().checkAddGameStatus();
+                libraryUI.getLogic().checkManualAddGameStatus();
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
             }

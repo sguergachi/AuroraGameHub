@@ -830,7 +830,7 @@ public class LibraryHandler implements
                 libraryUI
                         .setCurrentPath(gameLocator.getSelectedFile().getPath());
                 libraryUI.getStatusBadge2().setImgURl("addUI_badge_valid.png");
-                libraryLogic.checkAddGameStatus();
+                libraryLogic.checkManualAddGameStatus();
             } else {
                 libraryUI.getStatusBadge2().setImgURl("addUI_badge_invalid.png");
             }
@@ -1040,8 +1040,7 @@ public class LibraryHandler implements
                                                       boolean isSelected,
                                                       boolean cellHasFocus) {
 
-            JLabel label = (JLabel) (!(((JPanel) value).getComponent(0)
-                    instanceof AImagePane) ?
+            JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane) ?
                     ((JPanel) value).getComponent(0) : ((JPanel) value)
                     .getComponent(1));
 
@@ -1109,8 +1108,7 @@ public class LibraryHandler implements
                 Object value = listModel.get(gamesList
                         .getSelectedIndex());
 
-                JLabel label = (JLabel) (!(((JPanel) value).getComponent(0)
-                        instanceof AImagePane) ?
+                JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane) ?
                         ((JPanel) value).getComponent(0) : ((JPanel) value)
                         .getComponent(1));
 
@@ -1124,17 +1122,36 @@ public class LibraryHandler implements
 
     public class AutoClearAllButtonHandler implements ActionListener {
 
-
         @Override
         public void actionPerformed(ActionEvent e) {
+
 
 
             libraryLogic.autoClearAll();
         }
     }
 
-    public class AutoAddAllButtonHandler implements ActionListener {
+    public class AutoSelectCheckHandler implements ActionListener {
 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            libraryLogic.incrementSelection();
+
+            libraryLogic.checkAutoAddGameStatus();
+
+        }
+    }
+
+    public class AutoUnSelectCheckHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            libraryLogic.derementSelection();
+            libraryLogic.checkAutoAddGameStatus();
+        }
+    }
+
+    public class AutoAddAllButtonHandler implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {

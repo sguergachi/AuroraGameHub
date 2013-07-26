@@ -3183,6 +3183,10 @@ public class LibraryUI extends AuroraApp {
         return isGameLocation;
     }
 
+    public AImage getImgAutoStatus() {
+        return imgAutoStatus;
+    }
+
     public void setIsGameLocation(boolean isGameLocation) {
         this.isGameLocation = isGameLocation;
     }

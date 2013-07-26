@@ -146,6 +146,10 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     private AThreadWorker findGames;
 
+    private int checkboxesSelected;
+
+    private boolean addButtonVisible = false;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryLogic(LibraryUI)
@@ -668,7 +672,37 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     /**
      * .-----------------------------------------------------------------------.
-     * | checkAddGameStatus()
+     * | checkAutoAddGameStatus()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method checks if Auto Add Status is green meaning we can add games
+     * |
+     * .........................................................................
+     *
+     * @throws MalformedURLException Exception
+     */
+    public void checkAutoAddGameStatus() {
+
+        if (libraryUI.getImgAutoStatus().getImgURl().equals(
+                "addUI_badge_valid.png")) {
+
+            //Animate the Button below Add Game UI//
+
+            animateAddButtonDown();
+
+
+        } else if (libraryUI.getImgAutoStatus().getImgURl().equals(
+                "addUI_badge_invalid.png")) {
+
+            //Animate up and hide it//
+            animateAddButtonUp();
+        }
+
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | checkManualAddGameStatus()
      * .-----------------------------------------------------------------------.
      * |
      * | This method checks if both Add Game UI badges are Green meaning
@@ -678,7 +712,7 @@ public class LibraryLogic implements AuroraScreenLogic {
      *
      * @throws MalformedURLException Exception
      */
-    public void checkAddGameStatus() {
+    public void checkManualAddGameStatus() {
 
         if (libraryUI.getStatusBadge1().getImgURl().equals(
                 "addUI_badge_valid.png")
@@ -706,42 +740,50 @@ public class LibraryLogic implements AuroraScreenLogic {
      * Animates the Add Game To Library Button to a visible state
      */
     private void animateAddButtonDown() {
-        addGameToLibButtonAnimator = new AAnimate(libraryUI
-                .getAddGameToLibButton());
+        if (!addButtonVisible) {
+            addGameToLibButtonAnimator = new AAnimate(libraryUI
+                    .getAddGameToLibButton());
 
-        libraryUI.getAddGameToLibButton().setVisible(true);
-        addGameToLibButtonAnimator.setInitialLocation((coreUI
-                .getFrame()
-                .getWidth() / 2) - libraryUI.getAddGameToLibButton()
-                .getWidth() / 2, libraryUI.getAddGamePane()
-                .getImgIcon()
-                .getIconHeight() - 180);
-        addGameToLibButtonAnimator.moveVertical(libraryUI
-                .getAddGamePane()
-                .getImgIcon()
-                .getIconHeight() - 55, 20);
-        addGameToLibButtonAnimator.removeAllListeners();
+            libraryUI.getAddGameToLibButton().setVisible(true);
+            addGameToLibButtonAnimator.setInitialLocation((coreUI
+                    .getFrame()
+                    .getWidth() / 2) - libraryUI.getAddGameToLibButton()
+                    .getWidth() / 2, libraryUI.getAddGamePane()
+                    .getImgIcon()
+                    .getIconHeight() - 180);
+            addGameToLibButtonAnimator.moveVertical(libraryUI
+                    .getAddGamePane()
+                    .getImgIcon()
+                    .getIconHeight() - 55, 20);
+            addGameToLibButtonAnimator.removeAllListeners();
+
+            addButtonVisible = true;
+        }
     }
 
     /**
      * Animates the Add Game To Library Button to hide behind the AddGamePane
      */
     private void animateAddButtonUp() {
-        addGameToLibButtonAnimator = new AAnimate(libraryUI
-                .getAddGameToLibButton());
+        if (addButtonVisible) {
+            addGameToLibButtonAnimator = new AAnimate(libraryUI
+                    .getAddGameToLibButton());
 
-        addGameToLibButtonAnimator.setInitialLocation(libraryUI
-                .getAddGameToLibButton().getX(), libraryUI
-                .getAddGameToLibButton().getY());
-        addGameToLibButtonAnimator.moveVertical(-5, 20);
+            addGameToLibButtonAnimator.setInitialLocation(libraryUI
+                    .getAddGameToLibButton().getX(), libraryUI
+                    .getAddGameToLibButton().getY());
+            addGameToLibButtonAnimator.moveVertical(-5, 20);
 
-        addGameToLibButtonAnimator
-                .addPostAnimationListener(new APostHandler() {
-            @Override
-            public void postAction() {
-                libraryUI.getAddGameToLibButton().setVisible(false);
-            }
-        });
+            addGameToLibButtonAnimator
+                    .addPostAnimationListener(new APostHandler() {
+                @Override
+                public void postAction() {
+                    libraryUI.getAddGameToLibButton().setVisible(false);
+                }
+            });
+
+            addButtonVisible = false;
+        }
     }
     private File steamFile = null;
 
@@ -863,6 +905,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                     nameOfGames = null;
                     executableGamePath = null;
 
+                    checkboxesSelected = 0;
+
                     gameSearch_autoUI.resetCover();
 
                     libraryUI
@@ -892,6 +936,11 @@ public class LibraryLogic implements AuroraScreenLogic {
                                     "autoUI_check_inactive.png",
                                     "autoUI_check_active.png");
                             radioButton.setBorder(null);
+
+                            radioButton.setSelectedHandler(
+                                    libraryHandler.new AutoSelectCheckHandler());
+                            radioButton.setUnSelectedHandler(
+                                    libraryHandler.new AutoUnSelectCheckHandler());
 
                             ASlickLabel label = new ASlickLabel(nameOfGames.get(
                                     i));
@@ -1168,5 +1217,31 @@ public class LibraryLogic implements AuroraScreenLogic {
         });
 
         clear.startOnce();
+    }
+
+    public void derementSelection() {
+        if (checkboxesSelected > 0) {
+            checkboxesSelected--;
+        }else{
+            checkboxesSelected = 0;
+        }
+
+        if (checkboxesSelected <= 0) {
+            libraryUI.getImgAutoStatus().setImgURl("addUI_badge_invalid.png");
+        }
+
+        System.out.println(checkboxesSelected);
+
+    }
+
+    public void incrementSelection() {
+        checkboxesSelected++;
+
+
+        if (checkboxesSelected > 0) {
+            libraryUI.getImgAutoStatus().setImgURl("addUI_badge_valid.png");
+        }
+
+        System.out.println(checkboxesSelected);
     }
 }
