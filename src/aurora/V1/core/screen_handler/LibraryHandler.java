@@ -1135,9 +1135,7 @@ public class LibraryHandler implements
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            libraryLogic.incrementSelection();
-
-            libraryLogic.checkAutoAddGameStatus();
+//            libraryLogic.checkAutoAddGameStatus();
 
         }
     }
@@ -1146,8 +1144,7 @@ public class LibraryHandler implements
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            libraryLogic.derementSelection();
-            libraryLogic.checkAutoAddGameStatus();
+//            libraryLogic.checkAutoAddGameStatus();
         }
     }
 

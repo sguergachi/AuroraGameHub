@@ -682,20 +682,51 @@ public class LibraryLogic implements AuroraScreenLogic {
      * @throws MalformedURLException Exception
      */
     public void checkAutoAddGameStatus() {
+//
+//        if (libraryUI.getImgAutoStatus().getImgURl().equals(
+//                "addUI_badge_valid.png")) {
+//
+//            //Animate the Button below Add Game UI//
+//
+//            animateAddButtonDown();
+//
+//
+//        } else if (libraryUI.getImgAutoStatus().getImgURl().equals(
+//                "addUI_badge_invalid.png")) {
+//
+//            //Animate up and hide it//
+//            animateAddButtonUp();
+//        }
 
-        if (libraryUI.getImgAutoStatus().getImgURl().equals(
-                "addUI_badge_valid.png")) {
+        if (nameOfGames != null) {
 
-            //Animate the Button below Add Game UI//
+            boolean show = false;
+            for (int i = 0; i < libraryUI
+                    .getModelCheckList().getSize(); i++) {
 
-            animateAddButtonDown();
+                if (((ARadioButton) ((AImagePane) libraryUI
+                        .getModelCheckList().get(i))
+                        .getComponent(0)).isSelected) {
+                    show = true;
+                    break;
+                } else {
+                    show = false;
+                }
 
+            }
 
-        } else if (libraryUI.getImgAutoStatus().getImgURl().equals(
-                "addUI_badge_invalid.png")) {
+            if (show) {
+                libraryUI.getImgAutoStatus().setImgURl("addUI_badge_valid.png");
+                //Animate the Button below Add Game UI//
+                animateAddButtonDown();
+            } else {
+                libraryUI.getImgAutoStatus()
+                        .setImgURl("addUI_badge_invalid.png");
 
-            //Animate up and hide it//
-            animateAddButtonUp();
+                //Animate up and hide it//
+                animateAddButtonUp();
+            }
+
         }
 
     }
@@ -734,6 +765,7 @@ public class LibraryLogic implements AuroraScreenLogic {
             animateAddButtonUp();
         }
 
+
     }
 
     /**
@@ -741,6 +773,7 @@ public class LibraryLogic implements AuroraScreenLogic {
      */
     private void animateAddButtonDown() {
         if (!addButtonVisible) {
+            addButtonVisible = true;
             addGameToLibButtonAnimator = new AAnimate(libraryUI
                     .getAddGameToLibButton());
 
@@ -757,8 +790,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                     .getIconHeight() - 55, 20);
             addGameToLibButtonAnimator.removeAllListeners();
 
-            addButtonVisible = true;
         }
+        
     }
 
     /**
@@ -766,6 +799,7 @@ public class LibraryLogic implements AuroraScreenLogic {
      */
     private void animateAddButtonUp() {
         if (addButtonVisible) {
+            addButtonVisible = false;
             addGameToLibButtonAnimator = new AAnimate(libraryUI
                     .getAddGameToLibButton());
 
@@ -782,8 +816,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                 }
             });
 
-            addButtonVisible = false;
         }
+
     }
     private File steamFile = null;
 
@@ -994,22 +1028,13 @@ public class LibraryLogic implements AuroraScreenLogic {
                             final int index = libraryUI.getPnlCheckList()
                                     .locationToIndex(e.getPoint());
 
-
                             if (((ARadioButton) ((AImagePane) libraryUI
                                     .getModelCheckList().get(index))
                                     .getComponent(0)).isSelected) {
+
                                 selected = true;
 
-                            } else {
 
-                                selected = false;
-                            }
-
-
-
-                            if (((ARadioButton) ((AImagePane) libraryUI
-                                    .getModelCheckList().get(index))
-                                    .getComponent(0)).isSelected) {
 
                                 ((ARadioButton) ((AImagePane) libraryUI
                                         .getModelCheckList().get(index))
@@ -1018,10 +1043,17 @@ public class LibraryLogic implements AuroraScreenLogic {
 
 
                             } else {
+
+                                selected = false;
+
+
+
                                 ((ARadioButton) ((AImagePane) libraryUI
                                         .getModelCheckList().get(index))
                                         .getComponent(0)).setSelected();
                             }
+
+                            checkAutoAddGameStatus();
 
                             libraryUI.getPnlCheckList().revalidate();
                             libraryUI.getPnlCheckList().repaint();
@@ -1042,6 +1074,8 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                             if (selected) {
 
+
+
                                 ((ARadioButton) ((AImagePane) libraryUI
                                         .getModelCheckList().get(index))
                                         .getComponent(0))
@@ -1052,6 +1086,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                                         .getModelCheckList().get(index))
                                         .getComponent(0)).setSelected();
                             }
+
+                            checkAutoAddGameStatus();
 
                             libraryUI.getPnlCheckList().revalidate();
                             libraryUI.getPnlCheckList().repaint();
@@ -1148,8 +1184,10 @@ public class LibraryLogic implements AuroraScreenLogic {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (nameOfGames != null) {
-                    for (int i = 0; i < nameOfGames.size(); i++) {
+                if (libraryUI
+                        .getModelCheckList() != null) {
+                    for (int i = 0; i < libraryUI
+                            .getModelCheckList().getSize(); i++) {
                         ((ARadioButton) ((AImagePane) libraryUI
                                 .getModelCheckList().get(i))
                                 .getComponent(0)).setSelected();
@@ -1169,6 +1207,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                         }
                     }
                 }
+                checkAutoAddGameStatus();
 
                 libraryUI.getPnlCheckList().revalidate();
                 libraryUI.getPnlCheckList().repaint();
@@ -1188,8 +1227,10 @@ public class LibraryLogic implements AuroraScreenLogic {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (nameOfGames != null) {
-                    for (int i = 0; i < nameOfGames.size(); i++) {
+                if (libraryUI
+                        .getModelCheckList() != null) {
+                    for (int i = 0; i < libraryUI
+                            .getModelCheckList().getSize(); i++) {
                         ((ARadioButton) ((AImagePane) libraryUI
                                 .getModelCheckList().get(i))
                                 .getComponent(0)).setUnSelected();
@@ -1210,6 +1251,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                     }
                 }
 
+                checkAutoAddGameStatus();
+
                 libraryUI.getPnlCheckList().revalidate();
                 libraryUI.getPnlCheckList().repaint();
 
@@ -1217,31 +1260,5 @@ public class LibraryLogic implements AuroraScreenLogic {
         });
 
         clear.startOnce();
-    }
-
-    public void derementSelection() {
-        if (checkboxesSelected > 0) {
-            checkboxesSelected--;
-        }else{
-            checkboxesSelected = 0;
-        }
-
-        if (checkboxesSelected <= 0) {
-            libraryUI.getImgAutoStatus().setImgURl("addUI_badge_invalid.png");
-        }
-
-        System.out.println(checkboxesSelected);
-
-    }
-
-    public void incrementSelection() {
-        checkboxesSelected++;
-
-
-        if (checkboxesSelected > 0) {
-            libraryUI.getImgAutoStatus().setImgURl("addUI_badge_valid.png");
-        }
-
-        System.out.println(checkboxesSelected);
     }
 }
