@@ -188,15 +188,16 @@ public class GameSearch implements Runnable {
         imgStatus.setImgURl("addUI_badge_invalid.png");
         libraryUI.getLogic().checkManualAddGameStatus();
 
+       
     }
 
     public void setAppendedName(String AppendedName) {
         this.AppendedName = AppendedName;
     }
 
-    public Boolean checkGameExist(String gameName){
+    public Boolean checkGameExist(String gameName) {
 
-         try {
+        try {
             foundGame = (String) db.getRowFlex("AuroraTable", new String[]{
                 "FILE_NAME"}, "GAME_NAME='" + gameName
                     .replace("'", "''") + "'", "FILE_NAME")[0];
@@ -205,11 +206,11 @@ public class GameSearch implements Runnable {
             foundGame = null;
         }
 
-         if(foundGame == null){
-             return false;
-         }else{
-             return true;
-         }
+        if (foundGame == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -228,14 +229,14 @@ public class GameSearch implements Runnable {
             foundGame = null;
         }
 
-         foundGameCover = null;
+        foundGameCover = null;
 
         //If not found show Placeholder and turn notification red
         if (foundGame == null) {
             pnlGameCoverPane.removeAll();
             notFound = new AImagePane("library_noGameFound.png", imgBlankCover
                     .getWidth(), imgBlankCover.getHeight());
-            notFound.setPreferredSize(new Dimension( imgBlankCover
+            notFound.setPreferredSize(new Dimension(imgBlankCover
                     .getWidth(), imgBlankCover.getHeight()));
             pnlGameCoverPane.add(notFound);
 
@@ -248,7 +249,7 @@ public class GameSearch implements Runnable {
             return notFound;
 
             //Show the game Cover if a single database item is found
-        } else{
+        } else {
 
             pnlGameCoverPane.removeAll();
             //Create the new GameCover object

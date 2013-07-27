@@ -1536,7 +1536,6 @@ public class LibraryUI extends AuroraApp {
             rdbManager.addButton(btnAuto);
             rdbManager.setRadioButton();
 
-
             pnlAddGameType.add(btnManual);
             pnlAddGameType.add(btnAuto);
 
@@ -3296,10 +3295,6 @@ public class LibraryUI extends AuroraApp {
         return removeSearchButton;
     }
 
-    public JTextField getGameSearchBar() {
-        return txtSearchField_addUI;
-    }
-
     public ASimpleDB getCoverDB() {
         return CoverDB;
     }
@@ -3487,6 +3482,18 @@ public class LibraryUI extends AuroraApp {
 
     public JPanel getTextPane() {
         return pnlSearchText;
+    }
+
+    public int getSearchBarWidth() {
+        return SearchBarWidth;
+    }
+
+    public ARadioButton getBtnManual() {
+        return btnManual;
+    }
+
+    public ARadioButton getBtnAuto() {
+        return btnAuto;
     }
 
     public AButton getZoomM() {

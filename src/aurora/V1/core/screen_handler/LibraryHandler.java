@@ -24,20 +24,15 @@ import aurora.V1.core.GamePlaceholder;
 import aurora.V1.core.GameSearch;
 import aurora.V1.core.GridAnimation;
 import aurora.V1.core.GridManager;
-import aurora.V1.core.GridSearch;
 import aurora.V1.core.StoredSettings;
-import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.LibraryHandler.MoveToGrid;
 import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
-import aurora.engine.V1.Logic.ASimpleDB;
-import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
-import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AGridPanel;
 import aurora.engine.V1.UI.AHoverButton;
@@ -45,14 +40,11 @@ import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.APopupMenu;
 import aurora.engine.V1.UI.ARadioButton;
-import aurora.engine.V1.UI.ARadioButtonManager;
 import aurora.engine.V1.UI.ASlickLabel;
 import aurora.engine.V1.UI.ATextField;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -60,7 +52,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -68,11 +59,8 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.File;
 import java.net.MalformedURLException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultListCellRenderer;
@@ -81,15 +69,9 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JList;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListModel;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
@@ -1006,9 +988,20 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
-
             if (libraryUI.getPnlAddGamePane().getComponent(1) != libraryUI
                     .getPnlManualAdd()) {
+                if (libraryLogic.isAddButtonVisible()) {
+                    libraryLogic.animateAddButtonUp();
+                }
+
+                if (libraryLogic.isIsAutoLoadedOnce()) {
+                    libraryLogic.autoClearAll();
+                }
+
+                libraryLogic.getGameSearch_addUI().resetCover();
+                libraryUI.getSearchText_addUI().setText("");
+
+
                 libraryUI.getPnlAddGamePane().remove(1);
                 libraryUI.getPnlAddGamePane().add(libraryUI.getPnlManualAdd());
                 try {
@@ -1020,6 +1013,8 @@ public class LibraryHandler implements
                 }
                 libraryUI.getPnlAddGamePane().revalidate();
                 libraryUI.getPnlAddGamePane().repaint();
+
+                libraryUI.getSearchText_addUI().requestFocusInWindow();
             }
 
 
@@ -1131,23 +1126,6 @@ public class LibraryHandler implements
         }
     }
 
-    public class AutoSelectCheckHandler implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-//            libraryLogic.checkAutoAddGameStatus();
-
-        }
-    }
-
-    public class AutoUnSelectCheckHandler implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-//            libraryLogic.checkAutoAddGameStatus();
-        }
-    }
-
     public class AutoAddAllButtonHandler implements ActionListener {
 
         @Override
@@ -1179,6 +1157,13 @@ public class LibraryHandler implements
             if (libraryUI.getPnlAddGamePane().getComponent(1) != libraryUI
                     .getPnlAutoAdd()) {
 
+                if (libraryLogic.isAddButtonVisible()) {
+                    libraryLogic.animateAddButtonUp();
+                }
+
+                if (libraryLogic.isIsAutoLoadedOnce()) {
+                    libraryLogic.autoClearAll();
+                }
                 libraryLogic.autoFindGames(model);
 
                 libraryUI.getPnlAddGamePane().remove(1);
@@ -1226,126 +1211,135 @@ public class LibraryHandler implements
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
+                    if (libraryUI.getBtnManual().isSelected) {
+
+                        currentPath = libraryUI.getCurrentPath();
+                        gridManager = libraryUI.getGridSplit();
+                        GameBack = libraryUI.getGamesContainer();
+                        storage = libraryUI.getStorage();
+
+                        libraryUI.hideAddGameUI();
 
 
-                    currentPath = libraryUI.getCurrentPath();
-                    gridManager = libraryUI.getGridSplit();
-                    GameBack = libraryUI.getGamesContainer();
-                    storage = libraryUI.getStorage();
-
-                    libraryUI.hideAddGameUI();
+                        game.setGamePath(currentPath);
+                        game.setLibraryLogic(libraryLogic);
 
 
-                    game.setGamePath(currentPath);
-                    game.setLibraryLogic(libraryLogic);
+                        if (!gridManager.isDupicate(game)) {
+                            storage.getStoredLibrary()
+                                    .SaveGame(gameSearch.getFoundGameCover());
 
 
-                    if (!gridManager.isDupicate(game)) {
-                        storage.getStoredLibrary()
-                                .SaveGame(gameSearch.getFoundGameCover());
+                        } else {
+                            ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
+                                    "Cannot Add Duplicate Game", libraryUI
+                                    .getCoreUI()
+                                    .getRegularFont()
+                                    .deriveFont(Font.BOLD, 28));
+
+                            info.showDialog();
+                            info.setVisible(true);
+
+                            gridManager.echoGame(game).showOverlayUI();
+                        }
+
+
+                        //* reset cover to blank cover *//
+                        gameSearch.resetCover();
 
 
                     } else {
-                        ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
-                                "Cannot Add Duplicate Game", libraryUI
-                                .getCoreUI()
-                                .getRegularFont()
-                                .deriveFont(Font.BOLD, 28));
-
-                        info.showDialog();
-                        info.setVisible(true);
-
-                        gridManager.echoGame(game).showOverlayUI();
                     }
-
-
-                    //* reset cover to blank cover *//
-                    gameSearch.resetCover();
-
-
-
 
                 }
             }, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    game.setCoverSize(libraryUI.getGameCoverWidth(), libraryUI
-                            .getGameCoverHeight());
-                    game.reAddInteractive();
-
-                    if (gridManager.addGame(game)) {
-
-                        if (storage.getStoredSettings().getSettingValue(
-                                "organize") == null) {
-                            storage.getStoredSettings().saveSetting("organize",
-                                    "favorite");
-                        }
-
-                        if (storage.getStoredSettings().getSettingValue(
-                                "organize")
-                                .equalsIgnoreCase("alphabetic")) {
-
-                            libraryLogic.addGamesToLibrary();
 
 
-                        } else {
+                    if (libraryUI.getBtnManual().isSelected) {
+                        game.setCoverSize(libraryUI.getGameCoverWidth(),
+                                libraryUI
+                                .getGameCoverHeight());
+                        game.reAddInteractive();
 
-                            gridManager.finalizeGrid(new ShowAddGameUiHandler(),
-                                    libraryUI
-                                    .getGameCoverWidth(), libraryUI
-                                    .getGameCoverHeight());
+                        if (gridManager.addGame(game)) {
 
-                        }
+                            if (storage.getStoredSettings().getSettingValue(
+                                    "organize") == null) {
+                                storage.getStoredSettings().saveSetting(
+                                        "organize",
+                                        "favorite");
+                            }
+
+                            if (storage.getStoredSettings().getSettingValue(
+                                    "organize")
+                                    .equalsIgnoreCase("alphabetic")) {
+
+                                libraryLogic.addGamesToLibrary();
+
+
+                            } else {
+
+                                gridManager.finalizeGrid(
+                                        new ShowAddGameUiHandler(),
+                                        libraryUI
+                                        .getGameCoverWidth(), libraryUI
+                                        .getGameCoverHeight());
+
+                            }
 
 
 
-                        libraryUI.setCurrentIndex(
-                                gridManager.getArray().indexOf(GameBack
-                                .getComponent(1)));
+                            libraryUI.setCurrentIndex(
+                                    gridManager.getArray().indexOf(GameBack
+                                    .getComponent(1)));
 
 
 
-                        if (!game.isLoaded()) {
+                            if (!game.isLoaded()) {
+                                try {
+                                    game.update();
+                                } catch (MalformedURLException ex) {
+                                    java.util.logging.Logger.getLogger(
+                                            LibraryHandler.class
+                                            .getName()).
+                                            log(Level.SEVERE, null, ex);
+                                }
+                            }
+
+                            GridMove = new MoveToGrid(game);
+                            //* Transition towards to left most grid to see the game added *//
+                            GridMove.runMover();
+
+                            gridManager.unselectPrevious();
+
+
+                            LibraryUI.lblLibraryStatus
+                                    .setForeground(Color.green);
+                            LibraryUI.lblLibraryStatus.setText("Added Game");
+
+                            AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
+                                    "f5f777273e62089193a68f99f4885a55");
+                            mixpanelAnalytics.addProperty("Game Added", game
+                                    .getName());
+                            mixpanelAnalytics.sendEventProperty("Added Game");
+
+
                             try {
-                                game.update();
-                            } catch (MalformedURLException ex) {
+                                Thread.sleep(1200);
+                            } catch (InterruptedException ex) {
                                 java.util.logging.Logger.getLogger(
-                                        LibraryHandler.class
-                                        .getName()).
+                                        LibraryHandler.class.getName()).
                                         log(Level.SEVERE, null, ex);
                             }
+
+                            game.showOverlayUI();
+
                         }
-
-                        GridMove = new MoveToGrid(game);
-                        //* Transition towards to left most grid to see the game added *//
-                        GridMove.runMover();
-
-                        gridManager.unselectPrevious();
-
-
-                        LibraryUI.lblLibraryStatus.setForeground(Color.green);
-                        LibraryUI.lblLibraryStatus.setText("Added Game");
-
-                        AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
-                                "f5f777273e62089193a68f99f4885a55");
-                        mixpanelAnalytics.addProperty("Game Added", game
-                                .getName());
-                        mixpanelAnalytics.sendEventProperty("Added Game");
-
-
-                        try {
-                            Thread.sleep(1200);
-                        } catch (InterruptedException ex) {
-                            java.util.logging.Logger.getLogger(
-                                    LibraryHandler.class.getName()).
-                                    log(Level.SEVERE, null, ex);
-                        }
-
-                        game.showOverlayUI();
-
+                    } else {
                     }
-
 
                 }
             });

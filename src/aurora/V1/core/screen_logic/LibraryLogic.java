@@ -682,21 +682,6 @@ public class LibraryLogic implements AuroraScreenLogic {
      * @throws MalformedURLException Exception
      */
     public void checkAutoAddGameStatus() {
-//
-//        if (libraryUI.getImgAutoStatus().getImgURl().equals(
-//                "addUI_badge_valid.png")) {
-//
-//            //Animate the Button below Add Game UI//
-//
-//            animateAddButtonDown();
-//
-//
-//        } else if (libraryUI.getImgAutoStatus().getImgURl().equals(
-//                "addUI_badge_invalid.png")) {
-//
-//            //Animate up and hide it//
-//            animateAddButtonUp();
-//        }
 
         if (nameOfGames != null) {
 
@@ -771,9 +756,9 @@ public class LibraryLogic implements AuroraScreenLogic {
     /**
      * Animates the Add Game To Library Button to a visible state
      */
-    private void animateAddButtonDown() {
+    public void animateAddButtonDown() {
         if (!addButtonVisible) {
-            addButtonVisible = true;
+
             addGameToLibButtonAnimator = new AAnimate(libraryUI
                     .getAddGameToLibButton());
 
@@ -788,36 +773,45 @@ public class LibraryLogic implements AuroraScreenLogic {
                     .getAddGamePane()
                     .getImgIcon()
                     .getIconHeight() - 55, 20);
+
             addGameToLibButtonAnimator.removeAllListeners();
 
+             addButtonVisible = true;
+
         }
-        
+
     }
 
     /**
      * Animates the Add Game To Library Button to hide behind the AddGamePane
      */
-    private void animateAddButtonUp() {
+    public void animateAddButtonUp() {
         if (addButtonVisible) {
-            addButtonVisible = false;
+
             addGameToLibButtonAnimator = new AAnimate(libraryUI
                     .getAddGameToLibButton());
+            addGameToLibButtonAnimator
+                    .addPostAnimationListener(new APostHandler() {
+                @Override
+                public void postAction() {
+
+                    libraryUI.getAddGameToLibButton().setVisible(false);
+                }
+            });
 
             addGameToLibButtonAnimator.setInitialLocation(libraryUI
                     .getAddGameToLibButton().getX(), libraryUI
                     .getAddGameToLibButton().getY());
             addGameToLibButtonAnimator.moveVertical(-5, 20);
 
-            addGameToLibButtonAnimator
-                    .addPostAnimationListener(new APostHandler() {
-                @Override
-                public void postAction() {
-                    libraryUI.getAddGameToLibButton().setVisible(false);
-                }
-            });
+            addButtonVisible = false;
 
         }
 
+    }
+
+    public boolean isAddButtonVisible() {
+        return addButtonVisible;
     }
     private File steamFile = null;
 
@@ -970,11 +964,6 @@ public class LibraryLogic implements AuroraScreenLogic {
                                     "autoUI_check_inactive.png",
                                     "autoUI_check_active.png");
                             radioButton.setBorder(null);
-
-                            radioButton.setSelectedHandler(
-                                    libraryHandler.new AutoSelectCheckHandler());
-                            radioButton.setUnSelectedHandler(
-                                    libraryHandler.new AutoUnSelectCheckHandler());
 
                             ASlickLabel label = new ASlickLabel(nameOfGames.get(
                                     i));
