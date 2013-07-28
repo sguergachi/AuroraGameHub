@@ -161,7 +161,9 @@ public class GridManager {
                 if (Grids.get(i).getArray().get(a) instanceof GamePlaceholder
                     == false) {
                     Game cover = (Game) Grids.get(i).getArray().get(a);
-                    if (cover.getBoxArtUrl().equals(game.getBoxArtUrl())) {
+                    if (cover.getBoxArtUrl().equals(game.getBoxArtUrl())
+                        && !game.getBoxArtUrl()
+                            .equals("library_noGameFound.png")) {
                         return true;
                     }
                 }

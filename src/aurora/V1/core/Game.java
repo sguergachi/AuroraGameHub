@@ -571,70 +571,40 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         coverImagePane.setImageSize(width, height);
                         coverImagePane.setPreferredSize(new Dimension(width,
                                 height));
+
+
                         if (coverImagePane.getImgIcon().getIconHeight() == -1) {
-
-
 
                             coverImagePane.setImage("library_noGameFound.png");
 
-
-//                            if (dbErrorDialog == null) {
-//                                dbErrorDialog = new ADialog(
-//                                        ADialog.aDIALOG_ERROR,
-//                                        "Can't Download BoxArt for: " + name,
-//                                        coreUI.getRegularFont().deriveFont(
-//                                        Font.BOLD, 25));
-//                                dbErrorDialog.showDialog();
-//                            }
-//                            dbErrorDialog.setVisible(true);
-
-
-
                         } else {
+                            //Save image locally
                             fileIO.writeImage(
                                     coverImagePane, coverURL, "Game Data");
 
-
-                            //Add Image To GameCover Cover
-                            this.setImage(coverImagePane);
-                            this.add(pnlInteractivePane);
-                            this.revalidate();
-                            this.repaint();
-
-                            this.remove(progressWheel);
                         }
                     } else if (coverImagePane.checkImageExists(coverURL)) {
 
                         coverImagePane.setImageURL(coverURL);
 
-                        //Set Background accordingly
-                        coverImagePane.setImageSize(width, height);
-                        coverImagePane.setPreferredSize(new Dimension(width,
-                                height));
-
-                        this.setImage(coverImagePane);
-                        this.add(pnlInteractivePane);
-                        this.revalidate();
-                        this.repaint();
-
-                        this.remove(progressWheel);
-
                     } else {
 
                         coverImagePane.setImage("library_noGameFound.png");
 
-                        //Set Background accordingly
-                        coverImagePane.setImageSize(width, height);
-                        coverImagePane.setPreferredSize(new Dimension(width,
-                                height));
-
-                        this.setImage(coverImagePane);
-                        this.remove(progressWheel);
-                        this.add(pnlInteractivePane);
-
-                        this.repaint();
-                        this.revalidate();
                     }
+
+                    //Set Background accordingly
+                    coverImagePane.setImageSize(width, height);
+                    coverImagePane.setPreferredSize(new Dimension(width,
+                            height));
+
+                    this.setImage(coverImagePane);
+                    this.remove(progressWheel);
+                    this.add(pnlInteractivePane);
+
+                    this.repaint();
+                    this.revalidate();
+
 
                 } catch (Exception ex) {
                     logger.error(ex);
