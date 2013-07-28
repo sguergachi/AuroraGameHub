@@ -730,9 +730,11 @@ public class LibraryHandler implements
 
         @Override
         public void focusGained(FocusEvent e) {
+
             if (txtField.getText().equals(
-                    "Search For Game...")) {
+                    "Search For Game...") || txtField.getText().equals("")) {
                 txtField.setText("");
+                txtField.setCaretColor(Color.cyan);
                 gameSearch.resetCover();
                 txtField.setForeground(new Color(23, 139, 255));
                 if (!(txtBackground instanceof ATextField)) {
@@ -1014,7 +1016,21 @@ public class LibraryHandler implements
                 libraryUI.getPnlAddGamePane().revalidate();
                 libraryUI.getPnlAddGamePane().repaint();
 
-                libraryUI.getSearchText_addUI().requestFocusInWindow();
+                AThreadWorker wait = new AThreadWorker(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException ex) {
+                            java.util.logging.Logger.getLogger(
+                                    LibraryHandler.class.getName()).
+                                    log(Level.SEVERE, null, ex);
+                        }
+                        libraryUI.getSearchText_addUI().requestFocusInWindow();
+
+                    }
+                });
+                wait.startOnce();
             }
 
 
@@ -1211,12 +1227,22 @@ public class LibraryHandler implements
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    if (libraryUI.getBtnManual().isSelected) {
 
-                        currentPath = libraryUI.getCurrentPath();
-                        gridManager = libraryUI.getGridSplit();
-                        GameBack = libraryUI.getGamesContainer();
-                        storage = libraryUI.getStorage();
+
+                    currentPath = libraryUI.getCurrentPath();
+                    gridManager = libraryUI.getGridSplit();
+                    storage = libraryUI.getStorage();
+                    GameBack = libraryUI.getGamesContainer();
+
+
+                    if (storage.getStoredSettings().getSettingValue(
+                            "organize") == null) {
+                        storage.getStoredSettings().saveSetting(
+                                "organize",
+                                "favorite");
+                    }
+
+                    if (libraryUI.getBtnManual().isSelected) {
 
                         libraryUI.hideAddGameUI();
 
@@ -1249,6 +1275,22 @@ public class LibraryHandler implements
 
 
                     } else {
+
+                        for (int i = 0; i < libraryLogic.getAutoGameList()
+                                .size(); i++) {
+
+                            libraryLogic.getAutoGameList().get(i)
+                                    .setLibraryLogic(libraryLogic);
+
+                            if (!gridManager
+                                    .isDupicate(libraryLogic.getAutoGameList()
+                                    .get(i))) {
+                                storage.getStoredLibrary()
+                                        .SaveGame(libraryLogic.getAutoGameList()
+                                        .get(i));
+                            }
+
+                        }
                     }
 
                 }
@@ -1257,21 +1299,14 @@ public class LibraryHandler implements
                 public void actionPerformed(ActionEvent e) {
 
 
-
                     if (libraryUI.getBtnManual().isSelected) {
+
                         game.setCoverSize(libraryUI.getGameCoverWidth(),
                                 libraryUI
                                 .getGameCoverHeight());
                         game.reAddInteractive();
 
                         if (gridManager.addGame(game)) {
-
-                            if (storage.getStoredSettings().getSettingValue(
-                                    "organize") == null) {
-                                storage.getStoredSettings().saveSetting(
-                                        "organize",
-                                        "favorite");
-                            }
 
                             if (storage.getStoredSettings().getSettingValue(
                                     "organize")
@@ -1290,13 +1325,9 @@ public class LibraryHandler implements
 
                             }
 
-
-
                             libraryUI.setCurrentIndex(
                                     gridManager.getArray().indexOf(GameBack
                                     .getComponent(1)));
-
-
 
                             if (!game.isLoaded()) {
                                 try {
@@ -1339,14 +1370,104 @@ public class LibraryHandler implements
 
                         }
                     } else {
+
+                        for (int i = 0; i < libraryLogic.getAutoGameList()
+                                .size(); i++) {
+
+
+                            Game autoGame = libraryLogic.getAutoGameList()
+                                    .get(i);
+
+                            autoGame.setCoverSize(libraryUI.getGameCoverWidth(),
+                                    libraryUI
+                                    .getGameCoverHeight());
+
+
+                            if (!autoGame.isLoaded()) {
+                                try {
+                                    autoGame.update();
+                                } catch (MalformedURLException ex) {
+                                    java.util.logging.Logger.getLogger(
+                                            LibraryHandler.class
+                                            .getName()).
+                                            log(Level.SEVERE, null, ex);
+                                }
+                            }
+
+                            if (gridManager.addGame(autoGame)) {
+
+                                if (storage.getStoredSettings().getSettingValue(
+                                        "organize")
+                                        .equalsIgnoreCase("alphabetic")) {
+
+                                    libraryLogic.addGamesToLibrary();
+
+
+                                } else {
+
+                                    gridManager.finalizeGrid(
+                                            new ShowAddGameUiHandler(),
+                                            libraryUI
+                                            .getGameCoverWidth(), libraryUI
+                                            .getGameCoverHeight());
+
+                                }
+
+
+                                libraryUI.setCurrentIndex(
+                                        gridManager.getArray().indexOf(GameBack
+                                        .getComponent(1)));
+
+
+
+
+
+                            }
+
+                            libraryUI.getModelCheckList().removeElementAt(0);
+                            libraryLogic.getAutoGameModel().removeElementAt(0);
+
+                            try {
+                                Thread.sleep(200);
+                            } catch (InterruptedException ex) {
+                                java.util.logging.Logger.getLogger(
+                                        LibraryHandler.class.getName()).
+                                        log(Level.SEVERE, null, ex);
+                            }
+
+                        }
+
+                        libraryUI.hideAddGameUI();
+
+
+                        LibraryUI.lblLibraryStatus
+                                .setForeground(Color.green);
+
+                        if (libraryLogic.getAutoGameList()
+                                .size() > 1) {
+                            LibraryUI.lblLibraryStatus.setText("Added "
+                                                               + libraryLogic
+                                    .getAutoGameList()
+                                    .size() + " Game");
+                        } else {
+                            LibraryUI.lblLibraryStatus.setText("Added "
+                                                               + libraryLogic
+                                    .getAutoGameList()
+                                    .size() + " Games");
+                        }
+
+                        AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
+                                "f5f777273e62089193a68f99f4885a55");
+                        mixpanelAnalytics.addProperty("Auto Added", libraryLogic
+                                .getAutoGameList()
+                                .size());
+                        mixpanelAnalytics.sendEventProperty("Added Game");
                     }
 
                 }
             });
 
             add.startOnce();
-
-
 
 
         }

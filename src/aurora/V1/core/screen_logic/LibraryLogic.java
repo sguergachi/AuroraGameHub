@@ -150,6 +150,9 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     private boolean addButtonVisible = false;
 
+    private ArrayList<Game> autoGameList;
+    private DefaultListModel autoGameModel;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryLogic(LibraryUI)
@@ -776,7 +779,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             addGameToLibButtonAnimator.removeAllListeners();
 
-             addButtonVisible = true;
+            addButtonVisible = true;
 
         }
 
@@ -914,6 +917,9 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     public void autoFindGames(final DefaultListModel model) {
 
+        this.autoGameModel = model;
+
+        autoGameList = new ArrayList<Game>();
 
         findGames = new AThreadWorker(new ActionListener() {
             @Override
@@ -939,7 +945,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                     libraryUI
                             .getModelCheckList().removeAllElements();
-                    model.removeAllElements();
+                    autoGameModel.removeAllElements();
 
                     nameOfGames = GameFinder.getNameOfGamesOnDrive();
                     executableGamePath = GameFinder.getExecutablePathsOnDrive(
@@ -950,7 +956,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                     for (int i = 0; i < nameOfGames.size(); i++) {
 
                         if (!libraryUI.getStorage().getStoredLibrary()
-                                .getGameNames().contains(nameOfGames.get(i))) {
+                                .getGameNames().contains(nameOfGames.get(i))
+                            && executableGamePath.get(i) != null) {
                             //Create Check Box UI
                             final AImagePane radioPanel = new AImagePane(
                                     "autoUI_checkBG_norm.png", new FlowLayout(
@@ -996,12 +1003,28 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                             pnlGameElement.add(gameName);
 
+                            Game game = new Game(libraryUI.getGridSplit(),
+                                    coreUI, dashboardUI, libraryUI.getStorage());
 
+                            game.setGameName(nameOfGames
+                                    .get(i));
+                            game.setGamePath(executableGamePath.get(i)
+                                    .getPath());
+                            try {
+                                game.setCoverUrl(gameSearch_autoUI
+                                        .searchSpecificGame(game.getGameName())
+                                        .getImageURL());
+                            } catch (MalformedURLException ex) {
+                                java.util.logging.Logger.getLogger(
+                                        LibraryLogic.class.getName()).
+                                        log(Level.SEVERE, null, ex);
+                            }
+
+                            autoGameList.add(game);
 
                             //Add Check box and Game name
                             libraryUI.getModelCheckList().addElement(radioPanel);
-
-                            model.addElement(pnlGameElement);
+                            autoGameModel.addElement(pnlGameElement);
 
                         }
                     }
@@ -1154,6 +1177,14 @@ public class LibraryLogic implements AuroraScreenLogic {
 
 
         findGames.startOnce();
+    }
+
+    public DefaultListModel getAutoGameModel() {
+        return autoGameModel;
+    }
+
+    public ArrayList<Game> getAutoGameList() {
+        return autoGameList;
     }
 
     public void autoRefresh() {

@@ -18,6 +18,7 @@
 package aurora.V1.core;
 
 import aurora.V1.core.screen_logic.LibraryLogic;
+import aurora.V1.core.screen_logic.WelcomeLogic;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.V1.core.screen_ui.WelcomeUI;
@@ -76,7 +77,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private String name;
 
-    private String coverUrl;
+    private String coverURL;
 
     private String gamePath;
 
@@ -281,7 +282,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.manager = manager;
         this.setOpaque(false);
         this.setDoubleBuffered(true);
-        this.coverUrl = CoverURL;
+        this.coverURL = CoverURL;
 
         //DEFAULT CASE
         this.setImage("Blank-Case.png", height, width);
@@ -294,7 +295,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.setOpaque(false);
         this.coreUI = dashboard.getCoreUI();
         this.dashboardUI = dashboard;
-        this.coverUrl = CoverURL;
+        this.coverURL = CoverURL;
         this.storage = dashboardUI.getStorage();
 
         //DEFAULT CASE
@@ -529,7 +530,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             Boolean loadedImage = true;
             try {
                 localImage = fileIO.findImg("Game Data",
-                        coverUrl);
+                        coverURL);
             } catch (Exception ex) {
                 loadedImage = false;
             }
@@ -552,39 +553,46 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
-                progressWheel = null;
             } else {
 
                 // Load Image From S3 //
                 try {
 
-                    if (WelcomeUI.Online) {
+                    if (WelcomeLogic.checkOnline(rootCoverDBPath + coverURL)) {
                         dbErrorDialog = null;
                         if (logger.isDebugEnabled()) {
-                            logger.debug(coverUrl);
+                            logger.debug(coverURL);
                         }
 
 
-                        coverImagePane.setURL(rootCoverDBPath + coverUrl);
+                        coverImagePane.setURL(rootCoverDBPath + coverURL);
 
                         //Set Background accordingly
                         coverImagePane.setImageSize(width, height);
                         coverImagePane.setPreferredSize(new Dimension(width,
                                 height));
                         if (coverImagePane.getImgIcon().getIconHeight() == -1) {
-                            if (dbErrorDialog == null) {
-                                dbErrorDialog = new ADialog(
-                                        ADialog.aDIALOG_ERROR,
-                                        "Can't Download BoxArt for: " + name,
-                                        coreUI.getRegularFont().deriveFont(
-                                        Font.BOLD, 25));
-                                dbErrorDialog.showDialog();
 
-                            }
-                            dbErrorDialog.setVisible(true);
+
+
+                            coverImagePane.setImage("library_noGameFound.png");
+
+
+//                            if (dbErrorDialog == null) {
+//                                dbErrorDialog = new ADialog(
+//                                        ADialog.aDIALOG_ERROR,
+//                                        "Can't Download BoxArt for: " + name,
+//                                        coreUI.getRegularFont().deriveFont(
+//                                        Font.BOLD, 25));
+//                                dbErrorDialog.showDialog();
+//                            }
+//                            dbErrorDialog.setVisible(true);
+
+
+
                         } else {
                             fileIO.writeImage(
-                                    coverImagePane, coverUrl, "Game Data");
+                                    coverImagePane, coverURL, "Game Data");
 
 
                             //Add Image To GameCover Cover
@@ -594,14 +602,37 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                             this.repaint();
 
                             this.remove(progressWheel);
-                            progressWheel = null;
                         }
+                    } else if (coverImagePane.checkImageExists(coverURL)) {
+
+                        coverImagePane.setImageURL(coverURL);
+
+                        //Set Background accordingly
+                        coverImagePane.setImageSize(width, height);
+                        coverImagePane.setPreferredSize(new Dimension(width,
+                                height));
+
+                        this.setImage(coverImagePane);
+                        this.add(pnlInteractivePane);
+                        this.revalidate();
+                        this.repaint();
+
+                        this.remove(progressWheel);
+
                     } else {
 
+                        coverImagePane.setImage("library_noGameFound.png");
+
+                        //Set Background accordingly
+                        coverImagePane.setImageSize(width, height);
+                        coverImagePane.setPreferredSize(new Dimension(width,
+                                height));
+
+                        this.setImage(coverImagePane);
                         this.remove(progressWheel);
                         this.add(pnlInteractivePane);
 
-                        progressWheel = null;
+                        this.repaint();
                         this.revalidate();
                     }
 
@@ -612,7 +643,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         this.remove(progressWheel);
                     } catch (NullPointerException e) {
                     }
-                    progressWheel = null;
+                    progressWheel.setVisible(false);
                 }
             }
         }
@@ -900,19 +931,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         showRemoveBtn();
         imgOverlayBar.setVisible(true);
         setSelected();
-//        if (getName().length() > 30) {
-//            LibraryUI.lblLibraryStatus.setFont(LibraryUI.lblLibraryStatus
-//                    .getFont().deriveFont(Font.PLAIN, 27));
-//        } else {
-//            LibraryUI.lblLibraryStatus.setFont(LibraryUI.lblLibraryStatus
-//                    .getFont()
-//                    .deriveFont(Font.PLAIN, LibraryUI.gameNameFontSize));
-//        }
+
+        LibraryUI.lblLibraryStatus.setFont(LibraryUI.lblLibraryStatus
+                .getFont()
+                .deriveFont(Font.PLAIN, LibraryUI.gameNameFontSize));
         LibraryUI.lblLibraryStatus.setForeground(Color.lightGray);
         LibraryUI.lblLibraryStatus.setText(getName());
 
 
-        LibraryUI.lblLibraryStatus.validate();
 
     }
 
@@ -2150,7 +2176,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public void refresh() {
-        coverImagePane.setURL(rootCoverDBPath + coverUrl);
+
+        coverImagePane.setURL(rootCoverDBPath + coverURL);
     }
 
     // Getters & Setters
@@ -2180,7 +2207,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public final String getBoxArtUrl() {
-        return coverUrl;
+        if (coverURL == null || coverURL.equals("")) {
+            return coverImagePane.getImageURL();
+        } else {
+            return coverURL;
+        }
     }
 
     public final JPanel getInteractivePane() {
@@ -2238,7 +2269,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     public final void setCoverUrl(final String coverUrl) throws
             MalformedURLException {
-        this.coverUrl = coverUrl;
+        this.coverURL = coverUrl;
+
+    }
+
+    public final void setCoverImage(final String coverUrl) throws
+            MalformedURLException {
+        this.coverImagePane.setImageURL(coverUrl);
 
     }
 

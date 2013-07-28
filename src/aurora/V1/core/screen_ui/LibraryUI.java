@@ -597,6 +597,8 @@ public class LibraryUI extends AuroraApp {
 
     private AButton btnAutoRefresh;
 
+    private JPanel pnlLibraryStatusContainer;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
@@ -745,12 +747,32 @@ public class LibraryUI extends AuroraApp {
 
 
             prgLibraryStatus.stop();
-            imgLibraryStatusPane.add(lblLibraryStatus, BorderLayout.CENTER);
+
+            pnlLibraryStatusContainer = new JPanel();
+            pnlLibraryStatusContainer.setOpaque(false);
+
+            pnlLibraryStatusContainer.add(lblLibraryStatus);
+            pnlLibraryStatusContainer.setPreferredSize(new Dimension(
+                    imgLibraryStatusPane.getPreferredSize().width - 100,
+                    imgLibraryStatusPane.getPreferredSize().height));
+
+            imgLibraryStatusPane.add(lblLibraryStatus,
+                    BorderLayout.CENTER);
+            
+            lblLibraryStatus.setSize(new Dimension(lblLibraryStatus
+                    .getPreferredSize().width, lblLibraryStatus
+                    .getPreferredSize().height));
+            lblLibraryStatus.validate();
+            pnlLibraryStatusContainer.validate();
+
+
+
             JPanel progressContainer = new JPanel(
                     new FlowLayout(FlowLayout.LEFT, 0, 20));
             progressContainer.setOpaque(false);
             progressContainer.add(prgLibraryStatus);
             progressContainer.setPreferredSize(new Dimension(50, 25));
+
             imgLibraryStatusPane.add(progressContainer, BorderLayout.EAST);
             imgLibraryStatusPane.add(Box.createHorizontalStrut(50),
                     BorderLayout.WEST);

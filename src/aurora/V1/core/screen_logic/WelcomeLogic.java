@@ -258,7 +258,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
 
     }
 
-    public boolean checkOnline(String URL) {
+    public static boolean checkOnline(String URL) {
         final URL url;
         try {
             url = new URL("http://" + URL);
@@ -305,7 +305,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
         if (launches == null || launches.equals("null")) {
             startScreenUI.getAuroraStorage().getStoredSettings().saveSetting(
                     "launch", "1");
-             main.LAUNCHES = 1;
+            main.LAUNCHES = 1;
         } else {
             int value = Integer.parseInt(launches) + 1;
             launches = Integer.toString(value);

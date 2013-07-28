@@ -188,7 +188,7 @@ public class GameSearch implements Runnable {
         imgStatus.setImgURl("addUI_badge_invalid.png");
         libraryUI.getLogic().checkManualAddGameStatus();
 
-       
+
     }
 
     public void setAppendedName(String AppendedName) {
@@ -280,7 +280,6 @@ public class GameSearch implements Runnable {
 
             return foundGameCover;
         }
-
 
 
     }
