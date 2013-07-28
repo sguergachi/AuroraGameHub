@@ -1011,9 +1011,18 @@ public class LibraryLogic implements AuroraScreenLogic {
                             game.setGamePath(executableGamePath.get(i)
                                     .getPath());
                             try {
-                                game.setCoverUrl(gameSearch_autoUI
-                                        .searchSpecificGame(game.getGameName())
-                                        .getImageURL());
+                                String imgURL ;
+                                if((gameSearch_autoUI.searchSpecificGame(game.getGameName())) instanceof Game){
+                                     imgURL = ((Game) (gameSearch_autoUI
+                                               .searchSpecificGame(game.getGameName())))
+                                               .getBoxArtUrl();
+                                } else {
+                                    imgURL = gameSearch_autoUI
+                                               .searchSpecificGame(game.getGameName())
+                                               .getImageURL();
+                                }
+
+                                game.setCoverUrl(imgURL);
                             } catch (MalformedURLException ex) {
                                 java.util.logging.Logger.getLogger(
                                         LibraryLogic.class.getName()).
