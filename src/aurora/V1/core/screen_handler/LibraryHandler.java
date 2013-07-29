@@ -1418,10 +1418,6 @@ public class LibraryHandler implements
                                         gridManager.getArray().indexOf(GameBack
                                         .getComponent(1)));
 
-
-
-
-
                             }
 
                             libraryUI.getModelCheckList().removeElementAt(0);

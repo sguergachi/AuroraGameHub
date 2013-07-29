@@ -5,13 +5,15 @@
 
 
 ////////////////////////////////////////////------------------------------------
-// Aurora_Alpha 8  Build:773  Date:7/11/2013  || Sammy Guergachi, Carlos Machado
+// Aurora_Alpha 8  Build:777  Date:7/11/2013  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------
++ Added ability to automatically add games from library
 + Added ability to organize library in 3 different ways
 + Added ability to change some settings of a specific game (flip game > gear button)
 + Added ability to change game box art
 + Added shortcut buttons to launch screen
 + Added support for adding .url shortcut files (i.e. Steam shortcuts)
+
 - settings states saved in new local Database
 - officially support Java 7 update 9 and up.
 - improved library search to be more lenient
