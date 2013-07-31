@@ -752,7 +752,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         Date d = null;
-        if (timePlayed == null) {
+        if (timePlayed == null || timePlayed.equals("null")) {
             timePlayed = "00:00";
         }
         try {
