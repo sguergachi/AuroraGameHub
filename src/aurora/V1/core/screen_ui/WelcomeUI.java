@@ -196,7 +196,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
         fileIO = new AFileManager(System.getProperty("user.home"));
         loadingPane = new JPanel();
-        loadingPane.setLayout(new BorderLayout(0,0));
+        loadingPane.setLayout(new BorderLayout(0, 0));
         loadingPane.setOpaque(false);
 
         this.startKeyHandler = handler.new FrameKeyListener();
@@ -383,7 +383,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                     fileIO.createFolder("Game Data");
 
                     //Load Databases
-                    moveAuroraDB();
+//                    moveAuroraDB();
                     auroraStorage.getStoredLibrary()
                             .setUpDatabase(FirstTimeLoad,
                             fileIO.getPath() + "/Game Data/");
@@ -405,7 +405,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                     fileIO.createFolder("Game Data");
 
                     //Load Databases
-                    moveAuroraDB();
+//                    moveAuroraDB();
                     auroraStorage.getStoredLibrary()
                             .setUpDatabase(FirstTimeLoad,
                             fileIO.getPath() + "/Game Data/");
@@ -419,7 +419,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 } else if (!checkDBFiles()) {
                     FirstTimeLoad = false;
                     fileIO.setPath(fileIO.getPath() + path);
-                    moveAuroraDB();
+//                    moveAuroraDB();
                     System.out.println("Moved AuroraDB");
                     if (!checkDBFiles()) {
                         FirstTimeLoad = true;
@@ -438,6 +438,10 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 } else {
                     fileIO.setPath(fileIO.getPath() + path);
                 }
+
+
+                moveAuroraDB();
+
                 if (!FirstTimeLoad && START_WITH_MINI) {
                     coreUI.minimizeAurora(AuroraMini.LOADING_MODE);
                 }
@@ -453,7 +457,8 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                     // Check if its Users Internet is down
                     // or Aurora Servers are down
                     //*
-                    if (logic.checkOnline("http://google.com") && !logic.checkOnline(
+                    if (logic.checkOnline("http://google.com") && !logic
+                            .checkOnline(
                             "https://s3.amazonaws.com")) {
                         promptDisplay
                                 .add(
@@ -577,37 +582,44 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
     }
 
     private void moveAuroraDB() {
-        logger.info("Moving AuroraDB to AuroraData folder..");
+        logger.info("Moving AuroraDB to AuroraData folder...");
 
-        String auroraDbPath = WelcomeUI.class.getProtectionDomain()
+        String installPath =WelcomeUI.class.getProtectionDomain()
                 .getCodeSource().getLocation().getPath().replaceFirst(
-                "Aurora.jar", "").replaceAll("%20", " ") + "lib/AuroraDB.h2.db";
-        logger.info(" >>> Resource Path1 " + auroraDbPath);
+                "AuroraGameHub.jar", "").replaceAll("%20", " ");
+        String auroraDbPath = installPath + "/lib/AuroraDB.h2.db";
 
+        logger.info(" >>> auroraDB Path " + auroraDbPath);
+        logger.info(" >>> installPath Path " + installPath);
 
+        if (!fileIO.checkFile(fileIO
+                .getPath() + "AuroraDB.h2.db")
+            || fileIO.checkFile(installPath + "/updateDB")) {
 
-        if (fileIO.checkFile(auroraDbPath) && !fileIO
-                .checkFile(fileIO
-                .getPath() + "AuroraDB.h2.db")) {
-            try {
-                fileIO.copyFile(new File(auroraDbPath), new File(fileIO
-                        .getPath() + "AuroraDB.h2.db"));
-            } catch (IOException ex) {
-                java.util.logging.Logger
-                        .getLogger(WelcomeUI.class.getName()).
-                        log(Level.SEVERE, null, ex);
-            }
-        } else {
-            logger.info("Did Not Move AuroraDB to AuroraData");
-
-            if (!fileIO
-                    .checkFile(fileIO
-                    .getPath() + "AuroraDB.h2.db")) {
-                downloadAuroraDB();
-
-
+            if(fileIO.checkFile(installPath + "/updateDB")){
+                try {
+                    fileIO.deleteFile(new File(installPath + "/updateDB"));
+                } catch (IOException ex) {
+                    java.util.logging.Logger.getLogger(WelcomeUI.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
             }
 
+            if (fileIO.checkFile(auroraDbPath)) {
+                try {
+                    fileIO.copyFile(new File(auroraDbPath), new File(fileIO
+                            .getPath() + "AuroraDB.h2.db"));
+                } catch (IOException ex) {
+                    java.util.logging.Logger
+                            .getLogger(WelcomeUI.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            } else {
+                logger.info("Did Not Move AuroraDB to AuroraData");
+
+                    downloadAuroraDB();
+
+            }
         }
     }
 
@@ -704,8 +716,4 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
     public AuroraCoreUI getCoreUI() {
         return coreUI;
     }
-
-
-
-
 }
