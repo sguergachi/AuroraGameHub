@@ -25,7 +25,7 @@ import java.util.prefs.Preferences;
 
 public final class GameFinder {
 
-    public static String[] GameProviders = {"Ubisoft", "EA Games"}; //add your own
+    public static String[] GameProviders = {"Ubisoft", "EA Games", "GOG.com", "SQUARE ENIX"}; //add your own
 
     /**
      * PRECONDITION: You are on a Windows PC, Java source 6 to compile

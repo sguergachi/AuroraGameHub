@@ -758,7 +758,7 @@ public class LibraryUI extends AuroraApp {
 
             imgLibraryStatusPane.add(lblLibraryStatus,
                     BorderLayout.CENTER);
-            
+
             lblLibraryStatus.setSize(new Dimension(lblLibraryStatus
                     .getPreferredSize().width, lblLibraryStatus
                     .getPreferredSize().height));
@@ -1783,13 +1783,12 @@ public class LibraryUI extends AuroraApp {
                     .addMouseListener(handler.new AddGameMouseHandler(
                     txtSearchField_addUI, pnlSearchBG, logic
                     .getGameSearch_addUI()));
-            txtSearchField_addUI
-                    .addKeyListener(handler.new AddGameSearchBoxHandler(logic
-                    .getGameSearch_addUI()));
+            txtSearchField_addUI.getDocument().addDocumentListener(
+                    handler.new AddGameSearchBoxHandler(logic
+                    .getGameSearch_addUI(), txtSearchField_addUI));
 
             gamesList_addUI.addListSelectionListener(
-                    handler.new SelectListHandler(logic.getGameSearch_addUI(),
-                    txtSearchField_addUI));
+                    handler.new SelectListHandler(logic.getGameSearch_addUI()));
 
             gameFileChooser_addUI.setFileFilter(
                     handler.new ExecutableFilterHandler());
@@ -1965,8 +1964,7 @@ public class LibraryUI extends AuroraApp {
         pnlGameFileChooser_editUI = new JPanel();
         pnlGameFileChooser_editUI.setOpaque(true);
 
-        gameFileChooser_editUI = new JFileChooser(System
-                .getProperty("user.home"));
+        gameFileChooser_editUI = new JFileChooser();
 
         try {
             UIManager.setLookAndFeel(UIManager
@@ -2412,9 +2410,12 @@ public class LibraryUI extends AuroraApp {
                     .addMouseListener(handler.new AddGameMouseHandler(
                     txtGameCoverSearch_editUI.getTextBox(),
                     txtGameCoverSearch_editUI, logic.getGameSearch_editUI()));
-            txtGameCoverSearch_editUI.getTextBox().addKeyListener(
-                    handler.new AddGameSearchBoxHandler(logic
-                    .getGameSearch_editUI()));
+
+            txtGameCoverSearch_editUI.getTextBox().getDocument()
+                    .addDocumentListener(handler.new AddGameSearchBoxHandler(
+                    logic
+                    .getGameSearch_editUI(),
+                    txtGameCoverSearch_editUI.getTextBox()));
 
             btnClearSearch_editUI.addActionListener(
                     handler.new AddGameSearchClear(txtGameCoverSearch_editUI
@@ -2422,8 +2423,7 @@ public class LibraryUI extends AuroraApp {
                     .getGameSearch_editUI()));
 
             gamesList_editUI.addListSelectionListener(
-                    handler.new SelectListHandler(logic.getGameSearch_editUI(),
-                    txtGameCoverSearch_editUI.getTextBox()));
+                    handler.new SelectListHandler(logic.getGameSearch_editUI()));
 
             gameFileChooser_editUI.setFileFilter(
                     handler.new ExecutableFilterHandler());
@@ -2470,7 +2470,7 @@ public class LibraryUI extends AuroraApp {
             }
         });
 
-        loadFileChooser.startOnce();
+//        loadFileChooser.startOnce();
 
     }
 
@@ -2820,6 +2820,32 @@ public class LibraryUI extends AuroraApp {
                             - (pnlEditGamePane.getImgIcon()
                             .getIconWidth() / 2), -390);
                     editGameAnimator.moveVertical(0, 33);
+
+                    editGameAnimator.addPostAnimationListener(
+                            new APostHandler() {
+                        @Override
+                        public void postAction() {
+
+                            SwingUtilities.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(700);
+                                    } catch (InterruptedException ex) {
+                                        java.util.logging.Logger.getLogger(LibraryUI.class.getName()).
+                                                log(Level.SEVERE, null, ex);
+                                    }
+                                    gameFileChooser_editUI.setCurrentDirectory(
+                                            new File(
+                                            currentGame_editUI.getGamePath()));
+                                }
+                            });
+
+                        }
+                    });
+
+
+
                     pnlEditGamePane.revalidate();
 
                 }

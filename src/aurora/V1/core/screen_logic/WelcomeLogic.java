@@ -261,7 +261,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
     public static boolean checkOnline(String URL) {
         final URL url;
         try {
-            url = new URL("http://" + URL);
+            url = new URL( URL);
             try {
 
                 final URLConnection conn = url.openConnection();

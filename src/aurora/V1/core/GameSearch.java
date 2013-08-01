@@ -193,6 +193,39 @@ public class GameSearch implements Runnable {
 
     public void setAppendedName(String AppendedName) {
         this.AppendedName = AppendedName;
+        if (logger.isDebugEnabled()) {
+            logger.debug("Appended name: " + AppendedName);
+        }
+
+
+        //Remove ONE Character From End of Appended Name
+        if (AppendedName.length() <= 0) {
+
+
+            resetCover();
+            searchGame();
+
+
+        } //Start search only when more than 1 character is typed
+        else if (AppendedName.length() > 0) {
+
+            //Delay to allow for typing
+            if (AppendedName.length() == 1) {
+                sleep = 300;
+            } else {
+                sleep = 260;
+            }
+            if (typeThread == null) {
+                typeThread = new Thread(this);
+            }
+
+            //Start Search thread with Delay
+            try {
+                typeThread.start();
+            } catch (IllegalThreadStateException ex) {
+            }
+
+        }
     }
 
     public Boolean checkGameExist(String gameName) {

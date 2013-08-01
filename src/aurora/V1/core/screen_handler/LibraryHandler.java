@@ -74,9 +74,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 
 import org.apache.log4j.Logger;
 import sun.swing.DefaultLookup;
@@ -590,69 +594,48 @@ public class LibraryHandler implements
     }
 
 /////////////////////////////////////////////////////////////
-    public class AddGameSearchBoxHandler extends KeyAdapter {
+    public class AddGameSearchBoxHandler implements DocumentListener {
 
         private final GameSearch gameSearch;
         //Handles Typing In Search Box, when it is in focus
+        private final JTextField textField;
 
-        public AddGameSearchBoxHandler(GameSearch searchEngine) {
+        public AddGameSearchBoxHandler(GameSearch searchEngine, JTextField TextField) {
             this.gameSearch = searchEngine;
+            this.textField = TextField;
         }
 
+
         @Override
-        public void keyReleased(KeyEvent e) {
-            //this activates for any letter number or space key
+        public void insertUpdate(DocumentEvent e) {
 
             libraryUI.getSearchBar().setForeground(Color.darkGray);
             libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
 
-            if (e.getKeyCode() == KeyEvent.VK_A
-                || e.getKeyCode() == KeyEvent.VK_B
-                || e.getKeyCode() == KeyEvent.VK_C
-                || e.getKeyCode() == KeyEvent.VK_D
-                || e.getKeyCode() == KeyEvent.VK_E
-                || e.getKeyCode() == KeyEvent.VK_F
-                || e.getKeyCode() == KeyEvent.VK_G
-                || e.getKeyCode() == KeyEvent.VK_H
-                || e.getKeyCode() == KeyEvent.VK_I
-                || e.getKeyCode() == KeyEvent.VK_J
-                || e.getKeyCode() == KeyEvent.VK_K
-                || e.getKeyCode() == KeyEvent.VK_L
-                || e.getKeyCode() == KeyEvent.VK_M
-                || e.getKeyCode() == KeyEvent.VK_N
-                || e.getKeyCode() == KeyEvent.VK_O
-                || e.getKeyCode() == KeyEvent.VK_P
-                || e.getKeyCode() == KeyEvent.VK_Q
-                || e.getKeyCode() == KeyEvent.VK_R
-                || e.getKeyCode() == KeyEvent.VK_S
-                || e.getKeyCode() == KeyEvent.VK_T
-                || e.getKeyCode() == KeyEvent.VK_U
-                || e.getKeyCode() == KeyEvent.VK_V
-                || e.getKeyCode() == KeyEvent.VK_W
-                || e.getKeyCode() == KeyEvent.VK_X
-                || e.getKeyCode() == KeyEvent.VK_Y
-                || e.getKeyCode() == KeyEvent.VK_Z
-                || e.getKeyCode() == KeyEvent.VK_SPACE
-                || e.getKeyCode() == KeyEvent.VK_1
-                || e.getKeyCode() == KeyEvent.VK_2
-                || e.getKeyCode() == KeyEvent.VK_3
-                || e.getKeyCode() == KeyEvent.VK_4
-                || e.getKeyCode() == KeyEvent.VK_5
-                || e.getKeyCode() == KeyEvent.VK_6
-                || e.getKeyCode() == KeyEvent.VK_7
-                || e.getKeyCode() == KeyEvent.VK_8
-                || e.getKeyCode() == KeyEvent.VK_9
-                || e.getKeyCode() == KeyEvent.VK_0
-                || e.getKeyCode() == KeyEvent.VK_QUOTE
-                || e.getKeyCode() == KeyEvent.VK_PERIOD) {
-                //Sends the key to the search engine to be appended and check for match
-                gameSearch.typedChar(e.getKeyChar());
+            gameSearch
+                    .setAppendedName(textField.getText());
+        }
 
-            } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-                // If backspace is pressed tell search engine to search for name - 1 character
-                gameSearch.removeChar(e.getKeyChar());
+        @Override
+        public void removeUpdate(DocumentEvent e) {
 
-            }
+            libraryUI.getSearchBar().setForeground(Color.darkGray);
+            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
+
+            gameSearch
+                    .setAppendedName(textField.getText());
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+
+
+            libraryUI.getSearchBar().setForeground(Color.darkGray);
+            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
+
+            gameSearch
+                    .setAppendedName(textField.getText());
+
         }
     }
 
@@ -756,7 +739,7 @@ public class LibraryHandler implements
                 } catch (MalformedURLException ex) {
                     logger.error(ex);
                 }
-                if (txtField.getText().length() <= 1) {
+                if (txtField.getText().length() < 1) {
                     txtField.setText(
                             "Search For Game...");
                     txtField.setForeground(Color.darkGray);
@@ -1475,14 +1458,10 @@ public class LibraryHandler implements
 
         private DefaultListModel listModel;
 
-        private JTextField gameSearchBar;
-
         private final GameSearch gameSearch;
 
-        public SelectListHandler(GameSearch searchEngine,
-                                 JTextField searchField) {
+        public SelectListHandler(GameSearch searchEngine) {
             gameSearch = searchEngine;
-            gameSearchBar = searchField;
         }
 
         @Override
@@ -1492,10 +1471,7 @@ public class LibraryHandler implements
             if (gamesList.getSelectedIndex() != -1) {
                 String gameSelected = (String) listModel.get(gamesList
                         .getSelectedIndex());
-                gameSearchBar.setText(gameSelected);
-
                 gameSearch.searchSpecificGame(gameSelected);
-                gameSearch.setAppendedName(gameSelected);
 
             }
         }

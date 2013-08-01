@@ -443,7 +443,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 }
 
                 //* Check if Online *//
-                if (!logic.checkOnline("auroragamehub.com")) {
+                if (!logic.checkOnline("http://auroragamehub.com")) {
                     Online = false;
                     promptDisplay.add(
                             "Can't Connect To AuroraDB, Let Me Try Again...",
@@ -453,15 +453,15 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                     // Check if its Users Internet is down
                     // or Aurora Servers are down
                     //*
-                    if (logic.checkOnline("google.com") && !logic.checkOnline(
-                            "auroragamehub.com/aurora-tracker")) {
+                    if (logic.checkOnline("http://google.com") && !logic.checkOnline(
+                            "https://s3.amazonaws.com")) {
                         promptDisplay
                                 .add(
                                 "Well, It Seems Our Servers Are Down, Try Again In A Bit.",
                                 Color.RED);
 
                         //The User is having internet problems
-                    } else if (!logic.checkOnline("google.com")) {
+                    } else if (!logic.checkOnline("http://google.com")) {
                         promptDisplay.add("Can't Connect To Google...");
                         promptDisplay
                                 .add(

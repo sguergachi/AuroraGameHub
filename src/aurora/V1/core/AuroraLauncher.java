@@ -564,7 +564,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
                 launchPane.setState(JFrame.NORMAL);
                 launchPane.setAlwaysOnTop(true);
-
                 showTimeSpentPlaying();
 
                 break;

@@ -257,6 +257,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.setImage("Blank-Case.png", height, width);
         this.setPreferredSize(new Dimension(width, height));
 
+        progressWheel = new AProgressWheel("Aurora_Loader.png");
+        progressWheel.setPreferredSize(this.getPreferredSize());
+
     }
 
     public Game(final GridManager manager, final AuroraCoreUI ui,
@@ -273,6 +276,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.setImage("Blank-Case.png", height, width);
         this.setPreferredSize(new Dimension(width, height));
 
+        progressWheel = new AProgressWheel("Aurora_Loader.png");
+        progressWheel.setPreferredSize(this.getPreferredSize());
+
     }
 
     public Game(final GridManager manager, final AuroraCoreUI ui,
@@ -288,6 +294,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.setImage("Blank-Case.png", height, width);
         this.setPreferredSize(new Dimension(width, height));
 
+        progressWheel = new AProgressWheel("Aurora_Loader.png");
+        progressWheel.setPreferredSize(this.getPreferredSize());
+
     }
 
     public Game(final String CoverURL, final DashboardUI dashboard) {
@@ -302,6 +311,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.setImage("Blank-Case.png", height, width);
         this.setPreferredSize(new Dimension(width, height));
 
+        progressWheel = new AProgressWheel("Aurora_Loader.png");
+        progressWheel.setPreferredSize(this.getPreferredSize());
+
     }
 
     public Game(final DashboardUI dashboard) {
@@ -314,6 +326,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         //DEFAULT CASE
         this.setImage("Blank-Case.png", height, width);
         this.setPreferredSize(new Dimension(width, height));
+
+        progressWheel = new AProgressWheel("Aurora_Loader.png");
+        progressWheel.setPreferredSize(this.getPreferredSize());
 
     }
 
@@ -508,21 +523,24 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             logger.debug("pane width " + width);
         }
 
+
+
     }
 
     @Override
     public final void run() {
 
         if (Thread.currentThread() == gameCoverThread) {
-            progressWheel = new AProgressWheel("Aurora_Loader.png");
-            progressWheel.setPreferredSize(this.getPreferredSize());
+
 
 
             AFileManager fileIO = dashboardUI.getStartUI().getFileIO();
 
             if (!java.util.Arrays.asList(this.getComponents())
                     .contains(progressWheel)) {
+
                 this.add(progressWheel, BorderLayout.NORTH);
+                progressWheel.resume();
             }
 
             // Try to Get Image Locally //
@@ -548,11 +566,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 this.revalidate();
                 this.repaint();
 
-                try {
-                    this.remove(progressWheel);
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
             } else {
 
                 // Load Image From S3 //
@@ -599,7 +612,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                             height));
 
                     this.setImage(coverImagePane);
-                    this.remove(progressWheel);
                     this.add(pnlInteractivePane);
 
                     this.repaint();
@@ -608,12 +620,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                 } catch (Exception ex) {
                     logger.error(ex);
-                } finally {
-                    try {
-                        this.remove(progressWheel);
-                    } catch (NullPointerException e) {
-                    }
-                    progressWheel.setVisible(false);
                 }
             }
         }
@@ -642,25 +648,41 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      *
      */
     private void afterLoad() {
-        if (isLoaded) {
+        AThreadWorker afterLoad = new AThreadWorker(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-            if (isSelected) {
-                setSelected();
+                if (isLoaded) {
+
+                    if (isSelected) {
+                        setSelected();
+                    }
+
+                    if (isFavorite) {
+                        setFavorite();
+                    }
+
+                }
+
+                try {
+                    if (localImage == null) {
+                        Thread.sleep(100);
+                    }
+                    remove(progressWheel);
+                } catch (NullPointerException ex) {
+                } catch (InterruptedException ex) {
+                    java.util.logging.Logger.getLogger(Game.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+                progressWheel.stop();
+
+                revalidate();
+                repaint();
+
             }
+        });
 
-            if (isFavorite) {
-                setFavorite();
-            }
-
-        }
-
-        try {
-            this.remove(progressWheel);
-        } catch (Exception e) {
-        }
-
-        this.revalidate();
-        this.repaint();
+        afterLoad.startOnce();
 
 
 
@@ -1269,16 +1291,25 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 "game_btn_watch_down.png",
                 "game_btn_watch_over.png", btnWidth, btnHeight);
         btnWatch.addActionListener(new WatchListener());
+        if (main.LAUNCHES < 5) {
+            btnFix.setToolTipText("Gameplay Videos");
+        }
 
         btnFix = new AButton("game_btn_help_norm.png",
                 "game_btn_help_down.png",
                 "game_btn_help_over.png", btnWidth, btnHeight);
         btnFix.addActionListener(new FixListener());
+        if (main.LAUNCHES < 5) {
+            btnFix.setToolTipText("PC Gaming Wiki");
+        }
 
         btnLearn = new AButton("game_btn_learn_norm.png",
                 "game_btn_learn_down.png",
                 "game_btn_learn_over.png", btnWidth, btnHeight);
         btnLearn.addActionListener(new LearnListener());
+        if (main.LAUNCHES < 5) {
+            btnFix.setToolTipText("Wikia");
+        }
 
         // Content Pane //
         pnlFlipContentPane = new JPanel(new BorderLayout(0, 0));
