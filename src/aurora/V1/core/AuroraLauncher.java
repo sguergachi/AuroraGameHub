@@ -559,8 +559,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
                 //* Change Title *//
                 imgTitle.setImage("app_launch_standBy.png");
 
-                btnExit.setEnabled(false);
-                btnMinimize.setEnabled(false);
+//                btnExit.setEnabled(false);
+//                btnMinimize.setEnabled(false);
 
                 launchPane.setState(JFrame.NORMAL);
                 launchPane.setAlwaysOnTop(true);
