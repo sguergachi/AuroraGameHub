@@ -598,13 +598,14 @@ public class LibraryHandler implements
 
         private final GameSearch gameSearch;
         //Handles Typing In Search Box, when it is in focus
+
         private final JTextField textField;
 
-        public AddGameSearchBoxHandler(GameSearch searchEngine, JTextField TextField) {
+        public AddGameSearchBoxHandler(GameSearch searchEngine,
+                                       JTextField TextField) {
             this.gameSearch = searchEngine;
             this.textField = TextField;
         }
-
 
         @Override
         public void insertUpdate(DocumentEvent e) {
@@ -882,6 +883,9 @@ public class LibraryHandler implements
             AThreadWorker doneTask = new AThreadWorker(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
+                    libraryUI.hideEditGameUI();
+
                     if (libraryUI.isGameLocation()) {
                         // Check if valid
                         if (libraryUI.getImgGameLocationStatus().getImgURl()
@@ -937,9 +941,12 @@ public class LibraryHandler implements
                                     "Changed Game Cover");
                         }
 
+                        libraryUI.getCurrentGame_editUI().getBtnFlip()
+                                .getActionListeners()[0].actionPerformed(null);
+
                     }
 
-                    libraryUI.hideEditGameUI();
+
 
 
                 }
@@ -1183,7 +1190,7 @@ public class LibraryHandler implements
 
 // Listener for when the Add Game To Library Button is pressed in the
 // Add Game UI
-    public class AddToLibraryHandler implements ActionListener {
+    public class AddToLibraryButtonHandler implements ActionListener {
 
         private GridManager gridManager;
 
@@ -1197,7 +1204,7 @@ public class LibraryHandler implements
 
         private final GameSearch gameSearch;
 
-        public AddToLibraryHandler(GameSearch searchEngine) {
+        public AddToLibraryButtonHandler(GameSearch searchEngine) {
             this.gameSearch = searchEngine;
         }
 
@@ -1258,6 +1265,8 @@ public class LibraryHandler implements
 
 
                     } else {
+
+                        libraryLogic.animateAddButtonUp();
 
                         for (int i = 0; i < libraryLogic.getAutoGameList()
                                 .size(); i++) {
@@ -1427,12 +1436,12 @@ public class LibraryHandler implements
                             LibraryUI.lblLibraryStatus.setText("Added "
                                                                + libraryLogic
                                     .getAutoGameList()
-                                    .size() + " Game");
+                                    .size() + " Games");
                         } else {
                             LibraryUI.lblLibraryStatus.setText("Added "
                                                                + libraryLogic
                                     .getAutoGameList()
-                                    .size() + " Games");
+                                    .size() + " Game");
                         }
 
                         AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(

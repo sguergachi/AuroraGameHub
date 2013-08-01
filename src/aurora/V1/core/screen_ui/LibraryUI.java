@@ -1796,7 +1796,7 @@ public class LibraryUI extends AuroraApp {
                     .addActionListener(handler.new ExecutableChooserHandler(
                     gameFileChooser_addUI));
             btnGameToLib_addUI
-                    .addActionListener(handler.new AddToLibraryHandler(logic
+                    .addActionListener(handler.new AddToLibraryButtonHandler(logic
                     .getGameSearch_addUI()));
 
             //Auto
@@ -2456,6 +2456,7 @@ public class LibraryUI extends AuroraApp {
 
         // reset UI
         txtNewLocation_editUI.setText("");
+        txtGameCoverSearch_editUI.getTextBox().setText("");
         imgGameLocationStatus.setImgURl("addUI_badge_idle.png");
         imgGameCoverStatus.setImgURl("addUI_badge_idle.png");
         logic.getGameSearch_editUI().resetCover();
@@ -2673,11 +2674,6 @@ public class LibraryUI extends AuroraApp {
 
         } else {
 
-            if (main.LAUNCHES > 5 || storage.getStoredLibrary().getNumberGames()
-                                     > 0) {
-                btnManual.setSelected();
-                btnAuto.setUnSelected();
-            }
 
             pnlGlass.setVisible(true);
 
@@ -2694,6 +2690,16 @@ public class LibraryUI extends AuroraApp {
                 public void actionPerformed(ActionEvent e) {
 
                     buildAddGameUI();
+
+                    if (main.LAUNCHES > 5 || storage.getStoredLibrary()
+                            .getNumberGames()
+                                             > 0) {
+                        btnManual.setSelected();
+                        btnAuto.setUnSelected();
+                    } else {
+                        btnAuto.setSelected();
+                        btnManual.setUnSelected();
+                    }
                     addGameAnimator.setInitialLocation(
                             (coreUI.getFrame().getWidth() / 2)
                             - (pnlAddGamePane.getImgIcon()
@@ -2832,7 +2838,8 @@ public class LibraryUI extends AuroraApp {
                                     try {
                                         Thread.sleep(700);
                                     } catch (InterruptedException ex) {
-                                        java.util.logging.Logger.getLogger(LibraryUI.class.getName()).
+                                        java.util.logging.Logger.getLogger(
+                                                LibraryUI.class.getName()).
                                                 log(Level.SEVERE, null, ex);
                                     }
                                     gameFileChooser_editUI.setCurrentDirectory(
@@ -2893,13 +2900,13 @@ public class LibraryUI extends AuroraApp {
             pnlLeftPane_editUI.revalidate();
             pnlLeftPane_editUI.repaint();
 
-            txtGameCoverSearch_editUI.getTextBox().requestFocusInWindow();
-
             setIsGameCover(true);
 
             pnlLeftPane_editUI.add(pnlGameCover_editUI);
             pnlLeftPane_editUI.revalidate();
             pnlLeftPane_editUI.repaint();
+
+            txtGameCoverSearch_editUI.getTextBox().requestFocusInWindow();
         }
     }
 

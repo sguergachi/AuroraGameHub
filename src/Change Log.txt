@@ -1,11 +1,11 @@
-=================AURORA CHANGE LOG==================
-|  Current Milestone: Alpha 8			   |
-|  Crafted With Care by the Sardonix Creative Team |
-====================================================
+        =================AURORA CHANGE LOG==================
+        |  Current Milestone: Alpha 8			   |
+        |  Crafted With Care by the Sardonix Creative Team |
+        ====================================================
 
 
 ////////////////////////////////////////////------------------------------------
-// Aurora_Alpha 8  Build:777  Date:7/11/2013  || Sammy Guergachi, Carlos Machado
+// Aurora_Alpha 8  Build:777  Date:7/11/2013  || Sammy Guergachi
 ////////////////////////////////////////////------------------------------------
 + Added ability to automatically add games from library
 + Added ability to organize library in 3 different ways
@@ -13,15 +13,17 @@
 + Added ability to change game box art
 + Added shortcut buttons to launch screen
 + Added support for adding .url shortcut files (i.e. Steam shortcuts)
++ Added 150 more game icons to Database
 
 - settings states saved in new local Database
 - officially support Java 7 update 9 and up.
 - improved library search to be more lenient
-- improved flipped UI layout to show more text
+- improved flipped UI layout
 - improved the use of status messages in Library
-- more sound effects used
-- small UX improvements to launcher
 - improved loading of games
+- improved search for games
+- improvements to launch game experience
+- more sound effects used
 - optimized removing games
 - reduced log file size
 - minimized Aurora now takes a spot on the task bar
@@ -30,7 +32,7 @@
 - fixed grid search bug where grid looked messed up in some cases.
 - added guard against launching game if not found
 - added guard against adding a game with a path/file that doesn't exist
-- lots of minor UI fixes and enhancements (details do matter!)
+- lots of minor UI/UX fixes and enhancements (delight is in the details)
 
 
 

@@ -74,88 +74,171 @@ import org.apache.log4j.Logger;
 public class Game extends AImagePane implements Runnable, Cloneable {
 
     private static final long serialVersionUID = 1L;
+
     private String name;
+
     private String coverURL;
+
     private String gamePath;
+
     private String timePlayed = null;
+
     private String lastPlayed;
+
     private String gameType;
+
     private int numberTimesPlayed;
+
     private int width;
+
     private int height;
+
     private int SIZE_TOPPANE_COMP;
+
     private int SIZE_BottomPaneHeight;
+
     private Thread gameCoverThread;
+
     private boolean isFavorite;
+
     private boolean isLoaded = false;
+
     private boolean isSelected;
+
     private boolean isRemoved = false;
+
     private AProgressWheel progressWheel;
+
     private AImagePane coverImagePane;
+
     private AImagePane blankImagePane;
+
     private AImagePane imgSelectedGlow;
+
     private AImagePane imgStarIcon;
+
     private AImagePane imgOverlayBar;
+
     private AImagePane removeImagePane;
+
     private AImagePane imgConfirmPromptImagePane;
+
     private JPanel pnlInteractivePane;
+
     private JPanel topPanel;
+
     private JPanel playButtonPanel;
+
     private JPanel pnlFlipPane;
+
     private JPanel pnlFavoritePane;
+
     private JPanel bottomPanel;
+
     private JPanel pnlOverlayContainer;
+
     private JPanel confirmPanel;
+
     private JPanel denyPanel;
+
     private AButton btnRemove;
+
     private AButton btnFavorite;
+
     private AButton btnFlip;
+
     private AButton btnPlay;
+
     private AButton confirmButton;
+
     private AButton denyButton;
+
     private ADialog dbErrorDialog;
+
     private GridManager manager;
+
     private AuroraCoreUI coreUI;
+
     private DashboardUI dashboardUI;
+
     private AuroraStorage storage;
+
     private final String rootCoverDBPath = "https://s3.amazonaws.com/CoverArtDB/";
+
     private PlayButtonListener playButtonListener;
+
     private boolean isGameRemoveMode;
+
     private int removeButtonWidth;
+
     private int removeButtonSeperation;
+
     private boolean isFliped;
+
     static final Logger logger = Logger.getLogger(Game.class);
+
     private AButton btnAward;
+
     private JPanel pnlAwardPane;
+
     private AButton btnSetting;
+
     private ASlickLabel lblHoursPlayed;
+
     private ASlickLabel lblLastPlayed;
+
     private ASlickLabel lblTimesPlayed;
+
     private ASlickLabel lblGameType;
+
     private ATextField txtHoursPlayed;
+
     private ATextField txtLastPlayed;
+
     private ATextField txtTimesPlayed;
+
     private ATextField txtGameType;
+
     private AImagePane pnlShortcutImage;
+
     private JScrollPane pnlFlipScrollPane;
+
     private JScrollBar flipScrollBar;
+
     private JPanel pnlFlipContentPane;
+
     private JPanel pnlLeftPane;
+
     private JPanel pnlRightPane;
+
     private JPanel pnlFlipContainer;
+
     private JPanel pnlTopImageContainer;
+
     private boolean isFlipUIReady;
+
     private ASlickLabel lblShortcut;
+
     private JPanel pnlShortcutLbl;
+
     private AButton btnWatch;
+
     private AButton btnFix;
+
     private AButton btnLearn;
+
     private JPanel pnlShortcutBtn;
+
     private int flipShortcutWidth;
+
     private int flipShortcutHeight;
+
     private int labelFontSize;
+
     private int flipPadding;
+
     private LibraryLogic libraryLogic;
+
     private ImageIcon localImage;
 
     public Game() {
@@ -1072,7 +1155,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
-    private class FlipButtonListener implements ActionListener {
+    public class FlipButtonListener implements ActionListener {
 
         private Game tempGame;
 
@@ -1112,7 +1195,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     pnlOverlayContainer.revalidate();
 
                     if (isFlipUIReady) {
-                        showFlipUIContent();
+                        flipGame();
                     } else {
                         setUpFlipedUI();
                     }
@@ -1148,6 +1231,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
     private int textBoxWidth;
+
     private int textBoxHeight;
 
     /**
@@ -1198,7 +1282,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 "game_btn_watch_over.png", btnWidth, btnHeight);
         btnWatch.addActionListener(new WatchListener());
         if (main.LAUNCHES < 5) {
-            btnFix.setToolTipText("Gameplay Videos");
+            btnWatch.setToolTipText("Gameplay Videos");
         }
 
         btnFix = new AButton("game_btn_help_norm.png",
@@ -1214,7 +1298,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 "game_btn_learn_over.png", btnWidth, btnHeight);
         btnLearn.addActionListener(new LearnListener());
         if (main.LAUNCHES < 5) {
-            btnFix.setToolTipText("Wikia");
+            btnLearn.setToolTipText("Wikia");
         }
 
         // Content Pane //
@@ -1413,7 +1497,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlTopImageContainer.add(pnlShortcutImage, BorderLayout.CENTER);
 
         isFlipUIReady = true;
-        showFlipUIContent();
+        flipGame();
 
     }
 
@@ -1542,7 +1626,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      * .........................................................................
      * <p/>
      */
-    private void showFlipUIContent() {
+    public void flipGame() {
 
         topPanel.removeAll();
         topPanel.revalidate();
@@ -1691,7 +1775,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
     boolean isFavoriting;
+
     boolean isUnfavoriting;
+
     boolean prevState;
 
     class FavoriteButtonListener implements ActionListener {
@@ -2190,6 +2276,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         if (favorite) {
             setFavorite();
         }
+    }
+
+    public AButton getBtnFlip() {
+        return btnFlip;
     }
 
     public final void setGameType(final String gameType) {
