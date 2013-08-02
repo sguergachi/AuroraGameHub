@@ -48,6 +48,10 @@ import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+<<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
+=======
+import java.net.URI;
+>>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -102,16 +106,17 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
     public static boolean Online = false;
 
     private String path = "//AuroraData//";
+<<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
 
     private JPanel pnlUserButton;
+=======
+>>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
 
     private JPanel loadingPane;
 
     private AFileManager fileIO;
 
     private AuroraStorage auroraStorage;
-
-    private ASurface resource;
 
     private Thread backgroundLoadThread;
 
@@ -127,10 +132,13 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
     private FrameKeyListener startKeyHandler;
 
+<<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
     private AImage cursorImage;
 
     private Object toolkit;
 
+=======
+>>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
     private final WelcomeLogic logic;
 
     private DashboardUI loadedDashboardUI;
@@ -150,6 +158,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         logic = new WelcomeLogic(this);
         handler.setLogic(logic);
         logic.setHandler(handler);
+
     }
 
     @Override
@@ -206,7 +215,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
         fileIO = new AFileManager(System.getProperty("user.home"));
         loadingPane = new JPanel();
-        loadingPane.setLayout(new BorderLayout());
+        loadingPane.setLayout(new BorderLayout(0, 0));
         loadingPane.setOpaque(false);
 
         this.startKeyHandler = handler.new FrameKeyListener();
@@ -256,8 +265,6 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         promptDisplay.add(promptList);
         promptDisplay.setUp(displayYpos, promptDisplay.getWidth());
 
-        promptDisplay.setPreferredSize(
-                new Dimension(displayYpos, promptDisplay.getWidth()));
 
         promptDisplay.revalidate();
         promptDisplay.setIgnoreRepaint(true);
@@ -399,7 +406,11 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                     fileIO.createFolder("Game Data");
 
                     //Load Databases
+<<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
                     moveAuroraDB();
+=======
+//                    moveAuroraDB();
+>>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
                     auroraStorage.getStoredLibrary()
                             .setUpDatabase(FirstTimeLoad,
                             fileIO.getPath() + "/Game Data/");
@@ -421,7 +432,11 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                     fileIO.createFolder("Game Data");
 
                     //Load Databases
+<<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
                     moveAuroraDB();
+=======
+//                    moveAuroraDB();
+>>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
                     auroraStorage.getStoredLibrary()
                             .setUpDatabase(FirstTimeLoad,
                             fileIO.getPath() + "/Game Data/");
@@ -435,7 +450,11 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 } else if (!checkDBFiles()) {
                     FirstTimeLoad = false;
                     fileIO.setPath(fileIO.getPath() + path);
+<<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
                     moveAuroraDB();
+=======
+//                    moveAuroraDB();
+>>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
                     System.out.println("Moved AuroraDB");
                     if (!checkDBFiles()) {
                         FirstTimeLoad = true;
@@ -454,16 +473,24 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 } else {
                     fileIO.setPath(fileIO.getPath() + path);
                 }
+
+
+                moveAuroraDB();
+
                 if (!FirstTimeLoad && START_WITH_MINI) {
                     coreUI.minimizeAurora(AuroraMini.LOADING_MODE);
                 }
 
                 //* Check if Online *//
+<<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
 <<<<<<< HEAD
                 if (!checkOnline("auroragamehub.com/aurora-tracker")) {
 =======
                 if (!logic.checkOnline("auroragamehub.com")) {
 >>>>>>> origin/dev
+=======
+                if (!logic.checkOnline("http://auroragamehub.com")) {
+>>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
                     Online = false;
                     promptDisplay.add(
                             "Can't Connect To AuroraDB, Let Me Try Again...",
@@ -473,23 +500,33 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                     // Check if its Users Internet is down
                     // or Aurora Servers are down
                     //*
+<<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
 <<<<<<< HEAD
                     if (checkOnline("google.com") && !checkOnline(
 =======
                     if (logic.checkOnline("google.com") && !logic.checkOnline(
 >>>>>>> origin/dev
                             "auroragamehub.com/aurora-tracker")) {
+=======
+                    if (logic.checkOnline("http://google.com") && !logic
+                            .checkOnline(
+                            "https://s3.amazonaws.com")) {
+>>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
                         promptDisplay
                                 .add(
                                 "Well, It Seems Our Servers Are Down, Try Again In A Bit.",
                                 Color.RED);
 
                         //The User is having internet problems
+<<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
 <<<<<<< HEAD
                     } else if (!checkOnline("google.com")) {
 =======
                     } else if (!logic.checkOnline("google.com")) {
 >>>>>>> origin/dev
+=======
+                    } else if (!logic.checkOnline("http://google.com")) {
+>>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
                         promptDisplay.add("Can't Connect To Google...");
                         promptDisplay
                                 .add(
@@ -506,9 +543,13 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
                 }
 
+<<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
 <<<<<<< HEAD:src/aurora/V1/core/screen_ui/StartScreenUI.java
 <<<<<<< HEAD
 =======
+=======
+
+>>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
 =======
 
 >>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
@@ -536,6 +577,9 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
                 }
 
+                //Increment number of times launched//
+                logic.incrementAuroraLaunch();
+
 
                 //* load DashboardUI *//
                 loadedDashboardUI = new DashboardUI(coreUI, this);
@@ -549,6 +593,8 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 loadedDashboardUI.loadUI();
 
                 loadedData = true;
+
+
 
 
             }
@@ -605,6 +651,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
     }
 
+<<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
 <<<<<<< HEAD:src/aurora/V1/core/screen_ui/StartScreenUI.java
 <<<<<<< HEAD
     private boolean checkOnline(String URL) {
@@ -662,12 +709,76 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         }
     }
 
+=======
+    private void moveAuroraDB() {
+        logger.info("Moving AuroraDB to AuroraData folder...");
+
+        String installPath =WelcomeUI.class.getProtectionDomain()
+                .getCodeSource().getLocation().getPath().replaceFirst(
+                "AuroraGameHub.jar", "").replaceAll("%20", " ");
+        String auroraDbPath = installPath + "/lib/AuroraDB.h2.db";
+
+        logger.info(" >>> auroraDB Path " + auroraDbPath);
+        logger.info(" >>> installPath Path " + installPath);
+
+        if (!fileIO.checkFile(fileIO
+                .getPath() + "AuroraDB.h2.db")
+            || fileIO.checkFile(installPath + "/updateDB")) {
+
+            if(fileIO.checkFile(installPath + "/updateDB")){
+                try {
+                    fileIO.deleteFile(new File(installPath + "/updateDB"));
+                } catch (IOException ex) {
+                    java.util.logging.Logger.getLogger(WelcomeUI.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            }
+
+            if (fileIO.checkFile(auroraDbPath)) {
+                try {
+                    fileIO.copyFile(new File(auroraDbPath), new File(fileIO
+                            .getPath() + "AuroraDB.h2.db"));
+                } catch (IOException ex) {
+                    java.util.logging.Logger
+                            .getLogger(WelcomeUI.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            } else {
+                logger.info("Did Not Move AuroraDB to AuroraData");
+
+                    downloadAuroraDB();
+
+            }
+        }
+    }
+
+    private void downloadAuroraDB() {
+        logger.info("Downloading AuroraDB...");
+        try {
+            fileIO.downloadFile(new URL(
+                    "http://s3.amazonaws.com/AuroraStorage/AuroraDB.h2.db"),
+                    new File(fileIO.getPath() + "/AuroraDB.h2.db"));
+
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(WelcomeUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+            logger.info("Un-Sucessful Download!");
+        }
+        logger.info("Successful Download");
+
+
+    }
+
+>>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
     private void backCheckMyDoc() {
         if (fileIO.checkFile(fileIO.getMyDocPath() + path)) {
             fileIO.moveFolder(fileIO.getMyDocPath() + path, fileIO.getPath()
                                                             + path);
         }
     }
+<<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
+>>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
+=======
 >>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
 
     private boolean checkUser() {

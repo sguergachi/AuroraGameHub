@@ -21,6 +21,8 @@ import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AGridPanel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
@@ -60,6 +62,11 @@ public class GridManager {
 
     static final Logger logger = Logger.getLogger(GridManager.class);
 
+<<<<<<< HEAD
+=======
+    private int numGames;
+
+>>>>>>> origin/dev
     /**
      * Manages GridPanels for GameLibrary
      *
@@ -93,7 +100,8 @@ public class GridManager {
      *
      * @param GameCover object
      */
-    public void addGame(Game game) {
+    public Boolean addGame(Game game) {
+
         fullGrids = 0;
         for (int i = 0; i < Grids.size(); i++) {
             if (!isDupicate(game) || isTransitioningGame) {
@@ -101,11 +109,16 @@ public class GridManager {
                 if (!Grids.get(i).isGridFull()) {
 
                     Grids.get(i).addToGrid(game);
+                    numGames++;
                     isTransitioningGame = false; // Is Not Being Added to next Grid
 
                     if (logger.isDebugEnabled()) {
                         logger.debug("Added Game To GridPanel: " + game
                                 .getName());
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/dev
                         logger.debug("to Grid " + i);
                     }
 
@@ -133,17 +146,22 @@ public class GridManager {
 
                     }
                 }
+
             } else {
+<<<<<<< HEAD
                 ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
                         "Cannot Add Duplicate Game", ui.getDefaultFont()
                         .deriveFont(25));
                 info.showDialog();
                 info.setVisible(true);
                 echoGame(game).setSelected();
+=======
+                return false;
+>>>>>>> origin/dev
             }
 
         }
-
+        return true;
 
     }
 
@@ -158,7 +176,9 @@ public class GridManager {
                 if (Grids.get(i).getArray().get(a) instanceof GamePlaceholder
                     == false) {
                     Game cover = (Game) Grids.get(i).getArray().get(a);
-                    if (cover.getBoxArtUrl().equals(game.getBoxArtUrl())) {
+                    if (cover.getBoxArtUrl().equals(game.getBoxArtUrl())
+                        && !game.getBoxArtUrl()
+                            .equals("library_noGameFound.png")) {
                         return true;
                     }
                 }
@@ -171,9 +191,7 @@ public class GridManager {
      * Finds Same Game and returns that game in the library
      *
      * @param game
-     *             <
-     *             p/>
-     * <p/>
+     *             <p/>
      * @return
      */
     public Game echoGame(Game game) {
@@ -266,7 +284,8 @@ public class GridManager {
      * <p/>
      */
     public void clearAllGrids() {
-        for (int i = 0; i < Grids.size(); i++) {
+
+        for (int i = 0; i <= Grids.size(); i++) {
 
             try {
                 if (logger.isDebugEnabled()) {
@@ -283,6 +302,8 @@ public class GridManager {
             }
 
         }
+
+        System.gc();
     }
 
     /*
@@ -401,8 +422,8 @@ public class GridManager {
 
         //Go Through all Grids
         for (int i = 0; i < Grids.size(); i++) {
-            //Go Through All panels in Each Grid
 
+            //Go Through All panels in Each Grid
             for (int a = 0; a < Grids.get(i).getArray().size(); a++) {
                 try {
                     Game game = (Game) Grids.get(i).getArray().get(a);
@@ -425,6 +446,30 @@ public class GridManager {
 
     /**
      * .-----------------------------------------------------------------------.
+<<<<<<< HEAD
+=======
+     * | getGame(int)
+     * .-----------------------------------------------------------------------.
+     * | Returns the Game object using index across all grids
+     * .........................................................................
+     *
+     * <p/>
+     */
+    public Game getGame(int Index) {
+
+
+
+        // Calculate what grid the game should be added to //
+        int gridIndex = (Index / (row * col));
+        // Calculate what index in specific grid the game should be added
+        int gameIndex = Index % (row * col);
+
+        return (Game) (Grids.get(gridIndex).getArray().get(gameIndex));
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+>>>>>>> origin/dev
      * | getGameFromName(String)
      * .-----------------------------------------------------------------------.
      * | Returns the Game object if its in the Library by searching through
@@ -453,8 +498,6 @@ public class GridManager {
      * @param GameCover object
      */
     public void removeGame(Game game) {
-
-        //TODO support appostrophe removal
 
         // get the grid location of where the game is contained
         int[] gridLocation = this.findGame(game);
@@ -519,6 +562,242 @@ public class GridManager {
         }
 
         grid.update();
+        numGames--;
+
+    }
+
+    /**
+     * removes a game in any Grid
+     *
+     * @param GameCover object
+     */
+    public void moveFavorite(Game game) {
+
+        // get the grid location of where the game is contained
+        int[] gridLocation = this.findGame(game);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Game was found in grid location: " + gridLocation[0]
+                         + "," + gridLocation[1]);
+        }
+
+        // grab the index of where the grid is located in the manager
+        int index = gridLocation[0];
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Game was found in index: " + index);
+        }
+
+        // get the grid where the game is located
+        AGridPanel grid = this.getGrid(index);
+
+        if (index == 0) {
+            grid.removeComp(game);
+            grid.addToGrid(game, 0);
+            grid.update();
+        } else if (index > 0) {
+            // alternative to remove the game
+            grid.removeComp(game);
+
+            AGridPanel firstGrid = this.getGrid(0);
+
+            for (int i = index - 1; i >= 0; i--) {
+                AGridPanel currentGrid = this.getGrid(i);
+                AGridPanel previousGrid = this.getGrid(i + 1);
+                Game lastGame = (Game) currentGrid.getComponent(7);
+                currentGrid.removeComp(lastGame);
+                currentGrid.update();
+                previousGrid.addToGrid(lastGame, 0);
+                previousGrid.update();
+            }
+
+            firstGrid.addToGrid(game, 0);
+            firstGrid.update();
+
+        }
+
+        grid.update();
+        ui.getFrame().repaint();
+    }
+
+    /**
+     * Moves a game that has been unfavorited. The unfavorited game will be moved
+     * to the location before the first unfavorited game that is found in the library
+     *
+     * @param GameCover object
+     */
+    public void moveUnfavorite(Game game) {
+
+        // get the grid location of where the game is contained
+        int[] gridLocation = this.findGame(game);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Game was found in grid location: " + gridLocation[0]
+                         + "," + gridLocation[1]);
+        }
+
+        // grab the index of where the grid is located in the manager
+        int index = gridLocation[0];
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Game was found in index: " + index);
+        }
+
+        // get the grid where the game is located
+        AGridPanel grid = this.getGrid(index);
+
+        int firstUnfavoriteGridIndex = 0;
+        int firstUnfavoriteGameIndex = 0;
+        int i = index;
+        int j = gridLocation[1] + 1;
+        boolean firstUnfavouriteFound = false;
+        AGridPanel currentGrid = null;
+        int lastGameIndex = 0;
+
+        while ((i < Grids.size()) && !firstUnfavouriteFound) {
+            currentGrid = this.getGrid(i);
+            lastGameIndex = currentGrid.getLastIndexOf(Game.class);
+            Game lastGame = (Game) currentGrid.getComponent(lastGameIndex);
+
+            if (!lastGame.isFavorite()) {
+                // if the last game is not a favourite then we know to look in this grid
+                // for the first game that is not favourited
+
+                while ((j <= lastGameIndex) && !firstUnfavouriteFound) {
+                    Game g = (Game) currentGrid.getComponent(j);
+                    if (!g.isFavorite()) {
+                        firstUnfavouriteFound = true;
+                        firstUnfavoriteGridIndex = i;
+                        firstUnfavoriteGameIndex = j;
+                    }
+                    j++;
+                }
+            }
+
+            i++;
+            j = 0;
+        }
+
+        if (index == firstUnfavoriteGridIndex) {
+            grid.removeComp(game);
+            grid.update();
+
+            //if all is faved, move to last possible cell
+            if (firstUnfavoriteGameIndex == 0) {
+                firstUnfavoriteGameIndex = lastGameIndex + 1;
+            }
+
+            grid.addToGrid(game, firstUnfavoriteGameIndex - 1);
+            grid.update();
+
+            // if the first unfavourite game is found in a grid different
+            // than the grid where the game was selected as unfavourite
+        } else if (index < firstUnfavoriteGridIndex) {
+
+            AGridPanel prevGrid = grid;
+            AGridPanel currGrid = null;
+
+            // check to see if the first unfavourite game is in the next grid and if so, is it
+            // the first game in the grid.  If it is, then we simply move the unfavourite
+            // game to the end of the current grid it is in
+
+            if (firstUnfavoriteGameIndex == 0) {
+                if ((index + 1) == firstUnfavoriteGridIndex) {
+                    prevGrid.removeComp(game);
+                    prevGrid.update();
+                    prevGrid.addToGrid(game, 7);
+                    prevGrid.update();
+                } else if ((index + 1) < firstUnfavoriteGridIndex) {
+                    for (int k = index + 1; k < firstUnfavoriteGridIndex; k++) {
+
+                        // remove the unfavourited game
+                        prevGrid.removeComp(game);
+                        prevGrid.update();
+
+                        // get the first game of the next
+                        currGrid = this.getGrid(k);
+                        // get the first game of the next grid and move
+                        // it to the previous grid
+                        Game tempGame = (Game) currGrid.getComponent(0);
+                        currGrid.removeComp(tempGame);
+                        currGrid.update();
+                        prevGrid.addToGrid(tempGame, 7);
+                        prevGrid.update();
+
+                        currGrid.addToGrid(game, 7);
+                        currGrid.update();
+                        prevGrid = currGrid;
+                    }
+                }
+            } else if (firstUnfavoriteGameIndex > 0) {
+
+                for (int k = index + 1; k <= firstUnfavoriteGridIndex; k++) {
+
+                    // remove the unfavourited game
+                    prevGrid.removeComp(game);
+                    prevGrid.update();
+
+                    // get the first game of the next
+                    currGrid = this.getGrid(k);
+
+                    // get the first game of the next grid and move
+                    // it to the previous grid
+                    Game tempGame = (Game) currGrid.getComponent(0);
+                    currGrid.removeComp(tempGame);
+                    currGrid.update();
+                    prevGrid.addToGrid(tempGame, 7);
+                    prevGrid.update();
+
+
+                    if (k == firstUnfavoriteGridIndex) {
+                        currGrid.addToGrid(game, firstUnfavoriteGameIndex - 1);
+                        currGrid.update();
+                    }
+
+                    prevGrid = currGrid;
+                }
+            }
+        }
+
+        grid.update();
+        ui.getFrame().repaint();
+    }
+
+    /**
+     * Moves game to proper alphabetic positioning in library.
+     *
+     * @param game
+     */
+    public void moveAlphabetic(Game game) {
+
+
+        ArrayList<String> alphaArray = new ArrayList<String>();
+
+
+        //Go Through all Grids
+        for (int i = 0; i < Grids.size(); i++) {
+
+            //Go Through All panels in Each Grid
+            for (int a = 0; a < Grids.get(i).getArray().size(); a++) {
+
+                alphaArray.add(((Game) Grids.get(i).getArray().get(a))
+                        .getName());
+
+            }
+
+        }
+
+        Collections.sort(alphaArray);
+
+        int alphaIndex = alphaArray.indexOf(game.getName());
+
+        // Calculate what grid the game should be added to //
+        int gridIndex = (alphaIndex / (row * col));
+        // Calculate what index in specific grid the game should be added
+        int gameIndex = alphaIndex % (row * col);
+
+        // get the grid location of where the game is contained
+        int[] gridLocation = this.findGame(game);
 
     }
 
@@ -557,6 +836,7 @@ public class GridManager {
             // alternative to remove the game
             grid.removeComp(game);
 
+<<<<<<< HEAD
             AGridPanel firstGrid = this.getGrid(0);
 
             for (int i = index - 1; i >= 0; i--) {
@@ -572,12 +852,69 @@ public class GridManager {
             }
 
             firstGrid.addToGrid(game, 0);
+=======
+        // grab the index of where the grid is located in the manager
+        int index = gridLocation[0];
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Game was found in index: " + index);
+        }
+
+        // get the grid where the game is located
+        AGridPanel grid = this.getGrid(index);
+
+        if (index == 0) {
+            grid.removeComp(game);
+            grid.addToGrid(game, gameIndex);
+            grid.update();
+        } else if (index > 0) {
+            // alternative to remove the game
+            grid.removeComp(game);
+
+            AGridPanel firstGrid = this.getGrid(gridIndex);
+
+            for (int i = index - 1; i >= 0; i--) {
+                AGridPanel currentGrid;
+                AGridPanel previousGrid;
+
+                currentGrid = this.getGrid(i);
+                previousGrid = this.getGrid(i + 1);
+
+
+                try {
+                    Game lastGame = (Game) currentGrid.getComponent(7);
+
+                    currentGrid.removeComp(lastGame);
+                    currentGrid.update();
+                    previousGrid.addToGrid(lastGame, 0);
+                    previousGrid.update();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+//
+//                    currentGrid = this.getGrid(i);
+//                    previousGrid = this.getGrid(i + 1);
+//                    Game lastGame = (Game) currentGrid.getComponent(7);
+//
+//                    currentGrid.removeComp(lastGame);
+//                    currentGrid.update();
+//                    previousGrid.addToGrid(lastGame, 0);
+//                    previousGrid.update();
+                }
+            }
+
+            firstGrid.addToGrid(game, gameIndex);
+>>>>>>> origin/dev
             firstGrid.update();
 
         }
 
         grid.update();
         ui.getFrame().repaint();
+<<<<<<< HEAD
+=======
+        alphaArray = null;
+>>>>>>> origin/dev
     }
 
     /**

@@ -26,18 +26,19 @@ import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelListener;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import javax.swing.AbstractAction;
+=======
+>>>>>>> origin/dev
 import javax.swing.JComponent;
-import javax.swing.KeyStroke;
+
+import org.apache.log4j.Logger;
 
 import org.apache.log4j.Logger;
 
@@ -95,6 +96,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
      */
     public String appName;
     
+    static final Logger logger = Logger.getLogger(AuroraApp.class);
+
     static final Logger logger = Logger.getLogger(AuroraApp.class);
 
     /**
@@ -175,6 +178,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
         //* remove back button *//
         getCoreUI().getFrameControlImagePane().remove(btnBack);
+        getCoreUI().getFrameControlImagePane().setImage(
+                "dash_frameControl_bg.png");
 
         getCoreUI().getFrame().requestFocusInWindow();
 
@@ -234,9 +239,15 @@ public abstract class AuroraApp implements AuroraScreenUI {
      */
     public final void clearUI(final Boolean isClearingApp) {
 
+<<<<<<< HEAD
     	if (logger.isDebugEnabled()) {
     		logger.debug("CLEARING " + appName);
     	}
+=======
+        if (logger.isDebugEnabled()) {
+            logger.debug("CLEARING " + appName);
+        }
+>>>>>>> origin/dev
 
         boolean clearForApp;
 
@@ -275,9 +286,14 @@ public abstract class AuroraApp implements AuroraScreenUI {
         getCoreUI().getCenterPanel().setPreferredSize(new Dimension(getCoreUI()
                 .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
                                               - getCoreUI().getBottomPane()
+<<<<<<< HEAD
                 .getHeight() - getCoreUI().getTopPane().getHeight()));
+=======
+                .getHeight() - getCoreUI().getTopPane().getHeight() - 5));
+>>>>>>> origin/dev
 
         //* Clear Bottom of Top Pane and re-add the Frame Conrols *//
+        getCoreUI().getSouthFromTopPanel().setOpaque(false);
         getCoreUI().getSouthFromTopPanel().removeAll();
         getCoreUI().getSouthFromTopPanel()
                 .add(getCoreUI().getFrameControlContainerPanel(),
@@ -441,7 +457,11 @@ public abstract class AuroraApp implements AuroraScreenUI {
      * .........................................................................
      */
     public final void setUpApp() {
+<<<<<<< HEAD
     	
+=======
+
+>>>>>>> origin/dev
         setSizes();
         isInApp = true;
         btnBack = new AButton("app_btn_back_norm.png",
@@ -452,7 +472,11 @@ public abstract class AuroraApp implements AuroraScreenUI {
             getCoreUI().getFrameControlImagePane().setImageURL(
                     "dash_frameControlBig_bg.png");
         } catch (MalformedURLException ex) {
+<<<<<<< HEAD
         	logger.error(ex);
+=======
+            logger.error(ex);
+>>>>>>> origin/dev
         }
 
         getCoreUI().getSouthFromTopPanel().setPreferredSize(
@@ -461,9 +485,15 @@ public abstract class AuroraApp implements AuroraScreenUI {
                 .getFrameControlContainerPanel().getHeight()));
 
         if (logger.isDebugEnabled()) {
+<<<<<<< HEAD
         	logger.debug("ADDED BACK BUTTON");
         }
       
+=======
+            logger.debug("ADDED BACK BUTTON");
+        }
+
+>>>>>>> origin/dev
         if (getCoreUI().getFrameControlImagePane().getComponent(0) != btnBack) {
             getCoreUI().getFrameControlImagePane().add(btnBack, 0);
         }
@@ -476,6 +506,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
         KeyboardFocusManager.getCurrentKeyboardFocusManager()
                 .addKeyEventDispatcher(
                 new KeyEventDispatcher() {
+<<<<<<< HEAD
                     public boolean dispatchKeyEvent(KeyEvent e) {
 
                         if (e.getKeyChar() == KeyEvent.VK_ESCAPE && isInApp) {
@@ -489,6 +520,17 @@ public abstract class AuroraApp implements AuroraScreenUI {
                         return false;
                     }
                 });
+=======
+            public boolean dispatchKeyEvent(KeyEvent e) {
+
+                if (e.getKeyChar() == KeyEvent.VK_ESCAPE && isInApp) {
+                    new BackButtonListener().actionPerformed(null);
+                    return true;
+                }
+                return false;
+            }
+        });
+>>>>>>> origin/dev
     }
 
     private class BackButtonListener implements ActionListener {

@@ -22,6 +22,7 @@
 package aurora.V1.core.screen_logic;
 
 import aurora.V1.core.AuroraCoreUI;
+<<<<<<< HEAD:src/aurora/V1/core/screen_logic/WelcomeLogic.java
 <<<<<<< HEAD
 import aurora.V1.core.screen_handler.StartScreenHandler;
 import aurora.V1.core.screen_ui.DashboardUI;
@@ -31,6 +32,13 @@ import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.WelcomeHandler;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.WelcomeUI;
+=======
+import aurora.V1.core.main;
+import aurora.V1.core.screen_handler.WelcomeHandler;
+import aurora.V1.core.screen_ui.DashboardUI;
+import aurora.V1.core.screen_ui.WelcomeUI;
+import aurora.engine.V1.Logic.AFileManager;
+>>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
 >>>>>>> origin/dev
 import aurora.engine.V1.Logic.ASound;
@@ -54,10 +62,15 @@ import java.net.MalformedURLException;
 =======
 import java.net.URL;
 import java.net.URLConnection;
+<<<<<<< HEAD:src/aurora/V1/core/screen_logic/WelcomeLogic.java
 <<<<<<< HEAD:src/aurora/V1/core/screen_logic/StartScreenLogic.java
 >>>>>>> origin/dev
 import java.util.logging.Level;
 import java.util.logging.Logger;
+=======
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
+>>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
 =======
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
@@ -99,6 +112,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
     private DashboardUI dashboardUI;
 
     static final Logger logger = Logger.getLogger(WelcomeLogic.class);
+<<<<<<< HEAD:src/aurora/V1/core/screen_logic/WelcomeLogic.java
 
     private int frameControlHeight;
 
@@ -106,6 +120,11 @@ public class WelcomeLogic implements AuroraScreenLogic {
 
     private int logoWidth;
 
+=======
+
+    private int frameControlHeight;
+
+>>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
     public WelcomeLogic(WelcomeUI aStartScreenUI) {
 
         this.startScreenUI = aStartScreenUI;
@@ -132,7 +151,10 @@ public class WelcomeLogic implements AuroraScreenLogic {
     }
 
     public void startBackgroundMusic() {
+<<<<<<< HEAD:src/aurora/V1/core/screen_logic/WelcomeLogic.java
 
+=======
+>>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
 //        try {
 //            coreUI.getBackgroundSound().Play();
 //        } catch (UnsupportedAudioFileException ex) {
@@ -144,7 +166,10 @@ public class WelcomeLogic implements AuroraScreenLogic {
 //        } catch (InterruptedException ex) {
 //            logger.error(ex);
 //        }
+<<<<<<< HEAD:src/aurora/V1/core/screen_logic/WelcomeLogic.java
 
+=======
+>>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
     }
 
     public void transisionToDashboard() {
@@ -255,9 +280,12 @@ public class WelcomeLogic implements AuroraScreenLogic {
                         frameControlHeight);
                 coreUI.getFrameControlImagePane().revalidate();
 
+<<<<<<< HEAD:src/aurora/V1/core/screen_logic/WelcomeLogic.java
 
 //                coreUI.getSouthFromTopPanel().setVisible(true);
 
+=======
+>>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
 
                 //* Remove all components in Center Panel *//
                 coreUI.getCenterPanel().removeAll();
@@ -290,6 +318,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
 
     }
 
+<<<<<<< HEAD:src/aurora/V1/core/screen_logic/WelcomeLogic.java
 <<<<<<< HEAD:src/aurora/V1/core/screen_logic/StartScreenLogic.java
 <<<<<<< HEAD
 =======
@@ -297,9 +326,12 @@ public class WelcomeLogic implements AuroraScreenLogic {
 =======
     public boolean checkOnline(String URL) {
 >>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
+=======
+    public static boolean checkOnline(String URL) {
+>>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
         final URL url;
         try {
-            url = new URL("http://" + URL);
+            url = new URL( URL);
             try {
 
                 final URLConnection conn = url.openConnection();
@@ -331,6 +363,31 @@ public class WelcomeLogic implements AuroraScreenLogic {
         analytics.addProperty("OS", System.getProperty("os.name"));
         analytics.sendEventProperty("Launched Aurora");
 
+<<<<<<< HEAD:src/aurora/V1/core/screen_logic/WelcomeLogic.java
+=======
+
+    }
+
+    public void incrementAuroraLaunch() {
+
+        String launches = startScreenUI.getAuroraStorage().getStoredSettings()
+                .getSettingValue(
+                "launch");
+
+        if (launches == null || launches.equals("null")) {
+            startScreenUI.getAuroraStorage().getStoredSettings().saveSetting(
+                    "launch", "1");
+            main.LAUNCHES = 1;
+        } else {
+            int value = Integer.parseInt(launches) + 1;
+            launches = Integer.toString(value);
+            startScreenUI.getAuroraStorage().getStoredSettings().saveSetting(
+                    "launch", launches);
+            main.LAUNCHES = Integer.parseInt(launches);
+        }
+
+        logger.info("Number of Launches: " + main.LAUNCHES);
+>>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
 
     }
 

@@ -19,11 +19,12 @@ package aurora.V1.core;
 
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.AImagePane;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.Box;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 
@@ -35,45 +36,61 @@ public class GamePlaceholder extends AImagePane {
     //A Place Holder Component similar to the Game Component.
 
     private AButton button = null;
+
     private JPanel buttonPane;
+
     private int allWidth;
+
     private int allHeight;
     static final Logger logger = Logger.getLogger(GamePlaceholder.class);
+
+    static final Logger logger = Logger.getLogger(GamePlaceholder.class);
+
+    private int buttonPadding;
 
     public GamePlaceholder() {
     }
 
     public void setUp(int Width, int Height, String BGimg) {
-        this.allWidth = Width;
+        this.allWidth = Width ;
         this.allHeight = Height;
 
         this.setImage(BGimg, allHeight, allWidth);
-        this.setPreferredSize(new Dimension(allWidth, allHeight));
         this.revalidate();
         this.repaint();
         this.setOpaque(false);
 
-        this.setLayout(new BorderLayout());
+        this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
     }
 
-    public void addButton(String up, String down, String over, ActionListener handler) {
-        button = new AButton(up, down, over, allWidth, allHeight);
+    public void addButton(String up, String down, String over,
+                          ActionListener handler) {
+
+
+        buttonPadding = - (allWidth / 20) * ((allHeight) / 120) + (allWidth / 7);
+
+
+        button = new AButton(up, down, over, allWidth , allHeight);
         button.addActionListener(handler);
-        buttonPane = new JPanel(new BorderLayout(0, 0)); //Contains the Add Game Button
+        buttonPane = new JPanel(new FlowLayout(FlowLayout.LEFT, - buttonPadding,
+                0)); //Contains the Add Game Button
         buttonPane.setOpaque(false);
 
 
-        button.setPreferredSize(new Dimension(allWidth, allHeight));
+
         button.addMouseListener(new ButtonMouseListener());
         this.addMouseListener(new ButtonMouseListener());
-        buttonPane.setPreferredSize(new Dimension(allWidth, allHeight));
         buttonPane.addMouseListener(new ButtonMouseListener());
         buttonPane.add(button);
+        buttonPane.add(Box.createHorizontalStrut(allWidth));
 
         this.add(buttonPane);
 
+<<<<<<< HEAD
         this.setPreferredSize(new Dimension(allWidth, allHeight));
+=======
+>>>>>>> origin/dev
         this.revalidate();
         buttonPane.revalidate();
         this.repaint();
@@ -103,12 +120,10 @@ public class GamePlaceholder extends AImagePane {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            //button.setVisible(true);
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            //button.setVisible(false);
         }
     }
 }

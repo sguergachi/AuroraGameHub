@@ -20,10 +20,14 @@ package aurora.V1.core;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import aurora.engine.V1.Logic.aSurface;
 import aurora.engine.V1.UI.aDialog;
 =======
 import aurora.V1.core.screen_ui.StartScreenUI;
+=======
+import aurora.V1.core.screen_ui.WelcomeUI;
+>>>>>>> origin/dev
 =======
 import aurora.V1.core.screen_ui.WelcomeUI;
 >>>>>>> origin/dev
@@ -37,10 +41,16 @@ import aurora.engine.V1.UI.ADialog;
 >>>>>>> origin/dev
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+
+import org.apache.log4j.Logger;
 
 import org.apache.log4j.Logger;
 
@@ -62,6 +72,7 @@ public class main {
     private static ASurface ressource = null;
 >>>>>>> origin/dev
     private static boolean startMini = false;
+<<<<<<< HEAD
     public static String VERSION = "Alpha 7";
     static final Logger logger = Logger.getLogger(main.class);
 
@@ -73,15 +84,35 @@ public class main {
         } else {
         	logger.info("No start up");
           //  System.out.println("No start up");
+=======
+    public static String VERSION = "Alpha 8";
+    static final Logger logger = Logger.getLogger(main.class);
+    public static int LAUNCHES;
+
+    public static void main(String[] args) throws InterruptedException,
+                                                  UnsupportedAudioFileException,
+                                                  IOException,
+                                                  LineUnavailableException,
+                                                  FontFormatException {
+
+        if (args.length > 0 && args[0].equalsIgnoreCase("Startup")) {
+            logger.info("Start Up Mode");
+            startMini = true;
+        } else {
+            logger.info("No start up");
+>>>>>>> origin/dev
             startMini = false;
         }
 
 
 
-        if (Double.parseDouble(System.getProperty("java.version").substring(2, 3)) >= 6
-                && Integer.parseInt(System.getProperty("java.version").substring(6, 8)) >= 17) {
+        if (Double.parseDouble(System.getProperty("java.version")
+                .substring(2, 3)) >= 7
+            && Integer.parseInt(System.getProperty("java.version").substring(6,
+                8)) >= 9) {
 
             //Initiate The LoginWindow
+<<<<<<< HEAD
         	logger.info("Running Java Version: " + System.getProperty("java.version"));
            // System.out.println("Running Java Version: " + System.getProperty("java.version"));
             logger.info("OS: " + System.getProperty("os.name"));
@@ -104,6 +135,14 @@ public class main {
 
 
 
+=======
+            logger.info("Running Java Version: " + System.getProperty(
+                    "java.version"));
+            logger.info("OS: " + System.getProperty("os.name"));
+            WelcomeUI aurora_StartUp = new WelcomeUI(startMini);
+            aurora_StartUp.loadUI();
+
+>>>>>>> origin/dev
         } else {
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -115,17 +154,35 @@ public class main {
             ressource = new ASurface("");
 >>>>>>> origin/dev
             try {
-                FontRegular = Font.createFont(Font.TRUETYPE_FONT, new URL(ressource.getSurfacePath() + "/aurora/V1/resources/AGENCYR.TTF").openStream());
+                FontRegular = Font.createFont(Font.TRUETYPE_FONT, new URL(
+                        ressource.getSurfacePath()
+                        + "/aurora/V1/resources/AGENCYR.TTF").openStream());
             } catch (Exception ex) {
-                FontRegular = Font.createFont(Font.TRUETYPE_FONT, main.class.getResourceAsStream("/aurora/V1/resources/AGENCYR.TTF"));
+                FontRegular = Font.createFont(Font.TRUETYPE_FONT, main.class
+                        .getResourceAsStream("/aurora/V1/resources/AGENCYR.TTF"));
             }
-            err = new ADialog(ADialog.aDIALOG_ERROR, "Latest Version of Java 6 is required", FontRegular);
+            err = new ADialog(ADialog.aDIALOG_ERROR,
+                    "Latest Version of Java 7 is Required   ", FontRegular
+                    .deriveFont(Font.BOLD, 25),new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.exit(0);
+
+                }
+            });
             err.setVisible(true);
 
+<<<<<<< HEAD
             logger.info("Running Java Version: " + System.getProperty("java.version"));
             logger.error("Cannot Run Aurora, Java Version is below minimum (J6u17)");
            // System.out.println("Running Java Version: " + System.getProperty("java.version"));
            // System.out.println("Cannot Run Aurora, Java Version is Bellow minimum (J6u17)");
+=======
+            logger.info("Running Java Version: " + System.getProperty(
+                    "java.version"));
+            logger.error(
+                    "Cannot Run Aurora, Java Version is below minimum");
+>>>>>>> origin/dev
 
         }
 
@@ -136,6 +193,15 @@ public class main {
     private static void setLAF() {
 
 
+        try {
+            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
     }
 }
-

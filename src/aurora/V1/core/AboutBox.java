@@ -87,6 +87,11 @@ public class AboutBox {
 
     static final Logger logger = Logger.getLogger(AboutBox.class);
 
+<<<<<<< HEAD:src/aurora/V1/core/AboutBox.java
+=======
+    private AImage imgThanks;
+
+>>>>>>> origin/dev:src/aurora/V1/core/AboutBox.java
     public AboutBox(AuroraCoreUI CoreUI) {
 
         coreUI = CoreUI;
@@ -124,6 +129,8 @@ public class AboutBox {
 
         imgLogo = new AImagePane("app_about_logo.png");
         imgLogo.addMouseListener(new LogoMouseListener());
+
+        imgThanks = new AImage("ThankYou.png");
 
         // Scroll Bar //
         scrollBar = new JScrollBar();
@@ -173,7 +180,11 @@ public class AboutBox {
 
         pnlCenterContainer.setPreferredSize(new Dimension(pnlCenter
                 .getRealImageWidth(), (pnlAboutPane.getRealImageHeight() / 2)
+<<<<<<< HEAD:src/aurora/V1/core/AboutBox.java
                                       * 5));
+=======
+                                      * 6));
+>>>>>>> origin/dev:src/aurora/V1/core/AboutBox.java
 
         pnlCenter.add(scrollPane);
 
@@ -258,7 +269,7 @@ public class AboutBox {
 
         ASlickLabel lblMadeBy = new ASlickLabel("Hand Crafted By");
         lblMadeBy.setLink("auroragamehub.com/about");
-        lblMadeBy.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN, 30));
+        lblMadeBy.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN, 29));
         lblMadeBy.setForeground(Color.WHITE);
 
         AImage logo = new AImage("sardonix_logo.png");
@@ -283,7 +294,7 @@ public class AboutBox {
                 "Portions of this Software Contains Code From");
         lblCodeCreditTitle.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 24));
-        lblCodeCreditTitle.setForeground(Color.WHITE);
+        lblCodeCreditTitle.setForeground(Color.LIGHT_GRAY);
         lblCodeCreditTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblh2Database = new ASlickLabel(
@@ -312,7 +323,7 @@ public class AboutBox {
 
         ASlickLabel lblJSONParser = new ASlickLabel(
                 "JSON in Java - Used for Good, not Evil.");
-        lblJSONParser.setLink("http://json.org/java/");
+        lblJSONParser.setLink("http://www.json.org/license.html");
         lblJSONParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
         lblJSONParser.setForeground(Color.WHITE);
@@ -326,12 +337,28 @@ public class AboutBox {
         lblLogger.setForeground(Color.WHITE);
         lblLogger.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+<<<<<<< HEAD:src/aurora/V1/core/AboutBox.java
+=======
+        ASlickLabel lblMixpanel = new ASlickLabel(
+                "Mixpanel for Java  - Statistics and Analytics Library.");
+        lblMixpanel.setLink(
+                "https://github.com/mixpanel/mixpanel-java/blob/master/LICENSE");
+        lblMixpanel.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                20));
+        lblMixpanel.setForeground(Color.WHITE);
+        lblMixpanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+>>>>>>> origin/dev:src/aurora/V1/core/AboutBox.java
         pnlCodeCredit.add(lblCodeCreditTitle);
         pnlCodeCredit.add(Box.createVerticalStrut(30));
         pnlCodeCredit.add(lblRSSParser);
         pnlCodeCredit.add(lblh2Database);
         pnlCodeCredit.add(lblJSONParser);
         pnlCodeCredit.add(lblLogger);
+<<<<<<< HEAD:src/aurora/V1/core/AboutBox.java
+=======
+        pnlCodeCredit.add(lblMixpanel);
+>>>>>>> origin/dev:src/aurora/V1/core/AboutBox.java
 
 
         pnlCenterContainer.add(pnlCodeCredit);
@@ -351,7 +378,7 @@ public class AboutBox {
                 "Special Thanks To");
         lblSpecialThanks.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 24));
-        lblSpecialThanks.setForeground(Color.WHITE);
+        lblSpecialThanks.setForeground(Color.LIGHT_GRAY);
         lblSpecialThanks.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblJeno = new ASlickLabel(
@@ -372,18 +399,29 @@ public class AboutBox {
 
         ASlickLabel lblUsers = new ASlickLabel(
                 "Our Users and Fans -  We Love You! <3");
+<<<<<<< HEAD:src/aurora/V1/core/AboutBox.java
         lblUsers.setLink("https://soundcloud.com/giovanniangel");
+=======
+        lblUsers.setLink(
+                "http://www.facebook.com/pages/Aurora-Game-Hub/588939407788712",
+                Color.red);
+>>>>>>> origin/dev:src/aurora/V1/core/AboutBox.java
         lblUsers.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 20));
         lblUsers.setForeground(Color.WHITE);
         lblUsers.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        imgThanks.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         pnlSpecialThanks.add(lblSpecialThanks);
         pnlSpecialThanks.add(Box.createVerticalStrut(30));
         pnlSpecialThanks.add(lblJeno);
         pnlSpecialThanks.add(lblStackOverflow);
         pnlSpecialThanks.add(lblUsers);
+<<<<<<< HEAD:src/aurora/V1/core/AboutBox.java
+=======
+
+>>>>>>> origin/dev:src/aurora/V1/core/AboutBox.java
 
         pnlCenterContainer.add(pnlSpecialThanks);
 
@@ -392,7 +430,8 @@ public class AboutBox {
         pnlCenterContainer.add(seperator3);
 
 
-        // Special Thanks //
+
+        // License //
 
         JPanel pnlLicense = new JPanel();
         pnlLicense.setLayout(new BoxLayout(pnlLicense, BoxLayout.Y_AXIS));
@@ -403,7 +442,7 @@ public class AboutBox {
                 "License");
         lblLicense.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 24));
-        lblLicense.setForeground(Color.WHITE);
+        lblLicense.setForeground(Color.LIGHT_GRAY);
         lblLicense.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblLicenseText = new ASlickLabel(
@@ -431,7 +470,17 @@ public class AboutBox {
         pnlLicense.add(Box.createVerticalStrut(30));
         pnlLicense.add(lblLicenseText);
 
+<<<<<<< HEAD:src/aurora/V1/core/AboutBox.java
         pnlCenterContainer.add(pnlLicense);
+=======
+        // Seperator //
+        AImage seperator4 = new AImage("app_seperator.png");
+
+        pnlCenterContainer.add(pnlLicense);
+        pnlCenterContainer.add(seperator4);
+        pnlCenterContainer.add(imgThanks);
+
+>>>>>>> origin/dev:src/aurora/V1/core/AboutBox.java
 
     }
 

@@ -23,8 +23,12 @@ package aurora.V1.core.screen_ui;
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import aurora.V1.core.AboutOverlay;
+>>>>>>> origin/dev
+=======
+import aurora.V1.core.AboutBox;
 >>>>>>> origin/dev
 =======
 import aurora.V1.core.AboutBox;
@@ -33,6 +37,7 @@ import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.screen_handler.DashboardHandler;
 import aurora.V1.core.screen_logic.DashboardLogic;
+import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenUI;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.ACarousel;
@@ -44,10 +49,13 @@ import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AMarqueePanel;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import aurora.engine.V1.UI.ScrollText;
 =======
 >>>>>>> origin/dev
 
+=======
+>>>>>>> origin/dev
 =======
 >>>>>>> origin/dev
 import java.awt.BorderLayout;
@@ -69,11 +77,15 @@ import java.util.Iterator;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+<<<<<<< HEAD
+=======
+import javax.swing.SwingUtilities;
+>>>>>>> origin/dev
 import org.apache.log4j.Logger;
 
 /**
- * .------------------------------------------------------------------------.
- * | DashboardUI :: Aurora App Class
+ * .------------------------------------------------------------------------. |
+ * DashboardUI :: Aurora App Class
  * .------------------------------------------------------------------------.
  * |
  * | This class contains the UI for the Dashboard Screen associated with an
@@ -221,7 +233,7 @@ public class DashboardUI implements AuroraScreenUI {
     /**
      * Label describing what the Keyboard Icon will do.
      */
-    private JLabel lblKeyAction;
+    private JLabel lblKeyActionArrow;
 
     /**
      * the InfoFeed which displays news etc. at the bottom of the Dashboard
@@ -343,16 +355,23 @@ public class DashboardUI implements AuroraScreenUI {
      */
     private boolean dashboardUiLoaded;
 
-    private int frameControlHeight;
-
     private JPanel infoFeedContainer;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
     private AboutOverlay aboutBox;
 
     private ArrayList<JLabel> infoFeedLabelList;
+
+>>>>>>> origin/dev
+=======
+    private AboutBox aboutBox;
+
+    private ArrayList<JLabel> infoFeedLabelList;
+
+    static final Logger logger = Logger.getLogger(DashboardUI.class);
 
 >>>>>>> origin/dev
 =======
@@ -401,6 +420,8 @@ public class DashboardUI implements AuroraScreenUI {
 
         //Initialize Sizes
         setSizes();
+
+
 
         // Carousel
         // --------------------------------------------------------------------.
@@ -479,6 +500,7 @@ public class DashboardUI implements AuroraScreenUI {
         // --------------------------------------------------------------------.
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         ArrayList<JLabel> infoFeedLabelList;
 =======
        // ArrayList<JLabel> infoFeedLabelList;
@@ -487,10 +509,31 @@ public class DashboardUI implements AuroraScreenUI {
         // ArrayList<JLabel> infoFeedLabelList;
 >>>>>>> origin/dev
 
+=======
+>>>>>>> origin/dev
         infoFeed = new AMarqueePanel(infoFeedWidth, infoFeedHeight,
                 "dash_infoBar_bg.png");
         infoFeed.setVisible(false);
+        infoFeedContainer.setPreferredSize(new Dimension(infoFeedWidth,
+                infoFeedHeight));
 
+        AThreadWorker work = new AThreadWorker(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                infoFeedLabelList = logic.createRssFeed();
+                loadInfoFeed(infoFeedLabelList);
+
+
+                infoFeed.setPostCycleListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(final ActionEvent e) {
+
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("Refreshing feed");
+                        }
+
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         int fontSize = 20;
@@ -505,10 +548,16 @@ public class DashboardUI implements AuroraScreenUI {
 =======
         //  int fontSize = 20;
 >>>>>>> origin/dev
+=======
+                        infoFeed.removeAll();
+                        infoFeedLabelList = logic.refreshRssFeed(
+                                infoFeedLabelList);
+                        loadInfoFeed(infoFeedLabelList);
+                        infoFeed.startScrolling();
+>>>>>>> origin/dev
 
-        infoFeedLabelList = logic.createRssFeed();
-        loadInfoFeed(infoFeedLabelList);
 
+<<<<<<< HEAD
         infoFeed.setPostCycleListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -516,15 +565,32 @@ public class DashboardUI implements AuroraScreenUI {
                 if (logger.isDebugEnabled()) {
                     logger.debug("Refreshing feed");
                 }
+=======
+                    }
+                });
+
+                infoFeed.startScrolling();
+
+                infoFeed.setPreferredSize(new Dimension(
+                        infoFeed.getPreferredSize().width,
+                        infoFeedHeight));
+>>>>>>> origin/dev
 
                 infoFeed.removeAll();
                 infoFeedLabelList = logic.refreshRssFeed(infoFeedLabelList);
                 loadInfoFeed(infoFeedLabelList);
                 infoFeed.startScrolling();
 
+<<<<<<< HEAD
+=======
+                infoFeedContainer.revalidate();
+                infoFeed.repaint();
+
+>>>>>>> origin/dev
             }
         });
 
+        work.startOnce();
 
 
         // About Box //
@@ -534,12 +600,10 @@ public class DashboardUI implements AuroraScreenUI {
         // Finalize
         // --------------------------------------------------------------------.
 
-
-
         keyArrows = new AImage("KeyboardKeys/arrows.png", coreUI.
                 getKeyIconWidth(), coreUI.getKeyIconHeight());
 
-        lblKeyAction = new JLabel(" Move ");
+        lblKeyActionArrow = new JLabel();
 
         if (logger.isDebugEnabled()) {
             logger.debug("DashboardUI loaded");
@@ -594,8 +658,9 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     private void setAllToVisible() {
-
         infoFeed.setVisible(true);
+        infoFeed.repaint();
+
         try {
             Thread.sleep(5);
         } catch (InterruptedException ex) {
@@ -633,6 +698,7 @@ public class DashboardUI implements AuroraScreenUI {
             logger.error(ex);
         }
         paneSettings.setVisible(true);
+
     }
 
     @Override
@@ -702,8 +768,7 @@ public class DashboardUI implements AuroraScreenUI {
         icoNet.addMouseListener(handler.new CarouselPaneMouseListener(paneNet));
         icoLibrary.setPreferredSize(new Dimension(gameCoverWidth,
                 gameCoverHeight));
-        icoLibrary.addMouseListener(handler.new CarouselPaneMouseListener(
-                paneLibrary));
+        icoLibrary.addMouseListener(handler.new CarouselPaneMouseListener(paneLibrary));
 
         //* Check for the Enter Button Press OR Mouse Click *//
         paneProfile
@@ -717,7 +782,8 @@ public class DashboardUI implements AuroraScreenUI {
 
         //* Info Feed *//
 
-        infoFeed.startScrolling();
+
+
 
 <<<<<<< HEAD
 
@@ -772,19 +838,21 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getSouthFromTopPanel().revalidate();
 
         //* Set Font of Keyboard Action Label *//
-        lblKeyAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
+        lblKeyActionArrow.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
                 coreUI.getKeysFontSize()));
-        lblKeyAction.setForeground(new Color(0, 178, 178));
+        lblKeyActionArrow.setForeground(new Color(0, 178, 178));
+        lblKeyActionArrow.setText(" Move ");
+
+        coreUI.getLblKeyActionEnter().setText(" Launch ");
+
+
 
 
         //* Add  Components to CoreUI *//
 
-
-
-
         //* Add Arrow Keys Icons *//
         coreUI.getKeyToPressPanel().add(keyArrows);
-        coreUI.getKeyToPressPanel().add(lblKeyAction);
+        coreUI.getKeyToPressPanel().add(lblKeyActionArrow);
 
         //* Add Enter Key Icons *//
         coreUI.getKeyToPressPanel().add(coreUI.getKeyIconImage());
@@ -801,6 +869,7 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getCenterFromBottomPanel()
                 .add(BorderLayout.WEST, btnCarouselLeft);
 
+
         infoFeedContainer.add(infoFeed, BorderLayout.NORTH);
 <<<<<<< HEAD
         System.out.println("InfoFeed width " + infoFeed.getPreferredSize().width);
@@ -809,10 +878,18 @@ public class DashboardUI implements AuroraScreenUI {
         infoFeed.setImageSize(infoFeedWidth, infoFeedHeight);
 =======
 
-        infoFeed.setImageSize(infoFeedWidth, infoFeedHeight);
+
         infoFeed.setPreferredSize(new Dimension(
+<<<<<<< HEAD
                 infoFeed.getPreferredSize().width,
                 infoFeed.getImageHeight()));
+>>>>>>> origin/dev
+=======
+                infoFeedWidth * 25,
+                infoFeedHeight));
+        infoFeed.setImageSize(infoFeedWidth, infoFeedHeight);
+
+
 >>>>>>> origin/dev
 
 
@@ -868,8 +945,6 @@ public class DashboardUI implements AuroraScreenUI {
      */
     private void setSizes() {
 
-        int Ratio = (coreUI.getFrame().getHeight() / coreUI.getFrame().
-                getWidth());
 
         if (coreUI.isLargeScreen()) {
             topHeight = coreUI.getCenterPanel().getHeight() / 8;
@@ -879,17 +954,15 @@ public class DashboardUI implements AuroraScreenUI {
                     getFrame().getWidth() / 6);
             gameCoverHeight = carouselHeight - (2 * carouselHeight / 5);
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
-            carouselImageWidth = carouselHeight - (2 * carouselHeight / 6)
-                                 - (Ratio / 8);
+            carouselImageWidth = carouselHeight - (2 * carouselHeight / 6);
             carouselImageHeight = (int) carouselWidth
                                   - (int) (carouselWidth / 4) - 20;
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
             bottomPaneHeightAdjust = coreUI.getBottomPanelSize() / 2 + coreUI.
-                    getFrame().getHeight() / 50 + 25;
-            topPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5 - Ratio
-                                                                           / 10;
+                    getFrame().getHeight() / 50 + 40;
+            topPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5;
 
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
@@ -897,7 +970,6 @@ public class DashboardUI implements AuroraScreenUI {
                             - (carouselButtonWidth * 2) - 70;
             infoFeedHeight = 55;
 
-            frameControlHeight = 0;
 
             System.out.println("INFO FEED WIDTH = " + infoFeedWidth);
 
@@ -906,19 +978,23 @@ public class DashboardUI implements AuroraScreenUI {
             topHeight = coreUI.getCenterPanel().getHeight() / 8;
             btnBackWidth = 30;
             btnBackHeight = 35;
-            carouselWidth = coreUI.getFrame().getWidth() / 40 * 16;
+
+            carouselWidth = (coreUI.getFrame().getWidth() / 40 + topHeight / 55)
+                            * 16;
             carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
-                    getFrame().getWidth() / 6);
+                    getFrame().getWidth() / 7);
+
             gameCoverHeight = carouselHeight - (2 * carouselHeight / 5);
-            gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
-            carouselImageWidth = (int) carouselWidth - 400 / 2 - (Ratio
-                                                                  * 2);
-            carouselImageHeight = carouselHeight - (450 / 2) - (Ratio * 2)
+            gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 3);
+
+            carouselImageWidth = (int) carouselWidth - 400 / 2;
+            carouselImageHeight = carouselHeight - (450 / 2)
                                   - 55;
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
             bottomPaneHeightAdjust = coreUI.getBottomPanelSize() / 2 + coreUI.
+<<<<<<< HEAD
 <<<<<<< HEAD
                     getFrame().getHeight() / 90 + 25;
 =======
@@ -926,6 +1002,10 @@ public class DashboardUI implements AuroraScreenUI {
 >>>>>>> origin/dev
             topPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5 - Ratio
                                                                            / 10;
+=======
+                    getFrame().getHeight() / 90 + 35;
+            topPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5;
+>>>>>>> origin/dev
 
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
@@ -935,11 +1015,10 @@ public class DashboardUI implements AuroraScreenUI {
 =======
 >>>>>>> origin/dev
             infoFeedWidth = coreUI.getFrame().getSize().width
-                            - (carouselButtonWidth * 2 + 27);
-            infoFeedHeight = carouselButtonHeight - bottomPaneHeightAdjust / 18;
+                            - (carouselButtonWidth * 2) - 70;
+            infoFeedHeight = carouselButtonHeight
+                             - (bottomPaneHeightAdjust / 18);
 
-            frameControlHeight = coreUI.getFrameControlImagePane().getImgIcon()
-                    .getIconHeight();
 
             if (logger.isDebugEnabled()) {
                 logger.debug("INFO FEED WIDTH = " + infoFeedWidth);
@@ -953,12 +1032,15 @@ public class DashboardUI implements AuroraScreenUI {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     private class HeaderMouseListener implements MouseListener {
 
         public HeaderMouseListener() {
         }
 =======
+=======
+>>>>>>> origin/dev
     /**
      * .-----------------------------------------------------------------------.
      * | HeaderMouseListener()
@@ -969,10 +1051,16 @@ public class DashboardUI implements AuroraScreenUI {
      * |
      */
     private class HeaderMouseListener extends MouseAdapter {
+<<<<<<< HEAD
 >>>>>>> origin/dev
 
         @Override
         public void mouseClicked(final MouseEvent  e) {
+=======
+
+        @Override
+        public void mouseClicked(final MouseEvent e) {
+>>>>>>> origin/dev
             aboutBox.showAboutBox();
         }
 
@@ -1281,8 +1369,8 @@ public class DashboardUI implements AuroraScreenUI {
      * <p/>
      * @return JLabel
      */
-    public final JLabel getLblKeyAction() {
-        return lblKeyAction;
+    public final JLabel getLblKeyActionArrow() {
+        return lblKeyActionArrow;
     }
 
     /**
@@ -1291,7 +1379,7 @@ public class DashboardUI implements AuroraScreenUI {
      * @param aLblKeyAction JLabel
      */
     public final void setLblKeyAction(final JLabel aLblKeyAction) {
-        this.lblKeyAction = aLblKeyAction;
+        this.lblKeyActionArrow = aLblKeyAction;
     }
 
     /**
@@ -1321,8 +1409,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Get CarouselTitle instance of the Profile Pane
-     * containing both the Glow and Normal state of the TitleType.
+     * Get CarouselTitle instance of the Profile Pane containing both the Glow
+     * and Normal state of the TitleType.
      * <p/>
      * @return ACarouselTitle
      */
@@ -1331,8 +1419,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Set the CarouselTitle instance of the Profile Pane
-     * containing both the Glow and Normal state of the TitleType.
+     * Set the CarouselTitle instance of the Profile Pane containing both the
+     * Glow and Normal state of the TitleType.
      * <p/>
      * @param aTitleProfile ACarouselTitle
      */
@@ -1341,8 +1429,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Get CarouselTitle instance of the Setting Pane
-     * containing both the Glow and Normal state of the TitleType.
+     * Get CarouselTitle instance of the Setting Pane containing both the Glow
+     * and Normal state of the TitleType.
      * <p/>
      * @return ACarouselTitle
      */
@@ -1351,8 +1439,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Set the CarouselTitle instance of the Setting Pane
-     * containing both the Glow and Normal state of the TitleType.
+     * Set the CarouselTitle instance of the Setting Pane containing both the
+     * Glow and Normal state of the TitleType.
      * <p/>
      * @param aTitleSetting ACarouselTitle
      */
@@ -1361,8 +1449,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Get CarouselTitle instance of the Library Pane
-     * containing both the Glow and Normal state of the TitleType.
+     * Get CarouselTitle instance of the Library Pane containing both the Glow
+     * and Normal state of the TitleType.
      * <p/>
      * @return ACarouselTitle
      */
@@ -1371,8 +1459,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Set the CarouselTitle instance of the Library Pane
-     * containing both the Glow and Normal state of the TitleType.
+     * Set the CarouselTitle instance of the Library Pane containing both the
+     * Glow and Normal state of the TitleType.
      * <p/>
      * @param aTitleLibrary ACarouselTitle
      */
@@ -1381,8 +1469,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Get CarouselTitle instance of the AuroraNet Pane
-     * containing both the Glow and Normal state of the TitleType.
+     * Get CarouselTitle instance of the AuroraNet Pane containing both the Glow
+     * and Normal state of the TitleType.
      * <p/>
      * @return ACarouselTitle
      */
@@ -1391,8 +1479,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Set the CarouselTitle instance of the AuroraNet Pane
-     * containing both the Glow and Normal state of the TitleType.
+     * Set the CarouselTitle instance of the AuroraNet Pane containing both the
+     * Glow and Normal state of the TitleType.
      * <p/>
      * @param aTitleAuroraNet ACarouselTitle
      */
@@ -1401,8 +1489,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Get CarouselPane instance of the Library Carousel Pane
-     * containing both the TitleType and the Icon of the actual Pane.
+     * Get CarouselPane instance of the Library Carousel Pane containing both
+     * the TitleType and the Icon of the actual Pane.
      * <p/>
      * @return ACarouselPane
      */
@@ -1411,8 +1499,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Set CarouselPane instance of the Library Carousel Pane
-     * containing both the TitleType and the Icon of the actual Pane.
+     * Set CarouselPane instance of the Library Carousel Pane containing both
+     * the TitleType and the Icon of the actual Pane.
      * <p/>
      * @param alibraryPane ACarouselPane
      */
@@ -1421,8 +1509,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Get CarouselPane instance of the Settings Carousel Pane
-     * containing both the TitleType and the Icon of the actual Pane.
+     * Get CarouselPane instance of the Settings Carousel Pane containing both
+     * the TitleType and the Icon of the actual Pane.
      * <p/>
      * @return ACarouselPane
      */
@@ -1431,8 +1519,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Set CarouselPane instance of the Settings Carousel Pane
-     * containing both the TitleType and the Icon of the actual Pane.
+     * Set CarouselPane instance of the Settings Carousel Pane containing both
+     * the TitleType and the Icon of the actual Pane.
      * <p/>
      * @param aSettingsPane ACarouselPane
      */
@@ -1441,8 +1529,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Get CarouselPane instance of the Profile Carousel Pane
-     * containing both the TitleType and the Icon of the actual Pane.
+     * Get CarouselPane instance of the Profile Carousel Pane containing both
+     * the TitleType and the Icon of the actual Pane.
      * <p/>
      * @return ACarouselPane
      */
@@ -1451,8 +1539,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Set CarouselPane instance of the Profile Carousel Pane
-     * containing both the TitleType and the Icon of the actual Pane.
+     * Set CarouselPane instance of the Profile Carousel Pane containing both
+     * the TitleType and the Icon of the actual Pane.
      * <p/>
      * @param aProfilePane ACarouselPane
      */
@@ -1461,8 +1549,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Get CarouselPane instance of the AuroraNet Carousel Pane
-     * containing both the TitleType and the Icon of the actual Pane.
+     * Get CarouselPane instance of the AuroraNet Carousel Pane containing both
+     * the TitleType and the Icon of the actual Pane.
      * <p/>
      * @return ACarouselPane
      */
@@ -1471,8 +1559,8 @@ public class DashboardUI implements AuroraScreenUI {
     }
 
     /**
-     * Set CarouselPane instance of the AuroraNet Carousel Pane
-     * containing both the TitleType and the Icon of the actual Pane.
+     * Set CarouselPane instance of the AuroraNet Carousel Pane containing both
+     * the TitleType and the Icon of the actual Pane.
      * <p/>
      * @param aAuroraNetPane ACarouselPane
      */

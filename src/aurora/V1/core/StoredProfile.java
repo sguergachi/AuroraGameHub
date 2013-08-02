@@ -23,6 +23,10 @@ import aurora.engine.V1.Logic.AStorage;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
+<<<<<<< HEAD
+=======
+import java.util.logging.Level;
+>>>>>>> origin/dev
 
 import org.apache.log4j.Logger;
 
@@ -68,6 +72,7 @@ public class StoredProfile extends AStorage implements Serializable {
         TotalTimes = new ArrayList<String>();
         OccurrenceTimes = new ArrayList<Integer>();
         LastTimes = new ArrayList<String>();
+<<<<<<< HEAD
     }
 
     @Override
@@ -189,6 +194,132 @@ public class StoredProfile extends AStorage implements Serializable {
         OccurrenceTimes = getDatabaseArray("Profile", "Occurence_Time");
         LastTimes = getDatabaseArray("Profile", "Last_Time");
 
+=======
+    }
+
+    @Override
+    public void setUpDatabase(Boolean FirstTime, String Path) {
+
+
+        try {
+            super.db = new ASimpleDB("User", Path);
+        } catch (SQLException ex) {
+            logger.error(ex);
+        }
+
+
+        //-
+        // If this is the first time we are setting up the database
+        // Then create the columns where the data will reside
+        //-
+
+        if (FirstTime) {
+
+            try {
+                db.addTable("Profile", false);
+
+                db.addColumn("Profile", "Game_Name",
+                        ASimpleDB.TYPE_STRING_IGNORECASE);
+                db.setConstraint("Profile", "Game_Name", ASimpleDB.UNIQUE);
+
+                db.addColumn("Profile", "Game_Type",
+                        ASimpleDB.TYPE_STRING_IGNORECASE);
+
+                db.addColumn("Profile", "Total_Time",
+                        ASimpleDB.TYPE_STRING_IGNORECASE);
+
+                db.addColumn("Profile", "Occurence_Time",
+                        ASimpleDB.TYPE_INTEGER);
+
+                db.addColumn("Profile", "Last_Time",
+                        ASimpleDB.TYPE_STRING_IGNORECASE);
+            } catch (SQLException ex) {
+                logger.error(ex);
+            }
+
+        }
+
+    }
+
+    /*
+     * Saves a specific game to database Handles Appostrophe
+     */
+    public void saveGameMetadata(Game game) {
+
+        if (game != null) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Saving Metadata...");
+
+            }
+
+            GameName = game.getGameName().replace("'", "''");
+            GameType = game.getGameType();
+            TotalTime = game.getTotalTimePlayed();
+            OccurrenceTime = game.getOccurencesPlayed();
+            LastTime = game.getLastPlayed();
+
+            if (!GameNames.contains(GameName)) {
+                storeToDatabase();
+            } else {
+                storeStateToDatabase();
+            }
+
+
+            GameNames.add(GameName);
+            GameTypes.add(GameType);
+            TotalTimes.add(TotalTime);
+            OccurrenceTimes.add(OccurrenceTime);
+            LastTimes.add(LastTime);
+
+
+            //Clear for next set of Games
+            GameName = "";
+            GameType = "";
+            TotalTime = "";
+            OccurrenceTime = 0;
+            LastTime = "";
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("Saved Game Metadata");
+                logger.debug(game.getGameName() + " " + game.getBoxArtUrl()
+                             + " " + game.getGamePath());
+            }
+
+        }
+
+    }
+
+    /*
+     * Removes the game from the stored library
+     */
+    public void removeGameMetadata(Game game) {
+        String gameName = game.getGameName().replace("'", "''");
+
+        GameNames.remove(gameName);
+        GameTypes.remove(game.getGameType());
+        TotalTimes.remove(game.getTotalTimePlayed());
+        if (!OccurrenceTimes.contains(game.getOccurencesPlayed())) {
+            OccurrenceTimes.remove(game.getOccurencesPlayed());
+        }
+        LastTimes.remove(game.getLastPlayed());
+
+        removeFromDatabase(gameName);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void storeFromDatabase() {
+        try {
+            GameNames = getDatabaseArray("Profile", "Game_Name");
+            GameTypes = getDatabaseArray("Profile", "Game_Type");
+            TotalTimes = getDatabaseArray("Profile", "Total_Time");
+            OccurrenceTimes = getDatabaseArray("Profile", "Occurence_Time");
+            LastTimes = getDatabaseArray("Profile", "Last_Time");
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(StoredProfile.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
+>>>>>>> origin/dev
         if (GameNames == null) {
 
             GameNames = new ArrayList<String>();
@@ -198,6 +329,10 @@ public class StoredProfile extends AStorage implements Serializable {
             LastTimes = new ArrayList<String>();
         }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/dev
     }
 
     public void storeStateToDatabase() {
@@ -208,7 +343,12 @@ public class StoredProfile extends AStorage implements Serializable {
         // To use as little database resources as needed
         //-
         try {
+<<<<<<< HEAD
             if (!GameTypes.get(GameNames.indexOf(GameName)).equals(GameType)) {
+=======
+            if (GameTypes.get(GameNames.indexOf(GameName)) != null && !GameTypes
+                    .get(GameNames.indexOf(GameName)).equals(GameType)) {
+>>>>>>> origin/dev
                 db.setColValue("Profile",
                         "Game_Type",
                         "Game_Name",
@@ -261,11 +401,19 @@ public class StoredProfile extends AStorage implements Serializable {
 
             db.addRowFlex("Profile",
                     new String[]{"Game_Name",
+<<<<<<< HEAD
                         "Game_Type",
                         "Total_Time",
                         "Occurence_Time",
                         "Last_Time"
                     },
+=======
+                "Game_Type",
+                "Total_Time",
+                "Occurence_Time",
+                "Last_Time"
+            },
+>>>>>>> origin/dev
                     ("'" + GameName + "'" + ","
                      + "'" + GameType + "'" + ","
                      + "'" + TotalTime + "'" + ","

@@ -7,6 +7,7 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
+<<<<<<< HEAD
 <project name="Aurora" default="default" basedir=".">
 
   <description>Builds, tests, and runs the project Aurora.</description>
@@ -25,6 +26,19 @@
 
   <!--
 
+=======
+<project name="AuroraGameHub" default="default" basedir=".">
+    <description>Builds, tests, and runs the project AuroraGameHub.</description>
+    <import file="nbproject/build-impl.xml"/>
+
+    <target name="-pre-jar" >
+        <propertyfile file="${src.dir}\version.properties">
+        <entry key="BUILD" value="1" type="int" operation="+"/>
+        </propertyfile>
+    </target>
+    <!--
+
+>>>>>>> origin/dev
     There exist several targets which are by default empty and which can be
     used for execution of your tasks. These targets are usually executed
     before and after some main targets. They are:
@@ -48,11 +62,20 @@
     Example of inserting an obfuscator after compilation could look like this:
 
         <target name="-post-compile">
+<<<<<<< HEAD
   <obfuscate>
     <fileset dir="${build.classes.dir}"/>
   </obfuscate>
 </target>
 For list of available properties check the imported
+=======
+            <obfuscate>
+                <fileset dir="${build.classes.dir}"/>
+            </obfuscate>
+        </target>
+
+    For list of available properties check the imported
+>>>>>>> origin/dev
     nbproject/build-impl.xml file.
 
 
@@ -70,12 +93,23 @@ For list of available properties check the imported
       test-report:              JUnit report generation
 
     An example of overriding the target for project execution could look like this:
+<<<<<<< HEAD
 <target name="run" depends="Aurora-impl.jar">
   <exec dir="bin" executable="launcher.exe">
     <arg file="${dist.jar}"/>
   </exec>
 </target>
 Notice that the overridden target depends on the jar target and not only on
+=======
+
+        <target name="run" depends="AuroraGameHub-impl.jar">
+            <exec dir="bin" executable="launcher.exe">
+                <arg file="${dist.jar}"/>
+            </exec>
+        </target>
+
+    Notice that the overridden target depends on the jar target and not only on
+>>>>>>> origin/dev
     the compile target as the regular run target does. Again, for a list of available
     properties which you can use, check the target you are overriding in the
     nbproject/build-impl.xml file.

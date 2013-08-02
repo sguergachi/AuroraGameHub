@@ -44,7 +44,7 @@ import org.apache.log4j.Logger;
  */
 public class AuroraMini {
 
-    private JDialog mini;
+    private JFrame mini;
 
     private AuroraCoreUI coreUI;
 
@@ -106,7 +106,7 @@ public class AuroraMini {
         if (mini == null) { // retain state
 
             //SET UP FRAME
-            mini = new JDialog();
+            mini = new JFrame();
 
             mini.setUndecorated(true);
             mini.setBackground(Color.BLACK);
@@ -242,7 +242,7 @@ public class AuroraMini {
             timer.stop();
         }
         timer = null;
-        timer = new Timer(30, new AnimateINFrameListener());
+        timer = new Timer(20, new AnimateINFrameListener());
         timer.setInitialDelay(900);
         timer.setRepeats(true);
 
@@ -258,7 +258,7 @@ public class AuroraMini {
             timer.stop();
         }
         timer = null;
-        timer = new Timer(30, new AnimateOUTFrameListener());
+        timer = new Timer(20, new AnimateOUTFrameListener());
         timer.setInitialDelay(200);
         timer.setRepeats(true);
         timer.start();
@@ -298,7 +298,11 @@ public class AuroraMini {
 
             count++; //Accelerator
 
+<<<<<<< HEAD
             if (mini.getX() > (coreUI.getScreenWidth() - 70) - 170) {
+=======
+            if (mini.getX() > (coreUI.getScreenWidth() - 75) - 170) {
+>>>>>>> origin/dev
                 mini.setLocation(mini.getX() - 4 - count, mini.getY());
             } else {
                 timer.stop();
@@ -318,14 +322,22 @@ public class AuroraMini {
 
             count++; //Accelerator
 
+<<<<<<< HEAD
             if (mini.getX() < (coreUI.getScreenWidth() - 70)) {                //Stop Here
+=======
+            if (mini.getX() < (coreUI.getScreenWidth() - 75)) {                //Stop Here
+>>>>>>> origin/dev
                 mini.setLocation(mini.getX() + 4 + count, mini.getY());         //Animate
             } else {
                 timer.stop();
                 if (coreUI.getOS().contains("Mac")) {
+<<<<<<< HEAD
                     mini.setBackground(new Color(0f, 0f, 0f, 0.7f));
+=======
+                    mini.setBackground(new Color(0f, 0f, 0f, 0.5f));
+>>>>>>> origin/dev
                 } else {
-                    AWTUtilities.setWindowOpacity(mini, 0.7f);
+                    AWTUtilities.setWindowOpacity(mini, 0.5f);
                 }
             }
 
@@ -436,9 +448,13 @@ public class AuroraMini {
             isMouseExited = true;
             icon.setImgURl("icon.png");
             if (coreUI.getOS().contains("Mac")) {
+<<<<<<< HEAD
                 mini.setBackground(new Color(0f, 0f, 0f, 0.7f));
+=======
+                mini.setBackground(new Color(0f, 0f, 0f, 0.5f));
+>>>>>>> origin/dev
             } else {
-                AWTUtilities.setWindowOpacity(mini, 0.7f);
+                AWTUtilities.setWindowOpacity(mini, 0.5f);
             }
         }
     }
@@ -472,8 +488,8 @@ public class AuroraMini {
 
         @Override
         public void mouseExited(MouseEvent e) {
-            AWTUtilities.setWindowOpacity(mini, 0.7f);
-            mini.setBackground(new Color(0f, 0f, 0f, 0.7f));
+            AWTUtilities.setWindowOpacity(mini, 0.5f);
+            mini.setBackground(new Color(0f, 0f, 0f, 0.5f));
         }
     }
 

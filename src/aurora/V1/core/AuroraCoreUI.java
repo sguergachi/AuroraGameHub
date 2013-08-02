@@ -20,6 +20,7 @@ package aurora.V1.core;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import aurora.engine.V1.Logic.aSurface;
 import aurora.engine.V1.Logic.aXAVI;
 import aurora.engine.V1.UI.*;
@@ -30,6 +31,8 @@ import java.awt.*;
 import aurora.V1.core.screen_logic.StartScreenLogic;
 =======
 import aurora.V1.core.screen_logic.WelcomeLogic;
+>>>>>>> origin/dev
+=======
 >>>>>>> origin/dev
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
@@ -52,8 +55,11 @@ import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
+<<<<<<< HEAD
 import java.awt.Point;
 import java.awt.RenderingHints;
+=======
+>>>>>>> origin/dev
 import java.awt.Toolkit;
 <<<<<<< HEAD
 >>>>>>> origin/dev
@@ -66,15 +72,21 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
+<<<<<<< HEAD
 import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
+=======
+>>>>>>> origin/dev
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+<<<<<<< HEAD
 import javax.imageio.ImageIO;
+=======
+>>>>>>> origin/dev
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 <<<<<<< HEAD
@@ -86,14 +98,19 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+<<<<<<< HEAD
 import javax.swing.JWindow;
+=======
+import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
+>>>>>>> origin/dev
 import org.apache.log4j.Logger;
 
 /**
  * .------------------------------------------------------------------------.
  * | AuroraCoreUI
- * .------------------------------------------------------------------------.
- * |
+ * .------------------------------------------------------------------------. |
  * | This is the Core UI class, it contains the persistent UI components
  * | that encompasses the main center UI
  * |
@@ -128,7 +145,7 @@ public class AuroraCoreUI {
     /**
      * Size Constant.
      */
-    private int topPanelSize;
+    private int topPanelHeight;
 
     /**
      * Size Constant.
@@ -260,8 +277,7 @@ public class AuroraCoreUI {
     private AImagePane paneBottom;
 
     /**
-     * Panel that holds the back, minimize, exit
-     * buttons.
+     * Panel that holds the back, minimize, exit buttons.
      */
     private AImagePane paneFrameControl;
 
@@ -306,8 +322,8 @@ public class AuroraCoreUI {
     private JFrame frame;
 
     /**
-     * Center panel that displays the main part of Aurora
-     * ie. Dashboard, Library, etc.
+     * Center panel that displays the main part of Aurora ie. Dashboard,
+     * Library, etc.
      */
     private JPanel paneCenter;
 
@@ -342,8 +358,7 @@ public class AuroraCoreUI {
     private JPanel paneHeaderOfCenterFromBottom;
 
     /**
-     * Panel that is located in the center of the
-     * bottom panel.
+     * Panel that is located in the center of the bottom panel.
      */
     private JPanel paneCenterFromBottom;
 
@@ -380,7 +395,7 @@ public class AuroraCoreUI {
     /**
      * Label for the key image icon.
      */
-    private JLabel lblKeyAction;
+    private JLabel lblKeyActionEnter;
 
     /**
      * The instance of AuroraMini which activates when you minimize Aurora.
@@ -464,8 +479,8 @@ public class AuroraCoreUI {
     public static ATimeLabel lblTime;
 
     /**
-     * Detects what is the current build number using the
-     * version.properties file.
+     * Detects what is the current build number using the version.properties
+     * file.
      */
     final static ResourceBundle resourceBundle = ResourceBundle.getBundle(
             "version");
@@ -480,6 +495,8 @@ public class AuroraCoreUI {
 
     private Font ropaFont;
 >>>>>>> origin/dev
+
+    static final Logger logger = Logger.getLogger(AuroraCoreUI.class);
 
     static final Logger logger = Logger.getLogger(AuroraCoreUI.class);
 
@@ -566,6 +583,12 @@ public class AuroraCoreUI {
 
         setSizes();
 
+        //* Tooltip //
+        UIManager.put("ToolTip.background", new ColorUIResource(new Color(87,
+                140, 204)));
+        UIManager.put("ToolTip.foreground", new ColorUIResource(Color.BLACK));
+
+
         //* Get Font *//
 
         try {
@@ -623,12 +646,12 @@ public class AuroraCoreUI {
         //*
 
         paneTop = new AImagePane("app_header.png",
-                frame.getSize().width, (frame.getSize().height / 6), true);
+                frame.getSize().width, topPanelHeight, true);
         paneTop.setPreferredSize(new Dimension(frame.getSize().width,
-                (frame.getSize().height / 6)));
+                topPanelHeight));
 
         paneTop.setIgnoreRepaint(true);
-        paneTop.setLayout(new BorderLayout());
+        paneTop.setLayout(new BorderLayout(0, 0));
 
 
         //*
@@ -649,11 +672,11 @@ public class AuroraCoreUI {
         // the Time and the Login Controls
         //*
         paneBottom = new AImagePane("app_footer.png",
-                frame.getSize().width, frame.getSize().height / 6, true);
+                frame.getSize().width, topPanelHeight, true);
         paneBottom.setPreferredSize(new Dimension(frame.getSize().width,
-                frame.getSize().height / 6));
+                topPanelHeight));
         paneBottom.setOpaque(false);
-        paneBottom.setLayout(new BorderLayout());
+        paneBottom.setLayout(new BorderLayout(0, 0));
 
         //*
         // Configure Panels:
@@ -683,13 +706,17 @@ public class AuroraCoreUI {
                 "app_btn_close_down.png", "app_btn_close_over.png",
                 exitButtonWidth, exitButtonHeight);
         btnExit.addActionListener(new CloseListener());
-        btnExit.setToolTipText("Exit");
+        if (main.LAUNCHES < 5) {
+            btnExit.setToolTipText("Exit");
+        }
         btnMinimize = new AButton("app_btn_minimize_norm.png",
                 "app_btn_minimize_down.png", "app_btn_minimize_over.png",
                 minimizeButtonWidth, minimizeButtonHeight);
         minimizeHandler = new MinimizeListener(this, AuroraMini.MINIMIZE_MODE);
         btnMinimize.addActionListener(minimizeHandler);
-        btnMinimize.setToolTipText("Minimize");
+        if (main.LAUNCHES < 5) {
+            btnMinimize.setToolTipText("Minimize");
+        }
 
         // TOP PANEL
         // --------------------------------------------------------------------
@@ -759,15 +786,24 @@ public class AuroraCoreUI {
         // ---------------------------------------------------------------------
 
         paneHeaderOfCenterFromBottom = new JPanel(new BorderLayout());
+<<<<<<< HEAD
         lblTime = new ATimeLabel(ATimeLabel.TIME) ;
         lblTime.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
+=======
+        lblTime = new ATimeLabel(ATimeLabel.TIME);
+        lblTime.setFont(regularFont.deriveFont(Font.PLAIN, timeFontSize));
+>>>>>>> origin/dev
         lblTime.setForeground(new Color(0, 178, 178));
         lblTime.revalidate();
         lblTime.repaint();
 
         lblDate = new ATimeLabel(ATimeLabel.DATE_LETTERS);
         lblDate.setForeground(Color.gray);
+<<<<<<< HEAD
         lblDate.setFont(boldFont.deriveFont(Font.PLAIN, timeFontSize));
+=======
+        lblDate.setFont(regularFont.deriveFont(Font.PLAIN, timeFontSize));
+>>>>>>> origin/dev
         lblDate.revalidate();
         lblDate.repaint();
 
@@ -792,10 +828,11 @@ public class AuroraCoreUI {
 
         imgKeyIcon = new AImage("KeyboardKeys/enter.png");
         imgKeyIcon.setImageSize(keyIconWidth, keyIconHeight);
-        lblKeyAction = new JLabel(" Select ");
+        lblKeyActionEnter = new JLabel(" Select ");
 
-        lblKeyAction.setFont(regularFont.deriveFont(Font.PLAIN, keysFontSize));
-        lblKeyAction.setForeground(new Color(0, 178, 178));
+        lblKeyActionEnter.setFont(regularFont.deriveFont(Font.PLAIN,
+                keysFontSize));
+        lblKeyActionEnter.setForeground(new Color(0, 178, 178));
 
         paneHeaderOfCenterFromBottom.add(BorderLayout.WEST, paneKeyToPress);
         paneCenterFromBottom.add(BorderLayout.NORTH,
@@ -845,6 +882,10 @@ public class AuroraCoreUI {
         frame.addKeyListener(new FrameKeyListener());
         frame.requestFocus();
 
+    }
+
+    public JLabel getLblKeyActionEnter() {
+        return lblKeyActionEnter;
     }
 
     public ADialog getWarningDialog() {
@@ -934,7 +975,8 @@ public class AuroraCoreUI {
     private void setSizes() {
         double Ratio = (frame.getWidth() - frame.getHeight()) / 2;
         if (isLargeScreen) {
-            topPanelSize = frame.getHeight() / 4;
+            topPanelHeight = (frame.getSize().height / 6);
+
             centerPanelSize = frame.getHeight() / 2 + frame.getHeight() / 40;
             bottomPanelSize = frame.getHeight() / 4 + frame.getHeight() / 40;
             controlHeight = 55;
@@ -942,8 +984,13 @@ public class AuroraCoreUI {
             keysFontSize = frame.getHeight() / 50;
             welcomeFontSize = 22;
             versionFontSize = 14;
+<<<<<<< HEAD
             timeFontSize = bottomPanelSize / 13;
             logoHeight = topPanelSize / 3 + (int) (Ratio / 21);
+=======
+            timeFontSize = bottomPanelSize / 12;
+            logoHeight = (frame.getHeight() / 12) + (int) (Ratio / 21);
+>>>>>>> origin/dev
             logoWidth = frame.getWidth() / 2 + (int) (Ratio / 5);
             exitButtonWidth = 0;
             exitButtonHeight = 0;
@@ -952,14 +999,19 @@ public class AuroraCoreUI {
             keyIconWidth = 0;
             keyIconHeight = 0;
         } else {
-            topPanelSize = frame.getHeight() / 4;
+            topPanelHeight = (frame.getSize().height / 6);
             centerPanelSize = frame.getHeight() / 2 + frame.getHeight() / 40;
             bottomPanelSize = frame.getHeight() / 4 + frame.getHeight() / 40;
             keysFontSize = frame.getHeight() / 50;
             welcomeFontSize = 21;
             versionFontSize = 14;
+<<<<<<< HEAD
             timeFontSize = bottomPanelSize / 13;
             logoHeight = topPanelSize / 3 + (int) (Ratio / 21);
+=======
+            timeFontSize = bottomPanelSize / 12;
+            logoHeight = (frame.getHeight() / 12) + (int) (Ratio / 21);
+>>>>>>> origin/dev
             logoWidth = frame.getWidth() / 2;
             controlHeight = 45;
             controlWidth = 150;
@@ -1081,11 +1133,8 @@ public class AuroraCoreUI {
      * .-----------------------------------------------------------------------.
      * | setCursor()
      * .-----------------------------------------------------------------------.
-     * |
-     * | This method sets the mouse pointer cursor and states
-     * |
-     * | Customize the look of the mouse pointer cursor in various states
-     * |
+     * | | This method sets the mouse pointer cursor and states | | Customize
+     * the look of the mouse pointer cursor in various states |
      * .........................................................................
      *
      */
@@ -1108,8 +1157,14 @@ public class AuroraCoreUI {
 
         @Override
         public void windowOpened(WindowEvent e) {
+<<<<<<< HEAD
             analytics.addProperty("Start Time", ATimeLabel.current(
                     ATimeLabel.TIME_PLUS) + " <");
+=======
+            String time = ATimeLabel.current(
+                    ATimeLabel.TIME_PLUS);
+            analytics.addProperty("Start Time", time);
+>>>>>>> origin/dev
 
         }
 
@@ -1161,8 +1216,7 @@ public class AuroraCoreUI {
         private boolean wasVisible;
 
         /**
-         * FrameFocusListener()
-         * Detect when Frame is out of focus.
+         * FrameFocusListener() Detect when Frame is out of focus.
          */
         public FrameFocusListener() {
             paneUnfocused = new AImagePane("Aurora_Unfocused.png", frame
@@ -1473,12 +1527,12 @@ public class AuroraCoreUI {
         return centerPanelSize;
     }
 
-    public void setTopPanelSize(int topPanelSize) {
-        this.topPanelSize = topPanelSize;
+    public void setTopPanelHeight(int topPanelSize) {
+        this.topPanelHeight = topPanelSize;
     }
 
-    public int getTopPanelSize() {
-        return topPanelSize;
+    public int getTopPanelHeight() {
+        return topPanelHeight;
     }
 
     public void setWelcomeFontSize(int welcomeFontSize) {
@@ -1592,12 +1646,22 @@ public class AuroraCoreUI {
 
     }
 
+<<<<<<< HEAD
     private class FrameFocusListener implements WindowFocusListener {
 
         /**
          * Glass Pane from Frame.
          */
         private JPanel glass;
+=======
+    public void setKeyActionLabel(JLabel keyActionLabel) {
+        this.lblKeyActionEnter = keyActionLabel;
+    }
+
+    public JLabel getKeyActionLabel() {
+        return lblKeyActionEnter;
+    }
+>>>>>>> origin/dev
 
         /**
          * ImagePane containing Unfocused Background Image.
@@ -2150,6 +2214,14 @@ public class AuroraCoreUI {
     public Font getRopaFont() {
         return ropaFont;
 >>>>>>> origin/dev
+    }
+
+    public static float getPixelWidthRatio() {
+        return ((float) screenWidth / OPTIMAL_SCREEN_WIDTH);
+    }
+
+    public static float getPixelHeightRatio() {
+        return ((float) screenHeight / OPTIMAL_SCREEN_HEIGHT);
     }
 
     public static float getPixelWidthRatio() {
