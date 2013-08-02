@@ -224,7 +224,7 @@ public class DashboardLogic implements AuroraScreenLogic {
 
     public final ArrayList<JLabel> createRssFeed() {
         final ArrayList<JLabel> rssArray = new ArrayList<JLabel>();
-        
+
                 isRssLoaded = false;
 
 
@@ -233,11 +233,12 @@ public class DashboardLogic implements AuroraScreenLogic {
 
                 // read in the RSS feed
                 try {
+
+
                     logger.info("Connecting to RSS mixer!");
                     ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
                             "http://www.rssmix.com/u/3635025/rss.xml");
                     auroraGameHubFeed = auroraGameHubParser.readFeed();
-
 
 
                     // catch the exception if there is a problem reading the RSS feed
@@ -348,9 +349,9 @@ public class DashboardLogic implements AuroraScreenLogic {
 
                 isRssLoaded = true;
 
-        
+
         return rssArray;
-        
+
     }
 
     public boolean isIsRssLoaded() {
