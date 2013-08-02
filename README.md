@@ -1,6 +1,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 >>>>>>> origin/dev
@@ -63,5 +66,8 @@ Currently you need **5** components to build the Aurora Game Hub.
 =======
 - **Lastly** you need the AuroraCoverDB.h2 Database which is hosted here on the root directory
 >>>>>>> origin/dev
+<<<<<<< HEAD
 =======
 >>>>>>> origin/dev
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d

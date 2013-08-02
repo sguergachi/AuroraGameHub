@@ -212,6 +212,9 @@ public class DashboardHandler implements AuroraScreenHandler {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
+<<<<<<< HEAD
                 dashboardUI.getCoreUI().showExitDialog();
 =======
                     dashboardUI.getCoreUI().showExitDialog();
@@ -219,9 +222,12 @@ public class DashboardHandler implements AuroraScreenHandler {
 =======
                 dashboardUI.getCoreUI().showExitDialog();
 >>>>>>> origin/dev
+<<<<<<< HEAD
 =======
                 dashboardUI.getCoreUI().showExitDialog();
 >>>>>>> origin/dev
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
             }
         }
 

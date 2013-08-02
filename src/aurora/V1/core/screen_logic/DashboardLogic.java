@@ -502,6 +502,9 @@ public class DashboardLogic implements AuroraScreenLogic {
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
     
     
 >>>>>>> origin/dev
@@ -509,9 +512,12 @@ public class DashboardLogic implements AuroraScreenLogic {
 
 
 >>>>>>> origin/dev
+<<<<<<< HEAD
 =======
 
 >>>>>>> origin/dev
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
     /**
      * .-----------------------------------------------------------------------.
      * | launchAuroraApp(ACarouselPane aCarouselPane)

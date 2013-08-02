@@ -3,9 +3,23 @@
         |  Crafted With Care by the Sardonix Creative Team |
         ====================================================
 
+<<<<<<< HEAD:src/Change Log.txt
 
 ////////////////////////////////////////////------------------------------------
 // Aurora_Alpha 8  Build:777  Date:7/11/2013  || Sammy Guergachi
+=======
+<<<<<<< HEAD
+////////////////////////////////////////////--------------------------------
+<<<<<<< HEAD
+//Aurora_Alpha 5  Build:500  Date:  || Sammy Guergachi, Carlos Machado
+////////////////////////////////////////////--------------------------------
++ new Onix 2.0 Surface with Name Change!
++ Revamped Info Feed with real gaming news!
+=======
+//Aurora_Alpha 5  Build:500  Date:1/13/2013  || Sammy Guergachi, Carlos Machado
+////////////////////////////////////////////--------------------------------
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d:src/ChangeLog.txt
 ////////////////////////////////////////////------------------------------------
 + Added ability to automatically add games from library
 + Added ability to organize library in 3 different ways
@@ -79,6 +93,10 @@
 ////////////////////////////////////////////------------------------------------
 // Aurora_Alpha 5  Build:560  Date:1/13/2013  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------
+<<<<<<< HEAD:src/Change Log.txt
+=======
+>>>>>>> origin/dev
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d:src/ChangeLog.txt
 ++ new Onix 2.0 Surface with Name Change!
 ++ Revamped Info Feed with real gaming news!
 + Cleaned up codebase (faster future development!)

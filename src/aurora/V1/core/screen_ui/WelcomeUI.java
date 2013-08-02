@@ -543,16 +543,22 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
                 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
 <<<<<<< HEAD:src/aurora/V1/core/screen_ui/StartScreenUI.java
 <<<<<<< HEAD
 =======
 =======
 
 >>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
+<<<<<<< HEAD
 =======
 
 >>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
                 logic.sendAnalytics();
 
 >>>>>>> origin/dev
@@ -651,7 +657,10 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
 <<<<<<< HEAD:src/aurora/V1/core/screen_ui/StartScreenUI.java
 <<<<<<< HEAD
     private boolean checkOnline(String URL) {
@@ -776,9 +785,12 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                                                             + path);
         }
     }
+<<<<<<< HEAD
 <<<<<<< HEAD:src/aurora/V1/core/screen_ui/WelcomeUI.java
 >>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
 =======
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
 >>>>>>> origin/dev:src/aurora/V1/core/screen_ui/WelcomeUI.java
 
     private boolean checkUser() {

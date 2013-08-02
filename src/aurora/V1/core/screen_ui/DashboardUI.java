@@ -25,14 +25,20 @@ package aurora.V1.core.screen_ui;
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
+<<<<<<< HEAD
+=======
 import aurora.V1.core.AboutOverlay;
 >>>>>>> origin/dev
 =======
 import aurora.V1.core.AboutBox;
 >>>>>>> origin/dev
+<<<<<<< HEAD
 =======
 import aurora.V1.core.AboutBox;
 >>>>>>> origin/dev
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.screen_handler.DashboardHandler;
@@ -50,14 +56,20 @@ import aurora.engine.V1.UI.AMarqueePanel;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
+<<<<<<< HEAD
 import aurora.engine.V1.UI.ScrollText;
 =======
 >>>>>>> origin/dev
 
 =======
 >>>>>>> origin/dev
+<<<<<<< HEAD
 =======
 >>>>>>> origin/dev
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -361,6 +373,9 @@ public class DashboardUI implements AuroraScreenUI {
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
+<<<<<<< HEAD
+=======
     private AboutOverlay aboutBox;
 
     private ArrayList<JLabel> infoFeedLabelList;
@@ -374,6 +389,7 @@ public class DashboardUI implements AuroraScreenUI {
     static final Logger logger = Logger.getLogger(DashboardUI.class);
 
 >>>>>>> origin/dev
+<<<<<<< HEAD
 =======
     private AboutBox aboutBox;
 
@@ -382,6 +398,8 @@ public class DashboardUI implements AuroraScreenUI {
     static final Logger logger = Logger.getLogger(DashboardUI.class);
 
 >>>>>>> origin/dev
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
     /**
      * .-----------------------------------------------------------------------.
      * | DashboardUI(AuroraCoreUI, WelcomeUI)
@@ -501,6 +519,9 @@ public class DashboardUI implements AuroraScreenUI {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
+<<<<<<< HEAD
         ArrayList<JLabel> infoFeedLabelList;
 =======
        // ArrayList<JLabel> infoFeedLabelList;
@@ -529,11 +550,14 @@ public class DashboardUI implements AuroraScreenUI {
                     @Override
                     public void actionPerformed(final ActionEvent e) {
 
+<<<<<<< HEAD
                         if (logger.isDebugEnabled()) {
                             logger.debug("Refreshing feed");
                         }
 
 <<<<<<< HEAD
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
 <<<<<<< HEAD
 <<<<<<< HEAD
         int fontSize = 20;
@@ -548,6 +572,7 @@ public class DashboardUI implements AuroraScreenUI {
 =======
         //  int fontSize = 20;
 >>>>>>> origin/dev
+<<<<<<< HEAD
 =======
                         infoFeed.removeAll();
                         infoFeedLabelList = logic.refreshRssFeed(
@@ -555,6 +580,8 @@ public class DashboardUI implements AuroraScreenUI {
                         loadInfoFeed(infoFeedLabelList);
                         infoFeed.startScrolling();
 >>>>>>> origin/dev
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
 
 
 <<<<<<< HEAD
@@ -1034,6 +1061,9 @@ public class DashboardUI implements AuroraScreenUI {
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
+<<<<<<< HEAD
+=======
     private class HeaderMouseListener implements MouseListener {
 
         public HeaderMouseListener() {
@@ -1052,6 +1082,9 @@ public class DashboardUI implements AuroraScreenUI {
      */
     private class HeaderMouseListener extends MouseAdapter {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
 >>>>>>> origin/dev
 
         @Override

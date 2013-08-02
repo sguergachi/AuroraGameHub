@@ -62,7 +62,10 @@ import java.net.MalformedURLException;
 =======
 import java.net.URL;
 import java.net.URLConnection;
+<<<<<<< HEAD
 <<<<<<< HEAD:src/aurora/V1/core/screen_logic/WelcomeLogic.java
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
 <<<<<<< HEAD:src/aurora/V1/core/screen_logic/StartScreenLogic.java
 >>>>>>> origin/dev
 import java.util.logging.Level;
@@ -71,10 +74,13 @@ import java.util.logging.Logger;
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
 >>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
+<<<<<<< HEAD
 =======
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
 >>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
@@ -318,7 +324,10 @@ public class WelcomeLogic implements AuroraScreenLogic {
 
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD:src/aurora/V1/core/screen_logic/WelcomeLogic.java
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
 <<<<<<< HEAD:src/aurora/V1/core/screen_logic/StartScreenLogic.java
 <<<<<<< HEAD
 =======
@@ -326,9 +335,12 @@ public class WelcomeLogic implements AuroraScreenLogic {
 =======
     public boolean checkOnline(String URL) {
 >>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
+<<<<<<< HEAD
 =======
     public static boolean checkOnline(String URL) {
 >>>>>>> origin/dev:src/aurora/V1/core/screen_logic/WelcomeLogic.java
+=======
+>>>>>>> 33aa9ef773d65a9d9008f5341b687f614354c97d
         final URL url;
         try {
             url = new URL( URL);
