@@ -3,9 +3,15 @@
         |  Crafted With Care by the Sardonix Creative Team |
         ====================================================
 
+////////////////////////////////////////////------------------------------------
+// Aurora_Alpha 8  Build:794  Date:7/11/2013  || Sammy Guergachi
+////////////////////////////////////////////------------------------------------
+
+- fixed bug where you couldn't add game manually
+- increased log size
 
 ////////////////////////////////////////////------------------------------------
-// Aurora_Alpha 8  Build:777  Date:7/11/2013  || Sammy Guergachi
+// Aurora_Alpha 8  Build:791  Date:7/11/2013  || Sammy Guergachi
 ////////////////////////////////////////////------------------------------------
 + Added ability to automatically add games from library
 + Added ability to organize library in 3 different ways
@@ -27,6 +33,7 @@
 - optimized removing games
 - reduced log file size
 - minimized Aurora now takes a spot on the task bar
+
 - fixed bug where time didn't update
 - fixed bug where add game UI gets stuck sliding down
 - fixed grid search bug where grid looked messed up in some cases.

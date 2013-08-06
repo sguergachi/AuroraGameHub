@@ -2700,6 +2700,12 @@ public class LibraryUI extends AuroraApp {
                         btnAuto.setSelected();
                         btnManual.setUnSelected();
                     }
+
+                    txtSearchField_addUI.setText("");
+
+                    statusBadge1.setImgURl("addUI_badge_idle.png");
+                    statusBadge2.setImgURl("addUI_badge_idle.png");
+
                     addGameAnimator.setInitialLocation(
                             (coreUI.getFrame().getWidth() / 2)
                             - (pnlAddGamePane.getImgIcon()
@@ -2739,6 +2745,8 @@ public class LibraryUI extends AuroraApp {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+
+            logic.setAddButtonVisible(false);
 
             int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
             ASound showSound = new ASound("reverse_swoop_" + num + ".wav", false);
