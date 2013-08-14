@@ -169,11 +169,10 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     private AThreadWorker findGames;
 
-    private int checkboxesSelected;
-
     private boolean addButtonVisible = false;
 
     private ArrayList<Game> autoGameList;
+
     private DefaultListModel autoGameModel;
 
 >>>>>>> origin/dev
@@ -1020,6 +1019,8 @@ public class LibraryLogic implements AuroraScreenLogic {
      * Animates the Add Game To Library Button to hide behind the AddGamePane
      */
     public void animateAddButtonUp() {
+
+        System.out.println("Animate UP!");
         if (addButtonVisible) {
 
             addGameToLibButtonAnimator = new AAnimate(libraryUI
@@ -1030,6 +1031,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                 public void postAction() {
 
                     libraryUI.getAddGameToLibButton().setVisible(false);
+                    addButtonVisible = false;
                 }
             });
 
@@ -1177,8 +1179,6 @@ public class LibraryLogic implements AuroraScreenLogic {
                     nameOfGames = null;
                     executableGamePath = null;
 
-                    checkboxesSelected = 0;
-
                     gameSearch_autoUI.resetCover();
 
                     libraryUI
@@ -1249,15 +1249,18 @@ public class LibraryLogic implements AuroraScreenLogic {
                             game.setGamePath(executableGamePath.get(i)
                                     .getPath());
                             try {
-                                String imgURL ;
-                                if((gameSearch_autoUI.searchSpecificGame(game.getGameName())) instanceof Game){
-                                     imgURL = ((Game) (gameSearch_autoUI
-                                               .searchSpecificGame(game.getGameName())))
-                                               .getBoxArtUrl();
+                                String imgURL;
+                                if ((gameSearch_autoUI.searchSpecificGame(game
+                                        .getGameName())) instanceof Game) {
+                                    imgURL = ((Game) (gameSearch_autoUI
+                                            .searchSpecificGame(game
+                                            .getGameName())))
+                                            .getBoxArtUrl();
                                 } else {
                                     imgURL = gameSearch_autoUI
-                                               .searchSpecificGame(game.getGameName())
-                                               .getImageURL();
+                                            .searchSpecificGame(game
+                                            .getGameName())
+                                            .getImageURL();
                                 }
 
                                 game.setCoverUrl(imgURL);
@@ -1527,6 +1530,15 @@ public class LibraryLogic implements AuroraScreenLogic {
         });
 
         clear.startOnce();
+    }
+<<<<<<< HEAD
+>>>>>>> origin/dev
+=======
+
+    public void setAddButtonVisible(boolean b) {
+
+        addButtonVisible = b;
+
     }
 >>>>>>> origin/dev
 }
