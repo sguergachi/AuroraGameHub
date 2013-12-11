@@ -40,7 +40,7 @@ public class GridManager {
 
     private int col;
 
-    private ArrayList<AGridPanel> Grids = new ArrayList<AGridPanel>();
+    private final ArrayList<AGridPanel> Grids = new ArrayList<>();
 
     private int fullGrids;
 
@@ -123,7 +123,7 @@ public class GridManager {
 
                 } else {
                     if (logger.isDebugEnabled()) {
-                        logger.debug("FAILED To add: " + game.getName());
+                        logger.debug("UNABLE To add: " + game.getName());
                         logger.debug("Grid " + i + " is Full!");
                     }
 
@@ -146,6 +146,7 @@ public class GridManager {
             }
 
         }
+
         return true;
 
     }
@@ -202,7 +203,6 @@ public class GridManager {
 
         this.width = width;
         this.height = height;
-
 
         this.blankAddGame = new GamePlaceholder();
         blankAddGame.setUp(width, height,
@@ -281,7 +281,6 @@ public class GridManager {
                 Grids.get(i).update();
                 Grids.get(i).revalidate();
 
-
             } catch (RuntimeException ex) {
                 logger.error(ex);
             }
@@ -297,8 +296,6 @@ public class GridManager {
      */
     private void replacePlaceHolder(AGridPanel gridPanel, Game game,
                                     ActionListener addGameHandler) {
-
-
 
         for (int a = (gridPanel.getArray().size() - 1); a >= 0; a--) {
             if (!(gridPanel.getArray().get(a) instanceof Game)) {
@@ -440,8 +437,6 @@ public class GridManager {
      */
     public Game getGame(int Index) {
 
-
-
         // Calculate what grid the game should be added to //
         int gridIndex = (Index / (row * col));
         // Calculate what index in specific grid the game should be added
@@ -494,7 +489,6 @@ public class GridManager {
 
         // get the grid where the game is located
         AGridPanel grid = this.getGrid(index);
-
 
         // alternative to remove the game
         grid.removeComp(game);
@@ -682,7 +676,6 @@ public class GridManager {
             // check to see if the first unfavourite game is in the next grid and if so, is it
             // the first game in the grid.  If it is, then we simply move the unfavourite
             // game to the end of the current grid it is in
-
             if (firstUnfavoriteGameIndex == 0) {
                 if ((index + 1) == firstUnfavoriteGridIndex) {
                     prevGrid.removeComp(game);
@@ -730,7 +723,6 @@ public class GridManager {
                     prevGrid.addToGrid(tempGame, 7);
                     prevGrid.update();
 
-
                     if (k == firstUnfavoriteGridIndex) {
                         currGrid.addToGrid(game, firstUnfavoriteGameIndex - 1);
                         currGrid.update();
@@ -752,9 +744,7 @@ public class GridManager {
      */
     public void moveAlphabetic(Game game) {
 
-
         ArrayList<String> alphaArray = new ArrayList<String>();
-
 
         //Go Through all Grids
         for (int i = 0; i < Grids.size(); i++) {
@@ -780,7 +770,6 @@ public class GridManager {
 
         // get the grid location of where the game is contained
         int[] gridLocation = this.findGame(game);
-
 
         // grab the index of where the grid is located in the manager
         int index = gridLocation[0];
@@ -808,7 +797,6 @@ public class GridManager {
 
                 currentGrid = this.getGrid(i);
                 previousGrid = this.getGrid(i + 1);
-
 
                 try {
                     Game lastGame = (Game) currentGrid.getComponent(7);
@@ -859,10 +847,7 @@ public class GridManager {
     /**
      * Returns AGridPanel which may contain JComponents in a grid
      *
-     * @param PanelIndex
-     *                   <
-     *                   p/>
-     * <p/>
+     * @param panelIndex
      * @return AGridPanel
      *
      */

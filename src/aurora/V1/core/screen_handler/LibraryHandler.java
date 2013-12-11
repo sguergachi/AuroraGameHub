@@ -254,7 +254,7 @@ public class LibraryHandler implements
                             .getRemoveSearchButton(), BorderLayout.NORTH);
                     libraryUI.getRemoveSearchButton()
                             .addActionListener(
-                            new RemoveSearchHandler());
+                                    new RemoveSearchHandler());
                 }
             }
         }
@@ -275,7 +275,7 @@ public class LibraryHandler implements
                             for (int j = 0; j < libraryLogic.getGridSearch()
                                     .getGridManager()
                                     .getGrid(
-                                    i).getArray().size(); j++) {
+                                            i).getArray().size(); j++) {
                                 //If the focus was not lost due to a GameCover Obj in the Search Grid
 
                                 if (e.getOppositeComponent() instanceof GamePlaceholder) {
@@ -423,8 +423,6 @@ public class LibraryHandler implements
                                                       boolean isSelected,
                                                       boolean cellHasFocus) {
 
-
-
             setComponentOrientation(list.getComponentOrientation());
 
             Color bg = null;
@@ -468,7 +466,6 @@ public class LibraryHandler implements
                 setBorder(border);
             }
 
-
             return this;
 
         }
@@ -511,9 +508,6 @@ public class LibraryHandler implements
             } else {
                 return this;
             }
-
-
-
 
         }
     }
@@ -587,7 +581,7 @@ public class LibraryHandler implements
                             .getRemoveSearchButton(), BorderLayout.NORTH);
                     libraryUI.getRemoveSearchButton()
                             .addActionListener(
-                            new RemoveSearchHandler());
+                                    new RemoveSearchHandler());
                 }
             }
         }
@@ -629,7 +623,6 @@ public class LibraryHandler implements
 
         @Override
         public void changedUpdate(DocumentEvent e) {
-
 
             libraryUI.getSearchBar().setForeground(Color.darkGray);
             libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
@@ -879,7 +872,6 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
-
             AThreadWorker doneTask = new AThreadWorker(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -890,7 +882,7 @@ public class LibraryHandler implements
                         // Check if valid
                         if (libraryUI.getImgGameLocationStatus().getImgURl()
                                 .equals(
-                                "addUI_badge_valid.png")) {
+                                        "addUI_badge_valid.png")) {
 
                             //Set new path
                             libraryUI.getCurrentGame_editUI().setGamePath(
@@ -912,7 +904,7 @@ public class LibraryHandler implements
                         // Check if valid
                         if (libraryUI.getImgGameCoverStatus().getImgURl()
                                 .equals(
-                                "addUI_badge_valid.png")) {
+                                        "addUI_badge_valid.png")) {
                             try {
                                 //Set new path
                                 libraryUI.getCurrentGame_editUI().setCoverUrl(
@@ -946,9 +938,6 @@ public class LibraryHandler implements
 
                     }
 
-
-
-
                 }
             }, new ActionListener() {
                 @Override
@@ -971,7 +960,6 @@ public class LibraryHandler implements
 
             doneTask.startOnce();
 
-
         }
     }
 
@@ -982,7 +970,8 @@ public class LibraryHandler implements
 
             if (libraryUI.getPnlAddGamePane().getComponent(1) != libraryUI
                     .getPnlManualAdd()) {
-                if (libraryLogic.isAddButtonVisible()) {
+
+                if (libraryUI.getAddGameToLibButton().isVisible()) {
                     libraryLogic.animateAddButtonUp();
                 }
 
@@ -992,7 +981,6 @@ public class LibraryHandler implements
 
                 libraryLogic.getGameSearch_addUI().resetCover();
                 libraryUI.getSearchText_addUI().setText("");
-
 
                 libraryUI.getPnlAddGamePane().remove(1);
                 libraryUI.getPnlAddGamePane().add(libraryUI.getPnlManualAdd());
@@ -1023,7 +1011,6 @@ public class LibraryHandler implements
                 wait.startOnce();
             }
 
-
         }
     }
 
@@ -1044,8 +1031,6 @@ public class LibraryHandler implements
             JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane) ?
                     ((JPanel) value).getComponent(0) : ((JPanel) value)
                     .getComponent(1));
-
-
 
             Color bg = null;
             Color fg = null;
@@ -1075,7 +1060,6 @@ public class LibraryHandler implements
             ((JPanel) value).setEnabled(list.isEnabled());
 
             label.setFont(list.getFont());
-
 
             Border border = BorderFactory.createEmptyBorder(1, 5, 0,
                     2);
@@ -1126,8 +1110,6 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
-
-
             libraryLogic.autoClearAll();
         }
     }
@@ -1159,11 +1141,11 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
-
+            // Select AutoAdd tab
             if (libraryUI.getPnlAddGamePane().getComponent(1) != libraryUI
                     .getPnlAutoAdd()) {
 
-                if (libraryLogic.isAddButtonVisible()) {
+                if (libraryUI.getAddGameToLibButton().isVisible()) {
                     libraryLogic.animateAddButtonUp();
                 }
 
@@ -1217,13 +1199,11 @@ public class LibraryHandler implements
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-
-
+                    // Setup and slide down Add Game panel
                     currentPath = libraryUI.getCurrentPath();
                     gridManager = libraryUI.getGridSplit();
                     storage = libraryUI.getStorage();
                     GameBack = libraryUI.getGamesContainer();
-
 
                     if (storage.getStoredSettings().getSettingValue(
                             "organize") == null) {
@@ -1236,15 +1216,12 @@ public class LibraryHandler implements
 
                         libraryUI.hideAddGameUI();
 
-
                         game.setGamePath(currentPath);
                         game.setLibraryLogic(libraryLogic);
-
 
                         if (!gridManager.isDupicate(game)) {
                             storage.getStoredLibrary()
                                     .SaveGame(gameSearch.getFoundGameCover());
-
 
                         } else {
                             ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
@@ -1259,14 +1236,14 @@ public class LibraryHandler implements
                             gridManager.echoGame(game).showOverlayUI();
                         }
 
-
                         //* reset cover to blank cover *//
                         gameSearch.resetCover();
 
-
                     } else {
 
-                        libraryLogic.animateAddButtonUp();
+                        if (libraryUI.getAddGameToLibButton().isVisible()) {
+                            libraryLogic.animateAddButtonUp();
+                        }
 
                         for (int i = 0; i < libraryLogic.getAutoGameList()
                                 .size(); i++) {
@@ -1276,10 +1253,10 @@ public class LibraryHandler implements
 
                             if (!gridManager
                                     .isDupicate(libraryLogic.getAutoGameList()
-                                    .get(i))) {
+                                            .get(i))) {
                                 storage.getStoredLibrary()
                                         .SaveGame(libraryLogic.getAutoGameList()
-                                        .get(i));
+                                                .get(i));
                             }
 
                         }
@@ -1290,7 +1267,7 @@ public class LibraryHandler implements
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-
+                    // Check if in Manual Mode
                     if (libraryUI.getBtnManual().isSelected) {
 
                         game.setCoverSize(libraryUI.getGameCoverWidth(),
@@ -1306,7 +1283,6 @@ public class LibraryHandler implements
 
                                 libraryLogic.addGamesToLibrary();
 
-
                             } else {
 
                                 gridManager.finalizeGrid(
@@ -1319,7 +1295,7 @@ public class LibraryHandler implements
 
                             libraryUI.setCurrentIndex(
                                     gridManager.getArray().indexOf(GameBack
-                                    .getComponent(1)));
+                                            .getComponent(1)));
 
                             if (!game.isLoaded()) {
                                 try {
@@ -1338,7 +1314,6 @@ public class LibraryHandler implements
 
                             gridManager.unselectPrevious();
 
-
                             LibraryUI.lblLibraryStatus
                                     .setForeground(Color.green);
                             LibraryUI.lblLibraryStatus.setText("Added Game");
@@ -1348,7 +1323,6 @@ public class LibraryHandler implements
                             mixpanelAnalytics.addProperty("Game Added", game
                                     .getName());
                             mixpanelAnalytics.sendEventProperty("Added Game");
-
 
                             try {
                                 Thread.sleep(1200);
@@ -1361,19 +1335,18 @@ public class LibraryHandler implements
                             game.showOverlayUI();
 
                         }
-                    } else {
+                    } else { // In Auto Add Mode
 
-                        for (int i = 0; i < libraryLogic.getAutoGameList()
+                        for (int i = 0; i < libraryLogic.getAutoAddCurrentList()
                                 .size(); i++) {
 
-
-                            Game autoGame = libraryLogic.getAutoGameList()
+                            // Load game from Selected Game list
+                            Game autoGame = libraryLogic.getAutoAddCurrentList()
                                     .get(i);
 
                             autoGame.setCoverSize(libraryUI.getGameCoverWidth(),
                                     libraryUI
                                     .getGameCoverHeight());
-
 
                             if (!autoGame.isLoaded()) {
                                 try {
@@ -1386,68 +1359,64 @@ public class LibraryHandler implements
                                 }
                             }
 
+                            // -
+                            // Add to grid and check which organize method is
+                            // used to reorganize library with new games
+                            // -
                             if (gridManager.addGame(autoGame)) {
-
-                                if (storage.getStoredSettings().getSettingValue(
-                                        "organize")
-                                        .equalsIgnoreCase("alphabetic")) {
-
-                                    libraryLogic.addGamesToLibrary();
-
-
-                                } else {
-
-                                    gridManager.finalizeGrid(
-                                            new ShowAddGameUiHandler(),
-                                            libraryUI
-                                            .getGameCoverWidth(), libraryUI
-                                            .getGameCoverHeight());
-
-                                }
-
 
                                 libraryUI.setCurrentIndex(
                                         gridManager.getArray().indexOf(GameBack
-                                        .getComponent(1)));
+                                                .getComponent(1)));
 
                             }
 
                             libraryUI.getModelCheckList().removeElementAt(0);
                             libraryLogic.getAutoGameModel().removeElementAt(0);
 
-                            try {
-                                Thread.sleep(200);
-                            } catch (InterruptedException ex) {
-                                java.util.logging.Logger.getLogger(
-                                        LibraryHandler.class.getName()).
-                                        log(Level.SEVERE, null, ex);
-                            }
+                        }
+
+                        if (storage.getStoredSettings().getSettingValue(
+                                "organize")
+                                .equalsIgnoreCase("alphabetic")) {
+
+                            libraryLogic.addGamesToLibrary();
+
+                        } else {
+
+                            gridManager.finalizeGrid(
+                                    new ShowAddGameUiHandler(),
+                                    libraryUI
+                                    .getGameCoverWidth(), libraryUI
+                                    .getGameCoverHeight());
 
                         }
 
                         libraryUI.hideAddGameUI();
 
-
+                        // Change game display status to green
                         LibraryUI.lblLibraryStatus
                                 .setForeground(Color.green);
 
-                        if (libraryLogic.getAutoGameList()
+                        // Display how many games were added with proper grammar
+                        if (libraryLogic.getAutoAddCurrentList()
                                 .size() > 1) {
                             LibraryUI.lblLibraryStatus.setText("Added "
                                                                + libraryLogic
-                                    .getAutoGameList()
+                                    .getAutoAddCurrentList()
                                     .size() + " Games");
                         } else {
                             LibraryUI.lblLibraryStatus.setText("Added "
                                                                + libraryLogic
-                                    .getAutoGameList()
+                                    .getAutoAddCurrentList()
                                     .size() + " Game");
                         }
 
+                        // Tell Mixpanel that latest games added were auto added
                         AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
                                 "f5f777273e62089193a68f99f4885a55");
                         mixpanelAnalytics.addProperty("Auto Added", libraryLogic
-                                .getAutoGameList()
+                                .getAutoAddCurrentList()
                                 .size());
                         mixpanelAnalytics.sendEventProperty("Added Game");
                     }
@@ -1456,7 +1425,6 @@ public class LibraryHandler implements
             });
 
             add.startOnce();
-
 
         }
     }
@@ -1528,7 +1496,6 @@ public class LibraryHandler implements
         public SelectedOrganizeListener(ASlickLabel lbl, StoredSettings settings,
                                         String SettingValue) {
 
-
             label = lbl;
             settingValue = SettingValue;
             storage = settings;
@@ -1547,9 +1514,6 @@ public class LibraryHandler implements
             }
 
             label.setForeground(Color.white);
-
-
-
 
         }
     }
@@ -1804,9 +1768,7 @@ public class LibraryHandler implements
                     imgGameLeft.mouseExit();
                 }
 
-
                 if (currentIndex < gridManager.getArray().size()) {
-
 
                     //Clear Panel
                     //GameBack.removeAll();
@@ -1823,7 +1785,6 @@ public class LibraryHandler implements
                     //Add GameCover Covers
 
                     GridAnimate.moveLeft(currentIndex);
-
 
                     try {
                         libraryLogic.loadGames(currentIndex - 1);
@@ -1906,7 +1867,7 @@ public class LibraryHandler implements
 
                 libraryUI.setCurrentIndex(gridManager.getArray()
                         .indexOf(GameBack
-                        .getComponent(1)));
+                                .getComponent(1)));
 
                 if (libraryUI.getCurrentIndex() < gridManager.getArray().size()
                                                   - 1) {
@@ -2150,7 +2111,6 @@ public class LibraryHandler implements
                     game.showOverlayUI();
                 }
 
-
                 //>>> MOVE LEFT
             } else if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode()
                                                           == KeyEvent.VK_LEFT) {
@@ -2215,13 +2175,13 @@ public class LibraryHandler implements
                             if (logger.isDebugEnabled()) {
                                 logger
                                         .debug(
-                                        "visible grid after moving right = "
-                                        + visibleGridIndex);
+                                                "visible grid after moving right = "
+                                                + visibleGridIndex);
                             }
 
                             currentIndex = gridManager.getArray()
                                     .indexOf(GameBack
-                                    .getComponent(1));
+                                            .getComponent(1));
                             /* get the grid that is currently displayed */
                             grid = gridManager.getGrid(currentIndex);
 
@@ -2241,7 +2201,6 @@ public class LibraryHandler implements
                                         "Cursor cannot move any further left!");
                             }
                         }
-
 
                     }
                 } else if (!selectedGameFound && (comp.get(0) instanceof Game)) {
@@ -2324,7 +2283,7 @@ public class LibraryHandler implements
                         if (logger.isDebugEnabled()) {
                             logger
                                     .debug(
-                                    "Cursor cannot move any further right! Grid needs to move right");
+                                            "Cursor cannot move any further right! Grid needs to move right");
                         }
 
                         // check to see if the the current grid is the last grid
@@ -2344,13 +2303,13 @@ public class LibraryHandler implements
                             if (logger.isDebugEnabled()) {
                                 logger
                                         .debug(
-                                        "visible grid after moving right = "
-                                        + visibleGridIndex);
+                                                "visible grid after moving right = "
+                                                + visibleGridIndex);
                             }
 
                             currentIndex = gridManager.getArray()
                                     .indexOf(GameBack
-                                    .getComponent(1));
+                                            .getComponent(1));
 
                             /* get the grid that is currently displayed */
                             grid = gridManager.getGrid(currentIndex);
@@ -2369,7 +2328,7 @@ public class LibraryHandler implements
                             if (logger.isDebugEnabled()) {
                                 logger
                                         .debug(
-                                        "Cannot move to the grid to the right. No more grids!");
+                                                "Cannot move to the grid to the right. No more grids!");
                             }
                         }
 
@@ -2439,7 +2398,6 @@ public class LibraryHandler implements
             ///Get The Index of The Current Panel Being Displayed///
             ///Refer too GridManager array of All panels to find it///
             //GameBack is the Panel Containing all the game grids///
-
             currentIndex = gridManager.getArray().indexOf(libraryUI
                     .getGamesContainer()
                     .getComponent(1));

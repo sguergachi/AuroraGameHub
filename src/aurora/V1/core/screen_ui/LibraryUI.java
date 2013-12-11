@@ -2746,7 +2746,7 @@ public class LibraryUI extends AuroraApp {
                 ex.printStackTrace();
             }
 
-            logic.setAddButtonVisible(false);
+            getAddGameToLibButton().setVisible(false);
 
             int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
             ASound showSound = new ASound("reverse_swoop_" + num + ".wav", false);

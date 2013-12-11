@@ -149,7 +149,7 @@ public class StoredLibrary extends AStorage {
     }
 
     /*
-     * Saves a specific game to database Handles Appostrophe
+     * Saves a specific game to database. Handles Appostrophes
      */
     public void SaveGame(Game game) {
 

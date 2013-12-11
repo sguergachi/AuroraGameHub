@@ -658,13 +658,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     if (localImage == null) {
                         Thread.sleep(100);
                     }
+                    progressWheel.stop();
                     remove(progressWheel);
                 } catch (NullPointerException ex) {
                 } catch (InterruptedException ex) {
                     java.util.logging.Logger.getLogger(Game.class.getName()).
                             log(Level.SEVERE, null, ex);
                 }
-                progressWheel.stop();
+
 
                 revalidate();
                 repaint();
