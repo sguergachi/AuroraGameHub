@@ -1212,6 +1212,7 @@ public class LibraryHandler implements
                                 "favorite");
                     }
 
+                    // If in Manual mode Save current game to storage
                     if (libraryUI.getBtnManual().isSelected) {
 
                         libraryUI.hideAddGameUI();
@@ -1239,23 +1240,25 @@ public class LibraryHandler implements
                         //* reset cover to blank cover *//
                         gameSearch.resetCover();
 
-                    } else {
+                    } else { // Save all selected games to storage
 
                         if (libraryUI.getAddGameToLibButton().isVisible()) {
                             libraryLogic.animateAddButtonUp();
                         }
 
-                        for (int i = 0; i < libraryLogic.getAutoGameList()
+                        for (int i = 0; i < libraryLogic.getAutoAddCurrentList()
                                 .size(); i++) {
 
-                            libraryLogic.getAutoGameList().get(i)
+                            libraryLogic.getAutoAddCurrentList().get(i)
                                     .setLibraryLogic(libraryLogic);
 
                             if (!gridManager
-                                    .isDupicate(libraryLogic.getAutoGameList()
+                                    .isDupicate(libraryLogic
+                                            .getAutoAddCurrentList()
                                             .get(i))) {
                                 storage.getStoredLibrary()
-                                        .SaveGame(libraryLogic.getAutoGameList()
+                                        .SaveGame(libraryLogic
+                                                .getAutoAddCurrentList()
                                                 .get(i));
                             }
 
@@ -1370,7 +1373,10 @@ public class LibraryHandler implements
                                                 .getComponent(1)));
 
                             }
-
+                            
+                            libraryLogic.getAutoGameList().remove(libraryLogic
+                                    .getAutoAddCurrentList()
+                                    .get(i));
                             libraryUI.getModelCheckList().removeElementAt(0);
                             libraryLogic.getAutoGameModel().removeElementAt(0);
 

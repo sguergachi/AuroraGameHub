@@ -971,19 +971,21 @@ public class LibraryLogic implements AuroraScreenLogic {
      */
     private boolean selected = false;
 
-    private final ArrayList<Game> autoAddCurrentList = new ArrayList<>();
+    private ArrayList<Game> autoAddCurrentList;
 
     public void autoFindGames(final DefaultListModel model) {
 
         this.autoGameModel = model;
 
-        autoGameList = new ArrayList<>();
+        autoAddCurrentList = new ArrayList<>();
 
         findGames = new AThreadWorker(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 if (!isAutoLoadedOnce || refreshAuto) {
+
+                    autoGameList = new ArrayList<>();
 
                     // Change lower library status text and add progress wheel
                     LibraryUI.lblLibraryStatus.setForeground(Color.CYAN);

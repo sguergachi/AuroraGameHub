@@ -608,7 +608,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     this.revalidate();
 
 
-                } catch (Exception ex) {
+                } catch (MalformedURLException ex) {
                     logger.error(ex);
                 }
             }

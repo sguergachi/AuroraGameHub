@@ -17,11 +17,9 @@
  */
 package aurora.V1.core;
 
-import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AGridPanel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import javax.swing.JComponent;
 import org.apache.log4j.Logger;
@@ -95,7 +93,8 @@ public class GridManager {
     /**
      * Add a game to Grid
      *
-     * @param GameCover object
+     * @param game
+     * @return
      */
     public Boolean addGame(Game game) {
 
@@ -105,8 +104,10 @@ public class GridManager {
 
                 if (!Grids.get(i).isGridFull()) {
 
-                    Grids.get(i).addToGrid(game);
                     numGames++;
+
+                    Grids.get(i).addToGrid(game);
+
                     isTransitioningGame = false; // Is Not Being Added to next Grid
 
                     if (logger.isDebugEnabled()) {
@@ -118,6 +119,10 @@ public class GridManager {
 
                 } else if (containsPlaceHolders(Grids.get(i))) {
 
+                    // -
+                    // Found ending placeholder panel, convert to "+" panel
+                    // and end loop
+                    // -
                     replacePlaceHolder(Grids.get(i), game, listener);
                     break;
 
@@ -636,8 +641,10 @@ public class GridManager {
             Game lastGame = (Game) currentGrid.getComponent(lastGameIndex);
 
             if (!lastGame.isFavorite()) {
+                // -
                 // if the last game is not a favourite then we know to look in this grid
                 // for the first game that is not favourited
+                // -
 
                 while ((j <= lastGameIndex) && !firstUnfavouriteFound) {
                     Game g = (Game) currentGrid.getComponent(j);
@@ -658,7 +665,7 @@ public class GridManager {
             grid.removeComp(game);
             grid.update();
 
-            //if all is faved, move to last possible cell
+            // if all is faved, move to last possible cell
             if (firstUnfavoriteGameIndex == 0) {
                 firstUnfavoriteGameIndex = lastGameIndex + 1;
             }
@@ -666,16 +673,20 @@ public class GridManager {
             grid.addToGrid(game, firstUnfavoriteGameIndex - 1);
             grid.update();
 
+            // -
             // if the first unfavourite game is found in a grid different
             // than the grid where the game was selected as unfavourite
+            // -
         } else if (index < firstUnfavoriteGridIndex) {
 
             AGridPanel prevGrid = grid;
             AGridPanel currGrid = null;
 
+            // -
             // check to see if the first unfavourite game is in the next grid and if so, is it
             // the first game in the grid.  If it is, then we simply move the unfavourite
             // game to the end of the current grid it is in
+            // -
             if (firstUnfavoriteGameIndex == 0) {
                 if ((index + 1) == firstUnfavoriteGridIndex) {
                     prevGrid.removeComp(game);
@@ -808,15 +819,6 @@ public class GridManager {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-//
-//                    currentGrid = this.getGrid(i);
-//                    previousGrid = this.getGrid(i + 1);
-//                    Game lastGame = (Game) currentGrid.getComponent(7);
-//
-//                    currentGrid.removeComp(lastGame);
-//                    currentGrid.update();
-//                    previousGrid.addToGrid(lastGame, 0);
-//                    previousGrid.update();
                 }
             }
 
