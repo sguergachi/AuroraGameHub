@@ -114,7 +114,7 @@ public class GridManager {
                         logger.debug("Added Game To GridPanel: " + game
                                 .getName());
 
-                        logger.debug("to Grid " + i);
+                        logger.debug("to Grid " + (i+1));
                     }
 
                 } else if (containsPlaceHolders(Grids.get(i))) {
@@ -129,7 +129,7 @@ public class GridManager {
                 } else {
                     if (logger.isDebugEnabled()) {
                         logger.debug("UNABLE To add: " + game.getName());
-                        logger.debug("Grid " + i + " is Full!");
+                        logger.debug("Grid " + (i+1) + " is Full!");
                     }
 
                     fullGrids++;

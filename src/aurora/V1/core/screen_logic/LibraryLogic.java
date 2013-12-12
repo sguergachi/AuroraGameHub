@@ -246,12 +246,13 @@ public class LibraryLogic implements AuroraScreenLogic {
      * | This method will add all games found in the Aurora Storage to the
      * | Library UI.
      * |
-     * | It will add the games from favorite to non-favorite games.
-     * | It will generate new Grids along the way when it fills previous ones.
+     * | > It will add the games from favorite to non-favorite games.
+     * | > It will generate new Grids along the way when it fills previous ones.
+     * | > Every time the method is run, it clears all grids and re-adds them
+     * |   based on the 'organize' setting
      * |
      * .........................................................................
      *
-     * <p/>
      */
     public final void addGamesToLibrary() {
         try {
@@ -395,9 +396,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     if (libHasFavourites && gamesList.get(i).isFavorite()) {
 
                         libraryUI.getGridSplit().addGame(gamesList.get(i));
-
                     }
-
                 }
 
                 //* Add Non-Fav games after *//
@@ -419,6 +418,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                 String[] alphaArray = new String[gamesList.size()];
 
+                // Transfer name to pre sorted array
                 for (int i = librarySize; i >= 0;
                         i--) {
 
@@ -435,7 +435,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                         h++;
                     }
                     libraryUI.getGridSplit().addGame(gamesList.get(h));
-
+                    gamesList.remove(h); // remove to speed up
                 }
 
                 gamesList = null;
@@ -1278,7 +1278,8 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     public void autoSelectAll() {
 
-        AThreadWorker select = new AThreadWorker(new ActionListener() {
+        AThreadWorker select;
+        select = new AThreadWorker(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -1303,6 +1304,9 @@ public class LibraryLogic implements AuroraScreenLogic {
                                     log(Level.SEVERE, null, ex);
                         }
                     }
+
+                    autoAddCurrentList.removeAll(autoAddCurrentList);
+                    autoAddCurrentList.addAll(autoGameList);
                 }
                 checkAutoAddGameStatus();
 
@@ -1345,6 +1349,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     }
                 }
 
+                autoAddCurrentList.removeAll(autoAddCurrentList);
                 checkAutoAddGameStatus();
 
                 libraryUI.getPnlCheckList().revalidate();

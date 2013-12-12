@@ -1373,7 +1373,7 @@ public class LibraryHandler implements
                                                 .getComponent(1)));
 
                             }
-                            
+
                             libraryLogic.getAutoGameList().remove(libraryLogic
                                     .getAutoAddCurrentList()
                                     .get(i));
