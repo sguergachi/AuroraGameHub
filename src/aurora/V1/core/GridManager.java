@@ -95,6 +95,7 @@ public class GridManager {
      * Add a game to Grid
      *
      * @param game
+     * <p>
      * @return
      */
     public Boolean addGame(Game game) {
@@ -115,7 +116,7 @@ public class GridManager {
                         logger.debug("Added Game To GridPanel: " + game
                                 .getName());
 
-                        logger.debug("to Grid " + (i+1));
+                        logger.debug("to Grid " + (i + 1));
                     }
 
                 } else if (containsPlaceHolders(Grids.get(i))) {
@@ -130,7 +131,7 @@ public class GridManager {
                 } else {
                     if (logger.isDebugEnabled()) {
                         logger.debug("UNABLE To add: " + game.getName());
-                        logger.debug("Grid " + (i+1) + " is Full!");
+                        logger.debug("Grid " + (i + 1) + " is Full!");
                     }
 
                     fullGrids++;
@@ -138,8 +139,8 @@ public class GridManager {
                     if (fullGrids == Grids.size()) {
                         createGrid(row, col, Grids.size());
                         Grids.get(Grids.size() - 1).addToGrid(game);
-                        Grids.get(Grids.size()).validate();
                         Grids.get(Grids.size()).repaint();
+
                         isTransitioningGame = true; // Is Being Added to next Grid
                         if (logger.isDebugEnabled()) {
                             logger.debug("Added Game: " + game.getName());
@@ -222,20 +223,21 @@ public class GridManager {
         if (!Grids.get(Grids.size() - 1).isGridFull()) {
 
             Grids.get(Grids.size() - 1).addToGrid(blankAddGame);
+            Grids.get(Grids.size() - 1).revalidate();
 
         } else if (fullGrids == Grids.size() - 1) {
             fullGrids++;
             //when Full make new Grid
             createGrid(row, col, Grids.size());
             Grids.get(Grids.size() - 1).addToGrid(blankAddGame);
+            Grids.get(Grids.size() - 1).revalidate();
             if (logger.isDebugEnabled()) {
                 logger.debug("Created new Grid: " + (Grids.size() - 1));
             }
         }
 
         addPlaceHolders(width, height);
-        
-        
+
     }
 
     /**
@@ -855,6 +857,7 @@ public class GridManager {
      * Returns AGridPanel which may contain JComponents in a grid
      *
      * @param panelIndex
+     * <p>
      * @return AGridPanel
      *
      */

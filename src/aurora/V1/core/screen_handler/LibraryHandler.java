@@ -1382,6 +1382,8 @@ public class LibraryHandler implements
 
                         }
 
+                        libraryUI.hideAddGameUI();
+
                         if (storage.getStoredSettings().getSettingValue(
                                 "organize")
                                 .equalsIgnoreCase("alphabetic")) {
@@ -1397,8 +1399,6 @@ public class LibraryHandler implements
                                     .getGameCoverHeight());
 
                         }
-
-                        libraryUI.hideAddGameUI();
 
                         // Change game display status to green
                         LibraryUI.lblLibraryStatus
