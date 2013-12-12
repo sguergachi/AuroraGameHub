@@ -17,6 +17,7 @@
  */
 package aurora.V1.core;
 
+import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.UI.AGridPanel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -137,6 +138,8 @@ public class GridManager {
                     if (fullGrids == Grids.size()) {
                         createGrid(row, col, Grids.size());
                         Grids.get(Grids.size() - 1).addToGrid(game);
+                        Grids.get(Grids.size()).validate();
+                        Grids.get(Grids.size()).repaint();
                         isTransitioningGame = true; // Is Being Added to next Grid
                         if (logger.isDebugEnabled()) {
                             logger.debug("Added Game: " + game.getName());
@@ -231,6 +234,8 @@ public class GridManager {
         }
 
         addPlaceHolders(width, height);
+        
+        
     }
 
     /**
