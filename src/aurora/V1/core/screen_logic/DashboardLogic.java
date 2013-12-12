@@ -202,13 +202,21 @@ public class DashboardLogic implements AuroraScreenLogic {
                     getStoredLibrary().
                     getGameNames().size());
 
+            // -
             // Make sure to not get Not Found as cover of dashboard
+            // Protect against there only being unavailable game covers
+            // -
+            int redo = 0;
             while (dashboardUI.getStorage().
                     getStoredLibrary().getBoxArtPath().
-                    get(randomNum).equals("library_noGameFound.png")) {
+                    get(randomNum).equals("library_noGameFound.png")
+                   && redo < dashboardUI.getStorage().getStoredLibrary()
+                    .getNumberGames()) {
+
                 randomNum = rand.nextInt(dashboardUI.getStorage().
                         getStoredLibrary().
                         getGameNames().size());
+                redo++;
             }
 
             //* Get the random game *//
@@ -306,6 +314,11 @@ public class DashboardLogic implements AuroraScreenLogic {
                     .getMessages().
                     iterator(); it.hasNext();) {
                 ARssReader.FeedMessage message = it.next();
+
+                // Remove garbage characters when an & sign is used
+                message.setTitle(message.getTitle().replace("amp;", ""));
+
+                // Set up label item for the Info Feed
                 AInfoFeedLabel label = new AInfoFeedLabel(message
                         .getTitle(),
                         message.getLink());
@@ -322,11 +335,12 @@ public class DashboardLogic implements AuroraScreenLogic {
                     sourceName = url.substring(i + 2, j);
                 }
 
+                label.setSourceName(sourceName.toUpperCase());
+
+                // Manual overide of IGN's source to IGN
                 if (sourceName.equalsIgnoreCase("FEEDS")) {
                     sourceName = "IGN";
                 }
-
-                label.setSourceName(sourceName.toUpperCase());
 
                 // Check if its an amazon Article //
                 if (label.getSourceName().equals("AMAZON")) {
@@ -351,7 +365,7 @@ public class DashboardLogic implements AuroraScreenLogic {
                 if (noAmazonCounter > bufferUntilAmazon) {
                     // Reset times there was no amazon in the feed //
                     noAmazonCounter = 0;
-                            //-
+                    //-
                     // If number of times there was no amazon in feed is more
                     // then 5 then add amazon to feed to array
                     //-
