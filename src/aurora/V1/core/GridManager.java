@@ -61,7 +61,6 @@ public class GridManager {
 
     static final Logger logger = Logger.getLogger(GridManager.class);
 
-    private int numGames;
 
     /**
      * Manages GridPanels for GameLibrary
@@ -95,7 +94,7 @@ public class GridManager {
      * Add a game to Grid
      *
      * @param game
-     * <p>
+     *             <p>
      * @return
      */
     public Boolean addGame(Game game) {
@@ -105,8 +104,6 @@ public class GridManager {
             if (!isDupicate(game) || isTransitioningGame) {
 
                 if (!Grids.get(i).isGridFull()) {
-
-                    numGames++;
 
                     Grids.get(i).addToGrid(game);
 
@@ -118,6 +115,8 @@ public class GridManager {
 
                         logger.debug("to Grid " + (i + 1));
                     }
+
+                    break; // after adding the game break loop
 
                 } else if (containsPlaceHolders(Grids.get(i))) {
 
@@ -139,7 +138,7 @@ public class GridManager {
                     if (fullGrids == Grids.size()) {
                         createGrid(row, col, Grids.size());
                         Grids.get(Grids.size() - 1).addToGrid(game);
-                        Grids.get(Grids.size()).repaint();
+                        Grids.get(Grids.size() - 1).repaint();
 
                         isTransitioningGame = true; // Is Being Added to next Grid
                         if (logger.isDebugEnabled()) {
@@ -550,7 +549,7 @@ public class GridManager {
         }
 
         grid.update();
-        numGames--;
+
 
     }
 
@@ -857,7 +856,7 @@ public class GridManager {
      * Returns AGridPanel which may contain JComponents in a grid
      *
      * @param panelIndex
-     * <p>
+     *                   <p>
      * @return AGridPanel
      *
      */
