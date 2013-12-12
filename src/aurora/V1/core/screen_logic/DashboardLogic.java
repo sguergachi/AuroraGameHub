@@ -77,36 +77,49 @@ public class DashboardLogic implements AuroraScreenLogic {
      * The UI Component of the Dashboard Screen.
      */
     private final DashboardUI dashboardUI;
+
     /**
      * The Handler Component of the Dashboard Screen.
      */
     private DashboardHandler dashboardHandler;
+
     /**
      * The AuroraStorage instance from DashboardUI.
      */
     private final AuroraStorage storage;
+
     /**
      * The AuroraCoreUI instance from DashboardUI.
      */
     private final AuroraCoreUI coreUI;
+
     /**
      * Instance of the GameLibrary UI.
      */
     private LibraryUI libraryUI;
+
     /**
      * Instance of the ProfileUI.
      */
     private ProfileUI profileUI;
+
     /**
      * Instance of the SettingsUI.
      */
     private SettingsUI settingsUI;
+
     private ARssReader rssReader;
+
     private Feed auroraGameHubFeed;
+
     private ArrayList<AInfoFeedLabel> amazonBuffer;
+
     private int bufferUntilAmazon;
+
     private String sourceName;
+
     static final Logger logger = Logger.getLogger(DashboardLogic.class);
+
     private boolean isRssLoaded;
 
     /**
@@ -189,6 +202,15 @@ public class DashboardLogic implements AuroraScreenLogic {
                     getStoredLibrary().
                     getGameNames().size());
 
+            // Make sure to not get Not Found as cover of dashboard
+            while (dashboardUI.getStorage().
+                    getStoredLibrary().getBoxArtPath().
+                    get(randomNum).equals("library_noGameFound.png")) {
+                randomNum = rand.nextInt(dashboardUI.getStorage().
+                        getStoredLibrary().
+                        getGameNames().size());
+            }
+
             //* Get the random game *//
             Game randomGame = new Game(dashboardUI.getStorage().
                     getStoredLibrary().
@@ -212,7 +234,7 @@ public class DashboardLogic implements AuroraScreenLogic {
 
             randomGame.getInteractivePane().
                     addMouseListener(
-                    dashboardHandler.new CarouselLibraryMouseListener());
+                            dashboardHandler.new CarouselLibraryMouseListener());
 
             //* Now give icon the cleaned up Random game *//
             icon = randomGame;
@@ -225,130 +247,124 @@ public class DashboardLogic implements AuroraScreenLogic {
     public final ArrayList<JLabel> createRssFeed() {
         final ArrayList<JLabel> rssArray = new ArrayList<JLabel>();
 
-                isRssLoaded = false;
+        isRssLoaded = false;
 
+        boolean internetConnectionUp = true;
+        boolean rssFeedAvailable = true;
 
-                boolean internetConnectionUp = true;
-                boolean rssFeedAvailable = true;
+        // read in the RSS feed
+        try {
 
-                // read in the RSS feed
-                try {
+            logger.info("Connecting to RSS mixer!");
+            ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
+                    "http://www.rssmix.com/u/3635025/rss.xml");
+            auroraGameHubFeed = auroraGameHubParser.readFeed();
 
+            // catch the exception if there is a problem reading the RSS feed
+        } catch (Exception ex) {
 
-                    logger.info("Connecting to RSS mixer!");
-                    ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
-                            "http://www.rssmix.com/u/3635025/rss.xml");
-                    auroraGameHubFeed = auroraGameHubParser.readFeed();
+            logger.error("Unable to connect to RSS mixer!");
 
+            URL url;
+            rssFeedAvailable = false;
+            try {
+                // try connecting to Google to confirm if Internet is up or not
+                url = new URL("http://www.google.com");
+                final URLConnection conn = url.openConnection();
+                conn.getInputStream();
 
-                    // catch the exception if there is a problem reading the RSS feed
-                } catch (Exception ex) {
+                // if the Internet is up, then we try to read our backup RSS feed
+                ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
+                        "http://www.gamespot.com/rss/game_updates.php?platform=5");
+                auroraGameHubFeed = auroraGameHubParser.readFeed();
+                rssFeedAvailable = true;
 
-                    logger.error("Unable to connect to RSS mixer!");
+            } catch (MalformedURLException exx) {
+                logger.error(exx);
+            } catch (IOException ioe) {
+                JLabel label = new JLabel(
+                        "Please connect to the Internet...");
+                internetConnectionUp = false;
+                rssArray.add(label);
+            } catch (Exception ex1) {
+                JLabel label = new JLabel(
+                        "Unable to retrieve RSS feed...");
+                rssArray.add(label);
+            }
 
-                    URL url;
-                    rssFeedAvailable = false;
-                    try {
-                        // try connecting to Google to confirm if Internet is up or not
-                        url = new URL("http://www.google.com");
-                        final URLConnection conn = url.openConnection();
-                        conn.getInputStream();
+        }
 
-                        // if the Internet is up, then we try to read our backup RSS feed
-                        ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
-                                "http://www.gamespot.com/rss/game_updates.php?platform=5");
-                        auroraGameHubFeed = auroraGameHubParser.readFeed();
-                        rssFeedAvailable = true;
+        // Buffer stuff to control when to show amazon links //
+        amazonBuffer = new ArrayList<AInfoFeedLabel>();
+        int noAmazonCounter = 0;
+        int bufferCounter = 0;
 
-                    } catch (MalformedURLException exx) {
-                        logger.error(exx);
-                    } catch (IOException ioe) {
-                        JLabel label = new JLabel(
-                                "Please connect to the Internet...");
-                        internetConnectionUp = false;
-                        rssArray.add(label);
-                    } catch (Exception ex1) {
-                        JLabel label = new JLabel(
-                                "Unable to retrieve RSS feed...");
-                        rssArray.add(label);
-                    }
+        // How many items before we show an amazon link //
+        bufferUntilAmazon = 4;
+        if (internetConnectionUp && rssFeedAvailable) {
+            for (Iterator<ARssReader.FeedMessage> it = auroraGameHubFeed
+                    .getMessages().
+                    iterator(); it.hasNext();) {
+                ARssReader.FeedMessage message = it.next();
+                AInfoFeedLabel label = new AInfoFeedLabel(message
+                        .getTitle(),
+                        message.getLink());
 
-
+                // Determine the source of the news article //
+                String url = message.getLink();
+                if (url.contains("www")) {
+                    int i = url.indexOf(".");
+                    int j = url.indexOf('.', i + 1);
+                    sourceName = url.substring(i + 1, j);
+                } else {
+                    int i = url.indexOf("/");
+                    int j = url.indexOf(".");
+                    sourceName = url.substring(i + 2, j);
                 }
 
-                // Buffer stuff to control when to show amazon links //
-                amazonBuffer = new ArrayList<AInfoFeedLabel>();
-                int noAmazonCounter = 0;
-                int bufferCounter = 0;
+                if (sourceName.equalsIgnoreCase("FEEDS")) {
+                    sourceName = "IGN";
+                }
 
-                // How many items before we show an amazon link //
-                bufferUntilAmazon = 4;
-                if (internetConnectionUp && rssFeedAvailable) {
-                    for (Iterator<ARssReader.FeedMessage> it = auroraGameHubFeed
-                            .getMessages().
-                            iterator(); it.hasNext();) {
-                        ARssReader.FeedMessage message = it.next();
-                        AInfoFeedLabel label = new AInfoFeedLabel(message
-                                .getTitle(),
-                                message.getLink());
+                label.setSourceName(sourceName.toUpperCase());
 
-                        // Determine the source of the news article //
-                        String url = message.getLink();
-                        if (url.contains("www")) {
-                            int i = url.indexOf(".");
-                            int j = url.indexOf('.', i + 1);
-                            sourceName = url.substring(i + 1, j);
-                        } else {
-                            int i = url.indexOf("/");
-                            int j = url.indexOf(".");
-                            sourceName = url.substring(i + 2, j);
-                        }
+                // Check if its an amazon Article //
+                if (label.getSourceName().equals("AMAZON")) {
 
-                        if (sourceName.equalsIgnoreCase("FEEDS")) {
-                            sourceName = "IGN";
-                        }
+                    // Reset Tool tip to show what the link actually is//
+                    label.setToolTip("Amazon Best Sellers");
 
-                        label.setSourceName(sourceName.toUpperCase());
+                    // Parse out the number infront of the text //
+                    label.setText(label.getText().substring(label
+                            .getText()
+                            .indexOf(':') + 2, label.getText().length()));
 
-                        // Check if its an amazon Article //
-                        if (label.getSourceName().equals("AMAZON")) {
+                    // Add it to an arrayList to be added later //
+                    amazonBuffer.add(label);
 
-                            // Reset Tool tip to show what the link actually is//
-                            label.setToolTip("Amazon Best Sellers");
+                } else {
+                    // Increment the number of times amazon was not added to buffer //
+                    noAmazonCounter++;
+                    rssArray.add(label);
+                }
 
-                            // Parse out the number infront of the text //
-                            label.setText(label.getText().substring(label
-                                    .getText()
-                                    .indexOf(':') + 2, label.getText().length()));
-
-                            // Add it to an arrayList to be added later //
-                            amazonBuffer.add(label);
-
-                        } else {
-                            // Increment the number of times amazon was not added to buffer //
-                            noAmazonCounter++;
-                            rssArray.add(label);
-                        }
-
-                        if (noAmazonCounter > bufferUntilAmazon) {
-                            // Reset times there was no amazon in the feed //
-                            noAmazonCounter = 0;
+                if (noAmazonCounter > bufferUntilAmazon) {
+                    // Reset times there was no amazon in the feed //
+                    noAmazonCounter = 0;
                             //-
-                            // If number of times there was no amazon in feed is more
-                            // then 5 then add amazon to feed to array
-                            //-
-                            if (amazonBuffer.size() > bufferCounter) {
-                                rssArray.add(amazonBuffer.get(bufferCounter));
-                                bufferCounter++;
-                            }
-                        }
-
-
+                    // If number of times there was no amazon in feed is more
+                    // then 5 then add amazon to feed to array
+                    //-
+                    if (amazonBuffer.size() > bufferCounter) {
+                        rssArray.add(amazonBuffer.get(bufferCounter));
+                        bufferCounter++;
                     }
                 }
 
-                isRssLoaded = true;
+            }
+        }
 
+        isRssLoaded = true;
 
         return rssArray;
 
@@ -427,7 +443,6 @@ public class DashboardLogic implements AuroraScreenLogic {
             //* do nothing for now *//
         }
 
-
     }
 
     /**
@@ -494,7 +509,6 @@ public class DashboardLogic implements AuroraScreenLogic {
                         dashboardUI.getCoreUI());
                 libraryUI.loadUI();
 
-
                 profileUI = new ProfileUI(dashboardUI,
                         dashboardUI.getCoreUI());
                 profileUI.loadUI();
@@ -503,7 +517,6 @@ public class DashboardLogic implements AuroraScreenLogic {
                         dashboardUI.getCoreUI());
 
                 settingsUI.loadUI();
-
 
                 if (logger.isDebugEnabled()) {
                     logger.debug("Apps Pre Loaded");

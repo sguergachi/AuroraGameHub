@@ -598,6 +598,8 @@ public class LibraryUI extends AuroraApp {
     private AButton btnAutoRefresh;
 
     private JPanel pnlLibraryStatusContainer;
+    public static final String DEAFULT_LIBRARY_STATUS = "Select a Game";
+    public static final Color DEFAULT_LIBRARY_COLOR = Color.lightGray;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -671,8 +673,8 @@ public class LibraryUI extends AuroraApp {
 
         prgLibraryStatus = new AProgressWheel("app_progressWheel.png");
 
-        lblLibraryStatus = new AFadeLabel("Select a Game");
-        lblLibraryStatus.setForeground(Color.lightGray);
+        lblLibraryStatus = new AFadeLabel(DEAFULT_LIBRARY_STATUS);
+        lblLibraryStatus.setForeground(DEFAULT_LIBRARY_COLOR);
         lblLibraryStatus.setFont(coreUI
                 .getDefaultFont().deriveFont(Font.PLAIN,
                 gameNameFontSize));

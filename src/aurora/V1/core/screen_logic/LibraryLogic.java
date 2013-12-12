@@ -235,7 +235,7 @@ public class LibraryLogic implements AuroraScreenLogic {
      * | > It will add the games from favorite to non-favorite games.
      * | > It will generate new Grids along the way when it fills previous ones.
      * | > Every time the method is run, it clears all grids and re-adds them
-     * |   based on the 'organize' setting
+     * | based on the 'organize' setting
      * |
      * .........................................................................
      *
@@ -1149,17 +1149,41 @@ public class LibraryLogic implements AuroraScreenLogic {
                                     .getPnlCheckList()
                                     .locationToIndex(e.getPoint());
 
-                                    if (selected) {
+                                    if (selected) { // Unselect
 
                                         ((ARadioButton) ((AImagePane) libraryUI
                                         .getModelCheckList().get(index))
                                         .getComponent(0))
                                         .setUnSelected();
-                                    } else {
+
+                                        // -
+                                        // Remove from current selected
+                                        // games to add if not in current list
+                                        // -
+                                        if (autoAddCurrentList.contains(
+                                                autoGameList
+                                                .get(index))) {
+                                            autoAddCurrentList.remove(
+                                                    autoGameList
+                                                    .get(index));
+                                        }
+
+                                    } else { // Select
 
                                         ((ARadioButton) ((AImagePane) libraryUI
                                         .getModelCheckList().get(index))
                                         .getComponent(0)).setSelected();
+
+                                        // -
+                                        // Add to current selected
+                                        // games to add if not in current list
+                                        // -
+                                        if (!autoAddCurrentList.contains(
+                                                autoGameList
+                                                .get(index))) {
+                                            autoAddCurrentList.add(autoGameList
+                                                    .get(index));
+                                        }
                                     }
 
                                     checkAutoAddGameStatus();
@@ -1176,6 +1200,11 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                     libraryUI.getGamesList().addMouseListener(
                             new MouseAdapter() {
+                                @Override
+                                public void mouseMoved(MouseEvent e) {
+                                    System.out.println("MOVED!");
+                                }
+
                                 @Override
                                 public void mousePressed(MouseEvent e) {
 
@@ -1251,7 +1280,7 @@ public class LibraryLogic implements AuroraScreenLogic {
         return autoGameList;
     }
 
-    public void autoRefresh() {
+    public void refreshAutoAdd() {
         refreshAuto = true;
         if (findGames != null && findGames.isStopped()) {
             findGames.startOnce();
