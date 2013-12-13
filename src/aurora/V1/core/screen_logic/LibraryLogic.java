@@ -141,6 +141,7 @@ public class LibraryLogic implements AuroraScreenLogic {
     private AThreadWorker waitAndStartDownAnimation;
 
     private AThreadWorker waitAndStartUpAnimation;
+    private Boolean needRefresh;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -1099,7 +1100,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                             .getComponent(0))
                                             .setUnSelected();
 
-                                        // -
+                                            // -
                                             // Remove from current selected
                                             // games to add if not in current list
                                             // -
@@ -1119,7 +1120,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                             .getModelCheckList().get(index))
                                             .getComponent(0)).setSelected();
 
-                                        // -
+                                            // -
                                             // Add to current selected
                                             // games to add if not in current list
                                             // -
@@ -1153,7 +1154,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                             .getComponent(0))
                                             .setUnSelected();
 
-                                        // -
+                                            // -
                                             // Remove from current selected
                                             // games to add if not in current list
                                             // -
@@ -1171,7 +1172,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                             .getModelCheckList().get(index))
                                             .getComponent(0)).setSelected();
 
-                                        // -
+                                            // -
                                             // Add to current selected
                                             // games to add if not in current list
                                             // -
@@ -1241,6 +1242,10 @@ public class LibraryLogic implements AuroraScreenLogic {
         if (findGames != null && findGames.isStopped()) {
             findGames.startOnce();
         }
+    }
+
+    public void setNeedAutoAddRefresh(Boolean needRefresh){
+        this.refreshAuto = needRefresh;
     }
 
     public void autoSelectAll() {

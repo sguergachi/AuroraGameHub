@@ -119,15 +119,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private AImagePane imgOverlayBar;
 
-    private AImagePane removeImagePane;
-
     private AImagePane imgConfirmPromptImagePane;
 
     private JPanel pnlInteractivePane;
 
     private JPanel topPanel;
-
-    private JPanel playButtonPanel;
 
     private JPanel pnlFlipPane;
 
@@ -152,8 +148,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private AButton confirmButton;
 
     private AButton denyButton;
-
-    private ADialog dbErrorDialog;
 
     private GridManager manager;
 
@@ -206,8 +200,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private JScrollBar flipScrollBar;
 
     private JPanel pnlFlipContentPane;
-
-    private JPanel pnlLeftPane;
 
     private JPanel pnlRightPane;
 
@@ -562,7 +554,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 try {
 
                     if (WelcomeLogic.checkOnline(rootCoverDBPath + coverURL)) {
-                        dbErrorDialog = null;
                         if (logger.isDebugEnabled()) {
                             logger.debug(coverURL);
                         }
@@ -2039,6 +2030,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     LibraryUI.lblLibraryStatus.setForeground(new Color(194, 40,
                             35));
                     LibraryUI.lblLibraryStatus.setText("Removed Game");
+
+                    libraryLogic.setNeedAutoAddRefresh(true);
 
                     try {
                         Thread.sleep(1200);

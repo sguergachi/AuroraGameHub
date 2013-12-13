@@ -1388,16 +1388,24 @@ public class LibraryHandler implements
 
                             }
 
+                            if (libraryUI.getModelCheckList().size() > 0) {
+                                // Remove radio button item
+                                libraryUI.getModelCheckList().removeElementAt(
+                                        libraryLogic.getAutoGameList().indexOf(
+                                                libraryLogic
+                                                .getAutoAddCurrentList()
+                                                .get(i)));
+                                // Remove game item
+                                libraryLogic.getAutoGameModel().removeElementAt(
+                                        libraryLogic.getAutoGameList().indexOf(
+                                                libraryLogic
+                                                .getAutoAddCurrentList()
+                                                .get(i)));
+                            }
+
                             libraryLogic.getAutoGameList().remove(libraryLogic
                                     .getAutoAddCurrentList()
                                     .get(i));
-                            if (libraryUI.getModelCheckList().size() > 0) {
-                                // Remove radio button item
-                                libraryUI.getModelCheckList().removeElementAt(0);
-                                // Remove game item
-                                libraryLogic.getAutoGameModel().removeElementAt(
-                                        0);
-                            }
 
                         }
 
