@@ -74,19 +74,16 @@ public class StoredProfile extends AStorage implements Serializable {
     @Override
     public void setUpDatabase(Boolean FirstTime, String Path) {
 
-
         try {
             super.db = new ASimpleDB("User", Path);
         } catch (SQLException ex) {
             logger.error(ex);
         }
 
-
         //-
         // If this is the first time we are setting up the database
         // Then create the columns where the data will reside
         //-
-
         if (FirstTime) {
 
             try {
@@ -138,13 +135,11 @@ public class StoredProfile extends AStorage implements Serializable {
                 storeStateToDatabase();
             }
 
-
             GameNames.add(GameName);
             GameTypes.add(GameType);
             TotalTimes.add(TotalTime);
             OccurrenceTimes.add(OccurrenceTime);
             LastTimes.add(LastTime);
-
 
             //Clear for next set of Games
             GameName = "";
@@ -172,7 +167,8 @@ public class StoredProfile extends AStorage implements Serializable {
         GameNames.remove(gameName);
         GameTypes.remove(game.getGameType());
         TotalTimes.remove(game.getTotalTimePlayed());
-        if (!OccurrenceTimes.contains(game.getOccurencesPlayed()) && OccurrenceTimes != null) {
+        if (OccurrenceTimes.contains(game.getOccurencesPlayed())
+            && OccurrenceTimes != null) {
             OccurrenceTimes.remove(game.getOccurencesPlayed());
         }
         LastTimes.remove(game.getLastPlayed());
@@ -202,11 +198,9 @@ public class StoredProfile extends AStorage implements Serializable {
             LastTimes = new ArrayList<String>();
         }
 
-
     }
 
     public void storeStateToDatabase() {
-
 
         //-
         // Update metadata of game using selective updating
@@ -257,7 +251,6 @@ public class StoredProfile extends AStorage implements Serializable {
             logger.error(ex);
         }
 
-
     }
 
     @Override
@@ -267,11 +260,11 @@ public class StoredProfile extends AStorage implements Serializable {
 
             db.addRowFlex("Profile",
                     new String[]{"Game_Name",
-                "Game_Type",
-                "Total_Time",
-                "Occurence_Time",
-                "Last_Time"
-            },
+                        "Game_Type",
+                        "Total_Time",
+                        "Occurence_Time",
+                        "Last_Time"
+                    },
                     ("'" + GameName + "'" + ","
                      + "'" + GameType + "'" + ","
                      + "'" + TotalTime + "'" + ","

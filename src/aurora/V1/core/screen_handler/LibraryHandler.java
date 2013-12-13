@@ -30,6 +30,7 @@ import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
+import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
@@ -1204,7 +1205,7 @@ public class LibraryHandler implements
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    // Setup and slide down Add Game panel
+                    // Save game being added to library
                     currentPath = libraryUI.getCurrentPath();
                     gridManager = libraryUI.getGridSplit();
                     storage = libraryUI.getStorage();
@@ -1217,10 +1218,22 @@ public class LibraryHandler implements
                                 "favorite");
                     }
 
+                    // Hide Add Game panel after animating button up
+                    libraryLogic.getAddGameToLibButtonAnimator()
+                            .appendPostAnimationListener(
+                                    new APostHandler() {
+
+                                        @Override
+                                        public void postAction() {
+
+                                            libraryUI.hideAddGameUI();
+
+                                        }
+                                    });
+                    libraryLogic.animateAddButtonUp();
+
                     // If in Manual mode Save current game to storage
                     if (libraryUI.getBtnManual().isSelected) {
-
-                        libraryUI.hideAddGameUI();
 
                         game.setGamePath(currentPath);
                         game.setLibraryLogic(libraryLogic);
@@ -1246,10 +1259,6 @@ public class LibraryHandler implements
                         gameSearch.resetCover();
 
                     } else { // Save all selected games to storage
-
-                        if (libraryUI.getAddGameToLibButton().isVisible()) {
-                            libraryLogic.animateAddButtonUp();
-                        }
 
                         for (int i = 0; i < libraryLogic.getAutoAddCurrentList()
                                 .size(); i++) {
@@ -1382,14 +1391,15 @@ public class LibraryHandler implements
                             libraryLogic.getAutoGameList().remove(libraryLogic
                                     .getAutoAddCurrentList()
                                     .get(i));
-                            // Remove radio button item
-                            libraryUI.getModelCheckList().removeElementAt(0);
-                            // Remove game item
-                            libraryLogic.getAutoGameModel().removeElementAt(0);
+                            if (libraryUI.getModelCheckList().size() > 0) {
+                                // Remove radio button item
+                                libraryUI.getModelCheckList().removeElementAt(0);
+                                // Remove game item
+                                libraryLogic.getAutoGameModel().removeElementAt(
+                                        0);
+                            }
 
                         }
-
-                        libraryUI.hideAddGameUI();
 
                         if (storage.getStoredSettings().getSettingValue(
                                 "organize")

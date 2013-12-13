@@ -138,7 +138,7 @@ public class GridManager {
                     if (fullGrids == Grids.size()) {
                         createGrid(row, col, Grids.size());
                         Grids.get(Grids.size() - 1).addToGrid(game);
-                        Grids.get(Grids.size() - 1).repaint();
+                        Grids.get(Grids.size() - 1).revalidate();
 
                         isTransitioningGame = true; // Is Being Added to next Grid
                         if (logger.isDebugEnabled()) {
@@ -236,6 +236,7 @@ public class GridManager {
         }
 
         addPlaceHolders(width, height);
+        
 
     }
 

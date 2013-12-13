@@ -8,10 +8,12 @@
 ////////////////////////////////////////////------------------------------------
 
 -
-- fixed bug where the add button would not slide down sometimes in Add Game panel
-- fixed bug where adding a select few from Auto Add panel added all detected games
-- prevented random cover art shown in dashboard from being an "unavailable" game
+- Fixed bug where the add button would not slide down sometimes in Add Game panel
+- Fixed bug where adding a select few from Auto Add panel added all detected games
+- Fixed the "amp;" showing next to "&" sign in the info feed
+
 - Refreshed some UI assets to look cleaner in Aurora
+- Prevented random cover art shown in dashboard from being an "unavailable" game
 
 ////////////////////////////////////////////------------------------------------
 // Aurora_Alpha 8  Build:794  Date:7/11/2013  || Sammy Guergachi

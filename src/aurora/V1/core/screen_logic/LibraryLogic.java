@@ -488,6 +488,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     System.gc();
+                    libraryUI.getGamesContainer().repaint();
+                    libraryUI.getGamesContainer().validate();
                 }
             });
 
@@ -735,9 +737,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             while (addGameToLibButtonAnimator.isAnimating()) {
-                                System.out.println(addGameToLibButtonAnimator
-                                        .isAnimating());
-                                System.out.println(showAddButtonState);
+
                                 try {
                                     Thread.sleep(100);
                                 } catch (InterruptedException ex) {
@@ -768,7 +768,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                         libraryUI
                                         .getAddGamePane()
                                         .getImgIcon()
-                                        .getIconHeight() - 55, 20);
+                                        .getIconHeight() - 55, 22);
 
                                 addGameToLibButtonAnimator
                                 .removeAllListeners();
@@ -811,10 +811,6 @@ public class LibraryLogic implements AuroraScreenLogic {
                         public void actionPerformed(ActionEvent e) {
                             while (addGameToLibButtonAnimator.isAnimating()) {
 
-                                System.out.println(addGameToLibButtonAnimator
-                                        .isAnimating());
-                                System.out.println(showAddButtonState);
-
                                 try {
                                     Thread.sleep(100);
                                 } catch (InterruptedException ex) {
@@ -843,7 +839,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                     }
                                 });
 
-                                addGameToLibButtonAnimator.moveVertical(-1, 20);
+                                addGameToLibButtonAnimator.moveVertical(-1, 26);
                             }
 
                             waitAndStartUpAnimation.stop();
@@ -1079,160 +1075,128 @@ public class LibraryLogic implements AuroraScreenLogic {
                         }
                     }
 
-                    libraryUI.getPnlCheckList().addMouseListener(
-                            new MouseAdapter() {
+                    if (!isAutoLoadedOnce) {
+                        libraryUI.getPnlCheckList().addMouseListener(
+                                new MouseAdapter() {
 
-                                @Override
-                                public void mousePressed(MouseEvent e) {
+                                    @Override
+                                    public void mousePressed(MouseEvent e) {
 
-                                    // Verify that the click occured on the selected cell
-                                    final int index = libraryUI
-                                    .getPnlCheckList()
-                                    .locationToIndex(e.getPoint());
+                                        // Verify that the click occured on the selected cell
+                                        final int index = libraryUI
+                                        .getPnlCheckList()
+                                        .locationToIndex(e.getPoint());
 
-                                    if (((ARadioButton) ((AImagePane) libraryUI
-                                    .getModelCheckList().get(index))
-                                    .getComponent(0)).isSelected) {
-
-                                        selected = true;
-
-                                        // Uncheck the game in list
-                                        ((ARadioButton) ((AImagePane) libraryUI
-                                        .getModelCheckList().get(index))
-                                        .getComponent(0))
-                                        .setUnSelected();
-
-                                        // -
-                                        // Remove from current selected
-                                        // games to add if not in current list
-                                        // -
-                                        if (autoAddCurrentList.contains(
-                                                autoGameList
-                                                .get(index))) {
-                                            autoAddCurrentList.remove(
-                                                    autoGameList
-                                                    .get(index));
-                                        }
-                                    } else {
-
-                                        selected = false;
-
-                                        // Check the game in list
-                                        ((ARadioButton) ((AImagePane) libraryUI
-                                        .getModelCheckList().get(index))
-                                        .getComponent(0)).setSelected();
-
-                                        // -
-                                        // Add to current selected
-                                        // games to add if not in current list
-                                        // -
-                                        autoAddCurrentList.add(autoGameList
-                                                .get(index));
-
-                                    }
-
-                                    checkAutoAddGameStatus();
-
-                                    libraryUI.getPnlCheckList().revalidate();
-                                    libraryUI.getPnlCheckList().repaint();
-
-                                }
-                            });
-
-                    libraryUI.getPnlCheckList().addMouseMotionListener(
-                            new MouseMotionListener() {
-                                @Override
-                                public void mouseDragged(MouseEvent e) {
-
-                                    // Verify that the click occured on the selected cell
-                                    final int index = libraryUI
-                                    .getPnlCheckList()
-                                    .locationToIndex(e.getPoint());
-
-                                    if (selected) { // Unselect
-
-                                        ((ARadioButton) ((AImagePane) libraryUI
-                                        .getModelCheckList().get(index))
-                                        .getComponent(0))
-                                        .setUnSelected();
-
-                                        // -
-                                        // Remove from current selected
-                                        // games to add if not in current list
-                                        // -
-                                        if (autoAddCurrentList.contains(
-                                                autoGameList
-                                                .get(index))) {
-                                            autoAddCurrentList.remove(
-                                                    autoGameList
-                                                    .get(index));
-                                        }
-
-                                    } else { // Select
-
-                                        ((ARadioButton) ((AImagePane) libraryUI
-                                        .getModelCheckList().get(index))
-                                        .getComponent(0)).setSelected();
-
-                                        // -
-                                        // Add to current selected
-                                        // games to add if not in current list
-                                        // -
-                                        if (!autoAddCurrentList.contains(
-                                                autoGameList
-                                                .get(index))) {
-                                            autoAddCurrentList.add(autoGameList
-                                                    .get(index));
-                                        }
-                                    }
-
-                                    checkAutoAddGameStatus();
-
-                                    libraryUI.getPnlCheckList().revalidate();
-                                    libraryUI.getPnlCheckList().repaint();
-
-                                }
-
-                                @Override
-                                public void mouseMoved(MouseEvent e) {
-                                }
-                            });
-
-                    libraryUI.getGamesList().addMouseListener(
-                            new MouseAdapter() {
-                                @Override
-                                public void mouseMoved(MouseEvent e) {
-                                    System.out.println("MOVED!");
-                                }
-
-                                @Override
-                                public void mousePressed(MouseEvent e) {
-
-                                    System.out.println("CLICKED!");
-
-                                    // Verify that the click occured on the selected cell
-                                    final int index = libraryUI.getGamesList()
-                                    .locationToIndex(e.getPoint());
-
-                                    if (e.getClickCount() == 2) {
                                         if (((ARadioButton) ((AImagePane) libraryUI
                                         .getModelCheckList().get(index))
                                         .getComponent(0)).isSelected) {
+
+                                            selected = true;
+
+                                            // Uncheck the game in list
+                                            ((ARadioButton) ((AImagePane) libraryUI
+                                            .getModelCheckList().get(index))
+                                            .getComponent(0))
+                                            .setUnSelected();
+
+                                        // -
+                                            // Remove from current selected
+                                            // games to add if not in current list
+                                            // -
+                                            if (autoAddCurrentList.contains(
+                                                    autoGameList
+                                                    .get(index))) {
+                                                autoAddCurrentList.remove(
+                                                        autoGameList
+                                                        .get(index));
+                                            }
+                                        } else {
+
+                                            selected = false;
+
+                                            // Check the game in list
+                                            ((ARadioButton) ((AImagePane) libraryUI
+                                            .getModelCheckList().get(index))
+                                            .getComponent(0)).setSelected();
+
+                                        // -
+                                            // Add to current selected
+                                            // games to add if not in current list
+                                            // -
+                                            autoAddCurrentList.add(autoGameList
+                                                    .get(index));
+
+                                        }
+
+                                        checkAutoAddGameStatus();
+
+                                        libraryUI.getPnlCheckList().revalidate();
+                                        libraryUI.getPnlCheckList().repaint();
+
+                                    }
+                                });
+
+                        libraryUI.getPnlCheckList().addMouseMotionListener(
+                                new MouseMotionListener() {
+                                    @Override
+                                    public void mouseDragged(MouseEvent e) {
+
+                                        // Verify that the click occured on the selected cell
+                                        final int index = libraryUI
+                                        .getPnlCheckList()
+                                        .locationToIndex(e.getPoint());
+
+                                        if (selected) { // Unselect
 
                                             ((ARadioButton) ((AImagePane) libraryUI
                                             .getModelCheckList().get(index))
                                             .getComponent(0))
                                             .setUnSelected();
 
-                                        } else {
+                                        // -
+                                            // Remove from current selected
+                                            // games to add if not in current list
+                                            // -
+                                            if (autoAddCurrentList.contains(
+                                                    autoGameList
+                                                    .get(index))) {
+                                                autoAddCurrentList.remove(
+                                                        autoGameList
+                                                        .get(index));
+                                            }
+
+                                        } else { // Select
+
                                             ((ARadioButton) ((AImagePane) libraryUI
                                             .getModelCheckList().get(index))
                                             .getComponent(0)).setSelected();
+
+                                        // -
+                                            // Add to current selected
+                                            // games to add if not in current list
+                                            // -
+                                            if (!autoAddCurrentList.contains(
+                                                    autoGameList
+                                                    .get(index))) {
+                                                autoAddCurrentList.add(
+                                                        autoGameList
+                                                        .get(index));
+                                            }
                                         }
+
+                                        checkAutoAddGameStatus();
+
+                                        libraryUI.getPnlCheckList().revalidate();
+                                        libraryUI.getPnlCheckList().repaint();
+
                                     }
 
-                                }
-                            });
+                                    @Override
+                                    public void mouseMoved(MouseEvent e) {
+                                    }
+                                });
+
+                    }
 
                     libraryUI.getGameList_autoUI().setSelectedIndex(0);
 
@@ -1272,23 +1236,11 @@ public class LibraryLogic implements AuroraScreenLogic {
         findGames.startOnce();
     }
 
-    public DefaultListModel getAutoGameModel() {
-        return autoGameModel;
-    }
-
-    public ArrayList<Game> getAutoGameList() {
-        return autoGameList;
-    }
-
     public void refreshAutoAdd() {
         refreshAuto = true;
         if (findGames != null && findGames.isStopped()) {
             findGames.startOnce();
         }
-    }
-
-    public boolean isIsAutoLoadedOnce() {
-        return isAutoLoadedOnce;
     }
 
     public void autoSelectAll() {
@@ -1378,6 +1330,22 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     public ArrayList<Game> getAutoAddCurrentList() {
         return autoAddCurrentList;
+    }
+
+    public AAnimate getAddGameToLibButtonAnimator() {
+        return addGameToLibButtonAnimator;
+    }
+
+    public DefaultListModel getAutoGameModel() {
+        return autoGameModel;
+    }
+
+    public ArrayList<Game> getAutoGameList() {
+        return autoGameList;
+    }
+
+    public boolean isIsAutoLoadedOnce() {
+        return isAutoLoadedOnce;
     }
 
 }
