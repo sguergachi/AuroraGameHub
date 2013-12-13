@@ -274,3 +274,46 @@ ALTER TABLE AuroraTable ADD File_Name VARCHAR_IGNORECASE(255) [42121-171]
 	at aurora.V1.core.DBUpdater.updateAuroraCoverDB(DBUpdater.java:58)
 	at aurora.V1.core.DBUpdater.<init>(DBUpdater.java:47)
 	at aurora.V1.core.DBUpdater.main(DBUpdater.java:42)
+12-13 14:40:20 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "AURORATABLE" already exists; SQL statement:
+CREATE TABLE AuroraTable [42101-171]
+12-13 14:40:20 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Duplicate column name "GAME_NAME"; SQL statement:
+ALTER TABLE AuroraTable ADD Game_Name VARCHAR_IGNORECASE(255) [42121-171]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.table.Table.setColumns(Table.java:379)
+	at org.h2.table.TableBase.<init>(TableBase.java:35)
+	at org.h2.table.RegularTable.<init>(RegularTable.java:74)
+	at org.h2.schema.Schema.createTable(Schema.java:554)
+	at org.h2.command.ddl.AlterTableAlterColumn.cloneTableStructure(AlterTableAlterColumn.java:310)
+	at org.h2.command.ddl.AlterTableAlterColumn.copyData(AlterTableAlterColumn.java:219)
+	at org.h2.command.ddl.AlterTableAlterColumn.update(AlterTableAlterColumn.java:155)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:75)
+	at org.h2.command.Command.executeUpdate(Command.java:230)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:194)
+	at aurora.engine.V1.Logic.ASimpleDB.addColumn(ASimpleDB.java:372)
+	at aurora.V1.core.DBUpdater.updateAuroraCoverDB(DBUpdater.java:56)
+	at aurora.V1.core.DBUpdater.<init>(DBUpdater.java:47)
+	at aurora.V1.core.DBUpdater.main(DBUpdater.java:42)
+12-13 14:40:20 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Duplicate column name "FILE_NAME"; SQL statement:
+ALTER TABLE AuroraTable ADD File_Name VARCHAR_IGNORECASE(255) [42121-171]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.table.Table.setColumns(Table.java:379)
+	at org.h2.table.TableBase.<init>(TableBase.java:35)
+	at org.h2.table.RegularTable.<init>(RegularTable.java:74)
+	at org.h2.schema.Schema.createTable(Schema.java:554)
+	at org.h2.command.ddl.AlterTableAlterColumn.cloneTableStructure(AlterTableAlterColumn.java:310)
+	at org.h2.command.ddl.AlterTableAlterColumn.copyData(AlterTableAlterColumn.java:219)
+	at org.h2.command.ddl.AlterTableAlterColumn.update(AlterTableAlterColumn.java:155)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:75)
+	at org.h2.command.Command.executeUpdate(Command.java:230)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:194)
+	at aurora.engine.V1.Logic.ASimpleDB.addColumn(ASimpleDB.java:372)
+	at aurora.V1.core.DBUpdater.updateAuroraCoverDB(DBUpdater.java:58)
+	at aurora.V1.core.DBUpdater.<init>(DBUpdater.java:47)
+	at aurora.V1.core.DBUpdater.main(DBUpdater.java:42)

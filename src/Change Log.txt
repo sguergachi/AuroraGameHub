@@ -7,7 +7,8 @@
 // Aurora_Alpha 8  Build:800  Date:7/11/2013  || Sammy Guergachi
 ////////////////////////////////////////////------------------------------------
 
--
+- Added automatically search for new games in the background when in Library
+- Fixed bug where auto adding a few games would cause issues in grids
 - Fixed bug where the add button would not slide down sometimes in Add Game panel
 - Fixed bug where adding a select few from Auto Add panel added all detected games
 - Fixed the "amp;" showing next to "&" sign in the info feed
