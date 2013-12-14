@@ -321,7 +321,7 @@ public class LibraryUI extends AuroraApp {
     /**
      * AddGameUI Label showing status of Library
      */
-    public static AFadeLabel lblLibraryStatus;
+    public static  AFadeLabel lblLibraryStatus;
 
     private ArrayList<AImagePane> gameCover;
 

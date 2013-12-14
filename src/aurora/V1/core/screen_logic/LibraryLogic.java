@@ -142,8 +142,6 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     private AThreadWorker waitAndStartUpAnimation;
 
-    private Boolean needRefresh;
-
     private DefaultListModel<Object> autoChecklistModel;
     private int autoAddHandlers = 0;
 
