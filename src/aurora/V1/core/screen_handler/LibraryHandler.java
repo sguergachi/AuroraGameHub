@@ -80,8 +80,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 
 import org.apache.log4j.Logger;
 import sun.swing.DefaultLookup;
@@ -1284,6 +1282,9 @@ public class LibraryHandler implements
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
+                    String previousLibraryStatus = LibraryUI.lblLibraryStatus
+                            .getCurrentText();
+
                     // Check if in Manual Mode
                     if (libraryUI.getBtnManual().isSelected) {
 
@@ -1450,8 +1451,8 @@ public class LibraryHandler implements
                                     .log(Level.SEVERE, null, ex);
                         }
 
-                        LibraryUI.lblLibraryStatus.setText(
-                                LibraryUI.DEAFULT_LIBRARY_STATUS);
+                        LibraryUI.lblLibraryStatus
+                                .setText(previousLibraryStatus);
                         LibraryUI.lblLibraryStatus.setForeground(
                                 LibraryUI.DEFAULT_LIBRARY_COLOR);
 

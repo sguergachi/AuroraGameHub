@@ -984,6 +984,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     autoGameList = new ArrayList<>();
 
                     // Change lower library status text and add progress wheel
+                    String previousLibraryStatus = LibraryUI.lblLibraryStatus.getCurrentText();
                     LibraryUI.lblLibraryStatus.setForeground(Color.CYAN);
                     LibraryUI.lblLibraryStatus.setText(coreUI.getVi().VI(
                             ANuance.inx_Searching) + " For Games");
@@ -1237,7 +1238,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                     // Show default message after 1.5 seconds
                     LibraryUI.lblLibraryStatus.setForeground(Color.LIGHT_GRAY);
-                    LibraryUI.lblLibraryStatus.setText("Select a Game");
+                    LibraryUI.lblLibraryStatus.setText(previousLibraryStatus);
 
                 }
 
