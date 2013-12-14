@@ -199,9 +199,9 @@ public class GameSearch implements Runnable {
         if (foundGame == null) {
             pnlGameCoverPane.removeAll();
             notFound = new AImagePane("library_noGameFound.png", imgBlankCover
-                    .getWidth(), imgBlankCover.getHeight());
+                    .getImageWidth(), imgBlankCover.getImageHeight());
             notFound.setPreferredSize(new Dimension(imgBlankCover
-                    .getWidth(), imgBlankCover.getHeight()));
+                    .getImageWidth(), imgBlankCover.getImageHeight()));
             pnlGameCoverPane.add(notFound);
 
 
@@ -209,6 +209,7 @@ public class GameSearch implements Runnable {
             libraryUI.getLogic().checkManualAddGameStatus();
             pnlGameCoverPane.repaint();
             pnlGameCoverPane.revalidate();
+            notFound.repaint();
 
             return notFound;
 

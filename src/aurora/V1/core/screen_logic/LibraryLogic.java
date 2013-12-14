@@ -141,7 +141,10 @@ public class LibraryLogic implements AuroraScreenLogic {
     private AThreadWorker waitAndStartDownAnimation;
 
     private AThreadWorker waitAndStartUpAnimation;
+
     private Boolean needRefresh;
+
+    private DefaultListModel<Object> autoChecklistModel;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -956,16 +959,17 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     private ArrayList<Game> autoAddCurrentList;
 
-    public void autoFindGames(final DefaultListModel model) {
+    public void autoFindGames() {
 
-        this.autoGameModel = model;
+        this.autoGameModel = libraryUI.getListModel_autoUI();
+        this.autoChecklistModel = libraryUI
+                .getModelCheckList();
 
         autoAddCurrentList = new ArrayList<>();
 
         findGames = new AThreadWorker(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 if (!isAutoLoadedOnce || refreshAuto) {
 
                     autoGameList = new ArrayList<>();
@@ -987,8 +991,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                     gameSearch_autoUI.resetCover();
 
-                    libraryUI
-                            .getModelCheckList().removeAllElements();
+                    autoChecklistModel.removeAllElements();
                     autoGameModel.removeAllElements();
 
                     nameOfGames = GameFinder.getNameOfGamesOnDrive();
@@ -1046,17 +1049,13 @@ public class LibraryLogic implements AuroraScreenLogic {
                                     .getPath());
                             try {
                                 String imgURL;
-                                if ((gameSearch_autoUI.searchSpecificGame(game
-                                        .getGameName())) instanceof Game) {
-                                    imgURL = ((Game) (gameSearch_autoUI
-                                            .searchSpecificGame(game
-                                                    .getGameName())))
+                                AImagePane searchedGame = gameSearch_autoUI
+                                        .searchSpecificGame(game.getGameName());
+                                if ((searchedGame) instanceof Game) {
+                                    imgURL = ((Game) searchedGame)
                                             .getBoxArtUrl();
                                 } else {
-                                    imgURL = gameSearch_autoUI
-                                            .searchSpecificGame(game
-                                                    .getGameName())
-                                            .getImageURL();
+                                    imgURL = searchedGame.getImageURL();
                                 }
 
                                 game.setCoverUrl(imgURL);
@@ -1070,9 +1069,16 @@ public class LibraryLogic implements AuroraScreenLogic {
                             autoGameList.add(game);
 
                             // Add Check box and Game name
-                            libraryUI.getModelCheckList().addElement(radioPanel);
+                            autoChecklistModel.addElement(radioPanel);
                             autoGameModel.addElement(pnlListElement);
 
+                        }
+                        try {
+                            Thread.sleep(50);
+                        } catch (InterruptedException ex) {
+                            java.util.logging.Logger.getLogger(
+                                    LibraryLogic.class.getName())
+                                    .log(Level.SEVERE, null, ex);
                         }
                     }
 
@@ -1088,15 +1094,15 @@ public class LibraryLogic implements AuroraScreenLogic {
                                         .getPnlCheckList()
                                         .locationToIndex(e.getPoint());
 
-                                        if (((ARadioButton) ((AImagePane) libraryUI
-                                        .getModelCheckList().get(index))
+                                        if (((ARadioButton) ((AImagePane) autoChecklistModel
+                                        .get(index))
                                         .getComponent(0)).isSelected) {
 
                                             selected = true;
 
                                             // Uncheck the game in list
-                                            ((ARadioButton) ((AImagePane) libraryUI
-                                            .getModelCheckList().get(index))
+                                            ((ARadioButton) ((AImagePane) autoChecklistModel
+                                            .get(index))
                                             .getComponent(0))
                                             .setUnSelected();
 
@@ -1116,8 +1122,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                                             selected = false;
 
                                             // Check the game in list
-                                            ((ARadioButton) ((AImagePane) libraryUI
-                                            .getModelCheckList().get(index))
+                                            ((ARadioButton) ((AImagePane) autoChecklistModel
+                                            .get(index))
                                             .getComponent(0)).setSelected();
 
                                             // -
@@ -1149,8 +1155,8 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                                         if (selected) { // Unselect
 
-                                            ((ARadioButton) ((AImagePane) libraryUI
-                                            .getModelCheckList().get(index))
+                                            ((ARadioButton) ((AImagePane) autoChecklistModel
+                                            .get(index))
                                             .getComponent(0))
                                             .setUnSelected();
 
@@ -1168,8 +1174,8 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                                         } else { // Select
 
-                                            ((ARadioButton) ((AImagePane) libraryUI
-                                            .getModelCheckList().get(index))
+                                            ((ARadioButton) ((AImagePane) autoChecklistModel
+                                            .get(index))
                                             .getComponent(0)).setSelected();
 
                                             // -
@@ -1206,6 +1212,13 @@ public class LibraryLogic implements AuroraScreenLogic {
                             "autoUI_btnRefresh_down.png",
                             "autoUI_btnRefresh_over.png");
 
+                    // -
+                    // Automatically load the first time only, every other time
+                    // must be manual
+                    // -
+                    isAutoLoadedOnce = true;
+                    refreshAuto = false;
+
                     // After adding display completion in green
                     LibraryUI.lblLibraryStatus.setForeground(Color.GREEN);
                     LibraryUI.lblLibraryStatus.setText("Finished");
@@ -1224,27 +1237,36 @@ public class LibraryLogic implements AuroraScreenLogic {
                     LibraryUI.lblLibraryStatus.setForeground(Color.LIGHT_GRAY);
                     LibraryUI.lblLibraryStatus.setText("Select a Game");
 
-                    // -
-                    // Automatically load the first time only, every other time
-                    // must be manual
-                    // -
-                    isAutoLoadedOnce = true;
-                    refreshAuto = false;
                 }
+
             }
         });
-
-        findGames.startOnce();
-    }
-
-    public void refreshAutoAdd() {
-        refreshAuto = true;
-        if (findGames != null && findGames.isStopped()) {
+        if (findGames.isStopped()) {
             findGames.startOnce();
         }
     }
 
-    public void setNeedAutoAddRefresh(Boolean needRefresh){
+    /**
+     * Manually refresh the auto search for games
+     * checks if its currently running or if threadworker hasnt been initialized
+     * <p>
+     * @return
+     */
+    public boolean refreshAutoAdd() {
+        refreshAuto = true;
+        if (findGames != null && findGames.isStopped()) {
+            findGames.startOnce();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public AThreadWorker getFindGames() {
+        return findGames;
+    }
+
+    public void setNeedAutoAddRefresh(Boolean needRefresh) {
         this.refreshAuto = needRefresh;
     }
 

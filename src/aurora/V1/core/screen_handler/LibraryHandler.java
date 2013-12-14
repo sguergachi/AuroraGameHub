@@ -1158,7 +1158,7 @@ public class LibraryHandler implements
                 if (libraryLogic.isIsAutoLoadedOnce()) {
                     libraryLogic.autoClearAll();
                 }
-                libraryLogic.autoFindGames(model);
+                libraryLogic.autoFindGames();
 
                 libraryUI.getPnlAddGamePane().remove(1);
                 libraryUI.getPnlAddGamePane().add(libraryUI.getPnlAutoAdd());
