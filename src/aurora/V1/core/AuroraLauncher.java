@@ -443,6 +443,23 @@ public class AuroraLauncher implements Runnable, MouseListener {
                         launchGameProcess(processBuild);
 
                         //* If not .exe then its a shortcut (.ink or .url) *//
+                    } else if (game.getGamePath().endsWith("bat")) {
+
+                        //* Get the directory *//
+                        String currentDir = new File(game.getGamePath())
+                                .getCanonicalPath();
+                        currentDir = currentDir.substring(0, currentDir
+                                .lastIndexOf("\\") + 1) + '"' + currentDir
+                                .substring(currentDir.lastIndexOf("\\") + 1,
+                                        currentDir.length()) + '"';
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("Shortcut Directory: " + currentDir);
+                        }
+
+                        //* Set Commands to launch shortcut *//
+                        Process processBuild = Runtime.getRuntime().exec(
+                                "cmd /c start " + currentDir );
+                        launchGameProcess(processBuild);
                     } else {
 
                         //* Get the directory *//
@@ -615,6 +632,46 @@ public class AuroraLauncher implements Runnable, MouseListener {
         try {
             waiting = true;
             launchGameProcess.waitFor();
+
+        } catch (Exception ex) {
+            logger.error(ex);
+            ex.printStackTrace();
+        }
+
+        waiting = false;
+
+    }
+
+    private void launchGameProcess(Process process) {
+
+        coreUI.getFrame().setState(JFrame.ICONIFIED);
+        coreUI.getFrame().setVisible(false);
+
+        //* Pause A Bit To Let Game Start *//
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException ex) {
+            logger.error(ex);
+
+        }
+
+        timeStarted = ATimeLabel.current(
+                ATimeLabel.TIME_24HOUR);
+
+        //* Tracker Data *//
+        game.setLastPlayed(ATimeLabel.current(ATimeLabel.DATE));
+        game.setOcurrencesPlayed(game.getOccurencesPlayed() + 1);
+
+        //* Change Title to "Playing..." *//
+        imgTitle.setImage("app_launch_playing.png");
+
+        //* Allow for Alt-Tabing  while playing Game *//
+        launchPane.setAlwaysOnTop(false);
+
+        //* Wait For Game To Exit *//
+        try {
+            waiting = true;
+            process.waitFor();
 
         } catch (Exception ex) {
             logger.error(ex);

@@ -850,7 +850,8 @@ public class LibraryHandler implements
                 if (extension.equals("exe")
                     || extension.equals("app")
                     || extension.equals("lnk")
-                    || extension.equals("url")) {
+                    || extension.equals("url")
+                    || extension.equals("bat")) {
 
                     return true;
                 } else {
@@ -881,6 +882,8 @@ public class LibraryHandler implements
                 public void actionPerformed(ActionEvent e) {
 
                     libraryUI.hideEditGameUI();
+
+                    String previousLibText = LibraryUI.lblLibraryStatus.getCurrentText();
 
                     if (libraryUI.isGameLocation()) {
                         // Check if valid
@@ -939,6 +942,15 @@ public class LibraryHandler implements
 
                         libraryUI.getCurrentGame_editUI().getBtnFlip()
                                 .getActionListeners()[0].actionPerformed(null);
+                        try {
+                            Thread.sleep(1200);
+                        } catch (InterruptedException ex) {
+                            java.util.logging.Logger.getLogger(LibraryHandler.class.getName())
+                                    .log(Level.SEVERE, null, ex);
+                        }
+
+
+
 
                     }
 
@@ -955,7 +967,7 @@ public class LibraryHandler implements
                                 log(Level.SEVERE, null, ex);
                     }
 
-                    LibraryUI.lblLibraryStatus.setForeground(Color.lightGray);
+                    LibraryUI.lblLibraryStatus.setForeground(LibraryUI.DEFAULT_LIBRARY_COLOR);
                     LibraryUI.lblLibraryStatus.setText(libraryUI
                             .getCurrentGame_editUI().getName());
 
