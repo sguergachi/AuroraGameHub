@@ -145,6 +145,7 @@ public class LibraryLogic implements AuroraScreenLogic {
     private Boolean needRefresh;
 
     private DefaultListModel<Object> autoChecklistModel;
+    private int autoAddHandlers = 0;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -972,6 +973,14 @@ public class LibraryLogic implements AuroraScreenLogic {
             public void actionPerformed(ActionEvent e) {
                 if (!isAutoLoadedOnce || refreshAuto) {
 
+                    // -
+                    // Automatically load the first time only, every other time
+                    // must be manual
+                    // -
+                    isAutoLoadedOnce = true;
+                    refreshAuto = false;
+                    autoAddHandlers++;
+
                     autoGameList = new ArrayList<>();
 
                     // Change lower library status text and add progress wheel
@@ -1082,7 +1091,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                         }
                     }
 
-                    if (!isAutoLoadedOnce) {
+                    if (autoAddHandlers == 1) {
                         libraryUI.getPnlCheckList().addMouseListener(
                                 new MouseAdapter() {
 
@@ -1212,13 +1221,6 @@ public class LibraryLogic implements AuroraScreenLogic {
                             "autoUI_btnRefresh_down.png",
                             "autoUI_btnRefresh_over.png");
 
-                    // -
-                    // Automatically load the first time only, every other time
-                    // must be manual
-                    // -
-                    isAutoLoadedOnce = true;
-                    refreshAuto = false;
-
                     // After adding display completion in green
                     LibraryUI.lblLibraryStatus.setForeground(Color.GREEN);
                     LibraryUI.lblLibraryStatus.setText("Finished");
@@ -1241,9 +1243,9 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             }
         });
-        if (findGames.isStopped()) {
+
+
             findGames.startOnce();
-        }
     }
 
     /**

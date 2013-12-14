@@ -849,8 +849,6 @@ public class LibraryUI extends AuroraApp {
      */
     private void backgroundWork() {
 
-        System.out.println("~ Starting background work");
-
         AThreadWorker backgroundWorker = new AThreadWorker(
                 new ActionListener() {
 
@@ -869,13 +867,9 @@ public class LibraryUI extends AuroraApp {
                         // Pre build Add game UI
                         buildAddGameUI();
 
-                        System.out.println("~ Auto Refreshing");
                         if (!libraryLogic.isIsAutoLoadedOnce()) {
-                            if (libraryLogic.getFindGames() == null
-                                || libraryLogic.getFindGames().isStopped()) {
-                                libraryLogic.setNeedAutoAddRefresh(true);
-                                libraryLogic.autoFindGames();
-                            }
+                            libraryLogic.setNeedAutoAddRefresh(true);
+                            libraryLogic.autoFindGames();
                         }
                     }
                 });
