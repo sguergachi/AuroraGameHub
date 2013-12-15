@@ -7,19 +7,21 @@
 // Aurora_Alpha 8  Build:800  Date:12/14/2013  || Sammy Guergachi
 ////////////////////////////////////////////------------------------------------
 
-+ Added automatically search for new games in the background when in Library loaded
++ Added automatic background search for new games when Library loaded
 + Added support for adding and launching .bat files
++ Added 150 new game cover icons to AuroraDB
 
-- Fixed
 - Fixed editing game path not changing game name
-- Fixed bug where auto adding a few games would cause issues in grids
+- Fixed bug where auto adding many games requiring new grids would cause issues
 - Fixed bug where the add button would not slide down sometimes in Add Game panel
-- Fixed bug where adding a select few from Auto Add panel added all detected games
+- Fixed bug where checking off a few games in auto add pane always added all games
 - Fixed the "amp;" showing next to "&" sign in the info feed
+- Fixed small issue causing performance hitch on Aurora Launcher exiting.
 
 - Improved Game Finder algorithm
 - Refreshed some UI assets to look cleaner in Aurora
 - Prevented random cover art shown in dashboard from being an "unavailable" game
+- As always, small changes here and there. Magic in the details ;)
 
 ////////////////////////////////////////////------------------------------------
 // Aurora_Alpha 8  Build:794  Date:7/11/2013  || Sammy Guergachi
