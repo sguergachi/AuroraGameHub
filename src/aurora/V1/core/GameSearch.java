@@ -23,8 +23,11 @@ import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import java.awt.Dimension;
 import java.net.MalformedURLException;
+import java.sql.Array;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -171,6 +174,56 @@ public class GameSearch implements Runnable {
         }
     }
 
+    public AImagePane getSpecificGame(String gameImageName) {
+
+        //If not found show Placeholder and turn notification red
+        if (gameImageName == null) {
+            pnlGameCoverPane.removeAll();
+            notFound = new AImagePane("library_noGameFound.png", imgBlankCover
+                    .getImageWidth(), imgBlankCover.getImageHeight());
+            notFound.setPreferredSize(new Dimension(imgBlankCover
+                    .getImageWidth(), imgBlankCover.getImageHeight()));
+            pnlGameCoverPane.add(notFound);
+
+            imgStatus.setImgURl("addUI_badge_invalid.png");
+            pnlGameCoverPane.repaint();
+            pnlGameCoverPane.revalidate();
+            notFound.repaint();
+
+            return notFound;
+
+            //Show the game Cover if a single database item is found
+        } else {
+
+            pnlGameCoverPane.removeAll();
+            //Create the new GameCover object
+            foundGameCover = new Game(libraryUI.getGridSplit(), ui, libraryUI
+                    .getDashboardUI(), storage);
+            try {
+                foundGameCover.setCoverUrl(gameImageName);
+            } catch (MalformedURLException ex) {
+                logger.error(ex);
+            }
+            foundGameCover.setCoverSize(imgBlankCover
+                    .getWidth(), imgBlankCover.getHeight());
+
+            pnlGameCoverPane.add(foundGameCover);
+            try {
+                foundGameCover.update();
+                foundGameCover.removeOverlayUI();
+            } catch (MalformedURLException ex) {
+                logger.error(ex);
+            }
+
+            //Change notification
+            imgStatus.setImgURl("addUI_badge_valid.png");
+            pnlGameCoverPane.repaint();
+            pnlGameCoverPane.revalidate();
+
+            return foundGameCover;
+        }
+    }
+
     /**
      * Search from outside Class using specific String
      *
@@ -239,23 +292,121 @@ public class GameSearch implements Runnable {
 
     }
 
-    public String searchSimilarGame(String gameName) {
+    /**
+     * Searches for games similar to the selected one.
+     * Returns an array
+     * [0] contains possible game name
+     * [1] contains possible game names game path
+     * <p>
+     * @param gameName
+     *                 <p>
+     * @return
+     */
+    public String[] searchSimilarGame(String gameName) {
 
         String possibleGameName = null;
-
+        String possibleGameImageName = null;
         //TODO use flex query to make multiple searches to find a possible match
         try {
-            foundGame = (String) db.getRowFlex("AuroraTable", new String[]{
-                "FILE_NAME"}, "GAME_NAME='" + gameName
-                    .replace("'", "''") + "'", "FILE_NAME")[0];
-        } catch (Exception ex) {
+
+            String tableName = "AuroraTable";
+            String columnCSV = "FILE_NAME";
+
+            int attempt = 0;
+            String savedGameName = null;
+            while (attempt >= 0) {
+
+                String whereQuery = "GAME_NAME='" + gameName.replace("'", "''")
+                                    + "'";
+                ResultSet rs = null;
+                rs = db.flexQuery("SELECT " + columnCSV + " FROM "
+                                  + tableName + " WHERE " + whereQuery);
+
+                // Check if found a match
+                if (rs.getRow() > 0) {
+                    Array a = rs.getArray(columnCSV);
+                    Object[] array = (Object[]) a.getArray();
+                    possibleGameName = gameName;
+                    possibleGameImageName = (String) array[0];
+                    break;
+                } else { // If no match found, change game name a little
+
+                    switch (attempt) {
+                        case 0: // First attempt: remove garbage characters
+                            if (gameName.matches("^.*[©®™°²³º¼½¾].*$")) {
+                                gameName = gameName.replaceAll("[©®™°²³º¼½¾]",
+                                        "");
+                                break;
+                            }
+                        case 1: // Second attempt: add spaces between Letters
+                            savedGameName = gameName;
+                            gameName = addSpaces(gameName);
+                            break;
+                        case 2:
+                            gameName = savedGameName;
+
+                        default:
+                            attempt = -2;
+                            break;
+
+                    }
+                }
+
+                attempt++;
+            }
+
+        } catch (SQLException ex) {
             logger.error(ex);
             foundGame = null;
         }
 
+        String[] returnArray = new String[2];
 
+        returnArray[0] = possibleGameName;
+        returnArray[1] = possibleGameImageName;
 
-        return possibleGameName;
+        if (possibleGameName == null) {
+            returnArray = null;
+        }
+        db.CloseConnection();
+        return returnArray;
+    }
+
+    private String addSpaces(String text) {
+        String tempString = text;
+        String modifiedText = text;
+
+        while (tempString.length() > 1) {
+            int spaceIndex = 0; // location of spaces
+
+            Character c = tempString.charAt(tempString.length() - 1);
+
+            // Check if Upper case is detected
+            if (Character.isUpperCase(c)
+                && tempString.length() - 2 > 0) {
+
+                //Afterward check if previous char is lowercase
+                Character c2 = tempString.charAt(tempString.length() - 2);
+
+                if (Character.isLowerCase(c2)) {
+                    // Need to add a space in between them.
+                    spaceIndex = tempString.length() - 1;
+
+                    // Add space
+                    modifiedText = modifiedText.substring(0, spaceIndex)
+                                   + " " + modifiedText.substring(spaceIndex,
+                            modifiedText.length());
+
+                }
+
+            }
+
+            // Remove one character each time
+            tempString = tempString.substring(0, tempString.length() - 1);
+        }
+
+        return modifiedText.trim();
+
     }
 
     public Game getFoundGameCover() {

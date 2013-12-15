@@ -968,6 +968,8 @@ public class LibraryLogic implements AuroraScreenLogic {
         autoAddCurrentList = new ArrayList<>();
 
         findGames = new AThreadWorker(new ActionListener() {
+            private ArrayList<String> gameImageNames;
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!isAutoLoadedOnce || refreshAuto) {
@@ -1007,6 +1009,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     nameOfGames = GameFinder.getNameOfGamesOnDrive();
                     executableGamePath = GameFinder.getExecutablePathsOnDrive(
                             nameOfGames);
+                    gameImageNames = new ArrayList<String>();
                     // Remove null in name of games and executable lists
                     int count = 0;
                     while (count < executableGamePath.size()) {
@@ -1018,97 +1021,115 @@ public class LibraryLogic implements AuroraScreenLogic {
                         count++;
                     }
 
+                    // Search whether name can be modified to correct one
+                    for (int f = 0; f < nameOfGames.size(); f++) {
+                        // Check for duplicates
+                        if (!libraryUI.getStorage().getStoredLibrary()
+                                .getGameNames().contains(nameOfGames.get(f))) {
+                            String[] array = gameSearch_autoUI
+                                    .searchSimilarGame(
+                                            nameOfGames
+                                            .get(f));
 
+                            if (array != null) {
+                                nameOfGames.set(f, array[0]);
+                                gameImageNames.add(array[1]);
+                            } else {
+                                gameImageNames.add(null);
+                            }
+                        }else{
+                            nameOfGames.remove(f);
+                            f--;
+                        }
+
+                    }
 
                     // Add games to list in Auto UI
                     for (int i = 0; i < nameOfGames.size(); i++) {
 
-                        if (!libraryUI.getStorage().getStoredLibrary()
-                                .getGameNames().contains(nameOfGames.get(i))) {
+                        // Create Check Box UI
+                        final AImagePane radioPanel = new AImagePane(
+                                "autoUI_checkBG_norm.png", new FlowLayout(
+                                        FlowLayout.CENTER));
+                        radioPanel.setPreferredSize(new Dimension(radioPanel
+                                .getRealImageWidth(), radioPanel
+                                .getRealImageHeight()));
+                        radioPanel.setBorder(null);
 
-                            // Create Check Box UI
-                            final AImagePane radioPanel = new AImagePane(
-                                    "autoUI_checkBG_norm.png", new FlowLayout(
-                                            FlowLayout.CENTER));
-                            radioPanel.setPreferredSize(new Dimension(radioPanel
-                                    .getRealImageWidth(), radioPanel
-                                    .getRealImageHeight()));
-                            radioPanel.setBorder(null);
+                        final ARadioButton radioButton = new ARadioButton(
+                                "autoUI_check_inactive.png",
+                                "autoUI_check_active.png");
+                        radioButton.setBorder(null);
+                        radioPanel.add(radioButton);
 
-                            final ARadioButton radioButton = new ARadioButton(
-                                    "autoUI_check_inactive.png",
-                                    "autoUI_check_active.png");
-                            radioButton.setBorder(null);
-                            radioPanel.add(radioButton);
+                        JPanel pnlListElement = new JPanel(new FlowLayout(
+                                FlowLayout.LEFT, 5, 0));
 
-                            JPanel pnlListElement = new JPanel(new FlowLayout(
-                                    FlowLayout.LEFT, 5, 0));
+                        AImagePane imgStatusIcon = new AImagePane(
+                                "autoUI_unavailableIcon.png");
+                        imgStatusIcon.setPreferredSize(new Dimension(
+                                imgStatusIcon.getRealImageWidth(),
+                                imgStatusIcon.getRealImageHeight()));
 
+                        // Try and find a search
+                        // TODO prevent duplicate
+                        if (gameSearch_autoUI == null) {
+                            pnlListElement.add(imgStatusIcon);
+                        }
 
-                            AImagePane imgStatusIcon = new AImagePane(
-                                    "autoUI_unavailableIcon.png");
-                            imgStatusIcon.setPreferredSize(new Dimension(
-                                    imgStatusIcon.getRealImageWidth(),
-                                    imgStatusIcon.getRealImageHeight()));
+                        // Create labels containing name of games
+                        JLabel lblGameName = new JLabel(nameOfGames
+                                .get(i));
 
+                        pnlListElement.add(lblGameName);
 
-                            // Try and find a search
-                            // TODO prevent duplicate
-                            // TODO similar search implement
-                            if (!gameSearch_autoUI.checkGameExist(nameOfGames
-                                    .get(i))) {
-//                                gameSearch_autoUI.searchSimilarGame(nameOfGames
-//                                    .get(i));
-                                pnlListElement.add(imgStatusIcon);
+                        Game game = new Game(libraryUI.getGridSplit(),
+                                coreUI, dashboardUI, libraryUI.getStorage());
+
+                        game.setGameName(nameOfGames
+                                .get(i));
+                        game.setGamePath(executableGamePath.get(i)
+                                .getPath());
+                        try {
+                            String imgURL;
+                            AImagePane searchedGame;
+
+                            if (gameImageNames.get(i) != null) {
+                                searchedGame = gameSearch_autoUI
+                                        .getSpecificGame(gameImageNames.get(
+                                                        i));
+                            } else {
+                                searchedGame = gameSearch_autoUI
+                                        .searchSpecificGame(game.getName());
                             }
 
-                            // Create labels containing name of games
-                            JLabel lblGameName = new JLabel(nameOfGames
-                                    .get(i));
-
-
-                            pnlListElement.add(lblGameName);
-
-                            Game game = new Game(libraryUI.getGridSplit(),
-                                    coreUI, dashboardUI, libraryUI.getStorage());
-
-                            game.setGameName(nameOfGames
-                                    .get(i));
-                            game.setGamePath(executableGamePath.get(i)
-                                    .getPath());
-                            try {
-                                String imgURL;
-                                AImagePane searchedGame = gameSearch_autoUI
-                                        .searchSpecificGame(game.getGameName());
-                                if ((searchedGame) instanceof Game) {
-                                    imgURL = ((Game) searchedGame)
-                                            .getBoxArtUrl();
-                                } else {
-                                    imgURL = searchedGame.getImageURL();
-                                }
-
-                                game.setCoverUrl(imgURL);
-                            } catch (MalformedURLException ex) {
-                                java.util.logging.Logger.getLogger(
-                                        LibraryLogic.class.getName()).
-                                        log(Level.SEVERE, null, ex);
+                            if ((searchedGame) instanceof Game) {
+                                imgURL = ((Game) searchedGame)
+                                        .getBoxArtUrl();
+                            } else {
+                                imgURL = searchedGame.getImageURL();
                             }
 
-                            // Add Game to list of games added in Auto Games
-                            autoGameList.add(game);
+                            game.setCoverUrl(imgURL);
+                        } catch (MalformedURLException ex) {
+                            java.util.logging.Logger.getLogger(
+                                    LibraryLogic.class.getName()).
+                                    log(Level.SEVERE, null, ex);
+                        }
 
-                            // Add Check box and Game name
-                            autoChecklistModel.addElement(radioPanel);
-                            autoGameModel.addElement(pnlListElement);
+                        // Add Game to list of games added in Auto Games
+                        autoGameList.add(game);
 
-                            try {
-                                Thread.sleep(50);
-                            } catch (InterruptedException ex) {
-                                java.util.logging.Logger.getLogger(
-                                        LibraryLogic.class.getName())
-                                        .log(Level.SEVERE, null, ex);
-                            }
+                        // Add Check box and Game name
+                        autoChecklistModel.addElement(radioPanel);
+                        autoGameModel.addElement(pnlListElement);
 
+                        try {
+                            Thread.sleep(50);
+                        } catch (InterruptedException ex) {
+                            java.util.logging.Logger.getLogger(
+                                    LibraryLogic.class.getName())
+                                    .log(Level.SEVERE, null, ex);
                         }
 
                     }
@@ -1260,9 +1281,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     // Show default message after 1.5 seconds
                     LibraryUI.lblLibraryStatus.setForeground(Color.LIGHT_GRAY);
                     LibraryUI.lblLibraryStatus.setText(previousLibraryStatus);
-
                 }
-
             }
         });
 
