@@ -143,6 +143,7 @@ public class LibraryLogic implements AuroraScreenLogic {
     private AThreadWorker waitAndStartUpAnimation;
 
     private DefaultListModel<Object> autoChecklistModel;
+
     private int autoAddHandlers = 0;
 
     /**
@@ -982,7 +983,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                     autoGameList = new ArrayList<>();
 
                     // Change lower library status text and add progress wheel
-                    String previousLibraryStatus = LibraryUI.lblLibraryStatus.getCurrentText();
+                    String previousLibraryStatus = LibraryUI.lblLibraryStatus
+                            .getCurrentText();
                     LibraryUI.lblLibraryStatus.setForeground(Color.CYAN);
                     LibraryUI.lblLibraryStatus.setText(coreUI.getVi().VI(
                             ANuance.inx_Searching) + " For Games");
@@ -1005,13 +1007,22 @@ public class LibraryLogic implements AuroraScreenLogic {
                     nameOfGames = GameFinder.getNameOfGamesOnDrive();
                     executableGamePath = GameFinder.getExecutablePathsOnDrive(
                             nameOfGames);
+                    // Remove null in name of games and executable lists
+                    int count = 0;
+                    while (count < executableGamePath.size()) {
+                        if (executableGamePath.get(count) == null) {
+                            nameOfGames.remove(count);
+                            executableGamePath.remove(count);
+                            count--;
+                        }
+                        count++;
+                    }
 
                     // Add games to list in Auto UI
                     for (int i = 0; i < nameOfGames.size(); i++) {
 
                         if (!libraryUI.getStorage().getStoredLibrary()
-                                .getGameNames().contains(nameOfGames.get(i))
-                            && executableGamePath.get(i) != null) {
+                                .getGameNames().contains(nameOfGames.get(i))) {
 
                             // Create Check Box UI
                             final AImagePane radioPanel = new AImagePane(
@@ -1080,14 +1091,16 @@ public class LibraryLogic implements AuroraScreenLogic {
                             autoChecklistModel.addElement(radioPanel);
                             autoGameModel.addElement(pnlListElement);
 
+                            try {
+                                Thread.sleep(50);
+                            } catch (InterruptedException ex) {
+                                java.util.logging.Logger.getLogger(
+                                        LibraryLogic.class.getName())
+                                        .log(Level.SEVERE, null, ex);
+                            }
+
                         }
-                        try {
-                            Thread.sleep(50);
-                        } catch (InterruptedException ex) {
-                            java.util.logging.Logger.getLogger(
-                                    LibraryLogic.class.getName())
-                                    .log(Level.SEVERE, null, ex);
-                        }
+
                     }
 
                     if (autoAddHandlers == 1) {
@@ -1243,8 +1256,7 @@ public class LibraryLogic implements AuroraScreenLogic {
             }
         });
 
-
-            findGames.startOnce();
+        findGames.startOnce();
     }
 
     /**

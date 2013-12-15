@@ -25,7 +25,7 @@ import java.util.prefs.Preferences;
 
 public final class GameFinder {
 
-    public static String[] GameProviders = {"Ubisoft", "EA Games", "GOG.com", "SQUARE ENIX"}; //add your own
+    public static String[] GameProviders = {"Ubisoft", "EA Games", "GOG.com", "SQUARE ENIX","GOG Games"}; //add your own
 
     /**
      * PRECONDITION: You are on a Windows PC, Java source 6 to compile
@@ -254,6 +254,7 @@ public final class GameFinder {
         }
         { //General Game Providers
             for (String providers : GameProviders) {
+
                 {
                     File gameFolder = new File("C:\\Program Files (x86)\\"
                                                + providers);
@@ -282,8 +283,43 @@ public final class GameFinder {
                             }
                         }
                     }
+
+
                 }
+
                 {
+                    //Check in C drive
+                    File gameFolder = new File("C:\\" + providers);
+                    if (gameFolder.exists() && gameFolder.isDirectory()) {
+                        File[] games = gameFolder.listFiles();
+                        for (File game : games) {
+                            String n = game.getName();
+                            int index1 = n.indexOf("launcher"), index2 = n
+                                    .indexOf("Launcher");
+                            if (index1 < 0 && index2 < 0) {
+                                ArrayList<Files> possibles = getAllFilesInSubDirectories(
+                                        game, "exe");
+                                Files f = getSimilarNamedFile(possibles,
+                                        gameNames.get(r.size()));
+                                if (f != null) {
+                                    r.add(f);
+                                } else {
+                                    ArrayList<Files> arr = getSmallestDepth(
+                                            possibles);
+                                    if (arr.size() == 1) {
+                                        r.add(arr.get(0));
+                                    } else {
+                                        r.add(getLargestFile(possibles));
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                {
+
                     File gameFolder = new File("C:\\Program Files\\" + providers);
                     if (gameFolder.exists() && gameFolder.isDirectory()) {
                         File[] games = gameFolder.listFiles();
@@ -394,6 +430,21 @@ public final class GameFinder {
                 }
                 {
                     File gameFolder = new File("C:\\Program Files\\" + providers);
+                    if (gameFolder.exists() && gameFolder.isDirectory()) {
+                        File[] games = gameFolder.listFiles();
+                        for (File game : games) {
+                            String n = game.getName();
+                            int index1 = n.indexOf("launcher"), index2 = n
+                                    .indexOf("Launcher");
+                            if (index1 < 0 && index2 < 0) {
+                                r.add(n);
+                            }
+                        }
+                    }
+                }
+
+                 {
+                    File gameFolder = new File("C:\\" + providers);
                     if (gameFolder.exists() && gameFolder.isDirectory()) {
                         File[] games = gameFolder.listFiles();
                         for (File game : games) {

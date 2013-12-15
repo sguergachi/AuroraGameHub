@@ -183,7 +183,7 @@ public class GameSearch implements Runnable {
      * @param gameName the name of the Game you want to search for
      *
      */
-    public AImagePane searchSpecificGame(String gameName) {
+    public AImagePane  searchSpecificGame(String gameName) {
         try {
             foundGame = (String) db.getRowFlex("AuroraTable", new String[]{
                 "FILE_NAME"}, "GAME_NAME='" + gameName
@@ -206,7 +206,6 @@ public class GameSearch implements Runnable {
 
 
             imgStatus.setImgURl("addUI_badge_invalid.png");
-            libraryUI.getLogic().checkManualAddGameStatus();
             pnlGameCoverPane.repaint();
             pnlGameCoverPane.revalidate();
             notFound.repaint();
@@ -239,7 +238,6 @@ public class GameSearch implements Runnable {
 
             //Change notification
             imgStatus.setImgURl("addUI_badge_valid.png");
-            libraryUI.getLogic().checkManualAddGameStatus();
             pnlGameCoverPane.repaint();
             pnlGameCoverPane.revalidate();
 

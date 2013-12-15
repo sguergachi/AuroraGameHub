@@ -877,13 +877,14 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            final String previousLibText = LibraryUI.lblLibraryStatus
+                    .getCurrentText();
+
             AThreadWorker doneTask = new AThreadWorker(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
                     libraryUI.hideEditGameUI();
-
-                    String previousLibText = LibraryUI.lblLibraryStatus.getCurrentText();
 
                     if (libraryUI.isGameLocation()) {
                         // Check if valid
@@ -945,12 +946,10 @@ public class LibraryHandler implements
                         try {
                             Thread.sleep(1200);
                         } catch (InterruptedException ex) {
-                            java.util.logging.Logger.getLogger(LibraryHandler.class.getName())
+                            java.util.logging.Logger.getLogger(
+                                    LibraryHandler.class.getName())
                                     .log(Level.SEVERE, null, ex);
                         }
-
-
-
 
                     }
 
@@ -967,9 +966,9 @@ public class LibraryHandler implements
                                 log(Level.SEVERE, null, ex);
                     }
 
-                    LibraryUI.lblLibraryStatus.setForeground(LibraryUI.DEFAULT_LIBRARY_COLOR);
-                    LibraryUI.lblLibraryStatus.setText(libraryUI
-                            .getCurrentGame_editUI().getName());
+                    LibraryUI.lblLibraryStatus.setForeground(
+                            LibraryUI.DEFAULT_LIBRARY_COLOR);
+                    LibraryUI.lblLibraryStatus.setText(previousLibText);
 
                 }
             });
@@ -1505,6 +1504,7 @@ public class LibraryHandler implements
                 String gameSelected = (String) listModel.get(gamesList
                         .getSelectedIndex());
                 gameSearch.searchSpecificGame(gameSelected);
+                libraryUI.getLogic().checkManualAddGameStatus();
 
             }
         }
