@@ -91,7 +91,6 @@ public class GameSearch implements Runnable {
                                 DefaultListModel model, AImage status,
                                 JTextField textField) {
 
-
         this.imgBlankCover = imgBlank;
         this.pnlGameCoverPane = coverPane;
         this.listModel = model;
@@ -99,7 +98,6 @@ public class GameSearch implements Runnable {
         this.txtSearch = textField;
 
     }
-
 
     //Reset text, Cover Image, List and turn notification to red
     public void resetCover() {
@@ -119,7 +117,6 @@ public class GameSearch implements Runnable {
         imgStatus.setImgURl("addUI_badge_invalid.png");
         libraryUI.getLogic().checkManualAddGameStatus();
 
-
     }
 
     public void setAppendedName(String AppendedName) {
@@ -128,14 +125,11 @@ public class GameSearch implements Runnable {
             logger.debug("Appended name: " + AppendedName);
         }
 
-
         //Remove ONE Character From End of Appended Name
         if (AppendedName.length() <= 0) {
 
-
             resetCover();
             searchGame();
-
 
         } //Start search only when more than 1 character is typed
         else if (AppendedName.length() > 0) {
@@ -183,7 +177,7 @@ public class GameSearch implements Runnable {
      * @param gameName the name of the Game you want to search for
      *
      */
-    public AImagePane  searchSpecificGame(String gameName) {
+    public AImagePane searchSpecificGame(String gameName) {
         try {
             foundGame = (String) db.getRowFlex("AuroraTable", new String[]{
                 "FILE_NAME"}, "GAME_NAME='" + gameName
@@ -203,7 +197,6 @@ public class GameSearch implements Runnable {
             notFound.setPreferredSize(new Dimension(imgBlankCover
                     .getImageWidth(), imgBlankCover.getImageHeight()));
             pnlGameCoverPane.add(notFound);
-
 
             imgStatus.setImgURl("addUI_badge_invalid.png");
             pnlGameCoverPane.repaint();
@@ -244,7 +237,25 @@ public class GameSearch implements Runnable {
             return foundGameCover;
         }
 
+    }
 
+    public String searchSimilarGame(String gameName) {
+
+        String possibleGameName = null;
+
+        //TODO use flex query to make multiple searches to find a possible match
+        try {
+            foundGame = (String) db.getRowFlex("AuroraTable", new String[]{
+                "FILE_NAME"}, "GAME_NAME='" + gameName
+                    .replace("'", "''") + "'", "FILE_NAME")[0];
+        } catch (Exception ex) {
+            logger.error(ex);
+            foundGame = null;
+        }
+
+
+
+        return possibleGameName;
     }
 
     public Game getFoundGameCover() {
@@ -298,7 +309,7 @@ public class GameSearch implements Runnable {
                                         .replace("-", " ").replace(".png", ""))) {
                                     listModel.addElement(gameItem
                                             .replace("-", " ").replace(".png",
-                                            ""));
+                                                    ""));
 
                                 }
                             }
@@ -310,8 +321,6 @@ public class GameSearch implements Runnable {
                 foundGame = null;
             }
 
-
-
             //If Can't Get the game then show a Placeholder Image
             //and turn the notifier red
             if (foundGame == null) {
@@ -321,7 +330,7 @@ public class GameSearch implements Runnable {
                         imgBlankCover.getWidth(), imgBlankCover.getHeight());
                 notFound.setPreferredSize(
                         new Dimension(notFound.getImageWidth(), notFound
-                        .getImageHeight()));
+                                .getImageHeight()));
                 pnlGameCoverPane.add(notFound);
                 foundGameCover = null;
 
@@ -387,4 +396,5 @@ public class GameSearch implements Runnable {
         searchGame();
         typeThread = null;
     }
+
 }

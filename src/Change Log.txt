@@ -10,11 +10,14 @@
 + Added automatically search for new games in the background when in Library loaded
 + Added support for adding and launching .bat files
 
+- Fixed
+- Fixed editing game path not changing game name
 - Fixed bug where auto adding a few games would cause issues in grids
 - Fixed bug where the add button would not slide down sometimes in Add Game panel
 - Fixed bug where adding a select few from Auto Add panel added all detected games
 - Fixed the "amp;" showing next to "&" sign in the info feed
 
+- Improved Game Finder algorithm
 - Refreshed some UI assets to look cleaner in Aurora
 - Prevented random cover art shown in dashboard from being an "unavailable" game
 

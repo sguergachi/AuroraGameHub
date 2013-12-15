@@ -1018,6 +1018,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                         count++;
                     }
 
+
+
                     // Add games to list in Auto UI
                     for (int i = 0; i < nameOfGames.size(); i++) {
 
@@ -1042,9 +1044,6 @@ public class LibraryLogic implements AuroraScreenLogic {
                             JPanel pnlListElement = new JPanel(new FlowLayout(
                                     FlowLayout.LEFT, 5, 0));
 
-                            // Create labels containing name of games
-                            JLabel lblGameName = new JLabel(nameOfGames
-                                    .get(i));
 
                             AImagePane imgStatusIcon = new AImagePane(
                                     "autoUI_unavailableIcon.png");
@@ -1052,10 +1051,21 @@ public class LibraryLogic implements AuroraScreenLogic {
                                     imgStatusIcon.getRealImageWidth(),
                                     imgStatusIcon.getRealImageHeight()));
 
-                            if (!gameSearch_autoUI.checkGameExist(lblGameName
-                                    .getText())) {
+
+                            // Try and find a search
+                            // TODO prevent duplicate
+                            // TODO similar search implement
+                            if (!gameSearch_autoUI.checkGameExist(nameOfGames
+                                    .get(i))) {
+//                                gameSearch_autoUI.searchSimilarGame(nameOfGames
+//                                    .get(i));
                                 pnlListElement.add(imgStatusIcon);
                             }
+
+                            // Create labels containing name of games
+                            JLabel lblGameName = new JLabel(nameOfGames
+                                    .get(i));
+
 
                             pnlListElement.add(lblGameName);
 

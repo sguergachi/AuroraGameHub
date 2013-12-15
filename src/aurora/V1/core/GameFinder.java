@@ -25,7 +25,8 @@ import java.util.prefs.Preferences;
 
 public final class GameFinder {
 
-    public static String[] GameProviders = {"Ubisoft", "EA Games", "GOG.com", "SQUARE ENIX","GOG Games"}; //add your own
+    public static String[] GameProviders = {"Ubisoft", "EA Games", "GOG.com",
+        "SQUARE ENIX", "GOG Games"}; //add your own
 
     /**
      * PRECONDITION: You are on a Windows PC, Java source 6 to compile
@@ -46,7 +47,7 @@ public final class GameFinder {
             openKey.setAccessible(true);
             final Method closeKey = clz
                     .getDeclaredMethod("closeKey",
-                    int.class);
+                            int.class);
             closeKey.setAccessible(true);
             final Method winRegQueryValue = clz.getDeclaredMethod(
                     "WindowsRegQueryValueEx", int.class,
@@ -103,7 +104,7 @@ public final class GameFinder {
             openKey.setAccessible(true);
             final Method closeKey = clz
                     .getDeclaredMethod("closeKey",
-                    int.class);
+                            int.class);
             closeKey.setAccessible(true);
             final Method winRegQueryValue = clz.getDeclaredMethod(
                     "WindowsRegQueryValueEx", int.class,
@@ -284,7 +285,6 @@ public final class GameFinder {
                         }
                     }
 
-
                 }
 
                 {
@@ -443,7 +443,7 @@ public final class GameFinder {
                     }
                 }
 
-                 {
+                {
                     File gameFolder = new File("C:\\" + providers);
                     if (gameFolder.exists() && gameFolder.isDirectory()) {
                         File[] games = gameFolder.listFiles();
@@ -483,9 +483,11 @@ public final class GameFinder {
             try {
                 if (mainDir.getAbsolutePath().substring(mainDir
                         .getAbsolutePath().lastIndexOf(".") + 1).compareTo(
-                        extensionOnly) == 0) {
-                    if (mainDir.getName().indexOf("install") < 0 && mainDir
-                            .getName().indexOf("unins") < 0) {
+                                extensionOnly) == 0) {
+                    if (mainDir.getName().indexOf("install") < 0
+                        && mainDir.getName().indexOf("unin") < 0
+                        && mainDir.getName().indexOf("downloader") < 0
+                        && mainDir.getName().indexOf("Downloader") < 0) {
                         r.add(new Files(mainDir, 0));
                     }
                 }

@@ -919,7 +919,7 @@ public class LibraryHandler implements
                                         libraryLogic.getGameSearch_editUI()
                                         .getFoundGameCover().getBoxArtUrl());
                                 //Set new name
-                                libraryUI.getCurrentGame_editUI().setName(
+                                libraryUI.getCurrentGame_editUI().setGameName(
                                         libraryLogic.getGameSearch_editUI()
                                         .getFoundGameCover().getName());
                             } catch (MalformedURLException ex) {
