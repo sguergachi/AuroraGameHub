@@ -9,7 +9,7 @@ built from ground up to enable PC gamers to better *manage*, *play* and *experie
 **How to build**
 ------------
 
-Currently you need **5** components to build the Aurora Game Hub.
+Currently you need **4** components to build the Aurora Game Hub.
 
 - **First** you need the **Aurora Core** which is whats hosted on this repository.
 
