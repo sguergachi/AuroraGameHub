@@ -264,6 +264,13 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                 Game game;
 
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException ex) {
+                    java.util.logging.Logger.getLogger(LibraryLogic.class.getName())
+                            .log(Level.SEVERE, null, ex);
+                }
+
                 if (!isLoaded) {
 
                     game = new Game(libraryUI.getGridSplit(), coreUI,
@@ -1037,8 +1044,9 @@ public class LibraryLogic implements AuroraScreenLogic {
                             } else {
                                 gameImageNames.add(null);
                             }
-                        }else{
+                        } else {
                             nameOfGames.remove(f);
+                            executableGamePath.remove(f);
                             f--;
                         }
 

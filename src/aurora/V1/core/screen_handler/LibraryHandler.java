@@ -1093,16 +1093,22 @@ public class LibraryHandler implements
 
         private DefaultListModel listModel;
 
+        private int selectionIndex;
+
+        private String prevSelection;
+
         private final GameSearch gameSearch;
 
         public AutoSelectListHandler(GameSearch searchEngine) {
             gameSearch = searchEngine;
+
         }
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
             gamesList = (JList) e.getSource();
             listModel = (DefaultListModel) ((JList) e.getSource()).getModel();
+
             if (gamesList.getSelectedIndex() != -1) {
 
                 Object value = listModel.get(gamesList
@@ -1114,8 +1120,18 @@ public class LibraryHandler implements
 
                 String gameSelected = label.getText();
 
-                gameSearch.searchSpecificGame(gameSelected);
+                // Prevent double selection
+                if (prevSelection != null && prevSelection.equals(gameSelected)) {
+                    selectionIndex++;
+                } else {
+                    selectionIndex = 0;
+                }
 
+                if (selectionIndex == 0) {
+                    gameSearch.searchSpecificGame(gameSelected);
+                }
+
+                prevSelection = gameSelected;
             }
         }
     }

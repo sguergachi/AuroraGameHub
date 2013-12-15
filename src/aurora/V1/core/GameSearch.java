@@ -271,7 +271,7 @@ public class GameSearch implements Runnable {
                 logger.error(ex);
             }
             foundGameCover.setCoverSize(imgBlankCover
-                    .getWidth(), imgBlankCover.getHeight());
+                    .getImageWidth(), imgBlankCover.getImageHeight());
             foundGameCover.setGameName(gameName);
 
             pnlGameCoverPane.add(foundGameCover);
@@ -286,6 +286,7 @@ public class GameSearch implements Runnable {
             imgStatus.setImgURl("addUI_badge_valid.png");
             pnlGameCoverPane.repaint();
             pnlGameCoverPane.revalidate();
+            foundGameCover.revalidate();
 
             return foundGameCover;
         }
