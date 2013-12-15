@@ -1131,6 +1131,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                         // Add Check box and Game name
                         autoChecklistModel.addElement(radioPanel);
                         autoGameModel.addElement(pnlListElement);
+                        
 
                         try {
                             Thread.sleep(50);

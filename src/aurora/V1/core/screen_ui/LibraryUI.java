@@ -1625,7 +1625,7 @@ public class LibraryUI extends AuroraApp {
             // Check Box Pane
             pnlCheckBG.setPreferredSize(new Dimension(pnlCheckBG
                     .getRealImageWidth(),
-                    scrollList_autoUI.getViewport().getPreferredSize().height));
+                    pnlCoverPane_autoUI.getRealImageHeight()));
 
             scrollList_autoUI.getViewport().addChangeListener(
                     new ChangeListener() {
