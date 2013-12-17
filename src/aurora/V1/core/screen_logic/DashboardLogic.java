@@ -329,12 +329,12 @@ public class DashboardLogic implements AuroraScreenLogic {
                     sourceName = url.substring(i + 2, j);
                 }
 
-                label.setSourceName(sourceName.toUpperCase());
-
                 // Manual overide of IGN's source to IGN
                 if (sourceName.equalsIgnoreCase("FEEDS")) {
                     sourceName = "IGN";
                 }
+
+                label.setSourceName(sourceName.toUpperCase());
 
                 // Check if its an amazon Article //
                 if (label.getSourceName().equals("AMAZON")) {

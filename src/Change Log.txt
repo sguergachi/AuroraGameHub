@@ -9,6 +9,7 @@
 
 + Added automatic background search for new games when Library loaded
 + Added support for adding and launching .bat files
++ Added ability to better guess cover art in Auto Add
 + Added 150 new game cover icons to AuroraDB
 
 - Fixed editing game path not changing game name
