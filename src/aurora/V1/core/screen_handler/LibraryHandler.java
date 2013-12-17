@@ -61,6 +61,7 @@ import java.awt.event.MouseWheelListener;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -80,7 +81,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
-
 import org.apache.log4j.Logger;
 import sun.swing.DefaultLookup;
 
@@ -795,10 +795,12 @@ public class LibraryHandler implements
                 libraryUI
                         .setCurrentPath(gameLocator.getSelectedFile().getPath());
                 libraryUI.getStatusBadge2().setImgURl("addUI_badge_valid.png");
-                libraryLogic.checkManualAddGameStatus();
+
             } else {
                 libraryUI.getStatusBadge2().setImgURl("addUI_badge_invalid.png");
             }
+
+            libraryLogic.checkManualAddGameStatus();
         }
     }
 
@@ -1120,6 +1122,16 @@ public class LibraryHandler implements
 
                 String gameSelected = label.getText();
 
+                Iterator<Game> iter = libraryLogic.getAutoGameList().iterator();
+                int i = 0;
+                while (iter.hasNext()) {
+                    Game game = iter.next();
+                    if (game.getGameName().equals(gameSelected)) {
+                        break;
+                    }
+                    i++;
+                }
+
                 // Prevent double selection
                 if (prevSelection != null && prevSelection.equals(gameSelected)) {
                     selectionIndex++;
@@ -1128,7 +1140,8 @@ public class LibraryHandler implements
                 }
 
                 if (selectionIndex == 0) {
-                    gameSearch.searchSpecificGame(gameSelected);
+                    gameSearch.getSpecificGame(
+                            libraryLogic.getAutoGameList().get(i).getBoxArtUrl());
                 }
 
                 prevSelection = gameSelected;
@@ -1508,6 +1521,10 @@ public class LibraryHandler implements
 
         private final GameSearch gameSearch;
 
+        private Object prevSelection;
+
+        private int selectionIndex;
+
         public SelectListHandler(GameSearch searchEngine) {
             gameSearch = searchEngine;
         }
@@ -1519,8 +1536,20 @@ public class LibraryHandler implements
             if (gamesList.getSelectedIndex() != -1) {
                 String gameSelected = (String) listModel.get(gamesList
                         .getSelectedIndex());
-                gameSearch.searchSpecificGame(gameSelected);
-                libraryUI.getLogic().checkManualAddGameStatus();
+
+                // Prevent double selection
+                if (prevSelection != null && prevSelection.equals(gameSelected)) {
+                    selectionIndex++;
+                } else {
+                    selectionIndex = 0;
+                }
+
+                if (selectionIndex == 0) {
+                    gameSearch.searchSpecificGame(gameSelected);
+                    libraryUI.getLogic().checkManualAddGameStatus();
+                }
+
+                prevSelection = gameSelected;
 
             }
         }

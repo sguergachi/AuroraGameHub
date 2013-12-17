@@ -20,7 +20,6 @@ package aurora.V1.core.screen_logic;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.Game;
-import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.DashboardHandler;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
@@ -34,7 +33,6 @@ import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.ACarouselPane;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AInfoFeedLabel;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -44,12 +42,8 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.logging.Level;
-//import java.util.logging.Logger;
-
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -518,6 +512,7 @@ public class DashboardLogic implements AuroraScreenLogic {
         AThreadWorker asyncLoad = new AThreadWorker(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 libraryUI = new LibraryUI(dashboardUI
                         .getStartUI().getAuroraStorage(), dashboardUI,
                         dashboardUI.getCoreUI());

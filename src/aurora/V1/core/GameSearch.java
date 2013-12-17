@@ -26,12 +26,10 @@ import java.net.MalformedURLException;
 import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -46,8 +44,6 @@ public class GameSearch implements Runnable {
     private LibraryUI libraryUI;
 
     private ASimpleDB db;
-
-    private char typed;
 
     private String AppendedName = ""; //This is the concatenation of all characters
 
@@ -76,6 +72,8 @@ public class GameSearch implements Runnable {
     private AImage imgStatus;
 
     private JTextField txtSearch;
+
+    private String foundGameName;
 
     /////////////////////
     /////Constructor/////
@@ -345,7 +343,10 @@ public class GameSearch implements Runnable {
                             break;
                         case 2:
                             gameName = savedGameName;
-
+                            possibleGameName = gameName;
+                            possibleGameImageName = reductiveSearch(gameName);
+                            attempt = -2;
+                            break;
                         default:
                             attempt = -2;
                             break;
@@ -410,8 +411,47 @@ public class GameSearch implements Runnable {
 
     }
 
-    public Game getFoundGameCover() {
-        return foundGameCover;
+    //TODO use db aprox search while removing a letter each time untill found.
+    private String reductiveSearch(String gameName) {
+
+        String tableName = "AuroraTable";
+        String column = "FILE_NAME";
+        String whereQuery = "GAME_NAME";
+        String tempName = gameName;
+        String gameImagePath = null;
+        for (int i = 0; i < gameName.length(); i++) {
+
+            ResultSet rs = null;
+            try {
+                rs = db.flexQuery("SELECT "
+                                  + column
+                                  + " FROM "
+                                  + tableName
+                                  + " WHERE "
+                                  + whereQuery
+                                  + " LIKE '%"
+                                  + tempName
+                        .replace("'", "''") + "%'");
+
+                // Check if found a match
+                if (rs.getRow() > 0) {
+                    Array a = rs.getArray(column);
+                    Object[] array = (Object[]) a.getArray();
+                    gameImagePath = (String) array[0];
+                    break;
+                } else {
+
+                    tempName = tempName.substring(0, tempName.length() - 1);
+                }
+            } catch (SQLException ex) {
+                java.util.logging.Logger.getLogger(GameSearch.class.getName())
+                        .log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+        return gameImagePath;
+
     }
 
     private void searchGame() {
@@ -547,6 +587,10 @@ public class GameSearch implements Runnable {
         }
         searchGame();
         typeThread = null;
+    }
+
+    public Game getFoundGameCover() {
+        return foundGameCover;
     }
 
 }

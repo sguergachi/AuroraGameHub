@@ -17,7 +17,6 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.UI.AGridPanel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -60,7 +59,6 @@ public class GridManager {
     private int visibleGrid;
 
     static final Logger logger = Logger.getLogger(GridManager.class);
-
 
     /**
      * Manages GridPanels for GameLibrary
@@ -170,9 +168,7 @@ public class GridManager {
                 if (Grids.get(i).getArray().get(a) instanceof GamePlaceholder
                     == false) {
                     Game cover = (Game) Grids.get(i).getArray().get(a);
-                    if (cover.getBoxArtUrl().equals(game.getBoxArtUrl())
-                        && !game.getBoxArtUrl()
-                            .equals("library_noGameFound.png")) {
+                    if (cover.getGameName().equals(game.getGameName())) {
                         return true;
                     }
                 }
@@ -236,7 +232,6 @@ public class GridManager {
         }
 
         addPlaceHolders(width, height);
-        
 
     }
 
@@ -550,7 +545,6 @@ public class GridManager {
         }
 
         grid.update();
-
 
     }
 
