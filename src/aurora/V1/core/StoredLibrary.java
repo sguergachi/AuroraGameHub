@@ -23,7 +23,6 @@ import aurora.engine.V1.Logic.AStorage;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -159,7 +158,7 @@ public class StoredLibrary extends AStorage {
             }
 
             GameName = game.getGameName().replace("'", "''");
-            GamePath = game.getGamePath();
+            GamePath = game.getGamePath().replace("'", "''");
             BoxArtPath = game.getBoxArtUrl().replace("'", "''");
 
             if (!GameNames.contains(GameName)) {

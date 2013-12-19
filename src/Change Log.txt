@@ -18,6 +18,7 @@
 - Fixed bug where checking off a few games in auto add pane always added all games
 - Fixed the "amp;" showing next to "&" sign in the info feed
 - Fixed small issue causing performance hitch on Aurora Launcher exiting.
+- Fixed bug where game executable paths with apostrophe were not saved to library
 
 - Improved Game Finder algorithm
 - Refreshed some UI assets to look cleaner in Aurora
