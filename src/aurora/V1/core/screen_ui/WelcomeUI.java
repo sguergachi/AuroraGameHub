@@ -20,34 +20,24 @@ package aurora.V1.core.screen_ui;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraMini;
 import aurora.V1.core.AuroraStorage;
-import aurora.V1.core.main;
-import aurora.V1.core.screen_handler.WelcomeHandler;
 import aurora.V1.core.screen_handler.WelcomeHandler;
 import aurora.V1.core.screen_handler.WelcomeHandler.FrameKeyListener;
 import aurora.V1.core.screen_logic.WelcomeLogic;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.ANuance;
 import aurora.engine.V1.Logic.APostHandler;
-import aurora.engine.V1.Logic.ASurface;
 import aurora.engine.V1.Logic.AuroraScreenUI;
-import aurora.engine.V1.UI.AButton;
-import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AProgressWheel;
 import aurora.engine.V1.UI.APrompter;
 import aurora.engine.V1.UI.AScrollingImage;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javax.sound.sampled.LineUnavailableException;
@@ -447,7 +437,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 }
 
                 //* Check if Online *//
-                if (!logic.checkOnline("http://auroragamehub.com")) {
+                if (!logic.checkOnline("http://aws.amazon.com")) {
                     Online = false;
                     promptDisplay.add(
                             "Can't Connect To AuroraDB, Let Me Try Again...",

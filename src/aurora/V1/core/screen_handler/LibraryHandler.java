@@ -2517,4 +2517,31 @@ public class LibraryHandler implements
 
         }
     }
+
+
+    /**
+     * Handler added to game covers in GameSearch to allow ability to edit game
+     * cover art
+     */
+    public class GameCoverEditListner implements ActionListener {
+        private final String gameString;
+
+        public GameCoverEditListner(String currentInput) {
+            gameString = currentInput;
+        }
+
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            libraryUI.hideEditGameUI();
+            libraryUI.hideAddGameUI();
+
+            libraryUI.showEditGameCoverUI(gameString);
+
+        }
+
+
+    }
 }

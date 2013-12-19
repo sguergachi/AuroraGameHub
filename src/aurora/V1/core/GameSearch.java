@@ -59,7 +59,7 @@ public class GameSearch implements Runnable {
 
     private Object[] foundArray;
 
-    private AuroraStorage storage;
+    private final AuroraStorage storage;
 
     static final Logger logger = Logger.getLogger(GameSearch.class);
 
@@ -72,8 +72,6 @@ public class GameSearch implements Runnable {
     private AImage imgStatus;
 
     private JTextField txtSearch;
-
-    private String foundGameName;
 
     /////////////////////
     /////Constructor/////
@@ -203,12 +201,15 @@ public class GameSearch implements Runnable {
                 logger.error(ex);
             }
             foundGameCover.setCoverSize(imgBlankCover
-                    .getWidth(), imgBlankCover.getHeight());
+                    .getImageWidth(), imgBlankCover.getImageHeight());
 
             pnlGameCoverPane.add(foundGameCover);
             try {
                 foundGameCover.update();
                 foundGameCover.removeOverlayUI();
+                foundGameCover.enableEditCoverOverlay();
+                foundGameCover.getBtnAddCustomOverlay().addActionListener(
+                             libraryUI.getHandler().new GameCoverEditListner(AppendedName));
             } catch (MalformedURLException ex) {
                 logger.error(ex);
             }
@@ -270,12 +271,16 @@ public class GameSearch implements Runnable {
             }
             foundGameCover.setCoverSize(imgBlankCover
                     .getImageWidth(), imgBlankCover.getImageHeight());
+
             foundGameCover.setGameName(gameName);
 
             pnlGameCoverPane.add(foundGameCover);
             try {
                 foundGameCover.update();
                 foundGameCover.removeOverlayUI();
+                foundGameCover.enableEditCoverOverlay();
+                foundGameCover.getBtnAddCustomOverlay().addActionListener(
+                             libraryUI.getHandler().new GameCoverEditListner(AppendedName));
             } catch (MalformedURLException ex) {
                 logger.error(ex);
             }
@@ -519,7 +524,8 @@ public class GameSearch implements Runnable {
 
                 pnlGameCoverPane.removeAll();
                 notFound = new AImagePane("library_noGameFound.png",
-                        imgBlankCover.getWidth(), imgBlankCover.getHeight());
+                        imgBlankCover.getImageWidth(), imgBlankCover
+                        .getImageHeight());
                 notFound.setPreferredSize(
                         new Dimension(notFound.getImageWidth(), notFound
                                 .getImageHeight()));
@@ -547,8 +553,8 @@ public class GameSearch implements Runnable {
                     logger.error(ex);
                 }
                 foundGameCover.setCoverSize(imgBlankCover
-                        .getWidth(), imgBlankCover
-                        .getHeight());
+                        .getImageWidth(), imgBlankCover
+                        .getImageHeight());
                 foundGameCover.setGameName(foundGame.replace("-", " ").replace(
                         ".png", ""));
 
@@ -557,6 +563,11 @@ public class GameSearch implements Runnable {
                 try {
                     foundGameCover.update();
                     foundGameCover.removeOverlayUI();
+                    
+                    //Enable the ability to edit cover art
+                    foundGameCover.enableEditCoverOverlay();
+                    foundGameCover.getBtnAddCustomOverlay().addActionListener(
+                             libraryUI.getHandler().new GameCoverEditListner(AppendedName));
                 } catch (MalformedURLException ex) {
                     logger.error(ex);
                 }
