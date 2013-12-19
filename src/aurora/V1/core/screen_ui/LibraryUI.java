@@ -70,6 +70,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -649,6 +650,10 @@ public class LibraryUI extends AuroraApp {
     private JPanel pnlContent_editCoverUI;
 
     private boolean isEditGameCoverLoaded;
+
+    private AAnimate editGameCoverFrameAnimator;
+
+    private JFrame frameEditGameCoverPane;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -2414,6 +2419,7 @@ public class LibraryUI extends AuroraApp {
 
         // Create Components
         // ----------------------------------------------------------------.
+        frameEditGameCoverPane = new JFrame();
         pnlEditGameCoverPane = new AImagePane("editCoverUI_bg.png",
                                               new BorderLayout());
 
@@ -2453,7 +2459,8 @@ public class LibraryUI extends AuroraApp {
         imgEditGameCoverStatus = new AImage("addUI_badge_idle.png");
 
         //* Center Panel *//
-        pnlCenterPane_editCoverUI = new JPanel(new BorderLayout());
+        pnlCenterPane_editCoverUI = new JPanel(new FlowLayout(FlowLayout.CENTER,
+                                                              0, 8));
         pnlCenterPane_editCoverUI.setOpaque(false);
 
         //* Drag Pane *//
@@ -2473,20 +2480,33 @@ public class LibraryUI extends AuroraApp {
         if (!isEditGameCoverLoaded) {
 
             //* Set up glass panel *//
-            pnlGlass.setVisible(true);
-            pnlGlass.setLayout(null);
-            //* Set Location for Edit Game UI panels *//
-            pnlEditGameCoverPane.setLocation((coreUI.getFrame().getWidth() / 2)
-                                             - (pnlEditGameCoverPane
+//            pnlGlass.setVisible(true);
+//            pnlGlass.setLayout(null);
+            frameEditGameCoverPane.setUndecorated(true);
+            frameEditGameCoverPane.setBackground(Color.BLACK);
+            frameEditGameCoverPane.setResizable(false);
+            frameEditGameCoverPane.setSize(pnlEditGameCoverPane
+                    .getRealImageWidth(), pnlEditGameCoverPane
+                    .getRealImageHeight());
+            frameEditGameCoverPane.setLocation(
+                    (coreUI.getFrame().getWidth() / 2)
+                    - (pnlEditGameCoverPane
                     .getRealImageWidth() / 2),
-                                             coreUI.getScreenHeight());
-            pnlEditGameCoverPane
-                    .setSize(
-                            new Dimension(pnlEditGameCoverPane.getImgIcon()
-                                    .getIconWidth(), pnlEditGameCoverPane
-                                    .getImgIcon()
-                                    .getIconHeight()));
+                    coreUI.getScreenHeight());
+
+            //* Set Location for Edit Game UI panels *//
+//            pnlEditGameCoverPane.setLocation((coreUI.getFrame().getWidth() / 2)
+//                                             - (pnlEditGameCoverPane
+//                    .getRealImageWidth() / 2),
+//                                             coreUI.getScreenHeight());
+//            pnlEditGameCoverPane
+//                    .setSize(
+//                            new Dimension(pnlEditGameCoverPane.getImgIcon()
+//                                    .getIconWidth(), pnlEditGameCoverPane
+//                                    .getImgIcon()
+//                                    .getIconHeight()));
             pnlEditGameCoverPane.revalidate();
+            frameEditGameCoverPane.revalidate();
 
             //* Top *//
             pnlTopPane_editCoverUI.add(imgTopArrows);
@@ -2502,9 +2522,6 @@ public class LibraryUI extends AuroraApp {
                     .getPreferredSize().height));
 
             pnlCenterPane_editCoverUI.add(pnlDrag_editCoverUI);
-            pnlCenterPane_editCoverUI.setPreferredSize(new Dimension(
-                    (pnlEditGameCoverPane.getRealImageWidth() / 2),
-                    centerHeight));
 
             //* Right *//
             JPanel rightPaneContainer = new JPanel(new FlowLayout(
@@ -2515,6 +2532,7 @@ public class LibraryUI extends AuroraApp {
             rightPaneContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 
             rightPaneContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
+
             pnlRightPane_editCoverUI.add(rightPaneContainer);
             pnlRightPane_editCoverUI.setPreferredSize(new Dimension(
                     (pnlEditGameCoverPane.getRealImageWidth() / 4),
@@ -2528,6 +2546,8 @@ public class LibraryUI extends AuroraApp {
 
             leftPaneContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 
+            pnlLeftPane_editCoverUI.add(Box.createVerticalStrut(centerHeight
+                                                                / 6));
             pnlLeftPane_editCoverUI.add(leftPaneContainer);
             pnlLeftPane_editCoverUI.setPreferredSize(new Dimension(
                     (pnlEditGameCoverPane.getRealImageWidth() / 4),
@@ -2549,7 +2569,7 @@ public class LibraryUI extends AuroraApp {
                                      BorderLayout.PAGE_END);
 
             pnlEditGameCoverPane.add(pnlContent_editCoverUI);
-            pnlGlass.add(pnlEditGameCoverPane);
+            frameEditGameCoverPane.getContentPane().add(pnlEditGameCoverPane);
 
             isEditGameCoverLoaded = true;
         }
@@ -2945,7 +2965,8 @@ public class LibraryUI extends AuroraApp {
         pnlGlass.setVisible(true);
         editGameCoverUI_Visible = true;
 
-        editGameCoverAnimator = new AAnimate(pnlEditGameCoverPane);
+        editGameCoverAnimator = new AAnimate(frameEditGameCoverPane);
+        editGameCoverFrameAnimator = new AAnimate();
 
         int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
         ASound showSound = new ASound("swoop_" + num + ".wav", false);
@@ -2971,9 +2992,11 @@ public class LibraryUI extends AuroraApp {
                                 coreUI
                                 .getScreenHeight());
 
+                        editGameCoverFrameAnimator.fadeOut(coreUI.getFrame());
+
                         editGameCoverAnimator.moveVertical(coreUI
                                 .getScreenHeight() - pnlEditGameCoverPane
-                                .getRealImageHeight() - 28, -25);
+                                .getRealImageHeight() - 38, -15);
 
                         editGameCoverAnimator.addPostAnimationListener(
                                 new APostHandler() {
