@@ -202,13 +202,13 @@ public class LibraryLogic implements AuroraScreenLogic {
         }
 
         gridSearch = new GridSearch(libraryUI.getCoreUI(), libraryUI,
-                                    libraryHandler);
+                libraryHandler);
         gameSearch_addUI = new GameSearch(libraryUI, coverDB,
-                                          libraryUI.getStorage());
+                libraryUI.getStorage());
         gameSearch_editUI = new GameSearch(libraryUI, coverDB,
-                                           libraryUI.getStorage());
+                libraryUI.getStorage());
         gameSearch_autoUI = new GameSearch(libraryUI, coverDB,
-                                           libraryUI.getStorage());
+                libraryUI.getStorage());
 
     }
 
@@ -275,7 +275,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                 if (!isLoaded) {
 
                     game = new Game(libraryUI.getGridSplit(), coreUI,
-                                    dashboardUI, libraryUI.getStorage());
+                            dashboardUI, libraryUI.getStorage());
                     game.setGameName(libraryUI.getStorage()
                             .getStoredLibrary()
                             .getGameNames()
@@ -299,7 +299,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                             .get(i).replace("'", "''"));
 
                     game.setCoverSize(libraryUI.getGameCoverWidth(),
-                                      libraryUI
+                            libraryUI
                             .getGameCoverHeight());
                 } else {
                     game = libraryUI.getGridSplit().getGame(i);
@@ -376,7 +376,7 @@ public class LibraryLogic implements AuroraScreenLogic {
             if (organize == null) {
                 organize = "favorite";
                 libraryUI.getStorage().getStoredSettings().saveSetting(organize,
-                                                                       "favorite");
+                        "favorite");
             }
 
             // Check if Organization Type is "Favorite" //
@@ -490,7 +490,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             libraryUI.getGridSplit()
                     .finalizeGrid(libraryHandler.new ShowAddGameUiHandler(),
-                                  libraryUI
+                            libraryUI
                             .getGameCoverWidth(), libraryUI.getGameCoverHeight());
 
             //Load First Grid by default
@@ -601,7 +601,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                                                  + 1).getArray()
                     .size(); i++) {
                 Game game = new Game(libraryUI.getGridSplit(), coreUI,
-                                     dashboardUI);
+                        dashboardUI);
                 try {
                     game = (Game) libraryUI.getGridSplit().getGrid(currentGrid
                                                                    + 1)
@@ -894,13 +894,13 @@ public class LibraryLogic implements AuroraScreenLogic {
 
         try {
             final Method openKey = clz.getDeclaredMethod("openKey",
-                                                         byte[].class, int.class,
-                                                         int.class);
+                    byte[].class, int.class,
+                    int.class);
             openKey.setAccessible(true);
 
             final Method closeKey = clz
                     .getDeclaredMethod("closeKey",
-                                       int.class);
+                            int.class);
             closeKey.setAccessible(true);
 
             final Method winRegQueryValue = clz.getDeclaredMethod(
@@ -923,11 +923,11 @@ public class LibraryLogic implements AuroraScreenLogic {
             // Query for steam path
             key = "Software\\Classes\\steam\\Shell\\Open\\Command";
             handle = (Integer) openKey.invoke(systemRoot,
-                                              toCstr(key),
-                                              KEY_READ, KEY_READ);
+                    toCstr(key),
+                    KEY_READ, KEY_READ);
             valb = (byte[]) winRegQueryValue.invoke(systemRoot,
-                                                    handle,
-                                                    toCstr(""));
+                    handle,
+                    toCstr(""));
             vals = (valb != null ? new String(valb).trim() : null);
             closeKey.invoke(Preferences.systemRoot(), handle);
 
@@ -1100,7 +1100,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                         pnlListElement.add(lblGameName);
 
                         Game game = new Game(libraryUI.getGridSplit(),
-                                             coreUI, dashboardUI, libraryUI
+                                coreUI, dashboardUI, libraryUI
                                 .getStorage());
 
                         game.setGameName(nameOfGames
@@ -1412,6 +1412,14 @@ public class LibraryLogic implements AuroraScreenLogic {
         });
 
         clear.startOnce();
+    }
+
+    /**
+     * Shows the OS explorer window
+     */
+    public void showExplorer() {
+
+    
     }
 
     public ArrayList<Game> getAutoAddCurrentList() {
