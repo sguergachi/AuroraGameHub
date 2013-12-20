@@ -35,6 +35,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -384,6 +385,7 @@ public class AuroraCoreUI {
     private Font ropaFont;
 
     static final Logger logger = Logger.getLogger(AuroraCoreUI.class);
+    private int taskbarHeight;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -445,6 +447,12 @@ public class AuroraCoreUI {
                 .getScreenDevices()[0].getDisplayMode().getWidth();
         screenHeight = GraphicsEnvironment.getLocalGraphicsEnvironment()
                 .getScreenDevices()[0].getDisplayMode().getHeight();
+        Rectangle winSize = GraphicsEnvironment
+                    .getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        taskbarHeight = screenHeight - winSize.height;
+        
+            
+
 
         logger.info("Current Screen Resolution: " + screenWidth + "x"
                     + screenHeight);
@@ -748,6 +756,10 @@ public class AuroraCoreUI {
         frame.addKeyListener(new FrameKeyListener());
         frame.requestFocus();
 
+    }
+
+    public int getTaskbarHeight() {
+        return taskbarHeight;
     }
 
     public JLabel getLblKeyActionEnter() {

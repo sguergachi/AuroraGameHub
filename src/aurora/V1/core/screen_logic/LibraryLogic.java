@@ -36,6 +36,7 @@ import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.ARadioButton;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -44,6 +45,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
@@ -1415,11 +1417,38 @@ public class LibraryLogic implements AuroraScreenLogic {
     }
 
     /**
-     * Shows the OS explorer window
+     * Shows the OS explorer window and attempts to show desktop on Windows
+     * in order to set up environment to allow for
      */
-    public void showExplorer() {
+    public void setupDesktopEnvironmentForCoverArtEdit() {
 
-    
+        // Minimizes all and shows Desktop on Windows
+        if (coreUI.getOS().contains("Windows")) {
+            try {
+                String loc = "\"" + System.getenv("APPDATA")
+                             + "\\Microsoft\\Internet Explorer\\Quick Launch\\Shows Desktop.lnk"
+                             + "\"";
+                Runtime.getRuntime().exec(
+                        new String[]{
+                            "cmd.exe",
+                            "/c", loc
+                        });
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(LibraryLogic.class.getName())
+                        .log(Level.SEVERE, null, ex);
+            }
+        }
+
+        // Show File Explorer
+        File file = new File(System.getProperty("user.home"));
+        Desktop desktop = Desktop.getDesktop();
+        try {
+            desktop.open(file);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(LibraryLogic.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+
     }
 
     public ArrayList<Game> getAutoAddCurrentList() {

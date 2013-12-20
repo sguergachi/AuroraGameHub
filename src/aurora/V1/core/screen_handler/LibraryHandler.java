@@ -28,6 +28,7 @@ import aurora.V1.core.StoredSettings;
 import aurora.V1.core.screen_handler.LibraryHandler.MoveToGrid;
 import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_ui.LibraryUI;
+import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.APostHandler;
@@ -47,6 +48,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -2518,30 +2520,66 @@ public class LibraryHandler implements
         }
     }
 
-
     /**
      * Handler added to game covers in GameSearch to allow ability to edit game
      * cover art
      */
     public class GameCoverEditListner implements ActionListener {
+
         private final String gameString;
 
         public GameCoverEditListner(String currentInput) {
             gameString = currentInput;
         }
 
-
-
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            libraryUI.hideEditGameUI();
-            libraryUI.hideAddGameUI();
-
+//            libraryUI.hideEditGameUI();
+//            libraryUI.hideAddGameUI();
             libraryUI.showEditGameCoverUI(gameString);
 
         }
 
+    }
 
+    /**
+     * Handles the animation when attempting to close the edit cover UI pane
+     */
+    public class CloseEditCoverListener implements ActionListener {
+
+        private Window editCoverFrame;
+
+        public CloseEditCoverListener(Window editCoverFrame) {
+            this.editCoverFrame = editCoverFrame;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            libraryUI.getCoreUI().getFrame().setVisible(true);
+            final AAnimate frameFadeAnimator = new AAnimate();
+
+            AAnimate editCoverAnimator = new AAnimate(editCoverFrame);
+
+            editCoverAnimator.setInitialLocation(editCoverFrame.getX(),
+                    editCoverFrame.getY());
+
+            editCoverAnimator.moveVertical(libraryUI.getCoreUI()
+                    .getScreenHeight(), 33);
+
+            editCoverAnimator.addPostAnimationListener(new APostHandler() {
+
+                @Override
+                public void postAction() {
+
+                    frameFadeAnimator
+                            .fadeIn(libraryUI.getCoreUI()
+                                    .getFrame());
+
+                }
+            });
+
+        }
     }
 }

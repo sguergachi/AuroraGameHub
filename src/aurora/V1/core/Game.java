@@ -664,7 +664,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     java.util.logging.Logger.getLogger(Game.class.getName())
                             .log(Level.SEVERE, null, ex);
                 }
-                postLoad();
 
             }
 
@@ -674,20 +673,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
-    /**
-     * .-----------------------------------------------------------------------.
-     * | postLoad();
-     * .-----------------------------------------------------------------------.
-     * |
-     * | This method is called to load other objects in the background
-     * |
-     * .........................................................................
-     * <p/>
-     *
-     */
-    private void postLoad() {
 
-    }
 
     /**
      * .-----------------------------------------------------------------------.
@@ -800,20 +786,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                System.out.println(" # contains " + btnAddCustomOverlay.contains(e
-                        .getPoint()));
                 btnAddCustomOverlay.setVisible(false);
             }
         });
 
-        btnAddCustomOverlay.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pnlInteractivePane.remove(btnAddCustomOverlay);
-                pnlInteractivePane.repaint();
-            }
-        });
 
         pnlInteractivePane.add(btnAddCustomOverlay);
     }
