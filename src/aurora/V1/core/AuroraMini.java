@@ -52,7 +52,7 @@ public class AuroraMini {
 
     private JFrame mini;
 
-    private AuroraCoreUI coreUI;
+    private final AuroraCoreUI coreUI;
 
     private AImagePane pnlBackground;
 
