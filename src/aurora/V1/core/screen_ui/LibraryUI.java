@@ -68,6 +68,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -661,6 +662,8 @@ public class LibraryUI extends AuroraApp {
     private ActionListener closeEditCoverListener;
 
     private AFileDrop fileDrop;
+
+    private LibraryHandler.EditCoverUIDragedListener fileDragedListener;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -2505,6 +2508,9 @@ public class LibraryUI extends AuroraApp {
                 .getRealImageWidth() + 5, pnlDrag_editCoverUI
                 .getRealImageHeight()));
 
+        fileDragedListener = libraryHandler.new EditCoverUIDragedListener(
+                pnlDrag_editCoverUI);
+
         //* Content Panel *//
         pnlContent_editCoverUI = new JPanel(new BorderLayout());
         pnlContent_editCoverUI.setOpaque(false);
@@ -2547,16 +2553,15 @@ public class LibraryUI extends AuroraApp {
                     .getPreferredSize().height));
 
             pnlCenterPane_editCoverUI.add(pnlDrag_editCoverUI);
+
+            // Array of supported images to be droped and used
+            ArrayList<String> supportedImages = new ArrayList<String>(
+                    Arrays.asList("png", "jpg", "jpeg", "gif", "bmp"));
+
             fileDrop = new AFileDrop(pnlDrag_editCoverUI,
                                      "editCoverUI_dropBG.png",
                                      "editCoverUI_rejectBG.png", true,
-                                     new AFileDrop.Listener() {
-
-                                         @Override
-                                         public void filesDropped(File[] files) {
-
-                                         }
-                                     });
+                                     fileDragedListener, supportedImages);
 
             //* Right *//
             JPanel rightPaneContainer = new JPanel(new FlowLayout(
