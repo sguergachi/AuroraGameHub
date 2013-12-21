@@ -168,7 +168,7 @@ public class StoredProfile extends AStorage implements Serializable {
         GameTypes.remove(game.getGameType());
         TotalTimes.remove(game.getTotalTimePlayed());
         if (OccurrenceTimes.contains(game.getOccurencesPlayed())
-            && OccurrenceTimes != null) {
+            && OccurrenceTimes != null && OccurrenceTimes.size()>0) {
             OccurrenceTimes.remove(game.getOccurencesPlayed());
         }
         LastTimes.remove(game.getLastPlayed());
