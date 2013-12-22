@@ -46,6 +46,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -244,6 +245,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private AButton btnAddCustomOverlay;
 
     private ActionListener customGameCoverListener;
+    private String localGameRootPath;
 
     public Game() {
     }
@@ -525,6 +527,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
 
             AFileManager fileIO = dashboardUI.getStartUI().getFileIO();
+            localGameRootPath = fileIO.getPath() + "Game Data//";
 
             // Try to Get Image Locally //
             Boolean loadedImage = true;
@@ -673,8 +676,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
-
-
     /**
      * .-----------------------------------------------------------------------.
      * | reAddInteractive();
@@ -789,7 +790,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 btnAddCustomOverlay.setVisible(false);
             }
         });
-
 
         pnlInteractivePane.add(btnAddCustomOverlay);
     }
@@ -2158,9 +2158,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     }
 
-    public void refresh() {
-
-        coverImagePane.setURL(rootCoverDBPath + coverURL);
+    public void refresh(Boolean useAuroraDB) {
+        if (useAuroraDB) {
+            coverImagePane.setURL(rootCoverDBPath + coverURL);
+        } else {
+            coverImagePane.setURL(new File(localGameRootPath + coverURL)
+                    .getPath());
+        }
+        coverImagePane.revalidate();
     }
 
     // Getters & Setters

@@ -171,7 +171,7 @@ public class LibraryHandler implements
                     .setImage("library_searchBar_inactive.png");
             libraryUI.getSearchButtonBG().removeAll();
             libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(),
-                                              BorderLayout.NORTH);
+                    BorderLayout.NORTH);
             libraryUI.getCoreUI().getFrame().requestFocus();
             libraryUI.getGamesContainer().revalidate();
         }
@@ -214,7 +214,7 @@ public class LibraryHandler implements
             libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
             libraryUI.getSearchButtonBG().removeAll();
             libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(),
-                                              BorderLayout.NORTH);
+                    BorderLayout.NORTH);
             libraryUI.getRemoveSearchButton()
                     .addActionListener(new RemoveSearchHandler());
         }
@@ -467,7 +467,7 @@ public class LibraryHandler implements
             setFont(list.getFont());
 
             Border border = BorderFactory.createEmptyBorder(3, 10, 3,
-                                                            2);
+                    2);
             if (isSelected) {
             } else {
                 setBorder(border);
@@ -692,7 +692,7 @@ public class LibraryHandler implements
                 txtField.setText("");
                 gameSearch.resetCover();
                 txtField.setForeground(new Color(23, 139,
-                                                 255));
+                        255));
                 searchBG.setImage(
                         "addUI_text_active.png");
             }
@@ -946,7 +946,7 @@ public class LibraryHandler implements
                             }
 
                             //refresh
-                            libraryUI.getCurrentGame_editUI().refresh();
+                            libraryUI.getCurrentGame_editUI().refresh(true);
 
                             // Re Save
                             libraryUI.getStorage().getStoredLibrary()
@@ -1061,8 +1061,8 @@ public class LibraryHandler implements
                                                       boolean cellHasFocus) {
 
             JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane) ?
-                                     ((JPanel) value).getComponent(0) :
-                                     ((JPanel) value)
+                    ((JPanel) value).getComponent(0) :
+                    ((JPanel) value)
                     .getComponent(1));
 
             Color bg = null;
@@ -1095,7 +1095,7 @@ public class LibraryHandler implements
             label.setFont(list.getFont());
 
             Border border = BorderFactory.createEmptyBorder(1, 5, 0,
-                                                            2);
+                    2);
             Border border2 = BorderFactory.createDashedBorder(null);
 
             ((JPanel) value).setBorder(border);
@@ -1133,8 +1133,8 @@ public class LibraryHandler implements
                         .getSelectedIndex());
 
                 JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane) ?
-                                         ((JPanel) value).getComponent(0) :
-                                         ((JPanel) value)
+                        ((JPanel) value).getComponent(0) :
+                        ((JPanel) value)
                         .getComponent(1));
 
                 String gameSelected = label.getText();
@@ -1299,8 +1299,8 @@ public class LibraryHandler implements
 
                         } else {
                             ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
-                                                       "Cannot Add Duplicate Game",
-                                                       libraryUI
+                                    "Cannot Add Duplicate Game",
+                                    libraryUI
                                     .getCoreUI()
                                     .getRegularFont()
                                     .deriveFont(Font.BOLD, 28));
@@ -1347,7 +1347,7 @@ public class LibraryHandler implements
                     if (libraryUI.getBtnManual().isSelected) {
 
                         game.setCoverSize(libraryUI.getGameCoverWidth(),
-                                          libraryUI
+                                libraryUI
                                 .getGameCoverHeight());
                         game.reAddInteractive();
 
@@ -1421,7 +1421,7 @@ public class LibraryHandler implements
                                     .get(i);
 
                             autoGame.setCoverSize(libraryUI.getGameCoverWidth(),
-                                                  libraryUI
+                                    libraryUI
                                     .getGameCoverHeight());
 
                             if (!autoGame.isLoaded()) {
@@ -1912,7 +1912,7 @@ public class LibraryHandler implements
 
                 libraryUI.getCoreUI().getCenterPanel().removeAll();
                 libraryUI.getCoreUI().getCenterPanel().add(BorderLayout.CENTER,
-                                                           GameBack);
+                        GameBack);
 
                 GameBack.repaint();
                 GameBack.revalidate();
@@ -1989,7 +1989,7 @@ public class LibraryHandler implements
 
                     GameBack.remove(0);
                     GameBack.add(libraryUI.getImgGameLeft(), BorderLayout.WEST,
-                                 0);
+                            0);
 
                     GameBack.add(imgGameRight, BorderLayout.EAST, 2);
 
@@ -2008,7 +2008,7 @@ public class LibraryHandler implements
 
                         GameBack.remove(libraryUI.getImgGameRight());
                         GameBack.add(Box.createHorizontalStrut(140),
-                                     BorderLayout.EAST, 2);
+                                BorderLayout.EAST, 2);
                         imgGameRight.mouseExit();
                     }
                 }
@@ -2573,7 +2573,7 @@ public class LibraryHandler implements
             AAnimate editCoverAnimator = new AAnimate(editCoverFrame);
 
             editCoverAnimator.setInitialLocation(editCoverFrame.getX(),
-                                                 editCoverFrame.getY());
+                    editCoverFrame.getY());
 
             editCoverAnimator.moveVertical(libraryUI.getCoreUI()
                     .getScreenHeight(), 33);
@@ -2591,15 +2591,20 @@ public class LibraryHandler implements
         }
     }
 
+    /**
+     * Listener for when files are dropped on EditCoverUI
+     */
     public class EditCoverUIDragedListener implements AFileDrop.Listener {
 
-        private AImagePane dragPane;
+        private final AImagePane dragPane;
 
         private AProgressWheel progressWheel;
 
         private boolean isOccupied;
 
-        private AImage statusIcon;
+        private final AImage statusIcon;
+
+        private String newGameName;
 
         public EditCoverUIDragedListener(AImagePane DragPane, AImage statusIcon) {
             this.dragPane = DragPane;
@@ -2624,8 +2629,8 @@ public class LibraryHandler implements
 
             // Reset Button
             AButton btnReset = new AButton("app_btn_close_norm.png",
-                                           "app_btn_close_down.png",
-                                           "app_btn_close_over.png");
+                    "app_btn_close_down.png",
+                    "app_btn_close_over.png");
             btnReset.addActionListener(new ActionListener() {
 
                 @Override
@@ -2657,15 +2662,17 @@ public class LibraryHandler implements
                             files[0]);
                     AImagePane scaledCoverArt = coverArt;
 
+                    newGameName = coverArt.getImageURL();
+
                     int scaledHeight = dragPane.getRealImageHeight() - 8;
                     int scaledWidth = (scaledHeight * coverArt
                             .getRealImageWidth()) / coverArt
                             .getRealImageHeight();
 
                     scaledCoverArt.setImageSize(scaledWidth,
-                                                scaledHeight);
+                            scaledHeight);
                     scaledCoverArt.setPreferredSize(new Dimension(scaledWidth,
-                                                                  scaledHeight));
+                            scaledHeight));
 
                     contentContainer.removeAll();
                     contentContainer.revalidate();
@@ -2689,25 +2696,39 @@ public class LibraryHandler implements
             return isOccupied;
         }
 
+        public String getNewGameName() {
+            return newGameName;
+        }
+
     }
 
+    /**
+     * Listener for the Done Button on the EditCoverUI
+     */
     public class EditCoverUIDoneListener implements ActionListener {
-        private AImage status;
 
-        public EditCoverUIDoneListener(AImage statusImage) {
+        private final AImage status;
+        private Game editingGame;
+        private String newGameCoverName;
+        private EditCoverUIDragedListener dragListener;
+
+        public EditCoverUIDoneListener(AImage statusImage, Game game,
+                                       EditCoverUIDragedListener listener) {
             this.status = statusImage;
+            this.editingGame = game;
+            this.dragListener = listener;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(status.getImgURl().equals("addUI_badge_invalid.png")){
+            if (status.getImgURl().equals("addUI_badge_invalid.png")) {
 
-                 libraryLogic.flashInvalidStatus(status);
+                libraryLogic.flashInvalidStatus(status);
 
-            }else{
+            } else {
 
                 libraryUI.hideEditCoverFrame();
-
+                libraryLogic.editCover(editingGame, dragListener.getNewGameName());
             }
 
         }

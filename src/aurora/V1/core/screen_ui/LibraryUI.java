@@ -2574,7 +2574,7 @@ public class LibraryUI extends AuroraApp {
             rightPaneContainer.add(btnDone_editCoverUI);
             btnDone_editCoverUI.addActionListener(
                     libraryHandler.new EditCoverUIDoneListener(
-                            imgEditGameCoverStatus));
+                            imgEditGameCoverStatus,game,fileDragedListener));
 
             rightPaneContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 
