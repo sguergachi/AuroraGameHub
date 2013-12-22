@@ -901,12 +901,15 @@ public class LibraryHandler implements
                         if (libraryUI.getImgGameLocationStatus().getImgURl()
                                 .equals(
                                         "addUI_badge_valid.png")) {
-
+                            // Remove Game
+                            libraryUI.getStorage().getStoredLibrary()
+                                    .removeGame(libraryUI
+                                            .getCurrentGame_editUI());
                             //Set new path
                             libraryUI.getCurrentGame_editUI().setGamePath(
                                     libraryUI
                                     .getTxtNewLocation_editUI().getText());
-                            // Save
+                            // Re Save
                             libraryUI.getStorage().getStoredLibrary()
                                     .SaveGame(libraryUI.getCurrentGame_editUI());
 
@@ -923,6 +926,10 @@ public class LibraryHandler implements
                         if (libraryUI.getImgGameCoverStatus().getImgURl()
                                 .equals(
                                         "addUI_badge_valid.png")) {
+                            // Remove Game
+                            libraryUI.getStorage().getStoredLibrary()
+                                    .removeGame(libraryUI
+                                            .getCurrentGame_editUI());
                             try {
                                 //Set new path
                                 libraryUI.getCurrentGame_editUI().setCoverUrl(
@@ -941,7 +948,7 @@ public class LibraryHandler implements
                             //refresh
                             libraryUI.getCurrentGame_editUI().refresh();
 
-                            // Save
+                            // Re Save
                             libraryUI.getStorage().getStoredLibrary()
                                     .SaveGame(libraryUI.getCurrentGame_editUI());
 
@@ -2592,6 +2599,7 @@ public class LibraryHandler implements
         private AImagePane dragPane;
 
         private AProgressWheel progressWheel;
+
         private boolean isOccupied;
 
         public EditCoverUIDragedListener(AImagePane DragPane) {
@@ -2672,13 +2680,11 @@ public class LibraryHandler implements
             load.startOnce();
             isOccupied = true;
 
-
         }
 
-        public boolean isOccupied(){
+        public boolean isOccupied() {
             return isOccupied;
         }
-
 
     }
 }

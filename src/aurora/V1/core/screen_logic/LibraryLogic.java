@@ -135,7 +135,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     private boolean isAutoLoadedOnce;
 
-    private boolean refreshAuto;
+    public static boolean refreshAuto;
 
     private AThreadWorker findGames;
 

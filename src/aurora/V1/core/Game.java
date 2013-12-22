@@ -2044,7 +2044,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                             35));
                     LibraryUI.lblLibraryStatus.setText("Removed Game");
 
-                    libraryLogic.setNeedAutoAddRefresh(true);
+                    LibraryLogic.refreshAuto = true;
 
                     try {
                         Thread.sleep(1200);

@@ -186,7 +186,7 @@ public final class GameFinder {
                             if (arr.size() == 1) {
                                 r.add(arr.get(0));
                             } else {
-                                r.add(getLargestFile(possibles));
+                                r.add(getLargestFile(arr));
                             }
                         }
                     }
@@ -214,7 +214,7 @@ public final class GameFinder {
                             if (arr.size() == 1) {
                                 r.add(arr.get(0));
                             } else {
-                                r.add(getLargestFile(possibles));
+                                r.add(getLargestFile(arr));
                             }
                         }
                     }
@@ -245,7 +245,7 @@ public final class GameFinder {
                                 if (arr.size() == 1) {
                                     r.add(arr.get(0));
                                 } else {
-                                    r.add(getLargestFile(possibles));
+                                    r.add(getLargestFile(arr));
                                 }
                             }
                         }
@@ -278,7 +278,7 @@ public final class GameFinder {
                                     if (arr.size() == 1) {
                                         r.add(arr.get(0));
                                     } else {
-                                        r.add(getLargestFile(possibles));
+                                        r.add(getLargestFile(arr));
                                     }
                                 }
                             }
@@ -309,7 +309,7 @@ public final class GameFinder {
                                     if (arr.size() == 1) {
                                         r.add(arr.get(0));
                                     } else {
-                                        r.add(getLargestFile(possibles));
+                                        r.add(getLargestFile(arr));
                                     }
                                 }
                             }
@@ -340,7 +340,7 @@ public final class GameFinder {
                                     if (arr.size() == 1) {
                                         r.add(arr.get(0));
                                     } else {
-                                        r.add(getLargestFile(possibles));
+                                        r.add(getLargestFile(arr));
                                     }
                                 }
                             }
