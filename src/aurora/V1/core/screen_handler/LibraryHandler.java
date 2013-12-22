@@ -29,24 +29,29 @@ import aurora.V1.core.screen_handler.LibraryHandler.MoveToGrid;
 import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AAnimate;
+import aurora.engine.V1.Logic.AFileDrop;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
+import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AGridPanel;
 import aurora.engine.V1.UI.AHoverButton;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.APopupMenu;
+import aurora.engine.V1.UI.AProgressWheel;
 import aurora.engine.V1.UI.ARadioButton;
 import aurora.engine.V1.UI.ASlickLabel;
 import aurora.engine.V1.UI.ATextField;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -71,6 +76,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -165,7 +171,7 @@ public class LibraryHandler implements
                     .setImage("library_searchBar_inactive.png");
             libraryUI.getSearchButtonBG().removeAll();
             libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(),
-                    BorderLayout.NORTH);
+                                              BorderLayout.NORTH);
             libraryUI.getCoreUI().getFrame().requestFocus();
             libraryUI.getGamesContainer().revalidate();
         }
@@ -208,7 +214,7 @@ public class LibraryHandler implements
             libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
             libraryUI.getSearchButtonBG().removeAll();
             libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(),
-                    BorderLayout.NORTH);
+                                              BorderLayout.NORTH);
             libraryUI.getRemoveSearchButton()
                     .addActionListener(new RemoveSearchHandler());
         }
@@ -461,7 +467,7 @@ public class LibraryHandler implements
             setFont(list.getFont());
 
             Border border = BorderFactory.createEmptyBorder(3, 10, 3,
-                    2);
+                                                            2);
             if (isSelected) {
             } else {
                 setBorder(border);
@@ -686,7 +692,7 @@ public class LibraryHandler implements
                 txtField.setText("");
                 gameSearch.resetCover();
                 txtField.setForeground(new Color(23, 139,
-                        255));
+                                                 255));
                 searchBG.setImage(
                         "addUI_text_active.png");
             }
@@ -895,12 +901,15 @@ public class LibraryHandler implements
                         if (libraryUI.getImgGameLocationStatus().getImgURl()
                                 .equals(
                                         "addUI_badge_valid.png")) {
-
+                            // Remove Game
+                            libraryUI.getStorage().getStoredLibrary()
+                                    .removeGame(libraryUI
+                                            .getCurrentGame_editUI());
                             //Set new path
                             libraryUI.getCurrentGame_editUI().setGamePath(
                                     libraryUI
                                     .getTxtNewLocation_editUI().getText());
-                            // Save
+                            // Re Save
                             libraryUI.getStorage().getStoredLibrary()
                                     .SaveGame(libraryUI.getCurrentGame_editUI());
 
@@ -917,6 +926,10 @@ public class LibraryHandler implements
                         if (libraryUI.getImgGameCoverStatus().getImgURl()
                                 .equals(
                                         "addUI_badge_valid.png")) {
+                            // Remove Game
+                            libraryUI.getStorage().getStoredLibrary()
+                                    .removeGame(libraryUI
+                                            .getCurrentGame_editUI());
                             try {
                                 //Set new path
                                 libraryUI.getCurrentGame_editUI().setCoverUrl(
@@ -935,7 +948,7 @@ public class LibraryHandler implements
                             //refresh
                             libraryUI.getCurrentGame_editUI().refresh();
 
-                            // Save
+                            // Re Save
                             libraryUI.getStorage().getStoredLibrary()
                                     .SaveGame(libraryUI.getCurrentGame_editUI());
 
@@ -1048,7 +1061,8 @@ public class LibraryHandler implements
                                                       boolean cellHasFocus) {
 
             JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane) ?
-                    ((JPanel) value).getComponent(0) : ((JPanel) value)
+                                     ((JPanel) value).getComponent(0) :
+                                     ((JPanel) value)
                     .getComponent(1));
 
             Color bg = null;
@@ -1081,7 +1095,7 @@ public class LibraryHandler implements
             label.setFont(list.getFont());
 
             Border border = BorderFactory.createEmptyBorder(1, 5, 0,
-                    2);
+                                                            2);
             Border border2 = BorderFactory.createDashedBorder(null);
 
             ((JPanel) value).setBorder(border);
@@ -1119,7 +1133,8 @@ public class LibraryHandler implements
                         .getSelectedIndex());
 
                 JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane) ?
-                        ((JPanel) value).getComponent(0) : ((JPanel) value)
+                                         ((JPanel) value).getComponent(0) :
+                                         ((JPanel) value)
                         .getComponent(1));
 
                 String gameSelected = label.getText();
@@ -1284,7 +1299,8 @@ public class LibraryHandler implements
 
                         } else {
                             ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
-                                    "Cannot Add Duplicate Game", libraryUI
+                                                       "Cannot Add Duplicate Game",
+                                                       libraryUI
                                     .getCoreUI()
                                     .getRegularFont()
                                     .deriveFont(Font.BOLD, 28));
@@ -1331,7 +1347,7 @@ public class LibraryHandler implements
                     if (libraryUI.getBtnManual().isSelected) {
 
                         game.setCoverSize(libraryUI.getGameCoverWidth(),
-                                libraryUI
+                                          libraryUI
                                 .getGameCoverHeight());
                         game.reAddInteractive();
 
@@ -1405,7 +1421,7 @@ public class LibraryHandler implements
                                     .get(i);
 
                             autoGame.setCoverSize(libraryUI.getGameCoverWidth(),
-                                    libraryUI
+                                                  libraryUI
                                     .getGameCoverHeight());
 
                             if (!autoGame.isLoaded()) {
@@ -1594,15 +1610,12 @@ public class LibraryHandler implements
 
         private final StoredSettings storage;
 
-        private int i;
-
         public SelectedOrganizeListener(ASlickLabel lbl, StoredSettings settings,
                                         String SettingValue) {
 
             label = lbl;
             settingValue = SettingValue;
             storage = settings;
-            i = 0;
 
         }
 
@@ -1899,7 +1912,7 @@ public class LibraryHandler implements
 
                 libraryUI.getCoreUI().getCenterPanel().removeAll();
                 libraryUI.getCoreUI().getCenterPanel().add(BorderLayout.CENTER,
-                        GameBack);
+                                                           GameBack);
 
                 GameBack.repaint();
                 GameBack.revalidate();
@@ -1976,7 +1989,7 @@ public class LibraryHandler implements
 
                     GameBack.remove(0);
                     GameBack.add(libraryUI.getImgGameLeft(), BorderLayout.WEST,
-                            0);
+                                 0);
 
                     GameBack.add(imgGameRight, BorderLayout.EAST, 2);
 
@@ -1995,7 +2008,7 @@ public class LibraryHandler implements
 
                         GameBack.remove(libraryUI.getImgGameRight());
                         GameBack.add(Box.createHorizontalStrut(140),
-                                BorderLayout.EAST, 2);
+                                     BorderLayout.EAST, 2);
                         imgGameRight.mouseExit();
                     }
                 }
@@ -2012,7 +2025,7 @@ public class LibraryHandler implements
         }
 
         @Override
-        public void mouseEntered(MouseEvent e) {
+        public void mouseEntered(final MouseEvent e) {
 
             if (logger.isDebugEnabled()) {
                 logger.debug("HOVER IMAGE ACTIVATED");
@@ -2033,7 +2046,7 @@ public class LibraryHandler implements
         }
     }
 
-    //Handler for the Navigation using Keyboard
+//Handler for the Navigation using Keyboard
     public class GameLibraryKeyListener extends KeyAdapter {
 
         private GridManager gridManager;
@@ -2526,16 +2539,19 @@ public class LibraryHandler implements
      */
     public class GameCoverEditListner implements ActionListener {
 
-        private final String gameString;
+        private final Game gameString;
 
-        public GameCoverEditListner(String currentInput) {
-            gameString = currentInput;
+        public GameCoverEditListner(Game currentGame) {
+            gameString = currentGame;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 4d665f4c4d9de36d555b51a709045e6cd31d6af3
             libraryUI.showEditGameCoverUI(gameString);
 
         }
@@ -2562,7 +2578,7 @@ public class LibraryHandler implements
             AAnimate editCoverAnimator = new AAnimate(editCoverFrame);
 
             editCoverAnimator.setInitialLocation(editCoverFrame.getX(),
-                    editCoverFrame.getY());
+                                                 editCoverFrame.getY());
 
             editCoverAnimator.moveVertical(libraryUI.getCoreUI()
                     .getScreenHeight(), 33);
@@ -2571,14 +2587,135 @@ public class LibraryHandler implements
 
                 @Override
                 public void postAction() {
-
                     frameFadeAnimator
                             .fadeIn(libraryUI.getCoreUI()
                                     .getFrame());
-
                 }
             });
 
         }
+    }
+
+    public class EditCoverUIDragedListener implements AFileDrop.Listener {
+
+        private AImagePane dragPane;
+
+        private AProgressWheel progressWheel;
+
+        private boolean isOccupied;
+
+        private AImage statusIcon;
+
+        public EditCoverUIDragedListener(AImagePane DragPane, AImage statusIcon) {
+            this.dragPane = DragPane;
+            this.statusIcon = statusIcon;
+        }
+
+        @Override
+        public void filesDropped(final File[] files) {
+
+            progressWheel = new AProgressWheel("Aurora_Loader.png");
+            dragPane
+                    .setLayout(new BorderLayout(0, 0));
+
+            // Content Pane
+            final JPanel contentContainer = new JPanel(new FlowLayout(
+                    FlowLayout.CENTER, -30, 5));
+            contentContainer.setOpaque(false);
+
+            contentContainer.add(Box.createVerticalStrut(220));
+            contentContainer.add(progressWheel);
+            contentContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
+
+            // Reset Button
+            AButton btnReset = new AButton("app_btn_close_norm.png",
+                                           "app_btn_close_down.png",
+                                           "app_btn_close_over.png");
+            btnReset.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dragPane.removeAll();
+                    dragPane.setImage("editCoverUI_dragBG.png");
+                    dragPane.revalidate();
+                    isOccupied = false;
+                    statusIcon.setImgURl("addUI_badge_invalid.png");
+
+                }
+            });
+            final JPanel resetContainer = new JPanel(new BorderLayout());
+            resetContainer.setOpaque(false);
+            resetContainer.add(btnReset, BorderLayout.NORTH);
+            resetContainer.setPreferredSize(new Dimension(55, dragPane
+                    .getRealImageHeight()));
+
+            dragPane.add(Box.createVerticalGlue());
+            dragPane.add(contentContainer, BorderLayout.CENTER);
+            dragPane.setImage("editCoverUI_processBG.png");
+
+            AThreadWorker load = new AThreadWorker(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    AImagePane coverArt = libraryLogic.processNewCoverArtImage(
+                            files[0]);
+                    AImagePane scaledCoverArt = coverArt;
+
+                    int scaledHeight = dragPane.getRealImageHeight() - 8;
+                    int scaledWidth = (scaledHeight * coverArt
+                            .getRealImageWidth()) / coverArt
+                            .getRealImageHeight();
+
+                    scaledCoverArt.setImageSize(scaledWidth,
+                                                scaledHeight);
+                    scaledCoverArt.setPreferredSize(new Dimension(scaledWidth,
+                                                                  scaledHeight));
+
+                    contentContainer.removeAll();
+                    contentContainer.revalidate();
+
+                    contentContainer.add(scaledCoverArt);
+                    dragPane.add(resetContainer, BorderLayout.EAST);
+                    dragPane.revalidate();
+
+                    statusIcon.setImgURl("addUI_badge_valid.png");
+                    contentContainer.revalidate();
+
+                }
+            });
+
+            load.startOnce();
+            isOccupied = true;
+
+        }
+
+        public boolean isOccupied() {
+            return isOccupied;
+        }
+
+    }
+
+    public class EditCoverUIDoneListener implements ActionListener {
+        private AImage status;
+
+        public EditCoverUIDoneListener(AImage statusImage) {
+            this.status = statusImage;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(status.getImgURl().equals("addUI_badge_invalid.png")){
+
+                 libraryLogic.flashInvalidStatus(status);
+
+            }else{
+
+                libraryUI.hideEditCoverFrame();
+
+            }
+
+        }
+
     }
 }

@@ -52,7 +52,7 @@ public class AuroraMini {
 
     private JFrame mini;
 
-    private AuroraCoreUI coreUI;
+    private final AuroraCoreUI coreUI;
 
     private AImagePane pnlBackground;
 
@@ -112,7 +112,7 @@ public class AuroraMini {
         if (mini == null) { // retain state
 
             //SET UP FRAME
-            mini = new JFrame();
+            mini = new JFrame("Aurora Minimized");
 
             mini.setUndecorated(true);
             mini.setBackground(Color.BLACK);

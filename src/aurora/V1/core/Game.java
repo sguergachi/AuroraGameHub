@@ -525,8 +525,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
 
             AFileManager fileIO = dashboardUI.getStartUI().getFileIO();
-            // Try to Get Image Locally //
 
+            // Try to Get Image Locally //
             Boolean loadedImage = true;
             try {
                 localImage = fileIO.findImg("Game Data",
@@ -2044,7 +2044,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                             35));
                     LibraryUI.lblLibraryStatus.setText("Removed Game");
 
-                    libraryLogic.setNeedAutoAddRefresh(true);
+                    LibraryLogic.refreshAuto = true;
 
                     try {
                         Thread.sleep(1200);

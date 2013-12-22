@@ -27,12 +27,14 @@ import aurora.V1.core.screen_handler.LibraryHandler.GameLibraryKeyListener;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AAnimate;
+import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.ANuance;
 import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
+import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.ARadioButton;
 import java.awt.Color;
@@ -44,6 +46,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -57,10 +60,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.prefs.Preferences;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
+import org.imgscalr.Scalr;
 
 /**
  * .------------------------------------------------------------------------.
@@ -130,7 +136,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     private boolean isAutoLoadedOnce;
 
-    private boolean refreshAuto;
+    public static boolean refreshAuto;
 
     private AThreadWorker findGames;
 
@@ -204,13 +210,13 @@ public class LibraryLogic implements AuroraScreenLogic {
         }
 
         gridSearch = new GridSearch(libraryUI.getCoreUI(), libraryUI,
-                libraryHandler);
+                                    libraryHandler);
         gameSearch_addUI = new GameSearch(libraryUI, coverDB,
-                libraryUI.getStorage());
+                                          libraryUI.getStorage());
         gameSearch_editUI = new GameSearch(libraryUI, coverDB,
-                libraryUI.getStorage());
+                                           libraryUI.getStorage());
         gameSearch_autoUI = new GameSearch(libraryUI, coverDB,
-                libraryUI.getStorage());
+                                           libraryUI.getStorage());
 
     }
 
@@ -277,7 +283,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                 if (!isLoaded) {
 
                     game = new Game(libraryUI.getGridSplit(), coreUI,
-                            dashboardUI, libraryUI.getStorage());
+                                    dashboardUI, libraryUI.getStorage());
                     game.setGameName(libraryUI.getStorage()
                             .getStoredLibrary()
                             .getGameNames()
@@ -301,7 +307,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                             .get(i).replace("'", "''"));
 
                     game.setCoverSize(libraryUI.getGameCoverWidth(),
-                            libraryUI
+                                      libraryUI
                             .getGameCoverHeight());
                 } else {
                     game = libraryUI.getGridSplit().getGame(i);
@@ -378,7 +384,7 @@ public class LibraryLogic implements AuroraScreenLogic {
             if (organize == null) {
                 organize = "favorite";
                 libraryUI.getStorage().getStoredSettings().saveSetting(organize,
-                        "favorite");
+                                                                       "favorite");
             }
 
             // Check if Organization Type is "Favorite" //
@@ -492,7 +498,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             libraryUI.getGridSplit()
                     .finalizeGrid(libraryHandler.new ShowAddGameUiHandler(),
-                            libraryUI
+                                  libraryUI
                             .getGameCoverWidth(), libraryUI.getGameCoverHeight());
 
             //Load First Grid by default
@@ -603,7 +609,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                                                  + 1).getArray()
                     .size(); i++) {
                 Game game = new Game(libraryUI.getGridSplit(), coreUI,
-                        dashboardUI);
+                                     dashboardUI);
                 try {
                     game = (Game) libraryUI.getGridSplit().getGrid(currentGrid
                                                                    + 1)
@@ -896,13 +902,13 @@ public class LibraryLogic implements AuroraScreenLogic {
 
         try {
             final Method openKey = clz.getDeclaredMethod("openKey",
-                    byte[].class, int.class,
-                    int.class);
+                                                         byte[].class, int.class,
+                                                         int.class);
             openKey.setAccessible(true);
 
             final Method closeKey = clz
                     .getDeclaredMethod("closeKey",
-                            int.class);
+                                       int.class);
             closeKey.setAccessible(true);
 
             final Method winRegQueryValue = clz.getDeclaredMethod(
@@ -925,11 +931,11 @@ public class LibraryLogic implements AuroraScreenLogic {
             // Query for steam path
             key = "Software\\Classes\\steam\\Shell\\Open\\Command";
             handle = (Integer) openKey.invoke(systemRoot,
-                    toCstr(key),
-                    KEY_READ, KEY_READ);
+                                              toCstr(key),
+                                              KEY_READ, KEY_READ);
             valb = (byte[]) winRegQueryValue.invoke(systemRoot,
-                    handle,
-                    toCstr(""));
+                                                    handle,
+                                                    toCstr(""));
             vals = (valb != null ? new String(valb).trim() : null);
             closeKey.invoke(Preferences.systemRoot(), handle);
 
@@ -1102,7 +1108,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                         pnlListElement.add(lblGameName);
 
                         Game game = new Game(libraryUI.getGridSplit(),
-                                coreUI, dashboardUI, libraryUI
+                                             coreUI, dashboardUI, libraryUI
                                 .getStorage());
 
                         game.setGameName(nameOfGames
@@ -1448,6 +1454,98 @@ public class LibraryLogic implements AuroraScreenLogic {
             java.util.logging.Logger.getLogger(LibraryLogic.class.getName())
                     .log(Level.SEVERE, null, ex);
         }
+
+    }
+
+    /**
+     * Saves image file and scales it to fit game covers.
+     * <p>
+     * @param file
+     *             <p>
+     * @return
+     */
+    private int SCALE_WIDTH_PARAM = 410;
+
+    private int SCALE_HEIGHT_PARAM = 510;
+
+    public AImagePane processNewCoverArtImage(File file) {
+
+        // Check if image is already available
+        AFileManager fileIO = dashboardUI.getStartUI().getFileIO();
+        Boolean loadedImage = true;
+        String fileName = file.getName();
+        AImagePane currentImagePane = new AImagePane();
+        try {
+            ImageIcon img = fileIO.findImg("Game Data",
+                                           fileName);
+            currentImagePane.setImage(img, img.getIconHeight(),
+                                      img.getIconWidth());
+
+        } catch (Exception ex) {
+            loadedImage = false;
+        }
+
+        if (!loadedImage) {
+            // Resize and Save image
+            BufferedImage img;
+            try {
+                img = ImageIO.read(file);
+                BufferedImage scaledImg = Scalr
+                        .resize(img, Scalr.Method.QUALITY, Scalr.Mode.FIT_EXACT,
+                                SCALE_WIDTH_PARAM, SCALE_HEIGHT_PARAM,
+                                Scalr.OP_ANTIALIAS);
+
+                currentImagePane.setImage(new ImageIcon(scaledImg),
+                                          SCALE_HEIGHT_PARAM,
+                                          SCALE_WIDTH_PARAM);
+
+                fileIO.writeImage(currentImagePane, fileName, "Game Data");
+
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(LibraryLogic.class.getName())
+                        .log(Level.SEVERE, null, ex);
+            }
+        }
+
+        if (currentImagePane != null) {
+            currentImagePane.setPreferredSize(new Dimension(currentImagePane
+                    .getRealImageHeight(), currentImagePane
+                    .getRealImageWidth()));
+        }
+
+        return currentImagePane;
+
+    }
+
+    public void flashInvalidStatus(final AImage status) {
+
+        AThreadWorker worker = new AThreadWorker(new ActionListener() {
+            private int count;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                while (count < 6) {
+
+
+                    if (count % 2 == 0) {
+                        status.setImgURl("addUI_badge_invalid_noglow.png");
+                    } else {
+                        status.setImgURl("addUI_badge_invalid.png");
+                    }
+
+                     count++;
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(LibraryLogic.class.getName())
+                                .log(Level.SEVERE, null, ex);
+                    }
+                }
+
+            }
+        });
+
+        worker.startOnce();
 
     }
 
