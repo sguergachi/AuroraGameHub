@@ -2161,11 +2161,15 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     public void refresh(Boolean useAuroraDB) {
         if (useAuroraDB) {
             coverImagePane.setURL(rootCoverDBPath + coverURL);
+            coverImagePane.setImageSize(width, height);
         } else {
             coverImagePane.setURL(new File(localGameRootPath + coverURL)
                     .getPath());
+            coverImagePane.setImageSize(width, height);
         }
-        coverImagePane.revalidate();
+
+        this.setImage(coverImagePane);
+        this.revalidate();
     }
 
     // Getters & Setters

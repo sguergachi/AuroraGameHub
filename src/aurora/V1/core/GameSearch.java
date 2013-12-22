@@ -186,7 +186,7 @@ public class GameSearch implements Runnable {
             notFoundCover.setCoverSize(imgBlankCover
                     .getImageWidth(), imgBlankCover.getImageHeight());
 
-            notFoundCover.add(foundGameCover);
+            pnlGameCoverPane.add(notFoundCover);
             try {
                 notFoundCover.update();
                 notFoundCover.removeOverlayUI();
@@ -277,7 +277,7 @@ public class GameSearch implements Runnable {
 
             notFoundCover.setGameName(gameName);
 
-            notFoundCover.add(foundGameCover);
+            pnlGameCoverPane.add(notFoundCover);
             try {
                 notFoundCover.update();
                 notFoundCover.removeOverlayUI();
@@ -628,7 +628,7 @@ public class GameSearch implements Runnable {
                     logger.error(ex);
                 }
 
-                //Trun notifier Green
+                //Turn notifier Green
                 imgStatus.setImgURl("addUI_badge_valid.png");
                 libraryUI.getLogic().checkManualAddGameStatus();
                 pnlGameCoverPane.repaint();

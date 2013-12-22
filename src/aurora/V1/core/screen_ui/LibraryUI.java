@@ -3041,7 +3041,7 @@ public class LibraryUI extends AuroraApp {
 
     }
 
-    public void showEditGameCoverUI(final Game gameString) {
+    public void showEditGameCoverUI(final Game game) {
 
         pnlGlass.setVisible(true);
 
@@ -3057,7 +3057,7 @@ public class LibraryUI extends AuroraApp {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
-                        buildEditGameCoverUI(gameString);
+                        buildEditGameCoverUI(game);
 
                     }
 

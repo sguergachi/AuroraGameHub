@@ -1511,10 +1511,9 @@ public class LibraryLogic implements AuroraScreenLogic {
             currentImagePane.setPreferredSize(new Dimension(currentImagePane
                     .getRealImageHeight(), currentImagePane
                     .getRealImageWidth()));
-             currentImagePane.setImageFileName(fileName);
+            currentImagePane.setImageFileName(fileName);
         }
 
-       
         return currentImagePane;
 
     }
@@ -1553,6 +1552,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     public void editCover(Game editingGame, String newGameName) {
         try {
+
             editingGame.setCoverUrl(newGameName);
             editingGame.refresh(false);
         } catch (MalformedURLException ex) {

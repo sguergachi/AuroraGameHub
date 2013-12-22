@@ -2543,6 +2543,8 @@ public class LibraryHandler implements
 
         public GameCoverEditListner(Game currentGame) {
             game = currentGame;
+            
+            
         }
 
         @Override
@@ -2728,7 +2730,8 @@ public class LibraryHandler implements
             } else {
 
                 libraryUI.hideEditCoverFrame();
-                libraryLogic.editCover(editingGame, dragListener.getNewGameName());
+                libraryLogic.editCover(editingGame, dragListener
+                        .getNewGameName());
             }
 
         }
