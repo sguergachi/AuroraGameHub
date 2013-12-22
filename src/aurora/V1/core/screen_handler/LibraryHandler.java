@@ -2535,8 +2535,7 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
-//            libraryUI.hideEditGameUI();
-//            libraryUI.hideAddGameUI();
+
             libraryUI.showEditGameCoverUI(gameString);
 
         }
