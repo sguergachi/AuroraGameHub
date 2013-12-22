@@ -21,7 +21,6 @@ import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
-import java.awt.Dimension;
 import java.net.MalformedURLException;
 import java.sql.Array;
 import java.sql.ResultSet;
@@ -51,8 +50,6 @@ public class GameSearch implements Runnable {
 
     private static Game foundGameCover;
 
-    private AImagePane notFound;
-
     private Thread typeThread;
 
     private int sleep;
@@ -72,6 +69,8 @@ public class GameSearch implements Runnable {
     private AImage imgStatus;
 
     private JTextField txtSearch;
+
+    private Game notFoundCover;
 
     /////////////////////
     /////Constructor/////
@@ -174,19 +173,38 @@ public class GameSearch implements Runnable {
 
         //If not found show Placeholder and turn notification red
         if (gameImageName == null) {
-            pnlGameCoverPane.removeAll();
-            notFound = new AImagePane("library_noGameFound.png", imgBlankCover
-                    .getImageWidth(), imgBlankCover.getImageHeight());
-            notFound.setPreferredSize(new Dimension(imgBlankCover
-                    .getImageWidth(), imgBlankCover.getImageHeight()));
-            pnlGameCoverPane.add(notFound);
 
-            imgStatus.setImgURl("addUI_badge_invalid.png");
+            pnlGameCoverPane.removeAll();
+            //Create the new GameCover object
+            notFoundCover = new Game(libraryUI.getGridSplit(), ui, libraryUI
+                    .getDashboardUI(), storage);
+            try {
+                notFoundCover.setCoverUrl("library_noGameFound.png");
+            } catch (MalformedURLException ex) {
+                logger.error(ex);
+            }
+            notFoundCover.setCoverSize(imgBlankCover
+                    .getImageWidth(), imgBlankCover.getImageHeight());
+
+            notFoundCover.add(foundGameCover);
+            try {
+                notFoundCover.update();
+                notFoundCover.removeOverlayUI();
+                notFoundCover.enableEditCoverOverlay();
+                notFoundCover.getBtnAddCustomOverlay().addActionListener(
+                        libraryUI.getHandler().new GameCoverEditListner(
+                                notFoundCover));
+            } catch (MalformedURLException ex) {
+                logger.error(ex);
+            }
+
+            //Change notification
+            imgStatus.setImgURl("addUI_badge_valid.png");
             pnlGameCoverPane.repaint();
             pnlGameCoverPane.revalidate();
-            notFound.repaint();
+            notFoundCover.revalidate();
 
-            return notFound;
+            return notFoundCover;
 
             //Show the game Cover if a single database item is found
         } else {
@@ -209,7 +227,8 @@ public class GameSearch implements Runnable {
                 foundGameCover.removeOverlayUI();
                 foundGameCover.enableEditCoverOverlay();
                 foundGameCover.getBtnAddCustomOverlay().addActionListener(
-                             libraryUI.getHandler().new GameCoverEditListner(AppendedName));
+                        libraryUI.getHandler().new GameCoverEditListner(
+                                foundGameCover));
             } catch (MalformedURLException ex) {
                 logger.error(ex);
             }
@@ -243,19 +262,40 @@ public class GameSearch implements Runnable {
 
         //If not found show Placeholder and turn notification red
         if (foundGame == null) {
-            pnlGameCoverPane.removeAll();
-            notFound = new AImagePane("library_noGameFound.png", imgBlankCover
-                    .getImageWidth(), imgBlankCover.getImageHeight());
-            notFound.setPreferredSize(new Dimension(imgBlankCover
-                    .getImageWidth(), imgBlankCover.getImageHeight()));
-            pnlGameCoverPane.add(notFound);
 
-            imgStatus.setImgURl("addUI_badge_invalid.png");
+            pnlGameCoverPane.removeAll();
+            //Create the new GameCover object
+            notFoundCover = new Game(libraryUI.getGridSplit(), ui, libraryUI
+                    .getDashboardUI(), storage);
+            try {
+                notFoundCover.setCoverUrl("library_noGameFound.png");
+            } catch (MalformedURLException ex) {
+                logger.error(ex);
+            }
+            notFoundCover.setCoverSize(imgBlankCover
+                    .getImageWidth(), imgBlankCover.getImageHeight());
+
+            notFoundCover.setGameName(gameName);
+
+            notFoundCover.add(foundGameCover);
+            try {
+                notFoundCover.update();
+                notFoundCover.removeOverlayUI();
+                notFoundCover.enableEditCoverOverlay();
+                notFoundCover.getBtnAddCustomOverlay().addActionListener(
+                        libraryUI.getHandler().new GameCoverEditListner(
+                                notFoundCover));
+            } catch (MalformedURLException ex) {
+                logger.error(ex);
+            }
+
+            //Change notification
+            imgStatus.setImgURl("addUI_badge_valid.png");
             pnlGameCoverPane.repaint();
             pnlGameCoverPane.revalidate();
-            notFound.repaint();
+            notFoundCover.revalidate();
 
-            return notFound;
+            return notFoundCover;
 
             //Show the game Cover if a single database item is found
         } else {
@@ -280,7 +320,8 @@ public class GameSearch implements Runnable {
                 foundGameCover.removeOverlayUI();
                 foundGameCover.enableEditCoverOverlay();
                 foundGameCover.getBtnAddCustomOverlay().addActionListener(
-                             libraryUI.getHandler().new GameCoverEditListner(AppendedName));
+                        libraryUI.getHandler().new GameCoverEditListner(
+                                foundGameCover));
             } catch (MalformedURLException ex) {
                 logger.error(ex);
             }
@@ -339,7 +380,7 @@ public class GameSearch implements Runnable {
                         case 0: // First attempt: remove garbage characters
                             if (gameName.matches("^.*[©®™°²³º¼½¾].*$")) {
                                 gameName = gameName.replaceAll("[©®™°²³º¼½¾]",
-                                        "");
+                                                               "");
                                 break;
                             }
                         case 1: // Second attempt: add spaces between Letters
@@ -402,7 +443,8 @@ public class GameSearch implements Runnable {
                     // Add space
                     modifiedText = modifiedText.substring(0, spaceIndex)
                                    + " " + modifiedText.substring(spaceIndex,
-                            modifiedText.length());
+                                                                  modifiedText
+                            .length());
 
                 }
 
@@ -482,7 +524,7 @@ public class GameSearch implements Runnable {
                 }
 
                 foundArray = db.searchAprox("AuroraTable", "FILE_NAME",
-                        "GAME_NAME", AppendedName.toString());
+                                            "GAME_NAME", AppendedName.toString());
             } catch (SQLException ex) {
                 logger.error(ex);
             }
@@ -506,7 +548,7 @@ public class GameSearch implements Runnable {
                                         .replace("-", " ").replace(".png", ""))) {
                                     listModel.addElement(gameItem
                                             .replace("-", " ").replace(".png",
-                                                    ""));
+                                                                       ""));
 
                                 }
                             }
@@ -523,22 +565,35 @@ public class GameSearch implements Runnable {
             if (foundGame == null) {
 
                 pnlGameCoverPane.removeAll();
-                notFound = new AImagePane("library_noGameFound.png",
-                        imgBlankCover.getImageWidth(), imgBlankCover
-                        .getImageHeight());
-                notFound.setPreferredSize(
-                        new Dimension(notFound.getImageWidth(), notFound
-                                .getImageHeight()));
-                pnlGameCoverPane.add(notFound);
-                foundGameCover = null;
+                //Create the new GameCover object
+                notFoundCover = new Game(libraryUI.getGridSplit(), ui, libraryUI
+                        .getDashboardUI(), storage);
+                try {
+                    notFoundCover.setCoverUrl("library_noGameFound.png");
+                } catch (MalformedURLException ex) {
+                    logger.error(ex);
+                }
+                notFoundCover.setCoverSize(imgBlankCover
+                        .getImageWidth(), imgBlankCover.getImageHeight());
 
-                imgStatus.setImgURl("addUI_badge_invalid.png");
-                libraryUI.getLogic().checkManualAddGameStatus();
+                pnlGameCoverPane.add(notFoundCover);
 
-                listModel.removeAllElements();
+                try {
+                    notFoundCover.update();
+                    notFoundCover.removeOverlayUI();
+                    notFoundCover.enableEditCoverOverlay();
+                    notFoundCover.getBtnAddCustomOverlay().addActionListener(
+                            libraryUI.getHandler().new GameCoverEditListner(
+                                    notFoundCover));
+                } catch (MalformedURLException ex) {
+                    logger.error(ex);
+                }
 
+                //Change notification
+                imgStatus.setImgURl("addUI_badge_valid.png");
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
+                notFoundCover.revalidate();
 
             } else if (foundGame != null) {
 
@@ -546,7 +601,7 @@ public class GameSearch implements Runnable {
 
                 //Set up GameCover object with First Database item found
                 foundGameCover = new Game(libraryUI.getGridSplit(), ui,
-                        libraryUI.getDashboardUI(), storage);
+                                          libraryUI.getDashboardUI(), storage);
                 try {
                     foundGameCover.setCoverUrl(foundGame); //use seperate string
                 } catch (MalformedURLException ex) {
@@ -563,11 +618,12 @@ public class GameSearch implements Runnable {
                 try {
                     foundGameCover.update();
                     foundGameCover.removeOverlayUI();
-                    
+
                     //Enable the ability to edit cover art
                     foundGameCover.enableEditCoverOverlay();
                     foundGameCover.getBtnAddCustomOverlay().addActionListener(
-                             libraryUI.getHandler().new GameCoverEditListner(AppendedName));
+                            libraryUI.getHandler().new GameCoverEditListner(
+                                    foundGameCover));
                 } catch (MalformedURLException ex) {
                     logger.error(ex);
                 }

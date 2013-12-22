@@ -2539,10 +2539,10 @@ public class LibraryHandler implements
      */
     public class GameCoverEditListner implements ActionListener {
 
-        private final String gameString;
+        private final Game gameString;
 
-        public GameCoverEditListner(String currentInput) {
-            gameString = currentInput;
+        public GameCoverEditListner(Game currentGame) {
+            gameString = currentGame;
         }
 
         @Override

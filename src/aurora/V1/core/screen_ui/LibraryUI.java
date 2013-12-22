@@ -2521,7 +2521,7 @@ public class LibraryUI extends AuroraApp {
         closeEditCoverListener.actionPerformed(null);
     }
 
-    public void buildEditGameCoverUI(String gameString) {
+    public void buildEditGameCoverUI(Game game) {
 
         if (!isEditGameCoverLoaded) {
 
@@ -3041,7 +3041,7 @@ public class LibraryUI extends AuroraApp {
 
     }
 
-    public void showEditGameCoverUI(final String gameString) {
+    public void showEditGameCoverUI(final Game gameString) {
 
         pnlGlass.setVisible(true);
 
