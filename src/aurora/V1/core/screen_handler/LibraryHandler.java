@@ -2539,20 +2539,15 @@ public class LibraryHandler implements
      */
     public class GameCoverEditListner implements ActionListener {
 
-        private final Game gameString;
+        private final Game game;
 
         public GameCoverEditListner(Game currentGame) {
-            gameString = currentGame;
+            game = currentGame;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 4d665f4c4d9de36d555b51a709045e6cd31d6af3
-            libraryUI.showEditGameCoverUI(gameString);
+            libraryUI.showEditGameCoverUI(game);
 
         }
 
