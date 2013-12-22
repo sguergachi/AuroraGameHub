@@ -2495,7 +2495,7 @@ public class LibraryUI extends AuroraApp {
         btnDone_editCoverUI = new AButton("editCoverUI_btnDone_norm.png",
                                           "editCoverUI_btnDone_down.png",
                                           "editCoverUI_btnDone_over.png");
-        imgEditGameCoverStatus = new AImage("addUI_badge_idle.png");
+        imgEditGameCoverStatus = new AImage("addUI_badge_invalid.png");
 
         //* Center Panel *//
         pnlCenterPane_editCoverUI = new JPanel(new FlowLayout(FlowLayout.CENTER,
@@ -2509,12 +2509,16 @@ public class LibraryUI extends AuroraApp {
                 .getRealImageHeight()));
 
         fileDragedListener = libraryHandler.new EditCoverUIDragedListener(
-                pnlDrag_editCoverUI);
+                pnlDrag_editCoverUI, imgEditGameCoverStatus);
 
         //* Content Panel *//
         pnlContent_editCoverUI = new JPanel(new BorderLayout());
         pnlContent_editCoverUI.setOpaque(false);
 
+    }
+
+    public void hideEditCoverFrame() {
+        closeEditCoverListener.actionPerformed(null);
     }
 
     public void buildEditGameCoverUI(String gameString) {
@@ -2568,6 +2572,9 @@ public class LibraryUI extends AuroraApp {
                     FlowLayout.CENTER));
             rightPaneContainer.setOpaque(false);
             rightPaneContainer.add(btnDone_editCoverUI);
+            btnDone_editCoverUI.addActionListener(
+                    libraryHandler.new EditCoverUIDoneListener(
+                            imgEditGameCoverStatus));
 
             rightPaneContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 

@@ -34,6 +34,7 @@ import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
+import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.ARadioButton;
 import java.awt.Color;
@@ -1490,7 +1491,7 @@ public class LibraryLogic implements AuroraScreenLogic {
             try {
                 img = ImageIO.read(file);
                 BufferedImage scaledImg = Scalr
-                        .resize(img, Scalr.Method.QUALITY,Scalr.Mode.FIT_EXACT,
+                        .resize(img, Scalr.Method.QUALITY, Scalr.Mode.FIT_EXACT,
                                 SCALE_WIDTH_PARAM, SCALE_HEIGHT_PARAM,
                                 Scalr.OP_ANTIALIAS);
 
@@ -1513,6 +1514,38 @@ public class LibraryLogic implements AuroraScreenLogic {
         }
 
         return currentImagePane;
+
+    }
+
+    public void flashInvalidStatus(final AImage status) {
+
+        AThreadWorker worker = new AThreadWorker(new ActionListener() {
+            private int count;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                while (count < 6) {
+
+
+                    if (count % 2 == 0) {
+                        status.setImgURl("addUI_badge_invalid_noglow.png");
+                    } else {
+                        status.setImgURl("addUI_badge_invalid.png");
+                    }
+
+                     count++;
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(LibraryLogic.class.getName())
+                                .log(Level.SEVERE, null, ex);
+                    }
+                }
+
+            }
+        });
+
+        worker.startOnce();
 
     }
 

@@ -12,7 +12,7 @@
 + Added ability to better guess cover art in Auto Add
 + Added 150 new game cover icons to AuroraDB
 
-- Fixed editing game path not changing game name
+- Fixed bugs related to editing game box art and game path
 - Fixed bug where auto adding many games requiring new grids would cause issues
 - Fixed bug where the add button would not slide down sometimes in Add Game panel
 - Fixed bug where checking off a few games in auto add pane always added all games

@@ -1610,15 +1610,12 @@ public class LibraryHandler implements
 
         private final StoredSettings storage;
 
-        private int i;
-
         public SelectedOrganizeListener(ASlickLabel lbl, StoredSettings settings,
                                         String SettingValue) {
 
             label = lbl;
             settingValue = SettingValue;
             storage = settings;
-            i = 0;
 
         }
 
@@ -2028,7 +2025,7 @@ public class LibraryHandler implements
         }
 
         @Override
-        public void mouseEntered(MouseEvent e) {
+        public void mouseEntered(final MouseEvent e) {
 
             if (logger.isDebugEnabled()) {
                 logger.debug("HOVER IMAGE ACTIVATED");
@@ -2049,7 +2046,7 @@ public class LibraryHandler implements
         }
     }
 
-    //Handler for the Navigation using Keyboard
+//Handler for the Navigation using Keyboard
     public class GameLibraryKeyListener extends KeyAdapter {
 
         private GridManager gridManager;
@@ -2602,8 +2599,11 @@ public class LibraryHandler implements
 
         private boolean isOccupied;
 
-        public EditCoverUIDragedListener(AImagePane DragPane) {
+        private AImage statusIcon;
+
+        public EditCoverUIDragedListener(AImagePane DragPane, AImage statusIcon) {
             this.dragPane = DragPane;
+            this.statusIcon = statusIcon;
         }
 
         @Override
@@ -2634,6 +2634,7 @@ public class LibraryHandler implements
                     dragPane.setImage("editCoverUI_dragBG.png");
                     dragPane.revalidate();
                     isOccupied = false;
+                    statusIcon.setImgURl("addUI_badge_invalid.png");
 
                 }
             });
@@ -2672,6 +2673,8 @@ public class LibraryHandler implements
                     contentContainer.add(scaledCoverArt);
                     dragPane.add(resetContainer, BorderLayout.EAST);
                     dragPane.revalidate();
+
+                    statusIcon.setImgURl("addUI_badge_valid.png");
                     contentContainer.revalidate();
 
                 }
@@ -2684,6 +2687,29 @@ public class LibraryHandler implements
 
         public boolean isOccupied() {
             return isOccupied;
+        }
+
+    }
+
+    public class EditCoverUIDoneListener implements ActionListener {
+        private AImage status;
+
+        public EditCoverUIDoneListener(AImage statusImage) {
+            this.status = statusImage;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(status.getImgURl().equals("addUI_badge_invalid.png")){
+
+                 libraryLogic.flashInvalidStatus(status);
+
+            }else{
+
+                libraryUI.hideEditCoverFrame();
+
+            }
+
         }
 
     }
