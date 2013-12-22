@@ -525,8 +525,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
 
             AFileManager fileIO = dashboardUI.getStartUI().getFileIO();
-            // Try to Get Image Locally //
 
+            // Try to Get Image Locally //
             Boolean loadedImage = true;
             try {
                 localImage = fileIO.findImg("Game Data",

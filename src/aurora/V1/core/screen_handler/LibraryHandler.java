@@ -36,6 +36,7 @@ import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
+import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AGridPanel;
 import aurora.engine.V1.UI.AHoverButton;
@@ -49,6 +50,7 @@ import aurora.engine.V1.UI.ATextField;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Window;
@@ -70,7 +72,6 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
@@ -2591,30 +2592,93 @@ public class LibraryHandler implements
         private AImagePane dragPane;
 
         private AProgressWheel progressWheel;
+        private boolean isOccupied;
 
         public EditCoverUIDragedListener(AImagePane DragPane) {
             this.dragPane = DragPane;
         }
 
         @Override
-        public void filesDropped(File[] files) {
+        public void filesDropped(final File[] files) {
 
             progressWheel = new AProgressWheel("Aurora_Loader.png");
+            dragPane
+                    .setLayout(new BorderLayout(0, 0));
 
-            dragPane.setLayout(new BoxLayout(dragPane, BoxLayout.Y_AXIS));
-            JPanel progressContainer = new JPanel(new FlowLayout(
-                    FlowLayout.CENTER));
-            progressContainer.setOpaque(false);
+            // Content Pane
+            final JPanel contentContainer = new JPanel(new FlowLayout(
+                    FlowLayout.CENTER, -30, 5));
+            contentContainer.setOpaque(false);
 
-            progressContainer.add(progressWheel);
-            progressContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
+            contentContainer.add(Box.createVerticalStrut(220));
+            contentContainer.add(progressWheel);
+            contentContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
+
+            // Reset Button
+            AButton btnReset = new AButton("app_btn_close_norm.png",
+                                           "app_btn_close_down.png",
+                                           "app_btn_close_over.png");
+            btnReset.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dragPane.removeAll();
+                    dragPane.setImage("editCoverUI_dragBG.png");
+                    dragPane.revalidate();
+                    isOccupied = false;
+
+                }
+            });
+            final JPanel resetContainer = new JPanel(new BorderLayout());
+            resetContainer.setOpaque(false);
+            resetContainer.add(btnReset, BorderLayout.NORTH);
+            resetContainer.setPreferredSize(new Dimension(55, dragPane
+                    .getRealImageHeight()));
 
             dragPane.add(Box.createVerticalGlue());
-            dragPane.add(progressContainer);
-
+            dragPane.add(contentContainer, BorderLayout.CENTER);
             dragPane.setImage("editCoverUI_processBG.png");
 
+            AThreadWorker load = new AThreadWorker(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    AImagePane coverArt = libraryLogic.processNewCoverArtImage(
+                            files[0]);
+                    AImagePane scaledCoverArt = coverArt;
+
+                    int scaledHeight = dragPane.getRealImageHeight() - 8;
+                    int scaledWidth = (scaledHeight * coverArt
+                            .getRealImageWidth()) / coverArt
+                            .getRealImageHeight();
+
+                    scaledCoverArt.setImageSize(scaledWidth,
+                                                scaledHeight);
+                    scaledCoverArt.setPreferredSize(new Dimension(scaledWidth,
+                                                                  scaledHeight));
+
+                    contentContainer.removeAll();
+                    contentContainer.revalidate();
+
+                    contentContainer.add(scaledCoverArt);
+                    dragPane.add(resetContainer, BorderLayout.EAST);
+                    dragPane.revalidate();
+                    contentContainer.revalidate();
+
+                }
+            });
+
+            load.startOnce();
+            isOccupied = true;
+
+
         }
+
+        public boolean isOccupied(){
+            return isOccupied;
+        }
+
 
     }
 }
