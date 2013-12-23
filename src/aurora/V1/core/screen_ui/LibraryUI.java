@@ -2574,7 +2574,7 @@ public class LibraryUI extends AuroraApp {
             rightPaneContainer.add(btnDone_editCoverUI);
             btnDone_editCoverUI.addActionListener(
                     libraryHandler.new EditCoverUIDoneListener(
-                            imgEditGameCoverStatus,game,fileDragedListener));
+                            imgEditGameCoverStatus, game, fileDragedListener));
 
             rightPaneContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 
@@ -2815,12 +2815,8 @@ public class LibraryUI extends AuroraApp {
         organizeMenu
                 .show(getCoreUI().getFrame(), btnOrganizeGames
                         .getLocationOnScreen().x + ((btnOrganizeGames
-                        .getBounds().width)
-                                                    / 3
-                                                    - (btnOrganizeGames
-                        .getBounds().width)
-                                                      / 5)
-                                              - 3,
+                        .getBounds().width) / 3 - (btnOrganizeGames
+                        .getBounds().width) / 5) - 3,
                       btnOrganizeGames.getLocationOnScreen().y
                       - btnOrganizeGames
                         .getBounds().height
