@@ -1435,6 +1435,7 @@ public class LibraryUI extends AuroraApp {
                 pnlBlankCoverGame_autoUI,
                 pnlCoverPane_autoUI,
                 listModel_autoUI, imgAutoStatus, null);
+        libraryLogic.getGameSearch_autoUI().setCanEditCover(false);
 
     }
 

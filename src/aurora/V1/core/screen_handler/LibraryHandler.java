@@ -1289,7 +1289,7 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            final Game game = gameSearch.getFoundGameCover();
+            final Game game = gameSearch.getCurrentlySearchedGame();
 
             AThreadWorker add = new AThreadWorker(new ActionListener() {
                 @Override
@@ -1322,15 +1322,21 @@ public class LibraryHandler implements
                                     });
                     libraryLogic.animateAddButtonUp();
 
+                    game.reAddInteractive();
+
                     // If in Manual mode Save current game to storage
                     if (libraryUI.getBtnManual().isSelected) {
 
                         game.setGamePath(currentPath);
                         game.setLibraryLogic(libraryLogic);
 
+                        if(game.getGameName() == null){
+                            game.setGameName(gameSearch.getAppendedName());
+                        }
+
                         if (!gridManager.isDupicate(game)) {
                             storage.getStoredLibrary()
-                                    .SaveGame(gameSearch.getFoundGameCover());
+                                    .SaveGame(game);
 
                         } else {
                             ADialog info = new ADialog(ADialog.aDIALOG_WARNING,

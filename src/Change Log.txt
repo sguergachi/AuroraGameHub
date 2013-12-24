@@ -24,6 +24,7 @@
 - Improved Game Finder algorithm
 - Refreshed some UI assets to look cleaner in Aurora
 - Prevented random cover art shown in dashboard from being an "unavailable" game
+- Duplicate game uses game name to compare instead of cover art
 - As always, small changes here and there. Magic in the details ;)
 
 ////////////////////////////////////////////------------------------------------

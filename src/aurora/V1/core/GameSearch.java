@@ -72,6 +72,8 @@ public class GameSearch implements Runnable {
 
     private Game notFoundCover;
 
+    private boolean canEditCover = true;
+
     /////////////////////
     /////Constructor/////
     /////////////////////
@@ -190,10 +192,13 @@ public class GameSearch implements Runnable {
             try {
                 notFoundCover.update();
                 notFoundCover.removeOverlayUI();
-                notFoundCover.enableEditCoverOverlay();
-                notFoundCover.getBtnAddCustomOverlay().addActionListener(
-                        libraryUI.getHandler().new GameCoverEditListner(
-                                notFoundCover));
+
+                if (canEditCover) {
+                    notFoundCover.enableEditCoverOverlay();
+                    notFoundCover.getBtnAddCustomOverlay().addActionListener(
+                            libraryUI.getHandler().new GameCoverEditListner(
+                                    notFoundCover));
+                }
             } catch (MalformedURLException ex) {
                 logger.error(ex);
             }
@@ -225,10 +230,14 @@ public class GameSearch implements Runnable {
             try {
                 foundGameCover.update();
                 foundGameCover.removeOverlayUI();
-                foundGameCover.enableEditCoverOverlay();
-                foundGameCover.getBtnAddCustomOverlay().addActionListener(
-                        libraryUI.getHandler().new GameCoverEditListner(
-                                foundGameCover));
+
+                // Enable editing of cover art
+                if (canEditCover) {
+                    foundGameCover.enableEditCoverOverlay();
+                    foundGameCover.getBtnAddCustomOverlay().addActionListener(
+                            libraryUI.getHandler().new GameCoverEditListner(
+                                    foundGameCover));
+                }
             } catch (MalformedURLException ex) {
                 logger.error(ex);
             }
@@ -281,16 +290,20 @@ public class GameSearch implements Runnable {
             try {
                 notFoundCover.update();
                 notFoundCover.removeOverlayUI();
-                notFoundCover.enableEditCoverOverlay();
-                notFoundCover.getBtnAddCustomOverlay().addActionListener(
-                        libraryUI.getHandler().new GameCoverEditListner(
-                                notFoundCover));
+
+                // Enable editing of cover art
+                if (canEditCover) {
+                    notFoundCover.enableEditCoverOverlay();
+                    notFoundCover.getBtnAddCustomOverlay().addActionListener(
+                            libraryUI.getHandler().new GameCoverEditListner(
+                                    notFoundCover));
+                }
             } catch (MalformedURLException ex) {
                 logger.error(ex);
             }
 
             //Change notification
-             imgStatus.setImgURl("addUI_badge_invalid.png");
+            imgStatus.setImgURl("addUI_badge_invalid.png");
             pnlGameCoverPane.repaint();
             pnlGameCoverPane.revalidate();
             notFoundCover.revalidate();
@@ -301,7 +314,7 @@ public class GameSearch implements Runnable {
         } else {
 
             pnlGameCoverPane.removeAll();
-            //Create the new GameCover object
+            // Create the new GameCover object
             foundGameCover = new Game(libraryUI.getGridSplit(), ui, libraryUI
                     .getDashboardUI(), storage);
             try {
@@ -318,10 +331,14 @@ public class GameSearch implements Runnable {
             try {
                 foundGameCover.update();
                 foundGameCover.removeOverlayUI();
-                foundGameCover.enableEditCoverOverlay();
-                foundGameCover.getBtnAddCustomOverlay().addActionListener(
-                        libraryUI.getHandler().new GameCoverEditListner(
-                                foundGameCover));
+
+                // Enable editing of cover art
+                if (canEditCover) {
+                    foundGameCover.enableEditCoverOverlay();
+                    foundGameCover.getBtnAddCustomOverlay().addActionListener(
+                            libraryUI.getHandler().new GameCoverEditListner(
+                                    foundGameCover));
+                }
             } catch (MalformedURLException ex) {
                 logger.error(ex);
             }
@@ -581,10 +598,15 @@ public class GameSearch implements Runnable {
                 try {
                     notFoundCover.update();
                     notFoundCover.removeOverlayUI();
-                    notFoundCover.enableEditCoverOverlay();
-                    notFoundCover.getBtnAddCustomOverlay().addActionListener(
-                            libraryUI.getHandler().new GameCoverEditListner(
-                                    notFoundCover));
+
+                    //Allow for custom editing cover art
+                    if (canEditCover) {
+                        notFoundCover.enableEditCoverOverlay();
+                        notFoundCover.getBtnAddCustomOverlay()
+                                .addActionListener(
+                                        libraryUI.getHandler().new GameCoverEditListner(
+                                                notFoundCover));
+                    }
                 } catch (MalformedURLException ex) {
                     logger.error(ex);
                 }
@@ -594,7 +616,6 @@ public class GameSearch implements Runnable {
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
                 notFoundCover.revalidate();
-
 
             } else if (foundGame != null) {
 
@@ -621,10 +642,13 @@ public class GameSearch implements Runnable {
                     foundGameCover.removeOverlayUI();
 
                     //Enable the ability to edit cover art
-                    foundGameCover.enableEditCoverOverlay();
-                    foundGameCover.getBtnAddCustomOverlay().addActionListener(
-                            libraryUI.getHandler().new GameCoverEditListner(
-                                    foundGameCover));
+                    if (canEditCover) {
+                        foundGameCover.enableEditCoverOverlay();
+                        foundGameCover.getBtnAddCustomOverlay()
+                                .addActionListener(
+                                        libraryUI.getHandler().new GameCoverEditListner(
+                                                foundGameCover));
+                    }
                 } catch (MalformedURLException ex) {
                     logger.error(ex);
                 }
@@ -665,8 +689,12 @@ public class GameSearch implements Runnable {
         return foundGameCover;
     }
 
-    public Game getCurrentlySearchedGame(){
+    public Game getCurrentlySearchedGame() {
         return (Game) pnlGameCoverPane.getComponent(0);
+    }
+
+    public void setCanEditCover(boolean canEditCover) {
+        this.canEditCover = canEditCover;
     }
 
 }

@@ -347,8 +347,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // ----------------------------------------------------------------.
         pnlInteractivePane = new JPanel(new BorderLayout());
         pnlInteractivePane.setOpaque(false);
-        pnlInteractivePane.addMouseListener(new Game.InteractiveListener());
         pnlInteractivePane.setName("pnlInteractivePane");
+        pnlInteractivePane.addMouseListener(new Game.InteractiveListener());
         this.addMouseListener(new Game.InteractiveListener());
         this.add(pnlInteractivePane);
         this.revalidate();
@@ -793,6 +793,28 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         });
 
         pnlInteractivePane.add(btnAddCustomOverlay);
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | disableEditCoverOverlay();
+     * .-----------------------------------------------------------------------.
+     * |
+     * | disables the ability to add a custom cover art image to game by clicking
+     * | on the game.
+     * |
+     * .........................................................................
+     * <p/>
+     *
+     */
+    public final void disableEditCoverOverlay() {
+
+        if (isRemoved) {
+            addOverlayUI();
+        }
+
+        pnlInteractivePane.addMouseListener(new Game.InteractiveListener());
+        this.addMouseListener(new Game.InteractiveListener());
     }
 
     /**

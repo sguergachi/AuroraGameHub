@@ -1571,6 +1571,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             editingGame.setCoverUrl(newGameName);
             editingGame.refresh(false);
+            editingGame.disableEditCoverOverlay();
             libraryUI.getStatusBadge1().setImgURl("addUI_badge_valid.png");
             libraryUI.getImgGameCoverStatus().setImgURl("addUI_badge_valid.png");
 
