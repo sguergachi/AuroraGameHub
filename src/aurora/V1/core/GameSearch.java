@@ -662,10 +662,6 @@ public class GameSearch implements Runnable {
         }
     }
 
-    public String getAppendedName() {
-        return AppendedName;
-    }
-
     @Override
     public void run() {
 
@@ -683,6 +679,10 @@ public class GameSearch implements Runnable {
         }
         searchGame();
         typeThread = null;
+    }
+
+    public String getAppendedName() {
+        return AppendedName;
     }
 
     public Game getFoundGameCover() {

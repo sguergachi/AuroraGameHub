@@ -2475,7 +2475,7 @@ public class LibraryUI extends AuroraApp {
         //* Bottom Panel Components *//
         pnlBottomPane_editCoverUI = new JPanel(new FlowLayout(FlowLayout.RIGHT,
                                                               10,
-                                                              4));
+                                                              3));
         pnlBottomPane_editCoverUI.setOpaque(false);
         btnClose_editCoverUI = new AButton("editCoverUI_btnClose_norm.png",
                                            "editCoverUI_btnClose_down.png",
@@ -2562,6 +2562,9 @@ public class LibraryUI extends AuroraApp {
                     .getPreferredSize().height));
 
             pnlCenterPane_editCoverUI.add(pnlDrag_editCoverUI);
+            pnlCenterPane_editCoverUI.setPreferredSize(new Dimension(
+                    pnlDrag_editCoverUI.getRealImageWidth(), pnlDrag_editCoverUI
+                    .getRealImageHeight()));
 
             fileDrop = new AFileDrop(pnlDrag_editCoverUI,
                                      "editCoverUI_dropBG.png",
@@ -2579,9 +2582,10 @@ public class LibraryUI extends AuroraApp {
 
             rightPaneContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 
+            pnlRightPane_editCoverUI.add(Box.createVerticalGlue());
             pnlRightPane_editCoverUI.add(rightPaneContainer);
             pnlRightPane_editCoverUI.setPreferredSize(new Dimension(
-                    (pnlEditGameCoverPane.getRealImageWidth() / 4),
+                    (pnlEditGameCoverPane.getRealImageWidth() / 5) + 20,
                     centerHeight));
 
             //* Left *//
@@ -2596,7 +2600,7 @@ public class LibraryUI extends AuroraApp {
                                                                 / 6));
             pnlLeftPane_editCoverUI.add(leftPaneContainer);
             pnlLeftPane_editCoverUI.setPreferredSize(new Dimension(
-                    (pnlEditGameCoverPane.getRealImageWidth() / 4),
+                    (pnlEditGameCoverPane.getRealImageWidth() / 5) + 20,
                     centerHeight));
 
             //* Content Pane *//

@@ -1582,6 +1582,10 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     }
 
+    public void disableGameSearch(GameSearch search){
+        
+    }
+
     public ArrayList<Game> getAutoAddCurrentList() {
         return autoAddCurrentList;
     }
