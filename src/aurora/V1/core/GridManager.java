@@ -177,6 +177,26 @@ public class GridManager {
         return false;
     }
 
+     /**
+     * check if Game Cover Art is already in the library
+     *
+     * @param game GameCover to check for duplicates
+     */
+    public boolean isDupicate(String gameName) {
+        for (int i = 0; i < Grids.size(); i++) {
+            for (int a = 0; a < Grids.get(i).getArray().size(); a++) {
+                if (Grids.get(i).getArray().get(a) instanceof GamePlaceholder
+                    == false) {
+                    Game cover = (Game) Grids.get(i).getArray().get(a);
+                    if (cover.getGameName().equals(gameName)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * Finds Same Game and returns that game in the library
      *

@@ -894,8 +894,6 @@ public class LibraryHandler implements
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    libraryUI.hideEditGameUI();
-
                     if (libraryUI.isGameLocation()) {
                         // Check if valid
                         if (libraryUI.getImgGameLocationStatus().getImgURl()
@@ -917,6 +915,8 @@ public class LibraryHandler implements
                             LibraryUI.lblLibraryStatus.setText(
                                     "Changed Game Path");
                         }
+
+                        libraryUI.hideEditGameUI();
                     }
 
                     if (libraryUI.isGameCover()) {
@@ -925,61 +925,82 @@ public class LibraryHandler implements
                         if (libraryUI.getImgGameCoverStatus().getImgURl()
                                 .equals(
                                         "addUI_badge_valid.png")) {
-                            // Remove Game
-                            libraryUI.getStorage().getStoredLibrary()
-                                    .removeGame(libraryUI
-                                            .getCurrentGame_editUI());
-                            try {
-                                //Set new path
-                                libraryUI.getCurrentGame_editUI().setCoverUrl(
-                                        libraryLogic.getGameSearch_editUI()
-                                        .getCurrentlySearchedGame()
-                                        .getBoxArtUrl());
 
-                                //Set new name
-                                String editGameName;
-                                if (libraryLogic.getGameSearch_editUI()
-                                        .getFoundGameCover().getName() == null) {
-                                    editGameName = libraryLogic
-                                            .getGameSearch_editUI()
-                                            .getAppendedName();
-                                } else {
-                                    editGameName = libraryLogic
-                                            .getGameSearch_editUI()
-                                            .getFoundGameCover().getName();
-                                }
-                                libraryUI.getCurrentGame_editUI().setGameName(
-                                        editGameName);
-
-                            } catch (MalformedURLException ex) {
-                                java.util.logging.Logger.getLogger(
-                                        LibraryHandler.class.getName()).
-                                        log(Level.SEVERE, null, ex);
+                            //Set new name
+                            String editGameName;
+                            if (libraryLogic.getGameSearch_editUI()
+                                    .getFoundGameCover().getName() == null) {
+                                editGameName = libraryLogic
+                                        .getGameSearch_editUI()
+                                        .getAppendedName();
+                            } else {
+                                editGameName = libraryLogic
+                                        .getGameSearch_editUI()
+                                        .getFoundGameCover().getName();
                             }
 
-                            //refresh
-                            libraryUI.getCurrentGame_editUI().refresh(true);
+                            if (!libraryUI
+                                    .getGridSplit().isDupicate(editGameName)) {
+                                // Remove Game
+                                libraryUI.getStorage().getStoredLibrary()
+                                        .removeGame(libraryUI
+                                                .getCurrentGame_editUI());
+                                try {
+                                    //Set new path
+                                    libraryUI.getCurrentGame_editUI()
+                                            .setCoverUrl(
+                                                    libraryLogic
+                                                    .getGameSearch_editUI()
+                                                    .getCurrentlySearchedGame()
+                                                    .getBoxArtUrl());
 
-                            // Re Save
-                            libraryUI.getStorage().getStoredLibrary()
-                                    .SaveGame(libraryUI.getCurrentGame_editUI());
+                                    libraryUI.getCurrentGame_editUI()
+                                            .setGameName(
+                                                    editGameName);
 
-                            LibraryUI.lblLibraryStatus.setForeground(
-                                    Color.orange);
-                            LibraryUI.lblLibraryStatus.setText(
-                                    "Changed Game Cover");
+                                } catch (MalformedURLException ex) {
+                                    java.util.logging.Logger.getLogger(
+                                            LibraryHandler.class.getName()).
+                                            log(Level.SEVERE, null, ex);
+                                }
+
+                                //refresh
+                                libraryUI.getCurrentGame_editUI().refresh(true);
+
+                                // Re Save
+                                libraryUI.getStorage().getStoredLibrary()
+                                        .SaveGame(libraryUI
+                                                .getCurrentGame_editUI());
+
+                                LibraryUI.lblLibraryStatus.setForeground(
+                                        Color.orange);
+                                LibraryUI.lblLibraryStatus.setText(
+                                        "Changed Game Cover");
+
+                                libraryUI.hideEditGameUI();
+                            } else {
+                                ADialog info = new ADialog(
+                                        ADialog.aDIALOG_WARNING,
+                                        "Cannot Add Duplicate Game",
+                                        libraryUI
+                                        .getCoreUI()
+                                        .getRegularFont()
+                                        .deriveFont(Font.BOLD, 28));
+                                info.setVisible(true);
+                                info.showDialog();
+                            }
+
+                            libraryUI.getCurrentGame_editUI().getBtnFlip()
+                                    .getActionListeners()[0].actionPerformed(
+                                            null);
+                            try {
+                                Thread.sleep(1200);
+                            } catch (InterruptedException ex) {
+                                java.util.logging.Logger.getLogger(
+                                        LibraryHandler.class.getName())
+                                        .log(Level.SEVERE, null, ex);
+                            }
                         }
-
-                        libraryUI.getCurrentGame_editUI().getBtnFlip()
-                                .getActionListeners()[0].actionPerformed(null);
-                        try {
-                            Thread.sleep(1200);
-                        } catch (InterruptedException ex) {
-                            java.util.logging.Logger.getLogger(
-                                    LibraryHandler.class.getName())
-                                    .log(Level.SEVERE, null, ex);
-                        }
-
                     }
 
                 }
@@ -2736,11 +2757,9 @@ public class LibraryHandler implements
 
         private final AImage status;
 
-        private Game editingGame;
+        private final Game editingGame;
 
-        private String newGameCoverName;
-
-        private EditCoverUIDragedListener dragListener;
+        private final EditCoverUIDragedListener dragListener;
 
         public EditCoverUIDoneListener(AImage statusImage, Game game,
                                        EditCoverUIDragedListener listener) {
