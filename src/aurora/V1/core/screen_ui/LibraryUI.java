@@ -663,6 +663,10 @@ public class LibraryUI extends AuroraApp {
 
     private AFileDrop fileDrop;
 
+    // Array of supported images to be droped and used
+    ArrayList<String> supportedImages = new ArrayList<>(
+            Arrays.asList("png", "jpg", "jpeg", "gif", "bmp"));
+
     private LibraryHandler.EditCoverUIDragedListener fileDragedListener;
 
     /**
@@ -1709,7 +1713,7 @@ public class LibraryUI extends AuroraApp {
 
             gameList_autoUI.setModel(listModel_autoUI);
             gameList_autoUI
-                    .setCellRenderer(libraryHandler.new listPanelRender());
+                    .setCellRenderer(libraryHandler.new ListPanelRender());
             gameList_autoUI
                     .removeMouseListener(pnlCheckList.getMouseListeners()[0]);
 
@@ -2418,7 +2422,7 @@ public class LibraryUI extends AuroraApp {
                                     gameFileChooser_editUI));
 
             btnDone_editUI.addActionListener(
-                    libraryHandler.new GameSettingDoneHandler());
+                    libraryHandler.new EditSettingDoneHandler());
 
         } else if (game != currentGame_editUI) {
 
@@ -2558,10 +2562,6 @@ public class LibraryUI extends AuroraApp {
 
             pnlCenterPane_editCoverUI.add(pnlDrag_editCoverUI);
 
-            // Array of supported images to be droped and used
-            ArrayList<String> supportedImages = new ArrayList<String>(
-                    Arrays.asList("png", "jpg", "jpeg", "gif", "bmp"));
-
             fileDrop = new AFileDrop(pnlDrag_editCoverUI,
                                      "editCoverUI_dropBG.png",
                                      "editCoverUI_rejectBG.png", true,
@@ -2620,6 +2620,22 @@ public class LibraryUI extends AuroraApp {
             frameEditGameCoverPane.revalidate();
 
             isEditGameCoverLoaded = true;
+        } else {
+            btnDone_editCoverUI.removeActionListener(btnDone_editCoverUI
+                    .getActionListeners()[0]);
+            btnDone_editCoverUI.addActionListener(
+                    libraryHandler.new EditCoverUIDoneListener(
+                            imgEditGameCoverStatus, game, fileDragedListener));
+            pnlDrag_editCoverUI.removeAll();
+            pnlDrag_editCoverUI.setImage("editCoverUI_dragBG.png");
+            pnlDrag_editCoverUI.revalidate();
+            imgEditGameCoverStatus.setImgURl("addUI_badge_invalid.png");
+            fileDrop = new AFileDrop(pnlDrag_editCoverUI,
+                                     "editCoverUI_dropBG.png",
+                                     "editCoverUI_rejectBG.png", true,
+                                     fileDragedListener, supportedImages);
+            fileDragedListener.setIsOccupied(false);
+
         }
     }
 

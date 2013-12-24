@@ -199,7 +199,7 @@ public class GameSearch implements Runnable {
             }
 
             //Change notification
-            imgStatus.setImgURl("addUI_badge_valid.png");
+            imgStatus.setImgURl("addUI_badge_invalid.png");
             pnlGameCoverPane.repaint();
             pnlGameCoverPane.revalidate();
             notFoundCover.revalidate();
@@ -290,7 +290,7 @@ public class GameSearch implements Runnable {
             }
 
             //Change notification
-            imgStatus.setImgURl("addUI_badge_valid.png");
+             imgStatus.setImgURl("addUI_badge_invalid.png");
             pnlGameCoverPane.repaint();
             pnlGameCoverPane.revalidate();
             notFoundCover.revalidate();
@@ -590,10 +590,11 @@ public class GameSearch implements Runnable {
                 }
 
                 //Change notification
-                imgStatus.setImgURl("addUI_badge_valid.png");
+                imgStatus.setImgURl("addUI_badge_invalid.png");
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
                 notFoundCover.revalidate();
+
 
             } else if (foundGame != null) {
 
@@ -637,6 +638,10 @@ public class GameSearch implements Runnable {
         }
     }
 
+    public String getAppendedName() {
+        return AppendedName;
+    }
+
     @Override
     public void run() {
 
@@ -658,6 +663,10 @@ public class GameSearch implements Runnable {
 
     public Game getFoundGameCover() {
         return foundGameCover;
+    }
+
+    public Game getCurrentlySearchedGame(){
+        return (Game) pnlGameCoverPane.getComponent(0);
     }
 
 }

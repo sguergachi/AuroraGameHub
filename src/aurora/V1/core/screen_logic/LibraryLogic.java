@@ -1465,9 +1465,9 @@ public class LibraryLogic implements AuroraScreenLogic {
      *             <p>
      * @return
      */
-    private int SCALE_WIDTH_PARAM = 410;
+    private int SCALE_WIDTH_PARAM = 398;
 
-    private int SCALE_HEIGHT_PARAM = 510;
+    private int SCALE_HEIGHT_PARAM = 498;
 
     public AImagePane processNewCoverArtImage(File file) {
 
@@ -1495,18 +1495,20 @@ public class LibraryLogic implements AuroraScreenLogic {
                         .resize(img, Scalr.Method.QUALITY, Scalr.Mode.FIT_EXACT,
                                 SCALE_WIDTH_PARAM, SCALE_HEIGHT_PARAM,
                                 Scalr.OP_ANTIALIAS);
-                int width = 51;
+                int width = 62;
+                int height = 14;
                 BufferedImage newImage = new BufferedImage(scaledImg.getWidth()
                                                            + 2 * width,
-                                                           scaledImg.getHeight(),
+                                                           scaledImg.getHeight()
+                                                           + (2 * height),
                                                            BufferedImage.TYPE_INT_ARGB);
 
                 Graphics g = newImage.getGraphics();
 
                 g.setColor(new Color(0, 0, 0, 0));
                 g.fillRect(0, 0, scaledImg.getWidth() + (2 * width), scaledImg
-                        .getHeight());
-                g.drawImage(scaledImg, width, 0, null);
+                        .getHeight() + (2 * height));
+                g.drawImage(scaledImg, width + 2, height - 2, null);
                 g.dispose();
 
                 currentImagePane.setImage(new ImageIcon(newImage),
@@ -1569,6 +1571,9 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             editingGame.setCoverUrl(newGameName);
             editingGame.refresh(false);
+            libraryUI.getStatusBadge1().setImgURl("addUI_badge_valid.png");
+            libraryUI.getImgGameCoverStatus().setImgURl("addUI_badge_valid.png");
+
         } catch (MalformedURLException ex) {
             java.util.logging.Logger.getLogger(LibraryLogic.class.getName())
                     .log(Level.SEVERE, null, ex);
