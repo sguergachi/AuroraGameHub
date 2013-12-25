@@ -73,6 +73,7 @@ public class GameSearch implements Runnable {
     private Game notFoundCover;
 
     private boolean canEditCover = true;
+    private AImage statusIcon;
 
     /////////////////////
     /////Constructor/////
@@ -695,6 +696,16 @@ public class GameSearch implements Runnable {
 
     public void setCanEditCover(boolean canEditCover) {
         this.canEditCover = canEditCover;
+    }
+
+    public void setStatusIcon(AImage icon) {
+        this.statusIcon = icon;
+    }
+
+    public void enableSearch() {
+    }
+
+    public void disableSearch() {
     }
 
 }

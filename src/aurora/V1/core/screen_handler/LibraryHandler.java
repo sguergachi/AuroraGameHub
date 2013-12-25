@@ -1330,7 +1330,7 @@ public class LibraryHandler implements
                         game.setGamePath(currentPath);
                         game.setLibraryLogic(libraryLogic);
 
-                        if(game.getGameName() == null){
+                        if (game.getGameName() == null) {
                             game.setGameName(gameSearch.getAppendedName());
                         }
 
@@ -2786,6 +2786,36 @@ public class LibraryHandler implements
                 libraryLogic.editCover(editingGame, dragListener
                         .getNewGameName());
             }
+
+        }
+
+    }
+
+    public class GameSearchButtonListener implements ActionListener {
+
+        private AImage icon;
+
+        private GameSearch gameSearch;
+
+        public GameSearchButtonListener(GameSearch search, AImage icon) {
+            this.gameSearch = search;
+            this.icon = icon;
+
+            gameSearch.setStatusIcon(icon);
+
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if(icon.getImgURl().equals("addUI_img_autoSearchOff.png")){
+                icon.setImgURl("addUI_img_autoSearchOn.png");
+                 gameSearch.enableSearch();
+            }else{
+                icon.setImgURl("addUI_img_autoSearchOff.png");
+                gameSearch.disableSearch();
+            }
+
 
         }
 

@@ -669,6 +669,16 @@ public class LibraryUI extends AuroraApp {
 
     private LibraryHandler.EditCoverUIDragedListener fileDragedListener;
 
+    private AButton btnAutoSearchDB_editUI;
+
+    private JPanel pnlGameCoverSearchContainer;
+
+    private AButton btnAutoSearchDB_addUI;
+
+    private AImage imgAutoSearchStatus_addUI;
+
+    private AImage imgAutoSearchStatus_editUI;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
@@ -1326,13 +1336,17 @@ public class LibraryUI extends AuroraApp {
         pnlSearchBG.setLayout(new BorderLayout(0, -1));
 
         txtSearchField_addUI = new JTextField("Search For Game...");
+
         pnlAddGameSearchContainer = new JPanel(new FlowLayout(
-                FlowLayout.LEFT, 105, 5));
+                FlowLayout.LEFT, 0, 5));
         pnlAddGameSearchContainer.setOpaque(false);
 
         btnClearSearch_addUI = new AButton("addUI_btnClearText_norm.png",
                                            "addUI_btnClearText_down.png",
                                            "addUI_btnClearText_over.png");
+        btnAutoSearchDB_addUI = new AButton("addUI_btn_autoSearch_norm.png",
+                                            "addUI_btn_autoSearch_down.png",
+                                            "addUI_btn_autoSearch_norm.png");
 
         btnGameToLib_addUI = new AButton("addUI_btnAdd_norm.png",
                                          "addUI_btnAdd_down.png",
@@ -1428,6 +1442,9 @@ public class LibraryUI extends AuroraApp {
         btnAutoRefresh = new AButton("autoUI_btnRefresh_norm.png",
                                      "autoUI_btnRefresh_down.png",
                                      "autoUI_btnRefresh_over.png");
+
+        imgAutoSearchStatus_addUI = new AImage("addUI_img_autoSearchOn.png");
+
         btnAutoRefresh.setBorder(null);
         btnAutoRefresh.setMargin(new Insets(0, 0, 0, 0));
 
@@ -1455,7 +1472,7 @@ public class LibraryUI extends AuroraApp {
      */
     public final void buildAddGameUI() {
 
-        if (!isAddGameUILoaded) {
+        if (!isAddGameUILoaded) { // Only build once, reset every other time
 
             // Manual UI
             // ----------------------------------------------------------------.
@@ -1638,7 +1655,12 @@ public class LibraryUI extends AuroraApp {
             pnlSearchBG.add(Box.createHorizontalStrut(15), BorderLayout.WEST);
             pnlSearchBG.add(txtSearchField_addUI, BorderLayout.CENTER);
             pnlSearchBG.add(btnClearSearch_addUI, BorderLayout.EAST);
+
+            btnAutoSearchDB_addUI.add(imgAutoSearchStatus_addUI);
+
+            pnlAddGameSearchContainer.add(Box.createHorizontalStrut(105));
             pnlAddGameSearchContainer.add(pnlSearchBG);
+            pnlAddGameSearchContainer.add(btnAutoSearchDB_addUI);
 
             //* Add UI elements to the Bottom Panel in the Add Game UI *//
             pnlBottomPane
@@ -1833,6 +1855,9 @@ public class LibraryUI extends AuroraApp {
             txtSearchField_addUI.getDocument().addDocumentListener(
                     libraryHandler.new AddGameSearchBoxHandler(libraryLogic
                             .getGameSearch_addUI(), txtSearchField_addUI));
+
+            // Auto Search Status Button
+            btnAutoSearchDB_addUI.addActionListener(libraryHandler.new GameSearchButtonListener(libraryLogic.getGameSearch_addUI(), imgAutoSearchStatus_addUI));
 
             gamesList_addUI.addListSelectionListener(
                     libraryHandler.new SelectListHandler(libraryLogic
@@ -2103,12 +2128,22 @@ public class LibraryUI extends AuroraApp {
                                                        14, 0));
         pnlGameCoverBottom.setOpaque(false);
 
+        pnlGameCoverSearchContainer = new JPanel(new FlowLayout(FlowLayout.LEFT,
+                                                                0, 0));
+        pnlGameCoverSearchContainer.setOpaque(false);
+
         lblGameCoverSearch = new ASlickLabel("Game Name");
         txtGameCoverSearch_editUI = new ATextField("editUI_text_inactive.png",
                                                    "editUI_text_active.png");
         btnClearSearch_editUI = new AButton("addUI_btnClearText_norm.png",
                                             "addUI_btnClearText_down.png",
                                             "addUI_btnClearText_over.png");
+        btnAutoSearchDB_editUI = new AButton("addUI_btn_autoSearch_norm.png",
+                                             "addUI_btn_autoSearch_down.png",
+                                             "addUI_btn_autoSearch_norm.png");
+
+        imgAutoSearchStatus_editUI = new AImage("addUI_img_autoSearchOn.png");
+
         btnClearSearch_editUI.setMargin(new Insets(0, 0, 0, 3));
 
         libraryLogic.getGameSearch_editUI().setUpGameSearch(
@@ -2350,8 +2385,13 @@ public class LibraryUI extends AuroraApp {
             txtGameCoverSearch_editUI.add(btnClearSearch_editUI,
                                           BorderLayout.EAST);
 
+            btnAutoSearchDB_editUI.add(imgAutoSearchStatus_editUI);
+
+            pnlGameCoverSearchContainer.add(txtGameCoverSearch_editUI);
+            pnlGameCoverSearchContainer.add(btnAutoSearchDB_editUI);
+
             pnlGameCoverBottom.add(lblGameCoverSearch);
-            pnlGameCoverBottom.add(txtGameCoverSearch_editUI);
+            pnlGameCoverBottom.add(pnlGameCoverSearchContainer);
 
             // Add to Game Cover Edit main Panel
             pnlGameCover_editUI.add(Box.createVerticalStrut(25));
