@@ -1575,6 +1575,14 @@ public class LibraryLogic implements AuroraScreenLogic {
             libraryUI.getStatusBadge1().setImgURl("addUI_badge_valid.png");
             libraryUI.getImgGameCoverStatus().setImgURl("addUI_badge_valid.png");
 
+
+            if(libraryUI.isAddGameUI_Visible()){
+                gameSearch_addUI.disableSearch();
+            }else if(libraryUI.isEditGameUI_Visible()){
+                gameSearch_editUI.disableSearch();
+            }
+
+
         } catch (MalformedURLException ex) {
             java.util.logging.Logger.getLogger(LibraryLogic.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -1583,7 +1591,7 @@ public class LibraryLogic implements AuroraScreenLogic {
     }
 
     public void disableGameSearch(GameSearch search){
-        
+
     }
 
     public ArrayList<Game> getAutoAddCurrentList() {

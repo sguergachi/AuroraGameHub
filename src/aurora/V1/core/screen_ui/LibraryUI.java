@@ -1445,6 +1445,10 @@ public class LibraryUI extends AuroraApp {
 
         imgAutoSearchStatus_addUI = new AImage("addUI_img_autoSearchOn.png");
 
+        btnAutoSearchDB_addUI.addActionListener(
+                libraryHandler.new GameSearchButtonListener(libraryLogic
+                        .getGameSearch_addUI(), imgAutoSearchStatus_addUI));
+
         btnAutoRefresh.setBorder(null);
         btnAutoRefresh.setMargin(new Insets(0, 0, 0, 0));
 
@@ -1857,8 +1861,6 @@ public class LibraryUI extends AuroraApp {
                             .getGameSearch_addUI(), txtSearchField_addUI));
 
             // Auto Search Status Button
-            btnAutoSearchDB_addUI.addActionListener(libraryHandler.new GameSearchButtonListener(libraryLogic.getGameSearch_addUI(), imgAutoSearchStatus_addUI));
-
             gamesList_addUI.addListSelectionListener(
                     libraryHandler.new SelectListHandler(libraryLogic
                             .getGameSearch_addUI()));
@@ -2135,9 +2137,11 @@ public class LibraryUI extends AuroraApp {
         lblGameCoverSearch = new ASlickLabel("Game Name");
         txtGameCoverSearch_editUI = new ATextField("editUI_text_inactive.png",
                                                    "editUI_text_active.png");
+
         btnClearSearch_editUI = new AButton("addUI_btnClearText_norm.png",
                                             "addUI_btnClearText_down.png",
                                             "addUI_btnClearText_over.png");
+
         btnAutoSearchDB_editUI = new AButton("addUI_btn_autoSearch_norm.png",
                                              "addUI_btn_autoSearch_down.png",
                                              "addUI_btn_autoSearch_norm.png");
@@ -2151,6 +2155,10 @@ public class LibraryUI extends AuroraApp {
                 pnlCoverPane_editUI,
                 listModel_editUI, imgGameCoverStatus, txtGameCoverSearch_editUI
                 .getTextBox());
+
+        btnAutoSearchDB_editUI.addActionListener(
+                libraryHandler.new GameSearchButtonListener(libraryLogic
+                        .getGameSearch_editUI(), imgAutoSearchStatus_editUI));
     }
 
     public void buildEditGameUI(Game game) {

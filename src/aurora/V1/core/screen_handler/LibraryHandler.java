@@ -2809,10 +2809,10 @@ public class LibraryHandler implements
         public void actionPerformed(ActionEvent e) {
 
             if(icon.getImgURl().equals("addUI_img_autoSearchOff.png")){
-                icon.setImgURl("addUI_img_autoSearchOn.png");
+
                  gameSearch.enableSearch();
             }else{
-                icon.setImgURl("addUI_img_autoSearchOff.png");
+
                 gameSearch.disableSearch();
             }
 
