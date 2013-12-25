@@ -106,20 +106,50 @@ public class GameSearch implements Runnable {
     //Reset text, Cover Image, List and turn notification to red
     public void resetCover() {
 
-        pnlGameCoverPane.removeAll();
-        pnlGameCoverPane.revalidate();
-        pnlGameCoverPane.add(imgBlankCover);
-        pnlGameCoverPane.revalidate();
-        pnlGameCoverPane.repaint();
-        imgBlankCover.repaint();
+        //Create the new GameCover object
+        notFoundCover = new Game(libraryUI.getGridSplit(), ui,
+                                 libraryUI
+                .getDashboardUI(), storage);
+        try {
+            notFoundCover.setCoverUrl("library_noGameFound.png");
+        } catch (MalformedURLException ex) {
+            logger.error(ex);
+        }
+        notFoundCover.setCoverSize(imgBlankCover
+                .getImageWidth(), imgBlankCover.getImageHeight());
 
-        AppendedName = "";
-        foundGame = "";
+        try {
+            notFoundCover.update();
+            notFoundCover.removeOverlayUI();
 
-        foundArray = null;
-        listModel.removeAllElements();
-        imgStatus.setImgURl("addUI_badge_invalid.png");
-        libraryUI.getLogic().checkManualAddGameStatus();
+            //Allow for custom editing cover art
+            if (canEditCover) {
+                notFoundCover.enableEditCoverOverlay();
+                notFoundCover.getBtnAddCustomOverlay()
+                        .addActionListener(
+                                libraryUI.getHandler().new GameCoverEditListner(
+                                        notFoundCover));
+            }
+        } catch (MalformedURLException ex) {
+            logger.error(ex);
+        }
+
+        if (isSearchEnabled) {
+            pnlGameCoverPane.removeAll();
+            pnlGameCoverPane.revalidate();
+            pnlGameCoverPane.add(notFoundCover);
+            pnlGameCoverPane.revalidate();
+            pnlGameCoverPane.repaint();
+            imgBlankCover.repaint();
+
+            AppendedName = "";
+            foundGame = "";
+
+            foundArray = null;
+            listModel.removeAllElements();
+            imgStatus.setImgURl("addUI_badge_invalid.png");
+            libraryUI.getLogic().checkManualAddGameStatus();
+        }
 
     }
 
@@ -131,9 +161,10 @@ public class GameSearch implements Runnable {
 
         //Remove ONE Character From End of Appended Name
         if (AppendedName.length() <= 0) {
-
-            resetCover();
-            searchGame();
+            if (isSearchEnabled) {
+                resetCover();
+                searchGame();
+            }
 
         } //Start search only when more than 1 character is typed
         else if (AppendedName.length() > 0) {
@@ -144,14 +175,14 @@ public class GameSearch implements Runnable {
             } else {
                 sleep = 260;
             }
-            if (typeThread == null) {
-                typeThread = new Thread(this);
-            }
+            typeThread = null;
+            typeThread = new Thread(this);
 
             //Start Search thread with Delay
             try {
                 typeThread.start();
             } catch (IllegalThreadStateException ex) {
+                ex.printStackTrace();
             }
 
         }
@@ -567,7 +598,6 @@ public class GameSearch implements Runnable {
 
         if (isSearchEnabled) {
 
-
             statusIcon.setImgURl("addUI_img_autoSearchLooking.png");
 
             //What Happends When The Length is zero
@@ -719,23 +749,66 @@ public class GameSearch implements Runnable {
             }
 
             statusIcon.setImgURl("addUI_img_autoSearchOn.png");
-        }
+        } else {
+            listModel.clear();
+            if (!(pnlGameCoverPane.getComponent(0) instanceof Game)) {
+                pnlGameCoverPane.removeAll();
+                //Create the new GameCover object
+                notFoundCover = new Game(libraryUI.getGridSplit(), ui,
+                                         libraryUI
+                        .getDashboardUI(), storage);
+                try {
+                    notFoundCover.setCoverUrl("library_noGameFound.png");
+                } catch (MalformedURLException ex) {
+                    logger.error(ex);
+                }
+                notFoundCover.setCoverSize(imgBlankCover
+                        .getImageWidth(), imgBlankCover.getImageHeight());
 
+                pnlGameCoverPane.add(notFoundCover);
+
+                try {
+                    notFoundCover.update();
+                    notFoundCover.removeOverlayUI();
+
+                    //Allow for custom editing cover art
+                    if (canEditCover) {
+                        notFoundCover.enableEditCoverOverlay();
+                        notFoundCover.getBtnAddCustomOverlay()
+                                .addActionListener(
+                                        libraryUI.getHandler().new GameCoverEditListner(
+                                                notFoundCover));
+                    }
+                } catch (MalformedURLException ex) {
+                    logger.error(ex);
+                }
+
+                //Change notification
+                imgStatus.setImgURl("addUI_badge_invalid.png");
+                pnlGameCoverPane.repaint();
+                pnlGameCoverPane.revalidate();
+                notFoundCover.revalidate();
+            }
+        }
     }
 
     public void enableSearch() {
-        searchGame();
-
         isSearchEnabled = true;
+
+        searchGame();
         statusIcon.setImgURl("addUI_img_autoSearchOn.png");
     }
 
     public void disableSearch() {
 
-        listModel.clear();
-
         isSearchEnabled = false;
+
+        searchGame();
         statusIcon.setImgURl("addUI_img_autoSearchOff.png");
+    }
+
+    public boolean isIsSearchEnabled() {
+        return isSearchEnabled;
     }
 
     @Override
@@ -775,6 +848,10 @@ public class GameSearch implements Runnable {
 
     public void setStatusIcon(AImage icon) {
         this.statusIcon = icon;
+    }
+
+    public JTextField getTxtSearch() {
+        return txtSearch;
     }
 
 }

@@ -437,12 +437,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 "editUI_editGameOverlay_norm.png",
                 "editUI_editGameOverlay_down.png",
                 "editUI_editGameOverlay_norm.png");
-        customGameCoverListener = new Game.CustomGameCoverListener();
-        btnAddCustomOverlay.addActionListener(customGameCoverListener);
 
-        ///////////////////////
-        //- Reverse Buttons -//
-        ///////////////////////
+        // Reverse Buttons
+        // ----------------------------------------------------------------.
         // Awards Button //
         btnAward = new AButton("game_btn_award_norm.png",
                                "game_btn_award_down.png",
@@ -1184,20 +1181,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             libraryLogic.addGamesToLibrary();
         }
 
-    }
-
-    /**
-     * Shows the custom game cover UI
-     */
-    private static class CustomGameCoverListener implements ActionListener {
-
-        public CustomGameCoverListener() {
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
     }
 
     private class EnterGameTypeListener implements ActionListener {

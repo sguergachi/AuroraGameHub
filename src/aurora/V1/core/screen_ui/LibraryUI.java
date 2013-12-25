@@ -569,8 +569,6 @@ public class LibraryUI extends AuroraApp {
 
     private AButton btnClearSearch_editUI;
 
-    private Field field;
-
     private JPanel pnlAutoAdd;
 
     private JPanel pnlAutoTop;
@@ -678,6 +676,8 @@ public class LibraryUI extends AuroraApp {
     private AImage imgAutoSearchStatus_addUI;
 
     private AImage imgAutoSearchStatus_editUI;
+
+    private int updatedCurrentIndex = -1;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -2246,8 +2246,9 @@ public class LibraryUI extends AuroraApp {
             btnGameLocation_editUI.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
             btnGameCover_editUI.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
             btnOther_editUI.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-            pnlCenterRight_editUI.add(btnGameLocation_editUI);
             pnlCenterRight_editUI.add(btnGameCover_editUI);
+            pnlCenterRight_editUI.add(btnGameLocation_editUI);
+
 //            pnlCenterRight_editUI.add(btnOther_editUI);
 
             pnlTopRightPane_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -2486,9 +2487,10 @@ public class LibraryUI extends AuroraApp {
 
         }
 
+        // First to be selected when edit UI summoned
         if (!btnGameLocation_editUI.isSelected
             && !btnGameCover_editUI.isSelected && !btnOther_editUI.isSelected) {
-            btnGameLocation_editUI.setSelected();
+            btnGameCover_editUI.setSelected();
         }
 
         // reset UI
@@ -2962,6 +2964,7 @@ public class LibraryUI extends AuroraApp {
                     });
 
             addGameWorker.startOnce();
+            libraryLogic.getGameSearch_addUI().enableSearch();
 
         }
     }
@@ -2996,10 +2999,8 @@ public class LibraryUI extends AuroraApp {
             btnGameToLib_addUI.setVisible(false);
             btnGameToLib_addUI.repaint();
 
-            //TODO Fix Search Bar Focus
             txtGridSearchField.requestFocus();
             coreUI.getFrame().requestFocus();
-            txtGridSearchField.requestFocus();
             try {
                 Thread.sleep(20);
             } catch (InterruptedException ex) {
@@ -3207,6 +3208,7 @@ public class LibraryUI extends AuroraApp {
             pnlLeftPane_editUI.repaint();
 
             txtGameCoverSearch_editUI.getTextBox().requestFocusInWindow();
+            libraryLogic.getGameSearch_editUI().enableSearch();
         }
     }
 
@@ -3238,6 +3240,7 @@ public class LibraryUI extends AuroraApp {
                 @Override
                 public void postAction() {
                     pnlGlass.setVisible(false);
+
                 }
             });
 
@@ -3856,11 +3859,18 @@ public class LibraryUI extends AuroraApp {
     }
 
     public int getCurrentIndex() {
-        return currentIndex;
+        if (updatedCurrentIndex == -1) {
+            currentIndex = GridSplit.getArray()
+                    .indexOf(pnlLibraryContainer.getComponent(1));
+            return currentIndex;
+        } else {
+            return updatedCurrentIndex;
+        }
+
     }
 
     public void setCurrentIndex(int index) {
-        currentIndex = index;
+        updatedCurrentIndex = index;
     }
 
     public AImage getImgGameCoverStatus() {

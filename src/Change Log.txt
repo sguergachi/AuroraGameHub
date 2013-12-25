@@ -1,16 +1,17 @@
         =================AURORA CHANGE LOG==================
-        |  Current Milestone: Alpha 8			   |
+        |  Current Milestone: Alpha 9			   |
         |  Crafted With Care by the Sardonix Creative Team |
         ====================================================
 
 ////////////////////////////////////////////------------------------------------
-// Aurora_Alpha 8  Build:800  Date:12/14/2013  || Sammy Guergachi
+// Aurora_Alpha 9  Build:820  Date:12/14/2013  || Sammy Guergachi
 ////////////////////////////////////////////------------------------------------
 
++ Added ability to edit/add a custom image as cover art for games!
 + Added automatic background search for new games when Library loaded
-+ Added support for adding and launching .bat files
 + Added ability to better guess cover art in Auto Add
 + Added 150 new game cover icons to AuroraDB
++ Added support for adding and launching .bat files
 
 - Fixed bugs related to editing game box art and game path
 - Fixed bug where auto adding many games requiring new grids would cause issues
@@ -25,6 +26,7 @@
 - Refreshed some UI assets to look cleaner in Aurora
 - Prevented random cover art shown in dashboard from being an "unavailable" game
 - Duplicate game uses game name to compare instead of cover art
+- Improved database access
 - As always, small changes here and there. Magic in the details ;)
 
 ////////////////////////////////////////////------------------------------------

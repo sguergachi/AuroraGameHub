@@ -599,7 +599,6 @@ public class LibraryHandler implements
         }
     }
 
-/////////////////////////////////////////////////////////////
     public class AddGameSearchBoxHandler implements DocumentListener {
 
         private final GameSearch gameSearch;
@@ -884,6 +883,8 @@ public class LibraryHandler implements
 
     public class EditSettingDoneHandler implements ActionListener {
 
+        private MoveToGrid GridMove;
+
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -891,6 +892,7 @@ public class LibraryHandler implements
                     .getCurrentText();
 
             AThreadWorker doneTask = new AThreadWorker(new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
@@ -929,7 +931,9 @@ public class LibraryHandler implements
                             //Set new name
                             String editGameName;
                             if (libraryLogic.getGameSearch_editUI()
-                                    .getFoundGameCover().getName() == null) {
+                                    .getFoundGameCover().getName() == null
+                                || !libraryLogic.getGameSearch_editUI()
+                                    .isIsSearchEnabled()) {
                                 editGameName = libraryLogic
                                         .getGameSearch_editUI()
                                         .getAppendedName();
@@ -978,6 +982,12 @@ public class LibraryHandler implements
                                         "Changed Game Cover");
 
                                 libraryUI.hideEditGameUI();
+
+                                //* Transition towards to left most grid to see the game added *//
+                                GridMove = new MoveToGrid(libraryUI
+                                        .getCurrentGame_editUI());
+
+                                libraryUI.getGridSplit().unselectPrevious();
                             } else {
                                 ADialog info = new ADialog(
                                         ADialog.aDIALOG_WARNING,
@@ -990,16 +1000,6 @@ public class LibraryHandler implements
                                 info.showDialog();
                             }
 
-                            libraryUI.getCurrentGame_editUI().getBtnFlip()
-                                    .getActionListeners()[0].actionPerformed(
-                                            null);
-                            try {
-                                Thread.sleep(1200);
-                            } catch (InterruptedException ex) {
-                                java.util.logging.Logger.getLogger(
-                                        LibraryHandler.class.getName())
-                                        .log(Level.SEVERE, null, ex);
-                            }
                         }
                     }
 
@@ -1007,6 +1007,10 @@ public class LibraryHandler implements
             }, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
+                    libraryUI.getCurrentGame_editUI().getBtnFlip()
+                            .getActionListeners()[0].actionPerformed(
+                                    null);
 
                     try {
                         Thread.sleep(1200);
@@ -1016,10 +1020,15 @@ public class LibraryHandler implements
                                 log(Level.SEVERE, null, ex);
                     }
 
+                    if (GridMove != null) {
+                        GridMove.runMover();
+                    }
+
+
+
                     LibraryUI.lblLibraryStatus.setForeground(
                             LibraryUI.DEFAULT_LIBRARY_COLOR);
-                    LibraryUI.lblLibraryStatus.setText(previousLibText);
-
+                    libraryUI.getCurrentGame_editUI().setSelected();
                 }
             });
 
@@ -1747,23 +1756,21 @@ public class LibraryHandler implements
      */
     public class MoveToGrid implements Runnable {
 
-        private final Game game;
+        private int gameGrid;
 
-        private final int gameGrid;
+        private final Game selectedGame;
 
         public MoveToGrid(Game game) {
-            this.game = game;
-            gameGrid = libraryUI.getGridSplit().findGame(game)[0];
+            selectedGame = game;
 
         }
         private Thread mover;
 
         public void runMover() {
-            mover = null;
+            gameGrid = libraryUI.getGridSplit().findGame(selectedGame)[0];
 
-            if (mover == null) {
-                mover = new Thread(this);
-            }
+            mover = null;
+            mover = new Thread(this);
             mover.setName("Mover Thread");
             //Start Loader
 
@@ -1823,6 +1830,7 @@ public class LibraryHandler implements
         public void actionPerformed(ActionEvent e) {
             label.setForeground(Color.white);
             libraryUI.showGameCoverUI();
+
         }
     }
 
@@ -2808,14 +2816,13 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if(icon.getImgURl().equals("addUI_img_autoSearchOff.png")){
+            if (icon.getImgURl().equals("addUI_img_autoSearchOff.png")) {
 
-                 gameSearch.enableSearch();
-            }else{
+                gameSearch.enableSearch();
+            } else {
 
                 gameSearch.disableSearch();
             }
-
 
         }
 

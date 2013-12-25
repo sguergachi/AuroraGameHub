@@ -30,7 +30,6 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -43,7 +42,7 @@ public class main {
     private static Font FontRegular;
     private static ASurface ressource = null;
     private static boolean startMini = false;
-    public static String VERSION = "Alpha 8";
+    public static String VERSION = "Alpha 9";
     static final Logger logger = Logger.getLogger(main.class);
     public static int LAUNCHES;
 
