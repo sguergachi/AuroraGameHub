@@ -22,7 +22,6 @@ import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AProgressWheel;
 import aurora.engine.V1.UI.ASlickLabel;
-import com.sun.awt.AWTUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -202,7 +201,7 @@ public class AuroraMini {
         }
         mini.setVisible(true);
         try {
-            AWTUtilities.setWindowShape(mini, new RoundRectangle2D.Double(0, 0,
+           mini.setShape(new RoundRectangle2D.Double(0, 0,
                     mini
                     .getWidth(), mini.getHeight(), 30,
                     27));
@@ -331,7 +330,7 @@ public class AuroraMini {
                 if (coreUI.getOS().contains("Mac")) {
                     mini.setBackground(new Color(0f, 0f, 0f, 0.5f));
                 } else {
-                    AWTUtilities.setWindowOpacity(mini, 0.5f);
+                    mini.setOpacity( 0.5f);
                 }
             }
 
@@ -362,7 +361,7 @@ public class AuroraMini {
             if (coreUI.getOS().contains("Mac")) {
                 mini.setBackground(new Color(0f, 0f, 0f, 1.0f));
             } else {
-                AWTUtilities.setWindowOpacity(mini, 1.0f);
+               mini.setOpacity( 1.0f);
             }
         }
 
@@ -433,7 +432,7 @@ public class AuroraMini {
             if (coreUI.getOS().contains("Mac")) {
                 mini.setBackground(new Color(0f, 0f, 0f, 1.0f));
             } else {
-                AWTUtilities.setWindowOpacity(mini, 1.0f);
+                mini.setOpacity( 1.0f);
             }
         }
 
@@ -444,7 +443,7 @@ public class AuroraMini {
             if (coreUI.getOS().contains("Mac")) {
                 mini.setBackground(new Color(0f, 0f, 0f, 0.5f));
             } else {
-                AWTUtilities.setWindowOpacity(mini, 0.5f);
+                mini.setOpacity( 0.5f);
             }
         }
     }
@@ -471,14 +470,14 @@ public class AuroraMini {
             if (coreUI.getOS().contains("Mac")) {
                 mini.setBackground(new Color(0f, 0f, 0f, 1.0f));
             } else {
-                AWTUtilities.setWindowOpacity(mini, 1.0f);
+                mini.setOpacity(1.0f);
             }
 
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            AWTUtilities.setWindowOpacity(mini, 0.5f);
+            mini.setOpacity(0.5f);
             mini.setBackground(new Color(0f, 0f, 0f, 0.5f));
         }
     }

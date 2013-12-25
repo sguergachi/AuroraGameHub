@@ -1008,7 +1008,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     LibraryUI.lblLibraryStatus.setForeground(Color.CYAN);
                     LibraryUI.lblLibraryStatus.setText(coreUI.getVi().VI(
                             ANuance.inx_Searching) + " For Games");
-                    libraryUI.getPrgLibraryStatus().resume();
+                    libraryUI.getPrgLibraryStatus().restart();
 
                     // Change refresh button to static state
                     libraryUI.getBtnAutoRefresh().setButtonStates(

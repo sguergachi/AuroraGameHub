@@ -646,9 +646,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     if (localImage == null) {
                         Thread.sleep(100);
                     }
-                    progressWheel.stop();
-                    remove(progressWheel);
-                } catch (NullPointerException ex) {
+                    if (progressWheel != null) {
+                        progressWheel.stop();
+                        remove(progressWheel);
+                    }
+
                 } catch (InterruptedException ex) {
                     java.util.logging.Logger.getLogger(Game.class.getName()).
                             log(Level.SEVERE, null, ex);
@@ -656,15 +658,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                 revalidate();
                 repaint();
-
-                try {
-                    // Sleep for random time to prevent bulck loading
-                    double rand = Math.random() * (500 - 100) * 100;
-                    Thread.sleep((long) (2000 + rand));
-                } catch (InterruptedException ex) {
-                    java.util.logging.Logger.getLogger(Game.class.getName())
-                            .log(Level.SEVERE, null, ex);
-                }
 
             }
 

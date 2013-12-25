@@ -1012,6 +1012,11 @@ public class LibraryHandler implements
                             .getActionListeners()[0].actionPerformed(
                                     null);
 
+                    if (GridMove != null) {
+                        libraryUI.setCurrentIndex(0);
+                        GridMove.runMover();
+                    }
+
                     try {
                         Thread.sleep(1200);
                     } catch (InterruptedException ex) {
@@ -1019,12 +1024,6 @@ public class LibraryHandler implements
                                 .getName()).
                                 log(Level.SEVERE, null, ex);
                     }
-
-                    if (GridMove != null) {
-                        GridMove.runMover();
-                    }
-
-
 
                     LibraryUI.lblLibraryStatus.setForeground(
                             LibraryUI.DEFAULT_LIBRARY_COLOR);

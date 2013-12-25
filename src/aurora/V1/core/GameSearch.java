@@ -38,11 +38,11 @@ import org.apache.log4j.Logger;
  */
 public class GameSearch implements Runnable {
 
-    private AuroraCoreUI ui;
+    private final AuroraCoreUI coreUI;
 
-    private LibraryUI libraryUI;
+    private final LibraryUI libraryUI;
 
-    private ASimpleDB db;
+    private final ASimpleDB db;
 
     private String AppendedName = ""; //This is the concatenation of all characters
 
@@ -84,7 +84,7 @@ public class GameSearch implements Runnable {
     public GameSearch(LibraryUI gameLibraryUI, ASimpleDB database,
                       AuroraStorage storage) {
 
-        this.ui = gameLibraryUI.getCoreUI();
+        this.coreUI = gameLibraryUI.getCoreUI();
         this.db = database;
         this.storage = storage;
         libraryUI = gameLibraryUI;
@@ -107,7 +107,7 @@ public class GameSearch implements Runnable {
     public void resetCover() {
 
         //Create the new GameCover object
-        notFoundCover = new Game(libraryUI.getGridSplit(), ui,
+        notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
                                  libraryUI
                 .getDashboardUI(), storage);
         try {
@@ -175,12 +175,15 @@ public class GameSearch implements Runnable {
             } else {
                 sleep = 260;
             }
-            typeThread = null;
-            typeThread = new Thread(this);
+            if (typeThread == null) {
+                typeThread = new Thread(this);
+            }
 
             //Start Search thread with Delay
             try {
-                typeThread.start();
+                if (!typeThread.isAlive()) {
+                    typeThread.start();
+                }
             } catch (IllegalThreadStateException ex) {
                 ex.printStackTrace();
             }
@@ -219,7 +222,8 @@ public class GameSearch implements Runnable {
 
                 pnlGameCoverPane.removeAll();
                 //Create the new GameCover object
-                notFoundCover = new Game(libraryUI.getGridSplit(), ui, libraryUI
+                notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
+                                         libraryUI
                         .getDashboardUI(), storage);
                 try {
                     notFoundCover.setCoverUrl("library_noGameFound.png");
@@ -260,7 +264,7 @@ public class GameSearch implements Runnable {
 
                 pnlGameCoverPane.removeAll();
                 //Create the new GameCover object
-                foundGameCover = new Game(libraryUI.getGridSplit(), ui,
+                foundGameCover = new Game(libraryUI.getGridSplit(), coreUI,
                                           libraryUI
                         .getDashboardUI(), storage);
                 try {
@@ -332,7 +336,8 @@ public class GameSearch implements Runnable {
 
                 pnlGameCoverPane.removeAll();
                 //Create the new GameCover object
-                notFoundCover = new Game(libraryUI.getGridSplit(), ui, libraryUI
+                notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
+                                         libraryUI
                         .getDashboardUI(), storage);
                 try {
                     notFoundCover.setCoverUrl("library_noGameFound.png");
@@ -376,7 +381,7 @@ public class GameSearch implements Runnable {
 
                 pnlGameCoverPane.removeAll();
                 // Create the new GameCover object
-                foundGameCover = new Game(libraryUI.getGridSplit(), ui,
+                foundGameCover = new Game(libraryUI.getGridSplit(), coreUI,
                                           libraryUI
                         .getDashboardUI(), storage);
                 try {
@@ -667,7 +672,7 @@ public class GameSearch implements Runnable {
 
                     pnlGameCoverPane.removeAll();
                     //Create the new GameCover object
-                    notFoundCover = new Game(libraryUI.getGridSplit(), ui,
+                    notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
                                              libraryUI
                             .getDashboardUI(), storage);
                     try {
@@ -707,7 +712,7 @@ public class GameSearch implements Runnable {
                     pnlGameCoverPane.removeAll();
 
                     //Set up GameCover object with First Database item found
-                    foundGameCover = new Game(libraryUI.getGridSplit(), ui,
+                    foundGameCover = new Game(libraryUI.getGridSplit(), coreUI,
                                               libraryUI.getDashboardUI(),
                                               storage);
                     try {
@@ -754,7 +759,7 @@ public class GameSearch implements Runnable {
             if (!(pnlGameCoverPane.getComponent(0) instanceof Game)) {
                 pnlGameCoverPane.removeAll();
                 //Create the new GameCover object
-                notFoundCover = new Game(libraryUI.getGridSplit(), ui,
+                notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
                                          libraryUI
                         .getDashboardUI(), storage);
                 try {
