@@ -617,7 +617,7 @@ public class LibraryUI extends AuroraApp {
 
     private AButton btnAutoRefresh;
 
-    private long IDLE_TIME_TO_WAIT = 2000;
+    private final long IDLE_TIME_TO_WAIT = 4000;
 
     private JPanel pnlLibraryStatusContainer;
 
