@@ -278,7 +278,6 @@ public class AuroraMini {
             public void actionPerformed(ActionEvent e) {
                 mini.setAlwaysOnTop(false);
                 mini.setAlwaysOnTop(true);
-                System.out.println("Cycle");
             }
         }, 1000);
 
