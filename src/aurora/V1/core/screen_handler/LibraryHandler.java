@@ -84,6 +84,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
+import javax.swing.ToolTipManager;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -932,7 +933,8 @@ public class LibraryHandler implements
                             //Set new name
                             String editGameName;
                             if (libraryLogic.getGameSearch_editUI()
-                                    .getFoundGameCover().getName() == null
+                                    .getCurrentlySearchedGame().getName()
+                                == null
                                 || !libraryLogic.getGameSearch_editUI()
                                     .isIsSearchEnabled()) {
                                 editGameName = libraryLogic
@@ -941,7 +943,7 @@ public class LibraryHandler implements
                             } else {
                                 editGameName = libraryLogic
                                         .getGameSearch_editUI()
-                                        .getFoundGameCover().getName();
+                                        .getCurrentlySearchedGame().getName();
                             }
 
                             if (!libraryUI
@@ -1069,6 +1071,7 @@ public class LibraryHandler implements
                 libraryUI.getPnlAddGamePane().repaint();
 
                 libraryLogic.getGameSearch_addUI().enableSearch();
+                libraryLogic.getGameSearch_addUI().resetCover();
 
                 AThreadWorker wait = new AThreadWorker(new ActionListener() {
                     @Override
@@ -1277,8 +1280,10 @@ public class LibraryHandler implements
         }
     }
 
-// Listener for when the Add Game To Library Button is pressed in the
-// Add Game UI
+    /**
+     * Listener for when the Add Game To Library Button is pressed in the
+     * Add Game UI
+     */
     public class AddToLibraryButtonHandler implements ActionListener {
 
         private GridManager gridManager;
@@ -1414,7 +1419,7 @@ public class LibraryHandler implements
                             } else {
 
                                 gridManager.finalizeGrid(
-                                        new ShowAddGameUiHandler(),
+                                        new ShowAddGameUIHandler(),
                                         libraryUI
                                         .getGameCoverWidth(), libraryUI
                                         .getGameCoverHeight());
@@ -1435,6 +1440,16 @@ public class LibraryHandler implements
                                             log(Level.SEVERE, null, ex);
                                 }
                             }
+
+                            game.setSettingsListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+
+                                    libraryUI.showEditGameUI((Game) e
+                                            .getSource());
+
+                                }
+                            });
 
                             GridMove = new MoveToGrid(game);
                             //* Transition towards to left most grid to see the game added *//
@@ -1487,6 +1502,16 @@ public class LibraryHandler implements
                                 }
                             }
 
+                            autoGame.setSettingsListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+
+                                    libraryUI.showEditGameUI((Game) e
+                                            .getSource());
+
+                                }
+                            });
+
                             // -
                             // Add to grid and check which organize method is
                             // used to reorganize library with new games
@@ -1529,7 +1554,7 @@ public class LibraryHandler implements
                         } else {
 
                             gridManager.finalizeGrid(
-                                    new ShowAddGameUiHandler(),
+                                    new ShowAddGameUIHandler(),
                                     libraryUI
                                     .getGameCoverWidth(), libraryUI
                                     .getGameCoverHeight());
@@ -1625,7 +1650,7 @@ public class LibraryHandler implements
         }
     }
 
-    public class ShowAddGameUiHandler implements ActionListener {
+    public class ShowAddGameUIHandler implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -2822,6 +2847,10 @@ public class LibraryHandler implements
 
                 gameSearch.enableSearch();
 
+                ToolTipManager.sharedInstance()
+                        .setLightWeightPopupEnabled(false);
+                ToolTipManager.sharedInstance().registerComponent(((AButton) e
+                        .getSource()));
                 if (main.LAUNCHES < 5) {
                     ((AButton) e.getSource()).setToolTipText(
                             "Enable AuroraCoverDB");

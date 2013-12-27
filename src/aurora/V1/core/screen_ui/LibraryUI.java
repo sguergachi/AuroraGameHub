@@ -30,7 +30,7 @@ import aurora.V1.core.screen_handler.LibraryHandler.HoverButtonLeft;
 import aurora.V1.core.screen_handler.LibraryHandler.HoverButtonRight;
 import aurora.V1.core.screen_handler.LibraryHandler.SearchBoxHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.SearchFocusHandler;
-import aurora.V1.core.screen_handler.LibraryHandler.ShowAddGameUiHandler;
+import aurora.V1.core.screen_handler.LibraryHandler.ShowAddGameUIHandler;
 import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.AFileDrop;
@@ -1073,7 +1073,7 @@ public class LibraryUI extends AuroraApp {
         moveLibraryRightHandler = libraryHandler.new HoverButtonRight();
 
         btnShowAddGameUI.addActionListener(
-                libraryHandler.new ShowAddGameUiHandler());
+                libraryHandler.new ShowAddGameUIHandler());
         btnOrganizeGames
                 .addActionListener(libraryHandler.new ShowOrganizeGameHandler());
 
@@ -3066,6 +3066,8 @@ public class LibraryUI extends AuroraApp {
                                     .getIconWidth() / 2), -390);
                             editGameAnimator.moveVertical(0, 33);
 
+                            libraryLogic.getGameSearch_addUI().resetCover();
+
                             editGameAnimator.addPostAnimationListener(
                                     new APostHandler() {
                                         @Override
@@ -3205,6 +3207,7 @@ public class LibraryUI extends AuroraApp {
 
             txtGameCoverSearch_editUI.getTextBox().requestFocusInWindow();
             libraryLogic.getGameSearch_editUI().enableSearch();
+            libraryLogic.getGameSearch_editUI().resetCover();
         }
     }
 

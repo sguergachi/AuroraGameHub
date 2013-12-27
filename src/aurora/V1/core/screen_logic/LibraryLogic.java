@@ -301,6 +301,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                                 .get(i));
                     }
 
+
+
                     //* Handle appostrophese in game path *//
                     game.setGamePath(libraryUI.getStorage()
                             .getStoredLibrary()
@@ -313,6 +315,9 @@ public class LibraryLogic implements AuroraScreenLogic {
                 } else {
                     game = libraryUI.getGridSplit().getGame(i);
                 }
+
+
+               
 
                 gamesList.add(game);
 
@@ -370,6 +375,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                     .getOccurencesPlayed());
                             logger.info("ProfileDB Total Time:" + game
                                     .getTotalTimePlayed());
+                            logger.info("");
 
                         }
                     }
@@ -498,7 +504,7 @@ public class LibraryLogic implements AuroraScreenLogic {
             }
 
             libraryUI.getGridSplit()
-                    .finalizeGrid(libraryHandler.new ShowAddGameUiHandler(),
+                    .finalizeGrid(libraryHandler.new ShowAddGameUIHandler(),
                                   libraryUI
                             .getGameCoverWidth(), libraryUI.getGameCoverHeight());
 
@@ -1367,7 +1373,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                         }
                     }
 
-                    autoAddCurrentList.removeAll(autoAddCurrentList);
+                    autoAddCurrentList.clear();
                     autoAddCurrentList.addAll(autoGameList);
                 }
                 checkAutoAddGameStatus();
@@ -1411,7 +1417,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     }
                 }
 
-                autoAddCurrentList.removeAll(autoAddCurrentList);
+                autoAddCurrentList.clear();
                 checkAutoAddGameStatus();
 
                 libraryUI.getPnlCheckList().revalidate();

@@ -106,7 +106,7 @@ public class GameSearch implements Runnable {
     //Reset text, Cover Image, List and turn notification to red
     public void resetCover() {
 
-        if (notFoundCover == null) {
+        if (notFoundCover == null || !notFoundCover.getCoverURL().equals("library_noGameFound.png")) {
             //Create the new GameCover object
             notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
                                      libraryUI
