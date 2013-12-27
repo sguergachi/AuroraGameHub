@@ -17,7 +17,6 @@
  */
 package aurora.V1.core;
 
-import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.AThreadWorker;
@@ -26,7 +25,15 @@ import aurora.engine.V1.UI.ADialog;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.ASlickLabel;
 import aurora.engine.V1.UI.ATimeLabel;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -129,7 +136,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
     private void loadUI() {
 
         //* Create Frame Containing Launch UI *//
-        launchPane = new JFrame();
+        launchPane = new JFrame("Aurora Launcher");
         launchPane.setSize(coreUI.getFrame().getWidth(), coreUI.getFrame()
                 .getHeight());
         launchPane.setBackground(Color.BLACK);
@@ -188,7 +195,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
         //* Create Panels *//
         pnlBackground = new AImagePane("app_launch_bg.png", launchPane
                 .getWidth(),
-                launchPane.getHeight(), new BorderLayout());
+                                       launchPane.getHeight(),
+                                       new BorderLayout());
 
         pnlTop = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 50));
         pnlTop.setOpaque(false);
@@ -196,7 +204,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
         pnlTopContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 50));
         pnlTopContainer.setOpaque(false);
         pnlTopContainer.setLayout(new BoxLayout(pnlTopContainer,
-                BoxLayout.Y_AXIS));
+                                                BoxLayout.Y_AXIS));
 
         pnlCenter = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pnlCenter.setOpaque(false);
@@ -218,24 +226,24 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         // Shortcut Buttons //
         btnWatch = new AButton("game_btn_watch_norm.png",
-                "game_btn_watch_down.png",
-                "game_btn_watch_over.png");
+                               "game_btn_watch_down.png",
+                               "game_btn_watch_over.png");
         btnWatch.addActionListener(new WatchListener());
         btnWatch.setMargin(new Insets(0, 0, 0, 0));
         btnWatch.setBorder(null);
         btnWatch.setBorderPainted(false);
 
         btnFix = new AButton("game_btn_help_norm.png",
-                "game_btn_help_down.png",
-                "game_btn_help_over.png");
+                             "game_btn_help_down.png",
+                             "game_btn_help_over.png");
         btnFix.addActionListener(new FixListener());
         btnFix.setMargin(new Insets(0, 0, 0, 0));
         btnFix.setBorder(null);
         btnFix.setBorderPainted(false);
 
         btnLearn = new AButton("game_btn_learn_norm.png",
-                "game_btn_learn_down.png",
-                "game_btn_learn_over.png");
+                               "game_btn_learn_down.png",
+                               "game_btn_learn_over.png");
         btnLearn.addActionListener(new LearnListener());
         btnLearn.setMargin(new Insets(0, 0, 0, 0));
         btnLearn.setBorder(null);
@@ -254,7 +262,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         //* Manual return to Aurora button *//
         btnReturnToAurora = new AButton("app_launch_goBack_norm.png",
-                "app_launch_goBack_down.png", "app_launch_goBack_norm.png");
+                                        "app_launch_goBack_down.png",
+                                        "app_launch_goBack_norm.png");
         btnReturnToAurora.addActionListener(new GoBackButtonListener());
 
         //* Title Image Showing Status of Launcing Process *//
@@ -262,12 +271,14 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         //Top Buttons for Title //
         btnMinimize = new AButton("app_launch_minimize_norm.png",
-                "app_launch_minimize_down.png", "app_launch_minimize_over.png");
+                                  "app_launch_minimize_down.png",
+                                  "app_launch_minimize_over.png");
         btnMinimize.setBorder(null);
         btnMinimize.setMargin(new Insets(0, 0, 0, 0));
 
         btnExit = new AButton("app_launch_exit_norm.png",
-                "app_launch_exit_down.png", "app_launch_exit_over.png");
+                              "app_launch_exit_down.png",
+                              "app_launch_exit_over.png");
         btnExit.setBorder(null);
         btnExit.setMargin(new Insets(0, 0, 0, 0));
 
@@ -294,16 +305,16 @@ public class AuroraLauncher implements Runnable, MouseListener {
         //* Gracefull Resizing Based on Length of Game Name *//
         if (lblGameName.getText().length() > 50) {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                    55));
+                                                                   55));
         } else if (lblGameName.getText().length() > 40) {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                    65));
+                                                                   65));
         } else if (lblGameName.getText().length() > 30) {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                    75));
+                                                                   75));
         } else {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                    100));
+                                                                   100));
         }
         lblGameName.setForeground(new Color(103, 103, 103));
 
@@ -333,8 +344,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
                 .getIconWidth(), imgTitle.getImgIcon().getIconHeight()));
 
         pnlTitle.setPreferredSize(new Dimension(imgTitle.getRealImageWidth(),
-                imgTitle.getRealImageHeight()
-                + btnExit.getPreferredSize().height));
+                                                imgTitle.getRealImageHeight()
+                                                + btnExit.getPreferredSize().height));
 
         //* Set Game Cover Image *//
         imgGameCover.setImage(game);
@@ -432,7 +443,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                                     .substring(0, game.getGamePath()
                                             .lastIndexOf(
                                                     "\\") + 1).replace("\\",
-                                            "\\"));
+                                                                       "\\"));
                         }
 
                         processBuild.directory(new File(game.getGamePath()
@@ -451,14 +462,14 @@ public class AuroraLauncher implements Runnable, MouseListener {
                         currentDir = currentDir.substring(0, currentDir
                                 .lastIndexOf("\\") + 1) + '"' + currentDir
                                 .substring(currentDir.lastIndexOf("\\") + 1,
-                                        currentDir.length()) + '"';
+                                           currentDir.length()) + '"';
                         if (logger.isDebugEnabled()) {
                             logger.debug("Shortcut Directory: " + currentDir);
                         }
 
                         //* Set Commands to launch shortcut *//
                         Process processBuild = Runtime.getRuntime().exec(
-                                "cmd /c start " + currentDir );
+                                "cmd /c start " + currentDir);
                         launchGameProcess(processBuild);
                     } else {
 
@@ -468,7 +479,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                         currentDir = currentDir.substring(0, currentDir
                                 .lastIndexOf("\\") + 1) + '"' + currentDir
                                 .substring(currentDir.lastIndexOf("\\") + 1,
-                                        currentDir.length()) + '"';
+                                           currentDir.length()) + '"';
                         if (logger.isDebugEnabled()) {
                             logger.debug("Shortcut Directory: " + currentDir);
                         }
@@ -504,7 +515,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
                 //* Handle Exeption Unable to Find or Launch Game *//
                 ADialog error = new ADialog(ADialog.aDIALOG_ERROR,
-                        "Unable To Find & Launch Game.", coreUI.getBoldFont()
+                                            "Unable To Find & Launch Game.",
+                                            coreUI.getBoldFont()
                         .deriveFont(28));
 
                 error.setOKButtonListener(new ActionListener() {
@@ -601,8 +613,20 @@ public class AuroraLauncher implements Runnable, MouseListener {
         try {
             launchGameProcess = processBuild.start();
         } catch (Exception ex) {
+
+            ADialog error = new ADialog(
+                    ADialog.aDIALOG_ERROR,
+                    "Unable to launch Game "
+                    + "\n Make Sure To Launch Aurora In Administrator Mode",
+                    coreUI.getRegularFont()
+                    .deriveFont(Font.BOLD, 25));
+
+            error.showDialog();
+
             logger.error(ex);
             ex.printStackTrace();
+
+            error.setVisible(true);
         }
         coreUI.getFrame().setState(JFrame.ICONIFIED);
         coreUI.getFrame().setVisible(false);
@@ -762,7 +786,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                 pnlTimePlayed.repaint();
                 pnlTimePlayed.setBounds(launchPane.getWidth() + 300, pnlCenter
                         .getLocation().y / 2, pnlTimePlayed.getWidth(),
-                        pnlTimePlayed
+                                        pnlTimePlayed
                         .getHeight());
 
                 pnlCenter.setLayout(null);
@@ -783,11 +807,11 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
                 animateCover
                         .setInitialLocation(imgGameCover.getLocation().x,
-                                imgGameCover
+                                            imgGameCover
                                 .getLocation().y);
 
                 animateTime.setInitialLocation(launchPane.getWidth() + 300,
-                        pnlCenter
+                                               pnlCenter
                         .getLocation().y / 2);
 
                 animateCover.moveHorizontal(launchPane.getWidth() / 6, -2);

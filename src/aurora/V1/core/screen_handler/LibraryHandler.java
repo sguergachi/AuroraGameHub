@@ -25,6 +25,7 @@ import aurora.V1.core.GameSearch;
 import aurora.V1.core.GridAnimation;
 import aurora.V1.core.GridManager;
 import aurora.V1.core.StoredSettings;
+import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.LibraryHandler.MoveToGrid;
 import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_ui.LibraryUI;
@@ -1066,6 +1067,8 @@ public class LibraryHandler implements
                 }
                 libraryUI.getPnlAddGamePane().revalidate();
                 libraryUI.getPnlAddGamePane().repaint();
+
+                libraryLogic.getGameSearch_addUI().enableSearch();
 
                 AThreadWorker wait = new AThreadWorker(new ActionListener() {
                     @Override
@@ -2800,9 +2803,9 @@ public class LibraryHandler implements
 
     public class GameSearchButtonListener implements ActionListener {
 
-        private AImage icon;
+        private final AImage icon;
 
-        private GameSearch gameSearch;
+        private final GameSearch gameSearch;
 
         public GameSearchButtonListener(GameSearch search, AImage icon) {
             this.gameSearch = search;
@@ -2818,9 +2821,21 @@ public class LibraryHandler implements
             if (icon.getImgURl().equals("addUI_img_autoSearchOff.png")) {
 
                 gameSearch.enableSearch();
+
+                if (main.LAUNCHES < 5) {
+                    ((AButton) e.getSource()).setToolTipText(
+                            "Enable AuroraCoverDB");
+                }
+
             } else {
 
                 gameSearch.disableSearch();
+
+                if (main.LAUNCHES < 5) {
+                    ((AButton) e.getSource()).setToolTipText(
+                            "Disable AuroraCoverDB");
+                }
+
             }
 
         }

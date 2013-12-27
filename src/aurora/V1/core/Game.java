@@ -359,6 +359,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // Create Overlay UI Components //
         coverImagePane = new AImagePane();
         coverImagePane.setName(name);
+
+        if (coverURL.equals("library_noGameFound.png")) {
+            coverImagePane.setImage("library_noGameFound.png");
+            System.out.println("No Game Found");
+        }
+
         imgSelectedGlow = new AImagePane("game_selectedGlow.png", width + 10,
                                          height + 10);
         imgStarIcon = new AImagePane("game_favouriteIcon.png", 100, 32);
@@ -539,19 +545,21 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                 coverImagePane.setImage(localImage,
                                         width, height);
-                coverImagePane.setImageSize(width, height);
-                coverImagePane.setPreferredSize(new Dimension(width, height));
                 coverImagePane.setDoubleBuffered(true);
 
-                this.setImage(coverImagePane);
-                this.add(pnlInteractivePane);
-                this.revalidate();
-                this.repaint();
-
-            } else {
+            } else if (coverImagePane.getImgIcon() == null) {
 
                 // Load Image From S3 //
                 try {
+
+                    // Prevent too many games loading at once
+                    int rand = (int) (Math.random() * 100) + (200 - 100);
+                    try {
+                        Thread.sleep(rand);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(Game.class.getName())
+                                .log(Level.SEVERE, null, ex);
+                    }
 
                     if (WelcomeLogic.checkOnline(rootCoverDBPath + coverURL)) {
                         if (logger.isDebugEnabled()) {
@@ -561,10 +569,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         coverImagePane.setURL(rootCoverDBPath + coverURL);
 
                         //Set Background accordingly
-                        coverImagePane.setImageSize(width, height);
-                        coverImagePane.setPreferredSize(new Dimension(width,
-                                                                      height));
-
                         if (coverImagePane.getImgIcon().getIconHeight() == -1) {
 
                             coverImagePane.setImage("library_noGameFound.png");
@@ -590,16 +594,19 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     coverImagePane.setPreferredSize(new Dimension(width,
                                                                   height));
 
-                    this.setImage(coverImagePane);
-                    this.add(pnlInteractivePane);
-
-                    this.repaint();
-                    this.revalidate();
-
                 } catch (MalformedURLException ex) {
                     logger.error(ex);
                 }
             }
+
+            coverImagePane.setImageSize(width, height);
+            coverImagePane.setPreferredSize(new Dimension(width,
+                                                          height));
+
+            this.setImage(coverImagePane);
+            this.add(pnlInteractivePane);
+            this.revalidate();
+            this.repaint();
         }
         //End of Loading
         pnlInteractivePane.setPreferredSize(new Dimension(width, height));

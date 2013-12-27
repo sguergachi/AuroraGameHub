@@ -8,6 +8,7 @@
 ////////////////////////////////////////////------------------------------------
 
 + Added ability to edit/add a custom image as cover art for games!
++ Added ability to turn off use of Aurora's Cover Art DB
 + Added automatic background search for new games when Library loaded
 + Added ability to better guess cover art in Auto Add
 + Added 150 new game cover icons to AuroraDB
@@ -23,6 +24,7 @@
 - Fixed bug where number of times a game runs is not properly deleted (thanks George!)
 
 - Improved Game Finder algorithm
+- Improved how Aurora updates its Cover Art database
 - Refreshed some UI assets to look cleaner in Aurora
 - Prevented random cover art shown in dashboard from being an "unavailable" game
 - Duplicate game uses game name to compare instead of cover art

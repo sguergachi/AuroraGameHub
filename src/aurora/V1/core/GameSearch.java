@@ -106,32 +106,34 @@ public class GameSearch implements Runnable {
     //Reset text, Cover Image, List and turn notification to red
     public void resetCover() {
 
-        //Create the new GameCover object
-        notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
-                                 libraryUI
-                .getDashboardUI(), storage);
-        try {
-            notFoundCover.setCoverUrl("library_noGameFound.png");
-        } catch (MalformedURLException ex) {
-            logger.error(ex);
-        }
-        notFoundCover.setCoverSize(imgBlankCover
-                .getImageWidth(), imgBlankCover.getImageHeight());
-
-        try {
-            notFoundCover.update();
-            notFoundCover.removeOverlayUI();
-
-            //Allow for custom editing cover art
-            if (canEditCover) {
-                notFoundCover.enableEditCoverOverlay();
-                notFoundCover.getBtnAddCustomOverlay()
-                        .addActionListener(
-                                libraryUI.getHandler().new GameCoverEditListner(
-                                        notFoundCover));
+        if (notFoundCover == null) {
+            //Create the new GameCover object
+            notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
+                                     libraryUI
+                    .getDashboardUI(), storage);
+            try {
+                notFoundCover.setCoverUrl("library_noGameFound.png");
+            } catch (MalformedURLException ex) {
+                logger.error(ex);
             }
-        } catch (MalformedURLException ex) {
-            logger.error(ex);
+            notFoundCover.setCoverSize(imgBlankCover
+                    .getImageWidth(), imgBlankCover.getImageHeight());
+
+            try {
+                notFoundCover.update();
+                notFoundCover.removeOverlayUI();
+
+                //Allow for custom editing cover art
+                if (canEditCover) {
+                    notFoundCover.enableEditCoverOverlay();
+                    notFoundCover.getBtnAddCustomOverlay()
+                            .addActionListener(
+                                    libraryUI.getHandler().new GameCoverEditListner(
+                                            notFoundCover));
+                }
+            } catch (MalformedURLException ex) {
+                logger.error(ex);
+            }
         }
 
         if (isSearchEnabled) {
@@ -221,34 +223,35 @@ public class GameSearch implements Runnable {
             if (gameImageName == null) {
 
                 pnlGameCoverPane.removeAll();
-                //Create the new GameCover object
-                notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
-                                         libraryUI
-                        .getDashboardUI(), storage);
-                try {
-                    notFoundCover.setCoverUrl("library_noGameFound.png");
-                } catch (MalformedURLException ex) {
-                    logger.error(ex);
-                }
-                notFoundCover.setCoverSize(imgBlankCover
-                        .getImageWidth(), imgBlankCover.getImageHeight());
-
-                pnlGameCoverPane.add(notFoundCover);
-                try {
-                    notFoundCover.update();
-                    notFoundCover.removeOverlayUI();
-
-                    if (canEditCover) {
-                        notFoundCover.enableEditCoverOverlay();
-                        notFoundCover.getBtnAddCustomOverlay()
-                                .addActionListener(
-                                        libraryUI.getHandler().new GameCoverEditListner(
-                                                notFoundCover));
+                if (notFoundCover == null) {
+                    //Create the new GameCover object
+                    notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
+                                             libraryUI
+                            .getDashboardUI(), storage);
+                    try {
+                        notFoundCover.setCoverUrl("library_noGameFound.png");
+                    } catch (MalformedURLException ex) {
+                        logger.error(ex);
                     }
-                } catch (MalformedURLException ex) {
-                    logger.error(ex);
-                }
+                    notFoundCover.setCoverSize(imgBlankCover
+                            .getImageWidth(), imgBlankCover.getImageHeight());
 
+                    try {
+                        notFoundCover.update();
+                        notFoundCover.removeOverlayUI();
+
+                        if (canEditCover) {
+                            notFoundCover.enableEditCoverOverlay();
+                            notFoundCover.getBtnAddCustomOverlay()
+                                    .addActionListener(
+                                            libraryUI.getHandler().new GameCoverEditListner(
+                                                    notFoundCover));
+                        }
+                    } catch (MalformedURLException ex) {
+                        logger.error(ex);
+                    }
+                }
+                pnlGameCoverPane.add(notFoundCover);
                 //Change notification
                 imgStatus.setImgURl("addUI_badge_invalid.png");
                 pnlGameCoverPane.repaint();
@@ -335,37 +338,39 @@ public class GameSearch implements Runnable {
             if (foundGame == null) {
 
                 pnlGameCoverPane.removeAll();
-                //Create the new GameCover object
-                notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
-                                         libraryUI
-                        .getDashboardUI(), storage);
-                try {
-                    notFoundCover.setCoverUrl("library_noGameFound.png");
-                } catch (MalformedURLException ex) {
-                    logger.error(ex);
-                }
-                notFoundCover.setCoverSize(imgBlankCover
-                        .getImageWidth(), imgBlankCover.getImageHeight());
+                if (notFoundCover == null) {
+                    //Create the new GameCover object
+                    notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
+                                             libraryUI
+                            .getDashboardUI(), storage);
+                    try {
+                        notFoundCover.setCoverUrl("library_noGameFound.png");
+                    } catch (MalformedURLException ex) {
+                        logger.error(ex);
+                    }
+                    notFoundCover.setCoverSize(imgBlankCover
+                            .getImageWidth(), imgBlankCover.getImageHeight());
 
-                notFoundCover.setGameName(gameName);
+                    notFoundCover.setGameName(gameName);
+
+                    try {
+                        notFoundCover.update();
+                        notFoundCover.removeOverlayUI();
+
+                        // Enable editing of cover art
+                        if (canEditCover) {
+                            notFoundCover.enableEditCoverOverlay();
+                            notFoundCover.getBtnAddCustomOverlay()
+                                    .addActionListener(
+                                            libraryUI.getHandler().new GameCoverEditListner(
+                                                    notFoundCover));
+                        }
+                    } catch (MalformedURLException ex) {
+                        logger.error(ex);
+                    }
+                }
 
                 pnlGameCoverPane.add(notFoundCover);
-                try {
-                    notFoundCover.update();
-                    notFoundCover.removeOverlayUI();
-
-                    // Enable editing of cover art
-                    if (canEditCover) {
-                        notFoundCover.enableEditCoverOverlay();
-                        notFoundCover.getBtnAddCustomOverlay()
-                                .addActionListener(
-                                        libraryUI.getHandler().new GameCoverEditListner(
-                                                notFoundCover));
-                    }
-                } catch (MalformedURLException ex) {
-                    logger.error(ex);
-                }
-
                 //Change notification
                 imgStatus.setImgURl("addUI_badge_invalid.png");
                 pnlGameCoverPane.repaint();
@@ -671,36 +676,38 @@ public class GameSearch implements Runnable {
                 if (foundGame == null) {
 
                     pnlGameCoverPane.removeAll();
-                    //Create the new GameCover object
-                    notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
-                                             libraryUI
-                            .getDashboardUI(), storage);
-                    try {
-                        notFoundCover.setCoverUrl("library_noGameFound.png");
-                    } catch (MalformedURLException ex) {
-                        logger.error(ex);
+                    if (notFoundCover == null) {
+                        //Create the new GameCover object
+                        notFoundCover = new Game(libraryUI.getGridSplit(),
+                                                 coreUI,
+                                                 libraryUI
+                                .getDashboardUI(), storage);
+                        try {
+                            notFoundCover.setCoverUrl("library_noGameFound.png");
+                        } catch (MalformedURLException ex) {
+                            logger.error(ex);
+                        }
+                        notFoundCover.setCoverSize(imgBlankCover
+                                .getImageWidth(), imgBlankCover.getImageHeight());
+
+                        try {
+                            notFoundCover.update();
+                            notFoundCover.removeOverlayUI();
+
+                            //Allow for custom editing cover art
+                            if (canEditCover) {
+                                notFoundCover.enableEditCoverOverlay();
+                                notFoundCover.getBtnAddCustomOverlay()
+                                        .addActionListener(
+                                                libraryUI.getHandler().new GameCoverEditListner(
+                                                        notFoundCover));
+                            }
+                        } catch (MalformedURLException ex) {
+                            logger.error(ex);
+                        }
                     }
-                    notFoundCover.setCoverSize(imgBlankCover
-                            .getImageWidth(), imgBlankCover.getImageHeight());
 
                     pnlGameCoverPane.add(notFoundCover);
-
-                    try {
-                        notFoundCover.update();
-                        notFoundCover.removeOverlayUI();
-
-                        //Allow for custom editing cover art
-                        if (canEditCover) {
-                            notFoundCover.enableEditCoverOverlay();
-                            notFoundCover.getBtnAddCustomOverlay()
-                                    .addActionListener(
-                                            libraryUI.getHandler().new GameCoverEditListner(
-                                                    notFoundCover));
-                        }
-                    } catch (MalformedURLException ex) {
-                        logger.error(ex);
-                    }
-
                     //Change notification
                     imgStatus.setImgURl("addUI_badge_invalid.png");
                     pnlGameCoverPane.repaint();
@@ -757,37 +764,40 @@ public class GameSearch implements Runnable {
         } else {
             listModel.clear();
             if (!(pnlGameCoverPane.getComponent(0) instanceof Game)) {
+
                 pnlGameCoverPane.removeAll();
-                //Create the new GameCover object
-                notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
-                                         libraryUI
-                        .getDashboardUI(), storage);
-                try {
-                    notFoundCover.setCoverUrl("library_noGameFound.png");
-                } catch (MalformedURLException ex) {
-                    logger.error(ex);
+
+                if (notFoundCover == null) {
+                    //Create the new GameCover object
+                    notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
+                                             libraryUI
+                            .getDashboardUI(), storage);
+                    try {
+                        notFoundCover.setCoverUrl("library_noGameFound.png");
+                    } catch (MalformedURLException ex) {
+                        logger.error(ex);
+                    }
+                    notFoundCover.setCoverSize(imgBlankCover
+                            .getImageWidth(), imgBlankCover.getImageHeight());
+
+                    try {
+                        notFoundCover.update();
+                        notFoundCover.removeOverlayUI();
+
+                        //Allow for custom editing cover art
+                        if (canEditCover) {
+                            notFoundCover.enableEditCoverOverlay();
+                            notFoundCover.getBtnAddCustomOverlay()
+                                    .addActionListener(
+                                            libraryUI.getHandler().new GameCoverEditListner(
+                                                    notFoundCover));
+                        }
+                    } catch (MalformedURLException ex) {
+                        logger.error(ex);
+                    }
                 }
-                notFoundCover.setCoverSize(imgBlankCover
-                        .getImageWidth(), imgBlankCover.getImageHeight());
 
                 pnlGameCoverPane.add(notFoundCover);
-
-                try {
-                    notFoundCover.update();
-                    notFoundCover.removeOverlayUI();
-
-                    //Allow for custom editing cover art
-                    if (canEditCover) {
-                        notFoundCover.enableEditCoverOverlay();
-                        notFoundCover.getBtnAddCustomOverlay()
-                                .addActionListener(
-                                        libraryUI.getHandler().new GameCoverEditListner(
-                                                notFoundCover));
-                    }
-                } catch (MalformedURLException ex) {
-                    logger.error(ex);
-                }
-
                 //Change notification
                 imgStatus.setImgURl("addUI_badge_invalid.png");
                 pnlGameCoverPane.repaint();

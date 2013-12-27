@@ -345,9 +345,6 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 auroraStorage = new AuroraStorage();
                 Boolean FirstTimeLoad = false;
 
-                // Back-Compatible, Check if folder is in My Documents //
-                backCheckMyDoc();
-
                 // Check if Main Folder "AuroraData" Exists //
                 if (!checkMainDir()) {
 
@@ -587,7 +584,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 downloadAuroraDB();
 
             }
-        } else if (main.LAUNCHES % 10 == 0) {
+        } else if (main.LAUNCHES % 20 == 0) {
 
             promptDisplay
                     .add("Checking for AuroraCoverDB Updates...",
@@ -614,12 +611,6 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
     }
 
-    private void backCheckMyDoc() {
-        if (fileIO.checkFile(fileIO.getMyDocPath() + path)) {
-            fileIO.moveFolder(fileIO.getMyDocPath() + path, fileIO.getPath()
-                                                            + path);
-        }
-    }
 
     private boolean checkUser() {
         if (checkSubDir()) {

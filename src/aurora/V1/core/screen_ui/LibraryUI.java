@@ -1445,6 +1445,8 @@ public class LibraryUI extends AuroraApp {
 
         imgAutoSearchStatus_addUI = new AImage("addUI_img_autoSearchOn.png");
 
+        libraryLogic.getGameSearch_autoUI().setCanEditCover(false);
+
         btnAutoSearchDB_addUI.addActionListener(
                 libraryHandler.new GameSearchButtonListener(libraryLogic
                         .getGameSearch_addUI(), imgAutoSearchStatus_addUI));
@@ -1456,7 +1458,6 @@ public class LibraryUI extends AuroraApp {
                 pnlBlankCoverGame_autoUI,
                 pnlCoverPane_autoUI,
                 listModel_autoUI, imgAutoStatus, null);
-        libraryLogic.getGameSearch_autoUI().setCanEditCover(false);
 
     }
 
@@ -1661,6 +1662,10 @@ public class LibraryUI extends AuroraApp {
             pnlSearchBG.add(btnClearSearch_addUI, BorderLayout.EAST);
 
             btnAutoSearchDB_addUI.add(imgAutoSearchStatus_addUI);
+
+            if (main.LAUNCHES < 5) {
+                btnAutoSearchDB_addUI.setToolTipText("Disable AuroraCoverDB");
+            }
 
             pnlAddGameSearchContainer.add(Box.createHorizontalStrut(105));
             pnlAddGameSearchContainer.add(pnlSearchBG);
@@ -2864,13 +2869,13 @@ public class LibraryUI extends AuroraApp {
             String value = storage.getStoredSettings().getSettingValue(
                     "organize");
             if (value != null) {
-                if (value.equals("Favorite")) {
+                if (value.equalsIgnoreCase("Favorite")) {
                     btnTop.setSelected();
 
-                } else if (value.equals("Alphabetic")) {
+                } else if (value.equalsIgnoreCase("Alphabetic")) {
                     btnMiddle.setSelected();
 
-                } else if (value.equals("Most Played")) {
+                } else if (value.equalsIgnoreCase("Most Played")) {
                     btnBottom.setSelected();
                 }
             } else {
@@ -2962,7 +2967,6 @@ public class LibraryUI extends AuroraApp {
                     });
 
             addGameWorker.startOnce();
-            libraryLogic.getGameSearch_addUI().enableSearch();
 
         }
     }
