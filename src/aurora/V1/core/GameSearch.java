@@ -106,10 +106,11 @@ public class GameSearch implements Runnable {
     //Reset text, Cover Image, List and turn notification to red
     public void resetCover() {
 
-        if (notFoundCover == null || !notFoundCover.getCoverURL().equals("library_noGameFound.png")) {
+        if (notFoundCover == null || !notFoundCover.getCoverURL().equals(
+                "library_noGameFound.png")) {
             //Create the new GameCover object
             notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
-                                     libraryUI
+                    libraryUI
                     .getDashboardUI(), storage);
             try {
                 notFoundCover.setCoverUrl("library_noGameFound.png");
@@ -121,22 +122,24 @@ public class GameSearch implements Runnable {
 
             try {
                 notFoundCover.update();
-                notFoundCover.removeOverlayUI();
 
-                //Allow for custom editing cover art
-                if (canEditCover) {
-                    notFoundCover.enableEditCoverOverlay();
-                    notFoundCover.getBtnAddCustomOverlay()
-                            .addActionListener(
-                                    libraryUI.getHandler().new GameCoverEditListner(
-                                            notFoundCover));
-                }
             } catch (MalformedURLException ex) {
                 logger.error(ex);
             }
         }
 
         if (isSearchEnabled) {
+
+            notFoundCover.removeOverlayUI();
+            //Allow for custom editing cover art
+            if (canEditCover) {
+                notFoundCover.enableEditCoverOverlay();
+                notFoundCover.getBtnAddCustomOverlay()
+                        .addActionListener(
+                                libraryUI.getHandler().new GameCoverEditListner(
+                                        notFoundCover));
+            }
+
             pnlGameCoverPane.removeAll();
             pnlGameCoverPane.revalidate();
             pnlGameCoverPane.add(notFoundCover);
@@ -226,7 +229,7 @@ public class GameSearch implements Runnable {
                 if (notFoundCover == null) {
                     //Create the new GameCover object
                     notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
-                                             libraryUI
+                            libraryUI
                             .getDashboardUI(), storage);
                     try {
                         notFoundCover.setCoverUrl("library_noGameFound.png");
@@ -268,7 +271,7 @@ public class GameSearch implements Runnable {
                 pnlGameCoverPane.removeAll();
                 //Create the new GameCover object
                 foundGameCover = new Game(libraryUI.getGridSplit(), coreUI,
-                                          libraryUI
+                        libraryUI
                         .getDashboardUI(), storage);
                 try {
                     foundGameCover.setCoverUrl(gameImageName);
@@ -341,7 +344,7 @@ public class GameSearch implements Runnable {
                 if (notFoundCover == null) {
                     //Create the new GameCover object
                     notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
-                                             libraryUI
+                            libraryUI
                             .getDashboardUI(), storage);
                     try {
                         notFoundCover.setCoverUrl("library_noGameFound.png");
@@ -387,7 +390,7 @@ public class GameSearch implements Runnable {
                 pnlGameCoverPane.removeAll();
                 // Create the new GameCover object
                 foundGameCover = new Game(libraryUI.getGridSplit(), coreUI,
-                                          libraryUI
+                        libraryUI
                         .getDashboardUI(), storage);
                 try {
                     foundGameCover.setCoverUrl(foundGame);
@@ -476,7 +479,7 @@ public class GameSearch implements Runnable {
                         case 0: // First attempt: remove garbage characters
                             if (gameName.matches("^.*[©®™°²³º¼½¾].*$")) {
                                 gameName = gameName.replaceAll("[©®™°²³º¼½¾]",
-                                                               "");
+                                        "");
                                 break;
                             }
                         case 1: // Second attempt: add spaces between Letters
@@ -539,7 +542,7 @@ public class GameSearch implements Runnable {
                     // Add space
                     modifiedText = modifiedText.substring(0, spaceIndex)
                                    + " " + modifiedText.substring(spaceIndex,
-                                                                  modifiedText
+                            modifiedText
                             .length());
 
                 }
@@ -631,7 +634,7 @@ public class GameSearch implements Runnable {
                     }
 
                     foundArray = db.searchAprox("AuroraTable", "FILE_NAME",
-                                                "GAME_NAME", AppendedName
+                            "GAME_NAME", AppendedName
                             .toString());
                 } catch (SQLException ex) {
                     logger.error(ex);
@@ -655,7 +658,7 @@ public class GameSearch implements Runnable {
                                     String gameItem = (String) foundArray[i];
                                     if (!listModel.contains(gameItem
                                             .replace("-", " ").replace(".png",
-                                                                       ""))) {
+                                                    ""))) {
                                         listModel.addElement(gameItem
                                                 .replace("-", " ").replace(
                                                         ".png",
@@ -679,8 +682,8 @@ public class GameSearch implements Runnable {
                     if (notFoundCover == null) {
                         //Create the new GameCover object
                         notFoundCover = new Game(libraryUI.getGridSplit(),
-                                                 coreUI,
-                                                 libraryUI
+                                coreUI,
+                                libraryUI
                                 .getDashboardUI(), storage);
                         try {
                             notFoundCover.setCoverUrl("library_noGameFound.png");
@@ -720,8 +723,8 @@ public class GameSearch implements Runnable {
 
                     //Set up GameCover object with First Database item found
                     foundGameCover = new Game(libraryUI.getGridSplit(), coreUI,
-                                              libraryUI.getDashboardUI(),
-                                              storage);
+                            libraryUI.getDashboardUI(),
+                            storage);
                     try {
                         foundGameCover.setCoverUrl(foundGame); //use seperate string
                     } catch (MalformedURLException ex) {
@@ -770,7 +773,7 @@ public class GameSearch implements Runnable {
                 if (notFoundCover == null) {
                     //Create the new GameCover object
                     notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
-                                             libraryUI
+                            libraryUI
                             .getDashboardUI(), storage);
                     try {
                         notFoundCover.setCoverUrl("library_noGameFound.png");

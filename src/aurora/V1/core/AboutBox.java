@@ -93,13 +93,10 @@ public class AboutBox {
 
     public final void loadAboutUI() {
 
-
         // Create Components
         // ----------------------------------------------------------------.
-
         // Get Glass Pane to Put UI On //
         pnlGlass = (JPanel) coreUI.getFrame().getGlassPane();
-
 
         pnlAboutPane = new AImagePane("app_about_bg.png",
                 new BorderLayout());
@@ -136,7 +133,6 @@ public class AboutBox {
         scrollPane.getViewport().setOpaque(false);
 
         // Components //
-
         pnlVersion = new JPanel();
         pnlVersion.setOpaque(false);
         pnlVersion.setLayout(new BoxLayout(pnlVersion, BoxLayout.Y_AXIS));
@@ -169,10 +165,6 @@ public class AboutBox {
         pnlCenter.setLayout(new BorderLayout());
         addContent();
 
-        pnlCenterContainer.setPreferredSize(new Dimension(pnlCenter
-                .getRealImageWidth(), (pnlAboutPane.getRealImageHeight() / 2)
-                                      * 6));
-
         pnlCenter.add(scrollPane);
 
         // Bottom Pane //
@@ -195,8 +187,9 @@ public class AboutBox {
                                     / 2), -380);
         pnlAboutPane
                 .setSize(
-                new Dimension(pnlAboutPane.getImgIcon()
-                .getIconWidth(), pnlAboutPane.getImgIcon().getIconHeight()));
+                        new Dimension(pnlAboutPane.getImgIcon()
+                                .getIconWidth(), pnlAboutPane.getImgIcon()
+                                .getIconHeight()));
         pnlAboutPane.revalidate();
         pnlAboutPane.requestFocusInWindow();
 
@@ -272,7 +265,6 @@ public class AboutBox {
         pnlCenterContainer.add(seperator1);
 
         // Code Credit //
-
         JPanel pnlCodeCredit = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pnlCodeCredit.setLayout(new BoxLayout(pnlCodeCredit, BoxLayout.Y_AXIS));
         pnlCodeCredit.setOpaque(false);
@@ -333,14 +325,28 @@ public class AboutBox {
         lblMixpanel.setForeground(Color.WHITE);
         lblMixpanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        ASlickLabel lblScalr = new ASlickLabel(
+                "Imgscalr  - Best Java Image Scaling Library Ever.");
+        lblScalr.setLink(
+                "https://github.com/thebuzzmedia/imgscalr/blob/master/LICENSE");
+        lblScalr.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                20));
+        lblScalr.setForeground(Color.WHITE);
+        lblScalr.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         pnlCodeCredit.add(lblCodeCreditTitle);
         pnlCodeCredit.add(Box.createVerticalStrut(30));
         pnlCodeCredit.add(lblRSSParser);
+        pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlCodeCredit.add(lblh2Database);
+        pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlCodeCredit.add(lblJSONParser);
+        pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlCodeCredit.add(lblLogger);
+        pnlCodeCredit.add(Box.createVerticalStrut(3));
+        pnlCodeCredit.add(lblScalr);
+        pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlCodeCredit.add(lblMixpanel);
-
 
         pnlCenterContainer.add(pnlCodeCredit);
 
@@ -349,7 +355,6 @@ public class AboutBox {
         pnlCenterContainer.add(seperator2);
 
         // Special Thanks //
-
         JPanel pnlSpecialThanks = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pnlSpecialThanks.setLayout(
                 new BoxLayout(pnlSpecialThanks, BoxLayout.Y_AXIS));
@@ -379,7 +384,7 @@ public class AboutBox {
         lblStackOverflow.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblUsers = new ASlickLabel(
-                "Our Users and Fans -  We Love You! <3");
+                "Our Passionate Users -  We Love You! <3");
         lblUsers.setLink(
                 "http://www.facebook.com/pages/Aurora-Game-Hub/588939407788712",
                 Color.red);
@@ -393,9 +398,10 @@ public class AboutBox {
         pnlSpecialThanks.add(lblSpecialThanks);
         pnlSpecialThanks.add(Box.createVerticalStrut(30));
         pnlSpecialThanks.add(lblJeno);
+        pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlSpecialThanks.add(lblStackOverflow);
+        pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlSpecialThanks.add(lblUsers);
-
 
         pnlCenterContainer.add(pnlSpecialThanks);
 
@@ -403,10 +409,7 @@ public class AboutBox {
         AImage seperator3 = new AImage("app_seperator.png");
         pnlCenterContainer.add(seperator3);
 
-
-
         // License //
-
         JPanel pnlLicense = new JPanel();
         pnlLicense.setLayout(new BoxLayout(pnlLicense, BoxLayout.Y_AXIS));
         pnlLicense.setOpaque(false);
@@ -439,7 +442,6 @@ public class AboutBox {
         lblLicenseText.setForeground(Color.WHITE);
         lblLicenseText.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-
         pnlLicense.add(lblLicense);
         pnlLicense.add(Box.createVerticalStrut(30));
         pnlLicense.add(lblLicenseText);
@@ -451,6 +453,17 @@ public class AboutBox {
         pnlCenterContainer.add(seperator4);
         pnlCenterContainer.add(imgThanks);
 
+        pnlSpecialThanks.revalidate();
+        pnlCodeCredit.revalidate();
+        pnlLicense.revalidate();
+        pnlCenterContainer.revalidate();
+        pnlCenterContainer.setPreferredSize(new Dimension(pnlCenter
+                .getRealImageWidth(), (pnlMadeBy.getPreferredSize().height
+                                       + pnlLicense.getPreferredSize().height
+                                       + pnlSpecialThanks.getPreferredSize().height
+                                       + imgThanks.getImgHeight() * 2
+                                       + pnlCodeCredit.getPreferredSize().height
+                                       + 50)));
 
     }
 

@@ -67,7 +67,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
-import org.imgscalr.Scalr;
+
 
 /**
  * .------------------------------------------------------------------------.
@@ -1497,10 +1497,11 @@ public class LibraryLogic implements AuroraScreenLogic {
             BufferedImage img;
             try {
                 img = ImageIO.read(file);
-                BufferedImage scaledImg = Scalr
-                        .resize(img, Scalr.Method.QUALITY, Scalr.Mode.FIT_EXACT,
-                                SCALE_WIDTH_PARAM, SCALE_HEIGHT_PARAM,
-                                Scalr.OP_ANTIALIAS);
+                BufferedImage scaledImg = AImage.resizeBufferedImage(img,
+                        SCALE_WIDTH_PARAM, SCALE_HEIGHT_PARAM);
+                
+                
+                        
                 int width = 62;
                 int height = 14;
                 BufferedImage newImage = new BufferedImage(scaledImg.getWidth()

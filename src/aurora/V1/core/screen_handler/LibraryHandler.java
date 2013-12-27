@@ -1070,8 +1070,7 @@ public class LibraryHandler implements
                 libraryUI.getPnlAddGamePane().revalidate();
                 libraryUI.getPnlAddGamePane().repaint();
 
-                libraryLogic.getGameSearch_addUI().enableSearch();
-                libraryLogic.getGameSearch_addUI().resetCover();
+             
 
                 AThreadWorker wait = new AThreadWorker(new ActionListener() {
                     @Override
