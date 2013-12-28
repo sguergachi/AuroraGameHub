@@ -640,6 +640,7 @@ public final class GameFinder {
                 if (curr.depth < currDepth) {
                     r.clear();
                     r.add(curr);
+                    currDepth = curr.depth;
                 } else if (curr.depth == currDepth) {
                     r.add(curr);
                 }
