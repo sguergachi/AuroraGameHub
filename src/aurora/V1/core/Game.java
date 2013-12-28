@@ -389,7 +389,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         imgOverlayBar = new AImagePane("game_overlay.png", width - 30, 55);
         imgOverlayBar.setOpaque(false);
         imgOverlayBar.setPreferredSize(new Dimension(width - 30, 55));
-        imgOverlayBar.setLayout(new BorderLayout());
+        imgOverlayBar.setLayout(new BorderLayout(0,0));
         imgOverlayBar.setBackground(Color.blue);
 
         // The Panel that Contains the Actuall Components //
@@ -475,7 +475,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Add Container to the Image, which is not visible by default //
         imgOverlayBar.setVisible(false);
-        imgOverlayBar.add(pnlOverlayContainer);
+        imgOverlayBar.add(pnlOverlayContainer, BorderLayout.CENTER);
 
         // Add Image to the Bottom Bar //
         bottomPanel.add(imgOverlayBar, BorderLayout.NORTH);
@@ -2003,8 +2003,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             confirmPanel.setOpaque(false);
             confirmPanel.add(confirmButton);
 
+            
+            denyPanel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+            confirmPanel.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
             pnlOverlayContainer.add(denyPanel);
             pnlOverlayContainer.add(confirmPanel);
+            pnlOverlayContainer.add(Box.createHorizontalStrut(5));
             imgOverlayBar.revalidate();
             setUnselected();
             isGameRemoveMode = true;
@@ -2161,8 +2165,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         } else {
             flipShortcutWidth = (width / 2) + (width / 10);
             flipShortcutHeight = height / 6 + flipShortcutWidth / 12;
-            removeButtonWidth = this.width / 2 - 40;
-            removeButtonSeperation = -removeButtonWidth / 6 + 5;
+            removeButtonWidth = this.width / 2 - 32;
+            removeButtonSeperation = -removeButtonWidth / 6 + 1;
 
             SIZE_TOPPANE_COMP = 0;
             SIZE_BottomPaneHeight = (51 * 2) - (height / 18) + (width / height
