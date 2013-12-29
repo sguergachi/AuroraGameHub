@@ -20,13 +20,19 @@ package aurora.V1.core.screen_ui;
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.engine.V1.UI.AImagePane;
+import aurora.engine.V1.UI.ASlickLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import org.apache.log4j.Logger;
 
 /**
@@ -48,6 +54,22 @@ public class SettingsUI extends AuroraApp {
 
     private JPanel pnlSettingsBG;
 
+    private JPanel pnlSettingsTop;
+
+    private JScrollPane pnlSettingsTopScroll;
+
+    private JSeparator settingsTitleSeperator;
+
+    private JPanel pnlSettingsCenter;
+
+    private JScrollPane pnlSettingsCenterScroll;
+
+    private ASlickLabel lblGeneralSettings;
+
+    private int settings_height;
+
+    private int settings_width;
+
     public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
         this.appName = "Settings";
@@ -58,39 +80,131 @@ public class SettingsUI extends AuroraApp {
     @Override
     public void loadUI() {
 
-        setSize();
 
+        // Settings Main Panels
+        // --------------------------------------------------------------------.
+
+        // Background Panel
         pnlSettingsBG = new JPanel(new BorderLayout());
         pnlSettingsBG.setBackground(new Color(34, 41, 54, (int) (255 * .8)));
 
         pnlSettingsBG.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0,
-                                                                Color.BLACK));
-
+                Color.BLACK));
         pnlSettingsBG.setPreferredSize(new Dimension(coreUI.getFrame()
                 .getWidth(), coreUI.getCenterPanelHeight() / 2));
 
-        pnlSettingsContent = new JPanel(
-                new FlowLayout(FlowLayout.CENTER, 10, 25));
+
+        // Content Panel
+        pnlSettingsContent = new JPanel();
+        pnlSettingsContent.setLayout(new BoxLayout(pnlSettingsContent,
+                BoxLayout.Y_AXIS));
         pnlSettingsContent.setOpaque(false);
         pnlSettingsContent.setPreferredSize(coreUI.getCenterPanel()
                 .getPreferredSize());
+
+        // Settings Top/Title, Seperator and Center panels
+        // --------------------------------------------------------------------.
+
+        // Top Panel
+        pnlSettingsTop = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        pnlSettingsTop.setOpaque(false);
+
+        pnlSettingsTopScroll = new JScrollPane(pnlSettingsTop,
+                JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        pnlSettingsTopScroll.setBorder(null);
+        pnlSettingsTopScroll.setOpaque(false);
+        pnlSettingsTopScroll.getViewport().setOpaque(false);
+
+        lblGeneralSettings = new ASlickLabel("General Settings");
+
+
+
+        // Seperator Panel
+        settingsTitleSeperator = new JSeparator(SwingConstants.HORIZONTAL);
+        settingsTitleSeperator.setForeground(Color.BLACK);
+        settingsTitleSeperator.setBackground(Color.BLACK);
+
+
+        // Center Panel
+        pnlSettingsCenter = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        pnlSettingsCenter.setOpaque(false);
+
+        pnlSettingsCenterScroll = new JScrollPane(pnlSettingsCenter,
+                JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        pnlSettingsCenterScroll.setOpaque(false);
+        pnlSettingsCenterScroll.getViewport().setOpaque(false);
+        pnlSettingsCenterScroll.setBorder(null);
+
+
+
 
 
     }
 
     @Override
     public void buildUI() {
+
+        setSize();
+
         coreUI.getTitleLabel().setText("     Settings   ");
+
+
+
+        // Content Setup
+        // --------------------------------------------------------------------.
+
+        // Top Panel
+        lblGeneralSettings.setForeground(new Color(34, 140, 0));
+        lblGeneralSettings.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                60));
+
+        pnlSettingsTop.add(Box.createHorizontalStrut(35));
+        pnlSettingsTop.add(lblGeneralSettings);
+
+        pnlSettingsTop.setPreferredSize(new Dimension(settings_width,
+                settings_height / 60));
+        pnlSettingsTopScroll.setPreferredSize(pnlSettingsTop.getPreferredSize());
+
+        // Seperator
+        settingsTitleSeperator.setPreferredSize(new Dimension(settings_width*2,
+                1));
+        settingsTitleSeperator.setMaximumSize(settingsTitleSeperator.getPreferredSize());
+
+
+        // Center Panel
+        pnlSettingsCenter.setPreferredSize(new Dimension(settings_width,
+                settings_height * 2));
+        pnlSettingsCenter.add(Box.createHorizontalStrut(35));
+
+        pnlSettingsCenterScroll.setPreferredSize(pnlSettingsCenter
+                .getPreferredSize());
+
+
+        // Add to content panel
+        // --------------------------------------------------------------------.
+
+        pnlSettingsContent.add(Box.createVerticalStrut(60));
+        pnlSettingsContent.add(pnlSettingsTopScroll);
+        pnlSettingsContent.add(settingsTitleSeperator);
+        pnlSettingsContent.add(pnlSettingsCenterScroll);
+
 
         pnlSettingsBG.add(pnlSettingsContent);
 
-        //* Add Library Container to Center Panel *//
+
+        // Add Settings BG to Center Panel
+        // --------------------------------------------------------------------.
         coreUI.getCenterPanel().add(BorderLayout.NORTH, Box.createVerticalStrut(
                 20));
         coreUI.getCenterPanel().add(BorderLayout.CENTER, pnlSettingsBG);
         coreUI.getCenterPanel().add(BorderLayout.SOUTH, Box.createVerticalStrut(
                 20));
         coreUI.getCenterPanel().repaint();
+
+
+
 
         // Sorry Dialog incase Settings is not ready
 //        sorry = new AImagePane("inDev.png");
@@ -108,6 +222,18 @@ public class SettingsUI extends AuroraApp {
     }
 
     public void setSize() {
+
+
+        settings_height = pnlSettingsBG.getPreferredSize().height - (2 * 20);
+        settings_width = coreUI.getFrame().getWidth();
+
+        if (coreUI.isLargeScreen()) {
+
+
+
+
+
+        }
 
     }
 
