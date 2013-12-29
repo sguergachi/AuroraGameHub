@@ -161,6 +161,8 @@ public class AboutBox {
         // Center Panel //
         scrollPane.setBorder(null);
         scrollPane.setWheelScrollingEnabled(true);
+        scrollBar.setPreferredSize(new Dimension(18, pnlCenter
+                .getRealImageHeight()));
 
         pnlCenter.setLayout(new BorderLayout());
         addContent();
@@ -242,6 +244,8 @@ public class AboutBox {
 
     private void addContent() {
 
+
+
         // Made By //
         JPanel pnlMadeBy = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pnlMadeBy.setOpaque(false);
@@ -258,6 +262,7 @@ public class AboutBox {
         pnlMadeBy.add(lblMadeBy);
         pnlMadeBy.add(logo);
 
+        pnlCenterContainer.add(Box.createVerticalStrut(200));
         pnlCenterContainer.add(pnlMadeBy);
 
         // Seperator //

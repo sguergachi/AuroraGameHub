@@ -20,6 +20,7 @@ package aurora.V1.core.screen_ui;
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.engine.V1.UI.AImagePane;
+import aurora.engine.V1.UI.AScrollBar;
 import aurora.engine.V1.UI.ASlickLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -30,6 +31,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -73,6 +75,10 @@ public class SettingsUI extends AuroraApp {
     private JSeparator generalSettingsSeperator;
 
     private JPanel pnlGeneralSettingsSeperator;
+
+    private AScrollBar settingsCenterScrollUI;
+
+    private JScrollBar settingsCenterScrollBar;
 
     public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
@@ -138,13 +144,18 @@ public class SettingsUI extends AuroraApp {
 
         pnlSettingsCenterScroll = new JScrollPane(pnlSettingsCenter,
                 JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         pnlSettingsCenterScroll.setOpaque(false);
         pnlSettingsCenterScroll.getViewport().setOpaque(false);
         pnlSettingsCenterScroll.setBorder(null);
 
+        settingsCenterScrollUI = new AScrollBar("settings_scroll_thumb.png",
+                "settings_scroll_track.png");
+        settingsCenterScrollBar = new JScrollBar();
 
 
+
+        // General Settings
 
 
     }
@@ -183,7 +194,7 @@ public class SettingsUI extends AuroraApp {
                 BorderLayout.SOUTH);
         pnlGeneralSettingsSeperator.setPreferredSize(new Dimension(
                 generalSettingsSeperator.getPreferredSize().width,
-                pnlSettingsTop.getPreferredSize().height * 6 + 10));
+                pnlSettingsTop.getPreferredSize().height * 6 + 5));
 
         pnlSettingsTop.add(Box.createHorizontalStrut(35));
         pnlSettingsTop.add(pnlGeneralSettingsSeperator);
@@ -211,6 +222,11 @@ public class SettingsUI extends AuroraApp {
         pnlSettingsCenterScroll.setPreferredSize(pnlSettingsCenter
                 .getPreferredSize());
 
+        settingsCenterScrollBar.setUI(settingsCenterScrollUI);
+        settingsCenterScrollBar.setPreferredSize(new Dimension(settings_width,
+                12));
+        settingsCenterScrollBar.setOpaque(false);
+        pnlSettingsCenterScroll.setHorizontalScrollBar(settingsCenterScrollBar);
 
         // Add to content panel
         // --------------------------------------------------------------------.
