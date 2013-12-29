@@ -17,17 +17,17 @@
  */
 package aurora.V1.core.screen_ui;
 
-import org.apache.log4j.Logger;
-
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
-import aurora.V1.core.main;
 import aurora.engine.V1.UI.AImagePane;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JPanel;
+import org.apache.log4j.Logger;
 
 /**
  * Settings GUI
@@ -44,7 +44,9 @@ public class SettingsUI extends AuroraApp {
 
     private AImagePane sorry;
 
-    private JPanel pnlContent;
+    private JPanel pnlSettingsContent;
+
+    private JPanel pnlSettingsBG;
 
     public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
@@ -56,26 +58,45 @@ public class SettingsUI extends AuroraApp {
     @Override
     public void loadUI() {
 
-        pnlContent = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 25));
-        pnlContent.setOpaque(false);
-        pnlContent.setPreferredSize(coreUI.getCenterPanel().getPreferredSize());
+        setSize();
 
-        sorry = new AImagePane("inDev.png");
-        sorry.setPreferredSize(new Dimension(sorry.getRealImageWidth(), sorry
-                .getRealImageHeight()));
+        pnlSettingsBG = new JPanel(new BorderLayout());
+        pnlSettingsBG.setBackground(new Color(34, 41, 54, (int) (255 * .8)));
+
+        pnlSettingsBG.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0,
+                                                                Color.BLACK));
+
+        pnlSettingsBG.setPreferredSize(new Dimension(coreUI.getFrame()
+                .getWidth(), coreUI.getCenterPanelHeight() / 2));
+
+        pnlSettingsContent = new JPanel(
+                new FlowLayout(FlowLayout.CENTER, 10, 25));
+        pnlSettingsContent.setOpaque(false);
+        pnlSettingsContent.setPreferredSize(coreUI.getCenterPanel()
+                .getPreferredSize());
+
+
     }
 
     @Override
     public void buildUI() {
         coreUI.getTitleLabel().setText("     Settings   ");
 
-        pnlContent.add(sorry);
+        pnlSettingsBG.add(pnlSettingsContent);
 
         //* Add Library Container to Center Panel *//
         coreUI.getCenterPanel().add(BorderLayout.NORTH, Box.createVerticalStrut(
-                55));
-        coreUI.getCenterPanel().add(BorderLayout.CENTER, pnlContent);
+                20));
+        coreUI.getCenterPanel().add(BorderLayout.CENTER, pnlSettingsBG);
+        coreUI.getCenterPanel().add(BorderLayout.SOUTH, Box.createVerticalStrut(
+                20));
         coreUI.getCenterPanel().repaint();
+
+        // Sorry Dialog incase Settings is not ready
+//        sorry = new AImagePane("inDev.png");
+//        sorry.setPreferredSize(new Dimension(sorry.getRealImageWidth(), sorry
+//                .getRealImageHeight()));
+//        pnlSettingsContent.add(sorry);
     }
 
     @Override
@@ -87,6 +108,7 @@ public class SettingsUI extends AuroraApp {
     }
 
     public void setSize() {
+
     }
 
     @Override

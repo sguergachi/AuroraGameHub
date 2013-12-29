@@ -166,18 +166,6 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
             logger.error(ex);
         }
 
-        try {
-            coreUI.setSFX();
-        } catch (UnsupportedAudioFileException ex) {
-            logger.error(ex);
-        } catch (IOException ex) {
-            logger.error(ex);
-        } catch (LineUnavailableException ex) {
-            logger.error(ex);
-        } catch (InterruptedException ex) {
-            logger.error(ex);
-        }
-
         progressWheel = new AProgressWheel("app_progressWheel.png");
         imgHexPane = new AScrollingImage("start_scrolling_hex.png", 0, 0);
         imgHexPane.setIgnoreRepaint(true);
