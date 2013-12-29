@@ -1683,7 +1683,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Hours Played
         // ----------------------------------------------------------------.
-        if (this.timePlayed != null) {
+        if (this.timePlayed != null && !this.timePlayed.equals("null")) {
 
             // Parse time //
             String hoursPlayed = timePlayed
@@ -1762,7 +1762,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         Date past = null;
 
         String daysPast;
-        if (this.lastPlayed != null) {
+        if (this.lastPlayed != null && !this.lastPlayed.equals("null")) {
             try {
                 past = format.parse(lastPlayed);
             } catch (ParseException ex) {
@@ -2003,7 +2003,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             confirmPanel.setOpaque(false);
             confirmPanel.add(confirmButton);
 
-            
+
             denyPanel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
             confirmPanel.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
             pnlOverlayContainer.add(denyPanel);

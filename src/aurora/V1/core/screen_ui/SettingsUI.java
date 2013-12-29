@@ -236,7 +236,7 @@ public class SettingsUI extends AuroraApp {
 
 
 
-        // Sorry Dialog incase Settings is not ready
+        // Sorry image in case Settings is not ready
 //        sorry = new AImagePane("inDev.png");
 //        sorry.setPreferredSize(new Dimension(sorry.getRealImageWidth(), sorry
 //                .getRealImageHeight()));
