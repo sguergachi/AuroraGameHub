@@ -70,6 +70,10 @@ public class SettingsUI extends AuroraApp {
 
     private int settings_width;
 
+    private JSeparator generalSettingsSeperator;
+
+    private JPanel pnlGeneralSettingsSeperator;
+
     public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
         this.appName = "Settings";
@@ -118,12 +122,14 @@ public class SettingsUI extends AuroraApp {
 
         lblGeneralSettings = new ASlickLabel("General Settings");
 
+        pnlGeneralSettingsSeperator = new JPanel(new BorderLayout(0, 0));
+        pnlGeneralSettingsSeperator.setOpaque(false);
+        generalSettingsSeperator = new JSeparator(SwingConstants.VERTICAL);
+
 
 
         // Seperator Panel
         settingsTitleSeperator = new JSeparator(SwingConstants.HORIZONTAL);
-        settingsTitleSeperator.setForeground(Color.BLACK);
-        settingsTitleSeperator.setBackground(Color.BLACK);
 
 
         // Center Panel
@@ -156,22 +162,46 @@ public class SettingsUI extends AuroraApp {
         // --------------------------------------------------------------------.
 
         // Top Panel
+        pnlSettingsTop.setPreferredSize(new Dimension(settings_width,
+                settings_height / 20));
+        pnlSettingsTopScroll.setPreferredSize(pnlSettingsTop.getPreferredSize());
+
         lblGeneralSettings.setForeground(new Color(34, 140, 0));
         lblGeneralSettings.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 60));
 
+        generalSettingsSeperator.setPreferredSize(
+                new Dimension(2,
+                        40));
+        generalSettingsSeperator.setMaximumSize(generalSettingsSeperator
+                .getPreferredSize());
+        generalSettingsSeperator.setForeground(new Color(13, 17, 21));
+        generalSettingsSeperator.setBackground(new Color(13, 17, 21));
+
+        pnlGeneralSettingsSeperator.add(Box.createGlue(), BorderLayout.CENTER);
+        pnlGeneralSettingsSeperator.add(generalSettingsSeperator,
+                BorderLayout.SOUTH);
+        pnlGeneralSettingsSeperator.setPreferredSize(new Dimension(
+                generalSettingsSeperator.getPreferredSize().width,
+                pnlSettingsTop.getPreferredSize().height * 6 + 10));
+
         pnlSettingsTop.add(Box.createHorizontalStrut(35));
+        pnlSettingsTop.add(pnlGeneralSettingsSeperator);
+        pnlSettingsTop.add(Box.createHorizontalStrut(5));
         pnlSettingsTop.add(lblGeneralSettings);
 
-        pnlSettingsTop.setPreferredSize(new Dimension(settings_width,
-                settings_height / 60));
-        pnlSettingsTopScroll.setPreferredSize(pnlSettingsTop.getPreferredSize());
+
+
+
 
         // Seperator
-        settingsTitleSeperator.setPreferredSize(new Dimension(settings_width*2,
-                1));
-        settingsTitleSeperator.setMaximumSize(settingsTitleSeperator.getPreferredSize());
-
+        settingsTitleSeperator.setPreferredSize(
+                new Dimension(settings_width * 2,
+                        2));
+        settingsTitleSeperator.setMaximumSize(settingsTitleSeperator
+                .getPreferredSize());
+        settingsTitleSeperator.setForeground(new Color(13, 17, 21));
+        settingsTitleSeperator.setBackground(new Color(13, 17, 21));
 
         // Center Panel
         pnlSettingsCenter.setPreferredSize(new Dimension(settings_width,
