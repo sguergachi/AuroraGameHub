@@ -20,7 +20,6 @@ package aurora.V1.core.screen_ui;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraMini;
 import aurora.V1.core.AuroraStorage;
-import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.WelcomeHandler;
 import aurora.V1.core.screen_handler.WelcomeHandler.FrameKeyListener;
 import aurora.V1.core.screen_logic.WelcomeLogic;
@@ -572,15 +571,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 downloadAuroraDB();
 
             }
-        } else if (main.LAUNCHES % 20 == 0) {
-
-            promptDisplay
-                    .add("Checking for AuroraCoverDB Updates...",
-                         new Color(0, 191, 255));
-
-            downloadAuroraDB();
         }
-
     }
 
     private void downloadAuroraDB() {

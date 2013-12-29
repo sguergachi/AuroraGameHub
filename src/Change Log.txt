@@ -21,7 +21,8 @@
 - Fixed the "amp;" showing next to "&" sign in the info feed
 - Fixed small issue causing performance hitch on Aurora Launcher exiting.
 - Fixed bug where game executable paths with apostrophe were not saved to library
-- Fixed bug where number of times a game runs is not properly deleted (thanks George!)
+- Fixed bug where number of times a game runs is not properly deleted
+- Fixed bug where changing Game Type would cause issues with Game Metadata
 
 - Improved Game Finder algorithm
 - Improved how Aurora updates its Cover Art database
