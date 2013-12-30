@@ -633,15 +633,11 @@ public class DashboardUI implements AuroraScreenUI {
 
         //* Set size of Icons inside each Carousel Pane *//
 
-//        icoSetting.setImageSize(carouselImageWidth,
-//                carouselImageHeight);
         icoSetting.addMouseListener(handler.new CarouselPaneMouseListener(
                 paneSettings));
-//        icoProfile.setImageSize(carouselImageWidth,
-//                carouselImageHeight);
         icoProfile.addMouseListener(handler.new CarouselPaneMouseListener(
                 paneProfile));
-        icoNet.setImageSize(carouselImageWidth, carouselImageHeight);
+//        icoNet.setImageSize(carouselImageWidth, carouselImageHeight);
         icoNet.addMouseListener(handler.new CarouselPaneMouseListener(paneNet));
         icoLibrary.setPreferredSize(new Dimension(gameCoverWidth,
                 gameCoverHeight));
