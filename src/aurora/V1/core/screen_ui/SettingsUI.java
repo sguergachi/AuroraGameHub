@@ -19,9 +19,14 @@ package aurora.V1.core.screen_ui;
 
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
+import static aurora.V1.core.screen_ui.LibraryUI.gameNameFontSize;
+import static aurora.V1.core.screen_ui.LibraryUI.selectedGameBarHeight;
+import static aurora.V1.core.screen_ui.LibraryUI.selectedGameBarWidth;
 import aurora.engine.V1.UI.AButton;
+import aurora.engine.V1.UI.AFadeLabel;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
+import aurora.engine.V1.UI.AProgressWheel;
 import aurora.engine.V1.UI.ARadioButton;
 import aurora.engine.V1.UI.AScrollBar;
 import aurora.engine.V1.UI.ASlickLabel;
@@ -138,6 +143,22 @@ public class SettingsUI extends AuroraApp {
 
     private AImage imgUpdateAuroraDBSearchIcon;
 
+    private int bottomTopPadding;
+
+    private AImagePane pnlSettingsStatusPane;
+
+    public static AFadeLabel lblSettingsStatus;
+
+    private JPanel pnlBottomCenterContainer;
+
+    private final String DEAFULT_SETTINGS_STATUS = "Choose a Setting";
+
+    private final Color DEFAULT_SETTINGS_COLOR = Color.lightGray;
+
+    private AProgressWheel prgSettingsStatus;
+
+    private boolean isScreenLoaded;
+
     public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
         this.appName = "Settings";
@@ -160,6 +181,8 @@ public class SettingsUI extends AuroraApp {
                 Color.BLACK));
         pnlSettingsBG.setPreferredSize(new Dimension(coreUI.getFrame()
                 .getWidth(), coreUI.getCenterPanelHeight() / 2));
+
+        setSize();
 
 
         // Content Panel
@@ -223,11 +246,29 @@ public class SettingsUI extends AuroraApp {
         pnlGeneralSettingsGrid.setOpaque(false);
 
 
-
         loadGeneralSettingsUI();
 
 
+        // Bottom Pane
+        // --------------------------------------------------------------------.
 
+        pnlBottomCenterContainer = new JPanel(new FlowLayout(FlowLayout.CENTER,
+                0, bottomTopPadding));
+        pnlBottomCenterContainer.setOpaque(false);
+
+        // Settings Status
+
+
+        pnlSettingsStatusPane = new AImagePane("library_selectedGameBar_bg.png",
+                selectedGameBarWidth,
+                selectedGameBarHeight);
+        pnlSettingsStatusPane.setLayout(new BorderLayout(0, 10));
+
+        lblSettingsStatus = new AFadeLabel(DEAFULT_SETTINGS_STATUS);
+        lblSettingsStatus.setForeground(DEFAULT_SETTINGS_COLOR);
+        lblSettingsStatus.setFont(coreUI
+                .getDefaultFont().deriveFont(Font.PLAIN,
+                        gameNameFontSize));
 
 
     }
@@ -407,118 +448,200 @@ public class SettingsUI extends AuroraApp {
     @Override
     public void buildUI() {
 
-        setSize();
-
-        coreUI.getTitleLabel().setText("     Settings   ");
+        if (!isScreenLoaded) {
 
 
 
-        // Content Setup
-        // --------------------------------------------------------------------.
+            // Content Setup
+            // --------------------------------------------------------------------.
 
-        // Top Panel
+            // Top Panel
 
-        lblGeneralSettings.setForeground(new Color(34, 140, 0));
-        lblGeneralSettings.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                title_size));
+            lblGeneralSettings.setForeground(new Color(34, 140, 0));
+            lblGeneralSettings.setFont(coreUI.getRopaFont().deriveFont(
+                    Font.PLAIN,
+                    title_size));
 
-        generalSettingsSeperator.setPreferredSize(
-                new Dimension(2, 40));
-        generalSettingsSeperator.setMaximumSize(generalSettingsSeperator
-                .getPreferredSize());
-        generalSettingsSeperator.setForeground(new Color(13, 17, 21));
-        generalSettingsSeperator.setBackground(new Color(13, 17, 21));
+            generalSettingsSeperator.setPreferredSize(
+                    new Dimension(2, 40));
+            generalSettingsSeperator.setMaximumSize(generalSettingsSeperator
+                    .getPreferredSize());
+            generalSettingsSeperator.setForeground(new Color(13, 17, 21));
+            generalSettingsSeperator.setBackground(new Color(13, 17, 21));
 
-        pnlGeneralSettingsTitlePane.add(Box.createGlue(), BorderLayout.CENTER);
-        pnlGeneralSettingsLowerTitlePane = new JPanel(new FlowLayout(
-                FlowLayout.LEFT, 0, 0));
-        pnlGeneralSettingsLowerTitlePane.setOpaque(false);
-        pnlGeneralSettingsLowerTitlePane.setBackground(Color.GREEN);
+            pnlGeneralSettingsTitlePane.add(Box.createGlue(),
+                    BorderLayout.CENTER);
+            pnlGeneralSettingsLowerTitlePane = new JPanel(new FlowLayout(
+                    FlowLayout.LEFT, 0, 0));
+            pnlGeneralSettingsLowerTitlePane.setOpaque(false);
+            pnlGeneralSettingsLowerTitlePane.setBackground(Color.GREEN);
 
-        pnlGeneralSettingsLowerTitlePane.add(generalSettingsSeperator);
-
-
-
-        pnlGeneralSettingsTitlePane.add(pnlGeneralSettingsLowerTitlePane,
-                BorderLayout.SOUTH);
-        pnlGeneralSettingsTitlePane.setPreferredSize(new Dimension(
-                generalSettingsSeperator.getPreferredSize().width,
-                title_size + 10));
-
-        pnlSettingsTop.add(Box.createHorizontalStrut(35));
-        pnlSettingsTop.add(pnlGeneralSettingsTitlePane);
-        pnlSettingsTop.add(Box.createHorizontalStrut(10));
-        pnlSettingsTop.add(lblGeneralSettings);
+            pnlGeneralSettingsLowerTitlePane.add(generalSettingsSeperator);
 
 
 
-        // Seperator
-        settingsTitleSeperator.setPreferredSize(
-                new Dimension(settings_width * 2,
-                        2));
-        settingsTitleSeperator.setMaximumSize(settingsTitleSeperator
-                .getPreferredSize());
-        settingsTitleSeperator.setForeground(new Color(13, 17, 21));
-        settingsTitleSeperator.setBackground(new Color(13, 17, 21));
+            pnlGeneralSettingsTitlePane.add(pnlGeneralSettingsLowerTitlePane,
+                    BorderLayout.SOUTH);
+            pnlGeneralSettingsTitlePane.setPreferredSize(new Dimension(
+                    generalSettingsSeperator.getPreferredSize().width,
+                    title_size + 10));
+
+            pnlSettingsTop.add(Box.createHorizontalStrut(35));
+            pnlSettingsTop.add(pnlGeneralSettingsTitlePane);
+            pnlSettingsTop.add(Box.createHorizontalStrut(10));
+            pnlSettingsTop.add(lblGeneralSettings);
 
 
 
-        // Center Panel
-        pnlSettingsCenter.setPreferredSize(new Dimension(settings_width,
-                settings_height * 2 + (title_size + 10)));
-        pnlSettingsCenter.add(Box.createHorizontalStrut(35));
-
-        pnlSettingsCenterScroll.setPreferredSize(pnlSettingsCenter
-                .getPreferredSize());
-
-        settingsCenterScrollBar.setUI(settingsCenterScrollUI);
-        settingsCenterScrollBar.setPreferredSize(new Dimension(settings_width,
-                12));
-        settingsCenterScrollBar.setOpaque(false);
-        pnlSettingsCenterScroll.setHorizontalScrollBar(settingsCenterScrollBar);
+            // Seperator
+            settingsTitleSeperator.setPreferredSize(
+                    new Dimension(settings_width * 2,
+                            2));
+            settingsTitleSeperator.setMaximumSize(settingsTitleSeperator
+                    .getPreferredSize());
+            settingsTitleSeperator.setForeground(new Color(13, 17, 21));
+            settingsTitleSeperator.setBackground(new Color(13, 17, 21));
 
 
 
-        // General Settings
+            // Center Panel
+            pnlSettingsCenter.setPreferredSize(new Dimension(settings_width,
+                    settings_height * 2 + (title_size + 10)));
+            pnlSettingsCenter.add(Box.createHorizontalStrut(35));
 
-        buildGeneralSettings();
+            pnlSettingsCenterScroll.setPreferredSize(pnlSettingsCenter
+                    .getPreferredSize());
 
-        pnlSettingsCenter.add(pnlGeneralSettingsContainer);
-
-
-        // Add to content panel
-        // --------------------------------------------------------------------.
-
-        pnlSettingsContent.add(Box.createVerticalStrut(padding_top));
-        pnlSettingsContent.add(pnlSettingsTopScroll);
-        pnlSettingsContent.add(settingsTitleSeperator);
-        pnlSettingsContent.add(pnlSettingsCenterScroll);
-
-
-        pnlSettingsBG.add(pnlSettingsContent);
-
-
-        // Add Settings BG to Center Panel
-        // --------------------------------------------------------------------.
-        coreUI.getCenterPanel().add(BorderLayout.NORTH, Box.createVerticalStrut(
-                20));
-        coreUI.getCenterPanel().add(BorderLayout.CENTER, pnlSettingsBG);
-        coreUI.getCenterPanel().add(BorderLayout.SOUTH, Box.createVerticalStrut(
-                20));
-        coreUI.getCenterPanel().repaint();
+            settingsCenterScrollBar.setUI(settingsCenterScrollUI);
+            settingsCenterScrollBar.setPreferredSize(new Dimension(
+                    settings_width,
+                    12));
+            settingsCenterScrollBar.setOpaque(false);
+            pnlSettingsCenterScroll.setHorizontalScrollBar(
+                    settingsCenterScrollBar);
 
 
 
+            // General Settings
 
-        // Sorry image in case Settings is not ready
+            buildGeneralSettings();
+
+            pnlSettingsCenter.add(pnlGeneralSettingsContainer);
+
+
+            // Add to content panel
+            // --------------------------------------------------------------------.
+
+            pnlSettingsContent.add(Box.createVerticalStrut(padding_top));
+            pnlSettingsContent.add(pnlSettingsTopScroll);
+            pnlSettingsContent.add(settingsTitleSeperator);
+            pnlSettingsContent.add(pnlSettingsCenterScroll);
+
+
+            pnlSettingsBG.add(pnlSettingsContent);
+
+
+            // Bottom Panel
+            pnlSettingsStatusPane
+                    .setPreferredSize(new Dimension(
+                                    selectedGameBarWidth, selectedGameBarHeight));
+
+            pnlSettingsStatusPane.add(lblSettingsStatus);
+
+            lblSettingsStatus.setSize(new Dimension(lblSettingsStatus
+                    .getPreferredSize().width, lblSettingsStatus
+                    .getPreferredSize().height));
+            lblSettingsStatus.validate();
+
+            pnlSettingsStatusPane.validate();
+
+            pnlBottomCenterContainer.add(pnlSettingsStatusPane);
+
+
+
+            // Sorry image in case Settings is not ready
 //        sorry = new AImagePane("inDev.png");
 //        sorry.setPreferredSize(new Dimension(sorry.getRealImageWidth(), sorry
 //                .getRealImageHeight()));
 //        pnlSettingsContent.add(sorry);
+
+
+            isScreenLoaded = true;
+            addToCanvas();
+
+        } else {
+
+            addToCanvas();
+
+        }
     }
 
     @Override
     public void addToCanvas() {
+
+        coreUI.getTitleLabel().setText("    Settings   ");
+
+        // Add Components with listeners to volatile listener bank
+        // ----------------------------------------------------------------.
+        addToVolatileListenerBank(coreUI.getBackgroundImagePane());
+        addToVolatileListenerBank(coreUI.getBottomPane());
+        addToVolatileListenerBank(coreUI.getCenterPanel());
+        addToVolatileListenerBank(coreUI.getSouthFromTopPanel());
+        addToVolatileListenerBank(coreUI.getFrameControlImagePane());
+        addToVolatileListenerBank(coreUI.getTopPane());
+
+
+
+        // Add Settings BG to Center Panel
+        // --------------------------------------------------------------------.
+        coreUI.getCenterPanel().add(BorderLayout.NORTH, Box
+                .createVerticalStrut(
+                        20));
+        coreUI.getCenterPanel().add(BorderLayout.CENTER, pnlSettingsBG);
+        coreUI.getCenterPanel().add(BorderLayout.SOUTH, Box
+                .createVerticalStrut(
+                        20));
+        coreUI.getCenterPanel().repaint();
+
+
+        // Add Settings Status and Info Feed to Bottom Pane
+        // --------------------------------------------------------------------.
+
+        // Status
+        coreUI.getCenterFromBottomPanel().setLayout(new BorderLayout());
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.NORTH,
+                pnlBottomCenterContainer);
+
+
+        // Info Feed
+        getDashboardUI().getInfoFeed().setImageSize(getCoreUI()
+                .getScreenWidth() - 20, getDashboardUI().getInfoFeed()
+                .getImageHeight() - 5);
+        getDashboardUI().getInfoFeed()
+                .setPreferredSize(new Dimension(getDashboardUI().getInfoFeed()
+                                .getPreferredSize().width,
+                                getDashboardUI().getInfoFeed()
+                                .getImageHeight()));
+
+        coreUI.getBottomContentPane().setLayout(new BorderLayout());
+        coreUI.getBottomContentPane().setVisible(true);
+
+        coreUI.getBottomContentPane().add(Box.createVerticalStrut(4),
+                BorderLayout.NORTH);
+        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10),
+                BorderLayout.EAST);
+        coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer(),
+                BorderLayout.CENTER);
+        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10),
+                BorderLayout.WEST);
+        coreUI.getBottomContentPane().setPreferredSize(new Dimension(dashboardUI
+                .getInfoFeed().getImageWidth(), dashboardUI.getInfoFeed()
+                .getImageHeight()));
+
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, coreUI
+                .getBottomContentPane());
+
+
     }
 
     public DashboardUI getDashboardUI() {
@@ -535,11 +658,12 @@ public class SettingsUI extends AuroraApp {
 
             padding_top = 60;
             title_size = 60;
-
+            bottomTopPadding = 10;
 
         } else {
             padding_top = 40;
             title_size = 60;
+            bottomTopPadding = -5;
         }
 
     }
