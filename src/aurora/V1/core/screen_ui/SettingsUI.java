@@ -19,6 +19,7 @@ package aurora.V1.core.screen_ui;
 
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
+import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.ARadioButton;
@@ -31,6 +32,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -113,6 +115,28 @@ public class SettingsUI extends AuroraApp {
     private ASlickTextPane lblWASDNavigationSetting;
 
     private JPanel pnlWASDNavigationLabel;
+
+    private AButton btnBackgroundGameSearch;
+
+    private JPanel pnlBackgroundGameSearchSetting;
+
+    private AImage imgBackgroundGameSearchIcon;
+
+    private JPanel pnlBackgroundGameSearchLabel;
+
+    private ASlickTextPane lblBackgroundGameSearchSetting;
+
+    private AButton btnUpdateAuroraDBSearch;
+
+    private ARadioButton rdbBackgroundGameSearch;
+
+    private ASlickTextPane lblUpdateAuroraDBSearchSetting;
+
+    private JPanel pnlUpdateAuroraDBSearchLabel;
+
+    private JPanel pnlUpdateAuroraDBSearchSetting;
+
+    private AImage imgUpdateAuroraDBSearchIcon;
 
     public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
@@ -226,7 +250,7 @@ public class SettingsUI extends AuroraApp {
         pnlSoundEffectSettingLabel = new JPanel(
                 new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlSoundEffectSettingLabel.setOpaque(false);
-        pnlSoundEffectSettingLabel.setPreferredSize(new Dimension(175,
+        pnlSoundEffectSettingLabel.setPreferredSize(new Dimension(190,
                 40));
 
         lblSoundEffectsSetting = new ASlickTextPane("Sound Effects");
@@ -238,6 +262,7 @@ public class SettingsUI extends AuroraApp {
 
 
         pnlSoundEffectSettingLabel.add(lblSoundEffectsSetting);
+
 
 
         // WASD Navigation
@@ -256,7 +281,7 @@ public class SettingsUI extends AuroraApp {
         pnlWASDNavigationLabel = new JPanel(
                 new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlWASDNavigationLabel.setOpaque(false);
-        pnlWASDNavigationLabel.setPreferredSize(new Dimension(175,
+        pnlWASDNavigationLabel.setPreferredSize(new Dimension(190,
                 78));
 
         lblWASDNavigationSetting = new ASlickTextPane("WASD Navigation");
@@ -267,6 +292,70 @@ public class SettingsUI extends AuroraApp {
                 Font.PLAIN, 30));
 
         pnlWASDNavigationLabel.add(lblWASDNavigationSetting);
+
+
+
+        // Background Game Search
+        pnlBackgroundGameSearchSetting = new JPanel(new FlowLayout(
+                FlowLayout.LEFT,
+                15, 5));
+        pnlBackgroundGameSearchSetting.setOpaque(false);
+
+
+        imgBackgroundGameSearchIcon = new AImage("settings_img_update.png");
+
+        rdbBackgroundGameSearch = new ARadioButton(
+                "settings_btn_notselected.png",
+                "settings_btn_selected.png");
+
+        pnlBackgroundGameSearchLabel = new JPanel(
+                new FlowLayout(FlowLayout.CENTER, 0, 0));
+        pnlBackgroundGameSearchLabel.setOpaque(false);
+        pnlBackgroundGameSearchLabel.setPreferredSize(new Dimension(190,
+                78));
+
+        lblBackgroundGameSearchSetting = new ASlickTextPane(
+                "Background Game Search");
+        lblBackgroundGameSearchSetting.setPreferredSize(
+                pnlBackgroundGameSearchLabel
+                .getPreferredSize());
+        lblBackgroundGameSearchSetting.setForeground(new Color(218, 218, 234));
+        lblBackgroundGameSearchSetting.setFont(coreUI.getRopaFont().deriveFont(
+                Font.PLAIN, 30));
+
+        pnlBackgroundGameSearchLabel.add(lblBackgroundGameSearchSetting);
+
+
+        // Download AuroraDB
+        pnlUpdateAuroraDBSearchSetting = new JPanel(new FlowLayout(
+                FlowLayout.LEFT,
+                15, 5));
+        pnlUpdateAuroraDBSearchSetting.setOpaque(false);
+
+        imgUpdateAuroraDBSearchIcon = new AImage("settings_img_update.png");
+
+        btnUpdateAuroraDBSearch = new AButton("settings_btn_select_norm.png",
+                "settings_btn_select_down.png", "settings_btn_select_over.png");
+        btnUpdateAuroraDBSearch.setMargin(new Insets(0, 0,
+                0, 0));
+
+        pnlUpdateAuroraDBSearchLabel = new JPanel(
+                new FlowLayout(FlowLayout.CENTER, 0, 0));
+        pnlUpdateAuroraDBSearchLabel.setOpaque(false);
+        pnlUpdateAuroraDBSearchLabel.setPreferredSize(new Dimension(190,
+                78));
+
+        lblUpdateAuroraDBSearchSetting = new ASlickTextPane(
+                "Update Aurora Cover Art DB");
+        lblUpdateAuroraDBSearchSetting.setPreferredSize(
+                pnlUpdateAuroraDBSearchLabel
+                .getPreferredSize());
+        lblUpdateAuroraDBSearchSetting.setForeground(new Color(218, 218, 234));
+        lblUpdateAuroraDBSearchSetting.setFont(coreUI.getRopaFont().deriveFont(
+                Font.PLAIN, 30));
+
+        pnlUpdateAuroraDBSearchLabel.add(lblUpdateAuroraDBSearchSetting);
+
 
 
     }
@@ -286,9 +375,22 @@ public class SettingsUI extends AuroraApp {
         pnlWASDNavigationSetting.add(rdbWASDNavigation);
         pnlWASDNavigationSetting.revalidate();
 
+        // Background Game Search
+        pnlBackgroundGameSearchSetting.add(imgBackgroundGameSearchIcon);
+        pnlBackgroundGameSearchSetting.add(pnlBackgroundGameSearchLabel);
+        pnlBackgroundGameSearchSetting.add(rdbBackgroundGameSearch);
+        pnlBackgroundGameSearchSetting.revalidate();
+
+        // Download AuroraDB
+        pnlUpdateAuroraDBSearchSetting.add(imgUpdateAuroraDBSearchIcon);
+        pnlUpdateAuroraDBSearchSetting.add(pnlUpdateAuroraDBSearchLabel);
+        pnlUpdateAuroraDBSearchSetting.add(btnUpdateAuroraDBSearch);
+        pnlUpdateAuroraDBSearchSetting.revalidate();
 
         pnlGeneralSettingsGrid.add(pnlSoundEffectsSetting);
         pnlGeneralSettingsGrid.add(pnlWASDNavigationSetting);
+        pnlGeneralSettingsGrid.add(pnlBackgroundGameSearchSetting);
+        pnlGeneralSettingsGrid.add(pnlUpdateAuroraDBSearchSetting);
 
         pnlGeneralSettingsGrid.setLayout(new GridLayout(2, 2, padding_top,
                 padding_top));
@@ -315,9 +417,6 @@ public class SettingsUI extends AuroraApp {
         // --------------------------------------------------------------------.
 
         // Top Panel
-//        pnlSettingsTop.setPreferredSize(new Dimension(settings_width,
-//                settings_height / 5));
-//        pnlSettingsTopScroll.setPreferredSize(pnlSettingsTop.getPreferredSize());
 
         lblGeneralSettings.setForeground(new Color(34, 140, 0));
         lblGeneralSettings.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
@@ -348,7 +447,7 @@ public class SettingsUI extends AuroraApp {
 
         pnlSettingsTop.add(Box.createHorizontalStrut(35));
         pnlSettingsTop.add(pnlGeneralSettingsTitlePane);
-        pnlSettingsTop.add(Box.createHorizontalStrut(5));
+        pnlSettingsTop.add(Box.createHorizontalStrut(10));
         pnlSettingsTop.add(lblGeneralSettings);
 
 
