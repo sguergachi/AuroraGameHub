@@ -19,7 +19,9 @@ package aurora.V1.core.screen_ui;
 
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
+import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
+import aurora.engine.V1.UI.ARadioButton;
 import aurora.engine.V1.UI.AScrollBar;
 import aurora.engine.V1.UI.ASlickLabel;
 import java.awt.BorderLayout;
@@ -27,6 +29,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -85,6 +88,21 @@ public class SettingsUI extends AuroraApp {
     private int title_size;
 
     private JPanel pnlGeneralSettingsLowerTitlePane;
+
+    private JPanel pnlGeneralSettingsGrid;
+
+    private JPanel pnlSoundEffectsSetting;
+
+//    private ASlickTextPane lblSoundEffectsSetting;
+    private ASlickLabel lblSoundEffectsSetting;
+
+    private AImage imgSoundEffectIcon;
+
+    private ARadioButton rdbSoundEffects;
+
+    private JPanel pnlSoundEffectSettingLabel;
+
+    private JPanel pnlGeneralSettingsContainer;
 
     public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
@@ -164,6 +182,79 @@ public class SettingsUI extends AuroraApp {
 
         // General Settings
 
+        pnlGeneralSettingsContainer = new JPanel(new BorderLayout(0, 0));
+        pnlGeneralSettingsContainer.setOpaque(false);
+
+        pnlGeneralSettingsGrid = new JPanel();
+        pnlGeneralSettingsGrid.setOpaque(false);
+        pnlGeneralSettingsGrid.setLayout(new GridLayout(2, 2, padding_top / 3,
+                padding_top / 5));
+
+
+
+        loadGeneralSettingsUI();
+
+
+
+    }
+
+    private void loadGeneralSettingsUI() {
+
+
+        // Sound Effects
+        pnlSoundEffectsSetting = new JPanel(new FlowLayout(FlowLayout.LEFT,
+                8, 5));
+        pnlSoundEffectsSetting.setOpaque(false);
+
+
+        imgSoundEffectIcon = new AImage("settings_img_sound.png");
+
+
+        rdbSoundEffects = new ARadioButton("settings_btn_notselected.png",
+                "settings_btn_selected.png");
+
+
+        pnlSoundEffectSettingLabel = new JPanel(
+                new FlowLayout(FlowLayout.CENTER, 0, 0));
+        pnlSoundEffectSettingLabel.setOpaque(false);
+        pnlSoundEffectSettingLabel.setPreferredSize(new Dimension(250,
+                56));
+
+//        lblSoundEffectsSetting = new ASlickTextPane("Sound Effects");
+        lblSoundEffectsSetting = new ASlickLabel("Sound Effects");
+        lblSoundEffectsSetting.setPreferredSize(pnlSoundEffectSettingLabel
+                .getPreferredSize());
+        lblSoundEffectsSetting.setForeground(new Color(218, 218, 234));
+        lblSoundEffectsSetting.setFont(coreUI.getRopaFont().deriveFont(
+                Font.PLAIN, 30));
+
+
+//        StyledDocument doc = lblSoundEffectsSetting.getStyledDocument();
+//        SimpleAttributeSet center = new SimpleAttributeSet();
+//        StyleConstants.setAlignment(center, StyleConstants.ALIGN_LEFT);
+//        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+
+        pnlSoundEffectSettingLabel.add(lblSoundEffectsSetting);
+
+
+        // WASD Navigation
+
+
+    }
+
+    private void buildGeneralSettings() {
+
+        // Sound Effects
+        pnlSoundEffectsSetting.add(imgSoundEffectIcon);
+        pnlSoundEffectsSetting.add(pnlSoundEffectSettingLabel);
+        pnlSoundEffectsSetting.add(rdbSoundEffects);
+        pnlSoundEffectsSetting.revalidate();
+        pnlSoundEffectsSetting.repaint();
+
+
+        pnlGeneralSettingsGrid.add(pnlSoundEffectsSetting);
+        pnlGeneralSettingsGrid.revalidate();
+        pnlGeneralSettingsGrid.repaint();
 
     }
 
@@ -205,7 +296,8 @@ public class SettingsUI extends AuroraApp {
 
 
 
-        pnlGeneralSettingsTitlePane.add(pnlGeneralSettingsLowerTitlePane, BorderLayout.SOUTH);
+        pnlGeneralSettingsTitlePane.add(pnlGeneralSettingsLowerTitlePane,
+                BorderLayout.SOUTH);
         pnlGeneralSettingsTitlePane.setPreferredSize(new Dimension(
                 generalSettingsSeperator.getPreferredSize().width,
                 title_size + 10));
@@ -242,6 +334,20 @@ public class SettingsUI extends AuroraApp {
                 12));
         settingsCenterScrollBar.setOpaque(false);
         pnlSettingsCenterScroll.setHorizontalScrollBar(settingsCenterScrollBar);
+
+
+
+        // General Settings
+
+        buildGeneralSettings();
+
+        pnlGeneralSettingsContainer
+                .add(Box.createVerticalStrut(padding_top),
+                        BorderLayout.NORTH);
+        pnlGeneralSettingsContainer.add(pnlGeneralSettingsGrid,
+                BorderLayout.SOUTH);
+        pnlSettingsCenter.add(pnlGeneralSettingsContainer);
+
 
         // Add to content panel
         // --------------------------------------------------------------------.
@@ -309,4 +415,5 @@ public class SettingsUI extends AuroraApp {
     @Override
     public void closeApp() {
     }
+
 }
