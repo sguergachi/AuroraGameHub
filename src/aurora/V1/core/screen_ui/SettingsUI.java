@@ -123,7 +123,7 @@ public class SettingsUI extends AuroraApp {
 
         // Top Panel
         pnlSettingsTop = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-//        pnlSettingsTop.setOpaque(false);
+        pnlSettingsTop.setOpaque(false);
         pnlSettingsTop.setBackground(Color.red);
 
         pnlSettingsTopScroll = new JScrollPane(pnlSettingsTop,
@@ -136,7 +136,7 @@ public class SettingsUI extends AuroraApp {
         lblGeneralSettings = new ASlickLabel("General Settings");
 
         pnlGeneralSettingsTitlePane = new JPanel(new BorderLayout(0, 0));
-//        pnlGeneralSettingsTitlePane.setOpaque(false);
+        pnlGeneralSettingsTitlePane.setOpaque(false);
         generalSettingsSeperator = new JSeparator(SwingConstants.VERTICAL);
 
 
@@ -198,6 +198,7 @@ public class SettingsUI extends AuroraApp {
         pnlGeneralSettingsTitlePane.add(Box.createGlue(), BorderLayout.CENTER);
         pnlGeneralSettingsLowerTitlePane = new JPanel(new FlowLayout(
                 FlowLayout.LEFT, 0, 0));
+        pnlGeneralSettingsLowerTitlePane.setOpaque(false);
         pnlGeneralSettingsLowerTitlePane.setBackground(Color.GREEN);
 
         pnlGeneralSettingsLowerTitlePane.add(generalSettingsSeperator);
@@ -295,7 +296,7 @@ public class SettingsUI extends AuroraApp {
 
         } else {
             padding_top = 40;
-            title_size = 50;
+            title_size = 60;
         }
 
     }
