@@ -41,13 +41,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 /**
@@ -635,12 +633,12 @@ public class DashboardUI implements AuroraScreenUI {
 
         //* Set size of Icons inside each Carousel Pane *//
 
-        icoSetting.setImageSize(carouselImageWidth,
-                carouselImageHeight);
+//        icoSetting.setImageSize(carouselImageWidth,
+//                carouselImageHeight);
         icoSetting.addMouseListener(handler.new CarouselPaneMouseListener(
                 paneSettings));
-        icoProfile.setImageSize(carouselImageWidth,
-                carouselImageHeight);
+//        icoProfile.setImageSize(carouselImageWidth,
+//                carouselImageHeight);
         icoProfile.addMouseListener(handler.new CarouselPaneMouseListener(
                 paneProfile));
         icoNet.setImageSize(carouselImageWidth, carouselImageHeight);

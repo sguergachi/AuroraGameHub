@@ -24,6 +24,7 @@ import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.ARadioButton;
 import aurora.engine.V1.UI.AScrollBar;
 import aurora.engine.V1.UI.ASlickLabel;
+import aurora.engine.V1.UI.ASlickTextPane;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -93,8 +94,7 @@ public class SettingsUI extends AuroraApp {
 
     private JPanel pnlSoundEffectsSetting;
 
-//    private ASlickTextPane lblSoundEffectsSetting;
-    private ASlickLabel lblSoundEffectsSetting;
+    private ASlickTextPane lblSoundEffectsSetting;
 
     private AImage imgSoundEffectIcon;
 
@@ -103,6 +103,16 @@ public class SettingsUI extends AuroraApp {
     private JPanel pnlSoundEffectSettingLabel;
 
     private JPanel pnlGeneralSettingsContainer;
+
+    private JPanel pnlWASDNavigationSetting;
+
+    private AImage imgWASDNavigationIcon;
+
+    private ARadioButton rdbWASDNavigation;
+
+    private ASlickTextPane lblWASDNavigationSetting;
+
+    private JPanel pnlWASDNavigationLabel;
 
     public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
@@ -120,7 +130,7 @@ public class SettingsUI extends AuroraApp {
 
         // Background Panel
         pnlSettingsBG = new JPanel(new BorderLayout(0, 0));
-        pnlSettingsBG.setBackground(new Color(34, 41, 54, (int) (255 * .8)));
+        pnlSettingsBG.setBackground(new Color(40, 46, 55));
 
         pnlSettingsBG.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0,
                 Color.BLACK));
@@ -187,8 +197,6 @@ public class SettingsUI extends AuroraApp {
 
         pnlGeneralSettingsGrid = new JPanel();
         pnlGeneralSettingsGrid.setOpaque(false);
-        pnlGeneralSettingsGrid.setLayout(new GridLayout(2, 2, padding_top / 3,
-                padding_top / 5));
 
 
 
@@ -196,14 +204,15 @@ public class SettingsUI extends AuroraApp {
 
 
 
+
+
     }
 
     private void loadGeneralSettingsUI() {
 
-
         // Sound Effects
         pnlSoundEffectsSetting = new JPanel(new FlowLayout(FlowLayout.LEFT,
-                8, 5));
+                15, 5));
         pnlSoundEffectsSetting.setOpaque(false);
 
 
@@ -217,11 +226,10 @@ public class SettingsUI extends AuroraApp {
         pnlSoundEffectSettingLabel = new JPanel(
                 new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlSoundEffectSettingLabel.setOpaque(false);
-        pnlSoundEffectSettingLabel.setPreferredSize(new Dimension(250,
-                56));
+        pnlSoundEffectSettingLabel.setPreferredSize(new Dimension(175,
+                40));
 
-//        lblSoundEffectsSetting = new ASlickTextPane("Sound Effects");
-        lblSoundEffectsSetting = new ASlickLabel("Sound Effects");
+        lblSoundEffectsSetting = new ASlickTextPane("Sound Effects");
         lblSoundEffectsSetting.setPreferredSize(pnlSoundEffectSettingLabel
                 .getPreferredSize());
         lblSoundEffectsSetting.setForeground(new Color(218, 218, 234));
@@ -229,15 +237,36 @@ public class SettingsUI extends AuroraApp {
                 Font.PLAIN, 30));
 
 
-//        StyledDocument doc = lblSoundEffectsSetting.getStyledDocument();
-//        SimpleAttributeSet center = new SimpleAttributeSet();
-//        StyleConstants.setAlignment(center, StyleConstants.ALIGN_LEFT);
-//        doc.setParagraphAttributes(0, doc.getLength(), center, false);
-
         pnlSoundEffectSettingLabel.add(lblSoundEffectsSetting);
 
 
         // WASD Navigation
+        pnlWASDNavigationSetting = new JPanel(new FlowLayout(FlowLayout.LEFT,
+                15, 5));
+        pnlWASDNavigationSetting.setOpaque(false);
+
+
+        imgWASDNavigationIcon = new AImage("settings_img_keyboard.png");
+
+
+        rdbWASDNavigation = new ARadioButton("settings_btn_notselected.png",
+                "settings_btn_selected.png");
+
+
+        pnlWASDNavigationLabel = new JPanel(
+                new FlowLayout(FlowLayout.CENTER, 0, 0));
+        pnlWASDNavigationLabel.setOpaque(false);
+        pnlWASDNavigationLabel.setPreferredSize(new Dimension(175,
+                78));
+
+        lblWASDNavigationSetting = new ASlickTextPane("WASD Navigation");
+        lblWASDNavigationSetting.setPreferredSize(pnlWASDNavigationLabel
+                .getPreferredSize());
+        lblWASDNavigationSetting.setForeground(new Color(218, 218, 234));
+        lblWASDNavigationSetting.setFont(coreUI.getRopaFont().deriveFont(
+                Font.PLAIN, 30));
+
+        pnlWASDNavigationLabel.add(lblWASDNavigationSetting);
 
 
     }
@@ -251,10 +280,25 @@ public class SettingsUI extends AuroraApp {
         pnlSoundEffectsSetting.revalidate();
         pnlSoundEffectsSetting.repaint();
 
+        // WASD Nav
+        pnlWASDNavigationSetting.add(imgWASDNavigationIcon);
+        pnlWASDNavigationSetting.add(pnlWASDNavigationLabel);
+        pnlWASDNavigationSetting.add(rdbWASDNavigation);
+        pnlWASDNavigationSetting.revalidate();
+
 
         pnlGeneralSettingsGrid.add(pnlSoundEffectsSetting);
+        pnlGeneralSettingsGrid.add(pnlWASDNavigationSetting);
+
+        pnlGeneralSettingsGrid.setLayout(new GridLayout(2, 2, padding_top,
+                padding_top));
         pnlGeneralSettingsGrid.revalidate();
-        pnlGeneralSettingsGrid.repaint();
+
+        pnlGeneralSettingsContainer
+                .add(Box.createVerticalStrut(padding_top),
+                        BorderLayout.NORTH);
+        pnlGeneralSettingsContainer.add(pnlGeneralSettingsGrid,
+                BorderLayout.SOUTH);
 
     }
 
@@ -309,7 +353,6 @@ public class SettingsUI extends AuroraApp {
 
 
 
-
         // Seperator
         settingsTitleSeperator.setPreferredSize(
                 new Dimension(settings_width * 2,
@@ -341,11 +384,6 @@ public class SettingsUI extends AuroraApp {
 
         buildGeneralSettings();
 
-        pnlGeneralSettingsContainer
-                .add(Box.createVerticalStrut(padding_top),
-                        BorderLayout.NORTH);
-        pnlGeneralSettingsContainer.add(pnlGeneralSettingsGrid,
-                BorderLayout.SOUTH);
         pnlSettingsCenter.add(pnlGeneralSettingsContainer);
 
 
