@@ -74,13 +74,17 @@ public class SettingsUI extends AuroraApp {
 
     private JSeparator generalSettingsSeperator;
 
-    private JPanel pnlGeneralSettingsSeperator;
+    private JPanel pnlGeneralSettingsTitlePane;
 
     private AScrollBar settingsCenterScrollUI;
 
     private JScrollBar settingsCenterScrollBar;
+
     private int padding_top;
+
     private int title_size;
+
+    private JPanel pnlGeneralSettingsLowerTitlePane;
 
     public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
@@ -97,7 +101,7 @@ public class SettingsUI extends AuroraApp {
         // --------------------------------------------------------------------.
 
         // Background Panel
-        pnlSettingsBG = new JPanel(new BorderLayout(0,0));
+        pnlSettingsBG = new JPanel(new BorderLayout(0, 0));
         pnlSettingsBG.setBackground(new Color(34, 41, 54, (int) (255 * .8)));
 
         pnlSettingsBG.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0,
@@ -119,7 +123,8 @@ public class SettingsUI extends AuroraApp {
 
         // Top Panel
         pnlSettingsTop = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        pnlSettingsTop.setOpaque(false);
+//        pnlSettingsTop.setOpaque(false);
+        pnlSettingsTop.setBackground(Color.red);
 
         pnlSettingsTopScroll = new JScrollPane(pnlSettingsTop,
                 JScrollPane.VERTICAL_SCROLLBAR_NEVER,
@@ -130,8 +135,8 @@ public class SettingsUI extends AuroraApp {
 
         lblGeneralSettings = new ASlickLabel("General Settings");
 
-        pnlGeneralSettingsSeperator = new JPanel(new BorderLayout(0, 0));
-        pnlGeneralSettingsSeperator.setOpaque(false);
+        pnlGeneralSettingsTitlePane = new JPanel(new BorderLayout(0, 0));
+//        pnlGeneralSettingsTitlePane.setOpaque(false);
         generalSettingsSeperator = new JSeparator(SwingConstants.VERTICAL);
 
 
@@ -175,9 +180,9 @@ public class SettingsUI extends AuroraApp {
         // --------------------------------------------------------------------.
 
         // Top Panel
-        pnlSettingsTop.setPreferredSize(new Dimension(settings_width,
-                settings_height / 20));
-        pnlSettingsTopScroll.setPreferredSize(pnlSettingsTop.getPreferredSize());
+//        pnlSettingsTop.setPreferredSize(new Dimension(settings_width,
+//                settings_height / 5));
+//        pnlSettingsTopScroll.setPreferredSize(pnlSettingsTop.getPreferredSize());
 
         lblGeneralSettings.setForeground(new Color(34, 140, 0));
         lblGeneralSettings.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
@@ -190,17 +195,25 @@ public class SettingsUI extends AuroraApp {
         generalSettingsSeperator.setForeground(new Color(13, 17, 21));
         generalSettingsSeperator.setBackground(new Color(13, 17, 21));
 
-        pnlGeneralSettingsSeperator.add(Box.createGlue(), BorderLayout.CENTER);
-        pnlGeneralSettingsSeperator.add(generalSettingsSeperator,
-                BorderLayout.SOUTH);
-        pnlGeneralSettingsSeperator.setPreferredSize(new Dimension(
+        pnlGeneralSettingsTitlePane.add(Box.createGlue(), BorderLayout.CENTER);
+        pnlGeneralSettingsLowerTitlePane = new JPanel(new FlowLayout(
+                FlowLayout.LEFT, 0, 0));
+        pnlGeneralSettingsLowerTitlePane.setBackground(Color.GREEN);
+
+        pnlGeneralSettingsLowerTitlePane.add(generalSettingsSeperator);
+
+
+
+        pnlGeneralSettingsTitlePane.add(pnlGeneralSettingsLowerTitlePane, BorderLayout.SOUTH);
+        pnlGeneralSettingsTitlePane.setPreferredSize(new Dimension(
                 generalSettingsSeperator.getPreferredSize().width,
-                pnlSettingsTop.getPreferredSize().height * 6 + 5));
+                title_size + 10));
 
         pnlSettingsTop.add(Box.createHorizontalStrut(35));
-        pnlSettingsTop.add(pnlGeneralSettingsSeperator);
+        pnlSettingsTop.add(pnlGeneralSettingsTitlePane);
         pnlSettingsTop.add(Box.createHorizontalStrut(5));
         pnlSettingsTop.add(lblGeneralSettings);
+
 
 
 
@@ -217,7 +230,7 @@ public class SettingsUI extends AuroraApp {
 
         // Center Panel
         pnlSettingsCenter.setPreferredSize(new Dimension(settings_width,
-                settings_height * 2));
+                settings_height * 2 + (title_size + 10)));
         pnlSettingsCenter.add(Box.createHorizontalStrut(35));
 
         pnlSettingsCenterScroll.setPreferredSize(pnlSettingsCenter
@@ -280,7 +293,7 @@ public class SettingsUI extends AuroraApp {
             title_size = 60;
 
 
-        }else{
+        } else {
             padding_top = 40;
             title_size = 50;
         }
