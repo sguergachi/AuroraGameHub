@@ -2178,6 +2178,8 @@ public class LibraryUI extends AuroraApp {
 
     public void buildEditGameUI(Game game) {
 
+
+
         if (!isEditUILoaded) {
 
             // Set Up Components
@@ -2488,7 +2490,8 @@ public class LibraryUI extends AuroraApp {
 
             btnDone_editUI.addActionListener(
                     libraryHandler.new EditSettingDoneHandler());
-        } else if (game != currentGame_editUI) {
+        } else if (!lblCurrentName_editUI.getText().trim().equals(
+                game.getGameName())) {
             currentGame_editUI = game;
             lblCurrentName_editUI.setText("  " + currentGame_editUI.getName());
             imgCurrentGame_editUI
@@ -3900,6 +3903,7 @@ public class LibraryUI extends AuroraApp {
                     .indexOf(pnlLibraryContainer.getComponent(1));
             return currentIndex;
         } else {
+
             return updatedCurrentIndex;
         }
 

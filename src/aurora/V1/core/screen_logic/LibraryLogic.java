@@ -307,7 +307,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     game.setGamePath(libraryUI.getStorage()
                             .getStoredLibrary()
                             .getGamePath()
-                            .get(i).replace("'", "''"));
+                            .get(i));
 
                     game.setCoverSize(libraryUI.getGameCoverWidth(),
                                       libraryUI
