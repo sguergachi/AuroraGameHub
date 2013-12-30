@@ -34,12 +34,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.logging.Level;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
@@ -171,6 +169,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         imgHexPane.setDoubleBuffered(true);
 
         fileIO = new AFileManager(System.getProperty("user.home"));
+        logic.setFileIO(fileIO);
         loadingPane = new JPanel();
         loadingPane.setLayout(new BorderLayout(0, 0));
         loadingPane.setOpaque(false);
@@ -187,8 +186,6 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         // Setup UI
         // --------------------------------------------------------------------.
         setSizes();
-
-        logic.startBackgroundMusic();
 
         //* Option to start with AuroraMini *//
         if (START_WITH_MINI) {
@@ -344,10 +341,10 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                     //Load Databases
                     auroraStorage.getStoredLibrary()
                             .setUpDatabase(FirstTimeLoad,
-                                           fileIO.getPath() + "/Game Data/");
+                                    fileIO.getPath() + "/Game Data/");
                     auroraStorage.getStoredProfile()
                             .setUpDatabase(FirstTimeLoad,
-                                           fileIO.getPath() + "/User Data/");
+                                    fileIO.getPath() + "/User Data/");
                     auroraStorage.getStoredSettings().setUpDatabase(
                             FirstTimeLoad,
                             fileIO.getPath() + "/User Data/");
@@ -365,10 +362,10 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                     //Load Databases
                     auroraStorage.getStoredLibrary()
                             .setUpDatabase(FirstTimeLoad,
-                                           fileIO.getPath() + "/Game Data/");
+                                    fileIO.getPath() + "/Game Data/");
                     auroraStorage.getStoredProfile()
                             .setUpDatabase(FirstTimeLoad,
-                                           fileIO.getPath() + "/User Data/");
+                                    fileIO.getPath() + "/User Data/");
                     auroraStorage.getStoredSettings().setUpDatabase(
                             FirstTimeLoad,
                             fileIO.getPath() + "/User Data/");
@@ -383,10 +380,10 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                         //Load Databases
                         auroraStorage.getStoredLibrary()
                                 .setUpDatabase(FirstTimeLoad,
-                                               fileIO.getPath() + "/Game Data/");
+                                        fileIO.getPath() + "/Game Data/");
                         auroraStorage.getStoredProfile()
                                 .setUpDatabase(FirstTimeLoad,
-                                               fileIO.getPath() + "/User Data/");
+                                        fileIO.getPath() + "/User Data/");
                         auroraStorage.getStoredSettings().setUpDatabase(
                                 FirstTimeLoad,
                                 fileIO.getPath() + "/User Data/");
@@ -442,12 +439,12 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                     //Load Databases
                     auroraStorage.getStoredLibrary()
                             .setUpDatabase(FirstTimeLoad,
-                                           fileIO.getPath() + "/Game Data/");
+                                    fileIO.getPath() + "/Game Data/");
                     auroraStorage.getStoredLibrary().storeFromDatabase();
 
                     auroraStorage.getStoredProfile()
                             .setUpDatabase(FirstTimeLoad,
-                                           fileIO.getPath() + "/User Data/");
+                                    fileIO.getPath() + "/User Data/");
                     auroraStorage.getStoredProfile().storeFromDatabase();
 
                     auroraStorage.getStoredSettings().setUpDatabase(
@@ -461,7 +458,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 logic.incrementAuroraLaunch();
 
                 // Update or move AuroraDB
-                moveAuroraDB();
+                logic.moveAuroraDB(promptDisplay);
 
                 //* load DashboardUI *//
                 loadedDashboardUI = new DashboardUI(coreUI, this);
@@ -527,69 +524,6 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         }
 
     }
-
-    private void moveAuroraDB() {
-        logger.info("Moving AuroraDB to AuroraData folder...");
-
-        String installPath = WelcomeUI.class.getProtectionDomain()
-                .getCodeSource().getLocation().getPath().replaceFirst(
-                        "AuroraGameHub.jar", "").replaceAll("%20", " ");
-        String auroraDbPath = installPath + "/lib/AuroraDB.h2.db";
-
-        logger.info(" >>> auroraDB Path " + auroraDbPath);
-        logger.info(" >>> installPath Path " + installPath);
-
-        if (!fileIO.checkFile(fileIO
-                .getPath() + "AuroraDB.h2.db")
-            || fileIO.checkFile(installPath + "/updateDB")) {
-
-            if (fileIO.checkFile(installPath + "/updateDB")) {
-                try {
-                    fileIO.deleteFile(new File(installPath + "/updateDB"));
-                } catch (IOException ex) {
-                    java.util.logging.Logger
-                            .getLogger(WelcomeUI.class.getName()).
-                            log(Level.SEVERE, null, ex);
-                }
-            }
-
-            if (fileIO.checkFile(auroraDbPath)) {
-                try {
-                    fileIO.copyFile(new File(auroraDbPath), new File(fileIO
-                            .getPath() + "AuroraDB.h2.db"));
-                } catch (IOException ex) {
-                    java.util.logging.Logger
-                            .getLogger(WelcomeUI.class.getName()).
-                            log(Level.SEVERE, null, ex);
-                }
-            } else {
-                logger.info("Did Not Move AuroraDB to AuroraData");
-                promptDisplay
-                        .add("Downloading AuroraCoverDB...", new Color(0, 191,
-                                                                       255));
-
-                downloadAuroraDB();
-
-            }
-        }
-    }
-
-    private void downloadAuroraDB() {
-        logger.info("Downloading AuroraDB...");
-        try {
-            fileIO.downloadFile(new URL(
-                    "http://s3.amazonaws.com/AuroraStorage/AuroraDB.h2.db"),
-                                new File(fileIO.getPath() + "/AuroraDB.h2.db"));
-
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(WelcomeUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
-            logger.info("Un-Sucessful Download!");
-        }
-        logger.info("Successful Download");
-
-    }
-
 
     private boolean checkUser() {
         if (checkSubDir()) {
@@ -657,5 +591,13 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
     public AuroraCoreUI getCoreUI() {
         return coreUI;
+    }
+
+    public WelcomeHandler getHandler() {
+        return handler;
+    }
+
+    public WelcomeLogic getLogic() {
+        return logic;
     }
 }

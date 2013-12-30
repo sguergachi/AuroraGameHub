@@ -317,7 +317,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                 }
 
 
-               
+
 
                 gamesList.add(game);
 
@@ -1311,7 +1311,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     }
 
                     // Show default message after 1.5 seconds
-                    LibraryUI.lblLibraryStatus.setForeground(Color.LIGHT_GRAY);
+                    LibraryUI.lblLibraryStatus.setForeground(LibraryUI.DEFAULT_LIBRARY_COLOR);
                     LibraryUI.lblLibraryStatus.setText(previousLibraryStatus);
                 }
             }
@@ -1499,9 +1499,9 @@ public class LibraryLogic implements AuroraScreenLogic {
                 img = ImageIO.read(file);
                 BufferedImage scaledImg = AImage.resizeBufferedImage(img,
                         SCALE_WIDTH_PARAM, SCALE_HEIGHT_PARAM);
-                
-                
-                        
+
+
+
                 int width = 62;
                 int height = 14;
                 BufferedImage newImage = new BufferedImage(scaledImg.getWidth()

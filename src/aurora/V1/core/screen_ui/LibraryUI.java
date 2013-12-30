@@ -983,6 +983,7 @@ public class LibraryUI extends AuroraApp {
         addToVolatileListenerBank(this.btnGameLeft);
         addToVolatileListenerBank(this.btnGameRight);
 
+        // Remove Show Add Game UI Listener if it exists
         if (this.btnShowAddGameUI.getActionListeners().length > 0) {
             this.btnShowAddGameUI.removeActionListener(btnShowAddGameUI
                     .getActionListeners()[0]);
@@ -1064,6 +1065,8 @@ public class LibraryUI extends AuroraApp {
      */
     public final void attactchHandlers() {
 
+
+        // Create Handlers
         searchBoxHandler = libraryHandler.new SearchBoxHandler();
         searchFocusHandler = libraryHandler.new SearchFocusHandler();
         txtGridSearchField.addKeyListener(searchBoxHandler);
@@ -1074,6 +1077,9 @@ public class LibraryUI extends AuroraApp {
         moveLibraryLeftHandler = libraryHandler.new HoverButtonLeft();
         moveLibraryRightHandler = libraryHandler.new HoverButtonRight();
 
+
+
+        // Attach Handlers
         btnShowAddGameUI.addActionListener(
                 libraryHandler.new ShowAddGameUIHandler());
         btnOrganizeGames
@@ -1137,6 +1143,7 @@ public class LibraryUI extends AuroraApp {
         coreUI.getTopPane()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
+
 
         this.btnShowAddGameUI
                 .addKeyListener(libraryHandler.new SearchRefocusListener());

@@ -15,20 +15,139 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package aurora.V1.core.screen_handler;
 
-import org.apache.log4j.Logger;
-
-import aurora.V1.core.main;
-import aurora.V1.core.screen_logic.*;
+import aurora.V1.core.screen_logic.LibraryLogic;
+import aurora.V1.core.screen_ui.SettingsUI;
+import aurora.engine.V1.Logic.AThreadWorker;
+import aurora.engine.V1.Logic.AuroraScreenHandler;
+import aurora.engine.V1.Logic.AuroraScreenLogic;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class SettingsHandler {
-	
-	static final Logger logger = Logger.getLogger(SettingsHandler.class);
+public class SettingsHandler implements AuroraScreenHandler {
+
+    private AuroraScreenLogic settingsLogic;
+
+    private SettingsUI settingsUI;
+
+    public SettingsHandler(SettingsUI aThis) {
+        this.settingsUI = aThis;
+    }
+
+    @Override
+    public void setLogic(AuroraScreenLogic logic) {
+        this.settingsLogic = logic;
+    }
+
+    public class RefreshAuroraDBHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            AThreadWorker worker = new AThreadWorker(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    SettingsUI.lblSettingsStatus.setForeground(Color.cyan);
+                    SettingsUI.lblSettingsStatus.setText(
+                            "Updating Aurora Cover DB...");
+
+
+
+                    if (settingsUI.getDashboardUI().getStartUI().getLogic()
+                            .downloadAuroraDB()) {
+                        // display completion message in green
+                        SettingsUI.lblSettingsStatus.setForeground(Color.GREEN);
+                        SettingsUI.lblSettingsStatus.setText("Update Complete");
+                    } else {
+                        // display error in red
+                        SettingsUI.lblSettingsStatus.setForeground(Color.red);
+                        SettingsUI.lblSettingsStatus.setText(
+                                "Unable to Download");
+                    }
+
+
+
+                    try {
+                        Thread.sleep(1500);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(LibraryLogic.class
+                                .getName()).
+                                log(Level.SEVERE, null, ex);
+                    }
+
+                    // Show default message after 1.5 seconds
+                    SettingsUI.lblSettingsStatus.setForeground(
+                            SettingsUI.DEFAULT_SETTINGS_COLOR);
+                    SettingsUI.lblSettingsStatus.setText(
+                            SettingsUI.DEAFULT_SETTINGS_STATUS);
+
+
+                }
+            });
+
+
+            worker.startOnce();
+
+
+        }
+
+    }
+
+    public class EnableBackgroundGameSearchHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        }
+
+    }
+
+    public class DisableBackgroundGameSearchHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        }
+
+    }
+
+    public class EnableWASDNavigationHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        }
+
+    }
+
+    public class DisableWASDNavigationHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        }
+
+    }
+
+    public class EnableSoundEffectsHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        }
+
+    }
+
+    public class DisableSoundEffectsHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        }
+
+    }
 
 }

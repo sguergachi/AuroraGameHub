@@ -19,6 +19,8 @@ package aurora.V1.core.screen_ui;
 
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.screen_handler.SettingsHandler;
+import aurora.V1.core.screen_logic.SettingsLogic;
 import static aurora.V1.core.screen_ui.LibraryUI.gameNameFontSize;
 import static aurora.V1.core.screen_ui.LibraryUI.selectedGameBarHeight;
 import static aurora.V1.core.screen_ui.LibraryUI.selectedGameBarWidth;
@@ -26,7 +28,6 @@ import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.AFadeLabel;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
-import aurora.engine.V1.UI.AProgressWheel;
 import aurora.engine.V1.UI.ARadioButton;
 import aurora.engine.V1.UI.AScrollBar;
 import aurora.engine.V1.UI.ASlickLabel;
@@ -121,8 +122,6 @@ public class SettingsUI extends AuroraApp {
 
     private JPanel pnlWASDNavigationLabel;
 
-    private AButton btnBackgroundGameSearch;
-
     private JPanel pnlBackgroundGameSearchSetting;
 
     private AImage imgBackgroundGameSearchIcon;
@@ -151,19 +150,41 @@ public class SettingsUI extends AuroraApp {
 
     private JPanel pnlBottomCenterContainer;
 
-    private final String DEAFULT_SETTINGS_STATUS = "Choose a Setting";
+    public static final String DEAFULT_SETTINGS_STATUS = "Choose a Setting";
 
-    private final Color DEFAULT_SETTINGS_COLOR = Color.lightGray;
-
-    private AProgressWheel prgSettingsStatus;
+    public static final Color DEFAULT_SETTINGS_COLOR = Color.lightGray;
 
     private boolean isScreenLoaded;
+
+    private SettingsLogic settingsLogic;
+
+    private SettingsHandler settingsHandler;
+
+    private SettingsHandler.RefreshAuroraDBHandler refreshAuroraDBHandler;
+
+    private SettingsHandler.EnableBackgroundGameSearchHandler enableBackgroundGameSearchHandler;
+
+    private SettingsHandler.DisableBackgroundGameSearchHandler disableBackgroundGameSearchHandler;
+
+    private SettingsHandler.EnableWASDNavigationHandler enableWASDNavigationHandler;
+
+    private SettingsHandler.DisableWASDNavigationHandler disableWASDNavigationHandler;
+
+    private SettingsHandler.EnableSoundEffectsHandler enableSoundEffectsHandler;
+
+    private SettingsHandler.DisableSoundEffectsHandler disableSoundEffectsHandler;
 
     public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
         this.appName = "Settings";
         this.dashboardUI = dashboardUI;
         this.coreUI = auroraCoreUI;
+
+        this.settingsLogic = new SettingsLogic(this);
+        this.settingsHandler = new SettingsHandler(this);
+
+        settingsHandler.setLogic(settingsLogic);
+        settingsLogic.setHandler(settingsHandler);
     }
 
     @Override
@@ -450,8 +471,6 @@ public class SettingsUI extends AuroraApp {
 
         if (!isScreenLoaded) {
 
-
-
             // Content Setup
             // --------------------------------------------------------------------.
 
@@ -477,7 +496,6 @@ public class SettingsUI extends AuroraApp {
             pnlGeneralSettingsLowerTitlePane.setBackground(Color.GREEN);
 
             pnlGeneralSettingsLowerTitlePane.add(generalSettingsSeperator);
-
 
 
             pnlGeneralSettingsTitlePane.add(pnlGeneralSettingsLowerTitlePane,
@@ -581,7 +599,7 @@ public class SettingsUI extends AuroraApp {
 
         coreUI.getTitleLabel().setText("    Settings   ");
 
-        // Add Components with listeners to volatile listener bank
+        // Handle the Handlers ;)
         // ----------------------------------------------------------------.
         addToVolatileListenerBank(coreUI.getBackgroundImagePane());
         addToVolatileListenerBank(coreUI.getBottomPane());
@@ -591,6 +609,7 @@ public class SettingsUI extends AuroraApp {
         addToVolatileListenerBank(coreUI.getTopPane());
 
 
+        attactchHandlers();
 
         // Add Settings BG to Center Panel
         // --------------------------------------------------------------------.
@@ -644,8 +663,36 @@ public class SettingsUI extends AuroraApp {
 
     }
 
-    public DashboardUI getDashboardUI() {
-        return dashboardUI;
+    private void attactchHandlers() {
+
+        // Create Handlers
+        refreshAuroraDBHandler = settingsHandler.new RefreshAuroraDBHandler();
+
+        enableBackgroundGameSearchHandler = settingsHandler.new EnableBackgroundGameSearchHandler();
+        disableBackgroundGameSearchHandler = settingsHandler.new DisableBackgroundGameSearchHandler();
+
+        enableWASDNavigationHandler = settingsHandler.new EnableWASDNavigationHandler();
+        disableWASDNavigationHandler = settingsHandler.new DisableWASDNavigationHandler();
+
+        enableSoundEffectsHandler = settingsHandler.new EnableSoundEffectsHandler();
+        disableSoundEffectsHandler = settingsHandler.new DisableSoundEffectsHandler();
+
+
+        // Attach Handlers
+        btnUpdateAuroraDBSearch.addActionListener(refreshAuroraDBHandler);
+
+        rdbBackgroundGameSearch.setSelectedHandler(
+                enableBackgroundGameSearchHandler);
+        rdbBackgroundGameSearch.setUnSelectedHandler(
+                disableBackgroundGameSearchHandler);
+
+        rdbWASDNavigation.setSelectedHandler(enableWASDNavigationHandler);
+        rdbWASDNavigation.setUnSelectedHandler(disableWASDNavigationHandler);
+
+        rdbSoundEffects.setSelectedHandler(enableSoundEffectsHandler);
+        rdbSoundEffects.setUnSelectedHandler(disableSoundEffectsHandler);
+
+
     }
 
     public void setSize() {
@@ -669,12 +716,32 @@ public class SettingsUI extends AuroraApp {
     }
 
     @Override
+    public void closeApp() {
+    }
+
+    @Override
     public AuroraCoreUI getCoreUI() {
         return coreUI;
     }
 
-    @Override
-    public void closeApp() {
+    public DashboardUI getDashboardUI() {
+        return dashboardUI;
+    }
+
+    public ARadioButton getRdbSoundEffects() {
+        return rdbSoundEffects;
+    }
+
+    public ARadioButton getRdbWASDNavigation() {
+        return rdbWASDNavigation;
+    }
+
+    public AButton getBtnUpdateAuroraDBSearch() {
+        return btnUpdateAuroraDBSearch;
+    }
+
+    public ARadioButton getRdbBackgroundGameSearch() {
+        return rdbBackgroundGameSearch;
     }
 
 }
