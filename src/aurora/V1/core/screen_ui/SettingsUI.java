@@ -150,7 +150,7 @@ public class SettingsUI extends AuroraApp {
 
     private JPanel pnlBottomCenterContainer;
 
-    public static final String DEAFULT_SETTINGS_STATUS = "Choose a Setting";
+    public static final String DEAFULT_SETTINGS_STATUS = "Edit a Setting";
 
     public static final Color DEFAULT_SETTINGS_COLOR = Color.lightGray;
 
