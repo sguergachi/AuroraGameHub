@@ -67,7 +67,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
-import org.imgscalr.Scalr;
+
 
 /**
  * .------------------------------------------------------------------------.
@@ -301,6 +301,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                                 .get(i));
                     }
 
+
+
                     //* Handle appostrophese in game path *//
                     game.setGamePath(libraryUI.getStorage()
                             .getStoredLibrary()
@@ -313,6 +315,9 @@ public class LibraryLogic implements AuroraScreenLogic {
                 } else {
                     game = libraryUI.getGridSplit().getGame(i);
                 }
+
+
+               
 
                 gamesList.add(game);
 
@@ -370,6 +375,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                     .getOccurencesPlayed());
                             logger.info("ProfileDB Total Time:" + game
                                     .getTotalTimePlayed());
+                            logger.info("");
 
                         }
                     }
@@ -498,7 +504,7 @@ public class LibraryLogic implements AuroraScreenLogic {
             }
 
             libraryUI.getGridSplit()
-                    .finalizeGrid(libraryHandler.new ShowAddGameUiHandler(),
+                    .finalizeGrid(libraryHandler.new ShowAddGameUIHandler(),
                                   libraryUI
                             .getGameCoverWidth(), libraryUI.getGameCoverHeight());
 
@@ -1008,7 +1014,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     LibraryUI.lblLibraryStatus.setForeground(Color.CYAN);
                     LibraryUI.lblLibraryStatus.setText(coreUI.getVi().VI(
                             ANuance.inx_Searching) + " For Games");
-                    libraryUI.getPrgLibraryStatus().resume();
+                    libraryUI.getPrgLibraryStatus().restart();
 
                     // Change refresh button to static state
                     libraryUI.getBtnAutoRefresh().setButtonStates(
@@ -1367,7 +1373,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                         }
                     }
 
-                    autoAddCurrentList.removeAll(autoAddCurrentList);
+                    autoAddCurrentList.clear();
                     autoAddCurrentList.addAll(autoGameList);
                 }
                 checkAutoAddGameStatus();
@@ -1411,7 +1417,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     }
                 }
 
-                autoAddCurrentList.removeAll(autoAddCurrentList);
+                autoAddCurrentList.clear();
                 checkAutoAddGameStatus();
 
                 libraryUI.getPnlCheckList().revalidate();
@@ -1491,10 +1497,11 @@ public class LibraryLogic implements AuroraScreenLogic {
             BufferedImage img;
             try {
                 img = ImageIO.read(file);
-                BufferedImage scaledImg = Scalr
-                        .resize(img, Scalr.Method.QUALITY, Scalr.Mode.FIT_EXACT,
-                                SCALE_WIDTH_PARAM, SCALE_HEIGHT_PARAM,
-                                Scalr.OP_ANTIALIAS);
+                BufferedImage scaledImg = AImage.resizeBufferedImage(img,
+                        SCALE_WIDTH_PARAM, SCALE_HEIGHT_PARAM);
+                
+                
+                        
                 int width = 62;
                 int height = 14;
                 BufferedImage newImage = new BufferedImage(scaledImg.getWidth()
@@ -1571,13 +1578,30 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             editingGame.setCoverUrl(newGameName);
             editingGame.refresh(false);
+            editingGame.disableEditCoverOverlay();
             libraryUI.getStatusBadge1().setImgURl("addUI_badge_valid.png");
             libraryUI.getImgGameCoverStatus().setImgURl("addUI_badge_valid.png");
+
+            if (libraryUI.isAddGameUI_Visible()) {
+
+                gameSearch_addUI.disableSearch();
+                gameSearch_addUI.getTxtSearch().requestFocusInWindow();
+
+            } else if (libraryUI.isEditGameUI_Visible()) {
+
+                gameSearch_editUI.disableSearch();
+                gameSearch_editUI.getTxtSearch().requestFocusInWindow();
+
+            }
 
         } catch (MalformedURLException ex) {
             java.util.logging.Logger.getLogger(LibraryLogic.class.getName())
                     .log(Level.SEVERE, null, ex);
         }
+
+    }
+
+    public void disableGameSearch(GameSearch search) {
 
     }
 

@@ -57,7 +57,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 import org.apache.log4j.Logger;
@@ -105,7 +104,7 @@ public class AuroraCoreUI {
     /**
      * Size Constant.
      */
-    private int centerPanelSize;
+    private int centerPanelHeight;
 
     /**
      * Size Constant.
@@ -450,8 +449,8 @@ public class AuroraCoreUI {
         Rectangle winSize = GraphicsEnvironment
                     .getLocalGraphicsEnvironment().getMaximumWindowBounds();
         taskbarHeight = screenHeight - winSize.height;
-        
-            
+
+
 
 
         logger.info("Current Screen Resolution: " + screenWidth + "x"
@@ -855,7 +854,7 @@ public class AuroraCoreUI {
         if (isLargeScreen) {
             topPanelHeight = (frame.getSize().height / 6);
 
-            centerPanelSize = frame.getHeight() / 2 + frame.getHeight() / 40;
+            centerPanelHeight = frame.getHeight() / 2 + frame.getHeight() / 40;
             bottomPanelSize = frame.getHeight() / 4 + frame.getHeight() / 40;
             controlHeight = 55;
             controlWidth = 160;
@@ -873,7 +872,7 @@ public class AuroraCoreUI {
             keyIconHeight = 0;
         } else {
             topPanelHeight = (frame.getSize().height / 6);
-            centerPanelSize = frame.getHeight() / 2 + frame.getHeight() / 40;
+            centerPanelHeight = frame.getHeight() / 2 + frame.getHeight() / 40;
             bottomPanelSize = frame.getHeight() / 4 + frame.getHeight() / 40;
             keysFontSize = frame.getHeight() / 50;
             welcomeFontSize = 21;
@@ -892,35 +891,6 @@ public class AuroraCoreUI {
         }
     }
 
-    /**
-     * .-----------------------------------------------------------------------
-     * | setSFX()
-     * .-----------------------------------------------------------------------
-     * |
-     * | Background sound
-     * |
-     * | This is a method that will set the background sound effects for Aurora
-     * |
-     * .........................................................................
-     *
-     */
-    public void setSFX() throws UnsupportedAudioFileException, IOException,
-                                LineUnavailableException, InterruptedException {
-        //*
-        // Background Sound
-        //*
-//        try {
-//            backgrounSFX = new ASound(ASound.sfxTheme, true);
-//        } catch (MalformedURLException ex) {
-//        	logger.error(ex);
-//        } catch (UnsupportedAudioFileException ex) {
-//        	logger.error(ex);
-//        } catch (IOException ex) {
-//        	logger.error(ex);
-//        } catch (LineUnavailableException ex) {
-//        	logger.error(ex);
-//        }
-    }
 
     /**
      * .-----------------------------------------------------------------------
@@ -954,21 +924,6 @@ public class AuroraCoreUI {
 
         }
         warningDialog.setVisible(true);
-
-        try {
-            try {
-                setSFX();
-            } catch (InterruptedException ex) {
-                logger.error(ex);
-            }
-        } catch (UnsupportedAudioFileException ex) {
-            logger.error(ex);
-        } catch (IOException ex) {
-            logger.error(ex);
-        } catch (LineUnavailableException ex) {
-            logger.error(ex);
-        }
-
     }
 
     //* Get Build Version Of Application *//
@@ -1315,11 +1270,11 @@ public class AuroraCoreUI {
     }
 
     public void setCenterPanelSize(int centerPanelSize) {
-        this.centerPanelSize = centerPanelSize;
+        this.centerPanelHeight = centerPanelSize;
     }
 
-    public int getCenterPanelSize() {
-        return centerPanelSize;
+    public int getCenterPanelHeight() {
+        return centerPanelHeight;
     }
 
     public void setTopPanelHeight(int topPanelSize) {

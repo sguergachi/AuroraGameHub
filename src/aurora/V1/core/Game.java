@@ -347,8 +347,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // ----------------------------------------------------------------.
         pnlInteractivePane = new JPanel(new BorderLayout());
         pnlInteractivePane.setOpaque(false);
-        pnlInteractivePane.addMouseListener(new Game.InteractiveListener());
         pnlInteractivePane.setName("pnlInteractivePane");
+        pnlInteractivePane.addMouseListener(new Game.InteractiveListener());
         this.addMouseListener(new Game.InteractiveListener());
         this.add(pnlInteractivePane);
         this.revalidate();
@@ -359,13 +359,19 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // Create Overlay UI Components //
         coverImagePane = new AImagePane();
         coverImagePane.setName(name);
+
+        if (coverURL.equals("library_noGameFound.png")) {
+            coverImagePane.setImage("library_noGameFound.png");
+            System.out.println("No Game Found");
+        }
+
         imgSelectedGlow = new AImagePane("game_selectedGlow.png", width + 10,
-                                         height + 10);
+                height + 10);
         imgStarIcon = new AImagePane("game_favouriteIcon.png", 100, 32);
         imgStarIcon.setPreferredSize(new Dimension(100, 32));
         btnRemove = new AButton("game_btn_remove_norm.png",
-                                "game_btn_remove_down.png",
-                                "game_btn_remove_over.png");
+                "game_btn_remove_down.png",
+                "game_btn_remove_over.png");
         btnRemove.addActionListener(new RemoveButtonListener());
 
         topPanel = new JPanel(new BorderLayout());
@@ -375,7 +381,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
         bottomPanel.setPreferredSize(new Dimension(width - 10,
-                                                   SIZE_BottomPaneHeight));
+                SIZE_BottomPaneHeight));
 
         // Set Up Bottom Bar Content
         // ----------------------------------------------------------------.
@@ -383,7 +389,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         imgOverlayBar = new AImagePane("game_overlay.png", width - 30, 55);
         imgOverlayBar.setOpaque(false);
         imgOverlayBar.setPreferredSize(new Dimension(width - 30, 55));
-        imgOverlayBar.setLayout(new BorderLayout());
+        imgOverlayBar.setLayout(new BorderLayout(0,0));
         imgOverlayBar.setBackground(Color.blue);
 
         // The Panel that Contains the Actuall Components //
@@ -391,12 +397,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlOverlayContainer.setOpaque(false);
         pnlOverlayContainer.setBackground(Color.red);
         pnlOverlayContainer.setLayout(new BoxLayout(pnlOverlayContainer,
-                                                    BoxLayout.X_AXIS));
+                BoxLayout.X_AXIS));
 
         // Favourite Buttom //
         btnFavorite = new AButton("game_btn_star_norm.png",
-                                  "game_btn_star_down.png",
-                                  "game_btn_star_over.png");
+                "game_btn_star_down.png",
+                "game_btn_star_over.png");
         btnFavorite.addActionListener(new Game.FavoriteButtonListener());
         if (main.LAUNCHES < 5) {
             btnFavorite.setToolTipText("Favorite");
@@ -409,8 +415,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Flip Button //
         btnFlip = new AButton("game_btn_reverseRight_norm.png",
-                              "game_btn_reverseRight_down.png",
-                              "game_btn_reverseRight_over.png");
+                "game_btn_reverseRight_down.png",
+                "game_btn_reverseRight_over.png");
         btnFlip.addActionListener(new Game.FlipButtonListener());
         if (main.LAUNCHES < 5) {
             btnFlip.setToolTipText("Flip");
@@ -423,8 +429,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Play Game Button //
         btnPlay = new AButton("game_btn_play_norm.png",
-                              "game_btn_play_down.png",
-                              "game_btn_play_over.png");
+                "game_btn_play_down.png",
+                "game_btn_play_over.png");
         playButtonListener = new Game.PlayButtonListener();
         btnPlay.addActionListener(playButtonListener);
         if (main.LAUNCHES < 5) {
@@ -437,16 +443,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 "editUI_editGameOverlay_norm.png",
                 "editUI_editGameOverlay_down.png",
                 "editUI_editGameOverlay_norm.png");
-        customGameCoverListener = new Game.CustomGameCoverListener();
-        btnAddCustomOverlay.addActionListener(customGameCoverListener);
 
-        ///////////////////////
-        //- Reverse Buttons -//
-        ///////////////////////
+        // Reverse Buttons
+        // ----------------------------------------------------------------.
         // Awards Button //
         btnAward = new AButton("game_btn_award_norm.png",
-                               "game_btn_award_down.png",
-                               "game_btn_award_over.png");
+                "game_btn_award_down.png",
+                "game_btn_award_over.png");
         if (main.LAUNCHES < 5) {
             btnAward.setToolTipText("Unavailable");
         }
@@ -458,8 +461,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Settings Button
         btnSetting = new AButton("game_btn_setting_norm.png",
-                                 "game_btn_setting_down.png",
-                                 "game_btn_setting_over.png");
+                "game_btn_setting_down.png",
+                "game_btn_setting_over.png");
         btnSetting.setPreferredSize(new Dimension(40, 40));
         if (main.LAUNCHES < 5) {
             btnSetting.setToolTipText("Settings");
@@ -472,7 +475,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Add Container to the Image, which is not visible by default //
         imgOverlayBar.setVisible(false);
-        imgOverlayBar.add(pnlOverlayContainer);
+        imgOverlayBar.add(pnlOverlayContainer, BorderLayout.CENTER);
 
         // Add Image to the Bottom Bar //
         bottomPanel.add(imgOverlayBar, BorderLayout.NORTH);
@@ -534,27 +537,29 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             Boolean loadedImage = true;
             try {
                 localImage = fileIO.findImg("Game Data",
-                                            coverURL);
+                        coverURL);
             } catch (Exception ex) {
                 loadedImage = false;
             }
             if (localImage != null && loadedImage) {
 
                 coverImagePane.setImage(localImage,
-                                        width, height);
-                coverImagePane.setImageSize(width, height);
-                coverImagePane.setPreferredSize(new Dimension(width, height));
+                        width, height);
                 coverImagePane.setDoubleBuffered(true);
 
-                this.setImage(coverImagePane);
-                this.add(pnlInteractivePane);
-                this.revalidate();
-                this.repaint();
-
-            } else {
+            } else if (coverImagePane.getImgIcon() == null) {
 
                 // Load Image From S3 //
                 try {
+
+                    // Prevent too many games loading at once
+                    int rand = (int) (Math.random() * 100) + (200 - 100);
+                    try {
+                        Thread.sleep(rand);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(Game.class.getName())
+                                .log(Level.SEVERE, null, ex);
+                    }
 
                     if (WelcomeLogic.checkOnline(rootCoverDBPath + coverURL)) {
                         if (logger.isDebugEnabled()) {
@@ -564,10 +569,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         coverImagePane.setURL(rootCoverDBPath + coverURL);
 
                         //Set Background accordingly
-                        coverImagePane.setImageSize(width, height);
-                        coverImagePane.setPreferredSize(new Dimension(width,
-                                                                      height));
-
                         if (coverImagePane.getImgIcon().getIconHeight() == -1) {
 
                             coverImagePane.setImage("library_noGameFound.png");
@@ -591,18 +592,21 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     //Set Background accordingly
                     coverImagePane.setImageSize(width, height);
                     coverImagePane.setPreferredSize(new Dimension(width,
-                                                                  height));
-
-                    this.setImage(coverImagePane);
-                    this.add(pnlInteractivePane);
-
-                    this.repaint();
-                    this.revalidate();
+                            height));
 
                 } catch (MalformedURLException ex) {
                     logger.error(ex);
                 }
             }
+
+            coverImagePane.setImageSize(width, height);
+            coverImagePane.setPreferredSize(new Dimension(width,
+                    height));
+
+            this.setImage(coverImagePane);
+            this.add(pnlInteractivePane);
+            this.revalidate();
+            this.repaint();
         }
         //End of Loading
         pnlInteractivePane.setPreferredSize(new Dimension(width, height));
@@ -649,9 +653,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     if (localImage == null) {
                         Thread.sleep(100);
                     }
-                    progressWheel.stop();
-                    remove(progressWheel);
-                } catch (NullPointerException ex) {
+                    if (progressWheel != null) {
+                        progressWheel.stop();
+                        remove(progressWheel);
+                    }
+
                 } catch (InterruptedException ex) {
                     java.util.logging.Logger.getLogger(Game.class.getName()).
                             log(Level.SEVERE, null, ex);
@@ -659,15 +665,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                 revalidate();
                 repaint();
-
-                try {
-                    // Sleep for random time to prevent bulck loading
-                    double rand = Math.random() * (500 - 100) * 100;
-                    Thread.sleep((long) (2000 + rand));
-                } catch (InterruptedException ex) {
-                    java.util.logging.Logger.getLogger(Game.class.getName())
-                            .log(Level.SEVERE, null, ex);
-                }
 
             }
 
@@ -697,13 +694,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Sizes //
         imgSelectedGlow.setImageSize(width + 10,
-                                     height + 10);
+                height + 10);
         imgOverlayBar.setImageSize(width - 30, 55);
         imgOverlayBar.setPreferredSize(new Dimension(width - 30, 55));
         topPanel.setPreferredSize(new Dimension(width, 55));
 
         bottomPanel.setPreferredSize(new Dimension(width - 10,
-                                                   SIZE_BottomPaneHeight));
+                SIZE_BottomPaneHeight));
         pnlAwardPane.setPreferredSize(new Dimension(30, 40));
         pnlFlipPane.setPreferredSize(new Dimension(80, 40));
         btnSetting.setPreferredSize(new Dimension(40, 40));
@@ -761,9 +758,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             addOverlayUI();
         }
 
-        pnlInteractivePane.removeMouseListener(
-                pnlInteractivePane.getMouseListeners()[0]);
-        this.removeMouseListener(this.getMouseListeners()[0]);
+        if (pnlInteractivePane.getMouseListeners().length > 0) {
+            pnlInteractivePane.removeMouseListener(
+                    pnlInteractivePane.getMouseListeners()[0]);
+        }
+
+        if (this.getMouseListeners().length > 0) {
+            this.removeMouseListener(this.getMouseListeners()[0]);
+        }
 
         pnlInteractivePane.removeAll();
         pnlInteractivePane.setVisible(true);
@@ -793,6 +795,28 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         });
 
         pnlInteractivePane.add(btnAddCustomOverlay);
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | disableEditCoverOverlay();
+     * .-----------------------------------------------------------------------.
+     * |
+     * | disables the ability to add a custom cover art image to game by clicking
+     * | on the game.
+     * |
+     * .........................................................................
+     * <p/>
+     *
+     */
+    public final void disableEditCoverOverlay() {
+
+        if (isRemoved) {
+            addOverlayUI();
+        }
+
+        pnlInteractivePane.addMouseListener(new Game.InteractiveListener());
+        this.addMouseListener(new Game.InteractiveListener());
     }
 
     /**
@@ -1031,7 +1055,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         Game temp = thisGame();
 
         AImagePane favouritedImg = new AImagePane("library_favourited_bg.png",
-                                                  width, height);
+                width, height);
 
         thisGame().clearImage();
         thisGame().setImage(favouritedImg);
@@ -1056,7 +1080,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         thisGame().clearImage();
         thisGame().setImage(temp.getCoverImagePane().getImgIcon(),
-                            height, width);
+                height, width);
         showOverlayUI();
         select();
     }
@@ -1084,7 +1108,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         Game temp = thisGame();
 
         AImagePane favouritedImg = new AImagePane("library_unfavourited_bg.png",
-                                                  width, height);
+                width, height);
 
         thisGame().clearImage();
         thisGame().setImage(favouritedImg);
@@ -1110,7 +1134,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         thisGame().clearImage();
         thisGame().setImage(temp.getCoverImagePane().getImgIcon(),
-                            height, width);
+                height, width);
         showOverlayUI();
         select();
     }
@@ -1162,20 +1186,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             libraryLogic.addGamesToLibrary();
         }
 
-    }
-
-    /**
-     * Shows the custom game cover UI
-     */
-    private static class CustomGameCoverListener implements ActionListener {
-
-        public CustomGameCoverListener() {
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
     }
 
     private class EnterGameTypeListener implements ActionListener {
@@ -1237,8 +1247,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     thisGame().setImage("Reverse-Case.png", height, width);
 
                     btnFlip.setButtonStates("game_btn_reverseLeft_norm.png",
-                                            "game_btn_reverseLeft_down.png",
-                                            "game_btn_reverseLeft_over.png");
+                            "game_btn_reverseLeft_down.png",
+                            "game_btn_reverseLeft_over.png");
 
                     pnlOverlayContainer.removeAll();
                     pnlOverlayContainer.validate();
@@ -1266,10 +1276,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     thisGame().clearImage();
                     thisGame().setImage(tempGame.getCoverImagePane()
                             .getImgIcon(),
-                                        height, width);
+                            height, width);
                     btnFlip.setButtonStates("game_btn_reverseRight_norm.png",
-                                            "game_btn_reverseRight_down.png",
-                                            "game_btn_reverseRight_over.png");
+                            "game_btn_reverseRight_down.png",
+                            "game_btn_reverseRight_over.png");
 
                     // reset to normal overlay UI //
                     reAddInteractive();
@@ -1302,16 +1312,16 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // ----------------------------------------------------------------.
         // Shortcut Pane //
         pnlShortcutImage = new AImagePane("game_flip_shortcutsBG.png",
-                                          flipShortcutWidth,
-                                          flipShortcutHeight, new BorderLayout());
+                flipShortcutWidth,
+                flipShortcutHeight, new BorderLayout());
         pnlShortcutImage.setPreferredSize(
                 new Dimension(flipShortcutWidth, flipShortcutHeight));
         pnlShortcutImage.setBorder(BorderFactory.createEmptyBorder(0, 5,
-                                                                   2, 5));
+                2, 5));
 
         lblShortcut = new ASlickLabel(" Shortcut");
         lblShortcut.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                                                                 11));
+                11));
         lblShortcut.setForeground(new Color(102, 102, 102));
 
         pnlShortcutLbl = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -1326,24 +1336,24 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         int btnHeight = btnWidth - 2;
 
         btnWatch = new AButton("game_btn_watch_norm.png",
-                               "game_btn_watch_down.png",
-                               "game_btn_watch_over.png", btnWidth, btnHeight);
+                "game_btn_watch_down.png",
+                "game_btn_watch_over.png", btnWidth, btnHeight);
         btnWatch.addActionListener(new WatchListener());
         if (main.LAUNCHES < 5) {
             btnWatch.setToolTipText("Gameplay Videos");
         }
 
         btnFix = new AButton("game_btn_help_norm.png",
-                             "game_btn_help_down.png",
-                             "game_btn_help_over.png", btnWidth, btnHeight);
+                "game_btn_help_down.png",
+                "game_btn_help_over.png", btnWidth, btnHeight);
         btnFix.addActionListener(new FixListener());
         if (main.LAUNCHES < 5) {
             btnFix.setToolTipText("PC Gaming Wiki");
         }
 
         btnLearn = new AButton("game_btn_learn_norm.png",
-                               "game_btn_learn_down.png",
-                               "game_btn_learn_over.png", btnWidth, btnHeight);
+                "game_btn_learn_down.png",
+                "game_btn_learn_over.png", btnWidth, btnHeight);
         btnLearn.addActionListener(new LearnListener());
         if (main.LAUNCHES < 5) {
             btnLearn.setToolTipText("Wikia");
@@ -1353,7 +1363,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlFlipContentPane = new JPanel(new BorderLayout(0, 0));
         pnlFlipContentPane.setOpaque(false);
         pnlFlipContentPane.setBorder(BorderFactory.createEmptyBorder(5, 40,
-                                                                     5, 0));
+                5, 0));
         pnlFlipContentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlFlipContentPane.addMouseListener(new InteractiveListener());
 
@@ -1368,13 +1378,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         flipScrollBar = new JScrollBar();
         flipScrollBar.setUnitIncrement(20);
         flipScrollBar.setUI(new AScrollBar("app_scrollBar.png",
-                                           "game_scrollBarBG.png"));
+                "game_scrollBarBG.png"));
         flipScrollBar.setPreferredSize(new Dimension(6, flipScrollBar
                 .getPreferredSize().height));
 
         pnlFlipScrollPane = new JScrollPane(pnlFlipContentPane,
-                                            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                                            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         pnlFlipScrollPane.setOpaque(false);
         pnlFlipScrollPane.getViewport().setOpaque(false);
         pnlFlipScrollPane.setVerticalScrollBar(flipScrollBar);
@@ -1386,26 +1396,26 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // Lables //
         lblHoursPlayed = new ASlickLabel("Hours Played");
         lblHoursPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                                                                    labelFontSize
-                                                                    - 2));
+                labelFontSize
+                - 2));
         lblHoursPlayed.setForeground(new Color(202, 202, 217));
 
         lblLastPlayed = new ASlickLabel("Last Played");
         lblLastPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                                                                   labelFontSize
-                                                                   - 2));
+                labelFontSize
+                - 2));
         lblLastPlayed.setForeground(new Color(202, 202, 217));
 
         lblTimesPlayed = new ASlickLabel("Times Played");
         lblTimesPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                                                                    labelFontSize
-                                                                    - 2));
+                labelFontSize
+                - 2));
         lblTimesPlayed.setForeground(new Color(202, 202, 217));
 
         lblGameType = new ASlickLabel("Game Type");
         lblGameType.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                                                                 labelFontSize
-                                                                 - 2));
+                labelFontSize
+                - 2));
         lblGameType.setForeground(new Color(202, 202, 217));
 
         // Text boxes //
@@ -1417,35 +1427,35 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         textBoxHeight = height / 12;
 
         txtHoursPlayed = new ATextField("game_textLabel_inactive.png",
-                                        "game_textLabel_active.png");
+                "game_textLabel_active.png");
         txtHoursPlayed.setTextboxSize(textBoxWidth, textBoxHeight);
         txtHoursPlayed.getTextBox().setFont(this.coreUI.getRopaFont()
                 .deriveFont(Font.PLAIN,
-                            labelFontSize));
+                        labelFontSize));
         txtHoursPlayed.getTextBox().setDisabledTextColor(new Color(0, 255, 0));
 
         txtTimesPlayed = new ATextField("game_textLabel_inactive.png",
-                                        "game_textLabel_active.png");
+                "game_textLabel_active.png");
         txtTimesPlayed.setTextboxSize(textBoxWidth, textBoxHeight);
         txtTimesPlayed.getTextBox().setFont(this.coreUI.getRopaFont()
                 .deriveFont(Font.PLAIN,
-                            labelFontSize));
+                        labelFontSize));
         txtTimesPlayed.getTextBox().setDisabledTextColor(new Color(0, 255, 0));
 
         txtLastPlayed = new ATextField("game_textLabel_inactive.png",
-                                       "game_textLabel_active.png");
+                "game_textLabel_active.png");
         txtLastPlayed.setTextboxSize(textBoxWidth, textBoxHeight);
         txtLastPlayed.getTextBox().setFont(this.coreUI.getRopaFont()
                 .deriveFont(Font.PLAIN,
-                            labelFontSize));
+                        labelFontSize));
         txtLastPlayed.getTextBox().setDisabledTextColor(new Color(0, 255, 0));
 
         txtGameType = new ATextField("game_textLabel_inactive.png",
-                                     "game_textLabel_active.png");
+                "game_textLabel_active.png");
         txtGameType.setTextboxSize(textBoxWidth, textBoxHeight);
         txtGameType.getTextBox().setFont(this.coreUI.getRopaFont()
                 .deriveFont(Font.PLAIN,
-                            labelFontSize));
+                        labelFontSize));
         txtGameType.getTextBox().setCaretColor(Color.CYAN);
         txtGameType.getTextBox().setForeground(new Color(0, 255, 0));
 
@@ -1460,7 +1470,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         JPanel pnlHoursPlayedLbl = new JPanel();
         pnlHoursPlayedLbl.setOpaque(false);
         pnlHoursPlayedLbl.setLayout(new BoxLayout(pnlHoursPlayedLbl,
-                                                  BoxLayout.Y_AXIS));
+                BoxLayout.Y_AXIS));
         pnlHoursPlayedLbl.add(lblHoursPlayed);
         pnlHoursPlayedLbl.add(txtHoursPlayed);
         pnlRightPane.add(pnlHoursPlayedLbl);
@@ -1469,7 +1479,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         txtTimesPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         JPanel pnlTimesPlayedLbl = new JPanel();
         pnlTimesPlayedLbl.setLayout(new BoxLayout(pnlTimesPlayedLbl,
-                                                  BoxLayout.Y_AXIS));
+                BoxLayout.Y_AXIS));
         pnlTimesPlayedLbl.setOpaque(false);
         pnlTimesPlayedLbl.add(lblTimesPlayed);
         pnlTimesPlayedLbl.add(txtTimesPlayed);
@@ -1479,7 +1489,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         txtLastPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         JPanel pnlLastPlayedLbl = new JPanel();
         pnlLastPlayedLbl.setLayout(new BoxLayout(pnlLastPlayedLbl,
-                                                 BoxLayout.Y_AXIS));
+                BoxLayout.Y_AXIS));
         pnlLastPlayedLbl.setOpaque(false);
         pnlLastPlayedLbl.add(lblLastPlayed);
         pnlLastPlayedLbl.add(txtLastPlayed);
@@ -1489,7 +1499,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         txtGameType.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         JPanel pnlGameTypeLbl = new JPanel();
         pnlGameTypeLbl.setLayout(new BoxLayout(pnlGameTypeLbl,
-                                               BoxLayout.Y_AXIS));
+                BoxLayout.Y_AXIS));
         pnlGameTypeLbl.setOpaque(false);
         pnlGameTypeLbl.add(lblGameType);
         pnlGameTypeLbl.add(txtGameType);
@@ -1506,7 +1516,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlFlipContainer.setPreferredSize(pnlFlipContentPane.getPreferredSize());
         pnlFlipContainer.add(pnlFlipScrollPane, BorderLayout.CENTER);
         pnlFlipContainer.add(Box.createHorizontalStrut(width / 3 - flipPadding),
-                             BorderLayout.EAST);
+                BorderLayout.EAST);
 
         // Add Shortcut buttons to panel //
         pnlShortcutBtn.add(btnWatch);
@@ -1521,11 +1531,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlTopImageContainer = new JPanel(
                 new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlTopImageContainer.setBorder(BorderFactory.createEmptyBorder(20, 0,
-                                                                       0, (width
-                                                                           / 5)));
+                0, (width
+                    / 5)));
         pnlTopImageContainer.setPreferredSize(new Dimension(flipShortcutWidth,
-                                                            flipShortcutHeight
-                                                            + 25));
+                flipShortcutHeight
+                + 25));
         pnlTopImageContainer.setOpaque(false);
 
         pnlTopImageContainer.add(pnlShortcutImage, BorderLayout.CENTER);
@@ -1673,14 +1683,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Hours Played
         // ----------------------------------------------------------------.
-        if (this.timePlayed != null) {
+        if (this.timePlayed != null && !this.timePlayed.equals("null")) {
 
             // Parse time //
             String hoursPlayed = timePlayed
                     .substring(0, timePlayed.indexOf(":"));
             String minutesPlayed = timePlayed.substring(timePlayed.indexOf(':')
                                                         + 1,
-                                                        timePlayed.length());
+                    timePlayed.length());
 
             if (!hoursPlayed.equals("0")) {
                 hoursPlayed = hoursPlayed.replaceFirst("0", "");
@@ -1752,7 +1762,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         Date past = null;
 
         String daysPast;
-        if (this.lastPlayed != null) {
+        if (this.lastPlayed != null && !this.lastPlayed.equals("null")) {
             try {
                 past = format.parse(lastPlayed);
             } catch (ParseException ex) {
@@ -1929,8 +1939,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             } else {
 
                 final ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
-                                                 "Can't Find Game. Would You Like To REMOVE It From Library?      ",
-                                                 coreUI.getRegularFont()
+                        "Can't Find Game. Would You Like To REMOVE It From Library?      ",
+                        coreUI.getRegularFont()
                         .deriveFont(Font.BOLD, 23));
                 info.setOKButtonListener(new ActionListener() {
                     @Override
@@ -1962,7 +1972,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     .setPreferredSize(new Dimension(imgConfirmPromptImagePane
                                     .getImgIcon().getImage().getWidth(null)
                                                     + SIZE_TOPPANE_COMP,
-                                                    imgConfirmPromptImagePane
+                                    imgConfirmPromptImagePane
                                     .getImgIcon()
                                     .getImage().getHeight(
                                             null)));
@@ -1971,30 +1981,34 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             pnlOverlayContainer.removeAll();
             confirmButton = new AButton("game_btn_removeYes_norm.png",
-                                        "game_btn_removeYes_down.png",
-                                        "game_btn_removeYes_over.png",
-                                        removeButtonWidth, 55);
+                    "game_btn_removeYes_down.png",
+                    "game_btn_removeYes_over.png",
+                    removeButtonWidth, 55);
             confirmButton.addActionListener(new RemoveGameHandler());
             denyButton = new AButton("game_btn_removeNo_norm.png",
-                                     "game_btn_removeNo_down.png",
-                                     "game_btn_removeNo_over.png",
-                                     removeButtonWidth, 55);
+                    "game_btn_removeNo_down.png",
+                    "game_btn_removeNo_over.png",
+                    removeButtonWidth, 55);
             denyButton.addActionListener(new CancelRemoveGameHandler());
 
             denyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT,
-                                                  removeButtonSeperation, -5));
+                    removeButtonSeperation, -5));
             denyPanel.setPreferredSize(new Dimension(145, 55));
             denyPanel.setOpaque(false);
             denyPanel.add(denyButton);
 
             confirmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,
-                                                     removeButtonSeperation, -5));
+                    removeButtonSeperation, -5));
             confirmPanel.setPreferredSize(new Dimension(185, 55));
             confirmPanel.setOpaque(false);
             confirmPanel.add(confirmButton);
 
+
+            denyPanel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+            confirmPanel.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
             pnlOverlayContainer.add(denyPanel);
             pnlOverlayContainer.add(confirmPanel);
+            pnlOverlayContainer.add(Box.createHorizontalStrut(5));
             imgOverlayBar.revalidate();
             setUnselected();
             isGameRemoveMode = true;
@@ -2051,7 +2065,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     }
 
                     LibraryUI.lblLibraryStatus.setForeground(new Color(194, 40,
-                                                                       35));
+                            35));
                     LibraryUI.lblLibraryStatus.setText("Removed Game");
 
                     LibraryLogic.refreshAuto = true;
@@ -2151,8 +2165,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         } else {
             flipShortcutWidth = (width / 2) + (width / 10);
             flipShortcutHeight = height / 6 + flipShortcutWidth / 12;
-            removeButtonWidth = this.width / 2 - 40;
-            removeButtonSeperation = -removeButtonWidth / 6 + 5;
+            removeButtonWidth = this.width / 2 - 32;
+            removeButtonSeperation = -removeButtonWidth / 6 + 1;
 
             SIZE_TOPPANE_COMP = 0;
             SIZE_BottomPaneHeight = (51 * 2) - (height / 18) + (width / height

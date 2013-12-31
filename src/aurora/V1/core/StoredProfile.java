@@ -88,20 +88,20 @@ public class StoredProfile extends AStorage implements Serializable {
                 db.addTable("Profile", false);
 
                 db.addColumn("Profile", "Game_Name",
-                             ASimpleDB.TYPE_STRING_IGNORECASE);
+                        ASimpleDB.TYPE_STRING_IGNORECASE);
                 db.setConstraint("Profile", "Game_Name", ASimpleDB.UNIQUE);
 
                 db.addColumn("Profile", "Game_Type",
-                             ASimpleDB.TYPE_STRING_IGNORECASE);
+                        ASimpleDB.TYPE_STRING_IGNORECASE);
 
                 db.addColumn("Profile", "Total_Time",
-                             ASimpleDB.TYPE_STRING_IGNORECASE);
+                        ASimpleDB.TYPE_STRING_IGNORECASE);
 
                 db.addColumn("Profile", "Occurence_Time",
-                             ASimpleDB.TYPE_INTEGER);
+                        ASimpleDB.TYPE_INTEGER);
 
                 db.addColumn("Profile", "Last_Time",
-                             ASimpleDB.TYPE_STRING_IGNORECASE);
+                        ASimpleDB.TYPE_STRING_IGNORECASE);
             } catch (SQLException ex) {
                 logger.error(ex);
             }
@@ -209,40 +209,44 @@ public class StoredProfile extends AStorage implements Serializable {
             if (GameTypes.get(GameNames.indexOf(GameName)) != null && !GameTypes
                     .get(GameNames.indexOf(GameName)).equals(GameType)) {
                 db.setColValue("Profile",
-                               "Game_Type",
-                               "Game_Name",
-                               "'"
-                               + GameName
-                               + "'",
-                               GameType);
+                        "Game_Type",
+                        "Game_Name",
+                        "'"
+                        + GameName
+                        + "'",
+                        GameType);
 
             }
-            if (!TotalTimes.get(GameNames.indexOf(GameName)).equals(TotalTime)) {
+            if (!(TotalTimes.get(GameNames.indexOf(GameName)) == null
+                  && TotalTime == null) && !TotalTimes.get(GameNames.indexOf(
+                    GameName)).equals(TotalTime)) {
                 db.setColValue("Profile",
-                               "Total_Time",
-                               "Game_Name",
-                               "'"
-                               + GameName
-                               + "'",
-                               TotalTime);
+                        "Total_Time",
+                        "Game_Name",
+                        "'"
+                        + GameName
+                        + "'",
+                        TotalTime);
             }
             if (OccurrenceTimes.get(GameNames.indexOf(GameName))
                 != OccurrenceTime) {
                 db.setColValue("Profile",
-                               "Occurence_Time",
-                               "Game_Name",
-                               "'"
-                               + GameName
-                               + "'", OccurrenceTime);
+                        "Occurence_Time",
+                        "Game_Name",
+                        "'"
+                        + GameName
+                        + "'", OccurrenceTime);
             }
-            if (!LastTimes.get(GameNames.indexOf(GameName)).equals(LastTime)) {
+            if (!(LastTimes.get(GameNames.indexOf(GameName)) == null
+                  && LastTime == null)
+                && (!LastTimes.get(GameNames.indexOf(GameName)).equals(LastTime))) {
                 db.setColValue("Profile",
-                               "Last_Time",
-                               "Game_Name",
-                               "'"
-                               + GameName
-                               + "'",
-                               LastTime);
+                        "Last_Time",
+                        "Game_Name",
+                        "'"
+                        + GameName
+                        + "'",
+                        LastTime);
             }
 
             db.CloseConnection();
@@ -258,17 +262,17 @@ public class StoredProfile extends AStorage implements Serializable {
         try {
 
             db.addRowFlex("Profile",
-                          new String[]{"Game_Name",
-                                       "Game_Type",
-                                       "Total_Time",
-                                       "Occurence_Time",
-                                       "Last_Time"
-                          },
-                          ("'" + GameName + "'" + ","
-                           + "'" + GameType + "'" + ","
-                           + "'" + TotalTime + "'" + ","
-                           + "'" + OccurrenceTime + "'" + ","
-                           + "'" + LastTime + "'"));
+                    new String[]{"Game_Name",
+                                 "Game_Type",
+                                 "Total_Time",
+                                 "Occurence_Time",
+                                 "Last_Time"
+                    },
+                    ("'" + GameName + "'" + ","
+                     + "'" + GameType + "'" + ","
+                     + "'" + TotalTime + "'" + ","
+                     + "'" + OccurrenceTime + "'" + ","
+                     + "'" + LastTime + "'"));
 
         } catch (SQLException ex) {
             logger.error(ex);

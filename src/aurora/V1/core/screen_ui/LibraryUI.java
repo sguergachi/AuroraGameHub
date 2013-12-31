@@ -30,7 +30,7 @@ import aurora.V1.core.screen_handler.LibraryHandler.HoverButtonLeft;
 import aurora.V1.core.screen_handler.LibraryHandler.HoverButtonRight;
 import aurora.V1.core.screen_handler.LibraryHandler.SearchBoxHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.SearchFocusHandler;
-import aurora.V1.core.screen_handler.LibraryHandler.ShowAddGameUiHandler;
+import aurora.V1.core.screen_handler.LibraryHandler.ShowAddGameUIHandler;
 import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.AFileDrop;
@@ -569,8 +569,6 @@ public class LibraryUI extends AuroraApp {
 
     private AButton btnClearSearch_editUI;
 
-    private Field field;
-
     private JPanel pnlAutoAdd;
 
     private JPanel pnlAutoTop;
@@ -619,7 +617,7 @@ public class LibraryUI extends AuroraApp {
 
     private AButton btnAutoRefresh;
 
-    private long IDLE_TIME_TO_WAIT = 4500;
+    private final long IDLE_TIME_TO_WAIT = 4000;
 
     private JPanel pnlLibraryStatusContainer;
 
@@ -653,7 +651,7 @@ public class LibraryUI extends AuroraApp {
 
     private JPanel pnlContent_editCoverUI;
 
-    private boolean isEditGameCoverLoaded;
+    private boolean isEditGameCoverUI_visible;
 
     private AAnimate editGameCoverFrameAnimator;
 
@@ -668,6 +666,20 @@ public class LibraryUI extends AuroraApp {
             Arrays.asList("png", "jpg", "jpeg", "gif", "bmp"));
 
     private LibraryHandler.EditCoverUIDragedListener fileDragedListener;
+
+    private AButton btnAutoSearchDB_editUI;
+
+    private JPanel pnlGameCoverSearchContainer;
+
+    private AButton btnAutoSearchDB_addUI;
+
+    private AImage imgAutoSearchStatus_addUI;
+
+    private AImage imgAutoSearchStatus_editUI;
+
+    private int updatedCurrentIndex = -1;
+
+    private boolean isEditGameCoverUILoaded;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -1063,7 +1075,7 @@ public class LibraryUI extends AuroraApp {
         moveLibraryRightHandler = libraryHandler.new HoverButtonRight();
 
         btnShowAddGameUI.addActionListener(
-                libraryHandler.new ShowAddGameUiHandler());
+                libraryHandler.new ShowAddGameUIHandler());
         btnOrganizeGames
                 .addActionListener(libraryHandler.new ShowOrganizeGameHandler());
 
@@ -1326,13 +1338,17 @@ public class LibraryUI extends AuroraApp {
         pnlSearchBG.setLayout(new BorderLayout(0, -1));
 
         txtSearchField_addUI = new JTextField("Search For Game...");
+
         pnlAddGameSearchContainer = new JPanel(new FlowLayout(
-                FlowLayout.LEFT, 105, 5));
+                FlowLayout.LEFT, 0, 5));
         pnlAddGameSearchContainer.setOpaque(false);
 
         btnClearSearch_addUI = new AButton("addUI_btnClearText_norm.png",
                                            "addUI_btnClearText_down.png",
                                            "addUI_btnClearText_over.png");
+        btnAutoSearchDB_addUI = new AButton("addUI_btn_autoSearch_norm.png",
+                                            "addUI_btn_autoSearch_down.png",
+                                            "addUI_btn_autoSearch_norm.png");
 
         btnGameToLib_addUI = new AButton("addUI_btnAdd_norm.png",
                                          "addUI_btnAdd_down.png",
@@ -1428,6 +1444,15 @@ public class LibraryUI extends AuroraApp {
         btnAutoRefresh = new AButton("autoUI_btnRefresh_norm.png",
                                      "autoUI_btnRefresh_down.png",
                                      "autoUI_btnRefresh_over.png");
+
+        imgAutoSearchStatus_addUI = new AImage("addUI_img_autoSearchOn.png");
+
+        libraryLogic.getGameSearch_autoUI().setCanEditCover(false);
+
+        btnAutoSearchDB_addUI.addActionListener(
+                libraryHandler.new GameSearchButtonListener(libraryLogic
+                        .getGameSearch_addUI(), imgAutoSearchStatus_addUI));
+
         btnAutoRefresh.setBorder(null);
         btnAutoRefresh.setMargin(new Insets(0, 0, 0, 0));
 
@@ -1454,7 +1479,7 @@ public class LibraryUI extends AuroraApp {
      */
     public final void buildAddGameUI() {
 
-        if (!isAddGameUILoaded) {
+        if (!isAddGameUILoaded) { // Only build once, reset every other time
 
             // Manual UI
             // ----------------------------------------------------------------.
@@ -1637,7 +1662,16 @@ public class LibraryUI extends AuroraApp {
             pnlSearchBG.add(Box.createHorizontalStrut(15), BorderLayout.WEST);
             pnlSearchBG.add(txtSearchField_addUI, BorderLayout.CENTER);
             pnlSearchBG.add(btnClearSearch_addUI, BorderLayout.EAST);
+
+            btnAutoSearchDB_addUI.add(imgAutoSearchStatus_addUI);
+
+            if (main.LAUNCHES < 5) {
+                btnAutoSearchDB_addUI.setToolTipText("Disable AuroraCoverDB");
+            }
+
+            pnlAddGameSearchContainer.add(Box.createHorizontalStrut(105));
             pnlAddGameSearchContainer.add(pnlSearchBG);
+            pnlAddGameSearchContainer.add(btnAutoSearchDB_addUI);
 
             //* Add UI elements to the Bottom Panel in the Add Game UI *//
             pnlBottomPane
@@ -1833,6 +1867,7 @@ public class LibraryUI extends AuroraApp {
                     libraryHandler.new AddGameSearchBoxHandler(libraryLogic
                             .getGameSearch_addUI(), txtSearchField_addUI));
 
+            // Auto Search Status Button
             gamesList_addUI.addListSelectionListener(
                     libraryHandler.new SelectListHandler(libraryLogic
                             .getGameSearch_addUI()));
@@ -2102,12 +2137,24 @@ public class LibraryUI extends AuroraApp {
                                                        14, 0));
         pnlGameCoverBottom.setOpaque(false);
 
+        pnlGameCoverSearchContainer = new JPanel(new FlowLayout(FlowLayout.LEFT,
+                                                                0, 0));
+        pnlGameCoverSearchContainer.setOpaque(false);
+
         lblGameCoverSearch = new ASlickLabel("Game Name");
         txtGameCoverSearch_editUI = new ATextField("editUI_text_inactive.png",
                                                    "editUI_text_active.png");
+
         btnClearSearch_editUI = new AButton("addUI_btnClearText_norm.png",
                                             "addUI_btnClearText_down.png",
                                             "addUI_btnClearText_over.png");
+
+        btnAutoSearchDB_editUI = new AButton("addUI_btn_autoSearch_norm.png",
+                                             "addUI_btn_autoSearch_down.png",
+                                             "addUI_btn_autoSearch_norm.png");
+
+        imgAutoSearchStatus_editUI = new AImage("addUI_img_autoSearchOn.png");
+
         btnClearSearch_editUI.setMargin(new Insets(0, 0, 0, 3));
 
         libraryLogic.getGameSearch_editUI().setUpGameSearch(
@@ -2115,6 +2162,10 @@ public class LibraryUI extends AuroraApp {
                 pnlCoverPane_editUI,
                 listModel_editUI, imgGameCoverStatus, txtGameCoverSearch_editUI
                 .getTextBox());
+
+        btnAutoSearchDB_editUI.addActionListener(
+                libraryHandler.new GameSearchButtonListener(libraryLogic
+                        .getGameSearch_editUI(), imgAutoSearchStatus_editUI));
     }
 
     public void buildEditGameUI(Game game) {
@@ -2128,6 +2179,7 @@ public class LibraryUI extends AuroraApp {
             //* Set up glass panel *//
             pnlGlass.setVisible(true);
             pnlGlass.setLayout(null);
+
             //* Set Location for Edit Game UI panels *//
             pnlEditGamePane.setLocation((coreUI.getFrame().getWidth() / 2)
                                         - (pnlAddGamePane.getImgIcon()
@@ -2202,10 +2254,10 @@ public class LibraryUI extends AuroraApp {
             btnGameLocation_editUI.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
             btnGameCover_editUI.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
             btnOther_editUI.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-            pnlCenterRight_editUI.add(btnGameLocation_editUI);
             pnlCenterRight_editUI.add(btnGameCover_editUI);
-//            pnlCenterRight_editUI.add(btnOther_editUI);
+            pnlCenterRight_editUI.add(btnGameLocation_editUI);
 
+//            pnlCenterRight_editUI.add(btnOther_editUI);
             pnlTopRightPane_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
             pnlCenterRight_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
             btnDone_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -2349,8 +2401,13 @@ public class LibraryUI extends AuroraApp {
             txtGameCoverSearch_editUI.add(btnClearSearch_editUI,
                                           BorderLayout.EAST);
 
+            btnAutoSearchDB_editUI.add(imgAutoSearchStatus_editUI);
+
+            pnlGameCoverSearchContainer.add(txtGameCoverSearch_editUI);
+            pnlGameCoverSearchContainer.add(btnAutoSearchDB_editUI);
+
             pnlGameCoverBottom.add(lblGameCoverSearch);
-            pnlGameCoverBottom.add(txtGameCoverSearch_editUI);
+            pnlGameCoverBottom.add(pnlGameCoverSearchContainer);
 
             // Add to Game Cover Edit main Panel
             pnlGameCover_editUI.add(Box.createVerticalStrut(25));
@@ -2423,9 +2480,7 @@ public class LibraryUI extends AuroraApp {
 
             btnDone_editUI.addActionListener(
                     libraryHandler.new EditSettingDoneHandler());
-
         } else if (game != currentGame_editUI) {
-
             currentGame_editUI = game;
             lblCurrentName_editUI.setText("  " + currentGame_editUI.getName());
             imgCurrentGame_editUI
@@ -2437,17 +2492,18 @@ public class LibraryUI extends AuroraApp {
 
         }
 
-        if (!btnGameLocation_editUI.isSelected
-            && !btnGameCover_editUI.isSelected && !btnOther_editUI.isSelected) {
-            btnGameLocation_editUI.setSelected();
-        }
-
         // reset UI
         txtNewLocation_editUI.setText("");
         txtGameCoverSearch_editUI.getTextBox().setText("");
         imgGameLocationStatus.setImgURl("addUI_badge_idle.png");
         imgGameCoverStatus.setImgURl("addUI_badge_idle.png");
         libraryLogic.getGameSearch_editUI().resetCover();
+
+        // First to be selected when edit UI summoned
+        if (!btnGameLocation_editUI.isSelected
+            && !btnGameCover_editUI.isSelected && !btnOther_editUI.isSelected) {
+            btnGameCover_editUI.setSelected();
+        }
 
     }
 
@@ -2474,7 +2530,7 @@ public class LibraryUI extends AuroraApp {
         //* Bottom Panel Components *//
         pnlBottomPane_editCoverUI = new JPanel(new FlowLayout(FlowLayout.RIGHT,
                                                               10,
-                                                              4));
+                                                              3));
         pnlBottomPane_editCoverUI.setOpaque(false);
         btnClose_editCoverUI = new AButton("editCoverUI_btnClose_norm.png",
                                            "editCoverUI_btnClose_down.png",
@@ -2527,7 +2583,7 @@ public class LibraryUI extends AuroraApp {
 
     public void buildEditGameCoverUI(Game game) {
 
-        if (!isEditGameCoverLoaded) {
+        if (!isEditGameCoverUILoaded) {
 
             //* Set up glass panel *//
             frameEditGameCoverPane.setAlwaysOnTop(true);
@@ -2561,6 +2617,9 @@ public class LibraryUI extends AuroraApp {
                     .getPreferredSize().height));
 
             pnlCenterPane_editCoverUI.add(pnlDrag_editCoverUI);
+            pnlCenterPane_editCoverUI.setPreferredSize(new Dimension(
+                    pnlDrag_editCoverUI.getRealImageWidth(), pnlDrag_editCoverUI
+                    .getRealImageHeight()));
 
             fileDrop = new AFileDrop(pnlDrag_editCoverUI,
                                      "editCoverUI_dropBG.png",
@@ -2578,9 +2637,10 @@ public class LibraryUI extends AuroraApp {
 
             rightPaneContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 
+            pnlRightPane_editCoverUI.add(Box.createVerticalGlue());
             pnlRightPane_editCoverUI.add(rightPaneContainer);
             pnlRightPane_editCoverUI.setPreferredSize(new Dimension(
-                    (pnlEditGameCoverPane.getRealImageWidth() / 4),
+                    (pnlEditGameCoverPane.getRealImageWidth() / 5) + 20,
                     centerHeight));
 
             //* Left *//
@@ -2595,7 +2655,7 @@ public class LibraryUI extends AuroraApp {
                                                                 / 6));
             pnlLeftPane_editCoverUI.add(leftPaneContainer);
             pnlLeftPane_editCoverUI.setPreferredSize(new Dimension(
-                    (pnlEditGameCoverPane.getRealImageWidth() / 4),
+                    (pnlEditGameCoverPane.getRealImageWidth() / 5) + 20,
                     centerHeight));
 
             //* Content Pane *//
@@ -2618,8 +2678,7 @@ public class LibraryUI extends AuroraApp {
 
             pnlEditGameCoverPane.revalidate();
             frameEditGameCoverPane.revalidate();
-
-            isEditGameCoverLoaded = true;
+            isEditGameCoverUILoaded = true;
         } else {
             btnDone_editCoverUI.removeActionListener(btnDone_editCoverUI
                     .getActionListeners()[0]);
@@ -2811,13 +2870,13 @@ public class LibraryUI extends AuroraApp {
             String value = storage.getStoredSettings().getSettingValue(
                     "organize");
             if (value != null) {
-                if (value.equals("Favorite")) {
+                if (value.equalsIgnoreCase("Favorite")) {
                     btnTop.setSelected();
 
-                } else if (value.equals("Alphabetic")) {
+                } else if (value.equalsIgnoreCase("Alphabetic")) {
                     btnMiddle.setSelected();
 
-                } else if (value.equals("Most Played")) {
+                } else if (value.equalsIgnoreCase("Most Played")) {
                     btnBottom.setSelected();
                 }
             } else {
@@ -2882,6 +2941,9 @@ public class LibraryUI extends AuroraApp {
                             statusBadge1.setImgURl("addUI_badge_idle.png");
                             statusBadge2.setImgURl("addUI_badge_idle.png");
 
+                            libraryLogic.getGameSearch_addUI().enableSearch();
+                            libraryLogic.getGameSearch_addUI().resetCover();
+
                             addGameAnimator.setInitialLocation(
                                     (coreUI.getFrame().getWidth() / 2)
                                     - (pnlAddGamePane.getImgIcon()
@@ -2943,10 +3005,8 @@ public class LibraryUI extends AuroraApp {
             btnGameToLib_addUI.setVisible(false);
             btnGameToLib_addUI.repaint();
 
-            //TODO Fix Search Bar Focus
             txtGridSearchField.requestFocus();
             coreUI.getFrame().requestFocus();
-            txtGridSearchField.requestFocus();
             try {
                 Thread.sleep(20);
             } catch (InterruptedException ex) {
@@ -2960,7 +3020,6 @@ public class LibraryUI extends AuroraApp {
     }
 
     public void showEditGameUI(final Game game) {
-
         if (isAddGameUI_Visible()) {
             hideAddGameUI();
             showEditGameUI(game);
@@ -2971,7 +3030,7 @@ public class LibraryUI extends AuroraApp {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        Thread.sleep(350);
+                        Thread.sleep(500);
                     } catch (InterruptedException ex) {
                         java.util.logging.Logger.getLogger(LibraryUI.class
                                 .getName()).
@@ -2998,7 +3057,6 @@ public class LibraryUI extends AuroraApp {
                     new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-
                             buildEditGameUI(game);
 
                         }
@@ -3012,33 +3070,12 @@ public class LibraryUI extends AuroraApp {
                                     .getIconWidth() / 2), -390);
                             editGameAnimator.moveVertical(0, 33);
 
+                            libraryLogic.getGameSearch_addUI().resetCover();
+
                             editGameAnimator.addPostAnimationListener(
                                     new APostHandler() {
                                         @Override
                                         public void postAction() {
-
-                                            SwingUtilities.invokeLater(
-                                                    new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            try {
-                                                                Thread
-                                                                .sleep(700);
-                                                            } catch (InterruptedException ex) {
-                                                                java.util.logging.Logger
-                                                                .getLogger(
-                                                                        LibraryUI.class
-                                                                        .getName())
-                                                                .log(Level.SEVERE,
-                                                                     null, ex);
-                                                            }
-                                                            gameFileChooser_editUI
-                                                            .setCurrentDirectory(
-                                                                    new File(
-                                                                            currentGame_editUI
-                                                                            .getGamePath()));
-                                                        }
-                                                    });
 
                                         }
                                     });
@@ -3057,8 +3094,9 @@ public class LibraryUI extends AuroraApp {
 
         pnlGlass.setVisible(true);
 
-        editGameCoverAnimator = new AAnimate(frameEditGameCoverPane);
         editGameCoverFrameAnimator = new AAnimate();
+        editGameCoverAnimator = new AAnimate(
+                frameEditGameCoverPane);
 
         int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
         ASound showSound = new ASound("swoop_" + num + ".wav", false);
@@ -3071,35 +3109,49 @@ public class LibraryUI extends AuroraApp {
 
                         buildEditGameCoverUI(game);
 
+                        editGameCoverAnimator
+                        .setInitialLocation(
+                                (coreUI.getFrame().getWidth()
+                                 / 2)
+                                - (pnlEditGameCoverPane
+                                .getRealImageWidth() / 2),
+                                coreUI
+                                .getScreenHeight());
+
                     }
 
                 }, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
-                        //* Animate Up Edit Game Cover UI *//
-                        editGameCoverAnimator.setInitialLocation(
-                                (coreUI.getFrame().getWidth() / 2)
-                                - (pnlEditGameCoverPane.getRealImageWidth() / 2),
-                                coreUI
-                                .getScreenHeight());
-
+                          //* Animate Up Edit Game Cover UI *//
                         editGameCoverFrameAnimator.fadeOut(coreUI.getFrame());
 
                         editGameCoverFrameAnimator.addPostAnimationListener(
                                 new APostHandler() {
                                     @Override
                                     public void postAction() {
+
                                         coreUI.getFrame().setVisible(false);
+
+                                        libraryLogic
+                                        .setupDesktopEnvironmentForCoverArtEdit();
+                                        try {
+                                            Thread.sleep(400);
+                                        } catch (InterruptedException ex) {
+                                            java.util.logging.Logger.getLogger(
+                                                    LibraryUI.class.getName())
+                                            .log(Level.SEVERE, null, ex);
+                                        }
+
                                         editGameCoverAnimator.moveVertical(
                                                 coreUI
                                                 .getScreenHeight()
                                                 - pnlEditGameCoverPane
                                                 .getRealImageHeight()
                                                 - (coreUI.getTaskbarHeight() - 2),
-                                                -17);
-                                        libraryLogic
-                                        .setupDesktopEnvironmentForCoverArtEdit();
+                                                -18);
+
                                     }
                                 });
 
@@ -3109,6 +3161,8 @@ public class LibraryUI extends AuroraApp {
                 });
 
         editGameCoverWorker.startOnce();
+
+        isEditGameCoverUI_visible = true;
     }
 
     /**
@@ -3122,9 +3176,28 @@ public class LibraryUI extends AuroraApp {
 
             final File location = new File(currentGame_editUI.getGamePath());
 
-            txtCurrentLocation_editUI.setText(location.getAbsolutePath());
+            SwingUtilities.invokeLater(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread
+                                .sleep(700);
+                            } catch (InterruptedException ex) {
+                                java.util.logging.Logger
+                                .getLogger(
+                                        LibraryUI.class
+                                        .getName())
+                                .log(Level.SEVERE,
+                                     null, ex);
+                            }
+                            gameFileChooser_editUI
+                            .setCurrentDirectory(
+                                    location);
+                        }
+                    });
 
-            gameFileChooser_editUI.setCurrentDirectory(location);
+            txtCurrentLocation_editUI.setText(location.getAbsolutePath());
 
             pnlLeftPane_editUI.add(pnlGameLocation_editUI);
             pnlLeftPane_editUI.revalidate();
@@ -3154,6 +3227,8 @@ public class LibraryUI extends AuroraApp {
             pnlLeftPane_editUI.repaint();
 
             txtGameCoverSearch_editUI.getTextBox().requestFocusInWindow();
+            libraryLogic.getGameSearch_editUI().enableSearch();
+            libraryLogic.getGameSearch_editUI().resetCover();
         }
     }
 
@@ -3185,6 +3260,7 @@ public class LibraryUI extends AuroraApp {
                 @Override
                 public void postAction() {
                     pnlGlass.setVisible(false);
+
                 }
             });
 
@@ -3661,6 +3737,14 @@ public class LibraryUI extends AuroraApp {
         return GridSplit;
     }
 
+    public boolean isEditGameCoverUI_visible() {
+        return isEditGameCoverUI_visible;
+    }
+
+    public void setIsEditGameCoverUI_visible(boolean isEditGameCoverUI_visible) {
+        this.isEditGameCoverUI_visible = isEditGameCoverUI_visible;
+    }
+
     /**
      * Size Value.
      * <p/>
@@ -3803,11 +3887,18 @@ public class LibraryUI extends AuroraApp {
     }
 
     public int getCurrentIndex() {
-        return currentIndex;
+        if (updatedCurrentIndex == -1) {
+            currentIndex = GridSplit.getArray()
+                    .indexOf(pnlLibraryContainer.getComponent(1));
+            return currentIndex;
+        } else {
+            return updatedCurrentIndex;
+        }
+
     }
 
     public void setCurrentIndex(int index) {
-        currentIndex = index;
+        updatedCurrentIndex = index;
     }
 
     public AImage getImgGameCoverStatus() {
