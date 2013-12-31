@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1">
+        <file>
+            <url>src/aurora/V1/core/Aurora_GamerProfile.java</url>
+            <line>686</line>
+        </file>
+        <file>
+            <url>src/aurora/V1/core/AuroraUI.java</url>
+            <line>80</line>
+            <line>354</line>
+        </file>
+    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0">
+        <file>
+            <url>src/aurora/V1/core/Aurora_GamerProfile.java</url>
+            <bookmark id="0">
+                <name/>
+                <line>686</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/aurora/V1/core/AuroraUI.java</url>
+            <bookmark id="0">
+                <name/>
+                <line>80</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>350</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Sammy/Documents/GitHub/AuroraGameHub/src/aurora/V1/core/GameSearch.java</file>
+            <file>file:/C:/Users/Sammy/Documents/GitHub/AuroraGameHub/src/aurora/V1/core/GameFinder.java</file>
+            <file>file:/C:/Users/Sammy/Documents/GitHub/AuroraGameHub/src/aurora/V1/core/Game.java</file>
+            <file>file:/C:/Users/Sammy/Documents/GitHub/AuroraGameHub/src/aurora/V1/core/screen_handler/LibraryHandler.java</file>
+            <file>file:/C:/Users/Sammy/Documents/GitHub/AuroraGameHub/src/aurora/V1/core/screen_ui/LibraryUI.java</file>
+            <file>file:/C:/Users/Sammy/Documents/GitHub/AuroraGameHub/src/aurora/V1/core/screen_logic/LibraryLogic.java</file>
+            <file>file:/C:/Users/Sammy/Documents/GitHub/AuroraGameHub/src/aurora/V1/core/AboutBox.java</file>
+        </group>
+    </open-files>
+</project-private>
