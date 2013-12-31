@@ -17,11 +17,14 @@
  */
 package aurora.V1.core.screen_handler;
 
+import aurora.V1.core.StoredSettings;
 import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_ui.SettingsUI;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
+import aurora.engine.V1.UI.ASlickLabel;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -202,6 +205,7 @@ public class SettingsHandler implements AuroraScreenHandler {
     }
 
     public class EnableWASDNavigationHandler implements ActionListener {
+    	  	
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -209,12 +213,13 @@ public class SettingsHandler implements AuroraScreenHandler {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-
-                    // Do work here
-
-
-
+                	
+                	StoredSettings storage = settingsUI.getDashboardUI().getStorage().getStoredSettings();
+                	System.out.println("WASD was enabled");
+                	storage.saveSetting("wasd_navigation", "enabled");
+                	System.out.println(storage.getSettingNames());
+                	System.out.println(storage.getSettingValue("wasd_navigation"));
+                	
                     SettingsUI.lblSettingsStatus.setForeground(Color.GREEN);
                     SettingsUI.lblSettingsStatus.setText(
                             "WASD Navigation Enabled");
@@ -246,7 +251,7 @@ public class SettingsHandler implements AuroraScreenHandler {
     }
 
     public class DisableWASDNavigationHandler implements ActionListener {
-
+    	
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -254,10 +259,12 @@ public class SettingsHandler implements AuroraScreenHandler {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-
-                    // Do work here
-
+                	
+                	StoredSettings storage = settingsUI.getDashboardUI().getStorage().getStoredSettings();
+                	System.out.println("WASD was disabled");
+                	storage.saveSetting("wasd_navigation", "disabled");
+                	System.out.println(storage.getSettingNames());
+                	System.out.println(storage.getSettingValue("wasd_navigation"));
 
 
                     SettingsUI.lblSettingsStatus.setForeground(Color.red);
@@ -301,9 +308,11 @@ public class SettingsHandler implements AuroraScreenHandler {
                 public void actionPerformed(ActionEvent e) {
 
 
-                    // Do work here
-
-
+                	StoredSettings storage = settingsUI.getDashboardUI().getStorage().getStoredSettings();
+                	System.out.println("Sounds effects was enabled");
+                	storage.saveSetting("sound_effects", "enabled");
+                	System.out.println(storage.getSettingNames());
+                	System.out.println(storage.getSettingValue("sound_effects"));
 
                     SettingsUI.lblSettingsStatus.setForeground(Color.green);
                     SettingsUI.lblSettingsStatus.setText(
@@ -345,7 +354,11 @@ public class SettingsHandler implements AuroraScreenHandler {
                 public void actionPerformed(ActionEvent e) {
 
 
-                    // Do work here
+                	StoredSettings storage = settingsUI.getDashboardUI().getStorage().getStoredSettings();
+                	System.out.println("Sounds effects was disabled");
+                	storage.saveSetting("sound_effects", "disabled");
+                	System.out.println(storage.getSettingNames());
+                	System.out.println(storage.getSettingValue("sound_effects"));
 
 
 

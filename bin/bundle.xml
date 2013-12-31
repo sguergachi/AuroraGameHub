@@ -1,8 +1,0 @@
-<app name="Aurora">
-    <jar name="Aurora.jar" 
-        main-class="aurora.V1.core.main"/>
-    <jar name="AuroraEngine.jar"/>
-    <jar name="h2-1.3.167.jar"/>
-    <jar name="Onix2_Surface.jar"/>
-    <jar name="AuroraDB.h2.db"/>
-</app>

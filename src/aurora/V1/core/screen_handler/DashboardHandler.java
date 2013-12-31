@@ -17,6 +17,7 @@
  */
 package aurora.V1.core.screen_handler;
 
+import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.main;
 import aurora.V1.core.screen_logic.DashboardLogic;
 import aurora.V1.core.screen_ui.DashboardUI;
@@ -114,14 +115,21 @@ public class DashboardHandler implements AuroraScreenHandler {
      * |
      */
     public class RightButtonListener implements ActionListener {
-
+    	
         @Override
         public final void actionPerformed(final ActionEvent e) {
-            dashboardUI.getCarousel().setPostLeftAnimation(new APostHandler() {
+        	
+        	AuroraStorage storage = dashboardUI.getStorage();
+        	final String soundEffectsSetting = storage.getStoredSettings().getSettingValue("sound_effects");
+            
+        	dashboardUI.getCarousel().setPostLeftAnimation(new APostHandler() {
                 @Override
                 public void postAction() {
-                    ASound showSound = new ASound("click_3.wav", false);
-                    showSound.Play();
+                	if (soundEffectsSetting.equals("enabled")) {
+                		ASound showSound = new ASound("click_3.wav", false);
+                        showSound.Play();	
+                	}
+                   
                 }
             });
             dashboardUI.getCarousel().MoveLeft();
@@ -144,12 +152,18 @@ public class DashboardHandler implements AuroraScreenHandler {
 
         @Override
         public final void actionPerformed(final ActionEvent e) {
+        	
+        	AuroraStorage storage = dashboardUI.getStorage();
+        	final String soundEffectsSetting = storage.getStoredSettings().getSettingValue("sound_effects");
 
             dashboardUI.getCarousel().setPostRightAnimation(new APostHandler() {
                 @Override
                 public void postAction() {
-                    ASound showSound = new ASound("click_1.wav", false);
-                    showSound.Play();
+                	if (soundEffectsSetting.equals("enabled")) {
+                		ASound showSound = new ASound("click_1.wav", false);
+                        showSound.Play();
+                	}
+                    
                 }
             });
             dashboardUI.getCarousel().MoveRight();
@@ -175,6 +189,9 @@ public class DashboardHandler implements AuroraScreenHandler {
 
         @Override
         public final void keyPressed(final KeyEvent e) {
+        	
+        	AuroraStorage storage = dashboardUI.getStorage();
+        	final String soundEffectsSetting = storage.getStoredSettings().getSettingValue("sound_effects");
 
             /* More responsive put here */
 
@@ -183,8 +200,10 @@ public class DashboardHandler implements AuroraScreenHandler {
                         .setPostRightAnimation(new APostHandler() {
                     @Override
                     public void postAction() {
-                        ASound showSound = new ASound("click_1.wav", false);
-                        showSound.Play();
+                    	if (soundEffectsSetting.equals("enabled")) {
+                    		ASound showSound = new ASound("click_1.wav", false);
+                            showSound.Play();	
+                    	}
                     }
                 });
                 dashboardUI.getCarousel().MoveRight();
@@ -196,8 +215,10 @@ public class DashboardHandler implements AuroraScreenHandler {
                         .setPostLeftAnimation(new APostHandler() {
                     @Override
                     public void postAction() {
-                        ASound showSound = new ASound("click_3.wav", false);
-                        showSound.Play();
+                    	if (soundEffectsSetting.equals("enabled")) {
+                    		ASound showSound = new ASound("click_3.wav", false);
+                            showSound.Play();	
+                    	}                   
                     }
                 });
                 dashboardUI.getCarousel().MoveLeft();
@@ -328,6 +349,9 @@ public class DashboardHandler implements AuroraScreenHandler {
 
         @Override
         public final void mouseWheelMoved(final MouseWheelEvent e) {
+        	
+        	AuroraStorage storage = dashboardUI.getStorage();
+        	final String soundEffectsSetting = storage.getStoredSettings().getSettingValue("sound_effects");
 
             int numberClicks = e.getWheelRotation();
 
@@ -340,8 +364,10 @@ public class DashboardHandler implements AuroraScreenHandler {
                         .setPostLeftAnimation(new APostHandler() {
                     @Override
                     public void postAction() {
-                        ASound showSound = new ASound("click_3.wav", false);
-                        showSound.Play();
+                    	if (soundEffectsSetting.equals("enabled")) {
+                    		 ASound showSound = new ASound("click_3.wav", false);
+                             showSound.Play();	
+                    	}   
                     }
                 });
                 dashboardUI.getCarousel().MoveLeft();
@@ -350,8 +376,10 @@ public class DashboardHandler implements AuroraScreenHandler {
                         .setPostRightAnimation(new APostHandler() {
                     @Override
                     public void postAction() {
-                        ASound showSound = new ASound("click_1.wav", false);
-                        showSound.Play();
+                    	if (soundEffectsSetting.equals("enabled")) {
+                    		ASound showSound = new ASound("click_1.wav", false);
+                            showSound.Play();	
+                    	}    
                     }
                 });
                 dashboardUI.getCarousel().MoveRight();

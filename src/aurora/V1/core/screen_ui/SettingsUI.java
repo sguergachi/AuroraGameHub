@@ -19,6 +19,7 @@ package aurora.V1.core.screen_ui;
 
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.screen_handler.SettingsHandler;
 import aurora.V1.core.screen_logic.SettingsLogic;
 import static aurora.V1.core.screen_ui.LibraryUI.gameNameFontSize;
@@ -59,6 +60,8 @@ public class SettingsUI extends AuroraApp {
     private final DashboardUI dashboardUI;
 
     private final AuroraCoreUI coreUI;
+    
+    private AuroraStorage storage;
 
     static final Logger logger = Logger.getLogger(SettingsUI.class);
 
@@ -174,9 +177,10 @@ public class SettingsUI extends AuroraApp {
 
     private SettingsHandler.DisableSoundEffectsHandler disableSoundEffectsHandler;
 
-    public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
+    public SettingsUI(AuroraStorage auroraStorage, DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
         this.appName = "Settings";
+        this.storage = auroraStorage;
         this.dashboardUI = dashboardUI;
         this.coreUI = auroraCoreUI;
 
