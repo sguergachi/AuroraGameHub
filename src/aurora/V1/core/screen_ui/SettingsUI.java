@@ -19,7 +19,13 @@ package aurora.V1.core.screen_ui;
 
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
+import aurora.V1.core.screen_handler.SettingsHandler;
+import aurora.V1.core.screen_logic.SettingsLogic;
+import static aurora.V1.core.screen_ui.LibraryUI.gameNameFontSize;
+import static aurora.V1.core.screen_ui.LibraryUI.selectedGameBarHeight;
+import static aurora.V1.core.screen_ui.LibraryUI.selectedGameBarWidth;
 import aurora.engine.V1.UI.AButton;
+import aurora.engine.V1.UI.AFadeLabel;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.ARadioButton;
@@ -116,8 +122,6 @@ public class SettingsUI extends AuroraApp {
 
     private JPanel pnlWASDNavigationLabel;
 
-    private AButton btnBackgroundGameSearch;
-
     private JPanel pnlBackgroundGameSearchSetting;
 
     private AImage imgBackgroundGameSearchIcon;
@@ -138,11 +142,49 @@ public class SettingsUI extends AuroraApp {
 
     private AImage imgUpdateAuroraDBSearchIcon;
 
+    private int bottomTopPadding;
+
+    private AImagePane pnlSettingsStatusPane;
+
+    public static AFadeLabel lblSettingsStatus;
+
+    private JPanel pnlBottomCenterContainer;
+
+    public static final String DEAFULT_SETTINGS_STATUS = "Edit a Setting";
+
+    public static final Color DEFAULT_SETTINGS_COLOR = Color.lightGray;
+
+    private boolean isScreenLoaded;
+
+    private SettingsLogic settingsLogic;
+
+    private SettingsHandler settingsHandler;
+
+    private SettingsHandler.RefreshAuroraDBHandler refreshAuroraDBHandler;
+
+    private SettingsHandler.EnableBackgroundGameSearchHandler enableBackgroundGameSearchHandler;
+
+    private SettingsHandler.DisableBackgroundGameSearchHandler disableBackgroundGameSearchHandler;
+
+    private SettingsHandler.EnableWASDNavigationHandler enableWASDNavigationHandler;
+
+    private SettingsHandler.DisableWASDNavigationHandler disableWASDNavigationHandler;
+
+    private SettingsHandler.EnableSoundEffectsHandler enableSoundEffectsHandler;
+
+    private SettingsHandler.DisableSoundEffectsHandler disableSoundEffectsHandler;
+
     public SettingsUI(DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
 
         this.appName = "Settings";
         this.dashboardUI = dashboardUI;
         this.coreUI = auroraCoreUI;
+
+        this.settingsLogic = new SettingsLogic(this);
+        this.settingsHandler = new SettingsHandler(this);
+
+        settingsHandler.setLogic(settingsLogic);
+        settingsLogic.setHandler(settingsHandler);
     }
 
     @Override
@@ -160,6 +202,8 @@ public class SettingsUI extends AuroraApp {
                 Color.BLACK));
         pnlSettingsBG.setPreferredSize(new Dimension(coreUI.getFrame()
                 .getWidth(), coreUI.getCenterPanelHeight() / 2));
+
+        setSize();
 
 
         // Content Panel
@@ -223,11 +267,29 @@ public class SettingsUI extends AuroraApp {
         pnlGeneralSettingsGrid.setOpaque(false);
 
 
-
         loadGeneralSettingsUI();
 
 
+        // Bottom Pane
+        // --------------------------------------------------------------------.
 
+        pnlBottomCenterContainer = new JPanel(new FlowLayout(FlowLayout.CENTER,
+                0, bottomTopPadding));
+        pnlBottomCenterContainer.setOpaque(false);
+
+        // Settings Status
+
+
+        pnlSettingsStatusPane = new AImagePane("library_selectedGameBar_bg.png",
+                selectedGameBarWidth,
+                selectedGameBarHeight);
+        pnlSettingsStatusPane.setLayout(new BorderLayout(0, 10));
+
+        lblSettingsStatus = new AFadeLabel(DEAFULT_SETTINGS_STATUS);
+        lblSettingsStatus.setForeground(DEFAULT_SETTINGS_COLOR);
+        lblSettingsStatus.setFont(coreUI
+                .getDefaultFont().deriveFont(Font.PLAIN,
+                        gameNameFontSize));
 
 
     }
@@ -407,122 +469,230 @@ public class SettingsUI extends AuroraApp {
     @Override
     public void buildUI() {
 
-        setSize();
+        if (!isScreenLoaded) {
 
-        coreUI.getTitleLabel().setText("     Settings   ");
+            // Content Setup
+            // --------------------------------------------------------------------.
 
+            // Top Panel
 
+            lblGeneralSettings.setForeground(new Color(34, 140, 0));
+            lblGeneralSettings.setFont(coreUI.getRopaFont().deriveFont(
+                    Font.PLAIN,
+                    title_size));
 
-        // Content Setup
-        // --------------------------------------------------------------------.
+            generalSettingsSeperator.setPreferredSize(
+                    new Dimension(2, 40));
+            generalSettingsSeperator.setMaximumSize(generalSettingsSeperator
+                    .getPreferredSize());
+            generalSettingsSeperator.setForeground(new Color(13, 17, 21));
+            generalSettingsSeperator.setBackground(new Color(13, 17, 21));
 
-        // Top Panel
+            pnlGeneralSettingsTitlePane.add(Box.createGlue(),
+                    BorderLayout.CENTER);
+            pnlGeneralSettingsLowerTitlePane = new JPanel(new FlowLayout(
+                    FlowLayout.LEFT, 0, 0));
+            pnlGeneralSettingsLowerTitlePane.setOpaque(false);
+            pnlGeneralSettingsLowerTitlePane.setBackground(Color.GREEN);
 
-        lblGeneralSettings.setForeground(new Color(34, 140, 0));
-        lblGeneralSettings.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                title_size));
-
-        generalSettingsSeperator.setPreferredSize(
-                new Dimension(2, 40));
-        generalSettingsSeperator.setMaximumSize(generalSettingsSeperator
-                .getPreferredSize());
-        generalSettingsSeperator.setForeground(new Color(13, 17, 21));
-        generalSettingsSeperator.setBackground(new Color(13, 17, 21));
-
-        pnlGeneralSettingsTitlePane.add(Box.createGlue(), BorderLayout.CENTER);
-        pnlGeneralSettingsLowerTitlePane = new JPanel(new FlowLayout(
-                FlowLayout.LEFT, 0, 0));
-        pnlGeneralSettingsLowerTitlePane.setOpaque(false);
-        pnlGeneralSettingsLowerTitlePane.setBackground(Color.GREEN);
-
-        pnlGeneralSettingsLowerTitlePane.add(generalSettingsSeperator);
+            pnlGeneralSettingsLowerTitlePane.add(generalSettingsSeperator);
 
 
+            pnlGeneralSettingsTitlePane.add(pnlGeneralSettingsLowerTitlePane,
+                    BorderLayout.SOUTH);
+            pnlGeneralSettingsTitlePane.setPreferredSize(new Dimension(
+                    generalSettingsSeperator.getPreferredSize().width,
+                    title_size + 10));
 
-        pnlGeneralSettingsTitlePane.add(pnlGeneralSettingsLowerTitlePane,
-                BorderLayout.SOUTH);
-        pnlGeneralSettingsTitlePane.setPreferredSize(new Dimension(
-                generalSettingsSeperator.getPreferredSize().width,
-                title_size + 10));
-
-        pnlSettingsTop.add(Box.createHorizontalStrut(35));
-        pnlSettingsTop.add(pnlGeneralSettingsTitlePane);
-        pnlSettingsTop.add(Box.createHorizontalStrut(10));
-        pnlSettingsTop.add(lblGeneralSettings);
+            pnlSettingsTop.add(Box.createHorizontalStrut(35));
+            pnlSettingsTop.add(pnlGeneralSettingsTitlePane);
+            pnlSettingsTop.add(Box.createHorizontalStrut(10));
+            pnlSettingsTop.add(lblGeneralSettings);
 
 
 
-        // Seperator
-        settingsTitleSeperator.setPreferredSize(
-                new Dimension(settings_width * 2,
-                        2));
-        settingsTitleSeperator.setMaximumSize(settingsTitleSeperator
-                .getPreferredSize());
-        settingsTitleSeperator.setForeground(new Color(13, 17, 21));
-        settingsTitleSeperator.setBackground(new Color(13, 17, 21));
+            // Seperator
+            settingsTitleSeperator.setPreferredSize(
+                    new Dimension(settings_width * 2,
+                            2));
+            settingsTitleSeperator.setMaximumSize(settingsTitleSeperator
+                    .getPreferredSize());
+            settingsTitleSeperator.setForeground(new Color(13, 17, 21));
+            settingsTitleSeperator.setBackground(new Color(13, 17, 21));
 
 
 
-        // Center Panel
-        pnlSettingsCenter.setPreferredSize(new Dimension(settings_width,
-                settings_height * 2 + (title_size + 10)));
-        pnlSettingsCenter.add(Box.createHorizontalStrut(35));
+            // Center Panel
+            pnlSettingsCenter.setPreferredSize(new Dimension(settings_width,
+                    settings_height * 2 + (title_size + 10)));
+            pnlSettingsCenter.add(Box.createHorizontalStrut(35));
 
-        pnlSettingsCenterScroll.setPreferredSize(pnlSettingsCenter
-                .getPreferredSize());
+            pnlSettingsCenterScroll.setPreferredSize(pnlSettingsCenter
+                    .getPreferredSize());
 
-        settingsCenterScrollBar.setUI(settingsCenterScrollUI);
-        settingsCenterScrollBar.setPreferredSize(new Dimension(settings_width,
-                12));
-        settingsCenterScrollBar.setOpaque(false);
-        pnlSettingsCenterScroll.setHorizontalScrollBar(settingsCenterScrollBar);
-
-
-
-        // General Settings
-
-        buildGeneralSettings();
-
-        pnlSettingsCenter.add(pnlGeneralSettingsContainer);
-
-
-        // Add to content panel
-        // --------------------------------------------------------------------.
-
-        pnlSettingsContent.add(Box.createVerticalStrut(padding_top));
-        pnlSettingsContent.add(pnlSettingsTopScroll);
-        pnlSettingsContent.add(settingsTitleSeperator);
-        pnlSettingsContent.add(pnlSettingsCenterScroll);
-
-
-        pnlSettingsBG.add(pnlSettingsContent);
-
-
-        // Add Settings BG to Center Panel
-        // --------------------------------------------------------------------.
-        coreUI.getCenterPanel().add(BorderLayout.NORTH, Box.createVerticalStrut(
-                20));
-        coreUI.getCenterPanel().add(BorderLayout.CENTER, pnlSettingsBG);
-        coreUI.getCenterPanel().add(BorderLayout.SOUTH, Box.createVerticalStrut(
-                20));
-        coreUI.getCenterPanel().repaint();
+            settingsCenterScrollBar.setUI(settingsCenterScrollUI);
+            settingsCenterScrollBar.setPreferredSize(new Dimension(
+                    settings_width,
+                    12));
+            settingsCenterScrollBar.setOpaque(false);
+            pnlSettingsCenterScroll.setHorizontalScrollBar(
+                    settingsCenterScrollBar);
 
 
 
+            // General Settings
 
-        // Sorry image in case Settings is not ready
+            buildGeneralSettings();
+
+            pnlSettingsCenter.add(pnlGeneralSettingsContainer);
+
+
+            // Add to content panel
+            // --------------------------------------------------------------------.
+
+            pnlSettingsContent.add(Box.createVerticalStrut(padding_top));
+            pnlSettingsContent.add(pnlSettingsTopScroll);
+            pnlSettingsContent.add(settingsTitleSeperator);
+            pnlSettingsContent.add(pnlSettingsCenterScroll);
+
+
+            pnlSettingsBG.add(pnlSettingsContent);
+
+
+            // Bottom Panel
+            pnlSettingsStatusPane
+                    .setPreferredSize(new Dimension(
+                                    selectedGameBarWidth, selectedGameBarHeight));
+
+            pnlSettingsStatusPane.add(lblSettingsStatus);
+
+            lblSettingsStatus.setSize(new Dimension(lblSettingsStatus
+                    .getPreferredSize().width, lblSettingsStatus
+                    .getPreferredSize().height));
+            lblSettingsStatus.validate();
+
+            pnlSettingsStatusPane.validate();
+
+            pnlBottomCenterContainer.add(pnlSettingsStatusPane);
+
+
+
+            // Sorry image in case Settings is not ready
 //        sorry = new AImagePane("inDev.png");
 //        sorry.setPreferredSize(new Dimension(sorry.getRealImageWidth(), sorry
 //                .getRealImageHeight()));
 //        pnlSettingsContent.add(sorry);
+
+
+            isScreenLoaded = true;
+            addToCanvas();
+
+        } else {
+
+            addToCanvas();
+
+        }
     }
 
     @Override
     public void addToCanvas() {
+
+        coreUI.getTitleLabel().setText("    Settings   ");
+
+        // Handle the Handlers ;)
+        // ----------------------------------------------------------------.
+        addToVolatileListenerBank(coreUI.getBackgroundImagePane());
+        addToVolatileListenerBank(coreUI.getBottomPane());
+        addToVolatileListenerBank(coreUI.getCenterPanel());
+        addToVolatileListenerBank(coreUI.getSouthFromTopPanel());
+        addToVolatileListenerBank(coreUI.getFrameControlImagePane());
+        addToVolatileListenerBank(coreUI.getTopPane());
+
+
+        attactchHandlers();
+
+        // Add Settings BG to Center Panel
+        // --------------------------------------------------------------------.
+        coreUI.getCenterPanel().add(BorderLayout.NORTH, Box
+                .createVerticalStrut(
+                        20));
+        coreUI.getCenterPanel().add(BorderLayout.CENTER, pnlSettingsBG);
+        coreUI.getCenterPanel().add(BorderLayout.SOUTH, Box
+                .createVerticalStrut(
+                        20));
+        coreUI.getCenterPanel().repaint();
+
+
+        // Add Settings Status and Info Feed to Bottom Pane
+        // --------------------------------------------------------------------.
+
+        // Status
+        coreUI.getCenterFromBottomPanel().setLayout(new BorderLayout());
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.NORTH,
+                pnlBottomCenterContainer);
+
+
+        // Info Feed
+        getDashboardUI().getInfoFeed().setImageSize(getCoreUI()
+                .getScreenWidth() - 20, getDashboardUI().getInfoFeed()
+                .getImageHeight() - 5);
+        getDashboardUI().getInfoFeed()
+                .setPreferredSize(new Dimension(getDashboardUI().getInfoFeed()
+                                .getPreferredSize().width,
+                                getDashboardUI().getInfoFeed()
+                                .getImageHeight()));
+
+        coreUI.getBottomContentPane().setLayout(new BorderLayout());
+        coreUI.getBottomContentPane().setVisible(true);
+
+        coreUI.getBottomContentPane().add(Box.createVerticalStrut(4),
+                BorderLayout.NORTH);
+        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10),
+                BorderLayout.EAST);
+        coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer(),
+                BorderLayout.CENTER);
+        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10),
+                BorderLayout.WEST);
+        coreUI.getBottomContentPane().setPreferredSize(new Dimension(dashboardUI
+                .getInfoFeed().getImageWidth(), dashboardUI.getInfoFeed()
+                .getImageHeight()));
+
+        coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, coreUI
+                .getBottomContentPane());
+
+
     }
 
-    public DashboardUI getDashboardUI() {
-        return dashboardUI;
+    private void attactchHandlers() {
+
+        // Create Handlers
+        refreshAuroraDBHandler = settingsHandler.new RefreshAuroraDBHandler();
+
+        enableBackgroundGameSearchHandler = settingsHandler.new EnableBackgroundGameSearchHandler();
+        disableBackgroundGameSearchHandler = settingsHandler.new DisableBackgroundGameSearchHandler();
+
+        enableWASDNavigationHandler = settingsHandler.new EnableWASDNavigationHandler();
+        disableWASDNavigationHandler = settingsHandler.new DisableWASDNavigationHandler();
+
+        enableSoundEffectsHandler = settingsHandler.new EnableSoundEffectsHandler();
+        disableSoundEffectsHandler = settingsHandler.new DisableSoundEffectsHandler();
+
+
+        // Attach Handlers
+        btnUpdateAuroraDBSearch.addActionListener(refreshAuroraDBHandler);
+
+        rdbBackgroundGameSearch.setSelectedHandler(
+                enableBackgroundGameSearchHandler);
+        rdbBackgroundGameSearch.setUnSelectedHandler(
+                disableBackgroundGameSearchHandler);
+
+        rdbWASDNavigation.setSelectedHandler(enableWASDNavigationHandler);
+        rdbWASDNavigation.setUnSelectedHandler(disableWASDNavigationHandler);
+
+        rdbSoundEffects.setSelectedHandler(enableSoundEffectsHandler);
+        rdbSoundEffects.setUnSelectedHandler(disableSoundEffectsHandler);
+
+
     }
 
     public void setSize() {
@@ -535,13 +705,18 @@ public class SettingsUI extends AuroraApp {
 
             padding_top = 60;
             title_size = 60;
-
+            bottomTopPadding = 10;
 
         } else {
             padding_top = 40;
             title_size = 60;
+            bottomTopPadding = -5;
         }
 
+    }
+
+    @Override
+    public void closeApp() {
     }
 
     @Override
@@ -549,8 +724,24 @@ public class SettingsUI extends AuroraApp {
         return coreUI;
     }
 
-    @Override
-    public void closeApp() {
+    public DashboardUI getDashboardUI() {
+        return dashboardUI;
+    }
+
+    public ARadioButton getRdbSoundEffects() {
+        return rdbSoundEffects;
+    }
+
+    public ARadioButton getRdbWASDNavigation() {
+        return rdbWASDNavigation;
+    }
+
+    public AButton getBtnUpdateAuroraDBSearch() {
+        return btnUpdateAuroraDBSearch;
+    }
+
+    public ARadioButton getRdbBackgroundGameSearch() {
+        return rdbBackgroundGameSearch;
     }
 
 }

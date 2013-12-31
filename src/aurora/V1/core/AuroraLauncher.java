@@ -305,16 +305,16 @@ public class AuroraLauncher implements Runnable, MouseListener {
         //* Gracefull Resizing Based on Length of Game Name *//
         if (lblGameName.getText().length() > 50) {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                                                                   55));
+                                                                   50));
         } else if (lblGameName.getText().length() > 40) {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                                                                   65));
+                                                                   60));
         } else if (lblGameName.getText().length() > 30) {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                                                                   75));
+                                                                   70));
         } else {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                                                                   100));
+                                                                   90));
         }
         lblGameName.setForeground(new Color(103, 103, 103));
 

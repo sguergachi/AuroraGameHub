@@ -24,31 +24,23 @@ import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.WelcomeUI;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
-import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.AImage;
-import aurora.engine.V1.UI.AImagePane;
-import aurora.engine.V1.UI.AProgressWheel;
+import aurora.engine.V1.UI.APrompter;
 import aurora.engine.V1.UI.AScrollingImage;
-import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-//import java.util.logging.Level;
-//import java.util.logging.Logger;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JPanel;
-
+import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -84,6 +76,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
     static final Logger logger = Logger.getLogger(WelcomeLogic.class);
 
     private int frameControlHeight;
+    private AFileManager fileIO;
 
     public WelcomeLogic(WelcomeUI aStartScreenUI) {
 
@@ -110,19 +103,6 @@ public class WelcomeLogic implements AuroraScreenLogic {
 
     }
 
-    public void startBackgroundMusic() {
-//        try {
-//            coreUI.getBackgroundSound().Play();
-//        } catch (UnsupportedAudioFileException ex) {
-//            logger.error(ex);
-//        } catch (IOException ex) {
-//            logger.error(ex);
-//        } catch (LineUnavailableException ex) {
-//            logger.error(ex);
-//        } catch (InterruptedException ex) {
-//            logger.error(ex);
-//        }
-    }
 
     public void transisionToDashboard() {
 
@@ -172,9 +152,9 @@ public class WelcomeLogic implements AuroraScreenLogic {
                             topHeight - 50));
                     coreUI.getCenterPanel()
                             .setPreferredSize(new Dimension(coreUI
-                            .getCenterPanel()
-                            .getWidth(),
-                            centerHeight));
+                                            .getCenterPanel()
+                                            .getWidth(),
+                                            centerHeight));
 
 
 
@@ -261,7 +241,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
     public static boolean checkOnline(String URL) {
         final URL url;
         try {
-            url = new URL( URL);
+            url = new URL(URL);
             try {
 
                 final URLConnection conn = url.openConnection();
@@ -300,7 +280,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
 
         String launches = startScreenUI.getAuroraStorage().getStoredSettings()
                 .getSettingValue(
-                "launch");
+                        "launch");
 
         if (launches == null || launches.equals("null")) {
             startScreenUI.getAuroraStorage().getStoredSettings().saveSetting(
@@ -315,6 +295,70 @@ public class WelcomeLogic implements AuroraScreenLogic {
         }
 
         logger.info("Number of Launches: " + main.LAUNCHES);
+
+    }
+
+    public void moveAuroraDB(APrompter promptDisplay) {
+        logger.info("Moving AuroraDB to AuroraData folder...");
+
+        String installPath = WelcomeUI.class.getProtectionDomain()
+                .getCodeSource().getLocation().getPath().replaceFirst(
+                        "AuroraGameHub.jar", "").replaceAll("%20", " ");
+        String auroraDbPath = installPath + "/lib/AuroraDB.h2.db";
+
+        logger.info(" >>> auroraDB Path " + auroraDbPath);
+        logger.info(" >>> installPath Path " + installPath);
+
+        if (!fileIO.checkFile(fileIO
+                .getPath() + "AuroraDB.h2.db")
+            || fileIO.checkFile(installPath + "/updateDB")) {
+
+            if (fileIO.checkFile(installPath + "/updateDB")) {
+                try {
+                    fileIO.deleteFile(new File(installPath + "/updateDB"));
+                } catch (IOException ex) {
+                    java.util.logging.Logger
+                            .getLogger(WelcomeUI.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            }
+
+            if (fileIO.checkFile(auroraDbPath)) {
+                try {
+                    fileIO.copyFile(new File(auroraDbPath), new File(fileIO
+                            .getPath() + "AuroraDB.h2.db"));
+                } catch (IOException ex) {
+                    java.util.logging.Logger
+                            .getLogger(WelcomeUI.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            } else {
+                logger.info("Did Not Move AuroraDB to AuroraData");
+                promptDisplay
+                        .add("Downloading AuroraCoverDB...", new Color(0, 191,
+                                        255));
+
+                downloadAuroraDB();
+
+            }
+        }
+    }
+
+    public Boolean downloadAuroraDB() {
+        logger.info("Downloading AuroraDB...");
+        try {
+            fileIO.downloadFile(new URL(
+                    "http://s3.amazonaws.com/AuroraStorage/AuroraDB.h2.db"),
+                    new File(fileIO.getPath() + "/AuroraDB.h2.db"));
+
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(WelcomeUI.class.getName()).
+                    log(Level.SEVERE, null, ex);
+            logger.info("Un-Sucessful Download!");
+            return false;
+        }
+        logger.info("Successful Download");
+        return true;
 
     }
 
@@ -338,5 +382,9 @@ public class WelcomeLogic implements AuroraScreenLogic {
         }
 
 
+    }
+
+    public void setFileIO(AFileManager fileIO) {
+        this.fileIO = fileIO;
     }
 }

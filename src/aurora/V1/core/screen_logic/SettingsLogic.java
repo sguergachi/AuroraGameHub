@@ -15,19 +15,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package aurora.V1.core.screen_logic;
 
+import aurora.V1.core.screen_ui.SettingsUI;
+import aurora.engine.V1.Logic.AuroraScreenHandler;
+import aurora.engine.V1.Logic.AuroraScreenLogic;
 import org.apache.log4j.Logger;
-
-import aurora.V1.core.main;
 
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class SettingsLogic {
-	
-	static final Logger logger = Logger.getLogger(SettingsLogic.class);
+public class SettingsLogic implements AuroraScreenLogic {
+
+    static final Logger logger = Logger.getLogger(SettingsLogic.class);
+
+    public SettingsLogic(SettingsUI aThis) {
+    }
+
+    @Override
+    public void setHandler(AuroraScreenHandler handler) {
+    }
 
 }
