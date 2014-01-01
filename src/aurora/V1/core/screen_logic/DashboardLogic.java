@@ -522,7 +522,8 @@ public class DashboardLogic implements AuroraScreenLogic {
                         dashboardUI.getCoreUI());
                 profileUI.loadUI();
 
-                settingsUI = new SettingsUI(dashboardUI,
+                settingsUI = new SettingsUI(dashboardUI
+                        .getStartUI().getAuroraStorage(),dashboardUI,
                         dashboardUI.getCoreUI());
 
                 settingsUI.loadUI();

@@ -30,6 +30,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 /**
@@ -60,8 +61,6 @@ public class main {
             startMini = false;
         }
 
-
-
         if (Double.parseDouble(System.getProperty("java.version")
                 .substring(2, 3)) >= 7
             && Integer.parseInt(System.getProperty("java.version").substring(6,
@@ -86,13 +85,13 @@ public class main {
             }
             err = new ADialog(ADialog.aDIALOG_ERROR,
                     "Latest Version of Java 7 is Required   ", FontRegular
-                    .deriveFont(Font.BOLD, 25),new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.exit(0);
+                    .deriveFont(Font.BOLD, 25), new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            System.exit(0);
 
-                }
-            });
+                        }
+                    });
             err.setVisible(true);
 
             logger.info("Running Java Version: " + System.getProperty(
@@ -102,22 +101,6 @@ public class main {
 
         }
 
-
-
     }
 
-    private static void setLAF() {
-
-
-        try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
-        }
-    }
 }

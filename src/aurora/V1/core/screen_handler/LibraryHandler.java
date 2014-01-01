@@ -2135,10 +2135,15 @@ public class LibraryHandler implements
         private JPanel GameBack;
 
         private final AuroraCoreUI coreUI;
+        
+       // private final StoredSettings storage;
+        
+        private AuroraStorage storage;
 
         public GameLibraryKeyListener() {
             this.coreUI = libraryUI.getCoreUI();
             GameBack = libraryUI.getGamesContainer();
+            storage = libraryUI.getStorage();
         }
 
         @Override
@@ -2179,8 +2184,10 @@ public class LibraryHandler implements
             Game game = null;
 
             boolean selectedGameFound = false;
+            
+            String wasdNavSetting = storage.getStoredSettings().getSettingValue("wasd_navigation");
 
-            if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode()
+            if ((e.getKeyCode() == KeyEvent.VK_W && wasdNavSetting.equals("enabled"))|| e.getKeyCode()
                                                    == KeyEvent.VK_UP) {
 
                 int i = 0;
@@ -2246,7 +2253,7 @@ public class LibraryHandler implements
                 }
 
                 //>>> MOVE DOWN
-            } else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode()
+            } else if ((e.getKeyCode() == KeyEvent.VK_S && wasdNavSetting.equals("enabled")) || e.getKeyCode()
                                                           == KeyEvent.VK_DOWN) {
 
                 int i = 0;
@@ -2314,7 +2321,7 @@ public class LibraryHandler implements
                 }
 
                 //>>> MOVE LEFT
-            } else if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode()
+            } else if ((e.getKeyCode() == KeyEvent.VK_A && wasdNavSetting.equals("enabled")) || e.getKeyCode()
                                                           == KeyEvent.VK_LEFT) {
 
                 if (logger.isDebugEnabled()) {
@@ -2418,7 +2425,7 @@ public class LibraryHandler implements
                 }
 
                 // >>> MOVE RIGHT
-            } else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode()
+            } else if ((e.getKeyCode() == KeyEvent.VK_D && wasdNavSetting.equals("enabled")) || e.getKeyCode()
                                                           == KeyEvent.VK_RIGHT) {
                 if (logger.isDebugEnabled()) {
                     logger.debug("D key pressed");
