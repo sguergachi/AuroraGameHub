@@ -60,12 +60,10 @@ public class SettingsUI extends AuroraApp {
     private final DashboardUI dashboardUI;
 
     private final AuroraCoreUI coreUI;
-    
+
     private AuroraStorage storage;
 
     static final Logger logger = Logger.getLogger(SettingsUI.class);
-
-    private AImagePane sorry;
 
     private JPanel pnlSettingsContent;
 
@@ -579,13 +577,6 @@ public class SettingsUI extends AuroraApp {
 
             pnlBottomCenterContainer.add(pnlSettingsStatusPane);
 
-
-
-            // Sorry image in case Settings is not ready
-//        sorry = new AImagePane("inDev.png");
-//        sorry.setPreferredSize(new Dimension(sorry.getRealImageWidth(), sorry
-//                .getRealImageHeight()));
-//        pnlSettingsContent.add(sorry);
 
 
             isScreenLoaded = true;
