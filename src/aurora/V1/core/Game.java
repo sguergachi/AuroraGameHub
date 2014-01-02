@@ -1234,11 +1234,18 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
 
             if (isLoaded) {
+            	
+            	AuroraStorage storage = dashboardUI.getStorage();
+            	final String soundEffectsSetting = storage.getStoredSettings().getSettingValue("sound_effects");
+            	
                 if (!isFliped) { // Flip Game
 
                     // Sound FX
-                    ASound flipSFX = new ASound("tick_3.wav", false);
-                    flipSFX.Play();
+                	                	
+                	if (soundEffectsSetting.equals("enabled")) {
+                		ASound flipSFX = new ASound("tick_3.wav", false);
+                        flipSFX.Play();	
+                	}
 
                     // Replace Game Cover art with Fliped image //
                     tempGame = thisGame();
@@ -1269,8 +1276,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                 } else { // Un-flip game
 
-                    ASound flipSFX = new ASound("tick_4.wav", false);
-                    flipSFX.Play();
+                	if (soundEffectsSetting.equals("enabled")) {
+                		ASound flipSFX = new ASound("tick_4.wav", false);
+                        flipSFX.Play();	
+                	}
 
                     // replace with
                     thisGame().clearImage();

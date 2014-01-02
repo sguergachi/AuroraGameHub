@@ -666,6 +666,10 @@ public class SettingsUI extends AuroraApp {
 
 
     }
+    
+    private void checkSettingsValues() {
+    	
+    }
 
     private void attactchHandlers() {
 

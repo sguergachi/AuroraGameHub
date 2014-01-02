@@ -2136,8 +2136,6 @@ public class LibraryHandler implements
 
         private final AuroraCoreUI coreUI;
         
-       // private final StoredSettings storage;
-        
         private AuroraStorage storage;
 
         public GameLibraryKeyListener() {
