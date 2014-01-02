@@ -623,6 +623,7 @@ public class SettingsUI extends AuroraApp {
 
         // Status
         coreUI.getCenterFromBottomPanel().setLayout(new BorderLayout());
+
         coreUI.getCenterFromBottomPanel().add(BorderLayout.NORTH,
                 pnlBottomCenterContainer);
 
@@ -657,9 +658,9 @@ public class SettingsUI extends AuroraApp {
 
 
     }
-    
+
     private void checkSettingsValues() {
-    	
+
     }
 
     private void attactchHandlers() {
@@ -709,7 +710,7 @@ public class SettingsUI extends AuroraApp {
         } else {
             padding_top = 40;
             title_size = 60;
-            bottomTopPadding = -5;
+            bottomTopPadding = 5;
         }
 
     }
