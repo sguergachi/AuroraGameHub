@@ -18,6 +18,7 @@
 package aurora.V1.core;
 
 import aurora.V1.core.screen_logic.LibraryLogic;
+import aurora.V1.core.screen_logic.SettingsLogic;
 import aurora.V1.core.screen_logic.WelcomeLogic;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
@@ -389,7 +390,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         imgOverlayBar = new AImagePane("game_overlay.png", width - 30, 55);
         imgOverlayBar.setOpaque(false);
         imgOverlayBar.setPreferredSize(new Dimension(width - 30, 55));
-        imgOverlayBar.setLayout(new BorderLayout(0,0));
+        imgOverlayBar.setLayout(new BorderLayout(0, 0));
         imgOverlayBar.setBackground(Color.blue);
 
         // The Panel that Contains the Actuall Components //
@@ -802,7 +803,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      * | disableEditCoverOverlay();
      * .-----------------------------------------------------------------------.
      * |
-     * | disables the ability to add a custom cover art image to game by clicking
+     * | disables the ability to add a custom cover art image to game by
+     * clicking
      * | on the game.
      * |
      * .........................................................................
@@ -1234,18 +1236,22 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
 
             if (isLoaded) {
-            	
-            	AuroraStorage storage = dashboardUI.getStorage();
-            	final String soundEffectsSetting = storage.getStoredSettings().getSettingValue("sound_effects");
-            	
+
+                AuroraStorage storage = dashboardUI.getStorage();
+                String soundEffectsSetting = storage.getStoredSettings()
+                        .getSettingValue("sound_effects");
+                if (soundEffectsSetting == null) {
+                    soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
+                }
+
                 if (!isFliped) { // Flip Game
 
                     // Sound FX
-                	                	
-                	if (soundEffectsSetting.equals("enabled")) {
-                		ASound flipSFX = new ASound("tick_3.wav", false);
-                        flipSFX.Play();	
-                	}
+
+                    if (soundEffectsSetting.equals("enabled")) {
+                        ASound flipSFX = new ASound("tick_3.wav", false);
+                        flipSFX.Play();
+                    }
 
                     // Replace Game Cover art with Fliped image //
                     tempGame = thisGame();
@@ -1276,10 +1282,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                 } else { // Un-flip game
 
-                	if (soundEffectsSetting.equals("enabled")) {
-                		ASound flipSFX = new ASound("tick_4.wav", false);
-                        flipSFX.Play();	
-                	}
+                    if (soundEffectsSetting.equals("enabled")) {
+                        ASound flipSFX = new ASound("tick_4.wav", false);
+                        flipSFX.Play();
+                    }
 
                     // replace with
                     thisGame().clearImage();

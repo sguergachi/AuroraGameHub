@@ -38,8 +38,11 @@ public class SettingsHandler implements AuroraScreenHandler {
 
     private SettingsUI settingsUI;
 
+    private final StoredSettings storage;
+
     public SettingsHandler(SettingsUI aThis) {
         this.settingsUI = aThis;
+        storage = settingsUI.getDashboardUI().getStorage().getStoredSettings();
     }
 
     @Override
@@ -107,6 +110,7 @@ public class SettingsHandler implements AuroraScreenHandler {
 
     }
 
+    //-------------------- Background Game Search ---------------------------//
     public class EnableBackgroundGameSearchHandler implements ActionListener {
 
         @Override
@@ -119,8 +123,7 @@ public class SettingsHandler implements AuroraScreenHandler {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                	StoredSettings storage = settingsUI.getDashboardUI().getStorage().getStoredSettings();
-                	storage.saveSetting("background_game_search", "enabled");
+                    storage.saveSetting("background_game_search", "enabled");
 
                     SettingsUI.lblSettingsStatus.setForeground(Color.GREEN);
                     SettingsUI.lblSettingsStatus.setText(
@@ -164,8 +167,8 @@ public class SettingsHandler implements AuroraScreenHandler {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                	StoredSettings storage = settingsUI.getDashboardUI().getStorage().getStoredSettings();
-                	storage.saveSetting("background_game_search", "disabled");
+
+                    storage.saveSetting("background_game_search", "disabled");
 
                     SettingsUI.lblSettingsStatus.setForeground(Color.red);
                     SettingsUI.lblSettingsStatus.setText(
@@ -196,8 +199,9 @@ public class SettingsHandler implements AuroraScreenHandler {
 
         }
 
-    }
+    } // End Background game search
 
+    //----------------------- WASD Navigation --------------------------//
     public class EnableWASDNavigationHandler implements ActionListener {
 
         @Override
@@ -206,10 +210,9 @@ public class SettingsHandler implements AuroraScreenHandler {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                	
-                	StoredSettings storage = settingsUI.getDashboardUI().getStorage().getStoredSettings();
-                	storage.saveSetting("wasd_navigation", "enabled");
-                	
+
+                    storage.saveSetting("wasd_navigation", "enabled");
+
                     SettingsUI.lblSettingsStatus.setForeground(Color.GREEN);
                     SettingsUI.lblSettingsStatus.setText(
                             "WASD Navigation Enabled");
@@ -249,9 +252,8 @@ public class SettingsHandler implements AuroraScreenHandler {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                	
-                	StoredSettings storage = settingsUI.getDashboardUI().getStorage().getStoredSettings();
-                	storage.saveSetting("wasd_navigation", "disabled");
+
+                    storage.saveSetting("wasd_navigation", "disabled");
 
                     SettingsUI.lblSettingsStatus.setForeground(Color.red);
                     SettingsUI.lblSettingsStatus.setText(
@@ -282,8 +284,9 @@ public class SettingsHandler implements AuroraScreenHandler {
 
         }
 
-    }
+    } // End WASD Nav
 
+    //------------------------- Sound Effects -----------------------//
     public class EnableSoundEffectsHandler implements ActionListener {
 
         @Override
@@ -293,8 +296,7 @@ public class SettingsHandler implements AuroraScreenHandler {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                	StoredSettings storage = settingsUI.getDashboardUI().getStorage().getStoredSettings();
-                	storage.saveSetting("sound_effects", "enabled");
+                    storage.saveSetting("sound_effects", "enabled");
 
                     SettingsUI.lblSettingsStatus.setForeground(Color.green);
                     SettingsUI.lblSettingsStatus.setText(
@@ -335,8 +337,7 @@ public class SettingsHandler implements AuroraScreenHandler {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                	StoredSettings storage = settingsUI.getDashboardUI().getStorage().getStoredSettings();
-                	storage.saveSetting("sound_effects", "disabled");
+                    storage.saveSetting("sound_effects", "disabled");
 
                     SettingsUI.lblSettingsStatus.setForeground(Color.red);
                     SettingsUI.lblSettingsStatus.setText(
@@ -367,6 +368,6 @@ public class SettingsHandler implements AuroraScreenHandler {
             worker.startOnce();
         }
 
-    }
+    } // End Sound Effects
 
 }

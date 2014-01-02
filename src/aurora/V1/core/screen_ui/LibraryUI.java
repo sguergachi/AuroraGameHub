@@ -23,7 +23,6 @@ import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.Game;
 import aurora.V1.core.GridAnimation;
 import aurora.V1.core.GridManager;
-import aurora.V1.core.StoredSettings;
 import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.LibraryHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.GameLibraryKeyListener;
@@ -33,6 +32,7 @@ import aurora.V1.core.screen_handler.LibraryHandler.SearchBoxHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.SearchFocusHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.ShowAddGameUIHandler;
 import aurora.V1.core.screen_logic.LibraryLogic;
+import aurora.V1.core.screen_logic.SettingsLogic;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.AFileDrop;
 import aurora.engine.V1.Logic.AFileManager;
@@ -939,29 +939,35 @@ public class LibraryUI extends AuroraApp {
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                    	
-                    	AuroraStorage aStorage = dashboardUI.getStorage();
-                    	final String backgroundGameSearch = aStorage.getStoredSettings().getSettingValue("background_game_search");
 
-                    	if (backgroundGameSearch.equals("enabled")) {
+                        AuroraStorage aStorage = dashboardUI.getStorage();
+                        String backgroundGameSearch = aStorage
+                        .getStoredSettings().getSettingValue(
+                                "background_game_search");
+                        if (backgroundGameSearch == null) {
+                            backgroundGameSearch = SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING;
+                        }
 
-                    		// Idle wait before starting
-                    		try {
-                    			Thread.sleep(IDLE_TIME_TO_WAIT);
-                    		} catch (InterruptedException ex) {
-                    			java.util.logging.Logger.getLogger(LibraryUI.class
-                    					.getName())
-                    					.log(Level.SEVERE, null, ex);
-                    		}
+                        if (backgroundGameSearch.equals("enabled")) {
 
-                    		// Pre build Add game UI
-                    		buildAddGameUI();
+                            // Idle wait before starting
+                            try {
+                                Thread.sleep(IDLE_TIME_TO_WAIT);
+                            } catch (InterruptedException ex) {
+                                java.util.logging.Logger.getLogger(
+                                        LibraryUI.class
+                                        .getName())
+                                .log(Level.SEVERE, null, ex);
+                            }
 
-                    		if (!libraryLogic.isIsAutoLoadedOnce()) {
-                    			libraryLogic.setNeedAutoAddRefresh(true);
-                    			libraryLogic.autoFindGames();
-                    		}
-                    	}		
+                            // Pre build Add game UI
+                            buildAddGameUI();
+
+                            if (!libraryLogic.isIsAutoLoadedOnce()) {
+                                libraryLogic.setNeedAutoAddRefresh(true);
+                                libraryLogic.autoFindGames();
+                            }
+                        }
                     }
                 });
 
@@ -2880,15 +2886,19 @@ public class LibraryUI extends AuroraApp {
     }
 
     public void showOrganizeUI() {
-    	
-    	AuroraStorage storage = dashboardUI.getStorage();
-    	final String soundEffectsSetting = storage.getStoredSettings().getSettingValue("sound_effects");
 
-    	if (soundEffectsSetting.equals("enabled")) {
-    		ASound organizeSFX = new ASound("tick_2.wav", false);
-            organizeSFX.Play();	
-    	}
-        
+        AuroraStorage storage = dashboardUI.getStorage();
+        String soundEffectsSetting = storage.getStoredSettings()
+                .getSettingValue("sound_effects");
+        if (soundEffectsSetting == null) {
+            soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
+        }
+
+        if (soundEffectsSetting.equals("enabled")) {
+            ASound organizeSFX = new ASound("tick_2.wav", false);
+            organizeSFX.Play();
+        }
+
         // States //
         if (!btnTop.isSelected && !btnMiddle.isSelected && !btnBottom.isSelected) {
             String value = storage.getStoredSettings().getSettingValue(
@@ -2938,15 +2948,19 @@ public class LibraryUI extends AuroraApp {
             pnlGlass.setVisible(true);
 
             addGameAnimator = new AAnimate(pnlAddGamePane);
-            
-            AuroraStorage aStorage = dashboardUI.getStorage();
-        	final String soundEffectsSetting = aStorage.getStoredSettings().getSettingValue("sound_effects");
 
-        	if (soundEffectsSetting.equals("enabled")) {
-        		int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
+            AuroraStorage aStorage = dashboardUI.getStorage();
+            String soundEffectsSetting = aStorage.getStoredSettings()
+                    .getSettingValue("sound_effects");
+            if (soundEffectsSetting == null) {
+                soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
+            }
+
+            if (soundEffectsSetting.equals("enabled")) {
+                int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
                 ASound showSound = new ASound("swoop_" + num + ".wav", false);
-                showSound.Play();	
-        	}
+                showSound.Play();
+            }
 
             AThreadWorker addGameWorker = new AThreadWorker(
                     new ActionListener() {
@@ -3015,17 +3029,22 @@ public class LibraryUI extends AuroraApp {
             }
 
             getAddGameToLibButton().setVisible(false);
-            
+
             AuroraStorage storage = dashboardUI.getStorage();
-        	final String soundEffectsSetting = storage.getStoredSettings().getSettingValue("sound_effects");
+            String soundEffectsSetting = storage.getStoredSettings()
+                    .getSettingValue("sound_effects");
+            if (soundEffectsSetting == null) {
+                soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
+            }
 
             int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
-            
+
             if (soundEffectsSetting.equals("enabled")) {
-            	 ASound showSound = new ASound("reverse_swoop_" + num + ".wav", false);
-                 showSound.Play();	
+                ASound showSound = new ASound("reverse_swoop_" + num + ".wav",
+                        false);
+                showSound.Play();
             }
-           
+
             //* Animate Up Add Game UI *//
             addGameAnimator.moveVertical(-492, 35);
             addGameAnimator.addPostAnimationListener(new APostHandler() {
@@ -3083,17 +3102,21 @@ public class LibraryUI extends AuroraApp {
             editGameUI_Visible = true;
 
             editGameAnimator = new AAnimate(pnlEditGamePane);
-            
+
             AuroraStorage storage = dashboardUI.getStorage();
-        	final String soundEffectsSetting = storage.getStoredSettings().getSettingValue("sound_effects");
+            String soundEffectsSetting = storage.getStoredSettings()
+                    .getSettingValue("sound_effects");
+            if (soundEffectsSetting == null) {
+                soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
+            }
 
-        	if (soundEffectsSetting.equals("enabled")) {
-        		int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
+            if (soundEffectsSetting.equals("enabled")) {
+                int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
                 ASound showSound = new ASound("swoop_" + num + ".wav", false);
-                showSound.Play();	
-        	}
+                showSound.Play();
+            }
 
-        	AThreadWorker editGameWorker = new AThreadWorker(
+            AThreadWorker editGameWorker = new AThreadWorker(
                     new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -3137,15 +3160,19 @@ public class LibraryUI extends AuroraApp {
         editGameCoverFrameAnimator = new AAnimate();
         editGameCoverAnimator = new AAnimate(
                 frameEditGameCoverPane);
-        
-        AuroraStorage storage = dashboardUI.getStorage();
-    	final String soundEffectsSetting = storage.getStoredSettings().getSettingValue("sound_effects");
 
-    	if (soundEffectsSetting.equals("enabled")) {
-    		int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
+        AuroraStorage storage = dashboardUI.getStorage();
+        String soundEffectsSetting = storage.getStoredSettings()
+                .getSettingValue("sound_effects");
+        if (soundEffectsSetting == null) {
+            soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
+        }
+
+        if (soundEffectsSetting.equals("enabled")) {
+            int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
             ASound showSound = new ASound("swoop_" + num + ".wav", false);
-            showSound.Play();	
-    	}
+            showSound.Play();
+        }
 
         AThreadWorker editGameCoverWorker = new AThreadWorker(
                 new ActionListener() {
@@ -3294,16 +3321,21 @@ public class LibraryUI extends AuroraApp {
         if (editGameUI_Visible == true) {
 
             editGameUI_Visible = false;
-            
+
             AuroraStorage storage = dashboardUI.getStorage();
-        	final String soundEffectsSetting = storage.getStoredSettings().getSettingValue("sound_effects");
+            String soundEffectsSetting = storage.getStoredSettings()
+                    .getSettingValue("sound_effects");
+            if (soundEffectsSetting == null) {
+                soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
+            }
 
             if (soundEffectsSetting.equals("enabled")) {
-            	int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
-            	ASound showSound = new ASound("reverse_swoop_" + num + ".wav", false);
-                showSound.Play();	
+                int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
+                ASound showSound = new ASound("reverse_swoop_" + num + ".wav",
+                        false);
+                showSound.Play();
             }
-           
+
             //* Animate Up Add Game UI *//
             editGameAnimator.moveVertical(-492, 35);
             editGameAnimator.addPostAnimationListener(new APostHandler() {
@@ -3937,7 +3969,7 @@ public class LibraryUI extends AuroraApp {
     }
 
     public int getCurrentIndex() {
-        
+
         if (updatedCurrentIndex == -1) {
             currentIndex = GridSplit.getArray()
                     .indexOf(pnlLibraryContainer.getComponent(1));

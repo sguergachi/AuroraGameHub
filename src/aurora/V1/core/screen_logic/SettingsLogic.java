@@ -30,6 +30,12 @@ public class SettingsLogic implements AuroraScreenLogic {
 
     static final Logger logger = Logger.getLogger(SettingsLogic.class);
 
+    public static String DEFAULT_SFX_SETTING = "enabled";
+
+    public static String DEFAULT_BACKGROUND_SEARCH_SETTING = "enabled";
+
+    public static String DEFAULT_WASD_NAV_SETTING = "disabled";
+
     public SettingsLogic(SettingsUI aThis) {
     }
 
