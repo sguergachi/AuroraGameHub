@@ -709,7 +709,7 @@ public class SettingsUI extends AuroraApp {
         } else {
             padding_top = 40;
             title_size = 60;
-            bottomTopPadding = -5;
+            bottomTopPadding = 5;
         }
 
     }
