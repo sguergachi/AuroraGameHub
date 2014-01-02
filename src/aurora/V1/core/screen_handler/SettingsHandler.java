@@ -23,8 +23,6 @@ import aurora.V1.core.screen_ui.SettingsUI;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
-import aurora.engine.V1.UI.ASlickLabel;
-
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -201,7 +199,6 @@ public class SettingsHandler implements AuroraScreenHandler {
     }
 
     public class EnableWASDNavigationHandler implements ActionListener {
-    	  	
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -244,7 +241,7 @@ public class SettingsHandler implements AuroraScreenHandler {
     }
 
     public class DisableWASDNavigationHandler implements ActionListener {
-    	
+
         @Override
         public void actionPerformed(ActionEvent e) {
 

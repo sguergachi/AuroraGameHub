@@ -3937,6 +3937,7 @@ public class LibraryUI extends AuroraApp {
     }
 
     public int getCurrentIndex() {
+        
         if (updatedCurrentIndex == -1) {
             currentIndex = GridSplit.getArray()
                     .indexOf(pnlLibraryContainer.getComponent(1));
