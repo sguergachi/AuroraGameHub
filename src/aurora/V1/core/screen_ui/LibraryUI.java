@@ -3492,6 +3492,9 @@ public class LibraryUI extends AuroraApp {
         if (isEditGameUI_Visible()) {
             hideEditGameUI();
         }
+
+        GridSplit.unFlipAll();
+        GridSplit.unselectPrevious();
     }
 
     public boolean isEditGameUI_Visible() {

@@ -1224,11 +1224,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     public class FlipButtonListener implements ActionListener {
 
-        private Game tempGame;
-
-        public FlipButtonListener() {
-        }
-
         @Override
         public void actionPerformed(ActionEvent e) {
             if (logger.isDebugEnabled()) {
@@ -1237,75 +1232,85 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             if (isLoaded) {
 
-                AuroraStorage storage = dashboardUI.getStorage();
-                String soundEffectsSetting = storage.getStoredSettings()
-                        .getSettingValue("sound_effects");
-                if (soundEffectsSetting == null) {
-                    soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
-                }
+                flip();
 
-                if (!isFliped) { // Flip Game
 
-                    // Sound FX
-
-                    if (soundEffectsSetting.equals("enabled")) {
-                        ASound flipSFX = new ASound("tick_3.wav", false);
-                        flipSFX.Play();
-                    }
-
-                    // Replace Game Cover art with Fliped image //
-                    tempGame = thisGame();
-
-                    thisGame().clearImage();
-                    thisGame().setImage("Reverse-Case.png", height, width);
-
-                    btnFlip.setButtonStates("game_btn_reverseLeft_norm.png",
-                            "game_btn_reverseLeft_down.png",
-                            "game_btn_reverseLeft_over.png");
-
-                    pnlOverlayContainer.removeAll();
-                    pnlOverlayContainer.validate();
-
-                    pnlOverlayContainer.add(pnlAwardPane);
-                    pnlOverlayContainer.add(btnSetting);
-                    pnlOverlayContainer.add(pnlFlipPane);
-                    pnlOverlayContainer.revalidate();
-
-                    if (isFlipUIReady) {
-                        flipGame();
-                    } else {
-                        setUpFlipedUI();
-                    }
-
-                    thisGame().revalidate();
-                    isFliped = true;
-
-                } else { // Un-flip game
-
-                    if (soundEffectsSetting.equals("enabled")) {
-                        ASound flipSFX = new ASound("tick_4.wav", false);
-                        flipSFX.Play();
-                    }
-
-                    // replace with
-                    thisGame().clearImage();
-                    thisGame().setImage(tempGame.getCoverImagePane()
-                            .getImgIcon(),
-                            height, width);
-                    btnFlip.setButtonStates("game_btn_reverseRight_norm.png",
-                            "game_btn_reverseRight_down.png",
-                            "game_btn_reverseRight_over.png");
-
-                    // reset to normal overlay UI //
-                    reAddInteractive();
-                    showOverlayUI();
-
-                    thisGame().revalidate();
-                    isFliped = false;
-                }
             }
         }
     }
+
+    private Game tempGame;
+
+    public void flip() {
+
+        AuroraStorage storage = dashboardUI.getStorage();
+        String soundEffectsSetting = storage.getStoredSettings()
+                .getSettingValue("sound_effects");
+        if (soundEffectsSetting == null) {
+            soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
+        }
+
+        if (!isFliped) { // Flip Game
+
+            // Sound FX
+
+            if (soundEffectsSetting.equals("enabled")) {
+                ASound flipSFX = new ASound("tick_3.wav", false);
+                flipSFX.Play();
+            }
+
+            // Replace Game Cover art with Fliped image //
+            tempGame = thisGame();
+
+            thisGame().clearImage();
+            thisGame().setImage("Reverse-Case.png", height, width);
+
+            btnFlip.setButtonStates("game_btn_reverseLeft_norm.png",
+                    "game_btn_reverseLeft_down.png",
+                    "game_btn_reverseLeft_over.png");
+
+            pnlOverlayContainer.removeAll();
+            pnlOverlayContainer.validate();
+
+            pnlOverlayContainer.add(pnlAwardPane);
+            pnlOverlayContainer.add(btnSetting);
+            pnlOverlayContainer.add(pnlFlipPane);
+            pnlOverlayContainer.revalidate();
+
+            if (isFlipUIReady) {
+                flipGame();
+            } else {
+                setUpFlipedUI();
+            }
+
+            thisGame().revalidate();
+            isFliped = true;
+
+        } else { // Un-flip game
+
+            if (soundEffectsSetting.equals("enabled")) {
+                ASound flipSFX = new ASound("tick_4.wav", false);
+                flipSFX.Play();
+            }
+
+            // replace with
+            thisGame().clearImage();
+            thisGame().setImage(tempGame.getCoverImagePane()
+                    .getImgIcon(),
+                    height, width);
+            btnFlip.setButtonStates("game_btn_reverseRight_norm.png",
+                    "game_btn_reverseRight_down.png",
+                    "game_btn_reverseRight_over.png");
+
+            // reset to normal overlay UI //
+            reAddInteractive();
+            showOverlayUI();
+
+            thisGame().revalidate();
+            isFliped = false;
+        }
+    }
+
     private int textBoxWidth;
 
     private int textBoxHeight;
@@ -1684,7 +1689,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      * .........................................................................
      * <p/>
      */
-    public void flipGame() {
+    private void flipGame() {
 
         topPanel.removeAll();
         topPanel.revalidate();
@@ -2247,6 +2252,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     public final AImagePane getGameBar() {
         return imgOverlayBar;
+    }
+
+    public boolean isFliped() {
+        return isFliped;
     }
 
     public final boolean isSelected() {

@@ -292,6 +292,24 @@ public class GridManager {
     }
 
     /**
+     * check if any other cover was setSelected and sets it to setUnselected
+     */
+    public void unFlipAll() {
+        for (int i = 0; i < Grids.size(); i++) {
+            for (int j = 0; j < Grids.get(i).getArray().size(); j++) {
+                if (!(Grids.get(i).getArray().get(j) instanceof GamePlaceholder)) {
+                    Game game = (Game) Grids.get(i).getArray().get(j);
+                    if (game.isFliped()) {
+                        game.flip();
+                        game.revalidate();
+                    }
+                }
+            }
+
+        }
+    }
+
+    /**
      * attempts to remove everything in grid.
      * <p/>
      */
