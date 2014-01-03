@@ -4,7 +4,7 @@
         ====================================================
 
 ////////////////////////////////////////////------------------------------------
-// Aurora_Alpha 9  Build:827  Date:1/3/2014  || Sammy Guergachi
+// Aurora_Alpha 9  Build:827  Date:1/3/2014  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------
 
 + Added ability to edit/add a custom image as cover art for games!
@@ -24,6 +24,7 @@
 - Fixed bug where game executable paths with apostrophe were not saved to library
 - Fixed bug where number of times a game runs is not properly deleted
 - Fixed bug where changing Game Type would cause issues with Game Metadata
+- Fixed other smaller bugs I forgot about
 
 - Improved Game Finder algorithm
 - Improved how Aurora updates its Cover Art database
