@@ -195,8 +195,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
         //* Create Panels *//
         pnlBackground = new AImagePane("app_launch_bg.png", launchPane
                 .getWidth(),
-                                       launchPane.getHeight(),
-                                       new BorderLayout());
+                launchPane.getHeight(),
+                new BorderLayout());
 
         pnlTop = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 50));
         pnlTop.setOpaque(false);
@@ -204,7 +204,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
         pnlTopContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 50));
         pnlTopContainer.setOpaque(false);
         pnlTopContainer.setLayout(new BoxLayout(pnlTopContainer,
-                                                BoxLayout.Y_AXIS));
+                BoxLayout.Y_AXIS));
 
         pnlCenter = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pnlCenter.setOpaque(false);
@@ -226,24 +226,24 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         // Shortcut Buttons //
         btnWatch = new AButton("game_btn_watch_norm.png",
-                               "game_btn_watch_down.png",
-                               "game_btn_watch_over.png");
+                "game_btn_watch_down.png",
+                "game_btn_watch_over.png");
         btnWatch.addActionListener(new WatchListener());
         btnWatch.setMargin(new Insets(0, 0, 0, 0));
         btnWatch.setBorder(null);
         btnWatch.setBorderPainted(false);
 
         btnFix = new AButton("game_btn_help_norm.png",
-                             "game_btn_help_down.png",
-                             "game_btn_help_over.png");
+                "game_btn_help_down.png",
+                "game_btn_help_over.png");
         btnFix.addActionListener(new FixListener());
         btnFix.setMargin(new Insets(0, 0, 0, 0));
         btnFix.setBorder(null);
         btnFix.setBorderPainted(false);
 
         btnLearn = new AButton("game_btn_learn_norm.png",
-                               "game_btn_learn_down.png",
-                               "game_btn_learn_over.png");
+                "game_btn_learn_down.png",
+                "game_btn_learn_over.png");
         btnLearn.addActionListener(new LearnListener());
         btnLearn.setMargin(new Insets(0, 0, 0, 0));
         btnLearn.setBorder(null);
@@ -262,8 +262,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         //* Manual return to Aurora button *//
         btnReturnToAurora = new AButton("app_launch_goBack_norm.png",
-                                        "app_launch_goBack_down.png",
-                                        "app_launch_goBack_norm.png");
+                "app_launch_goBack_down.png",
+                "app_launch_goBack_norm.png");
         btnReturnToAurora.addActionListener(new GoBackButtonListener());
 
         //* Title Image Showing Status of Launcing Process *//
@@ -271,14 +271,14 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         //Top Buttons for Title //
         btnMinimize = new AButton("app_launch_minimize_norm.png",
-                                  "app_launch_minimize_down.png",
-                                  "app_launch_minimize_over.png");
+                "app_launch_minimize_down.png",
+                "app_launch_minimize_over.png");
         btnMinimize.setBorder(null);
         btnMinimize.setMargin(new Insets(0, 0, 0, 0));
 
         btnExit = new AButton("app_launch_exit_norm.png",
-                              "app_launch_exit_down.png",
-                              "app_launch_exit_over.png");
+                "app_launch_exit_down.png",
+                "app_launch_exit_over.png");
         btnExit.setBorder(null);
         btnExit.setMargin(new Insets(0, 0, 0, 0));
 
@@ -305,16 +305,16 @@ public class AuroraLauncher implements Runnable, MouseListener {
         //* Gracefull Resizing Based on Length of Game Name *//
         if (lblGameName.getText().length() > 50) {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                                                                   50));
+                    50));
         } else if (lblGameName.getText().length() > 40) {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                                                                   60));
+                    60));
         } else if (lblGameName.getText().length() > 30) {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                                                                   70));
+                    70));
         } else {
             lblGameName.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN,
-                                                                   90));
+                    90));
         }
         lblGameName.setForeground(new Color(103, 103, 103));
 
@@ -344,8 +344,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
                 .getIconWidth(), imgTitle.getImgIcon().getIconHeight()));
 
         pnlTitle.setPreferredSize(new Dimension(imgTitle.getRealImageWidth(),
-                                                imgTitle.getRealImageHeight()
-                                                + btnExit.getPreferredSize().height));
+                imgTitle.getRealImageHeight()
+                + btnExit.getPreferredSize().height));
 
         //* Set Game Cover Image *//
         imgGameCover.setImage(game);
@@ -443,7 +443,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                                     .substring(0, game.getGamePath()
                                             .lastIndexOf(
                                                     "\\") + 1).replace("\\",
-                                                                       "\\"));
+                                            "\\"));
                         }
 
                         processBuild.directory(new File(game.getGamePath()
@@ -462,7 +462,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                         currentDir = currentDir.substring(0, currentDir
                                 .lastIndexOf("\\") + 1) + '"' + currentDir
                                 .substring(currentDir.lastIndexOf("\\") + 1,
-                                           currentDir.length()) + '"';
+                                        currentDir.length()) + '"';
                         if (logger.isDebugEnabled()) {
                             logger.debug("Shortcut Directory: " + currentDir);
                         }
@@ -479,7 +479,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                         currentDir = currentDir.substring(0, currentDir
                                 .lastIndexOf("\\") + 1) + '"' + currentDir
                                 .substring(currentDir.lastIndexOf("\\") + 1,
-                                           currentDir.length()) + '"';
+                                        currentDir.length()) + '"';
                         if (logger.isDebugEnabled()) {
                             logger.debug("Shortcut Directory: " + currentDir);
                         }
@@ -515,8 +515,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
                 //* Handle Exeption Unable to Find or Launch Game *//
                 ADialog error = new ADialog(ADialog.aDIALOG_ERROR,
-                                            "Unable To Find & Launch Game.",
-                                            coreUI.getBoldFont()
+                        "Unable To Find & Launch Game.",
+                        coreUI.getBoldFont()
                         .deriveFont(28));
 
                 error.setOKButtonListener(new ActionListener() {
@@ -786,7 +786,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                 pnlTimePlayed.repaint();
                 pnlTimePlayed.setBounds(launchPane.getWidth() + 300, pnlCenter
                         .getLocation().y / 2, pnlTimePlayed.getWidth(),
-                                        pnlTimePlayed
+                        pnlTimePlayed
                         .getHeight());
 
                 pnlCenter.setLayout(null);
@@ -807,11 +807,11 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
                 animateCover
                         .setInitialLocation(imgGameCover.getLocation().x,
-                                            imgGameCover
+                                imgGameCover
                                 .getLocation().y);
 
                 animateTime.setInitialLocation(launchPane.getWidth() + 300,
-                                               pnlCenter
+                        pnlCenter
                         .getLocation().y / 2);
 
                 animateCover.moveHorizontal(launchPane.getWidth() / 6, -2);
@@ -1061,16 +1061,12 @@ public class AuroraLauncher implements Runnable, MouseListener {
      */
     private class LearnListener implements ActionListener {
 
-        public LearnListener() {
-        }
-
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            String url = ".wikia.com";
-            String gameName = "http://www." + game.getName().replace(" ", "")
-                    .replace("'", "");;
-            url = gameName + url;
+            String url = "http://www.google.com/search?q=";
+            String gameName = game.getName().trim().replace(" ", "+");
+            url = url + gameName + "+wiki&btnI";
 
             try {
                 try {

@@ -1655,10 +1655,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            String url = ".wikia.com";
-            String gameName = "http://www." + getName().replace(" ", "")
-                    .replace("'", "");;
-            url = gameName + url;
+            String url = "http://www.google.com/search?q=";
+            String gameName = getName().trim().replace(" ", "+");
+            url = url + gameName + "+wikia&btnI";
 
             try {
                 try {
