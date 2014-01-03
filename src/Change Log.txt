@@ -4,11 +4,12 @@
         ====================================================
 
 ////////////////////////////////////////////------------------------------------
-// Aurora_Alpha 9  Build:820  Date:12/14/2013  || Sammy Guergachi
+// Aurora_Alpha 9  Build:827  Date:1/3/2014  || Sammy Guergachi
 ////////////////////////////////////////////------------------------------------
 
 + Added ability to edit/add a custom image as cover art for games!
 + Added ability to turn off use of Aurora's Cover Art DB
++ Added 4 Settings in the Settings app
 + Added automatic background search for new games when Library loaded
 + Added ability to better guess cover art in Auto Add
 + Added 150 new game cover icons to AuroraDB
@@ -26,12 +27,14 @@
 
 - Improved Game Finder algorithm
 - Improved how Aurora updates its Cover Art database
+- Improved accuracy of "Learn" shortcut to get Wikia page for games
 - Refreshed some UI assets to look cleaner in Aurora
 - Prevented random cover art shown in dashboard from being an "unavailable" game
 - Duplicate game uses game name to compare instead of cover art
 - Aurora Minimized doesn't take up space on taskbar again but stays always on top
-- Improved database access
+- Optimized database access
 - As always, small changes here and there. Magic in the details ;)
+
 
 ////////////////////////////////////////////------------------------------------
 // Aurora_Alpha 8  Build:794  Date:7/11/2013  || Sammy Guergachi

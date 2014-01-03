@@ -175,7 +175,8 @@ public class SettingsUI extends AuroraApp {
 
     private SettingsHandler.DisableSoundEffectsHandler disableSoundEffectsHandler;
 
-    public SettingsUI(AuroraStorage auroraStorage, DashboardUI dashboardUI, AuroraCoreUI auroraCoreUI) {
+    public SettingsUI(AuroraStorage auroraStorage, DashboardUI dashboardUI,
+                      AuroraCoreUI auroraCoreUI) {
 
         this.appName = "Settings";
         this.storage = auroraStorage;
@@ -198,7 +199,7 @@ public class SettingsUI extends AuroraApp {
 
         // Background Panel
         pnlSettingsBG = new JPanel(new BorderLayout(0, 0));
-        pnlSettingsBG.setBackground(new Color(35,40,48));
+        pnlSettingsBG.setBackground(new Color(35, 40, 48));
 
         pnlSettingsBG.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0,
                 Color.BLACK));
@@ -603,6 +604,8 @@ public class SettingsUI extends AuroraApp {
         addToVolatileListenerBank(coreUI.getFrameControlImagePane());
         addToVolatileListenerBank(coreUI.getTopPane());
 
+        // Set defaults or pre-set values to settings
+        checkSettingsValues();
 
         attactchHandlers();
 
@@ -623,6 +626,7 @@ public class SettingsUI extends AuroraApp {
 
         // Status
         coreUI.getCenterFromBottomPanel().setLayout(new BorderLayout());
+
         coreUI.getCenterFromBottomPanel().add(BorderLayout.NORTH,
                 pnlBottomCenterContainer);
 
@@ -657,9 +661,88 @@ public class SettingsUI extends AuroraApp {
 
 
     }
-    
+
     private void checkSettingsValues() {
-    	
+
+        // Sound effects
+        if (storage.getStoredSettings().getSettingValue("sound_effects") != null) {
+
+            if (storage.getStoredSettings().getSettingValue("sound_effects")
+                    .equals("enabled")) {
+
+                rdbSoundEffects.setSelected();
+
+
+            } else if (storage.getStoredSettings().getSettingValue(
+                    "sound_effects").equals("disabled")) {
+
+                rdbSoundEffects.setUnSelected();
+
+            }
+
+        } else {
+
+            storage.getStoredSettings().saveSetting("sound_effects",
+                    SettingsLogic.DEFAULT_SFX_SETTING);
+            checkSettingsValues();
+
+        }
+
+
+        // WASD Navigation
+        if (storage.getStoredSettings()
+                .getSettingValue("wasd_navigation") != null) {
+
+            if (storage.getStoredSettings().getSettingValue(
+                    "wasd_navigation")
+                    .equals("enabled")) {
+
+                rdbWASDNavigation.setSelected();
+
+
+            } else if (storage.getStoredSettings().getSettingValue(
+                    "wasd_navigation").equals("disabled")) {
+
+                rdbWASDNavigation.setUnSelected();
+
+            }
+
+        } else {
+
+            storage.getStoredSettings().saveSetting("wasd_navigation",
+                    SettingsLogic.DEFAULT_WASD_NAV_SETTING);
+            checkSettingsValues();
+
+        }
+
+
+        // Background search
+        if (storage.getStoredSettings()
+                .getSettingValue("background_game_search") != null) {
+
+            if (storage.getStoredSettings().getSettingValue(
+                    "background_game_search")
+                    .equals("enabled")) {
+
+                rdbBackgroundGameSearch.setSelected();
+
+
+            } else if (storage.getStoredSettings().getSettingValue(
+                    "background_game_search").equals("disabled")) {
+
+                rdbBackgroundGameSearch.setUnSelected();
+
+            }
+
+        } else {
+
+            storage.getStoredSettings().saveSetting("background_game_search",
+                    SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING);
+            checkSettingsValues();
+
+        }
+
+
     }
 
     private void attactchHandlers() {

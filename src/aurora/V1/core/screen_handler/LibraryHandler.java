@@ -28,6 +28,7 @@ import aurora.V1.core.StoredSettings;
 import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.LibraryHandler.MoveToGrid;
 import aurora.V1.core.screen_logic.LibraryLogic;
+import aurora.V1.core.screen_logic.SettingsLogic;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AAnimate;
 import aurora.engine.V1.Logic.AFileDrop;
@@ -2135,7 +2136,7 @@ public class LibraryHandler implements
         private JPanel GameBack;
 
         private final AuroraCoreUI coreUI;
-        
+
         private AuroraStorage storage;
 
         public GameLibraryKeyListener() {
@@ -2182,8 +2183,11 @@ public class LibraryHandler implements
             Game game = null;
 
             boolean selectedGameFound = false;
-            
+
             String wasdNavSetting = storage.getStoredSettings().getSettingValue("wasd_navigation");
+            if(wasdNavSetting == null){
+                wasdNavSetting = SettingsLogic.DEFAULT_WASD_NAV_SETTING;
+            }
 
             if ((e.getKeyCode() == KeyEvent.VK_W && wasdNavSetting.equals("enabled"))|| e.getKeyCode()
                                                    == KeyEvent.VK_UP) {
