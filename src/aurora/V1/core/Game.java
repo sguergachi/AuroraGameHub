@@ -2169,7 +2169,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             removeButtonWidth = this.width / 2 - 35;
             removeButtonSeperation = -removeButtonWidth / 6 + 2;
 
-            SIZE_BottomPaneHeight = (50 * 2) - 12;
+            SIZE_BottomPaneHeight = (50 * 2) - 10;
             SIZE_TOPPANE_COMP = 5;
 
             flipShortcutWidth = (width / 2) + (width / 10);
@@ -2188,10 +2188,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             labelFontSize = 17;
             flipPadding = 3;
-        }
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("OVERLAY HEIGHT " + SIZE_BottomPaneHeight);
         }
 
     }
