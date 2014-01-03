@@ -20,6 +20,7 @@ package aurora.V1.core.screen_handler;
 import aurora.V1.core.StoredSettings;
 import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_ui.SettingsUI;
+import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
@@ -55,10 +56,19 @@ public class SettingsHandler implements AuroraScreenHandler {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            if (storage.getSettingValue("sound_effects").equals(
+                    "enabled")) {
+                int num = (int) (Math.random() * (2 - 1)) + 1;
+                ASound sfx = new ASound("radio_on_" + num
+                                        + ".wav", false);
+                sfx.Play();
+            }
+
             AThreadWorker worker = new AThreadWorker(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
 
                     SettingsUI.lblSettingsStatus.setForeground(Color.cyan);
                     SettingsUI.lblSettingsStatus.setText(
@@ -117,6 +127,13 @@ public class SettingsHandler implements AuroraScreenHandler {
         public void actionPerformed(ActionEvent e) {
 
 
+            if (storage.getSettingValue("sound_effects").equals(
+                    "enabled")) {
+                int num = (int) (Math.random() * (2 - 1)) + 1;
+                ASound sfx = new ASound("radio_on_" + num
+                                        + ".wav", false);
+                sfx.Play();
+            }
 
             AThreadWorker worker = new AThreadWorker(new ActionListener() {
 
@@ -162,10 +179,21 @@ public class SettingsHandler implements AuroraScreenHandler {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
+            if (storage.getSettingValue("sound_effects").equals(
+                    "enabled")) {
+                int num = (int) (Math.random() * (2 - 1)) + 1;
+                ASound sfx = new ASound("radio_off_" + num
+                                        + ".wav", false);
+                sfx.Play();
+            }
+
             AThreadWorker worker = new AThreadWorker(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
+
 
 
                     storage.saveSetting("background_game_search", "disabled");
@@ -199,17 +227,26 @@ public class SettingsHandler implements AuroraScreenHandler {
 
         }
 
-    } // End Background game search
+    }
 
     //----------------------- WASD Navigation --------------------------//
     public class EnableWASDNavigationHandler implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (storage.getSettingValue("sound_effects").equals(
+                    "enabled")) {
+                int num =  (int) (Math.random() * (2 - 1)) + 1 ;
+                ASound sfx = new ASound("radio_on_" + num
+                                        + ".wav", false);
+                sfx.Play();
+            }
+
             AThreadWorker worker = new AThreadWorker(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
 
                     storage.saveSetting("wasd_navigation", "enabled");
 
@@ -248,10 +285,19 @@ public class SettingsHandler implements AuroraScreenHandler {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            if (storage.getSettingValue("sound_effects").equals(
+                    "enabled")) {
+                int num = (int) (Math.random() * (2 - 1)) + 1;
+                ASound sfx = new ASound("radio_off_" + num
+                                        + ".wav", false);
+                sfx.Play();
+            }
+
             AThreadWorker worker = new AThreadWorker(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
 
                     storage.saveSetting("wasd_navigation", "disabled");
 
@@ -284,17 +330,26 @@ public class SettingsHandler implements AuroraScreenHandler {
 
         }
 
-    } // End WASD Nav
+    }
 
     //------------------------- Sound Effects -----------------------//
     public class EnableSoundEffectsHandler implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
+            int num = (int) (Math.random() * (2 - 1)) + 1;
+            ASound sfx = new ASound("radio_on_" + num
+                                    + ".wav", false);
+            sfx.Play();
+
+
             AThreadWorker worker = new AThreadWorker(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
+
 
                     storage.saveSetting("sound_effects", "enabled");
 
