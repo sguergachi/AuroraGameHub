@@ -2183,8 +2183,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             removeButtonSeperation = -removeButtonWidth / 6 + 1;
 
             SIZE_TOPPANE_COMP = 0;
-            SIZE_BottomPaneHeight = (51 * 2) - (height / 15) + (width / height
-                                                                + 1);
+            SIZE_BottomPaneHeight = (50 * 2) - (height / 20);
 
             labelFontSize = 17;
             flipPadding = 3;
