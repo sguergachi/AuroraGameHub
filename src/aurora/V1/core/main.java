@@ -37,11 +37,17 @@ import org.apache.log4j.Logger;
 public class main {
 
     private static ADialog err;
+
     private static Font FontRegular;
+
     private static ASurface ressource = null;
+
     private static boolean startMini = false;
+
     public static String VERSION = "Alpha 9";
+
     static final Logger logger = Logger.getLogger(main.class);
+
     public static int LAUNCHES;
 
     public static void main(String[] args) throws InterruptedException,
@@ -58,10 +64,17 @@ public class main {
             startMini = false;
         }
 
-        if (Double.parseDouble(System.getProperty("java.version")
-                .substring(2, 3)) >= 7
-            && Integer.parseInt(System.getProperty("java.version").substring(6,
-                8)) >= 9) {
+        String versionString = System.getProperty("java.version");
+        int versionNum = Integer.parseInt(versionString.substring(0, 5).replace(
+                ".", ""));
+        int updateNum;
+        if (versionString.contains("_")) {
+            updateNum = Integer.parseInt(versionString.substring(versionString
+                    .indexOf("_") + 1, versionString.length()));
+        } else {
+            updateNum = 9;
+        }
+        if (versionNum >= 170 && updateNum >= 9) {
 
             //Initiate The LoginWindow
             logger.info("Running Java Version: " + System.getProperty(
@@ -75,7 +88,8 @@ public class main {
             try {
                 FontRegular = Font.createFont(Font.TRUETYPE_FONT, new URL(
                         ressource.getSurfacePath()
-                        + "/aurora/V1/resources/AGENCYR.TTF").openStream());
+                                + "/aurora/V1/resources/AGENCYR.TTF")
+                        .openStream());
             } catch (Exception ex) {
                 FontRegular = Font.createFont(Font.TRUETYPE_FONT, main.class
                         .getResourceAsStream("/aurora/V1/resources/AGENCYR.TTF"));

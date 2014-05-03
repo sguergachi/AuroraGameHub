@@ -719,11 +719,14 @@ public class LibraryUI extends AuroraApp {
     @Override
     public final void loadUI() {
 
-        setSize();
-
         // Load All UI Components
         // --------------------------------------------------------------------.
-        //* Create Components for Library *//
+        setSize();
+
+
+        //
+        // Create Components for Library
+        //
         pnlLibraryContainer = new JPanel(true);
         pnlLibraryContainer.setBorder(BorderFactory.createEmptyBorder(4,
                 0, 0, 0));
@@ -736,13 +739,15 @@ public class LibraryUI extends AuroraApp {
         btnGameLeft = new AHoverButton(3,
                 "library_navLeft_norm.png",
                 "library_navLeft_over.png");
-
-        //* Key Board Naviagtion Icon *//
+        //
+        // Key Board Naviagtion Icon
+        //
         imgKeyIco = new AImage("KeyboardKeys/arrows.png", coreUI
                 .getKeyIconWidth(), coreUI.getKeyIconHeight());
         lblKeyAction = new JLabel(" Move ");
-
-        //* Library Status Pane *//
+        //
+        // Library Status Pane
+        //
         pnlBottomCenterContainer = new JPanel(new FlowLayout(FlowLayout.CENTER,
                 0, bottomTopPadding));
 
@@ -758,8 +763,9 @@ public class LibraryUI extends AuroraApp {
         lblLibraryStatus.setFont(coreUI
                 .getDefaultFont().deriveFont(Font.PLAIN,
                         gameNameFontSize));
-
-        //* Add Game Button *//
+        //
+        // Add Game Button
+        //
         btnShowAddGameUI = new AButton("library_btn_addGame_norm.png",
                 "library_btn_addGame_down.png",
                 "library_btn_addGame_over.png");
@@ -767,8 +773,9 @@ public class LibraryUI extends AuroraApp {
         btnOrganizeGames = new AButton("library_btn_organizeGame_norm.png",
                 "library_btn_organizeGame_down.png",
                 "library_btn_organizeGame_over.png");
-
-        //* Search Bar *//
+        //
+        // Search Bar
+        //
         pnlSearchBarBG = new AImagePane("library_searchBar_inactive.png",
                 new BorderLayout());
         removeSearchButton = new AButton("library_btnCancelSearch_norm.png",
@@ -784,23 +791,24 @@ public class LibraryUI extends AuroraApp {
         pnlSearchButton = new JPanel(new BorderLayout());
         pnlSearchContainer = new JPanel(new BorderLayout());
         pnlSearchBar = new JPanel(new BorderLayout());
-
-        //* Create Grid Manager *//
+        //
+        // Set up grid
+        //
         GridSplit = new GridManager(2, 4, coreUI);
 
-        //* Grid Animator *//
+        // Grid Animator
         this.GridAnimate = new GridAnimation(GridSplit, pnlLibraryContainer);
 
-        //* Load Organize UI *//
+        // Load Organize UI
         loadOrganizeUI();
 
-        //* Add Game UI *//
+        // Add Game UI
         loadAddGameUI();
 
-        //* Edit Game UI *//
+        // Edit Game UI
         loadEditGameUI();
 
-        //* Edit Game Cover UI *//
+        // Edit Game Cover UI
         loadEditGameCoverUI();
 
     }
@@ -1573,7 +1581,7 @@ public class LibraryUI extends AuroraApp {
             // Set up Game List //
             gamesList_addUI.setPreferredSize(
                     new Dimension(pnlCoverPane_addUI.getImgIcon().getIconWidth()
-                                  + 90, pnlCoverPane_addUI.getImgIcon()
+                                          + 90, pnlCoverPane_addUI.getImgIcon()
                             .getIconHeight()));
 
             gamesList_addUI.setBackground(new Color(38, 46, 60));
@@ -1635,9 +1643,9 @@ public class LibraryUI extends AuroraApp {
 
             //* Set Location for Add Game UI panels *//
             pnlAddGamePane.setLocation((coreUI.getFrame().getWidth() / 2)
-                                       - (pnlAddGamePane.getImgIcon()
+                                               - (pnlAddGamePane.getImgIcon()
                     .getIconWidth()
-                                          / 2), -380);
+                                                          / 2), -380);
             pnlAddGamePane
                     .setSize(
                             new Dimension(pnlAddGamePane.getImgIcon()
@@ -1646,7 +1654,8 @@ public class LibraryUI extends AuroraApp {
             pnlAddGamePane.revalidate();
 
             btnGameToLib_addUI.setLocation((coreUI.getFrame().getWidth() / 2)
-                                           - btnGameToLib_addUI.getWidth() / 2,
+                                                   - btnGameToLib_addUI
+                    .getWidth() / 2,
                     pnlAddGamePane
                     .getImgIcon()
                     .getIconHeight() - 90);
@@ -2205,7 +2214,7 @@ public class LibraryUI extends AuroraApp {
 
             //* Set Location for Edit Game UI panels *//
             pnlEditGamePane.setLocation((coreUI.getFrame().getWidth() / 2)
-                                        - (pnlAddGamePane.getImgIcon()
+                                                - (pnlAddGamePane.getImgIcon()
                     .getIconWidth() / 2), -380);
             pnlEditGamePane
                     .setSize(
@@ -2365,7 +2374,7 @@ public class LibraryUI extends AuroraApp {
             gamesList_editUI.setPreferredSize(
                     new Dimension(pnlCoverPane_editUI.getImgIcon()
                             .getIconWidth()
-                                  + 110,
+                                          + 110,
                             pnlCoverPane_editUI.getImgIcon()
                             .getIconHeight()));
             gamesList_editUI.setForeground(Color.lightGray);
@@ -2525,7 +2534,8 @@ public class LibraryUI extends AuroraApp {
 
         // First to be selected when edit UI summoned
         if (!btnGameLocation_editUI.isSelected
-            && !btnGameCover_editUI.isSelected && !btnOther_editUI.isSelected) {
+                    && !btnGameCover_editUI.isSelected
+                    && !btnOther_editUI.isSelected) {
             btnGameCover_editUI.setSelected();
         }
 
@@ -2622,7 +2632,7 @@ public class LibraryUI extends AuroraApp {
             //* Set Location for Edit Game UI panels *//
             frameEditGameCoverPane.setLocation(
                     (coreUI.getFrame().getWidth() / 2)
-                    - (pnlEditGameCoverPane
+                            - (pnlEditGameCoverPane
                     .getRealImageWidth() / 2),
                     coreUI.getScreenHeight());
 
@@ -2635,7 +2645,7 @@ public class LibraryUI extends AuroraApp {
 
             //* Center *//
             int centerHeight = pnlDrag_editCoverUI.getRealImageHeight()
-                               + (pnlEditGameCoverPane
+                                       + (pnlEditGameCoverPane
                     .getRealImageHeight() - (imgTopArrows
                     .getImgHeight() + pnlBottomPane_editCoverUI
                     .getPreferredSize().height));
@@ -2676,7 +2686,7 @@ public class LibraryUI extends AuroraApp {
             leftPaneContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 
             pnlLeftPane_editCoverUI.add(Box.createVerticalStrut(centerHeight
-                                                                / 6));
+                                                                        / 6));
             pnlLeftPane_editCoverUI.add(leftPaneContainer);
             pnlLeftPane_editCoverUI.setPreferredSize(new Dimension(
                     (pnlEditGameCoverPane.getRealImageWidth() / 5) + 20,
@@ -2927,9 +2937,9 @@ public class LibraryUI extends AuroraApp {
                         .getBounds().width) / 3 - (btnOrganizeGames
                         .getBounds().width) / 5) - 3,
                         btnOrganizeGames.getLocationOnScreen().y
-                        - btnOrganizeGames
+                                - btnOrganizeGames
                         .getBounds().height
-                        - btnMiddle
+                                - btnMiddle
                         .getRealImageHeight());
 
     }
@@ -2971,7 +2981,7 @@ public class LibraryUI extends AuroraApp {
 
                             if (main.LAUNCHES > 5 || storage.getStoredLibrary()
                             .getNumberGames()
-                                                     > 0) {
+                                                             > 0) {
                                 btnManual.setSelected();
                                 btnAuto.setUnSelected();
                             } else {
@@ -2989,7 +2999,7 @@ public class LibraryUI extends AuroraApp {
 
                             addGameAnimator.setInitialLocation(
                                     (coreUI.getFrame().getWidth() / 2)
-                                    - (pnlAddGamePane.getImgIcon()
+                                            - (pnlAddGamePane.getImgIcon()
                                     .getIconWidth() / 2), -390);
                         }
                     }, new ActionListener() {
@@ -3129,7 +3139,7 @@ public class LibraryUI extends AuroraApp {
                             //* Animate Down Add Game UI *//
                             editGameAnimator.setInitialLocation(
                                     (coreUI.getFrame().getWidth() / 2)
-                                    - (pnlEditGamePane.getImgIcon()
+                                            - (pnlEditGamePane.getImgIcon()
                                     .getIconWidth() / 2), -390);
                             editGameAnimator.moveVertical(0, 33);
 
@@ -3184,8 +3194,8 @@ public class LibraryUI extends AuroraApp {
                         editGameCoverAnimator
                         .setInitialLocation(
                                 (coreUI.getFrame().getWidth()
-                                 / 2)
-                                - (pnlEditGameCoverPane
+                                         / 2)
+                                        - (pnlEditGameCoverPane
                                 .getRealImageWidth() / 2),
                                 coreUI
                                 .getScreenHeight());
@@ -3219,9 +3229,10 @@ public class LibraryUI extends AuroraApp {
                                         editGameCoverAnimator.moveVertical(
                                                 coreUI
                                                 .getScreenHeight()
-                                                - pnlEditGameCoverPane
+                                                        - pnlEditGameCoverPane
                                                 .getRealImageHeight()
-                                                - (coreUI.getTaskbarHeight() - 2),
+                                                        - (coreUI
+                                                .getTaskbarHeight() - 2),
                                                 -18);
 
                                     }
@@ -3504,7 +3515,7 @@ public class LibraryUI extends AuroraApp {
     public void setSize() {
 
         double Ratio = ((double) coreUI.getFrame().getWidth()
-                        / (double) coreUI.getFrame().getHeight());
+                                / (double) coreUI.getFrame().getHeight());
 
         int Ratio2 = (coreUI.getFrame().getWidth() - coreUI.getFrame()
                 .getHeight()) / 2;
@@ -3518,9 +3529,9 @@ public class LibraryUI extends AuroraApp {
 
         if (coreUI.isLargeScreen()) {
             gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio2 / 10)
-                              + 5;
+                                      + 5;
             gameCoverWidth = coreUI.getFrame().getWidth() / 5 - (Ratio2 / 10)
-                             - 5;
+                                     - 5;
             selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
             selectedGameBarWidth = coreUI.getFrame().getWidth() / 3;
             addGameWidth = coreUI.getFrame().getWidth() / 3;
@@ -3534,11 +3545,12 @@ public class LibraryUI extends AuroraApp {
 
         } else {
             gameCoverHeight = (int) ((coreUI.getFrame().getHeight()
-                                      + (coreUI.getTopPanelHeight() * 2))
+                                              + (coreUI.getTopPanelHeight() * 2))
                                      / (Ratio * 2.5));
             gameCoverWidth = (int) ((coreUI.getFrame().getWidth()
-                                     + coreUI.getTopPanelHeight()) / (Ratio
-                                                                      * 3.5));
+                                             + coreUI.getTopPanelHeight())
+                                            / (Ratio
+                                                       * 3.5));
             addGameWidth = coreUI.getFrame().getWidth() / 3 - 20;
             addGameWidth = gameCoverWidth;
             addGameHeight = 40;
