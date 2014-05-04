@@ -25,18 +25,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/screen_ui/SettingsUI.java</file>
             <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/screen_ui/LibraryUI.java</file>
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/screen_logic/SettingsLogic.java</file>
+            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/screen_ui/AddGameUI.java</file>
             <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/screen_handler/LibraryHandler.java</file>
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/AuroraCoreUI.java</file>
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/resources/GamesList.txt</file>
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/DBUpdater.java</file>
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/GridManager.java</file>
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/resources/GameDB.txt</file>
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/screen_handler/SettingsHandler.java</file>
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/AuroraLauncher.java</file>
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/Game.java</file>
+            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/screen_ui/EditGameUI.java</file>
             <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/screen_logic/LibraryLogic.java</file>
         </group>
     </open-files>

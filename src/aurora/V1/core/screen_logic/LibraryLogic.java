@@ -68,7 +68,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 
-
 /**
  * .------------------------------------------------------------------------.
  * | LibraryLogic
@@ -205,7 +204,7 @@ public class LibraryLogic implements AuroraScreenLogic {
         //* Start Aurora Dabatase connection *//
         try {
             coverDB = new ASimpleDB("AuroraDB", "AuroraTable", false, System
-                    .getProperty("user.home") + "//AuroraData//");
+                                    .getProperty("user.home") + "//AuroraData//");
         } catch (SQLException ex) {
             logger.error(ex);
         }
@@ -257,8 +256,8 @@ public class LibraryLogic implements AuroraScreenLogic {
         try {
 
             //* check that favorite states are not null *//
-            if (libraryUI.getStorage().getStoredLibrary().getFaveStates()
-                != null) {
+            if (libraryUI.getStorage().getStoredLibrary().getFaveStates() !=
+                null) {
                 libHasFavourites = true;
             }
 
@@ -311,7 +310,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                     game.setCoverSize(libraryUI.getGameCoverWidth(),
                                       libraryUI
-                            .getGameCoverHeight());
+                                      .getGameCoverHeight());
                 } else {
                     game = libraryUI.getGridSplit().getGame(i);
                 }
@@ -331,9 +330,9 @@ public class LibraryLogic implements AuroraScreenLogic {
                 if (libraryUI.getStorage().getStoredProfile()
                         .getGameNames() != null) {
                     for (int i = 0; i < libraryUI.getStorage()
-                            .getStoredProfile()
-                            .getGameNames()
-                            .size();
+                                    .getStoredProfile()
+                                    .getGameNames()
+                                    .size();
                             i++) {
 
                         String gameName = libraryUI.getStorage()
@@ -366,15 +365,15 @@ public class LibraryLogic implements AuroraScreenLogic {
                                     .getLastTimes().get(i));
 
                             logger.info("ProfileDB Game Name:" + game
-                                    .getGameName());
+                                        .getGameName());
                             logger.info("ProfileDB Game Type:" + game
-                                    .getGameType());
+                                        .getGameType());
                             logger.info("ProfileDB Last Played:" + game
-                                    .getLastPlayed());
+                                        .getLastPlayed());
                             logger.info("ProfileDB Occurences:" + game
-                                    .getOccurencesPlayed());
+                                        .getOccurencesPlayed());
                             logger.info("ProfileDB Total Time:" + game
-                                    .getTotalTimePlayed());
+                                        .getTotalTimePlayed());
                             logger.info("");
 
                         }
@@ -506,7 +505,8 @@ public class LibraryLogic implements AuroraScreenLogic {
             libraryUI.getGridSplit()
                     .finalizeGrid(libraryHandler.new ShowAddGameUIHandler(),
                                   libraryUI
-                            .getGameCoverWidth(), libraryUI.getGameCoverHeight());
+                                  .getGameCoverWidth(), libraryUI
+                                  .getGameCoverHeight());
 
             //Load First Grid by default
             loadGames(0);
@@ -558,7 +558,7 @@ public class LibraryLogic implements AuroraScreenLogic {
         //Load First Panels
         libraryUI.setIsGameLibraryKeyListenerAdded(false);
         for (int i = 0; i < libraryUI.getGridSplit().getGrid(currentGrid)
-                .getArray().size();
+                        .getArray().size();
                 i++) {
             Game game = new Game(libraryUI.getGridSplit(), coreUI, dashboardUI);
             try {
@@ -576,10 +576,10 @@ public class LibraryLogic implements AuroraScreenLogic {
                     }
                 }
 
-                if (!libraryUI.IsGameLibraryKeyListenerAdded()) {
+                if (!libraryUI.isGameLibraryKeyListenerAdded()) {
                     if (logger.isDebugEnabled()) {
                         logger.debug("ADDING GAMELIBRARYLISTENER TO " + game
-                                .getName());
+                                     .getName());
                     }
 
                     game.addKeyListener(
@@ -612,14 +612,15 @@ public class LibraryLogic implements AuroraScreenLogic {
 
         //Load Second Panel if exists -- SMART LOAD
         if (currentGrid < libraryUI.getGridSplit().getArray().size() - 1) {
-            for (int i = 0; i < libraryUI.getGridSplit().getGrid(currentGrid
-                                                                 + 1).getArray()
-                    .size(); i++) {
+            for (int i = 0; i < libraryUI.getGridSplit().getGrid(currentGrid +
+                                                                 1)
+                            .getArray()
+                            .size(); i++) {
                 Game game = new Game(libraryUI.getGridSplit(), coreUI,
                                      dashboardUI);
                 try {
-                    game = (Game) libraryUI.getGridSplit().getGrid(currentGrid
-                                                                   + 1)
+                    game = (Game) libraryUI.getGridSplit().getGrid(currentGrid +
+                                                                   1)
                             .getArray()
                             .get(i);
 
@@ -630,10 +631,10 @@ public class LibraryLogic implements AuroraScreenLogic {
                         }
                     }
 
-                    if (!libraryUI.IsGameLibraryKeyListenerAdded()) {
+                    if (!libraryUI.isGameLibraryKeyListenerAdded()) {
                         if (logger.isDebugEnabled()) {
                             logger.debug("ADDING GAMELIBRARYLISTENER TO" + game
-                                    .getName());
+                                         .getName());
                         }
 
                         game.addKeyListener(
@@ -675,10 +676,10 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             boolean canAutoAdd = false;
             for (int i = 0; i < libraryUI
-                    .getModelCheckList().getSize(); i++) {
+                            .getAddGameUI().getModelCheckList().getSize(); i++) {
 
                 if (((ARadioButton) ((AImagePane) libraryUI
-                        .getModelCheckList().get(i))
+                        .getAddGameUI().getModelCheckList().get(i))
                         .getComponent(0)).isSelected) {
                     canAutoAdd = true;
                     break;
@@ -689,12 +690,11 @@ public class LibraryLogic implements AuroraScreenLogic {
             }
 
             if (canAutoAdd) {
-                libraryUI.getImgAutoStatus().setImgURl("addUI_badge_valid.png");
+                libraryUI.getAddGameUI().setAutoInicator(true);
                 //Animate the Button below Add Game UI//
                 animateAddButtonDown();
             } else {
-                libraryUI.getImgAutoStatus()
-                        .setImgURl("addUI_badge_invalid.png");
+                libraryUI.getAddGameUI().setAutoInicator(false);
 
                 //Animate up and hide it//
                 animateAddButtonUp();
@@ -718,20 +718,24 @@ public class LibraryLogic implements AuroraScreenLogic {
      */
     public void checkManualAddGameStatus() {
 
-        if (libraryUI.getStatusBadge1().getImgURl().equals(
-                "addUI_badge_valid.png")
-            && libraryUI.getStatusBadge2()
-                .getImgURl().equals("addUI_badge_valid.png") && !libraryUI
-                .getAddGameToLibButton().isVisible()) {
+        System.out.println(libraryUI.getAddGameUI().isCoverArtStatusIndicatorValid());
+        System.out.println(libraryUI.getAddGameUI().isGameLocationStatusValid());
+        System.out.println( !libraryUI
+            .getAddGameUI().getAddGameToLibraryButton().isVisible());
+        System.out.println("==");
+        if (libraryUI.getAddGameUI().isCoverArtStatusIndicatorValid() &&
+            libraryUI.getAddGameUI().isGameLocationStatusValid() &&
+            !libraryUI
+            .getAddGameUI().getAddGameToLibraryButton().isVisible()) {
 
             //Animate the Button below Add Game UI//
             animateAddButtonDown();
 
-        } else if ((libraryUI.getStatusBadge1().getImgURl().equals(
-                "addUI_badge_invalid.png")
-                    || libraryUI.getStatusBadge2()
-                .getImgURl().equals("addUI_badge_invalid.png"))
-                   && libraryUI.getAddGameToLibButton().isVisible()) {
+        } else if ((!libraryUI.getAddGameUI().isCoverArtStatusIndicatorValid() &&
+                    !libraryUI.getAddGameUI()
+                    .isGameLocationStatusValid()) &&
+                   libraryUI.getAddGameUI()
+                   .getAddGameToLibraryButton().isVisible()) {
 
             //Animate up and hide it//
             animateAddButtonUp();
@@ -749,7 +753,7 @@ public class LibraryLogic implements AuroraScreenLogic {
         // Initialize
         if (addGameToLibButtonAnimator == null) {
             addGameToLibButtonAnimator = new AAnimate(libraryUI
-                    .getAddGameToLibButton());
+                    .getAddGameUI().getAddGameToLibraryButton());
 
         }
 
@@ -775,9 +779,11 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                             }
                             if (showAddButtonState && !libraryUI
-                            .getAddGameToLibButton().isVisible()) {
+                                .getAddGameUI().getAddGameToLibraryButton()
+                                .isVisible()) {
 
-                                libraryUI.getAddGameToLibButton()
+                                libraryUI.getAddGameUI()
+                                .getAddGameToLibraryButton()
                                 .setVisible(true);
 
                                 addGameToLibButtonAnimator
@@ -785,15 +791,16 @@ public class LibraryLogic implements AuroraScreenLogic {
                                         (coreUI
                                         .getFrame()
                                         .getWidth() / 2) - libraryUI
-                                        .getAddGameToLibButton()
+                                        .getAddGameUI()
+                                        .getAddGameToLibraryButton()
                                         .getWidth() / 2, libraryUI
-                                        .getAddGamePane()
+                                        .getAddGameUI().getPnlAddGamePane()
                                         .getImgIcon()
                                         .getIconHeight() - 180);
 
                                 addGameToLibButtonAnimator.moveVertical(
                                         libraryUI
-                                        .getAddGamePane()
+                                        .getAddGameUI().getPnlAddGamePane()
                                         .getImgIcon()
                                         .getIconHeight() - 55, 22);
 
@@ -823,7 +830,7 @@ public class LibraryLogic implements AuroraScreenLogic {
         // Initialize
         if (addGameToLibButtonAnimator == null) {
             addGameToLibButtonAnimator = new AAnimate(libraryUI
-                    .getAddGameToLibButton());
+                    .getAddGameUI().getAddGameToLibraryButton());
         }
 
         // -
@@ -848,18 +855,22 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                             }
                             if (!showAddButtonState && libraryUI
-                            .getAddGameToLibButton().isVisible()) {
+                                .getAddGameUI().getAddGameToLibraryButton()
+                                .isVisible()) {
                                 addGameToLibButtonAnimator.setInitialLocation(
                                         libraryUI
-                                        .getAddGameToLibButton().getX(),
+                                        .getAddGameUI()
+                                        .getAddGameToLibraryButton().getX(),
                                         libraryUI
-                                        .getAddGameToLibButton().getY());
+                                        .getAddGameUI()
+                                        .getAddGameToLibraryButton().getY());
 
                                 addGameToLibButtonAnimator
                                 .addPostAnimationListener(new APostHandler() {
                                     @Override
                                     public void postAction() {
-                                        libraryUI.getAddGameToLibButton()
+                                        libraryUI.getAddGameUI()
+                                        .getAddGameToLibraryButton()
                                         .setVisible(false);
                                         addGameToLibButtonAnimator
                                         .removeAllListeners();
@@ -985,9 +996,9 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     public void autoFindGames() {
 
-        this.autoGameModel = libraryUI.getListModel_autoUI();
+        this.autoGameModel = libraryUI.getAddGameUI().getListModel_autoUI();
         this.autoChecklistModel = libraryUI
-                .getModelCheckList();
+                .getAddGameUI().getModelCheckList();
 
         autoAddCurrentList = new ArrayList<>();
 
@@ -1017,10 +1028,11 @@ public class LibraryLogic implements AuroraScreenLogic {
                     libraryUI.getPrgLibraryStatus().restart();
 
                     // Change refresh button to static state
-                    libraryUI.getBtnAutoRefresh().setButtonStates(
-                            "autoUI_btnRefreshing.png",
-                            "autoUI_btnRefreshing.png",
-                            "autoUI_btnRefreshing.png");
+                    libraryUI.getAddGameUI().getBtnAutoRefresh()
+                            .setButtonStates(
+                                    "autoUI_btnRefreshing.png",
+                                    "autoUI_btnRefreshing.png",
+                                    "autoUI_btnRefreshing.png");
 
                     nameOfGames = null;
                     executableGamePath = null;
@@ -1084,7 +1096,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                         FlowLayout.CENTER));
                         radioPanel.setPreferredSize(new Dimension(radioPanel
                                 .getRealImageWidth(), radioPanel
-                                .getRealImageHeight()));
+                                                                  .getRealImageHeight()));
                         radioPanel.setBorder(null);
 
                         final ARadioButton radioButton = new ARadioButton(
@@ -1116,7 +1128,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                         Game game = new Game(libraryUI.getGridSplit(),
                                              coreUI, dashboardUI, libraryUI
-                                .getStorage());
+                                             .getStorage());
 
                         game.setGameName(nameOfGames
                                 .get(i));
@@ -1167,16 +1179,17 @@ public class LibraryLogic implements AuroraScreenLogic {
                     }
 
                     if (autoAddHandlers == 1) {
-                        libraryUI.getPnlCheckList().addMouseListener(
-                                new MouseAdapter() {
-
+                        libraryUI.getAddGameUI().getPnlCheckList()
+                                .addMouseListener(new MouseAdapter() {
                                     @Override
                                     public void mousePressed(MouseEvent e) {
 
                                         // Verify that the click occured on the selected cell
                                         final int index = libraryUI
+                                        .getAddGameUI()
                                         .getPnlCheckList()
-                                        .locationToIndex(e.getPoint());
+                                        .locationToIndex(e
+                                                .getPoint());
 
                                         if (((ARadioButton) ((AImagePane) autoChecklistModel
                                         .get(index))
@@ -1194,10 +1207,12 @@ public class LibraryLogic implements AuroraScreenLogic {
                                             // Remove from current selected
                                             // games to add if not in current list
                                             // -
-                                            if (autoAddCurrentList.contains(
+                                            if (autoAddCurrentList
+                                            .contains(
                                                     autoGameList
                                                     .get(index))) {
-                                                autoAddCurrentList.remove(
+                                                autoAddCurrentList
+                                                .remove(
                                                         autoGameList
                                                         .get(index));
                                             }
@@ -1208,93 +1223,115 @@ public class LibraryLogic implements AuroraScreenLogic {
                                             // Check the game in list
                                             ((ARadioButton) ((AImagePane) autoChecklistModel
                                             .get(index))
-                                            .getComponent(0)).setSelected();
+                                            .getComponent(0))
+                                            .setSelected();
 
                                             // -
                                             // Add to current selected
                                             // games to add if not in current list
                                             // -
-                                            autoAddCurrentList.add(autoGameList
+                                            autoAddCurrentList
+                                            .add(autoGameList
                                                     .get(index));
 
                                         }
 
                                         checkAutoAddGameStatus();
 
-                                        libraryUI.getPnlCheckList().revalidate();
-                                        libraryUI.getPnlCheckList().repaint();
-
-                                    }
-                                });
-
-                        libraryUI.getPnlCheckList().addMouseMotionListener(
-                                new MouseMotionListener() {
-                                    @Override
-                                    public void mouseDragged(MouseEvent e) {
-
-                                        // Verify that the click occured on the selected cell
-                                        final int index = libraryUI
+                                        libraryUI.getAddGameUI()
                                         .getPnlCheckList()
-                                        .locationToIndex(e.getPoint());
+                                        .revalidate();
+                                        libraryUI.getAddGameUI()
+                                        .getPnlCheckList()
+                                        .repaint();
 
-                                        if (selected) { // Unselect
-
-                                            ((ARadioButton) ((AImagePane) autoChecklistModel
-                                            .get(index))
-                                            .getComponent(0))
-                                            .setUnSelected();
-
-                                            // -
-                                            // Remove from current selected
-                                            // games to add if not in current list
-                                            // -
-                                            if (autoAddCurrentList.contains(
-                                                    autoGameList
-                                                    .get(index))) {
-                                                autoAddCurrentList.remove(
-                                                        autoGameList
-                                                        .get(index));
-                                            }
-
-                                        } else { // Select
-
-                                            ((ARadioButton) ((AImagePane) autoChecklistModel
-                                            .get(index))
-                                            .getComponent(0)).setSelected();
-
-                                            // -
-                                            // Add to current selected
-                                            // games to add if not in current list
-                                            // -
-                                            if (!autoAddCurrentList.contains(
-                                                    autoGameList
-                                                    .get(index))) {
-                                                autoAddCurrentList.add(
-                                                        autoGameList
-                                                        .get(index));
-                                            }
-                                        }
-
-                                        checkAutoAddGameStatus();
-
-                                        libraryUI.getPnlCheckList().revalidate();
-                                        libraryUI.getPnlCheckList().repaint();
-
-                                    }
-
-                                    @Override
-                                    public void mouseMoved(MouseEvent e) {
                                     }
                                 });
+
+                        libraryUI.getAddGameUI().getPnlCheckList()
+                                .addMouseMotionListener(
+                                        new MouseMotionListener() {
+                                            @Override
+                                            public void mouseDragged(
+                                                    MouseEvent e) {
+
+                                                        // Verify that the click occured on the selected cell
+                                                        final int index = libraryUI
+                                                        .getAddGameUI()
+                                                        .getPnlCheckList()
+                                                        .locationToIndex(e
+                                                                .getPoint());
+
+                                                        if (selected) { // Unselect
+
+                                                            ((ARadioButton) ((AImagePane) autoChecklistModel
+                                                            .get(index))
+                                                            .getComponent(0))
+                                                            .setUnSelected();
+
+                                                            // -
+                                                            // Remove from current selected
+                                                            // games to add if not in current list
+                                                            // -
+                                                            if (autoAddCurrentList
+                                                            .contains(
+                                                                    autoGameList
+                                                                    .get(index))) {
+                                                                autoAddCurrentList
+                                                                .remove(
+                                                                        autoGameList
+                                                                        .get(index));
+                                                            }
+
+                                                        } else { // Select
+
+                                                            ((ARadioButton) ((AImagePane) autoChecklistModel
+                                                            .get(index))
+                                                            .getComponent(0))
+                                                            .setSelected();
+
+                                                            // -
+                                                            // Add to current selected
+                                                            // games to add if not in current list
+                                                            // -
+                                                            if (!autoAddCurrentList
+                                                            .contains(
+                                                                    autoGameList
+                                                                    .get(index))) {
+                                                                autoAddCurrentList
+                                                                .add(
+                                                                        autoGameList
+                                                                        .get(index));
+                                                            }
+                                                        }
+
+                                                        checkAutoAddGameStatus();
+
+                                                        libraryUI.getAddGameUI()
+                                                        .getPnlCheckList()
+                                                        .revalidate();
+                                                        libraryUI.getAddGameUI()
+                                                        .getPnlCheckList()
+                                                        .repaint();
+
+                                                    }
+
+                                                    @Override
+                                                    public void mouseMoved(
+                                                            MouseEvent e) {
+                                                            }
+                                        });
 
                     }
 
-                    libraryUI.getGameList_autoUI().setSelectedIndex(0);
+                    libraryUI.getAddGameUI().getGameList_autoUI()
+                            .setSelectedIndex(0);
 
-                    libraryUI.getBtnAutoRefresh().setButtonStates(
-                            "autoUI_btnRefresh_norm.png",
-                            "autoUI_btnRefresh_down.png",
-                            "autoUI_btnRefresh_over.png");
+                    libraryUI.getAddGameUI().getBtnAutoRefresh()
+                            .setButtonStates(
+                                    "autoUI_btnRefresh_norm.png",
+                                    "autoUI_btnRefresh_down.png",
+                                    "autoUI_btnRefresh_over.png");
 
                     // After adding display completion in green
                     LibraryUI.lblLibraryStatus.setForeground(Color.GREEN);
@@ -1311,7 +1348,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                     }
 
                     // Show default message after 1.5 seconds
-                    LibraryUI.lblLibraryStatus.setForeground(LibraryUI.DEFAULT_LIBRARY_COLOR);
+                    LibraryUI.lblLibraryStatus.setForeground(
+                            LibraryUI.DEFAULT_LIBRARY_COLOR);
                     LibraryUI.lblLibraryStatus.setText(previousLibraryStatus);
                 }
             }
@@ -1352,15 +1390,16 @@ public class LibraryLogic implements AuroraScreenLogic {
             public void actionPerformed(ActionEvent e) {
 
                 if (libraryUI
-                        .getModelCheckList() != null) {
+                        .getAddGameUI().getModelCheckList() != null) {
                     for (int i = 0; i < libraryUI
-                            .getModelCheckList().getSize(); i++) {
+                                    .getAddGameUI().getModelCheckList()
+                                    .getSize(); i++) {
                         ((ARadioButton) ((AImagePane) libraryUI
-                                .getModelCheckList().get(i))
+                                .getAddGameUI().getModelCheckList().get(i))
                                 .getComponent(0)).setSelected();
 
-                        libraryUI.getPnlCheckList().revalidate();
-                        libraryUI.getPnlCheckList().repaint();
+                        libraryUI.getAddGameUI().getPnlCheckList().revalidate();
+                        libraryUI.getAddGameUI().getPnlCheckList().repaint();
 
                         try {
                             Thread.sleep(20);
@@ -1378,8 +1417,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                 }
                 checkAutoAddGameStatus();
 
-                libraryUI.getPnlCheckList().revalidate();
-                libraryUI.getPnlCheckList().repaint();
+                libraryUI.getAddGameUI().getPnlCheckList().revalidate();
+                libraryUI.getAddGameUI().getPnlCheckList().repaint();
 
             }
         });
@@ -1395,15 +1434,15 @@ public class LibraryLogic implements AuroraScreenLogic {
             public void actionPerformed(ActionEvent e) {
 
                 if (libraryUI
-                        .getModelCheckList() != null) {
-                    for (int i = 0; i < libraryUI
-                            .getModelCheckList().getSize(); i++) {
+                        .getAddGameUI().getModelCheckList() != null) {
+                    for (int i = 0; i < libraryUI.getAddGameUI()
+                                    .getModelCheckList().getSize(); i++) {
                         ((ARadioButton) ((AImagePane) libraryUI
-                                .getModelCheckList().get(i))
+                                .getAddGameUI().getModelCheckList().get(i))
                                 .getComponent(0)).setUnSelected();
 
-                        libraryUI.getPnlCheckList().revalidate();
-                        libraryUI.getPnlCheckList().repaint();
+                        libraryUI.getAddGameUI().getPnlCheckList().revalidate();
+                        libraryUI.getAddGameUI().getPnlCheckList().repaint();
 
                         try {
                             Thread.sleep(20);
@@ -1420,8 +1459,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                 autoAddCurrentList.clear();
                 checkAutoAddGameStatus();
 
-                libraryUI.getPnlCheckList().revalidate();
-                libraryUI.getPnlCheckList().repaint();
+                libraryUI.getAddGameUI().getPnlCheckList().revalidate();
+                libraryUI.getAddGameUI().getPnlCheckList().repaint();
 
             }
         });
@@ -1438,9 +1477,9 @@ public class LibraryLogic implements AuroraScreenLogic {
         // Minimizes all and shows Desktop on Windows
         if (coreUI.getOS().contains("Windows")) {
             try {
-                String loc = "\"" + System.getenv("APPDATA")
-                             + "\\Microsoft\\Internet Explorer\\Quick Launch\\Shows Desktop.lnk"
-                             + "\"";
+                String loc = "\"" + System.getenv("APPDATA") +
+                             "\\Microsoft\\Internet Explorer\\Quick Launch\\Shows Desktop.lnk" +
+                             "\"";
                 Runtime.getRuntime().exec(
                         new String[]{
                             "cmd.exe",
@@ -1498,23 +1537,25 @@ public class LibraryLogic implements AuroraScreenLogic {
             try {
                 img = ImageIO.read(file);
                 BufferedImage scaledImg = AImage.resizeBufferedImage(img,
-                        SCALE_WIDTH_PARAM, SCALE_HEIGHT_PARAM);
+                                                                     SCALE_WIDTH_PARAM,
+                                                                     SCALE_HEIGHT_PARAM);
 
 
 
                 int width = 62;
                 int height = 14;
-                BufferedImage newImage = new BufferedImage(scaledImg.getWidth()
-                                                           + 2 * width,
-                                                           scaledImg.getHeight()
-                                                           + (2 * height),
-                                                           BufferedImage.TYPE_INT_ARGB);
+                BufferedImage newImage = new BufferedImage(
+                        scaledImg.getWidth() +
+                        2 * width,
+                        scaledImg.getHeight() +
+                        (2 * height),
+                        BufferedImage.TYPE_INT_ARGB);
 
                 Graphics g = newImage.getGraphics();
 
                 g.setColor(new Color(0, 0, 0, 0));
                 g.fillRect(0, 0, scaledImg.getWidth() + (2 * width), scaledImg
-                        .getHeight() + (2 * height));
+                           .getHeight() + (2 * height));
                 g.drawImage(scaledImg, width + 2, height - 2, null);
                 g.dispose();
 
@@ -1533,7 +1574,7 @@ public class LibraryLogic implements AuroraScreenLogic {
         if (currentImagePane != null) {
             currentImagePane.setPreferredSize(new Dimension(currentImagePane
                     .getRealImageHeight(), currentImagePane
-                    .getRealImageWidth()));
+                                                            .getRealImageWidth()));
             currentImagePane.setImageFileName(fileName);
         }
 
@@ -1579,7 +1620,7 @@ public class LibraryLogic implements AuroraScreenLogic {
             editingGame.setCoverUrl(newGameName);
             editingGame.refresh(false);
             editingGame.disableEditCoverOverlay();
-            libraryUI.getStatusBadge1().setImgURl("addUI_badge_valid.png");
+            libraryUI.getAddGameUI().setCoverArtIndicator(true);
             libraryUI.getImgGameCoverStatus().setImgURl("addUI_badge_valid.png");
 
             if (libraryUI.isAddGameUI_Visible()) {
@@ -1601,10 +1642,6 @@ public class LibraryLogic implements AuroraScreenLogic {
 
     }
 
-    public void disableGameSearch(GameSearch search) {
-
-    }
-
     public ArrayList<Game> getAutoAddCurrentList() {
         return autoAddCurrentList;
     }
@@ -1621,7 +1658,7 @@ public class LibraryLogic implements AuroraScreenLogic {
         return autoGameList;
     }
 
-    public boolean isIsAutoLoadedOnce() {
+    public boolean isAutoLoadedOnce() {
         return isAutoLoadedOnce;
     }
 

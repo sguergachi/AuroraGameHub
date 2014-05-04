@@ -44,11 +44,11 @@ public class main {
 
     private static boolean startMini = false;
 
-    public static String VERSION = "Alpha 9";
-
-    static final Logger logger = Logger.getLogger(main.class);
+    public static String VERSION = "Alpha 10";
 
     public static int LAUNCHES;
+
+    static final Logger logger = Logger.getLogger(main.class);
 
     public static void main(String[] args) throws InterruptedException,
                                                   UnsupportedAudioFileException,
@@ -64,6 +64,7 @@ public class main {
             startMini = false;
         }
 
+        // Determine version and update values of JRE
         String versionString = System.getProperty("java.version");
         int versionNum = Integer.parseInt(versionString.substring(0, 5).replace(
                 ".", ""));
@@ -74,6 +75,8 @@ public class main {
         } else {
             updateNum = 9;
         }
+
+        // Determine whether system can run Aurora
         if (versionNum >= 170 && updateNum >= 9) {
 
             //Initiate The LoginWindow
