@@ -599,7 +599,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
-                        libraryUI.showEditGameUI((Game) e.getSource());
+                        libraryUI.getEditGameUI().showEditGameUI((Game) e
+                                .getSource());
 
                     }
                 });
@@ -718,10 +719,11 @@ public class LibraryLogic implements AuroraScreenLogic {
      */
     public void checkManualAddGameStatus() {
 
-        System.out.println(libraryUI.getAddGameUI().isCoverArtStatusIndicatorValid());
+        System.out.println(libraryUI.getAddGameUI()
+                .isCoverArtStatusIndicatorValid());
         System.out.println(libraryUI.getAddGameUI().isGameLocationStatusValid());
-        System.out.println( !libraryUI
-            .getAddGameUI().getAddGameToLibraryButton().isVisible());
+        System.out.println(!libraryUI
+                .getAddGameUI().getAddGameToLibraryButton().isVisible());
         System.out.println("==");
         if (libraryUI.getAddGameUI().isCoverArtStatusIndicatorValid() &&
             libraryUI.getAddGameUI().isGameLocationStatusValid() &&
@@ -1621,14 +1623,15 @@ public class LibraryLogic implements AuroraScreenLogic {
             editingGame.refresh(false);
             editingGame.disableEditCoverOverlay();
             libraryUI.getAddGameUI().setCoverArtIndicator(true);
-            libraryUI.getImgGameCoverStatus().setImgURl("addUI_badge_valid.png");
+            libraryUI.getEditGameUI().getGameCoverStatusIndicator().setImgURl(
+                    "addUI_badge_valid.png");
 
-            if (libraryUI.isAddGameUI_Visible()) {
+            if (libraryUI.isAddGameUIVisible()) {
 
                 gameSearch_addUI.disableSearch();
                 gameSearch_addUI.getTxtSearch().requestFocusInWindow();
 
-            } else if (libraryUI.isEditGameUI_Visible()) {
+            } else if (libraryUI.isEditGameUIVisible()) {
 
                 gameSearch_editUI.disableSearch();
                 gameSearch_editUI.getTxtSearch().requestFocusInWindow();

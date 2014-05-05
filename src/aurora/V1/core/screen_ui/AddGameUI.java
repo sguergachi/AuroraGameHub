@@ -63,8 +63,6 @@ public class AddGameUI {
 
     private JPanel pnlGlass;
 
-    private AAnimate addGameToLibButtonAnimator;
-
     private AImagePane pnlAddGamePane;
 
     private JPanel pnlTopPane_addUI;
@@ -202,8 +200,6 @@ public class AddGameUI {
     private boolean autoMode;
 
     private boolean autoAddStatusEnabled;
-
-    private boolean coverArtStatusEnabled;
 
     private boolean gameLocationStatusEnabled;
 
@@ -982,10 +978,10 @@ public class AddGameUI {
 
     public void showAddGameUI() {
 
-        if (libraryUI.isEditGameUI_Visible()) {
-            libraryUI.hideEditGameUI();
+        if (libraryUI.isEditGameUIVisible()) {
+            libraryUI.getEditGameUI().hideEditGameUI();
             showAddGameUI();
-        } else if (libraryUI.isAddGameUI_Visible()) {
+        } else if (libraryUI.isAddGameUIVisible()) {
 
             hideAddGameUI();
 
@@ -1228,7 +1224,7 @@ public class AddGameUI {
     //
     // Auto Mode Indicators settings
     //
-    public void resetAutoModeIndicators() {
+    public void resetAutoModeIndicator() {
         autoAddStatusIndicator.setImgURl("addUI_badge_idle.png");
         autoAddStatusEnabled = false;
     }
@@ -1249,7 +1245,6 @@ public class AddGameUI {
     public void resetManualModeIndicators() {
         gameLocationStatusIndicator.setImgURl("addUI_badge_idle.png");
         coverArtStatusIndicator.setImgURl("addUI_badge_idle.png");
-        coverArtStatusEnabled = false;
         gameLocationStatusEnabled = false;
         libraryLogic.checkManualAddGameStatus();
     }
@@ -1268,10 +1263,8 @@ public class AddGameUI {
     public void setCoverArtIndicator(Boolean indicatorState) {
         if (indicatorState) {
             coverArtStatusIndicator.setImgURl("addUI_badge_valid.png");
-            coverArtStatusEnabled = true;
         } else {
             coverArtStatusIndicator.setImgURl("addUI_badge_invalid.png");
-            coverArtStatusEnabled = false;
         }
         libraryLogic.checkManualAddGameStatus();
     }
