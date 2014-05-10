@@ -20,7 +20,6 @@ package aurora.V1.core.screen_ui;
 import aurora.V1.core.AuroraApp;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
-import aurora.V1.core.Game;
 import aurora.V1.core.GridAnimation;
 import aurora.V1.core.GridManager;
 import aurora.V1.core.screen_handler.LibraryHandler;
@@ -32,45 +31,29 @@ import aurora.V1.core.screen_handler.LibraryHandler.SearchFocusHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.ShowAddGameUIHandler;
 import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_logic.SettingsLogic;
-import aurora.engine.V1.Logic.AAnimate;
-import aurora.engine.V1.Logic.AFileDrop;
-import aurora.engine.V1.Logic.APostHandler;
-import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.AFadeLabel;
 import aurora.engine.V1.UI.AHoverButton;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
-import aurora.engine.V1.UI.APopupMenu;
 import aurora.engine.V1.UI.AProgressWheel;
-import aurora.engine.V1.UI.ARadioButton;
-import aurora.engine.V1.UI.ARadioButtonManager;
-import aurora.engine.V1.UI.ASlickLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.RoundRectangle2D;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JWindow;
 import org.apache.log4j.Logger;
 
 /**
@@ -265,36 +248,6 @@ public class LibraryUI extends AuroraApp {
 
     static final Logger logger = Logger.getLogger(LibraryUI.class);
 
-    private APopupMenu organizeMenu;
-
-    private ARadioButtonManager organizeBtnManager;
-
-    private ARadioButton btnBottom;
-
-    private ARadioButton btnMiddle;
-
-    private ARadioButton btnTop;
-
-    private ASlickLabel lblFavorite;
-
-    private ASlickLabel lblAlphabetic;
-
-    private ASlickLabel lblMostPlayed;
-
-    private AImage icoFavorite;
-
-    private AImage icoAlphabetic;
-
-    private AImage icoMostPlayed;
-
-    private JPanel favoritePane;
-
-    private JPanel alphabeticPane;
-
-    private JPanel mostplayedPane;
-
-    private AImage imgGameLocationStatus;
-
     private boolean editGameUIVisible = false;
 
     private boolean gameLocation = false;
@@ -317,55 +270,17 @@ public class LibraryUI extends AuroraApp {
 
     public static final Color DEFAULT_LIBRARY_COLOR = Color.lightGray;
 
-    private AAnimate editGameCoverAnimator;
-
-    private AImagePane pnlEditGameCoverPane;
-
-    private JPanel pnlBottomPane_editCoverUI;
-
-    private AButton btnClose_editCoverUI;
-
-    private JPanel pnlCenterPane_editCoverUI;
-
-    private AImagePane pnlDrag_editCoverUI;
-
-    private AImage imgEditGameCoverStatus;
-
-    private JPanel pnlTopPane_editCoverUI;
-
-    private AImage imgTopArrows;
-
-    private AButton btnDone_editCoverUI;
-
-    private JPanel pnlRightPane_editCoverUI;
-
-    private JPanel pnlLeftPane_editCoverUI;
-
-    private JPanel pnlContent_editCoverUI;
-
-    private AAnimate editGameCoverFrameAnimator;
-
-    private JWindow frameEditGameCoverPane;
-
-    private ActionListener closeEditCoverListener;
-
-    // Array of supported images to be droped and used
-    ArrayList<String> supportedImages = new ArrayList<>(
-            Arrays.asList("png", "jpg", "jpeg", "gif", "bmp"));
-
-    private LibraryHandler.EditCoverUIDragedListener fileDragedListener;
-
     private int updatedCurrentIndex = -1;
-
-    private boolean editGameCoverUILoaded;
 
     private AddGameUI addGameUI;
 
     private int addGameFontSize;
 
-    private AFileDrop fileDrop;
-
     private EditGameUI editGameUI;
+
+    private EditCoverUI editCoverUI;
+
+    private OrganizeUI organizeUI;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -476,19 +391,22 @@ public class LibraryUI extends AuroraApp {
         //
         GridSplit = new GridManager(2, 4, coreUI);
         this.GridAnimate = new GridAnimation(GridSplit, pnlLibraryContainer);
+
+
         //
         // initialize and load Library modules
         //
-
         addGameUI = new AddGameUI(coreUI, this);
         addGameUI.loadAddGameUI();
 
         editGameUI = new EditGameUI(coreUI, this);
         editGameUI.loadEditGameUI();
 
-        loadOrganizeUI();
+        organizeUI = new OrganizeUI(coreUI, this);
+        organizeUI.loadOrganizeUI();
 
-        loadEditGameCoverUI();
+        editCoverUI = new EditCoverUI(coreUI, this);
+        editCoverUI.loadEditGameCoverUI();
 
     }
 
@@ -872,505 +790,6 @@ public class LibraryUI extends AuroraApp {
 
     }
 
-    private void loadEditGameCoverUI() {
-        if (pnlGlass == null) {
-            pnlGlass = (JPanel) coreUI.getFrame().getGlassPane();
-        }
-
-        // Create Components
-        // ----------------------------------------------------------------.
-        frameEditGameCoverPane = new JWindow();
-        pnlEditGameCoverPane = new AImagePane("editCoverUI_bg.png",
-                                              new BorderLayout());
-        pnlEditGameCoverPane.setPreferredSize(new Dimension(pnlEditGameCoverPane
-                .getRealImageWidth(), pnlEditGameCoverPane.getRealImageHeight()));
-
-        //* Top Panel Components *//
-        pnlTopPane_editCoverUI = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        pnlTopPane_editCoverUI.setOpaque(false);
-        imgTopArrows = new AImage("editCoverUI_arrows.png");
-        imgTopArrows.setPreferredSize(new Dimension(imgTopArrows.getImgWidth(),
-                                                    imgTopArrows.getImgHeight()));
-
-        //* Bottom Panel Components *//
-        pnlBottomPane_editCoverUI = new JPanel(new FlowLayout(FlowLayout.RIGHT,
-                                                              10,
-                                                              3));
-        pnlBottomPane_editCoverUI.setOpaque(false);
-        btnClose_editCoverUI = new AButton("editCoverUI_btnClose_norm.png",
-                                           "editCoverUI_btnClose_down.png",
-                                           "editCoverUI_btnClose_over.png");
-        closeEditCoverListener = libraryHandler.new CloseEditCoverListener(
-                frameEditGameCoverPane);
-
-        //* Right Panel Components *//
-        pnlRightPane_editCoverUI = new JPanel();
-        pnlRightPane_editCoverUI.setLayout(new BoxLayout(
-                pnlRightPane_editCoverUI, BoxLayout.Y_AXIS));
-        pnlRightPane_editCoverUI.setOpaque(false);
-        btnDone_editCoverUI = new AButton("editCoverUI_btnDone_norm.png",
-                                          "editCoverUI_btnDone_down.png",
-                                          "editCoverUI_btnDone_over.png");
-
-        //* Left Panel Components *//
-        pnlLeftPane_editCoverUI = new JPanel();
-        pnlLeftPane_editCoverUI.setLayout(new BoxLayout(pnlLeftPane_editCoverUI,
-                                                        BoxLayout.Y_AXIS));
-        pnlLeftPane_editCoverUI.setOpaque(false);
-        btnDone_editCoverUI = new AButton("editCoverUI_btnDone_norm.png",
-                                          "editCoverUI_btnDone_down.png",
-                                          "editCoverUI_btnDone_over.png");
-        imgEditGameCoverStatus = new AImage("addUI_badge_invalid.png");
-
-        //* Center Panel *//
-        pnlCenterPane_editCoverUI = new JPanel(new FlowLayout(FlowLayout.CENTER,
-                                                              0, 8));
-        pnlCenterPane_editCoverUI.setOpaque(false);
-
-
-        //* Drag Pane *//
-        pnlDrag_editCoverUI = new AImagePane("editCoverUI_dragBG.png");
-        pnlDrag_editCoverUI.setPreferredSize(new Dimension(pnlDrag_editCoverUI
-                .getRealImageWidth() + 5, pnlDrag_editCoverUI
-                                                           .getRealImageHeight()));
-
-        fileDragedListener = libraryHandler.new EditCoverUIDragedListener(
-                pnlDrag_editCoverUI, imgEditGameCoverStatus);
-
-        fileDrop = new AFileDrop(pnlDrag_editCoverUI,
-                                 "editCoverUI_dropBG.png",
-                                 "editCoverUI_rejectBG.png", true,
-                                 fileDragedListener, supportedImages);
-
-        //* Content Panel *//
-        pnlContent_editCoverUI = new JPanel(new BorderLayout());
-        pnlContent_editCoverUI.setOpaque(false);
-
-    }
-
-    public void hideEditCoverFrame() {
-        closeEditCoverListener.actionPerformed(null);
-    }
-
-    public void buildEditGameCoverUI(Game game) {
-
-        if (!editGameCoverUILoaded) {
-
-            //* Set up glass panel *//
-            frameEditGameCoverPane.setAlwaysOnTop(true);
-            frameEditGameCoverPane.setAutoRequestFocus(true);
-            frameEditGameCoverPane.setBackground(new Color(0, 0, 0, 0));
-            frameEditGameCoverPane.setContentPane(new ShapedPane());
-
-            frameEditGameCoverPane.setSize(pnlEditGameCoverPane
-                    .getRealImageWidth(), pnlEditGameCoverPane
-                                           .getRealImageHeight() + 50 + coreUI
-                                          .getTaskbarHeight());
-
-            //* Set Location for Edit Game UI panels *//
-            frameEditGameCoverPane.setLocation(
-                    (coreUI.getFrame().getWidth() / 2) -
-                    (pnlEditGameCoverPane
-                    .getRealImageWidth() / 2),
-                    coreUI.getScreenHeight());
-
-            //* Top *//
-            pnlTopPane_editCoverUI.add(imgTopArrows);
-
-            //* Bottom *//
-            pnlBottomPane_editCoverUI.add(btnClose_editCoverUI);
-            btnClose_editCoverUI.addActionListener(closeEditCoverListener);
-
-            //* Center *//
-            int centerHeight = pnlDrag_editCoverUI.getRealImageHeight() +
-                               (pnlEditGameCoverPane
-                               .getRealImageHeight() - (imgTopArrows
-                                .getImgHeight() + pnlBottomPane_editCoverUI
-                                                        .getPreferredSize().height));
-
-            pnlCenterPane_editCoverUI.add(pnlDrag_editCoverUI);
-            pnlCenterPane_editCoverUI.setPreferredSize(new Dimension(
-                    pnlDrag_editCoverUI.getRealImageWidth(), pnlDrag_editCoverUI
-                    .getRealImageHeight()));
-
-
-            fileDrop.setupFileDrop();
-
-            //* Right *//
-            JPanel rightPaneContainer = new JPanel(new FlowLayout(
-                    FlowLayout.CENTER));
-            rightPaneContainer.setOpaque(false);
-            rightPaneContainer.add(btnDone_editCoverUI);
-            btnDone_editCoverUI.addActionListener(
-                    libraryHandler.new EditCoverUIDoneListener(
-                            imgEditGameCoverStatus, game, fileDragedListener));
-
-            rightPaneContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
-
-            pnlRightPane_editCoverUI.add(Box.createVerticalGlue());
-            pnlRightPane_editCoverUI.add(rightPaneContainer);
-            pnlRightPane_editCoverUI.setPreferredSize(new Dimension(
-                    (pnlEditGameCoverPane.getRealImageWidth() / 5) + 20,
-                    centerHeight));
-
-            //* Left *//
-            JPanel leftPaneContainer = new JPanel(new FlowLayout(
-                    FlowLayout.CENTER));
-            leftPaneContainer.setOpaque(false);
-            leftPaneContainer.add(imgEditGameCoverStatus);
-
-            leftPaneContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
-
-            pnlLeftPane_editCoverUI.add(Box.createVerticalStrut(centerHeight /
-                                                                6));
-            pnlLeftPane_editCoverUI.add(leftPaneContainer);
-            pnlLeftPane_editCoverUI.setPreferredSize(new Dimension(
-                    (pnlEditGameCoverPane.getRealImageWidth() / 5) + 20,
-                    centerHeight));
-
-            //* Content Pane *//
-            pnlContent_editCoverUI.add(pnlCenterPane_editCoverUI,
-                                       BorderLayout.CENTER);
-            pnlContent_editCoverUI.add(pnlTopPane_editCoverUI,
-                                       BorderLayout.NORTH);
-            pnlContent_editCoverUI.add(pnlRightPane_editCoverUI,
-                                       BorderLayout.EAST);
-            pnlContent_editCoverUI.add(pnlLeftPane_editCoverUI,
-                                       BorderLayout.WEST);
-
-            pnlEditGameCoverPane
-                    .add(pnlContent_editCoverUI, BorderLayout.CENTER);
-            pnlEditGameCoverPane.add(pnlBottomPane_editCoverUI,
-                                     BorderLayout.PAGE_END);
-
-            frameEditGameCoverPane.getContentPane().add(pnlEditGameCoverPane,
-                                                        BorderLayout.PAGE_START);
-
-            pnlEditGameCoverPane.revalidate();
-            frameEditGameCoverPane.revalidate();
-            editGameCoverUILoaded = true;
-        } else {
-            btnDone_editCoverUI.removeActionListener(btnDone_editCoverUI
-                    .getActionListeners()[0]);
-            btnDone_editCoverUI.addActionListener(
-                    libraryHandler.new EditCoverUIDoneListener(
-                            imgEditGameCoverStatus, game, fileDragedListener));
-            pnlDrag_editCoverUI.removeAll();
-            pnlDrag_editCoverUI.setImage("editCoverUI_dragBG.png");
-            pnlDrag_editCoverUI.revalidate();
-            imgEditGameCoverStatus.setImgURl("addUI_badge_invalid.png");
-            fileDrop.setupFileDrop();
-            fileDragedListener.setIsOccupied(false);
-
-        }
-    }
-
-    public EditGameUI getEditGameUI() {
-        return editGameUI;
-    }
-
-    public class ShapedPane extends JPanel {
-
-        public ShapedPane() {
-
-            setOpaque(false);
-            setLayout(new BorderLayout());
-            setBackground(new Color(45, 55, 73));
-
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-
-            Graphics2D g2d = (Graphics2D) g.create();
-            RenderingHints hints = new RenderingHints(
-                    RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.setRenderingHints(hints);
-            g2d.setColor(getBackground());
-            g2d.fill(new RoundRectangle2D.Double(0, 0,
-                                                 frameEditGameCoverPane
-                                                 .getWidth(),
-                                                 frameEditGameCoverPane
-                                                 .getHeight(), 69,
-                                                 59));
-            g2d.dispose();
-        }
-    }
-
-    private void loadOrganizeUI() {
-
-        organizeMenu = new APopupMenu();
-        organizeMenu.setOpaque(false);
-
-        // Background Panes //
-        btnTop = new ARadioButton("library_organize_top.png",
-                                  "library_organize_top_selected.png");
-        btnTop.setLayout(
-                new FlowLayout(FlowLayout.CENTER));
-        btnTop.setPreferredSize(new Dimension(btnTop.getRealImageWidth(), btnTop
-                                              .getRealImageHeight()));
-
-        btnMiddle = new ARadioButton("library_organize_middle.png",
-                                     "library_organize_middle_selected.png");
-        btnMiddle.setLayout(
-                new FlowLayout(FlowLayout.CENTER));
-        btnMiddle.setPreferredSize(new Dimension(btnMiddle.getRealImageWidth(),
-                                                 btnMiddle.getRealImageHeight()));
-
-        btnBottom = new ARadioButton("library_organize_bottom.png",
-                                     "library_organize_bottom_selected.png");
-        btnBottom.setLayout(
-                new FlowLayout(FlowLayout.CENTER));
-        btnBottom.setPreferredSize(new Dimension(btnBottom.getRealImageWidth(),
-                                                 btnBottom.getRealImageHeight()));
-
-        organizeBtnManager = new ARadioButtonManager();
-        organizeBtnManager.addButton(btnBottom);
-        organizeBtnManager.addButton(btnMiddle);
-        organizeBtnManager.addButton(btnTop);
-        organizeBtnManager.setRadioButton();
-
-        // Labels //
-        lblFavorite = new ASlickLabel("Favorite");
-        lblFavorite.setFont(getCoreUI().getRopaFont().deriveFont(
-                Font.PLAIN, 19));
-        lblFavorite.setForeground(new Color(173, 173, 173));
-
-        lblAlphabetic = new ASlickLabel("Alphabetic");
-        lblAlphabetic.setFont(getCoreUI().getRopaFont()
-                .deriveFont(
-                        Font.PLAIN, 19));
-        lblAlphabetic.setForeground(new Color(173, 173, 173));
-
-        lblMostPlayed = new ASlickLabel("Most Played");
-        lblMostPlayed.setFont(getCoreUI().getRopaFont()
-                .deriveFont(
-                        Font.PLAIN, 19));
-        lblMostPlayed.setForeground(new Color(173, 173, 173));
-
-        // Icons //
-        icoFavorite = new AImage("library_organize_favorite.png");
-
-        icoAlphabetic = new AImage("library_organize_alphabetic.png");
-
-        icoMostPlayed = new AImage("library_organize_mostPlayed.png");
-
-        // Containers //
-        favoritePane = new JPanel(new FlowLayout(FlowLayout.LEFT, 10,
-                                                 2));
-        favoritePane.setPreferredSize(new Dimension(btnBottom
-                .getRealImageWidth(),
-                                                    btnBottom
-                                                    .getRealImageHeight()));
-        favoritePane.setOpaque(false);
-
-        alphabeticPane = new JPanel(new FlowLayout(FlowLayout.LEFT,
-                                                   10, 2));
-        alphabeticPane.setPreferredSize(new Dimension(btnBottom
-                .getRealImageWidth(),
-                                                      btnBottom
-                                                      .getRealImageHeight()));
-        alphabeticPane.setOpaque(false);
-
-        mostplayedPane = new JPanel(new FlowLayout(FlowLayout.LEFT,
-                                                   10, 2));
-        mostplayedPane.setPreferredSize(new Dimension(btnBottom
-                .getRealImageWidth(),
-                                                      btnBottom
-                                                      .getRealImageHeight()));
-        mostplayedPane.setOpaque(false);
-
-        // Handlers //
-        btnTop.addMouseListener(libraryHandler.new OrganizeMouseListener(
-                lblFavorite));
-        btnTop.setSelectedHandler(libraryHandler.new SelectedOrganizeListener(
-                lblFavorite,
-                storage.getStoredSettings(),
-                "Favorite"));
-        btnTop.setUnSelectedHandler(
-                libraryHandler.new UnSelectedOrganizeListener(
-                        lblFavorite, organizeMenu));
-
-        btnMiddle.addMouseListener(
-                libraryHandler.new OrganizeMouseListener(lblAlphabetic));
-        btnMiddle.setSelectedHandler(
-                libraryHandler.new SelectedOrganizeListener(lblAlphabetic,
-                                                            storage
-                                                            .getStoredSettings(),
-                                                            "Alphabetic"));
-        btnMiddle.setUnSelectedHandler(
-                libraryHandler.new UnSelectedOrganizeListener(
-                        lblAlphabetic, organizeMenu));
-
-        btnBottom.addMouseListener(libraryHandler.new OrganizeMouseListener(
-                lblMostPlayed));
-        btnBottom.setSelectedHandler(
-                libraryHandler.new SelectedOrganizeListener(lblMostPlayed,
-                                                            storage
-                                                            .getStoredSettings(),
-                                                            "Most Played"));
-        btnBottom.setUnSelectedHandler(
-                libraryHandler.new UnSelectedOrganizeListener(
-                        lblMostPlayed, organizeMenu));
-
-        // Add to panels //
-        favoritePane.add(icoFavorite);
-        favoritePane.add(lblFavorite);
-
-        btnTop.add(favoritePane);
-
-        alphabeticPane.add(icoAlphabetic);
-        alphabeticPane.add(lblAlphabetic);
-
-        btnMiddle.add(alphabeticPane);
-
-        mostplayedPane.add(icoMostPlayed);
-        mostplayedPane.add(lblMostPlayed);
-
-        btnBottom.add(mostplayedPane);
-
-        organizeMenu.add(btnTop);
-        organizeMenu.add(btnMiddle);
-        organizeMenu.add(btnBottom);
-    }
-
-    public void showOrganizeUI() {
-
-        AuroraStorage storage = dashboardUI.getStorage();
-        String soundEffectsSetting = storage.getStoredSettings()
-                .getSettingValue("sound_effects");
-        if (soundEffectsSetting == null) {
-            soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
-        }
-
-        if (soundEffectsSetting.equals("enabled")) {
-            ASound organizeSFX = new ASound("tick_2.wav", false);
-            organizeSFX.Play();
-        }
-
-        // States //
-        if (!btnTop.isSelected && !btnMiddle.isSelected && !btnBottom.isSelected) {
-            String value = storage.getStoredSettings().getSettingValue(
-                    "organize");
-            if (value != null) {
-                if (value.equalsIgnoreCase("Favorite")) {
-                    btnTop.setSelected();
-
-                } else if (value.equalsIgnoreCase("Alphabetic")) {
-                    btnMiddle.setSelected();
-
-                } else if (value.equalsIgnoreCase("Most Played")) {
-                    btnBottom.setSelected();
-                }
-            } else {
-
-                storage.getStoredSettings().saveSetting("organize", "favorite");
-                value = "Favorite";
-                btnTop.setSelected();
-            }
-        }
-
-        organizeMenu
-                .show(getCoreUI().getFrame(), btnOrganizeGames
-                      .getLocationOnScreen().x + ((btnOrganizeGames
-                                              .getBounds().width) / 3 -
-                                                  (btnOrganizeGames
-                                                  .getBounds().width) / 5) - 3,
-                      btnOrganizeGames.getLocationOnScreen().y -
-                      btnOrganizeGames
-                      .getBounds().height -
-                      btnMiddle
-                      .getRealImageHeight());
-
-    }
-
-    public void showEditGameCoverUI(final Game game) {
-
-        pnlGlass.setVisible(true);
-
-        editGameCoverFrameAnimator = new AAnimate();
-        editGameCoverAnimator = new AAnimate(
-                frameEditGameCoverPane);
-
-        AuroraStorage storage = dashboardUI.getStorage();
-        String soundEffectsSetting = storage.getStoredSettings()
-                .getSettingValue("sound_effects");
-        if (soundEffectsSetting == null) {
-            soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
-        }
-
-        if (soundEffectsSetting.equals("enabled")) {
-            int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
-            ASound showSound = new ASound("swoop_" + num + ".wav", false);
-            showSound.Play();
-        }
-
-        AThreadWorker editGameCoverWorker = new AThreadWorker(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                        buildEditGameCoverUI(game);
-
-                        editGameCoverAnimator
-                        .setInitialLocation(
-                                (coreUI.getFrame().getWidth() /
-                                 2) -
-                                (pnlEditGameCoverPane
-                                .getRealImageWidth() / 2),
-                                coreUI
-                                .getScreenHeight());
-
-                    }
-
-                }, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                        //* Animate Up Edit Game Cover UI *//
-                        editGameCoverFrameAnimator.fadeOut(coreUI.getFrame());
-
-                        editGameCoverFrameAnimator.addPostAnimationListener(
-                                new APostHandler() {
-                                    @Override
-                                    public void postAction() {
-
-                                        coreUI.getFrame().setVisible(false);
-
-                                        libraryLogic
-                                        .setupDesktopEnvironmentForCoverArtEdit();
-                                        try {
-                                            Thread.sleep(400);
-                                        } catch (InterruptedException ex) {
-                                            java.util.logging.Logger.getLogger(
-                                                    LibraryUI.class.getName())
-                                            .log(Level.SEVERE, null, ex);
-                                        }
-
-                                        editGameCoverAnimator.moveVertical(
-                                                coreUI
-                                                .getScreenHeight() -
-                                                pnlEditGameCoverPane
-                                                .getRealImageHeight() -
-                                                (coreUI
-                                                .getTaskbarHeight() - 2),
-                                                -18);
-
-                                    }
-                                });
-
-                        pnlEditGameCoverPane.revalidate();
-
-                    }
-                });
-
-        editGameCoverWorker.startOnce();
-
-        editGameCoverUIvisible = true;
-    }
-
     /**
      * .-----------------------------------------------------------------------.
      * | moveGridLeft()
@@ -1579,6 +998,10 @@ public class LibraryUI extends AuroraApp {
 
     // Getters and Setters
     // ----------------------------------------------------------------.
+    public EditGameUI getEditGameUI() {
+        return editGameUI;
+    }
+
     public int getAddGameFontSize() {
         return addGameFontSize;
     }
@@ -1595,7 +1018,6 @@ public class LibraryUI extends AuroraApp {
         return addGameUI;
     }
 
-
     public boolean isAddGameUIVisible() {
         return addGameUI_Visible;
     }
@@ -1610,14 +1032,6 @@ public class LibraryUI extends AuroraApp {
 
     public void setIsEditUILoaded(boolean isEditUILoaded) {
         this.editUILoaded = isEditUILoaded;
-    }
-
-    public boolean isEditGameCoverUILoaded() {
-        return editGameCoverUILoaded;
-    }
-
-    public void setIsEditGameCoverUILoaded(boolean isEditGameCoverUILoaded) {
-        this.editGameCoverUILoaded = isEditGameCoverUILoaded;
     }
 
     public AFadeLabel getLblLibraryStatus() {
@@ -1881,6 +1295,18 @@ public class LibraryUI extends AuroraApp {
 
     public void setIsAddGameUILoaded(boolean isAddGameUILoaded) {
         this.isAddGameUILoaded = isAddGameUILoaded;
+    }
+
+    public EditCoverUI getEditCoverUI() {
+        return editCoverUI;
+    }
+
+    public OrganizeUI getOrganizeUI() {
+        return organizeUI;
+    }
+
+    public AButton getBtnOrganizeGames() {
+        return btnOrganizeGames;
     }
 
     public static int getListFontSize() {

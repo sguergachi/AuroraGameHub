@@ -1656,7 +1656,7 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            libraryUI.showOrganizeUI();
+            libraryUI.getOrganizeUI().showOrganizeUI();
 
         }
     }
@@ -2651,7 +2651,7 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!libraryUI.isEditGameCoverUI_visible()) {
-                libraryUI.showEditGameCoverUI(game);
+                libraryUI.getEditCoverUI().showEditGameCoverUI(game);
             }
 
         }
@@ -2842,7 +2842,7 @@ public class LibraryHandler implements
 
             } else {
 
-                libraryUI.hideEditCoverFrame();
+                libraryUI.getEditCoverUI().hideEditCoverFrame();
                 libraryLogic.editCover(editingGame, dragListener
                                        .getNewGameName());
             }
