@@ -206,18 +206,18 @@ public class EditGameUI {
         pnlEditGamePane = new AImagePane("editUI_bg.png",
                                          new BorderLayout());
 
-        //* Top Panel Components *//
+        // Top Panel Components
         pnlTopPane_editUI = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 4));
         pnlTopPane_editUI.setOpaque(false);
         btnClose_editUI = new AButton("addUI_btnClose_norm.png",
                                       "addUI_btnClose_down.png",
                                       "addUI_btnClose_over.png");
 
-        //* Center Panel *//
+        // Center Panel
         pnlCenter_editUI = new JPanel(new BorderLayout());
         pnlCenter_editUI.setOpaque(false);
 
-        //* Right Menu Pane *//
+        // Right Menu Pane
         pnlRightPane_editUI = new AImagePane("editUI_right.png");
         pnlRightPane_editUI.setPreferredSize(new Dimension(pnlRightPane_editUI
                 .getRealImageWidth() + 5, pnlRightPane_editUI
@@ -283,7 +283,7 @@ public class EditGameUI {
                                      "editUI_btnDone_down.png",
                                      "editUI_btnDone_over.png");
 
-        //* Left Content Pane *//
+        // Left Content Pane
         pnlLeftPane_editUI = new JPanel();
         pnlLeftPane_editUI.setOpaque(false);
 
@@ -344,7 +344,7 @@ public class EditGameUI {
                     log(Level.SEVERE, null, ex);
         }
 
-        //* Set up File Chooser *//
+        // Set up File Chooser
         SwingUtilities.updateComponentTreeUI(gameFileChooser_editUI);
 
         gameFileChooser_editUI.setApproveButtonText("Select");
@@ -481,11 +481,11 @@ public class EditGameUI {
             // ----------------------------------------------------------------.
             currentGameBeingEdited = game;
 
-            //* Set up glass panel *//
+            // Set up glass panel
             pnlGlass.setVisible(true);
             pnlGlass.setLayout(null);
 
-            //* Set Location for Edit Game UI panels *//
+            // Set Location for Edit Game UI panels
             pnlEditGamePane.setLocation((coreUI.getFrame().getWidth() / 2) -
                                         (addGameUI.getPnlAddGamePane()
                                         .getImgIcon()
@@ -501,11 +501,11 @@ public class EditGameUI {
 
             // Add to Components
             // ----------------------------------------------------------------.
-            //* TOP PANEL COMPONENTS *//
-            //* Add the Close button to the Top most Panel *//
+            // TOP PANEL COMPONENTS
+            // Add the Close button to the Top most Panel
             pnlTopPane_editUI.add(btnClose_editUI);
 
-            //* Right Menu Pane *//
+            // Right Menu Pane
             lblCurrentName_editUI.setFont(coreUI.getRopaFont().deriveFont(
                     Font.PLAIN, 13));
             lblCurrentName_editUI.setForeground(Color.LIGHT_GRAY);
@@ -672,7 +672,7 @@ public class EditGameUI {
             gamesList_editUI.setLayoutOrientation(JList.VERTICAL);
             gamesList_editUI.setVisibleRowCount(10);
 
-            gamesList_editUI.setCellRenderer(libraryHandler.new listRender());
+            gamesList_editUI.setCellRenderer(libraryHandler.new GameListRender());
             gamesList_editUI.setModel(listModel_editUI);
 
             pnlGameCoverContainer
@@ -760,25 +760,25 @@ public class EditGameUI {
                     libraryHandler.new UnselectSettingListener(lblOther_editUI));
 
             txtGameCoverSearch_editUI.getTextBox()
-                    .addFocusListener(libraryHandler.new AddGameFocusHandler(
+                    .addFocusListener(libraryHandler.new GameSearchBoxFocusHandler(
                                     txtGameCoverSearch_editUI.getTextBox(),
                                     txtGameCoverSearch_editUI, libraryLogic
                                     .getGameSearch_editUI()));
             txtGameCoverSearch_editUI.getTextBox()
-                    .addMouseListener(libraryHandler.new AddGameMouseHandler(
+                    .addMouseListener(libraryHandler.new GameSearchBoxMouseHandler(
                                     txtGameCoverSearch_editUI.getTextBox(),
                                     txtGameCoverSearch_editUI, libraryLogic
                                     .getGameSearch_editUI()));
 
             txtGameCoverSearch_editUI.getTextBox().getDocument()
                     .addDocumentListener(
-                            libraryHandler.new AddGameSearchBoxHandler(
+                            libraryHandler.new GameSearchBoxChangeHandler(
                                     libraryLogic
                                     .getGameSearch_editUI(),
                                     txtGameCoverSearch_editUI.getTextBox()));
 
             btnClearSearch_editUI.addActionListener(
-                    libraryHandler.new AddGameSearchClear(
+                    libraryHandler.new GameSearchBoxClear(
                             txtGameCoverSearch_editUI
                             .getTextBox(), libraryLogic
                             .getGameSearch_editUI()));
@@ -867,8 +867,10 @@ public class EditGameUI {
      * .........................................................................
      *
      */
-    public void
-            showEditGameUI(final Game game) {
+    public void showEditGameUI(final Game game) {
+
+        // Check if other UI panels are already visible and hide them
+
         if (libraryUI.isAddGameUIVisible()) {
             addGameUI.hideAddGameUI();
             showEditGameUI(game);
@@ -898,8 +900,7 @@ public class EditGameUI {
 
             editGameAnimator = new AAnimate(pnlEditGamePane);
 
-            AuroraStorage storage = libraryUI.getDashboardUI().getStorage();
-            String soundEffectsSetting = storage.getStoredSettings()
+            String soundEffectsSetting = auroraStorage.getStoredSettings()
                     .getSettingValue("sound_effects");
             if (soundEffectsSetting == null) {
                 soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
@@ -921,7 +922,8 @@ public class EditGameUI {
                     }, new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            //* Animate Down Add Game UI *//
+
+
                             editGameAnimator.setInitialLocation(
                                     (coreUI.getFrame().getWidth() / 2) -
                                     (pnlEditGamePane.getImgIcon()
@@ -964,8 +966,7 @@ public class EditGameUI {
 
             libraryUI.setEditGameUI_Visible(false);
 
-            AuroraStorage storage = libraryUI.getDashboardUI().getStorage();
-            String soundEffectsSetting = storage.getStoredSettings()
+            String soundEffectsSetting = auroraStorage.getStoredSettings()
                     .getSettingValue("sound_effects");
             if (soundEffectsSetting == null) {
                 soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
@@ -978,7 +979,7 @@ public class EditGameUI {
                 showSound.Play();
             }
 
-            //* Animate Up Add Game UI *//
+            // Animate Up Add Game UI
             editGameAnimator.moveVertical(-492, 35);
             editGameAnimator.addPostAnimationListener(new APostHandler() {
                 @Override

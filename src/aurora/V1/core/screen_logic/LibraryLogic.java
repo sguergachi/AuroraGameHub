@@ -201,7 +201,7 @@ public class LibraryLogic implements AuroraScreenLogic {
      * <p/>
      */
     public void setUpCoverDB() {
-        //* Start Aurora Dabatase connection *//
+        // Start Aurora Dabatase connection
         try {
             coverDB = new ASimpleDB("AuroraDB", "AuroraTable", false, System
                                     .getProperty("user.home") + "//AuroraData//");
@@ -255,7 +255,7 @@ public class LibraryLogic implements AuroraScreenLogic {
     public final void addGamesToLibrary() {
         try {
 
-            //* check that favorite states are not null *//
+            // check that favorite states are not null
             if (libraryUI.getStorage().getStoredLibrary().getFaveStates() !=
                 null) {
                 libHasFavourites = true;
@@ -302,7 +302,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
 
 
-                    //* Handle appostrophese in game path *//
+                    // Handle appostrophese in game path
                     game.setGamePath(libraryUI.getStorage()
                             .getStoredLibrary()
                             .getGamePath()
@@ -401,7 +401,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                             "library_favourites.png");
                 }
 
-                //* Reverse Add Games Marked Fav first *//
+                // Reverse Add Games Marked Fav first
                 for (int i = librarySize; i >= 0;
                         i--) {
 
@@ -411,7 +411,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     }
                 }
 
-                //* Add Non-Fav games after *//
+                // Add Non-Fav games after
                 for (int i = 0; i <= librarySize;
                         i++) {
 

@@ -8,7 +8,6 @@ package aurora.V1.core.screen_ui;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.screen_handler.LibraryHandler;
-import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_logic.SettingsLogic;
 import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.UI.AImage;
@@ -33,8 +32,6 @@ public class OrganizeUI {
     private final LibraryUI libraryUI;
 
     private final LibraryHandler libraryHandler;
-
-    private final LibraryLogic libraryLogic;
 
     private final AuroraStorage auroraStorage;
 
@@ -70,7 +67,6 @@ public class OrganizeUI {
         this.coreUI = coreUI;
         this.libraryUI = libraryUI;
         this.libraryHandler = libraryUI.getHandler();
-        this.libraryLogic = libraryUI.getLogic();
         this.auroraStorage = libraryUI.getDashboardUI().getStorage();
     }
 

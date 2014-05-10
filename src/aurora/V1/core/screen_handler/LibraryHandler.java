@@ -157,1608 +157,9 @@ public class LibraryHandler implements
 
     }
 
-    public class RemoveSearchHandler implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                libraryLogic.getGridSearch().restoreGrid();
-            } catch (MalformedURLException ex) {
-                logger.error(ex);
-            }
-            libraryLogic.getGridSearch().resetAppendedName();
-            libraryUI.getSearchBar().setText("");
-            libraryUI.getSearchBar().setText("Search Here...");
-            libraryUI.getSearchBar().setForeground(Color.darkGray);
-            libraryUI.getSearchBarBG()
-                    .setImage("library_searchBar_inactive.png");
-            libraryUI.getSearchButtonBG().removeAll();
-            libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(),
-                                              BorderLayout.NORTH);
-            libraryUI.getCoreUI().getFrame().requestFocus();
-            libraryUI.getGamesContainer().revalidate();
-        }
-    }
-
-    //////Search Library Bar//////////
-    ///What to do if Click on Search Box
-    public class SearchSelectHandler extends MouseAdapter {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            if (libraryUI.getSearchBar().getText().equals(
-                    "Just Start Typing...")) {
-                libraryUI.getSearchBar().setText("");
-                libraryUI.getSearchBar().setForeground(Color.darkGray);
-                libraryUI.getSearchBarBG().setImage(
-                        "library_searchBar_active.png");
-                libraryUI.getSearchButtonBG().removeAll();
-                libraryUI.getSearchButtonBG().add(libraryUI
-                        .getRemoveSearchButton(), BorderLayout.NORTH);
-                libraryLogic.getGridSearch().resetAppendedName();
-            }
-        }
-    }
-
-    public class SearchButtonHandler implements ActionListener {
-        // Handles the Search Button Besides the Search Box
-
-        @Override
-        // Simply Requests focus and resets append string
-        public void actionPerformed(ActionEvent e) {
-
-            libraryUI.getSearchBar().requestFocus();
-            libraryUI.getSearchBar().setText("");
-            libraryUI.getSearchBar().setForeground(Color.darkGray);
-            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
-            libraryUI.getSearchButtonBG().removeAll();
-            libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(),
-                                              BorderLayout.NORTH);
-            libraryUI.getRemoveSearchButton()
-                    .addActionListener(new RemoveSearchHandler());
-        }
-    }
-
-    public class SearchLostFocusHandler implements FocusListener {
-
-        @Override
-        public void focusGained(FocusEvent e) {
-        }
-
-        @Override
-        public void focusLost(FocusEvent e) {
-            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
-        }
-    }
-
-    public class SearchFocusHandler implements FocusListener {
-
-        private JTextField SearchBar;
-
-        private JButton SearchButton;
-
-        public SearchFocusHandler() {
-            this.SearchBar = libraryUI.getSearchBar();
-            this.SearchButton = libraryUI.getSearchButton();
-
-        }
-
-        @Override
-        // If Focus was not gained thru the search button, then
-        // Reset text and append string
-        public void focusGained(FocusEvent e) {
-            if (libraryUI.getSearchBar().getText().equals(
-                    "Just Type To Search...")) {
-                if (e.getOppositeComponent() == SearchButton) {
-                    SearchBar.setText("");
-                    libraryLogic.getGridSearch().resetAppendedName();
-                    libraryUI.getSearchBar().setForeground(Color.darkGray);
-                    libraryUI.getSearchBarBG().setImage(
-                            "library_searchBar_active.png");
-                    libraryUI.getSearchButtonBG().removeAll();
-                    libraryUI.getSearchButtonBG().add(libraryUI
-                            .getRemoveSearchButton(), BorderLayout.NORTH);
-                    libraryUI.getRemoveSearchButton()
-                            .addActionListener(
-                                    new RemoveSearchHandler());
-                }
-            }
-        }
-
-        @Override
-        public void focusLost(FocusEvent e) {
-
-            if (libraryUI.getSearchBar().getText().equals("")) {
-
-                // Make sure Search button had no effect
-                if (e.getOppositeComponent() != SearchButton) {
-                    // if focus lost then searches thru all Grid Panels, then inside each grid
-                    try {
-                        for (int i = 0; i < libraryLogic.getGridSearch()
-                                        .getGridManager()
-                                        .getArray()
-                                        .size(); i++) {
-                            for (int j = 0; j < libraryLogic.getGridSearch()
-                                            .getGridManager()
-                                            .getGrid(
-                                                    i).getArray().size(); j++) {
-                                // If the focus was not lost due to a GameCover Obj in the Search Grid
-
-                                if (e.getOppositeComponent() instanceof GamePlaceholder) {
-                                    if (e.getOppositeComponent() !=
-                                        (Game) libraryLogic
-                                        .getGridSearch()
-                                        .getGridManager()
-                                        .getGrid(i).getArray().get(j)) {
-                                        if (logger.isDebugEnabled()) {
-                                            logger.debug(e
-                                                    .getOppositeComponent());
-                                        }
-
-                                        // Attempt to restore to GameCover Library Grid
-                                        try {
-                                            libraryLogic.getGridSearch()
-                                                    .restoreGrid();
-                                        } catch (MalformedURLException ex) {
-                                            logger.error(ex);
-                                        }
-                                        // Reset Search Box and append string
-                                        libraryLogic.getGridSearch()
-                                                .resetAppendedName();
-
-                                    }
-                                }
-                            }
-                        }
-                    } catch (NullPointerException ex) {
-                        for (int i = 0; i < libraryUI.getGridSplit().getArray()
-                                        .size(); i++) {
-                            for (int j = 0; j < libraryUI.getGridSplit()
-                                            .getGrid(i).getArray().size(); j++) {
-                                // If the focus was not lost due to a GameCover Obj in the Search Grid
-
-                                if (e.getOppositeComponent() instanceof GamePlaceholder) {
-                                    if (e.getOppositeComponent() !=
-                                        (Game) libraryUI
-                                        .getGridSplit()
-                                        .getGrid(i).getArray().get(j)) {
-                                        if (logger.isDebugEnabled()) {
-                                            logger.debug(e
-                                                    .getOppositeComponent());
-                                        }
-
-                                        // Attempt to restore to GameCover Library Grid
-                                        try {
-                                            libraryLogic.getGridSearch()
-                                                    .restoreGrid();
-                                        } catch (MalformedURLException exx) {
-                                            logger.error(exx);
-                                        }
-                                        // Reset Search Box and append string
-                                        libraryLogic.getGridSearch()
-                                                .resetAppendedName();
-
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-
-                    SearchBar.setText("Just Start Typing...");
-                    libraryUI.getSearchBar().setForeground(Color.darkGray);
-                    libraryUI.getSearchBarBG()
-                            .setImage("library_searchBar_inactive.png");
-                    libraryUI.getSearchButtonBG().removeAll();
-                    libraryUI.getSearchButtonBG().add(libraryUI
-                            .getSearchButton(), BorderLayout.NORTH);
-                }
-            }
-        }
-    }
-
-    public class SearchBoxHandler extends KeyAdapter {
-        // Handles Typing In Search Box, when it is in focus
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-
-            // This activates for any letter number or space key
-            libraryUI.getSearchBar().setForeground(Color.darkGray);
-            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
-            if (!libraryUI.isAddGameUIVisible()) {
-                if (e.getKeyCode() == KeyEvent.VK_A ||
-                    e.getKeyCode() == KeyEvent.VK_B ||
-                    e.getKeyCode() == KeyEvent.VK_C ||
-                    e.getKeyCode() == KeyEvent.VK_D ||
-                    e.getKeyCode() == KeyEvent.VK_E ||
-                    e.getKeyCode() == KeyEvent.VK_F ||
-                    e.getKeyCode() == KeyEvent.VK_G ||
-                    e.getKeyCode() == KeyEvent.VK_H ||
-                    e.getKeyCode() == KeyEvent.VK_I ||
-                    e.getKeyCode() == KeyEvent.VK_J ||
-                    e.getKeyCode() == KeyEvent.VK_K ||
-                    e.getKeyCode() == KeyEvent.VK_L ||
-                    e.getKeyCode() == KeyEvent.VK_M ||
-                    e.getKeyCode() == KeyEvent.VK_N ||
-                    e.getKeyCode() == KeyEvent.VK_O ||
-                    e.getKeyCode() == KeyEvent.VK_P ||
-                    e.getKeyCode() == KeyEvent.VK_Q ||
-                    e.getKeyCode() == KeyEvent.VK_R ||
-                    e.getKeyCode() == KeyEvent.VK_S ||
-                    e.getKeyCode() == KeyEvent.VK_T ||
-                    e.getKeyCode() == KeyEvent.VK_U ||
-                    e.getKeyCode() == KeyEvent.VK_V ||
-                    e.getKeyCode() == KeyEvent.VK_W ||
-                    e.getKeyCode() == KeyEvent.VK_X ||
-                    e.getKeyCode() == KeyEvent.VK_Y ||
-                    e.getKeyCode() == KeyEvent.VK_Z ||
-                    e.getKeyCode() == KeyEvent.VK_SPACE ||
-                    e.getKeyCode() == KeyEvent.VK_1 ||
-                    e.getKeyCode() == KeyEvent.VK_2 ||
-                    e.getKeyCode() == KeyEvent.VK_3 ||
-                    e.getKeyCode() == KeyEvent.VK_4 ||
-                    e.getKeyCode() == KeyEvent.VK_5 ||
-                    e.getKeyCode() == KeyEvent.VK_6 ||
-                    e.getKeyCode() == KeyEvent.VK_7 ||
-                    e.getKeyCode() == KeyEvent.VK_8 ||
-                    e.getKeyCode() == KeyEvent.VK_9 ||
-                    e.getKeyCode() == KeyEvent.VK_0 ||
-                    e.getKeyCode() == KeyEvent.VK_QUOTE ||
-                    e.getKeyCode() == KeyEvent.VK_PERIOD) {
-                    //Sends the key to the search engine to be appended and check for match
-                    libraryLogic.getGridSearch().typedChar(e.getKeyChar());
-
-                } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-                    // If backspace is pressed tell search engine to search for name - 1 character
-                    libraryLogic.getGridSearch().removeChar(e.getKeyChar());
-
-                }
-            }
-        }
-    }
-
-    public class listRender extends DefaultListCellRenderer {
-
-        private static final long serialVersionUID = 1L;
-
-        public listRender() {
-            setOpaque(true);
-        }
-
-        @Override
-        public Component getListCellRendererComponent(JList list, Object value,
-                                                      int index,
-                                                      boolean isSelected,
-                                                      boolean cellHasFocus) {
-
-            setComponentOrientation(list.getComponentOrientation());
-
-            Color bg = null;
-            Color fg = null;
-
-            JList.DropLocation dropLocation = list.getDropLocation();
-            if (dropLocation != null &&
-                !dropLocation.isInsert() &&
-                dropLocation.getIndex() == index) {
-
-                bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
-                fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
-
-                isSelected = true;
-            }
-
-            if (isSelected) {
-                setBackground(bg == null ? list.getSelectionBackground() : bg);
-                setForeground(fg == null ? list.getSelectionForeground() : fg);
-            } else {
-                setBackground(list.getBackground());
-                setForeground(list.getForeground());
-            }
-
-            if (value instanceof Icon) {
-                setIcon((Icon) value);
-                setText("");
-            } else {
-                setIcon(null);
-                setText((value == null) ? "" : value.toString());
-            }
-
-            setEnabled(list.isEnabled());
-            setFont(list.getFont());
-
-            Border border = BorderFactory.createEmptyBorder(3, 10, 3,
-                                                            2);
-            if (isSelected) {
-            } else {
-                setBorder(border);
-            }
-
-            return this;
-
-        }
-    }
-
-    public class ComponentListRender extends DefaultListCellRenderer {
-
-        private static final long serialVersionUID = 1L;
-
-        public ComponentListRender() {
-            setOpaque(false);
-        }
-
-        @Override
-        public Component getListCellRendererComponent(JList list, Object value,
-                                                      int index,
-                                                      boolean isSelected,
-                                                      boolean cellHasFocus) {
-
-            setComponentOrientation(list.getComponentOrientation());
-
-            Color bg = null;
-            Color fg = null;
-
-            JList.DropLocation dropLocation = list.getDropLocation();
-            if (dropLocation != null &&
-                !dropLocation.isInsert() &&
-                dropLocation.getIndex() == index) {
-
-                bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
-                fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
-
-                isSelected = true;
-            }
-
-            this.setBorder(null);
-
-            if (value instanceof JPanel) {
-                return (Component) value;
-            } else {
-                return this;
-            }
-
-        }
-    }
-
-    public class SearchRefocusListener extends KeyAdapter {
-        //Handles When User Starts Typing While Components other than the
-        //Search Box are in focus.
-        //Must get first key typed and put it in the searchbox
-        //Then set focus to the searchbox
-
-        private JTextField SearchBar;
-
-        public SearchRefocusListener() {
-            this.SearchBar = libraryUI.getSearchBar();
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            //pressing any Number or Letter can activate this
-            if (!libraryUI.isAddGameUIVisible()) {
-                if (//e.getKeyCode() == KeyEvent.VK_A
-                        e.getKeyCode() == KeyEvent.VK_B ||
-                        e.getKeyCode() == KeyEvent.VK_C // || e.getKeyCode() == KeyEvent.VK_D
-                        ||
-                        e.getKeyCode() == KeyEvent.VK_E ||
-                        e.getKeyCode() == KeyEvent.VK_F ||
-                        e.getKeyCode() == KeyEvent.VK_G ||
-                        e.getKeyCode() == KeyEvent.VK_H ||
-                        e.getKeyCode() == KeyEvent.VK_I ||
-                        e.getKeyCode() == KeyEvent.VK_J ||
-                        e.getKeyCode() == KeyEvent.VK_K ||
-                        e.getKeyCode() == KeyEvent.VK_L ||
-                        e.getKeyCode() == KeyEvent.VK_M ||
-                        e.getKeyCode() == KeyEvent.VK_N ||
-                        e.getKeyCode() == KeyEvent.VK_O ||
-                        e.getKeyCode() == KeyEvent.VK_P ||
-                        e.getKeyCode() == KeyEvent.VK_Q ||
-                        e.getKeyCode() == KeyEvent.VK_R // || e.getKeyCode() == KeyEvent.VK_S
-                        ||
-                        e.getKeyCode() == KeyEvent.VK_T ||
-                        e.getKeyCode() == KeyEvent.VK_U ||
-                        e.getKeyCode() == KeyEvent.VK_V // || e.getKeyCode() == KeyEvent.VK_W
-                        ||
-                        e.getKeyCode() == KeyEvent.VK_X ||
-                        e.getKeyCode() == KeyEvent.VK_Y ||
-                        e.getKeyCode() == KeyEvent.VK_Z ||
-                        e.getKeyCode() == KeyEvent.VK_1 ||
-                        e.getKeyCode() == KeyEvent.VK_2 ||
-                        e.getKeyCode() == KeyEvent.VK_3 ||
-                        e.getKeyCode() == KeyEvent.VK_4 ||
-                        e.getKeyCode() == KeyEvent.VK_5 ||
-                        e.getKeyCode() == KeyEvent.VK_6 ||
-                        e.getKeyCode() == KeyEvent.VK_7 ||
-                        e.getKeyCode() == KeyEvent.VK_8 ||
-                        e.getKeyCode() == KeyEvent.VK_9 ||
-                        e.getKeyCode() == KeyEvent.VK_0 ||
-                        e.getKeyCode() == KeyEvent.VK_QUOTE ||
-                        e.getKeyCode() == KeyEvent.VK_PERIOD) {
-
-                    //Set first character of Search Box to the key typed
-                    SearchBar.setText(String.valueOf(e.getKeyChar()));
-                    //Clear appended text if there is anything still in there
-                    libraryLogic.getGridSearch().resetAppendedName();
-                    //clear and prep for search mode
-                    libraryLogic.getGridSearch().clearGameGrid();
-                    // Pass to search engine first character
-                    libraryLogic.getGridSearch().typedChar(e.getKeyChar());
-                    // Get focus of Search Box
-                    SearchBar.requestFocus();
-
-                    libraryUI.getSearchBar().setForeground(Color.darkGray);
-                    libraryUI.getSearchBarBG().setImage(
-                            "library_searchBar_active.png");
-                    libraryUI.getSearchButtonBG().removeAll();
-                    libraryUI.getSearchButtonBG().add(libraryUI
-                            .getRemoveSearchButton(), BorderLayout.NORTH);
-                    libraryUI.getRemoveSearchButton()
-                            .addActionListener(
-                                    new RemoveSearchHandler());
-                }
-            }
-        }
-    }
-
-    public class AddGameSearchBoxHandler implements DocumentListener {
-
-        private final GameSearch gameSearch;
-        //Handles Typing In Search Box, when it is in focus
-
-        private final JTextField textField;
-
-        public AddGameSearchBoxHandler(GameSearch searchEngine,
-                                       JTextField TextField) {
-            this.gameSearch = searchEngine;
-            this.textField = TextField;
-        }
-
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-
-            libraryUI.getSearchBar().setForeground(Color.darkGray);
-            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
-
-            gameSearch
-                    .setAppendedName(textField.getText());
-        }
-
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-
-            libraryUI.getSearchBar().setForeground(Color.darkGray);
-            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
-
-            gameSearch
-                    .setAppendedName(textField.getText());
-        }
-
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-
-            libraryUI.getSearchBar().setForeground(Color.darkGray);
-            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
-
-            gameSearch
-                    .setAppendedName(textField.getText());
-
-        }
-    }
-
-    public class AddGameSearchClear implements ActionListener {
-
-        private final JTextField txtField;
-
-        private final GameSearch gameSearch;
-
-        public AddGameSearchClear(JTextField searchField,
-                                  GameSearch searchEngine) {
-            txtField = searchField;
-            gameSearch = searchEngine;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            txtField.setText("");
-            gameSearch.resetCover();
-            txtField.requestFocusInWindow();
-        }
-    }
-
-////Add Game UI////////
-//For when you select the Textfield in the add Game UI
-    public class AddGameMouseHandler extends MouseAdapter {
-
-        private final JTextField txtField;
-
-        private final GameSearch gameSearch;
-
-        private final AImagePane searchBG;
-
-        public AddGameMouseHandler(JTextField searchField,
-                                   AImagePane searchBackground,
-                                   GameSearch searchEngine) {
-            txtField = searchField;
-            gameSearch = searchEngine;
-            searchBG = searchBackground;
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-            if (txtField.getText().equals(
-                    "Search For Game...")) {
-                txtField.requestFocus();
-                txtField.setText("");
-                gameSearch.resetCover();
-                txtField.setForeground(new Color(23, 139,
-                                                 255));
-                searchBG.setImage(
-                        "addUI_text_active.png");
-            }
-        }
-    }
-
-    public class AddGameFocusHandler implements FocusListener {
-
-        private final JTextField txtField;
-
-        private final AImagePane txtBackground;
-
-        private final GameSearch gameSearch;
-
-        public AddGameFocusHandler(JTextField textField,
-                                   AImagePane txtBackground,
-                                   GameSearch searchEngine) {
-
-            this.txtField = textField;
-            this.txtBackground = txtBackground;
-            this.gameSearch = searchEngine;
-
-        }
-
-        @Override
-        public void focusGained(FocusEvent e) {
-
-            if (txtField.getText().equals(
-                    "Search For Game...") || txtField.getText().equals("")) {
-                txtField.setText("");
-                txtField.setCaretColor(Color.cyan);
-                gameSearch.resetCover();
-                txtField.setForeground(new Color(23, 139, 255));
-                if (!(txtBackground instanceof ATextField)) {
-                    txtBackground.setImage(
-                            "addUI_text_active.png");
-                }
-
-            }
-
-        }
-
-        @Override
-        public void focusLost(FocusEvent e) {
-
-            if (e.getOppositeComponent() instanceof JList || e
-                .getOppositeComponent() instanceof JFileChooser == false) {
-                try {
-                    libraryLogic.getGridSearch().restoreGrid();
-                } catch (MalformedURLException ex) {
-                    logger.error(ex);
-                }
-                if (txtField.getText().length() < 1) {
-                    txtField.setText(
-                            "Search For Game...");
-                    txtField.setForeground(Color.darkGray);
-                    if (!(txtBackground instanceof ATextField)) {
-                        txtBackground.setImage(
-                                "addUI_text_inactive.png");
-                    }
-                }
-
-            }
-        }
-    }
-
-    public class HideGameAddUIHandler implements ActionListener {
-
-        private LibraryUI libraryUI;
-
-        public HideGameAddUIHandler(LibraryUI gameLibraryUI) {
-            this.libraryUI = gameLibraryUI;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            libraryUI.getAddGameUI().hideAddGameUI();
-        }
-    }
-
-    public class HideEditAddUIHandler implements ActionListener {
-
-        private LibraryUI libraryUI;
-
-        public HideEditAddUIHandler(LibraryUI gameLibraryUI) {
-            this.libraryUI = gameLibraryUI;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            libraryUI.getEditGameUI().hideEditGameUI();
-        }
-    }
-
-    public class ExecutableChooserHandler implements ActionListener {
-
-        private JFileChooser gameLocator;
-
-        public ExecutableChooserHandler(JFileChooser locator) {
-            gameLocator = locator;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            // Check if selected location is valid
-            if (gameLocator.getSelectedFile() != null && AFileManager.checkFile(
-                gameLocator.getSelectedFile().getAbsolutePath())) {
-                libraryUI
-                        .getAddGameUI().setCurrentGameLocation(gameLocator
-                                .getSelectedFile().getPath());
-                libraryUI.getAddGameUI().setGameLocationIndicator(true);
-
-            } else {
-                libraryUI.getAddGameUI().setGameLocationIndicator(false);
-            }
-
-            libraryLogic.checkManualAddGameStatus();
-        }
-    }
-
-    public class GameEditFileChooserHandler implements ActionListener {
-
-        private JFileChooser gameLocator;
-
-        public GameEditFileChooserHandler(JFileChooser locator) {
-            gameLocator = locator;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            if (gameLocator.getSelectedFile() != null && AFileManager.checkFile(
-                gameLocator.getSelectedFile().getAbsolutePath())) {
-
-                libraryUI.getEditGameUI().setGameLocationInicator(true);
-                libraryUI.getEditGameUI().getTxtNewLocation_editUI().setText(
-                        gameLocator
-                        .getSelectedFile().getAbsolutePath());
-                libraryUI.getEditGameUI().setEditGameLocationChanged(true);
-
-            } else {
-                libraryUI.getEditGameUI().setGameLocationInicator(false);
-                libraryUI.getEditGameUI().setEditGameLocationChanged(false);
-            }
-        }
-    }
-
-    public class ExecutableFilterHandler extends FileFilter {
-
-        private AuroraCoreUI coreUI;
-
-        public ExecutableFilterHandler() {
-            this.coreUI = libraryUI.getCoreUI();
-        }
-
-        @Override
-        public boolean accept(File file) {
-            if (file.isDirectory()) {
-
-                return true;
-            }
-
-            String extension = AFileManager.getExtension(file);
-            if (extension != null) {
-                if (extension.equals("exe") ||
-                    extension.equals("app") ||
-                    extension.equals("lnk") ||
-                    extension.equals("url") ||
-                    extension.equals("bat")) {
-
-                    return true;
-                } else {
-                    return false;
-                }
-            } else if (coreUI.getOS().indexOf("nix") >= 0 || coreUI.getOS()
-                       .indexOf("nux") >= 0) {
-
-                return true;
-            }
-
-            return false;
-        }
-
-        @Override
-        public String getDescription() {
-            return "Executable Files & Shortcuts";
-        }
-    }
-
-    public class EditSettingDoneHandler implements ActionListener {
-
-        private MoveToGrid GridMove;
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            AThreadWorker doneTask = new AThreadWorker(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-
-                    // Check if valid
-                    if (libraryUI.getEditGameUI().isGameLocationStatusEnabled()) {
-
-                        if (libraryUI.getEditGameUI()
-                                .isGameLocationChanged()) {
-
-                            // Remove Game
-                            libraryUI.getStorage().getStoredLibrary()
-                                    .removeGame(libraryUI
-                                            .getEditGameUI()
-                                            .getCurrentGame_editUI());
-                            //Set new path
-                            libraryUI.getEditGameUI().getCurrentGame_editUI()
-                                    .setGamePath(
-                                            libraryUI
-                                            .getEditGameUI()
-                                            .getTxtNewLocation_editUI()
-                                            .getText());
-                            // Re Save
-                            libraryUI.getStorage().getStoredLibrary()
-                                    .SaveGame(libraryUI.getEditGameUI()
-                                            .getCurrentGame_editUI());
-
-                            LibraryUI.lblLibraryStatus.setForeground(
-                                    Color.orange);
-                            LibraryUI.lblLibraryStatus.setText(
-                                    "Changed Game Path");
-
-                        }
-
-                        if (libraryUI.getEditGameUI().isGameCoverChanged()) {
-
-
-                            //Set new name
-                            String editGameName;
-                            if (libraryLogic.getGameSearch_editUI()
-                                    .getCurrentlySearchedGame().getName() ==
-                                null ||
-                                !libraryLogic.getGameSearch_editUI()
-                                .isIsSearchEnabled()) {
-                                editGameName = libraryLogic
-                                        .getGameSearch_editUI()
-                                        .getAppendedName();
-                            } else {
-                                editGameName = libraryLogic
-                                        .getGameSearch_editUI()
-                                        .getCurrentlySearchedGame().getName();
-                            }
-
-                            if (!libraryUI
-                                    .getGridSplit().isDupicate(editGameName)) {
-                                // Remove Game
-                                libraryUI.getStorage().getStoredLibrary()
-                                        .removeGame(libraryUI
-                                                .getEditGameUI()
-                                                .getCurrentGame_editUI());
-                                try {
-                                    //Set new path
-                                    libraryUI.getEditGameUI()
-                                            .getCurrentGame_editUI()
-                                            .setCoverUrl(
-                                                    libraryLogic
-                                                    .getGameSearch_editUI()
-                                                    .getCurrentlySearchedGame()
-                                                    .getBoxArtUrl());
-
-                                    libraryUI.getEditGameUI()
-                                            .getCurrentGame_editUI()
-                                            .setGameName(
-                                                    editGameName);
-
-                                } catch (MalformedURLException ex) {
-                                    java.util.logging.Logger.getLogger(
-                                            LibraryHandler.class.getName()).
-                                            log(Level.SEVERE, null, ex);
-                                }
-
-                                //refresh
-                                libraryUI.getEditGameUI()
-                                        .getCurrentGame_editUI().refresh(true);
-
-                                // Re Save
-                                libraryUI.getStorage().getStoredLibrary()
-                                        .SaveGame(libraryUI
-                                                .getEditGameUI()
-                                                .getCurrentGame_editUI());
-
-                                LibraryUI.lblLibraryStatus.setForeground(
-                                        Color.orange);
-                                LibraryUI.lblLibraryStatus.setText(
-                                        "Changed Game Cover");
-
-                                //* Transition towards to left most grid to see the game added *//
-                                GridMove = new MoveToGrid(libraryUI
-                                        .getEditGameUI().getCurrentGame_editUI());
-
-                                libraryUI.getGridSplit().unselectPrevious();
-                            } else {
-                                ADialog info = new ADialog(
-                                        ADialog.aDIALOG_WARNING,
-                                        "Cannot Add Duplicate Game",
-                                        libraryUI
-                                        .getCoreUI()
-                                        .getRegularFont()
-                                        .deriveFont(Font.BOLD, 28));
-                                info.setVisible(true);
-                                info.showDialog();
-
-                            }
-                        }
-                    }
-
-                    libraryUI.getEditGameUI().hideEditGameUI();
-
-                }
-            }, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-
-                    libraryUI.getEditGameUI().getCurrentGame_editUI()
-                            .getBtnFlip()
-                            .getActionListeners()[0].actionPerformed(
-                                    null);
-
-                    if (GridMove != null && libraryUI.getEditGameUI()
-                        .isGameCoverChanged()) {
-                        libraryUI.setCurrentIndex(0);
-                        GridMove.runMover();
-                    }
-
-                    try {
-                        Thread.sleep(1200);
-                    } catch (InterruptedException ex) {
-                        java.util.logging.Logger.getLogger(LibraryHandler.class
-                                .getName()).
-                                log(Level.SEVERE, null, ex);
-                    }
-
-                    LibraryUI.lblLibraryStatus.setForeground(
-                            LibraryUI.DEFAULT_LIBRARY_COLOR);
-                    libraryUI.getGridSplit().unselectPrevious();
-                    libraryUI.getEditGameUI().getCurrentGame_editUI()
-                            .showOverlayUI();
-
-                    GridMove = null;
-                }
-            });
-
-            doneTask.startOnce();
-
-        }
-    }
-
-    /**
-     * .-----------------------------------------------------------------------.
-     * | ManualAddHandler
-     * .-----------------------------------------------------------------------.
-     * |
-     * | ActionListener for switching to manual mode
-     * |
-     * .........................................................................
-     *
-     */
-    public class ManualAddHandler implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            libraryUI.getAddGameUI().switchToManualMode();
-
-        }
-    }
-
-    /**
-     * Default style render for Lists in selecting game covers to aurora
-     */
-    public class ListPanelRender extends DefaultListCellRenderer {
-
-        private static final long serialVersionUID = 1L;
-
-        public ListPanelRender() {
-            setOpaque(true);
-        }
-
-        @Override
-        public Component getListCellRendererComponent(JList list, Object value,
-                                                      int index,
-                                                      boolean isSelected,
-                                                      boolean cellHasFocus) {
-
-            JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane)
-                                     ? ((JPanel) value).getComponent(0)
-                                             : ((JPanel) value)
-                    .getComponent(1));
-
-            Color bg = null;
-            Color fg = null;
-
-            JList.DropLocation dropLocation = list.getDropLocation();
-            if (dropLocation != null &&
-                !dropLocation.isInsert() &&
-                dropLocation.getIndex() == index) {
-
-                bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
-                fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
-
-                isSelected = true;
-            }
-
-            if (isSelected) {
-                ((JPanel) value).setBackground(bg == null ? list
-                        .getSelectionBackground() : bg);
-
-                label.setForeground(fg == null ? list
-                        .getSelectionForeground() : fg);
-            } else {
-                ((JPanel) value).setBackground(list.getBackground());
-                label.setForeground(list.getForeground());
-            }
-
-            ((JPanel) value).setEnabled(list.isEnabled());
-
-            label.setFont(list.getFont());
-
-            Border border = BorderFactory.createEmptyBorder(1, 5, 0,
-                                                            2);
-
-            ((JPanel) value).setBorder(border);
-
-            return (JPanel) value;
-
-        }
-    }
-
-    public class AutoSelectListHandler implements ListSelectionListener {
-
-        private JList gamesList;
-
-        private DefaultListModel listModel;
-
-        private int selectionIndex;
-
-        private String prevSelection;
-
-        private final GameSearch gameSearch;
-
-        public AutoSelectListHandler(GameSearch searchEngine) {
-            gameSearch = searchEngine;
-
-        }
-
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            gamesList = (JList) e.getSource();
-            listModel = (DefaultListModel) ((JList) e.getSource()).getModel();
-
-            if (gamesList.getSelectedIndex() != -1) {
-
-                Object value = listModel.get(gamesList
-                        .getSelectedIndex());
-
-                JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane)
-                                         ? ((JPanel) value).getComponent(0)
-                                                 : ((JPanel) value)
-                        .getComponent(1));
-
-                String gameSelected = label.getText();
-
-                Iterator<Game> iter = libraryLogic.getAutoGameList().iterator();
-                int i = 0;
-                while (iter.hasNext()) {
-                    Game game = iter.next();
-                    if (game.getGameName().equals(gameSelected)) {
-                        break;
-                    }
-                    i++;
-                }
-
-                // Prevent double selection
-                if (prevSelection != null && prevSelection.equals(gameSelected)) {
-                    selectionIndex++;
-                } else {
-                    selectionIndex = 0;
-                }
-
-                if (selectionIndex == 0) {
-                    gameSearch.getSpecificGame(
-                            libraryLogic.getAutoGameList().get(i).getBoxArtUrl());
-                }
-
-                prevSelection = gameSelected;
-            }
-        }
-    }
-
-    public class AutoClearAllButtonHandler implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            libraryLogic.autoClearAll();
-        }
-    }
-
-    public class AutoAddAllButtonHandler implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            libraryLogic.autoSelectAll();
-        }
-    }
-
-    public class AutoRefreshHandler implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            libraryLogic.refreshAutoAdd();
-        }
-    }
-
-    /**
-     * .-----------------------------------------------------------------------.
-     * | AutoAddHandler
-     * .-----------------------------------------------------------------------.
-     * |
-     * | ActionListener for switching to auto mode
-     * |
-     * .........................................................................
-     *
-     */
-    public class AutoAddHandler implements ActionListener {
-
-        private final DefaultListModel model;
-
-        public AutoAddHandler(DefaultListModel listModel) {
-            model = listModel;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            libraryUI.getAddGameUI().switchToAutoMode();
-        }
-    }
-
-    /**
-     * Listener for when the Add Game To Library Button is pressed in the
-     * Add Game UI
-     */
-    public class AddToLibraryButtonHandler implements ActionListener {
-
-        private GridManager gridManager;
-
-        private JPanel GameBack;
-
-        private MoveToGrid GridMove;
-
-        private AuroraStorage storage;
-
-        private String currentPath;
-
-        private final GameSearch gameSearch;
-
-        public AddToLibraryButtonHandler(GameSearch searchEngine) {
-            this.gameSearch = searchEngine;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            final Game game = gameSearch.getCurrentlySearchedGame();
-
-            AThreadWorker add = new AThreadWorker(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-
-                    // Save game being added to library
-                    currentPath = libraryUI.getAddGameUI()
-                            .getCurrentGameLocation();
-                    gridManager = libraryUI.getGridSplit();
-                    storage = libraryUI.getStorage();
-                    GameBack = libraryUI.getGamesContainer();
-
-                    if (storage.getStoredSettings().getSettingValue(
-                            "organize") == null) {
-                        storage.getStoredSettings().saveSetting(
-                                "organize",
-                                "favorite");
-                    }
-
-                    // Hide Add Game panel after animating button up
-                    libraryLogic.animateAddButtonUp();
-                    libraryLogic.getAddGameToLibButtonAnimator()
-                            .appendPostAnimationListener(
-                                    new APostHandler() {
-                                        @Override
-                                        public void postAction() {
-
-                                            libraryUI.getAddGameUI()
-                                            .hideAddGameUI();
-
-                                        }
-                                    });
-
-
-                    game.reAddInteractive();
-
-                    // If in Manual mode Save current game to storage
-                    if (libraryUI.getAddGameUI().isManualMode()) {
-
-                        game.setGamePath(currentPath);
-                        game.setLibraryLogic(libraryLogic);
-
-                        if (game.getGameName() == null) {
-                            game.setGameName(gameSearch.getAppendedName());
-                        }
-
-                        if (!gridManager.isDupicate(game)) {
-                            storage.getStoredLibrary()
-                                    .SaveGame(game);
-
-                        } else {
-                            ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
-                                                       "Cannot Add Duplicate Game",
-                                                       libraryUI
-                                                       .getCoreUI()
-                                                       .getRegularFont()
-                                                       .deriveFont(Font.BOLD, 28));
-
-                            info.showDialog();
-                            info.setVisible(true);
-
-                            gridManager.echoGame(game).showOverlayUI();
-                        }
-
-                        // reset cover to blank cover
-                        gameSearch.resetCover();
-
-                    } else { // Save all selected games to storage
-
-                        for (int i = 0; i < libraryLogic.getAutoAddCurrentList()
-                                        .size(); i++) {
-
-                            libraryLogic.getAutoAddCurrentList().get(i)
-                                    .setLibraryLogic(libraryLogic);
-
-                            if (!gridManager
-                                    .isDupicate(libraryLogic
-                                            .getAutoAddCurrentList()
-                                            .get(i))) {
-                                storage.getStoredLibrary()
-                                        .SaveGame(libraryLogic
-                                                .getAutoAddCurrentList()
-                                                .get(i));
-                            }
-
-                        }
-                    }
-
-                }
-            }, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-
-                    String previousLibraryStatus = LibraryUI.lblLibraryStatus
-                            .getCurrentText();
-
-                    // Check if in Manual Mode
-                    if (libraryUI.getAddGameUI().isManualMode()) {
-
-                        game.setCoverSize(libraryUI.getGameCoverWidth(),
-                                          libraryUI
-                                          .getGameCoverHeight());
-                        game.reAddInteractive();
-
-                        if (gridManager.addGame(game)) {
-
-                            if (storage.getStoredSettings().getSettingValue(
-                                    "organize")
-                                    .equalsIgnoreCase("alphabetic")) {
-
-                                libraryLogic.addGamesToLibrary();
-
-                            } else {
-
-                                gridManager.finalizeGrid(
-                                        new ShowAddGameUIHandler(),
-                                        libraryUI
-                                        .getGameCoverWidth(), libraryUI
-                                        .getGameCoverHeight());
-
-                            }
-
-                            libraryUI.setCurrentIndex(
-                                    gridManager.getArray().indexOf(GameBack
-                                            .getComponent(1)));
-
-                            if (!game.isLoaded()) {
-                                try {
-                                    game.update();
-                                } catch (MalformedURLException ex) {
-                                    java.util.logging.Logger.getLogger(
-                                            LibraryHandler.class
-                                            .getName()).
-                                            log(Level.SEVERE, null, ex);
-                                }
-                            }
-
-                            game.setSettingsListener(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-
-                                    libraryUI.getEditGameUI().showEditGameUI(
-                                            (Game) e
-                                            .getSource());
-
-                                }
-                            });
-
-                            //* Transition towards to left most grid to see the game added *//
-                            libraryLogic.getAddGameToLibButtonAnimator()
-                                    .appendPostAnimationListener(
-                                            new APostHandler() {
-
-                                                @Override
-                                                public void postAction() {
-                                                    GridMove = new MoveToGrid(
-                                                            game);
-
-                                                    GridMove.runMover();
-
-
-                                                }
-                                            });
-
-                            gridManager.unselectPrevious();
-                            LibraryUI.lblLibraryStatus
-                                    .setForeground(Color.green);
-                            LibraryUI.lblLibraryStatus.setText("Added Game");
-
-                            AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
-                                    "f5f777273e62089193a68f99f4885a55");
-                            mixpanelAnalytics.addProperty("Game Added", game
-                                                          .getName());
-                            mixpanelAnalytics.sendEventProperty("Added Game");
-
-                            try {
-                                Thread.sleep(1400);
-                            } catch (InterruptedException ex) {
-                                java.util.logging.Logger.getLogger(
-                                        LibraryHandler.class.getName()).
-                                        log(Level.SEVERE, null, ex);
-                            }
-
-                            game.showOverlayUI();
-
-                        }
-                    } else { // In Auto Add Mode
-
-                        for (int i = 0; i < libraryLogic.getAutoAddCurrentList()
-                                        .size(); i++) {
-
-                            // Load game from Selected Game list
-                            Game autoGame = libraryLogic.getAutoAddCurrentList()
-                                    .get(i);
-
-                            autoGame.setCoverSize(libraryUI.getGameCoverWidth(),
-                                                  libraryUI
-                                                  .getGameCoverHeight());
-
-                            if (!autoGame.isLoaded()) {
-                                try {
-                                    autoGame.update();
-                                } catch (MalformedURLException ex) {
-                                    java.util.logging.Logger.getLogger(
-                                            LibraryHandler.class
-                                            .getName()).
-                                            log(Level.SEVERE, null, ex);
-                                }
-                            }
-
-                            autoGame.setSettingsListener(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-
-                                    libraryUI.getEditGameUI().showEditGameUI(
-                                            (Game) e
-                                            .getSource());
-
-                                }
-                            });
-
-                            // -
-                            // Add to grid and check which organize method is
-                            // used to reorganize library with new games
-                            // -
-                            if (gridManager.addGame(autoGame)) {
-
-                                libraryUI.setCurrentIndex(
-                                        gridManager.getArray().indexOf(GameBack
-                                                .getComponent(1)));
-
-                            }
-
-                            if (libraryUI.getAddGameUI().getModelCheckList()
-                                    .size() > 0) {
-                                // Remove radio button item
-                                libraryUI.getAddGameUI().getModelCheckList()
-                                        .removeElementAt(
-                                                libraryLogic.getAutoGameList()
-                                                .indexOf(
-                                                        libraryLogic
-                                                        .getAutoAddCurrentList()
-                                                        .get(i)));
-                                // Remove game item
-                                libraryLogic.getAutoGameModel().removeElementAt(
-                                        libraryLogic.getAutoGameList().indexOf(
-                                                libraryLogic
-                                                .getAutoAddCurrentList()
-                                                .get(i)));
-                            }
-
-                            libraryLogic.getAutoGameList().remove(libraryLogic
-                                    .getAutoAddCurrentList()
-                                    .get(i));
-
-                        }
-
-                        if (storage.getStoredSettings().getSettingValue(
-                                "organize")
-                                .equalsIgnoreCase("alphabetic")) {
-
-                            libraryLogic.addGamesToLibrary();
-
-                        } else {
-
-                            gridManager.finalizeGrid(
-                                    new ShowAddGameUIHandler(),
-                                    libraryUI
-                                    .getGameCoverWidth(), libraryUI
-                                    .getGameCoverHeight());
-
-                        }
-
-                        // Change game display status to green
-                        LibraryUI.lblLibraryStatus
-                                .setForeground(Color.green);
-
-                        // Display how many games were added with proper grammar
-                        if (libraryLogic.getAutoAddCurrentList()
-                                .size() > 1) {
-                            LibraryUI.lblLibraryStatus.setText("Added " +
-                                                               libraryLogic
-                                                               .getAutoAddCurrentList()
-                                                               .size() +
-                                                               " Games");
-                        } else {
-                            LibraryUI.lblLibraryStatus.setText("Added " +
-                                                               libraryLogic
-                                                               .getAutoAddCurrentList()
-                                                               .size() + " Game");
-                        }
-                        try {
-                            Thread.sleep(1200);
-                        } catch (InterruptedException ex) {
-                            java.util.logging.Logger.getLogger(
-                                    LibraryHandler.class.getName())
-                                    .log(Level.SEVERE, null, ex);
-                        }
-
-                        LibraryUI.lblLibraryStatus
-                                .setText(previousLibraryStatus);
-                        LibraryUI.lblLibraryStatus.setForeground(
-                                LibraryUI.DEFAULT_LIBRARY_COLOR);
-
-                        // Tell Mixpanel that latest games added were auto added
-                        AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
-                                "f5f777273e62089193a68f99f4885a55");
-                        mixpanelAnalytics.addProperty("Auto Added", libraryLogic
-                                                      .getAutoAddCurrentList()
-                                                      .size());
-                        mixpanelAnalytics.sendEventProperty("Added Game");
-                    }
-
-                }
-            });
-
-            add.startOnce();
-
-        }
-    }
-
-    public class SelectListHandler implements ListSelectionListener {
-
-        private JList gamesList;
-
-        private DefaultListModel listModel;
-
-        private final GameSearch gameSearch;
-
-        private Object prevSelection;
-
-        private int selectionIndex;
-
-        public SelectListHandler(GameSearch searchEngine) {
-            gameSearch = searchEngine;
-        }
-
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            gamesList = (JList) e.getSource();
-            listModel = (DefaultListModel) ((JList) e.getSource()).getModel();
-            if (gamesList.getSelectedIndex() != -1) {
-                String gameSelected = (String) listModel.get(gamesList
-                        .getSelectedIndex());
-
-                // Prevent double selection
-                if (prevSelection != null && prevSelection.equals(gameSelected)) {
-                    selectionIndex++;
-                } else {
-                    selectionIndex = 0;
-                }
-
-                if (selectionIndex == 0) {
-                    gameSearch.searchSpecificGame(gameSelected);
-                    libraryUI.getLogic().checkManualAddGameStatus();
-                }
-
-                prevSelection = gameSelected;
-
-            }
-        }
-    }
-
-    public class ShowAddGameUIHandler implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (!libraryUI.isAddGameUIVisible()) {
-
-                libraryUI.getAddGameUI().showAddGameUI();
-
-            } else {
-
-                libraryUI.getAddGameUI().hideAddGameUI();
-            }
-
-        }
-    }
-
-    public class ShowOrganizeGameHandler implements ActionListener {
-
-        public ShowOrganizeGameHandler() {
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            libraryUI.getOrganizeUI().showOrganizeUI();
-
-        }
-    }
-
-    public class SelectedOrganizeListener implements ActionListener {
-
-        private final ASlickLabel label;
-
-        private final String settingValue;
-
-        private final StoredSettings storage;
-
-        public SelectedOrganizeListener(ASlickLabel lbl, StoredSettings settings,
-                                        String SettingValue) {
-
-            label = lbl;
-            settingValue = SettingValue;
-            storage = settings;
-
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            String currentVal = storage.getSettingValue("organize");
-            storage.saveSetting("organize", settingValue);
-
-            if (!currentVal.trim().equals(settingValue.trim())) {
-                libraryLogic.addGamesToLibrary();
-            }
-
-            label.setForeground(Color.white);
-
-        }
-    }
-
-    public class UnSelectedOrganizeListener implements ActionListener {
-
-        private final ASlickLabel label;
-
-        private final APopupMenu organizeUI;
-
-        public UnSelectedOrganizeListener(ASlickLabel lbl, APopupMenu popup) {
-
-            label = lbl;
-            organizeUI = popup;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            label.setForeground(new Color(173, 173, 173));
-
-            Timer timer = new Timer(500, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    organizeUI.setVisible(false);
-                    ((Timer) e.getSource()).stop();
-                }
-            });
-
-            timer.start();
-
-        }
-    }
-
-    public class OrganizeMouseListener implements MouseListener {
-
-        private final ASlickLabel label;
-
-        public OrganizeMouseListener(ASlickLabel label) {
-            this.label = label;
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            if (!((ARadioButton) e.getSource()).isSelected) {
-                label.setForeground(Color.white);
-            }
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            if (!((ARadioButton) e.getSource()).isSelected) {
-                label.setForeground(new Color(173, 173, 173));
-            }
-
-        }
-    }
-
+    //
+    // General Library
+    //
     /**
      * Transisions towards the Grid where the game is located
      * To show game added (apple iOS style :P )
@@ -1808,71 +209,6 @@ public class LibraryHandler implements
                     logger.error(ex);
                 }
             }
-
-        }
-    }
-
-    public class GameLocationSettingListener implements ActionListener {
-
-        private final JLabel label;
-
-        public GameLocationSettingListener(JLabel lbl) {
-            this.label = lbl;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            label.setForeground(Color.white);
-
-            libraryUI.getEditGameUI().showGameLocationUI();
-
-        }
-    }
-
-    public class GameCoverSettingListener implements ActionListener {
-
-        private final JLabel label;
-
-        public GameCoverSettingListener(JLabel lbl) {
-            this.label = lbl;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            label.setForeground(Color.white);
-            libraryUI.getEditGameUI().showGameCoverUI();
-
-        }
-    }
-
-    public class OtherSettingListener implements ActionListener {
-
-        private final JLabel label;
-
-        public OtherSettingListener(JLabel lbl) {
-            this.label = lbl;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            label.setForeground(Color.white);
-            libraryUI.getEditGameUI().showOtherUI();
-
-        }
-    }
-
-    public class UnselectSettingListener implements ActionListener {
-
-        private final JLabel label;
-
-        public UnselectSettingListener(JLabel lbl) {
-            this.label = lbl;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            label.setForeground(Color.lightGray);
 
         }
     }
@@ -1977,7 +313,7 @@ public class LibraryHandler implements
 
                 libraryUI.getCoreUI().getCenterPanel().removeAll();
                 libraryUI.getCoreUI().getCenterPanel().add(BorderLayout.CENTER,
-                                                           GameBack);
+                        GameBack);
 
                 GameBack.repaint();
                 GameBack.revalidate();
@@ -2055,7 +391,7 @@ public class LibraryHandler implements
 
                     GameBack.remove(0);
                     GameBack.add(libraryUI.getImgGameLeft(), BorderLayout.WEST,
-                                 0);
+                            0);
 
                     GameBack.add(imgGameRight, BorderLayout.EAST, 2);
 
@@ -2075,14 +411,14 @@ public class LibraryHandler implements
 
                         GameBack.remove(libraryUI.getImgGameRight());
                         GameBack.add(Box.createHorizontalStrut(140),
-                                     BorderLayout.EAST, 2);
+                                BorderLayout.EAST, 2);
                         imgGameRight.mouseExit();
                     }
                 }
 
                 coreUI.getCenterPanel().removeAll();
                 coreUI.getCenterPanel().add(BorderLayout.CENTER, libraryUI
-                                            .getGamesContainer());
+                        .getGamesContainer());
 
                 GameBack.repaint();
                 GameBack.revalidate();
@@ -2635,220 +971,640 @@ public class LibraryHandler implements
         }
     }
 
-    /**
-     * Handler added to game covers in GameSearch to allow ability to edit game
-     * cover art
-     */
-    public class GameCoverEditListner implements ActionListener {
+    //
+    // Library Grid Search
+    //
+    public class ResetSearchHandler implements ActionListener {
 
-        private final Game game;
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                libraryLogic.getGridSearch().restoreGrid();
+            } catch (MalformedURLException ex) {
+                logger.error(ex);
+            }
+            libraryLogic.getGridSearch().resetAppendedName();
+            libraryUI.getSearchBar().setText("");
+            libraryUI.getSearchBar().setText("Search Here...");
+            libraryUI.getSearchBar().setForeground(Color.darkGray);
+            libraryUI.getSearchBarBG()
+                    .setImage("library_searchBar_inactive.png");
+            libraryUI.getSearchButtonBG().removeAll();
+            libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(),
+                    BorderLayout.NORTH);
+            libraryUI.getCoreUI().getFrame().requestFocus();
+            libraryUI.getGamesContainer().revalidate();
+        }
+    }
 
-        public GameCoverEditListner(Game currentGame) {
-            game = currentGame;
+    public class SearchSelectHandler extends MouseAdapter {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if (libraryUI.getSearchBar().getText().equals(
+                    "Just Start Typing...")) {
+                libraryUI.getSearchBar().setText("");
+                libraryUI.getSearchBar().setForeground(Color.darkGray);
+                libraryUI.getSearchBarBG().setImage(
+                        "library_searchBar_active.png");
+                libraryUI.getSearchButtonBG().removeAll();
+                libraryUI.getSearchButtonBG().add(libraryUI
+                        .getRemoveSearchButton(), BorderLayout.NORTH);
+                libraryLogic.getGridSearch().resetAppendedName();
+            }
+        }
+    }
+
+    public class SearchButtonHandler implements ActionListener {
+        // Handles the Search Button Besides the Search Box
+
+        @Override
+        // Simply Requests focus and resets append string
+        public void actionPerformed(ActionEvent e) {
+
+            libraryUI.getSearchBar().requestFocus();
+            libraryUI.getSearchBar().setText("");
+            libraryUI.getSearchBar().setForeground(Color.darkGray);
+            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
+            libraryUI.getSearchButtonBG().removeAll();
+            libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(),
+                    BorderLayout.NORTH);
+            libraryUI.getRemoveSearchButton()
+                    .addActionListener(new ResetSearchHandler());
+        }
+    }
+
+    public class SearchLostFocusHandler implements FocusListener {
+
+        @Override
+        public void focusGained(FocusEvent e) {
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
+        }
+    }
+
+    public class SearchFocusHandler implements FocusListener {
+
+        private JTextField SearchBar;
+
+        private JButton SearchButton;
+
+        public SearchFocusHandler() {
+            this.SearchBar = libraryUI.getSearchBar();
+            this.SearchButton = libraryUI.getSearchButton();
 
         }
 
         @Override
-        public void actionPerformed(ActionEvent e) {
-            if (!libraryUI.isEditGameCoverUI_visible()) {
-                libraryUI.getEditCoverUI().showEditGameCoverUI(game);
+        // If Focus was not gained thru the search button, then
+        // Reset text and append string
+        public void focusGained(FocusEvent e) {
+            if (libraryUI.getSearchBar().getText().equals(
+                    "Just Type To Search...")) {
+                if (e.getOppositeComponent() == SearchButton) {
+                    SearchBar.setText("");
+                    libraryLogic.getGridSearch().resetAppendedName();
+                    libraryUI.getSearchBar().setForeground(Color.darkGray);
+                    libraryUI.getSearchBarBG().setImage(
+                            "library_searchBar_active.png");
+                    libraryUI.getSearchButtonBG().removeAll();
+                    libraryUI.getSearchButtonBG().add(libraryUI
+                            .getRemoveSearchButton(), BorderLayout.NORTH);
+                    libraryUI.getRemoveSearchButton()
+                            .addActionListener(
+                                    new ResetSearchHandler());
+                }
+            }
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+
+            if (libraryUI.getSearchBar().getText().equals("")) {
+
+                // Make sure Search button had no effect
+                if (e.getOppositeComponent() != SearchButton) {
+                    // if focus lost then searches thru all Grid Panels, then inside each grid
+                    try {
+                        for (int i = 0; i < libraryLogic.getGridSearch()
+                                        .getGridManager()
+                                        .getArray()
+                                        .size(); i++) {
+                            for (int j = 0; j < libraryLogic.getGridSearch()
+                                            .getGridManager()
+                                            .getGrid(
+                                                    i).getArray().size(); j++) {
+                                // If the focus was not lost due to a GameCover Obj in the Search Grid
+
+                                if (e.getOppositeComponent() instanceof GamePlaceholder) {
+                                    if (e.getOppositeComponent() !=
+                                        (Game) libraryLogic
+                                        .getGridSearch()
+                                        .getGridManager()
+                                        .getGrid(i).getArray().get(j)) {
+                                        if (logger.isDebugEnabled()) {
+                                            logger.debug(e
+                                                    .getOppositeComponent());
+                                        }
+
+                                        // Attempt to restore to GameCover Library Grid
+                                        try {
+                                            libraryLogic.getGridSearch()
+                                                    .restoreGrid();
+                                        } catch (MalformedURLException ex) {
+                                            logger.error(ex);
+                                        }
+                                        // Reset Search Box and append string
+                                        libraryLogic.getGridSearch()
+                                                .resetAppendedName();
+
+                                    }
+                                }
+                            }
+                        }
+                    } catch (NullPointerException ex) {
+                        for (int i = 0; i < libraryUI.getGridSplit().getArray()
+                                        .size(); i++) {
+                            for (int j = 0; j < libraryUI.getGridSplit()
+                                            .getGrid(i).getArray().size(); j++) {
+                                // If the focus was not lost due to a GameCover Obj in the Search Grid
+
+                                if (e.getOppositeComponent() instanceof GamePlaceholder) {
+                                    if (e.getOppositeComponent() !=
+                                        (Game) libraryUI
+                                        .getGridSplit()
+                                        .getGrid(i).getArray().get(j)) {
+                                        if (logger.isDebugEnabled()) {
+                                            logger.debug(e
+                                                    .getOppositeComponent());
+                                        }
+
+                                        // Attempt to restore to GameCover Library Grid
+                                        try {
+                                            libraryLogic.getGridSearch()
+                                                    .restoreGrid();
+                                        } catch (MalformedURLException exx) {
+                                            logger.error(exx);
+                                        }
+                                        // Reset Search Box and append string
+                                        libraryLogic.getGridSearch()
+                                                .resetAppendedName();
+
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
+                    SearchBar.setText("Just Start Typing...");
+                    libraryUI.getSearchBar().setForeground(Color.darkGray);
+                    libraryUI.getSearchBarBG()
+                            .setImage("library_searchBar_inactive.png");
+                    libraryUI.getSearchButtonBG().removeAll();
+                    libraryUI.getSearchButtonBG().add(libraryUI
+                            .getSearchButton(), BorderLayout.NORTH);
+                }
+            }
+        }
+    }
+
+    public class SearchBoxHandler extends KeyAdapter {
+        // Handles Typing In Search Box, when it is in focus
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+            // This activates for any letter number or space key
+            libraryUI.getSearchBar().setForeground(Color.darkGray);
+            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
+            if (!libraryUI.isAddGameUIVisible()) {
+                if (e.getKeyCode() == KeyEvent.VK_A ||
+                    e.getKeyCode() == KeyEvent.VK_B ||
+                    e.getKeyCode() == KeyEvent.VK_C ||
+                    e.getKeyCode() == KeyEvent.VK_D ||
+                    e.getKeyCode() == KeyEvent.VK_E ||
+                    e.getKeyCode() == KeyEvent.VK_F ||
+                    e.getKeyCode() == KeyEvent.VK_G ||
+                    e.getKeyCode() == KeyEvent.VK_H ||
+                    e.getKeyCode() == KeyEvent.VK_I ||
+                    e.getKeyCode() == KeyEvent.VK_J ||
+                    e.getKeyCode() == KeyEvent.VK_K ||
+                    e.getKeyCode() == KeyEvent.VK_L ||
+                    e.getKeyCode() == KeyEvent.VK_M ||
+                    e.getKeyCode() == KeyEvent.VK_N ||
+                    e.getKeyCode() == KeyEvent.VK_O ||
+                    e.getKeyCode() == KeyEvent.VK_P ||
+                    e.getKeyCode() == KeyEvent.VK_Q ||
+                    e.getKeyCode() == KeyEvent.VK_R ||
+                    e.getKeyCode() == KeyEvent.VK_S ||
+                    e.getKeyCode() == KeyEvent.VK_T ||
+                    e.getKeyCode() == KeyEvent.VK_U ||
+                    e.getKeyCode() == KeyEvent.VK_V ||
+                    e.getKeyCode() == KeyEvent.VK_W ||
+                    e.getKeyCode() == KeyEvent.VK_X ||
+                    e.getKeyCode() == KeyEvent.VK_Y ||
+                    e.getKeyCode() == KeyEvent.VK_Z ||
+                    e.getKeyCode() == KeyEvent.VK_SPACE ||
+                    e.getKeyCode() == KeyEvent.VK_1 ||
+                    e.getKeyCode() == KeyEvent.VK_2 ||
+                    e.getKeyCode() == KeyEvent.VK_3 ||
+                    e.getKeyCode() == KeyEvent.VK_4 ||
+                    e.getKeyCode() == KeyEvent.VK_5 ||
+                    e.getKeyCode() == KeyEvent.VK_6 ||
+                    e.getKeyCode() == KeyEvent.VK_7 ||
+                    e.getKeyCode() == KeyEvent.VK_8 ||
+                    e.getKeyCode() == KeyEvent.VK_9 ||
+                    e.getKeyCode() == KeyEvent.VK_0 ||
+                    e.getKeyCode() == KeyEvent.VK_QUOTE ||
+                    e.getKeyCode() == KeyEvent.VK_PERIOD) {
+                    //Sends the key to the search engine to be appended and check for match
+                    libraryLogic.getGridSearch().typedChar(e.getKeyChar());
+
+                } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                    // If backspace is pressed tell search engine to search for name - 1 character
+                    libraryLogic.getGridSearch().removeChar(e.getKeyChar());
+
+                }
+            }
+        }
+    }
+
+    public class SearchRefocusListener extends KeyAdapter {
+        //Handles When User Starts Typing While Components other than the
+        //Search Box are in focus.
+        //Must get first key typed and put it in the searchbox
+        //Then set focus to the searchbox
+
+        private JTextField SearchBar;
+
+        public SearchRefocusListener() {
+            this.SearchBar = libraryUI.getSearchBar();
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            //pressing any Number or Letter can activate this
+            if (!libraryUI.isAddGameUIVisible()) {
+                if (//e.getKeyCode() == KeyEvent.VK_A
+                        e.getKeyCode() == KeyEvent.VK_B ||
+                        e.getKeyCode() == KeyEvent.VK_C // || e.getKeyCode() == KeyEvent.VK_D
+                        ||
+                        e.getKeyCode() == KeyEvent.VK_E ||
+                        e.getKeyCode() == KeyEvent.VK_F ||
+                        e.getKeyCode() == KeyEvent.VK_G ||
+                        e.getKeyCode() == KeyEvent.VK_H ||
+                        e.getKeyCode() == KeyEvent.VK_I ||
+                        e.getKeyCode() == KeyEvent.VK_J ||
+                        e.getKeyCode() == KeyEvent.VK_K ||
+                        e.getKeyCode() == KeyEvent.VK_L ||
+                        e.getKeyCode() == KeyEvent.VK_M ||
+                        e.getKeyCode() == KeyEvent.VK_N ||
+                        e.getKeyCode() == KeyEvent.VK_O ||
+                        e.getKeyCode() == KeyEvent.VK_P ||
+                        e.getKeyCode() == KeyEvent.VK_Q ||
+                        e.getKeyCode() == KeyEvent.VK_R // || e.getKeyCode() == KeyEvent.VK_S
+                        ||
+                        e.getKeyCode() == KeyEvent.VK_T ||
+                        e.getKeyCode() == KeyEvent.VK_U ||
+                        e.getKeyCode() == KeyEvent.VK_V // || e.getKeyCode() == KeyEvent.VK_W
+                        ||
+                        e.getKeyCode() == KeyEvent.VK_X ||
+                        e.getKeyCode() == KeyEvent.VK_Y ||
+                        e.getKeyCode() == KeyEvent.VK_Z ||
+                        e.getKeyCode() == KeyEvent.VK_1 ||
+                        e.getKeyCode() == KeyEvent.VK_2 ||
+                        e.getKeyCode() == KeyEvent.VK_3 ||
+                        e.getKeyCode() == KeyEvent.VK_4 ||
+                        e.getKeyCode() == KeyEvent.VK_5 ||
+                        e.getKeyCode() == KeyEvent.VK_6 ||
+                        e.getKeyCode() == KeyEvent.VK_7 ||
+                        e.getKeyCode() == KeyEvent.VK_8 ||
+                        e.getKeyCode() == KeyEvent.VK_9 ||
+                        e.getKeyCode() == KeyEvent.VK_0 ||
+                        e.getKeyCode() == KeyEvent.VK_QUOTE ||
+                        e.getKeyCode() == KeyEvent.VK_PERIOD) {
+
+                    //Set first character of Search Box to the key typed
+                    SearchBar.setText(String.valueOf(e.getKeyChar()));
+                    //Clear appended text if there is anything still in there
+                    libraryLogic.getGridSearch().resetAppendedName();
+                    //clear and prep for search mode
+                    libraryLogic.getGridSearch().clearGameGrid();
+                    // Pass to search engine first character
+                    libraryLogic.getGridSearch().typedChar(e.getKeyChar());
+                    // Get focus of Search Box
+                    SearchBar.requestFocus();
+
+                    libraryUI.getSearchBar().setForeground(Color.darkGray);
+                    libraryUI.getSearchBarBG().setImage(
+                            "library_searchBar_active.png");
+                    libraryUI.getSearchButtonBG().removeAll();
+                    libraryUI.getSearchButtonBG().add(libraryUI
+                            .getRemoveSearchButton(), BorderLayout.NORTH);
+                    libraryUI.getRemoveSearchButton()
+                            .addActionListener(
+                                    new ResetSearchHandler());
+                }
+            }
+        }
+    }
+
+    //
+    // Add & Edit Game UI
+    //
+    public class GameSearchBoxFocusHandler implements FocusListener {
+
+        private final JTextField txtField;
+
+        private final AImagePane txtBackground;
+
+        private final GameSearch gameSearch;
+
+        public GameSearchBoxFocusHandler(JTextField textField,
+                AImagePane txtBackground,
+                GameSearch searchEngine) {
+
+            this.txtField = textField;
+            this.txtBackground = txtBackground;
+            this.gameSearch = searchEngine;
+
+        }
+
+        @Override
+        public void focusGained(FocusEvent e) {
+
+            if (txtField.getText().equals(
+                    "Search For Game...") || txtField.getText().equals("")) {
+                txtField.setText("");
+                txtField.setCaretColor(Color.cyan);
+                gameSearch.resetCover();
+                txtField.setForeground(new Color(23, 139, 255));
+                if (!(txtBackground instanceof ATextField)) {
+                    txtBackground.setImage(
+                            "addUI_text_active.png");
+                }
+
             }
 
         }
 
+        @Override
+        public void focusLost(FocusEvent e) {
+
+            if (e.getOppositeComponent() instanceof JList || e
+                .getOppositeComponent() instanceof JFileChooser == false) {
+                try {
+                    libraryLogic.getGridSearch().restoreGrid();
+                } catch (MalformedURLException ex) {
+                    logger.error(ex);
+                }
+                if (txtField.getText().length() < 1) {
+                    txtField.setText(
+                            "Search For Game...");
+                    txtField.setForeground(Color.darkGray);
+                    if (!(txtBackground instanceof ATextField)) {
+                        txtBackground.setImage(
+                                "addUI_text_inactive.png");
+                    }
+                }
+
+            }
+        }
     }
 
-    /**
-     * Handles the animation when attempting to close the edit cover UI pane
-     */
-    public class CloseEditCoverListener implements ActionListener {
+    public class ExecutableFilterHandler extends FileFilter {
 
-        private Window editCoverFrame;
+        private AuroraCoreUI coreUI;
 
-        public CloseEditCoverListener(Window editCoverFrame) {
-            this.editCoverFrame = editCoverFrame;
+        public ExecutableFilterHandler() {
+            this.coreUI = libraryUI.getCoreUI();
+        }
+
+        @Override
+        public boolean accept(File file) {
+            if (file.isDirectory()) {
+
+                return true;
+            }
+
+            String extension = AFileManager.getExtension(file);
+            if (extension != null) {
+                if (extension.equals("exe") ||
+                    extension.equals("app") ||
+                    extension.equals("lnk") ||
+                    extension.equals("url") ||
+                    extension.equals("bat")) {
+
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (coreUI.getOS().indexOf("nix") >= 0 || coreUI.getOS()
+                       .indexOf("nux") >= 0) {
+
+                return true;
+            }
+
+            return false;
+        }
+
+        @Override
+        public String getDescription() {
+            return "Executable Files & Shortcuts";
+        }
+    }
+
+    public class ExecutableChooserHandler implements ActionListener {
+
+        private JFileChooser gameLocator;
+
+        public ExecutableChooserHandler(JFileChooser locator) {
+            gameLocator = locator;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-
-            libraryUI.getCoreUI().getFrame().setVisible(true);
-            final AAnimate frameFadeAnimator = new AAnimate();
-
-            AAnimate editCoverAnimator = new AAnimate(editCoverFrame);
-
-            editCoverAnimator.setInitialLocation(editCoverFrame.getX(),
-                                                 editCoverFrame.getY());
-
-            editCoverAnimator.moveVertical(libraryUI.getCoreUI()
-                    .getScreenHeight(), 33);
-
-            libraryUI.setIsEditGameCoverUI_visible(false);
-
-            editCoverAnimator.addPostAnimationListener(new APostHandler() {
-
-                @Override
-                public void postAction() {
-                    frameFadeAnimator
-                            .fadeIn(libraryUI.getCoreUI()
-                                    .getFrame());
-                }
-            });
-
-        }
-    }
-
-    /**
-     * Listener for when files are dropped on EditCoverUI
-     */
-    public class EditCoverUIDragedListener implements AFileDrop.Listener {
-
-        private final AImagePane dragPane;
-
-        private AProgressWheel progressWheel;
-
-        private boolean isOccupied;
-
-        private final AImage statusIcon;
-
-        private String newGameName;
-
-        public EditCoverUIDragedListener(AImagePane DragPane, AImage statusIcon) {
-            this.dragPane = DragPane;
-            this.statusIcon = statusIcon;
-            isOccupied = false;
-        }
-
-        @Override
-        public void filesDropped(final File[] files) {
-            isOccupied = false;
-            progressWheel = new AProgressWheel("Aurora_Loader.png");
-            dragPane
-                    .setLayout(new BorderLayout(0, 0));
-
-            // Content Pane
-            final JPanel contentContainer = new JPanel(new FlowLayout(
-                    FlowLayout.CENTER, -30, 5));
-            contentContainer.setOpaque(false);
-
-            contentContainer.add(Box.createVerticalStrut(220));
-            contentContainer.add(progressWheel);
-            contentContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
-
-            // Reset Button
-            AButton btnReset = new AButton("app_btn_close_norm.png",
-                                           "app_btn_close_down.png",
-                                           "app_btn_close_over.png");
-
-            btnReset.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    dragPane.removeAll();
-                    dragPane.setImage("editCoverUI_dragBG.png");
-                    dragPane.revalidate();
-                    isOccupied = false;
-                    statusIcon.setImgURl("addUI_badge_invalid.png");
-
-                }
-            });
-            final JPanel resetContainer = new JPanel(new BorderLayout());
-            resetContainer.setOpaque(false);
-            resetContainer.add(btnReset, BorderLayout.NORTH);
-            resetContainer.setPreferredSize(new Dimension(55, dragPane
-                                                          .getRealImageHeight()));
-
-            dragPane.add(Box.createVerticalGlue());
-            dragPane.add(contentContainer, BorderLayout.CENTER);
-            dragPane.setImage("editCoverUI_processBG.png");
-
-            AThreadWorker load = new AThreadWorker(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-
-                    AImagePane coverArt = libraryLogic.processNewCoverArtImage(
-                            files[0]);
-                    AImagePane scaledCoverArt = coverArt;
-
-                    newGameName = coverArt.getImageURL();
-
-                    int scaledHeight = dragPane.getRealImageHeight() - 8;
-                    int scaledWidth = (scaledHeight * coverArt
-                                       .getRealImageWidth()) / coverArt
-                                      .getRealImageHeight();
-
-                    scaledCoverArt.setImageSize(scaledWidth,
-                                                scaledHeight);
-                    scaledCoverArt.setPreferredSize(new Dimension(scaledWidth,
-                                                                  scaledHeight));
-
-                    contentContainer.removeAll();
-                    contentContainer.revalidate();
-
-                    contentContainer.add(scaledCoverArt);
-                    dragPane.add(resetContainer, BorderLayout.EAST);
-                    dragPane.revalidate();
-
-                    statusIcon.setImgURl("addUI_badge_valid.png");
-                    contentContainer.revalidate();
-
-                }
-            });
-
-            load.startOnce();
-            isOccupied = true;
-
-        }
-
-        public boolean isOccupied() {
-            return isOccupied;
-        }
-
-        public void setIsOccupied(boolean isOccupied) {
-            this.isOccupied = isOccupied;
-        }
-
-        public String getNewGameName() {
-            return newGameName;
-        }
-
-    }
-
-    /**
-     * Listener for the Done Button on the EditCoverUI
-     */
-    public class EditCoverUIDoneListener implements ActionListener {
-
-        private final AImage status;
-
-        private final Game editingGame;
-
-        private final EditCoverUIDragedListener dragListener;
-
-        public EditCoverUIDoneListener(AImage statusImage, Game game,
-                                       EditCoverUIDragedListener listener) {
-            this.status = statusImage;
-            this.editingGame = game;
-            this.dragListener = listener;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (status.getImgURl().equals("addUI_badge_invalid.png")) {
-
-                libraryLogic.flashInvalidStatus(status);
+            // Check if selected location is valid
+            if (gameLocator.getSelectedFile() != null && AFileManager.checkFile(
+                gameLocator.getSelectedFile().getAbsolutePath())) {
+                libraryUI
+                        .getAddGameUI().setCurrentGameLocation(gameLocator
+                                .getSelectedFile().getPath());
+                libraryUI.getAddGameUI().setGameLocationIndicator(true);
 
             } else {
-
-                libraryUI.getEditCoverUI().hideEditCoverFrame();
-                libraryLogic.editCover(editingGame, dragListener
-                                       .getNewGameName());
+                libraryUI.getAddGameUI().setGameLocationIndicator(false);
             }
 
+            libraryLogic.checkManualAddGameStatus();
+        }
+    }
+
+    public class GameSearchBoxChangeHandler implements DocumentListener {
+
+        private final GameSearch gameSearch;
+        //Handles Typing In Search Box, when it is in focus
+
+        private final JTextField textField;
+
+        public GameSearchBoxChangeHandler(GameSearch searchEngine,
+                JTextField TextField) {
+            this.gameSearch = searchEngine;
+            this.textField = TextField;
         }
 
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+
+            libraryUI.getSearchBar().setForeground(Color.darkGray);
+            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
+
+            gameSearch
+                    .setAppendedName(textField.getText());
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+
+            libraryUI.getSearchBar().setForeground(Color.darkGray);
+            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
+
+            gameSearch
+                    .setAppendedName(textField.getText());
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+
+            libraryUI.getSearchBar().setForeground(Color.darkGray);
+            libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
+
+            gameSearch
+                    .setAppendedName(textField.getText());
+
+        }
+    }
+
+    public class GameSearchBoxClear implements ActionListener {
+
+        private final JTextField txtField;
+
+        private final GameSearch gameSearch;
+
+        public GameSearchBoxClear(JTextField searchField,
+                GameSearch searchEngine) {
+            txtField = searchField;
+            gameSearch = searchEngine;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            txtField.setText("");
+            gameSearch.resetCover();
+            txtField.requestFocusInWindow();
+        }
+    }
+
+    public class GameListRender extends DefaultListCellRenderer {
+
+        private static final long serialVersionUID = 1L;
+
+        public GameListRender() {
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value,
+                int index,
+                boolean isSelected,
+                boolean cellHasFocus) {
+
+            setComponentOrientation(list.getComponentOrientation());
+
+            Color bg = null;
+            Color fg = null;
+
+            JList.DropLocation dropLocation = list.getDropLocation();
+            if (dropLocation != null &&
+                !dropLocation.isInsert() &&
+                dropLocation.getIndex() == index) {
+
+                bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
+                fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
+
+                isSelected = true;
+            }
+
+            if (isSelected) {
+                setBackground(bg == null ? list.getSelectionBackground() : bg);
+                setForeground(fg == null ? list.getSelectionForeground() : fg);
+            } else {
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
+            }
+
+            if (value instanceof Icon) {
+                setIcon((Icon) value);
+                setText("");
+            } else {
+                setIcon(null);
+                setText((value == null) ? "" : value.toString());
+            }
+
+            setEnabled(list.isEnabled());
+            setFont(list.getFont());
+
+            Border border = BorderFactory.createEmptyBorder(3, 10, 3,
+                    2);
+            if (isSelected) {
+            } else {
+                setBorder(border);
+            }
+
+            return this;
+
+        }
+    }
+
+    public class GameSearchBoxMouseHandler extends MouseAdapter {
+
+        private final JTextField txtField;
+
+        private final GameSearch gameSearch;
+
+        private final AImagePane searchBG;
+
+        public GameSearchBoxMouseHandler(JTextField searchField,
+                AImagePane searchBackground,
+                GameSearch searchEngine) {
+            txtField = searchField;
+            gameSearch = searchEngine;
+            searchBG = searchBackground;
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+            if (txtField.getText().equals(
+                    "Search For Game...")) {
+                txtField.requestFocus();
+                txtField.setText("");
+                gameSearch.resetCover();
+                txtField.setForeground(new Color(23, 139,
+                        255));
+                searchBG.setImage(
+                        "addUI_text_active.png");
+            }
+        }
     }
 
     public class GameSearchButtonListener implements ActionListener {
@@ -2896,6 +1652,23 @@ public class LibraryHandler implements
 
     }
 
+    //
+    // Manual Add Game UI
+    //
+    public class HideAddGameUIHandler implements ActionListener {
+
+        private LibraryUI libraryUI;
+
+        public HideAddGameUIHandler(LibraryUI gameLibraryUI) {
+            this.libraryUI = gameLibraryUI;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            libraryUI.getAddGameUI().hideAddGameUI();
+        }
+    }
+
     /**
      * Listener for the btnGoToProgram button to make gameFileChooser point to
      * the Programs folder based on the OS
@@ -2907,7 +1680,7 @@ public class LibraryHandler implements
         private final JFileChooser gameFileChooser_addUI;
 
         public GoToProgramsListener(AuroraCoreUI coreUI,
-                                    JFileChooser fileChooser) {
+                JFileChooser fileChooser) {
             this.coreUI = coreUI;
             this.gameFileChooser_addUI = fileChooser;
         }
@@ -2978,4 +1751,1249 @@ public class LibraryHandler implements
 
         }
     }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | ManualAddHandler
+     * .-----------------------------------------------------------------------.
+     * |
+     * | ActionListener for switching to manual mode
+     * |
+     * .........................................................................
+     *
+     */
+    public class ManualAddHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            libraryUI.getAddGameUI().switchToManualMode();
+
+        }
+    }
+
+    //
+    // Auto Add Game UI
+    //
+    public class CheckListRender extends DefaultListCellRenderer {
+
+        private static final long serialVersionUID = 1L;
+
+        public CheckListRender() {
+            setOpaque(false);
+        }
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value,
+                int index,
+                boolean isSelected,
+                boolean cellHasFocus) {
+
+            setComponentOrientation(list.getComponentOrientation());
+
+            Color bg = null;
+            Color fg = null;
+
+            JList.DropLocation dropLocation = list.getDropLocation();
+            if (dropLocation != null &&
+                !dropLocation.isInsert() &&
+                dropLocation.getIndex() == index) {
+
+                bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
+                fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
+
+                isSelected = true;
+            }
+
+            this.setBorder(null);
+
+            if (value instanceof JPanel) {
+                return (Component) value;
+            } else {
+                return this;
+            }
+
+        }
+    }
+
+    public class AutoGameListlRender extends DefaultListCellRenderer {
+
+        private static final long serialVersionUID = 1L;
+
+        public AutoGameListlRender() {
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value,
+                int index,
+                boolean isSelected,
+                boolean cellHasFocus) {
+
+            JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane)
+                    ? ((JPanel) value).getComponent(0)
+                    : ((JPanel) value)
+                    .getComponent(1));
+
+            Color bg = null;
+            Color fg = null;
+
+            JList.DropLocation dropLocation = list.getDropLocation();
+            if (dropLocation != null &&
+                !dropLocation.isInsert() &&
+                dropLocation.getIndex() == index) {
+
+                bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
+                fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
+
+                isSelected = true;
+            }
+
+            if (isSelected) {
+                ((JPanel) value).setBackground(bg == null ? list
+                        .getSelectionBackground() : bg);
+
+                label.setForeground(fg == null ? list
+                        .getSelectionForeground() : fg);
+            } else {
+                ((JPanel) value).setBackground(list.getBackground());
+                label.setForeground(list.getForeground());
+            }
+
+            ((JPanel) value).setEnabled(list.isEnabled());
+
+            label.setFont(list.getFont());
+
+            Border border = BorderFactory.createEmptyBorder(1, 5, 0,
+                    2);
+
+            ((JPanel) value).setBorder(border);
+
+            return (JPanel) value;
+
+        }
+    }
+
+    public class AutoSelectListHandler implements ListSelectionListener {
+
+        private JList gamesList;
+
+        private DefaultListModel listModel;
+
+        private int selectionIndex;
+
+        private String prevSelection;
+
+        private final GameSearch gameSearch;
+
+        public AutoSelectListHandler(GameSearch searchEngine) {
+            gameSearch = searchEngine;
+
+        }
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            gamesList = (JList) e.getSource();
+            listModel = (DefaultListModel) ((JList) e.getSource()).getModel();
+
+            if (gamesList.getSelectedIndex() != -1) {
+
+                Object value = listModel.get(gamesList
+                        .getSelectedIndex());
+
+                JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane)
+                        ? ((JPanel) value).getComponent(0)
+                        : ((JPanel) value)
+                        .getComponent(1));
+
+                String gameSelected = label.getText();
+
+                Iterator<Game> iter = libraryLogic.getAutoGameList().iterator();
+                int i = 0;
+                while (iter.hasNext()) {
+                    Game game = iter.next();
+                    if (game.getGameName().equals(gameSelected)) {
+                        break;
+                    }
+                    i++;
+                }
+
+                // Prevent double selection
+                if (prevSelection != null && prevSelection.equals(gameSelected)) {
+                    selectionIndex++;
+                } else {
+                    selectionIndex = 0;
+                }
+
+                if (selectionIndex == 0) {
+                    gameSearch.getSpecificGame(
+                            libraryLogic.getAutoGameList().get(i).getBoxArtUrl());
+                }
+
+                prevSelection = gameSelected;
+            }
+        }
+    }
+
+    public class AutoClearAllButtonHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            libraryLogic.autoClearAll();
+        }
+    }
+
+    public class AutoAddAllButtonHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            libraryLogic.autoSelectAll();
+        }
+    }
+
+    public class AutoRefreshHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            libraryLogic.refreshAutoAdd();
+        }
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | AutoAddHandler
+     * .-----------------------------------------------------------------------.
+     * |
+     * | ActionListener for switching to auto mode
+     * |
+     * .........................................................................
+     *
+     */
+    public class AutoAddHandler implements ActionListener {
+
+        private final DefaultListModel model;
+
+        public AutoAddHandler(DefaultListModel listModel) {
+            model = listModel;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            libraryUI.getAddGameUI().switchToAutoMode();
+        }
+    }
+
+    /**
+     * Listener for when the Add Game To Library Button is pressed in the
+     * Add Game UI
+     */
+    public class AddToLibraryButtonHandler implements ActionListener {
+
+        private GridManager gridManager;
+
+        private JPanel GameBack;
+
+        private MoveToGrid GridMove;
+
+        private AuroraStorage storage;
+
+        private String currentPath;
+
+        private final GameSearch gameSearch;
+
+        public AddToLibraryButtonHandler(GameSearch searchEngine) {
+            this.gameSearch = searchEngine;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            final Game game = gameSearch.getCurrentlySearchedGame();
+
+            AThreadWorker add = new AThreadWorker(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    // Save game being added to library
+                    currentPath = libraryUI.getAddGameUI()
+                            .getCurrentGameLocation();
+                    gridManager = libraryUI.getGridSplit();
+                    storage = libraryUI.getStorage();
+                    GameBack = libraryUI.getGamesContainer();
+
+                    if (storage.getStoredSettings().getSettingValue(
+                            "organize") == null) {
+                        storage.getStoredSettings().saveSetting(
+                                "organize",
+                                "favorite");
+                    }
+
+                    // Hide Add Game panel after animating button up
+                    libraryLogic.animateAddButtonUp();
+                    libraryLogic.getAddGameToLibButtonAnimator()
+                            .appendPostAnimationListener(
+                                    new APostHandler() {
+                                        @Override
+                                        public void postAction() {
+
+                                            libraryUI.getAddGameUI()
+                                            .hideAddGameUI();
+
+                                        }
+                                    });
+
+
+                    game.reAddInteractive();
+
+                    // If in Manual mode Save current game to storage
+                    if (libraryUI.getAddGameUI().isManualMode()) {
+
+                        game.setGamePath(currentPath);
+                        game.setLibraryLogic(libraryLogic);
+
+                        if (game.getGameName() == null) {
+                            game.setGameName(gameSearch.getAppendedName());
+                        }
+
+                        if (!gridManager.isDupicate(game)) {
+                            storage.getStoredLibrary()
+                                    .SaveGame(game);
+
+                        } else {
+                            ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
+                                    "Cannot Add Duplicate Game",
+                                    libraryUI
+                                    .getCoreUI()
+                                    .getRegularFont()
+                                    .deriveFont(Font.BOLD, 28));
+
+                            info.showDialog();
+                            info.setVisible(true);
+
+                            gridManager.echoGame(game).showOverlayUI();
+                        }
+
+                        // reset cover to blank cover
+                        gameSearch.resetCover();
+
+                    } else { // Save all selected games to storage
+
+                        for (int i = 0; i < libraryLogic.getAutoAddCurrentList()
+                                        .size(); i++) {
+
+                            libraryLogic.getAutoAddCurrentList().get(i)
+                                    .setLibraryLogic(libraryLogic);
+
+                            if (!gridManager
+                                    .isDupicate(libraryLogic
+                                            .getAutoAddCurrentList()
+                                            .get(i))) {
+                                storage.getStoredLibrary()
+                                        .SaveGame(libraryLogic
+                                                .getAutoAddCurrentList()
+                                                .get(i));
+                            }
+
+                        }
+                    }
+
+                }
+            }, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    String previousLibraryStatus = LibraryUI.lblLibraryStatus
+                            .getCurrentText();
+
+                    // Check if in Manual Mode
+                    if (libraryUI.getAddGameUI().isManualMode()) {
+
+                        game.setCoverSize(libraryUI.getGameCoverWidth(),
+                                libraryUI
+                                .getGameCoverHeight());
+                        game.reAddInteractive();
+
+                        if (gridManager.addGame(game)) {
+
+                            if (storage.getStoredSettings().getSettingValue(
+                                    "organize")
+                                    .equalsIgnoreCase("alphabetic")) {
+
+                                libraryLogic.addGamesToLibrary();
+
+                            } else {
+
+                                gridManager.finalizeGrid(
+                                        new ShowAddGameUIHandler(),
+                                        libraryUI
+                                        .getGameCoverWidth(), libraryUI
+                                        .getGameCoverHeight());
+
+                            }
+
+                            libraryUI.setCurrentIndex(
+                                    gridManager.getArray().indexOf(GameBack
+                                            .getComponent(1)));
+
+                            if (!game.isLoaded()) {
+                                try {
+                                    game.update();
+                                } catch (MalformedURLException ex) {
+                                    java.util.logging.Logger.getLogger(
+                                            LibraryHandler.class
+                                            .getName()).
+                                            log(Level.SEVERE, null, ex);
+                                }
+                            }
+
+                            game.setSettingsListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+
+                                    libraryUI.getEditGameUI().showEditGameUI(
+                                            (Game) e
+                                            .getSource());
+
+                                }
+                            });
+
+                            // Transition towards to left most grid to see the game added
+                            libraryLogic.getAddGameToLibButtonAnimator()
+                                    .appendPostAnimationListener(
+                                            new APostHandler() {
+
+                                                @Override
+                                                public void postAction() {
+                                                    GridMove = new MoveToGrid(
+                                                            game);
+
+                                                    GridMove.runMover();
+
+
+                                                }
+                                            });
+
+                            gridManager.unselectPrevious();
+                            LibraryUI.lblLibraryStatus
+                                    .setForeground(Color.green);
+                            LibraryUI.lblLibraryStatus.setText("Added Game");
+
+                            AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
+                                    "f5f777273e62089193a68f99f4885a55");
+                            mixpanelAnalytics.addProperty("Game Added", game
+                                    .getName());
+                            mixpanelAnalytics.sendEventProperty("Added Game");
+
+                            try {
+                                Thread.sleep(1400);
+                            } catch (InterruptedException ex) {
+                                java.util.logging.Logger.getLogger(
+                                        LibraryHandler.class.getName()).
+                                        log(Level.SEVERE, null, ex);
+                            }
+
+                            game.showOverlayUI();
+
+                        }
+                    } else { // In Auto Add Mode
+
+                        for (int i = 0; i < libraryLogic.getAutoAddCurrentList()
+                                        .size(); i++) {
+
+                            // Load game from Selected Game list
+                            Game autoGame = libraryLogic.getAutoAddCurrentList()
+                                    .get(i);
+
+                            autoGame.setCoverSize(libraryUI.getGameCoverWidth(),
+                                    libraryUI
+                                    .getGameCoverHeight());
+
+                            if (!autoGame.isLoaded()) {
+                                try {
+                                    autoGame.update();
+                                } catch (MalformedURLException ex) {
+                                    java.util.logging.Logger.getLogger(
+                                            LibraryHandler.class
+                                            .getName()).
+                                            log(Level.SEVERE, null, ex);
+                                }
+                            }
+
+                            autoGame.setSettingsListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+
+                                    libraryUI.getEditGameUI().showEditGameUI(
+                                            (Game) e
+                                            .getSource());
+
+                                }
+                            });
+
+                            // -
+                            // Add to grid and check which organize method is
+                            // used to reorganize library with new games
+                            // -
+                            if (gridManager.addGame(autoGame)) {
+
+                                libraryUI.setCurrentIndex(
+                                        gridManager.getArray().indexOf(GameBack
+                                                .getComponent(1)));
+
+                            }
+
+                            if (libraryUI.getAddGameUI().getModelCheckList()
+                                    .size() > 0) {
+                                // Remove radio button item
+                                libraryUI.getAddGameUI().getModelCheckList()
+                                        .removeElementAt(
+                                                libraryLogic.getAutoGameList()
+                                                .indexOf(
+                                                        libraryLogic
+                                                        .getAutoAddCurrentList()
+                                                        .get(i)));
+                                // Remove game item
+                                libraryLogic.getAutoGameModel().removeElementAt(
+                                        libraryLogic.getAutoGameList().indexOf(
+                                                libraryLogic
+                                                .getAutoAddCurrentList()
+                                                .get(i)));
+                            }
+
+                            libraryLogic.getAutoGameList().remove(libraryLogic
+                                    .getAutoAddCurrentList()
+                                    .get(i));
+
+                        }
+
+                        if (storage.getStoredSettings().getSettingValue(
+                                "organize")
+                                .equalsIgnoreCase("alphabetic")) {
+
+                            libraryLogic.addGamesToLibrary();
+
+                        } else {
+
+                            gridManager.finalizeGrid(
+                                    new ShowAddGameUIHandler(),
+                                    libraryUI
+                                    .getGameCoverWidth(), libraryUI
+                                    .getGameCoverHeight());
+
+                        }
+
+                        // Change game display status to green
+                        LibraryUI.lblLibraryStatus
+                                .setForeground(Color.green);
+
+                        // Display how many games were added with proper grammar
+                        if (libraryLogic.getAutoAddCurrentList()
+                                .size() > 1) {
+                            LibraryUI.lblLibraryStatus.setText("Added " +
+                                                               libraryLogic
+                                                               .getAutoAddCurrentList()
+                                                               .size() +
+                                                               " Games");
+                        } else {
+                            LibraryUI.lblLibraryStatus.setText("Added " +
+                                                               libraryLogic
+                                                               .getAutoAddCurrentList()
+                                                               .size() + " Game");
+                        }
+                        try {
+                            Thread.sleep(1200);
+                        } catch (InterruptedException ex) {
+                            java.util.logging.Logger.getLogger(
+                                    LibraryHandler.class.getName())
+                                    .log(Level.SEVERE, null, ex);
+                        }
+
+                        LibraryUI.lblLibraryStatus
+                                .setText(previousLibraryStatus);
+                        LibraryUI.lblLibraryStatus.setForeground(
+                                LibraryUI.DEFAULT_LIBRARY_COLOR);
+
+                        // Tell Mixpanel that latest games added were auto added
+                        AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
+                                "f5f777273e62089193a68f99f4885a55");
+                        mixpanelAnalytics.addProperty("Auto Added", libraryLogic
+                                .getAutoAddCurrentList()
+                                .size());
+                        mixpanelAnalytics.sendEventProperty("Added Game");
+                    }
+
+                }
+            });
+
+            add.startOnce();
+
+        }
+    }
+
+    public class SelectListHandler implements ListSelectionListener {
+
+        private JList gamesList;
+
+        private DefaultListModel listModel;
+
+        private final GameSearch gameSearch;
+
+        private Object prevSelection;
+
+        private int selectionIndex;
+
+        public SelectListHandler(GameSearch searchEngine) {
+            gameSearch = searchEngine;
+        }
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            gamesList = (JList) e.getSource();
+            listModel = (DefaultListModel) ((JList) e.getSource()).getModel();
+            if (gamesList.getSelectedIndex() != -1) {
+                String gameSelected = (String) listModel.get(gamesList
+                        .getSelectedIndex());
+
+                // Prevent double selection
+                if (prevSelection != null && prevSelection.equals(gameSelected)) {
+                    selectionIndex++;
+                } else {
+                    selectionIndex = 0;
+                }
+
+                if (selectionIndex == 0) {
+                    gameSearch.searchSpecificGame(gameSelected);
+                    libraryUI.getLogic().checkManualAddGameStatus();
+                }
+
+                prevSelection = gameSelected;
+
+            }
+        }
+    }
+
+    public class ShowAddGameUIHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (!libraryUI.isAddGameUIVisible()) {
+
+                libraryUI.getAddGameUI().showAddGameUI();
+
+            } else {
+
+                libraryUI.getAddGameUI().hideAddGameUI();
+            }
+
+        }
+    }
+
+    //
+    // Organize UI
+    //
+    public class ShowOrganizeGameHandler implements ActionListener {
+
+        public ShowOrganizeGameHandler() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            libraryUI.getOrganizeUI().showOrganizeUI();
+
+        }
+    }
+
+    public class SelectedOrganizeListener implements ActionListener {
+
+        private final ASlickLabel label;
+
+        private final String settingValue;
+
+        private final StoredSettings storage;
+
+        public SelectedOrganizeListener(ASlickLabel lbl, StoredSettings settings,
+                String SettingValue) {
+
+            label = lbl;
+            settingValue = SettingValue;
+            storage = settings;
+
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String currentVal = storage.getSettingValue("organize");
+            storage.saveSetting("organize", settingValue);
+
+            if (!currentVal.trim().equals(settingValue.trim())) {
+                libraryLogic.addGamesToLibrary();
+            }
+
+            label.setForeground(Color.white);
+
+        }
+    }
+
+    public class UnSelectedOrganizeListener implements ActionListener {
+
+        private final ASlickLabel label;
+
+        private final APopupMenu organizeUI;
+
+        public UnSelectedOrganizeListener(ASlickLabel lbl, APopupMenu popup) {
+
+            label = lbl;
+            organizeUI = popup;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            label.setForeground(new Color(173, 173, 173));
+
+            Timer timer = new Timer(500, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    organizeUI.setVisible(false);
+                    ((Timer) e.getSource()).stop();
+                }
+            });
+
+            timer.start();
+
+        }
+    }
+
+    public class OrganizeMouseListener implements MouseListener {
+
+        private final ASlickLabel label;
+
+        public OrganizeMouseListener(ASlickLabel label) {
+            this.label = label;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            if (!((ARadioButton) e.getSource()).isSelected) {
+                label.setForeground(Color.white);
+            }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if (!((ARadioButton) e.getSource()).isSelected) {
+                label.setForeground(new Color(173, 173, 173));
+            }
+
+        }
+    }
+
+    //
+    // Edit Game UI
+    //
+    public class HideEditAddUIHandler implements ActionListener {
+
+        private LibraryUI libraryUI;
+
+        public HideEditAddUIHandler(LibraryUI gameLibraryUI) {
+            this.libraryUI = gameLibraryUI;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            libraryUI.getEditGameUI().hideEditGameUI();
+        }
+    }
+
+    public class GameEditFileChooserHandler implements ActionListener {
+
+        private JFileChooser gameLocator;
+
+        public GameEditFileChooserHandler(JFileChooser locator) {
+            gameLocator = locator;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (gameLocator.getSelectedFile() != null && AFileManager.checkFile(
+                gameLocator.getSelectedFile().getAbsolutePath())) {
+
+                libraryUI.getEditGameUI().setGameLocationInicator(true);
+                libraryUI.getEditGameUI().getTxtNewLocation_editUI().setText(
+                        gameLocator
+                        .getSelectedFile().getAbsolutePath());
+                libraryUI.getEditGameUI().setEditGameLocationChanged(true);
+
+            } else {
+                libraryUI.getEditGameUI().setGameLocationInicator(false);
+                libraryUI.getEditGameUI().setEditGameLocationChanged(false);
+            }
+        }
+    }
+
+    public class EditSettingDoneHandler implements ActionListener {
+
+        private MoveToGrid GridMove;
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            AThreadWorker doneTask = new AThreadWorker(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    // Check if valid
+                    if (libraryUI.getEditGameUI().isGameLocationStatusEnabled()) {
+
+                        if (libraryUI.getEditGameUI()
+                                .isGameLocationChanged()) {
+
+                            // Remove Game
+                            libraryUI.getStorage().getStoredLibrary()
+                                    .removeGame(libraryUI
+                                            .getEditGameUI()
+                                            .getCurrentGame_editUI());
+                            //Set new path
+                            libraryUI.getEditGameUI().getCurrentGame_editUI()
+                                    .setGamePath(
+                                            libraryUI
+                                            .getEditGameUI()
+                                            .getTxtNewLocation_editUI()
+                                            .getText());
+                            // Re Save
+                            libraryUI.getStorage().getStoredLibrary()
+                                    .SaveGame(libraryUI.getEditGameUI()
+                                            .getCurrentGame_editUI());
+
+                            LibraryUI.lblLibraryStatus.setForeground(
+                                    Color.orange);
+                            LibraryUI.lblLibraryStatus.setText(
+                                    "Changed Game Path");
+
+                        }
+
+                        if (libraryUI.getEditGameUI().isGameCoverChanged()) {
+
+
+                            //Set new name
+                            String editGameName;
+                            if (libraryLogic.getGameSearch_editUI()
+                                    .getCurrentlySearchedGame().getName() ==
+                                null ||
+                                !libraryLogic.getGameSearch_editUI()
+                                .isIsSearchEnabled()) {
+                                editGameName = libraryLogic
+                                        .getGameSearch_editUI()
+                                        .getAppendedName();
+                            } else {
+                                editGameName = libraryLogic
+                                        .getGameSearch_editUI()
+                                        .getCurrentlySearchedGame().getName();
+                            }
+
+                            if (!libraryUI
+                                    .getGridSplit().isDupicate(editGameName)) {
+                                // Remove Game
+                                libraryUI.getStorage().getStoredLibrary()
+                                        .removeGame(libraryUI
+                                                .getEditGameUI()
+                                                .getCurrentGame_editUI());
+                                try {
+                                    //Set new path
+                                    libraryUI.getEditGameUI()
+                                            .getCurrentGame_editUI()
+                                            .setCoverUrl(
+                                                    libraryLogic
+                                                    .getGameSearch_editUI()
+                                                    .getCurrentlySearchedGame()
+                                                    .getBoxArtUrl());
+
+                                    libraryUI.getEditGameUI()
+                                            .getCurrentGame_editUI()
+                                            .setGameName(
+                                                    editGameName);
+
+                                } catch (MalformedURLException ex) {
+                                    java.util.logging.Logger.getLogger(
+                                            LibraryHandler.class.getName()).
+                                            log(Level.SEVERE, null, ex);
+                                }
+
+                                //refresh
+                                libraryUI.getEditGameUI()
+                                        .getCurrentGame_editUI().refresh(true);
+
+                                // Re Save
+                                libraryUI.getStorage().getStoredLibrary()
+                                        .SaveGame(libraryUI
+                                                .getEditGameUI()
+                                                .getCurrentGame_editUI());
+
+                                LibraryUI.lblLibraryStatus.setForeground(
+                                        Color.orange);
+                                LibraryUI.lblLibraryStatus.setText(
+                                        "Changed Game Cover");
+
+                                // Transition towards to left most grid to see the game added
+                                GridMove = new MoveToGrid(libraryUI
+                                        .getEditGameUI().getCurrentGame_editUI());
+
+                                libraryUI.getGridSplit().unselectPrevious();
+                            } else {
+                                ADialog info = new ADialog(
+                                        ADialog.aDIALOG_WARNING,
+                                        "Cannot Add Duplicate Game",
+                                        libraryUI
+                                        .getCoreUI()
+                                        .getRegularFont()
+                                        .deriveFont(Font.BOLD, 28));
+                                info.setVisible(true);
+                                info.showDialog();
+
+                            }
+                        }
+                    }
+
+                    libraryUI.getEditGameUI().hideEditGameUI();
+
+                }
+            }, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    libraryUI.getEditGameUI().getCurrentGame_editUI()
+                            .getBtnFlip()
+                            .getActionListeners()[0].actionPerformed(
+                                    null);
+
+                    if (GridMove != null && libraryUI.getEditGameUI()
+                        .isGameCoverChanged()) {
+                        libraryUI.setCurrentIndex(0);
+                        GridMove.runMover();
+                    }
+
+                    try {
+                        Thread.sleep(1200);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(LibraryHandler.class
+                                .getName()).
+                                log(Level.SEVERE, null, ex);
+                    }
+
+                    LibraryUI.lblLibraryStatus.setForeground(
+                            LibraryUI.DEFAULT_LIBRARY_COLOR);
+                    libraryUI.getGridSplit().unselectPrevious();
+                    libraryUI.getEditGameUI().getCurrentGame_editUI()
+                            .showOverlayUI();
+
+                    GridMove = null;
+                }
+            });
+
+            doneTask.startOnce();
+
+        }
+    }
+
+    public class GameLocationSettingListener implements ActionListener {
+
+        private final JLabel label;
+
+        public GameLocationSettingListener(JLabel lbl) {
+            this.label = lbl;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            label.setForeground(Color.white);
+
+            libraryUI.getEditGameUI().showGameLocationUI();
+
+        }
+    }
+
+    public class GameCoverSettingListener implements ActionListener {
+
+        private final JLabel label;
+
+        public GameCoverSettingListener(JLabel lbl) {
+            this.label = lbl;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            label.setForeground(Color.white);
+            libraryUI.getEditGameUI().showGameCoverUI();
+
+        }
+    }
+
+    public class OtherSettingListener implements ActionListener {
+
+        private final JLabel label;
+
+        public OtherSettingListener(JLabel lbl) {
+            this.label = lbl;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            label.setForeground(Color.white);
+            libraryUI.getEditGameUI().showOtherUI();
+
+        }
+    }
+
+    public class UnselectSettingListener implements ActionListener {
+
+        private final JLabel label;
+
+        public UnselectSettingListener(JLabel lbl) {
+            this.label = lbl;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            label.setForeground(Color.lightGray);
+
+        }
+    }
+
+    /**
+     * Handles the animation when attempting to close the edit cover UI pane
+     */
+    public class CloseEditCoverListener implements ActionListener {
+
+        private Window editCoverFrame;
+
+        public CloseEditCoverListener(Window editCoverFrame) {
+            this.editCoverFrame = editCoverFrame;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+
+            libraryUI.getCoreUI().getFrame().setVisible(true);
+            final AAnimate frameFadeAnimator = new AAnimate();
+
+            AAnimate editCoverAnimator = new AAnimate(editCoverFrame);
+
+            editCoverAnimator.setInitialLocation(editCoverFrame.getX(),
+                    editCoverFrame.getY());
+
+            editCoverAnimator.moveVertical(libraryUI.getCoreUI()
+                    .getScreenHeight(), 33);
+
+            libraryUI.setIsEditGameCoverUI_visible(false);
+
+            editCoverAnimator.addPostAnimationListener(new APostHandler() {
+
+                @Override
+                public void postAction() {
+                    frameFadeAnimator
+                            .fadeIn(libraryUI.getCoreUI()
+                                    .getFrame());
+                }
+            });
+
+        }
+    }
+
+    /**
+     * Listener for when files are dropped on EditCoverUI
+     */
+    public class EditCoverUIDragedListener implements AFileDrop.Listener {
+
+        private final AImagePane dragPane;
+
+        private AProgressWheel progressWheel;
+
+        private boolean isOccupied;
+
+        private final AImage statusIcon;
+
+        private String newGameName;
+
+        public EditCoverUIDragedListener(AImagePane DragPane, AImage statusIcon) {
+            this.dragPane = DragPane;
+            this.statusIcon = statusIcon;
+            isOccupied = false;
+        }
+
+        @Override
+        public void filesDropped(final File[] files) {
+            isOccupied = false;
+            progressWheel = new AProgressWheel("Aurora_Loader.png");
+            dragPane
+                    .setLayout(new BorderLayout(0, 0));
+
+            // Content Pane
+            final JPanel contentContainer = new JPanel(new FlowLayout(
+                    FlowLayout.CENTER, -30, 5));
+            contentContainer.setOpaque(false);
+
+            contentContainer.add(Box.createVerticalStrut(220));
+            contentContainer.add(progressWheel);
+            contentContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
+
+            // Reset Button
+            AButton btnReset = new AButton("app_btn_close_norm.png",
+                    "app_btn_close_down.png",
+                    "app_btn_close_over.png");
+
+            btnReset.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dragPane.removeAll();
+                    dragPane.setImage("editCoverUI_dragBG.png");
+                    dragPane.revalidate();
+                    isOccupied = false;
+                    statusIcon.setImgURl("addUI_badge_invalid.png");
+
+                }
+            });
+            final JPanel resetContainer = new JPanel(new BorderLayout());
+            resetContainer.setOpaque(false);
+            resetContainer.add(btnReset, BorderLayout.NORTH);
+            resetContainer.setPreferredSize(new Dimension(55, dragPane
+                    .getRealImageHeight()));
+
+            dragPane.add(Box.createVerticalGlue());
+            dragPane.add(contentContainer, BorderLayout.CENTER);
+            dragPane.setImage("editCoverUI_processBG.png");
+
+            AThreadWorker load = new AThreadWorker(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    AImagePane coverArt = libraryLogic.processNewCoverArtImage(
+                            files[0]);
+                    AImagePane scaledCoverArt = coverArt;
+
+                    newGameName = coverArt.getImageURL();
+
+                    int scaledHeight = dragPane.getRealImageHeight() - 8;
+                    int scaledWidth = (scaledHeight * coverArt
+                                       .getRealImageWidth()) / coverArt
+                                      .getRealImageHeight();
+
+                    scaledCoverArt.setImageSize(scaledWidth,
+                            scaledHeight);
+                    scaledCoverArt.setPreferredSize(new Dimension(scaledWidth,
+                            scaledHeight));
+
+                    contentContainer.removeAll();
+                    contentContainer.revalidate();
+
+                    contentContainer.add(scaledCoverArt);
+                    dragPane.add(resetContainer, BorderLayout.EAST);
+                    dragPane.revalidate();
+
+                    statusIcon.setImgURl("addUI_badge_valid.png");
+                    contentContainer.revalidate();
+
+                }
+            });
+
+            load.startOnce();
+            isOccupied = true;
+
+        }
+
+        public boolean isOccupied() {
+            return isOccupied;
+        }
+
+        public void setIsOccupied(boolean isOccupied) {
+            this.isOccupied = isOccupied;
+        }
+
+        public String getNewGameName() {
+            return newGameName;
+        }
+
+    }
+
+    /**
+     * Listener for the Done Button on the EditCoverUI
+     */
+    public class EditCoverUIDoneListener implements ActionListener {
+
+        private final AImage status;
+
+        private final Game editingGame;
+
+        private final EditCoverUIDragedListener dragListener;
+
+        public EditCoverUIDoneListener(AImage statusImage, Game game,
+                EditCoverUIDragedListener listener) {
+            this.status = statusImage;
+            this.editingGame = game;
+            this.dragListener = listener;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (status.getImgURl().equals("addUI_badge_invalid.png")) {
+
+                libraryLogic.flashInvalidStatus(status);
+
+            } else {
+
+                libraryUI.getEditCoverUI().hideEditCoverFrame();
+                libraryLogic.editCover(editingGame, dragListener
+                        .getNewGameName());
+            }
+
+        }
+
+    }
+
+    //
+    // Game Search
+    //
+    /**
+     * Handler added to game covers in GameSearch to allow ability to edit game
+     * cover art
+     */
+    public class GameCoverEditListner implements ActionListener {
+
+        private final Game game;
+
+        public GameCoverEditListner(Game currentGame) {
+            game = currentGame;
+
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (!libraryUI.isEditGameCoverUI_visible()) {
+                libraryUI.getEditCoverUI().showEditGameCoverUI(game);
+            }
+
+        }
+
+    }
+
 }

@@ -136,11 +136,6 @@ public class LibraryUI extends AuroraApp {
     private JPanel pnlAddGameSearchContainer;
 
     /**
-     * AddGameUI Glass Panel from current JFrame.
-     */
-    private JPanel pnlGlass;
-
-    /**
      * Panel Containing background image of Currently Selected game label.
      */
     private AImagePane imgLibraryStatusPane;
@@ -424,7 +419,7 @@ public class LibraryUI extends AuroraApp {
                                                                     .getKeysFontSize()));
             lblKeyAction.setForeground(new Color(0, 178, 178));
 
-            //* Bottom Center Bar *//
+            // Bottom Center Bar
             pnlBottomCenterContainer.setOpaque(false);
 
             imgLibraryStatusPane.setPreferredSize(new Dimension(
@@ -464,7 +459,7 @@ public class LibraryUI extends AuroraApp {
             // Selected Game Bar
             pnlBottomCenterContainer.add(imgLibraryStatusPane);
 
-            // Add Game Button *//
+            // Add Game Button
             pnlBottomCenterContainer.add(btnShowAddGameUI);
 
             // Search Bar
@@ -608,14 +603,14 @@ public class LibraryUI extends AuroraApp {
         }
         attactchHandlers();
 
-        //* Add Search Bar to Top Bar *//
+        // Add Search Bar to Top Bar
         coreUI.getSouthFromTopPanel().add(BorderLayout.CENTER, pnlSearchBar);
         coreUI.getSouthFromTopPanel().setPreferredSize(
                 new Dimension(coreUI.getSouthFromTopPanel().getWidth(), coreUI
                               .getFrameControlImagePane().getHeight()));
         coreUI.getSouthFromTopPanel().revalidate();
 
-        //* Add AddGameButton to Bottom Bar *//
+        // Add AddGameButton to Bottom Bar
         coreUI.getBottomContentPane().setLayout(new BorderLayout());
         coreUI.getBottomContentPane().setVisible(true);
 
@@ -642,14 +637,14 @@ public class LibraryUI extends AuroraApp {
                                                                      .getImageHeight()));
         coreUI.getBottomContentPane().revalidate();
 
-        //* Set up Bottom Bar *//
+        // Set up Bottom Bar
         coreUI.getCenterFromBottomPanel().setLayout(new BorderLayout());
         coreUI.getCenterFromBottomPanel().add(BorderLayout.NORTH,
                                               pnlBottomCenterContainer);
         coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, coreUI
                                               .getBottomContentPane());
 
-        //* Add To Key Action Panel *//
+        // Add To Key Action Panel
         coreUI.getKeyToPressPanel().add(coreUI.getKeyIconImage());
         coreUI.getKeyToPressPanel().add(coreUI.getKeyActionLabel());
         coreUI.getKeyToPressPanel().add(imgKeyIco);
