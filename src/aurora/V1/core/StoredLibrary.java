@@ -224,6 +224,7 @@ public class StoredLibrary extends AStorage {
             GameNames = getDatabaseArray("Library", "Game_Name");
             GamePaths = getDatabaseArray("Library", "Executable_Path");
             BoxArtPaths = getDatabaseArray("Library", "BoxArt_Path");
+            db.CloseConnection();
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(StoredLibrary.class.getName()).
                     log(Level.SEVERE, null, ex);

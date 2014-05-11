@@ -147,6 +147,7 @@ public class StoredSettings extends AStorage {
         try {
             settingNames = getDatabaseArray("Settings", "Setting_Name");
             settingValues = getDatabaseArray("Settings", "Setting_Value");
+            db.CloseConnection();
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(StoredSettings.class.getName()).
                     log(Level.SEVERE, null, ex);

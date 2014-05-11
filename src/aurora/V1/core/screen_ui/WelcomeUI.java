@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
@@ -47,19 +48,15 @@ import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 
 /**
- * .------------------------------------------------------------------------.
- * | WelcomeUI :: Aurora App Class
- * .------------------------------------------------------------------------.
- * |
- * | This class contains the UI for the Start Screen associated with an
- * | appropriate *Handler* and *Logic* class which handle the actions caused
- * | by the UI components found here
- * |
- * | This class must follow the rules stated in the AuroraScreenUI
- * | Interface found in the Aurora Engine. The *Handler* and *Logic* classes
- * | The Handler class is called: WelcomeHandler
- * | The Logic class is called: WelcomeLogic
- * |
+ * .------------------------------------------------------------------------. |
+ * WelcomeUI :: Aurora App Class
+ * .------------------------------------------------------------------------. |
+ * | This class contains the UI for the Start Screen associated with an |
+ * appropriate *Handler* and *Logic* class which handle the actions caused | by
+ * the UI components found here | | This class must follow the rules stated in
+ * the AuroraScreenUI | Interface found in the Aurora Engine. The *Handler* and
+ * *Logic* classes | The Handler class is called: WelcomeHandler | The Logic
+ * class is called: WelcomeLogic |
  * .........................................................................
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
@@ -85,8 +82,6 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
     private int displayYpos;
 
     public static boolean Online = false;
-
-
 
     private JPanel loadingPane;
 
@@ -274,7 +269,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         }
 
         auroraVI = new ANuance(System.getProperty("user.home")
-                               + "/AuroraData/User Data/AIDictionary.txt");
+                + "/AuroraData/User Data/AIDictionary.txt");
 
         ArrayList<String> toDisplayList = new ArrayList<String>();
         if (logic.checkUser()) {
@@ -428,7 +423,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                         promptDisplay
                                 .add(
                                         "I Seem To Have Finally Established Connection...");
-                           Online = true;
+                        Online = true;
                     }
                 } else {
                     Online = true;
@@ -438,6 +433,9 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 logic.sendAnalytics();
 
                 if (!FirstTimeLoad) {
+                    
+                    logger.info("loading Databases");
+                    
                     //Load Databases
                     auroraStorage.getStoredLibrary()
                             .setUpDatabase(FirstTimeLoad,
@@ -459,8 +457,19 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 // Increment number of times launched//
                 logic.incrementAuroraLaunch();
 
-                // Update or move AuroraDB
-                logic.moveAuroraDB(promptDisplay);
+                try {
+                    // Update AIDictionary periodically
+
+                    if (main.LAUNCHES == 0 || main.LAUNCHES % 10 == 0) {
+                        logger.info("downloading AIDictionary...");
+                        coreUI.setVi(new ANuance(
+                                "https://s3.amazonaws.com/AuroraStorage/AIDictionary.txt",
+                                fileIO
+                                .getPath() + "AuroraData/User Data/AIDictionary.txt"));
+                    }
+                } catch (IOException ex) {
+                    java.util.logging.Logger.getLogger(WelcomeUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
                 // load DashboardUI
                 loadedDashboardUI = new DashboardUI(coreUI, this);
@@ -526,8 +535,6 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         }
 
     }
-
-
 
     public FrameKeyListener getStartKeyHandler() {
         return startKeyHandler;

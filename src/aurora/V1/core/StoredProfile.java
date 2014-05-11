@@ -184,6 +184,7 @@ public class StoredProfile extends AStorage implements Serializable {
             TotalTimes = getDatabaseArray("Profile", "Total_Time");
             OccurrenceTimes = getDatabaseArray("Profile", "Occurence_Time");
             LastTimes = getDatabaseArray("Profile", "Last_Time");
+            db.CloseConnection();
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(StoredProfile.class.getName()).
                     log(Level.SEVERE, null, ex);
