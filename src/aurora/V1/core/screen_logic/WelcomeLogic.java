@@ -98,8 +98,6 @@ public class WelcomeLogic implements AuroraScreenLogic {
         imgHexPane = startScreenUI.getImgHexPane();
         imgTopLogo = coreUI.getLogoImage();
         imgTopLogoSmall = new AImage("dash_header_logo.png");
-
-
         imgTopLogoSmall.setImageSize(topSmallImageWidth, topSmallImageHeight);
 
     }
@@ -148,16 +146,11 @@ public class WelcomeLogic implements AuroraScreenLogic {
 
                     coreUI.getTopPane().setPreferredSize(new Dimension(coreUI
                             .getTopPane()
-                            .getWidth(),
-                                                                       topHeight
-                                                                       - 50));
+                            .getWidth(), topHeight - 50));
                     coreUI.getCenterPanel()
                             .setPreferredSize(new Dimension(coreUI
                                             .getCenterPanel()
-                                            .getWidth(),
-                                                            centerHeight));
-
-
+                                            .getWidth(), centerHeight));
 
 
                     if (topHeight >= imgTopLogoSmall.getImgIcon()
@@ -381,7 +374,8 @@ public class WelcomeLogic implements AuroraScreenLogic {
     }
 
     public boolean checkSubDir() {
-        if (fileIO.checkFile(fileIO.getPath() + main.DATA_PATH + "/User Data") && fileIO.
+        if (fileIO.checkFile(fileIO.getPath() + main.DATA_PATH + "/User Data")
+                    && fileIO.
                 checkFile(fileIO.getPath() + main.DATA_PATH + "/Game Data")) {
             return true;
         } else {

@@ -33,7 +33,6 @@ import java.awt.event.MouseWheelListener;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import javax.swing.JComponent;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -154,21 +153,21 @@ public abstract class AuroraApp implements AuroraScreenUI {
     public final void backToDashboard() {
 
 
-        //* let app do its own cleanin up *//
+        // let app do its own cleanin up
         closeApp();
 
 
-        //* Clear everything in the Center Panel of CoreUI *//
+        // Clear everything in the Center Panel of CoreUI
         clearUI(false);
 
         isInApp = false;
 
 
-        //* Re-add all DashboardUI components back to CoreUI *//
+        // Re-add all DashboardUI components back to CoreUI
         getDashboardUI().addToCanvas();
 
 
-        //* remove back button *//
+        // remove back button
         getCoreUI().getFrameControlImagePane().remove(btnBack);
         getCoreUI().getFrameControlImagePane().setImage(
                 "dash_frameControl_bg.png");
@@ -243,48 +242,54 @@ public abstract class AuroraApp implements AuroraScreenUI {
             clearForApp = isClearingApp;
         }
 
-        //* Remove all Center and Bottom Bar Content *//
+        // Remove all Center and Bottom Bar Content
         getCoreUI().getKeyToPressPanel().removeAll();
         getCoreUI().getCenterPanel().removeAll();
         getCoreUI().getBottomContentPane().removeAll();
         getCoreUI().getCenterFromBottomPanel().removeAll();
-        getCoreUI().getBottomContentPane().revalidate();
 
-        //* Remove All from top of bottom pane and re-add CoreUI components*//
+
+        // Remove All from top of bottom pane and re-add CoreUI components
         getCoreUI().getCenterFromBottomPanel().add(BorderLayout.NORTH,
-                getCoreUI()
-                .getHeaderOfCenterFromBottomPanel());
+                                                   getCoreUI()
+                                                   .getHeaderOfCenterFromBottomPanel());
+
         getCoreUI().getHeaderOfCenterFromBottomPanel()
                 .setPreferredSize(new Dimension(getCoreUI().getFrame()
-                .getWidth(),
-                getCoreUI().getKeyToPressPanel().getHeight()));
+                                .getWidth(),
+                                                getCoreUI().getKeyToPressPanel()
+                                                .getHeight()));
+
         getCoreUI().getHeaderOfCenterFromBottomPanel().revalidate();
 
-        getCoreUI().getCenterPanel().revalidate();
         getCoreUI().getCenterFromBottomPanel().revalidate();
+        getCoreUI().getBottomContentPane().revalidate();
 
-        //* Remove all from the title pane of the bottom bar and re-add title*//
+        // Remove all from the title pane of the bottom bar and re-add title
         getCoreUI().getTitlePanel().removeAll();
         getCoreUI().getTitlePanel().add(BorderLayout.CENTER, getCoreUI()
-                .getTitleLabel());
+                                        .getTitleLabel());
 
-        //* Set Size to CoreUI Components *//
-        getCoreUI().getCenterPanel().setPreferredSize(new Dimension(getCoreUI()
-                .getCenterPanel().getWidth(), getCoreUI().getFrame().getHeight()
-                                              - getCoreUI().getBottomPane()
-                .getHeight() - getCoreUI().getTopPane().getHeight() - 5));
+        // Set Size to CoreUI Components
+        getCoreUI().getCenterPanel().setPreferredSize(
+                new Dimension(
+                        getCoreUI().getCenterPanel().getWidth(),
+                        getCoreUI().getFrame().getHeight() - getCoreUI()
+                        .getBottomPane().getHeight() - getCoreUI().getTopPane()
+                        .getHeight() - 5));
+        getCoreUI().getCenterPanel().revalidate();
 
-        //* Clear Bottom of Top Pane and re-add the Frame Conrols *//
+        // Clear Bottom of Top Pane and re-add the Frame Conrols
         getCoreUI().getSouthFromTopPanel().setOpaque(false);
         getCoreUI().getSouthFromTopPanel().removeAll();
         getCoreUI().getSouthFromTopPanel()
                 .add(getCoreUI().getFrameControlContainerPanel(),
-                BorderLayout.EAST);
+                     BorderLayout.EAST);
 
         getCoreUI().getFrame().requestFocus();
         getCoreUI().getFrame().repaint();
 
-        //* Remove All Listeners from componentsContainingListeners and Frame*//
+        // Remove All Listeners from componentsContainingListeners and Frame
         removeAllListeners();
 
         if (clearForApp) {
@@ -314,7 +319,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
         // Check through all Components in the Volatile Bank!
         for (int i = 0; i < componentsContainingListeners.size(); i++) {
-            //* Remove KeyListers from Components ArrayList *//
+            // Remove KeyListers from Components ArrayList
             KeyListener[] keyListeners = componentsContainingListeners.get(i)
                     .getKeyListeners();
 
@@ -322,7 +327,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
                 componentsContainingListeners.get(i)
                         .removeKeyListener(keyListeners[j]);
             }
-            //* Remove Mouse Listeners from Components ArrayList *//
+            // Remove Mouse Listeners from Components ArrayList
             MouseListener[] mouseListeners = componentsContainingListeners
                     .get(i)
                     .getMouseListeners();
@@ -332,8 +337,9 @@ public abstract class AuroraApp implements AuroraScreenUI {
                         .removeMouseListener(mouseListeners[j]);
 
             }
-            //* Remove Mouse Wheel Listeners from Components ArrayList *//
-            MouseWheelListener[] mouseWheelListeners = componentsContainingListeners
+            // Remove Mouse Wheel Listeners from Components ArrayList
+            MouseWheelListener[] mouseWheelListeners
+                                         = componentsContainingListeners
                     .get(i)
                     .getMouseWheelListeners();
 
@@ -343,9 +349,10 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
             }
 
-            //* Maybe its a buttom, try to remove its ActionListeners. *//
+            // Maybe its a buttom, try to remove its ActionListeners.
             if (componentsContainingListeners.get(i) instanceof AButton) {
-                ActionListener[] actionListeners = ((AButton) componentsContainingListeners
+                ActionListener[] actionListeners
+                                         = ((AButton) componentsContainingListeners
                         .get(i)).getActionListeners();
                 for (int j = 0; j < actionListeners.length; j++) {
                     ((AButton) componentsContainingListeners.get(i))
@@ -354,7 +361,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
             }
 
         }
-        //* Clear Listeners from Frame *//
+        // Clear Listeners from Frame
         KeyListener[] frameKeyListeners = getCoreUI().getFrame()
                 .getKeyListeners();
 
@@ -375,7 +382,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
                     .removeMouseWheelListener(frameMouseWheelListeners[i]);
         }
 
-        //* Clear Listeners from Frame ContentPane *//
+        // Clear Listeners from Frame ContentPane
 
         KeyListener[] frameContentKeyListeners = getCoreUI().getFrame()
                 .getContentPane()
@@ -443,8 +450,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
         setSizes();
         isInApp = true;
         btnBack = new AButton("app_btn_back_norm.png",
-                "app_btn_back_down.png", "app_btn_back_over.png",
-                btnBackWidth, btnBackHeight);
+                              "app_btn_back_down.png", "app_btn_back_over.png",
+                              btnBackWidth, btnBackHeight);
         btnBack.setToolTipText("Back");
         try {
             getCoreUI().getFrameControlImagePane().setImageURL(
@@ -455,8 +462,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
         getCoreUI().getSouthFromTopPanel().setPreferredSize(
                 new Dimension(getCoreUI().getSouthFromTopPanel().getWidth(),
-                getCoreUI()
-                .getFrameControlContainerPanel().getHeight()));
+                              getCoreUI()
+                              .getFrameControlContainerPanel().getHeight()));
 
         if (logger.isDebugEnabled()) {
             logger.debug("ADDED BACK BUTTON");
@@ -470,19 +477,21 @@ public abstract class AuroraApp implements AuroraScreenUI {
             btnBack.addActionListener(new BackButtonListener());
         }
 
-        //* Ability to go use Backspace to go back to dashboard *//
+        // Ability to go use Backspace to go back to dashboard
         KeyboardFocusManager.getCurrentKeyboardFocusManager()
                 .addKeyEventDispatcher(
-                new KeyEventDispatcher() {
-            public boolean dispatchKeyEvent(KeyEvent e) {
+                        new KeyEventDispatcher() {
+                            public boolean dispatchKeyEvent(KeyEvent e) {
 
-                if (e.getKeyChar() == KeyEvent.VK_ESCAPE && isInApp) {
-                    new BackButtonListener().actionPerformed(null);
-                    return true;
-                }
-                return false;
-            }
-        });
+                                if (e.getKeyChar() == KeyEvent.VK_ESCAPE
+                                            && isInApp) {
+                                    new BackButtonListener().actionPerformed(
+                                            null);
+                                    return true;
+                                }
+                                return false;
+                            }
+                        });
     }
 
     private class BackButtonListener implements ActionListener {

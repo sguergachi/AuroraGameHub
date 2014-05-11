@@ -996,10 +996,6 @@ public class LibraryHandler implements
     public class SearchSelectHandler extends MouseAdapter {
 
         @Override
-        public void mouseClicked(MouseEvent e) {
-        }
-
-        @Override
         public void mousePressed(MouseEvent e) {
             if (libraryUI.getSearchBar().getText().equals(
                     "Just Start Typing...")) {

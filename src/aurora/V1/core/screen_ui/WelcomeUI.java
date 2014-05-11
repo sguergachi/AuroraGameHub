@@ -203,8 +203,8 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
         // set up prompter
         promptDisplay = new APrompter(new Color(0, 127, 153), coreUI
-                .getBoldFont()
-                .deriveFont(Font.PLAIN, displayFontSize));
+                                      .getBoldFont()
+                                      .deriveFont(Font.PLAIN, displayFontSize));
         promptList = generatePrompts();
 
         promptDisplay.add(promptList);
@@ -227,7 +227,6 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         coreUI.getBottomContentPane().add(loadingPane);
 
         coreUI.getBottomContentPane().revalidate();
-        coreUI.getBottomContentPane().repaint();
 
         // prep Aurora for dashboard
         try {
@@ -250,9 +249,11 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
     public void completedStartUp() {
         //add button panel to UI
         coreUI.getBottomContentPane().removeAll();
-        coreUI.getBottomContentPane().revalidate();
+
 
         startTransision();
+
+        coreUI.getBottomContentPane().revalidate();
 
         //Notify Ready.
         isLoaded = true;
@@ -269,7 +270,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         }
 
         auroraVI = new ANuance(System.getProperty("user.home")
-                + "/AuroraData/User Data/AIDictionary.txt");
+                                       + "/AuroraData/User Data/AIDictionary.txt");
 
         ArrayList<String> toDisplayList = new ArrayList<String>();
         if (logic.checkUser()) {
@@ -286,7 +287,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
             toDisplayList
                     .add(
                             auroraVI.VI(ANuance.inx_Welcome)
-                            + " to Aurora Game Hub");
+                                    + " to Aurora Game Hub");
 
             toDisplayList.add(
                     auroraVI.VI(ANuance.inx_Preparing) + " for First Time Use");
@@ -337,10 +338,10 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                     //Load Databases
                     auroraStorage.getStoredLibrary()
                             .setUpDatabase(FirstTimeLoad,
-                                    fileIO.getPath() + "/Game Data/");
+                                           fileIO.getPath() + "/Game Data/");
                     auroraStorage.getStoredProfile()
                             .setUpDatabase(FirstTimeLoad,
-                                    fileIO.getPath() + "/User Data/");
+                                           fileIO.getPath() + "/User Data/");
                     auroraStorage.getStoredSettings().setUpDatabase(
                             FirstTimeLoad,
                             fileIO.getPath() + "/User Data/");
@@ -358,10 +359,10 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                     //Load Databases
                     auroraStorage.getStoredLibrary()
                             .setUpDatabase(FirstTimeLoad,
-                                    fileIO.getPath() + "/Game Data/");
+                                           fileIO.getPath() + "/Game Data/");
                     auroraStorage.getStoredProfile()
                             .setUpDatabase(FirstTimeLoad,
-                                    fileIO.getPath() + "/User Data/");
+                                           fileIO.getPath() + "/User Data/");
                     auroraStorage.getStoredSettings().setUpDatabase(
                             FirstTimeLoad,
                             fileIO.getPath() + "/User Data/");
@@ -376,10 +377,10 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                         //Load Databases
                         auroraStorage.getStoredLibrary()
                                 .setUpDatabase(FirstTimeLoad,
-                                        fileIO.getPath() + "/Game Data/");
+                                               fileIO.getPath() + "/Game Data/");
                         auroraStorage.getStoredProfile()
                                 .setUpDatabase(FirstTimeLoad,
-                                        fileIO.getPath() + "/User Data/");
+                                               fileIO.getPath() + "/User Data/");
                         auroraStorage.getStoredSettings().setUpDatabase(
                                 FirstTimeLoad,
                                 fileIO.getPath() + "/User Data/");
@@ -433,18 +434,18 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 logic.sendAnalytics();
 
                 if (!FirstTimeLoad) {
-                    
+
                     logger.info("loading Databases");
-                    
+
                     //Load Databases
                     auroraStorage.getStoredLibrary()
                             .setUpDatabase(FirstTimeLoad,
-                                    fileIO.getPath() + "/Game Data/");
+                                           fileIO.getPath() + "/Game Data/");
                     auroraStorage.getStoredLibrary().storeFromDatabase();
 
                     auroraStorage.getStoredProfile()
                             .setUpDatabase(FirstTimeLoad,
-                                    fileIO.getPath() + "/User Data/");
+                                           fileIO.getPath() + "/User Data/");
                     auroraStorage.getStoredProfile().storeFromDatabase();
 
                     auroraStorage.getStoredSettings().setUpDatabase(
@@ -464,11 +465,13 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                         logger.info("downloading AIDictionary...");
                         coreUI.setVi(new ANuance(
                                 "https://s3.amazonaws.com/AuroraStorage/AIDictionary.txt",
-                                fileIO
-                                .getPath() + "AuroraData/User Data/AIDictionary.txt"));
+                                System.getProperty("user.home") + "/"
+                                        + "AuroraData/User Data/AIDictionary.txt"));
                     }
                 } catch (IOException ex) {
-                    java.util.logging.Logger.getLogger(WelcomeUI.class.getName()).log(Level.SEVERE, null, ex);
+                    java.util.logging.Logger
+                            .getLogger(WelcomeUI.class.getName()).log(
+                                    Level.SEVERE, null, ex);
                 }
 
                 // load DashboardUI

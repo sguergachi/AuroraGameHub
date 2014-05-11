@@ -10,15 +10,15 @@
 
 + Made a lot of UX improvements
 
+= Improved startup loading speed
+= Clicking on link in info feed now shows Aurora Mini
+= Major code refactoring and clean up
+= Yes, Details Matter
 
 - Fixed pressing Done button in Edit Cover UI to many times causing issues
 - Fixed issue with going offline and back online not being detected
 - Fixed issue going in and out of Settings app re-showing info bar status
 
-- Clicking on link in info feed now shows Aurora Mini
-- Improved loading of dashboard
-- Major code refactoring and clean up
-- Yes, Details Matter
 
 
 ////////////////////////////////////////////------------------------------------

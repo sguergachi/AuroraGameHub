@@ -441,7 +441,7 @@ public class DashboardUI implements AuroraScreenUI {
         paneLibrary.addKeyListener(handler.new DashboardlKeyListener());
         paneNet.addKeyListener(handler.new DashboardlKeyListener());
 
-         // Set ID For each Panel and add ENTER Key Listener
+        // Set ID For each Panel and add ENTER Key Listener
         paneSettings.setName("settingsPane");
         paneProfile.setName("profilePane");
         paneLibrary.setName("libraryPane");
@@ -551,6 +551,7 @@ public class DashboardUI implements AuroraScreenUI {
         // About Box //
         aboutBox = new AboutBox(coreUI);
         coreUI.getLogoImage().addMouseListener(new HeaderMouseListener());
+        aboutBox.buildAboutUI();
 
         // Finalize
         // --------------------------------------------------------------------.
@@ -623,10 +624,6 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getLogoImage().setImgURl("dash_header_logo.png");
         coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
 
-        // About Box //
-        aboutBox.buildAboutUI();
-
-
         // Add UI to Canvas
         addToCanvas();
 
@@ -642,9 +639,13 @@ public class DashboardUI implements AuroraScreenUI {
         // --------------------------------------------------------------------.
 
 
-        // Add Carousel to Center Panel
-        coreUI.getCenterPanel().add(BorderLayout.CENTER, carousel);
-
+        // Center pane
+//        coreUI.getCenterPanel().setPreferredSize(
+//                new Dimension(
+//                        getCoreUI().getCenterPanel().getWidth(),
+//                        getCoreUI().getFrame().getHeight() - getCoreUI()
+//                        .getBottomPane().getHeight() - getCoreUI().getTopPane()
+//                        .getHeight()));
 
 
         // Set size of Top panel in CoreUI
@@ -652,7 +653,8 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getTopPane().setPreferredSize(new Dimension(coreUI
                 .getTopPane().
                 getWidth(), coreUI.getTopPane().getImageHeight() + coreUI.
-                                                           getFrameControlContainerPanel().getHeight()));
+                                                           getFrameControlContainerPanel()
+                                                           .getHeight()));
 
         // Set size of Bottom panel in CoreUI
         coreUI.getBottomPane().setPreferredSize(new Dimension(coreUI
@@ -663,17 +665,19 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getSouthFromTopPanel().revalidate();
         coreUI.getSouthFromTopPanel().setPreferredSize(new Dimension(coreUI.
                 getSouthFromTopPanel().getWidth(), coreUI
-                                                                     .getFrameControlContainerPanel().
-                                                                     getHeight()));
+                                                                     .getFrameControlContainerPanel()
+                                                                     .getHeight()));
         coreUI.getTopPane().setPreferredSize(new Dimension(coreUI
                 .getTopPane().
-                getWidth(), coreUI.getTopPane().getImageHeight() + coreUI.
-                                                           getFrameControlContainerPanel().getHeight()));
+                getWidth(), coreUI.getTopPane().getImageHeight()
+                                    + coreUI.getFrameControlContainerPanel()
+                                                           .getHeight()));
         coreUI.getSouthFromTopPanel().revalidate();
 
         // Set Font of Keyboard Action Label
         lblKeyActionArrow.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
-                                                                     coreUI.getKeysFontSize()));
+                                                                     coreUI
+                                                                     .getKeysFontSize()));
         lblKeyActionArrow.setForeground(new Color(0, 178, 178));
         lblKeyActionArrow.setText(" Move ");
 
@@ -782,8 +786,8 @@ public class DashboardUI implements AuroraScreenUI {
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
-            bottomPaneHeightAdjust = coreUI.getBottomPanelSize() / 2 + coreUI.
-                    getFrame().getHeight() / 50 + 40;
+            bottomPaneHeightAdjust = coreUI.getScreenHeight() / 9 + coreUI.
+                    getFrame().getHeight() / 50 + 60;
             topPaneHeighAdjust = coreUI.getCenterPanel().getHeight() / 5;
 
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
@@ -791,9 +795,6 @@ public class DashboardUI implements AuroraScreenUI {
             infoFeedWidth = coreUI.getFrame().getSize().width
                                     - (carouselButtonWidth * 2) - 70;
             infoFeedHeight = 55;
-
-
-            System.out.println("INFO FEED WIDTH = " + infoFeedWidth);
 
 
         } else {

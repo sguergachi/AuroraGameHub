@@ -86,11 +86,12 @@ public class AuroraCoreUI {
      * Generate full Version string to be used at the bottom of UI.
      */
     private final String version
-            = "             //BUILD: " + getResourceBundleToken(
+                                 = "             //BUILD: "
+                                           + getResourceBundleToken(
                     "BUILD")
-            + "  //REVISION: " + revision
-            + "  //AURORA.ENGINE.VERSION = 0.1."
-            + (Integer
+                                           + "  //REVISION: " + revision
+                                           + "  //AURORA.ENGINE.VERSION = 0.1."
+                                           + (Integer
             .parseInt(revision));
 
     /**
@@ -420,15 +421,15 @@ public class AuroraCoreUI {
      * .........................................................................
      * <p/>
      * @throws UnsupportedAudioFileException Exception
-     * @throws IOException Exception
-     * @throws LineUnavailableException Exception
-     * @throws InterruptedException Exception
-     * @throws FontFormatException Exception
+     * @throws IOException                   Exception
+     * @throws LineUnavailableException      Exception
+     * @throws InterruptedException          Exception
+     * @throws FontFormatException           Exception
      */
     public final void setUI() throws UnsupportedAudioFileException, IOException,
-            LineUnavailableException,
-            InterruptedException,
-            FontFormatException {
+                                     LineUnavailableException,
+                                     InterruptedException,
+                                     FontFormatException {
 
         // Determine Global Size based on Screen Size
         // TODO work on Screen Gui Change
@@ -441,7 +442,7 @@ public class AuroraCoreUI {
         taskbarHeight = screenHeight - winSize.height;
 
         logger.info("Current Screen Resolution: " + screenWidth + "x"
-                + screenHeight);
+                            + screenHeight);
 
         //
         // Check the resolution (in pixels) of the screen to
@@ -463,40 +464,40 @@ public class AuroraCoreUI {
 
         // Tooltip //
         UIManager.put("ToolTip.background", new ColorUIResource(new Color(87,
-                140,
-                204)));
+                                                                          140,
+                                                                          204)));
         UIManager.put("ToolTip.foreground", new ColorUIResource(Color.BLACK));
 
         // Get Font
         try {
             regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
-                    resources
-                    .getSurfacePath()
-                    + "/aurora/V1/resources/AGENCYR.TTF")
-                    .openStream());
+                                          resources
+                                          .getSurfacePath()
+                                                  + "/aurora/V1/resources/AGENCYR.TTF")
+                                          .openStream());
             boldFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
-                    resources
-                    .getSurfacePath()
-                    + "/aurora/V1/resources/AGENCYB.TTF")
-                    .openStream());
+                                       resources
+                                       .getSurfacePath()
+                                               + "/aurora/V1/resources/AGENCYB.TTF")
+                                       .openStream());
             ropaFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
-                    resources
-                    .getSurfacePath()
-                    + "/aurora/V1/resources/RopaSans-Regular.TTF")
-                    .openStream());
+                                       resources
+                                       .getSurfacePath()
+                                               + "/aurora/V1/resources/RopaSans-Regular.TTF")
+                                       .openStream());
         } catch (MalformedURLException ex) {
             try {
                 regularFont = Font
                         .createFont(Font.TRUETYPE_FONT, getClass()
-                                .getResourceAsStream(
-                                        "/aurora/V1/resources/AGENCYR.TTF"));
+                                    .getResourceAsStream(
+                                            "/aurora/V1/resources/AGENCYR.TTF"));
                 boldFont = Font
                         .createFont(Font.TRUETYPE_FONT, getClass()
-                                .getResourceAsStream(
-                                        "/aurora/V1/resources/AGENCYB.TTF"));
+                                    .getResourceAsStream(
+                                            "/aurora/V1/resources/AGENCYB.TTF"));
                 ropaFont = Font.createFont(Font.TRUETYPE_FONT,
-                        getClass().getResourceAsStream(
-                                "/aurora/V1/resources/RopaSans-Regular.TTF"));
+                                           getClass().getResourceAsStream(
+                                                   "/aurora/V1/resources/RopaSans-Regular.TTF"));
 
             } catch (Exception exx) {
                 logger.error("ERROR In Getting Font Resources");
@@ -508,21 +509,22 @@ public class AuroraCoreUI {
         // Well as all components found in the window
         //
         paneBackground = new AImagePane("app_background.png", frame
-                .getSize().width, frame.getSize().height,
-                true);
+                                        .getSize().width, frame.getSize().height,
+                                        true);
 
         paneBackground.setPreferredSize(frame.getSize());
-        paneBackground.setLayout(new BoxLayout(paneBackground,
-                BoxLayout.Y_AXIS));
+//        paneBackground.setLayout(new BoxLayout(paneBackground,
+//                                               BoxLayout.Y_AXIS));
+        paneBackground.setLayout(new BorderLayout(0, 0));
 
         //
         // The Top Panel Contains Header Image as well as the Frame Buttons:
         // Exit and Minimize
         //
         paneTop = new AImagePane("app_header.png",
-                frame.getSize().width, topPanelHeight, true);
+                                 frame.getSize().width, topPanelHeight, true);
         paneTop.setPreferredSize(new Dimension(frame.getSize().width,
-                topPanelHeight));
+                                               topPanelHeight));
 
         paneTop.setIgnoreRepaint(true);
         paneTop.setLayout(new BorderLayout(0, 0));
@@ -533,11 +535,12 @@ public class AuroraCoreUI {
         //
         paneCenter = new JPanel(true);
         paneCenter.setPreferredSize(new Dimension(frame.getSize().width, frame
-                .getSize().height
-                - (frame.getSize().height
-                / 6
-                + frame
-                .getSize().height / 6)));
+                                                  .getSize().height
+                                                                                 - (frame
+                                                  .getSize().height
+                                                                                            / 6
+                                                                                    + frame
+                                                  .getSize().height / 6)));
         paneCenter.setOpaque(false);
         paneCenter.setLayout(new BorderLayout(0, 0));
         paneCenter.setIgnoreRepaint(true);
@@ -547,43 +550,30 @@ public class AuroraCoreUI {
         // the Time and the Login Controls
         //
         paneBottom = new AImagePane("app_footer.png",
-                frame.getSize().width, topPanelHeight, true);
+                                    frame.getSize().width, topPanelHeight, true);
         paneBottom.setPreferredSize(new Dimension(frame.getSize().width,
-                topPanelHeight));
-        paneBottom.setOpaque(false);
+                                                  topPanelHeight));
+//        paneBottom.setOpaque(false);
         paneBottom.setLayout(new BorderLayout(0, 0));
 
-        //
-        // Configure Panels:
-        // Add specific UI components to each panel
-        //
+
         // Create V.I
         fileIO = new AFileManager(System.getProperty("user.home") + "/");
         logger.info(fileIO.getPath() + "AuroraData/User Data/");
 
-        try {
-            // Don't download each time
-            if (!AFileManager.checkFile(fileIO
-                    .getPath() + "AuroraData/User Data/AIDictionary.txt")) {
-                logger.info("downloading AIDictionary...");
-                try {
-                    vi = new ANuance(
-                            "https://s3.amazonaws.com/AuroraStorage/AIDictionary.txt",
-                            fileIO
-                            .getPath() + "AuroraData/User Data/AIDictionary.txt");
-                } catch (Exception ex) {
-                    vi = new ANuance();
-                }
-            } else {
-                try {
-                    vi = new ANuance(
-                            fileIO
-                            .getPath() + "AuroraData/User Data/AIDictionary.txt");
-                } catch (Exception exx) {
-                    vi = new ANuance();
-                }
+        // Don't download each time
+        if (!AFileManager.checkFile(fileIO
+                .getPath() + "AuroraData/User Data/AIDictionary.txt")) {
+            logger.info("downloading AIDictionary...");
+            try {
+                vi = new ANuance(
+                        "https://s3.amazonaws.com/AuroraStorage/AIDictionary.txt",
+                        fileIO
+                        .getPath() + "AuroraData/User Data/AIDictionary.txt");
+            } catch (Exception ex) {
+                vi = new ANuance();
             }
-        } catch (Exception ex) {
+        } else {
             try {
                 vi = new ANuance(
                         fileIO
@@ -592,18 +582,24 @@ public class AuroraCoreUI {
                 vi = new ANuance();
             }
         }
+
+        //
+        // Configure Panels:
+        // Add specific UI components to each panel
+        //
+
         // Setup Buttons
         btnExit = new AButton("app_btn_close_norm.png",
-                "app_btn_close_down.png", "app_btn_close_over.png",
-                exitButtonWidth, exitButtonHeight);
+                              "app_btn_close_down.png", "app_btn_close_over.png",
+                              exitButtonWidth, exitButtonHeight);
         btnExit.addActionListener(new CloseListener());
         if (main.LAUNCHES < 5) {
             btnExit.setToolTipText("Exit");
         }
         btnMinimize = new AButton("app_btn_minimize_norm.png",
-                "app_btn_minimize_down.png",
-                "app_btn_minimize_over.png",
-                minimizeButtonWidth, minimizeButtonHeight);
+                                  "app_btn_minimize_down.png",
+                                  "app_btn_minimize_over.png",
+                                  minimizeButtonWidth, minimizeButtonHeight);
         minimizeHandler = new MinimizeListener(this, AuroraMini.MINIMIZE_MODE);
         btnMinimize.addActionListener(minimizeHandler);
         if (main.LAUNCHES < 5) {
@@ -614,7 +610,7 @@ public class AuroraCoreUI {
         // --------------------------------------------------------------------
         // Frame Buttons
         paneFrameControl = new AImagePane("start_frameControl_bg.png",
-                controlWidth, controlHeight);
+                                          controlWidth, controlHeight);
         paneFrameControl.setImageHeight(controlHeight);
         paneFrameControl.setOpaque(false);
         paneFrameControl.add(btnMinimize);
@@ -632,7 +628,7 @@ public class AuroraCoreUI {
         southFromTopPanel.setBackground(Color.red);
         southFromTopPanel.add(BorderLayout.EAST, paneFrameControlContainer);
         southFromTopPanel.setPreferredSize(new Dimension(frame.getWidth(),
-                controlHeight));
+                                                         controlHeight));
 
         paneTop.add(BorderLayout.SOUTH, southFromTopPanel);
 
@@ -705,12 +701,12 @@ public class AuroraCoreUI {
         lblKeyActionEnter = new JLabel(" Select ");
 
         lblKeyActionEnter.setFont(regularFont.deriveFont(Font.PLAIN,
-                keysFontSize));
+                                                         keysFontSize));
         lblKeyActionEnter.setForeground(new Color(0, 178, 178));
 
         paneHeaderOfCenterFromBottom.add(BorderLayout.WEST, paneKeyToPress);
         paneCenterFromBottom.add(BorderLayout.NORTH,
-                paneHeaderOfCenterFromBottom);
+                                 paneHeaderOfCenterFromBottom);
 
         // BOTTOM CENTER PANEL
         // ---------------------------------------------------------------------
@@ -718,7 +714,7 @@ public class AuroraCoreUI {
         paneBottomCenterContent.setOpaque(false);
         paneBottomCenterContent
                 .setLayout(new BoxLayout(paneBottomCenterContent,
-                                BoxLayout.Y_AXIS));
+                                         BoxLayout.Y_AXIS));
 
         paneCenterFromBottom.add(BorderLayout.CENTER, paneBottomCenterContent);
 
@@ -734,15 +730,16 @@ public class AuroraCoreUI {
         versionPanel.setOpaque(false);
         versionPanel.setLayout(new BorderLayout());
         versionPanel.add(BorderLayout.WEST, lblVersion);
+        // add pading for progress wheel
         paneBottom.add(BorderLayout.PAGE_END, Box.createVerticalStrut(12));
 
         //
         // Add All 3 Main Panels To
         // Background Panel
         //
-        paneBackground.add(paneTop);
-        paneBackground.add(paneCenter);
-        paneBackground.add(paneBottom);
+        paneBackground.add(paneTop, BorderLayout.NORTH);
+        paneBackground.add(paneCenter, BorderLayout.CENTER);
+        paneBackground.add(paneBottom, BorderLayout.SOUTH);
 
         frame.addKeyListener(new FrameKeyListener());
         frame.requestFocus();
@@ -896,10 +893,10 @@ public class AuroraCoreUI {
     public void showExitDialog() {
         if (warningDialog == null) {
             warningDialog = new ADialog(ADialog.aDIALOG_WARNING,
-                    "Are You " + vi.VI(vi.inx_Sure)
-                    + " You Want To " + vi
-                    .VI(vi.inx_Exit) + "?",
-                    regularFont.deriveFont(Font.BOLD, 28));
+                                        "Are You " + vi.VI(vi.inx_Sure)
+                                                + " You Want To " + vi
+                                        .VI(vi.inx_Exit) + "?",
+                                        regularFont.deriveFont(Font.BOLD, 28));
 
             warningDialog.setOKButtonListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -976,7 +973,7 @@ public class AuroraCoreUI {
         public void windowClosing(WindowEvent e) {
 
             analytics.addProperty("End Time", ATimeLabel.current(
-                    ATimeLabel.TIME_PLUS) + " <");
+                                  ATimeLabel.TIME_PLUS) + " <");
             analytics.sendEventProperty("Aurora Session");
 
         }
@@ -1024,7 +1021,7 @@ public class AuroraCoreUI {
          */
         public FrameFocusListener() {
             paneUnfocused = new AImagePane("Aurora_Unfocused.png", frame
-                    .getWidth(), frame.getHeight());
+                                           .getWidth(), frame.getHeight());
             this.glass = (JPanel) frame.getGlassPane();
         }
 
@@ -1059,7 +1056,7 @@ public class AuroraCoreUI {
                 paneUnfocused.setSize(frame.getSize());
                 paneUnfocused.setLocation(0, 0);
                 paneUnfocused.setBounds(0, 0, frame
-                        .getWidth() + 1, frame.getHeight());
+                                        .getWidth() + 1, frame.getHeight());
                 glass.setVisible(true);
                 glass.repaint();
             } else {
@@ -1069,7 +1066,7 @@ public class AuroraCoreUI {
                 paneUnfocused.setSize(frame.getSize());
                 paneUnfocused.setLocation(0, 0);
                 paneUnfocused.setBounds(0, 0, frame
-                        .getWidth() + 1, frame.getHeight());
+                                        .getWidth() + 1, frame.getHeight());
                 glass.setVisible(true);
                 glass.repaint();
             }
