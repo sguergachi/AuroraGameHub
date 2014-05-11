@@ -202,7 +202,7 @@ public class SettingsUI extends AuroraApp {
         pnlSettingsBG.setBackground(new Color(35, 40, 48));
 
         pnlSettingsBG.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0,
-                Color.BLACK));
+                                                                Color.BLACK));
         pnlSettingsBG.setPreferredSize(new Dimension(coreUI.getFrame()
                 .getWidth(), coreUI.getCenterPanelHeight() / 2));
 
@@ -212,7 +212,7 @@ public class SettingsUI extends AuroraApp {
         // Content Panel
         pnlSettingsContent = new JPanel();
         pnlSettingsContent.setLayout(new BoxLayout(pnlSettingsContent,
-                BoxLayout.Y_AXIS));
+                                                   BoxLayout.Y_AXIS));
         pnlSettingsContent.setOpaque(false);
         pnlSettingsContent.setPreferredSize(coreUI.getCenterPanel()
                 .getPreferredSize());
@@ -226,8 +226,8 @@ public class SettingsUI extends AuroraApp {
         pnlSettingsTop.setBackground(Color.red);
 
         pnlSettingsTopScroll = new JScrollPane(pnlSettingsTop,
-                JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                                               JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                                               JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         pnlSettingsTopScroll.setBorder(null);
         pnlSettingsTopScroll.setOpaque(false);
         pnlSettingsTopScroll.getViewport().setOpaque(false);
@@ -249,14 +249,14 @@ public class SettingsUI extends AuroraApp {
         pnlSettingsCenter.setOpaque(false);
 
         pnlSettingsCenterScroll = new JScrollPane(pnlSettingsCenter,
-                JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                                                  JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                                                  JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         pnlSettingsCenterScroll.setOpaque(false);
         pnlSettingsCenterScroll.getViewport().setOpaque(false);
         pnlSettingsCenterScroll.setBorder(null);
 
         settingsCenterScrollUI = new AScrollBar("settings_scroll_thumb.png",
-                "settings_scroll_track.png");
+                                                "settings_scroll_track.png");
         settingsCenterScrollBar = new JScrollBar();
 
 
@@ -277,22 +277,22 @@ public class SettingsUI extends AuroraApp {
         // --------------------------------------------------------------------.
 
         pnlBottomCenterContainer = new JPanel(new FlowLayout(FlowLayout.CENTER,
-                0, bottomTopPadding));
+                                                             0, bottomTopPadding));
         pnlBottomCenterContainer.setOpaque(false);
 
         // Settings Status
 
 
         pnlSettingsStatusPane = new AImagePane("library_selectedGameBar_bg.png",
-                selectedGameBarWidth,
-                selectedGameBarHeight);
+                                               selectedGameBarWidth,
+                                               selectedGameBarHeight);
         pnlSettingsStatusPane.setLayout(new BorderLayout(0, 10));
 
         lblSettingsStatus = new AFadeLabel(DEAFULT_SETTINGS_STATUS);
         lblSettingsStatus.setForeground(DEFAULT_SETTINGS_COLOR);
         lblSettingsStatus.setFont(coreUI
                 .getDefaultFont().deriveFont(Font.PLAIN,
-                        gameNameFontSize));
+                                             gameNameFontSize));
 
 
     }
@@ -301,7 +301,7 @@ public class SettingsUI extends AuroraApp {
 
         // Sound Effects
         pnlSoundEffectsSetting = new JPanel(new FlowLayout(FlowLayout.LEFT,
-                15, 5));
+                                                           15, 5));
         pnlSoundEffectsSetting.setOpaque(false);
 
 
@@ -309,14 +309,14 @@ public class SettingsUI extends AuroraApp {
 
 
         rdbSoundEffects = new ARadioButton("settings_btn_notselected.png",
-                "settings_btn_selected.png");
+                                           "settings_btn_selected.png");
 
 
         pnlSoundEffectSettingLabel = new JPanel(
                 new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlSoundEffectSettingLabel.setOpaque(false);
         pnlSoundEffectSettingLabel.setPreferredSize(new Dimension(190,
-                40));
+                                                                  40));
 
         lblSoundEffectsSetting = new ASlickTextPane("Sound Effects");
         lblSoundEffectsSetting.setPreferredSize(pnlSoundEffectSettingLabel
@@ -332,7 +332,7 @@ public class SettingsUI extends AuroraApp {
 
         // WASD Navigation
         pnlWASDNavigationSetting = new JPanel(new FlowLayout(FlowLayout.LEFT,
-                15, 5));
+                                                             15, 5));
         pnlWASDNavigationSetting.setOpaque(false);
 
 
@@ -340,14 +340,14 @@ public class SettingsUI extends AuroraApp {
 
 
         rdbWASDNavigation = new ARadioButton("settings_btn_notselected.png",
-                "settings_btn_selected.png");
+                                             "settings_btn_selected.png");
 
 
         pnlWASDNavigationLabel = new JPanel(
                 new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlWASDNavigationLabel.setOpaque(false);
         pnlWASDNavigationLabel.setPreferredSize(new Dimension(190,
-                78));
+                                                              78));
 
         lblWASDNavigationSetting = new ASlickTextPane("WASD Navigation");
         lblWASDNavigationSetting.setPreferredSize(pnlWASDNavigationLabel
@@ -377,7 +377,7 @@ public class SettingsUI extends AuroraApp {
                 new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlBackgroundGameSearchLabel.setOpaque(false);
         pnlBackgroundGameSearchLabel.setPreferredSize(new Dimension(190,
-                78));
+                                                                    78));
 
         lblBackgroundGameSearchSetting = new ASlickTextPane(
                 "Background Game Search");
@@ -400,15 +400,16 @@ public class SettingsUI extends AuroraApp {
         imgUpdateAuroraDBSearchIcon = new AImage("settings_img_update.png");
 
         btnUpdateAuroraDBSearch = new AButton("settings_btn_select_norm.png",
-                "settings_btn_select_down.png", "settings_btn_select_over.png");
+                                              "settings_btn_select_down.png",
+                                              "settings_btn_select_over.png");
         btnUpdateAuroraDBSearch.setMargin(new Insets(0, 0,
-                0, 0));
+                                                     0, 0));
 
         pnlUpdateAuroraDBSearchLabel = new JPanel(
                 new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlUpdateAuroraDBSearchLabel.setOpaque(false);
         pnlUpdateAuroraDBSearchLabel.setPreferredSize(new Dimension(190,
-                78));
+                                                                    78));
 
         lblUpdateAuroraDBSearchSetting = new ASlickTextPane(
                 "Update Aurora Cover Art DB");
@@ -458,14 +459,14 @@ public class SettingsUI extends AuroraApp {
         pnlGeneralSettingsGrid.add(pnlUpdateAuroraDBSearchSetting);
 
         pnlGeneralSettingsGrid.setLayout(new GridLayout(2, 2, padding_top,
-                padding_top));
+                                                        padding_top));
         pnlGeneralSettingsGrid.revalidate();
 
         pnlGeneralSettingsContainer
                 .add(Box.createVerticalStrut(padding_top),
-                        BorderLayout.NORTH);
+                     BorderLayout.NORTH);
         pnlGeneralSettingsContainer.add(pnlGeneralSettingsGrid,
-                BorderLayout.SOUTH);
+                                        BorderLayout.SOUTH);
 
     }
 
@@ -492,7 +493,7 @@ public class SettingsUI extends AuroraApp {
             generalSettingsSeperator.setBackground(new Color(13, 17, 21));
 
             pnlGeneralSettingsTitlePane.add(Box.createGlue(),
-                    BorderLayout.CENTER);
+                                            BorderLayout.CENTER);
             pnlGeneralSettingsLowerTitlePane = new JPanel(new FlowLayout(
                     FlowLayout.LEFT, 0, 0));
             pnlGeneralSettingsLowerTitlePane.setOpaque(false);
@@ -502,7 +503,7 @@ public class SettingsUI extends AuroraApp {
 
 
             pnlGeneralSettingsTitlePane.add(pnlGeneralSettingsLowerTitlePane,
-                    BorderLayout.SOUTH);
+                                            BorderLayout.SOUTH);
             pnlGeneralSettingsTitlePane.setPreferredSize(new Dimension(
                     generalSettingsSeperator.getPreferredSize().width,
                     title_size + 10));
@@ -517,7 +518,7 @@ public class SettingsUI extends AuroraApp {
             // Seperator
             settingsTitleSeperator.setPreferredSize(
                     new Dimension(settings_width * 2,
-                            2));
+                                  2));
             settingsTitleSeperator.setMaximumSize(settingsTitleSeperator
                     .getPreferredSize());
             settingsTitleSeperator.setForeground(new Color(13, 17, 21));
@@ -527,7 +528,9 @@ public class SettingsUI extends AuroraApp {
 
             // Center Panel
             pnlSettingsCenter.setPreferredSize(new Dimension(settings_width,
-                    settings_height * 2 + (title_size + 10)));
+                                                             settings_height * 2
+                                                                     + (title_size
+                                                                        + 10)));
             pnlSettingsCenter.add(Box.createHorizontalStrut(35));
 
             pnlSettingsCenterScroll.setPreferredSize(pnlSettingsCenter
@@ -571,7 +574,7 @@ public class SettingsUI extends AuroraApp {
 
             lblSettingsStatus.setSize(new Dimension(lblSettingsStatus
                     .getPreferredSize().width, lblSettingsStatus
-                    .getPreferredSize().height));
+                                                    .getPreferredSize().height));
             lblSettingsStatus.validate();
 
             pnlSettingsStatusPane.validate();
@@ -612,12 +615,12 @@ public class SettingsUI extends AuroraApp {
         // Add Settings BG to Center Panel
         // --------------------------------------------------------------------.
         coreUI.getCenterPanel().add(BorderLayout.NORTH, Box
-                .createVerticalStrut(
-                        20));
+                                    .createVerticalStrut(
+                                            20));
         coreUI.getCenterPanel().add(BorderLayout.CENTER, pnlSettingsBG);
         coreUI.getCenterPanel().add(BorderLayout.SOUTH, Box
-                .createVerticalStrut(
-                        20));
+                                    .createVerticalStrut(
+                                            20));
         coreUI.getCenterPanel().repaint();
 
 
@@ -628,44 +631,47 @@ public class SettingsUI extends AuroraApp {
         coreUI.getCenterFromBottomPanel().setLayout(new BorderLayout());
 
         coreUI.getCenterFromBottomPanel().add(BorderLayout.NORTH,
-                pnlBottomCenterContainer);
+                                              pnlBottomCenterContainer);
 
 
         // Info Feed
         getDashboardUI().getInfoFeed().setImageSize(getCoreUI()
                 .getScreenWidth() - 20, getDashboardUI().getInfoFeed()
-                .getImageHeight() - 5);
+                                                    .getImageHeight() - 5);
         getDashboardUI().getInfoFeed()
                 .setPreferredSize(new Dimension(getDashboardUI().getInfoFeed()
                                 .getPreferredSize().width,
-                                getDashboardUI().getInfoFeed()
-                                .getImageHeight()));
+                                                getDashboardUI().getInfoFeed()
+                                                .getImageHeight()));
 
         coreUI.getBottomContentPane().setLayout(new BorderLayout());
         coreUI.getBottomContentPane().setVisible(true);
 
         coreUI.getBottomContentPane().add(Box.createVerticalStrut(4),
-                BorderLayout.NORTH);
+                                          BorderLayout.NORTH);
         coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10),
-                BorderLayout.EAST);
+                                          BorderLayout.EAST);
         coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer(),
-                BorderLayout.CENTER);
+                                          BorderLayout.CENTER);
         coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10),
-                BorderLayout.WEST);
+                                          BorderLayout.WEST);
         coreUI.getBottomContentPane().setPreferredSize(new Dimension(dashboardUI
                 .getInfoFeed().getImageWidth(), dashboardUI.getInfoFeed()
-                .getImageHeight()));
+                                                                     .getImageHeight()));
 
         coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, coreUI
-                .getBottomContentPane());
+                                              .getBottomContentPane());
 
 
     }
 
     private void checkSettingsValues() {
-
+        //
         // Sound effects
+        //
         if (storage.getStoredSettings().getSettingValue("sound_effects") != null) {
+
+            rdbSoundEffects.clearHandlers();
 
             if (storage.getStoredSettings().getSettingValue("sound_effects")
                     .equals("enabled")) {
@@ -683,16 +689,17 @@ public class SettingsUI extends AuroraApp {
         } else {
 
             storage.getStoredSettings().saveSetting("sound_effects",
-                    SettingsLogic.DEFAULT_SFX_SETTING);
+                                                    SettingsLogic.DEFAULT_SFX_SETTING);
             checkSettingsValues();
 
         }
 
-
+        //
         // WASD Navigation
+        //
         if (storage.getStoredSettings()
                 .getSettingValue("wasd_navigation") != null) {
-
+            rdbWASDNavigation.clearHandlers();
             if (storage.getStoredSettings().getSettingValue(
                     "wasd_navigation")
                     .equals("enabled")) {
@@ -710,15 +717,19 @@ public class SettingsUI extends AuroraApp {
         } else {
 
             storage.getStoredSettings().saveSetting("wasd_navigation",
-                    SettingsLogic.DEFAULT_WASD_NAV_SETTING);
+                                                    SettingsLogic.DEFAULT_WASD_NAV_SETTING);
             checkSettingsValues();
 
         }
 
 
+        //
         // Background search
+        //
         if (storage.getStoredSettings()
                 .getSettingValue("background_game_search") != null) {
+
+            rdbBackgroundGameSearch.clearHandlers();
 
             if (storage.getStoredSettings().getSettingValue(
                     "background_game_search")
@@ -737,7 +748,7 @@ public class SettingsUI extends AuroraApp {
         } else {
 
             storage.getStoredSettings().saveSetting("background_game_search",
-                    SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING);
+                                                    SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING);
             checkSettingsValues();
 
         }

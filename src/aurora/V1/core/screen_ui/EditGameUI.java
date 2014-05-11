@@ -876,23 +876,6 @@ public class EditGameUI {
             showEditGameUI(game);
         } else if (libraryUI.isEditGameUIVisible()) {
             hideEditGameUI();
-
-            AThreadWorker showAfter = new AThreadWorker(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException ex) {
-                        java.util.logging.Logger.getLogger(LibraryUI.class
-                                .getName()).
-                                log(Level.SEVERE, null, ex);
-                    }
-                    showEditGameUI(game);
-
-                }
-            });
-            showAfter.startOnce();
-
         } else {
 
             pnlGlass.setVisible(true);
