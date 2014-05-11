@@ -1043,7 +1043,7 @@ public class AddGameUI {
                             addGameAnimator.addPostAnimationListener(
                                     new APostHandler() {
                                         @Override
-                                        public void postAction() {
+                                        public void doAction() {
                                             libraryUI.setIsAddGameUI_Visible(
                                                     true);
                                             txtSearchField_addUI.requestFocus();
@@ -1082,7 +1082,7 @@ public class AddGameUI {
             // Animate Up Add Game UI
             addGameAnimator.addPostAnimationListener(new APostHandler() {
                 @Override
-                public void postAction() {
+                public void doAction() {
                     pnlGlass.setVisible(false);
                 }
             });

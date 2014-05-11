@@ -24,6 +24,7 @@ import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.V1.core.screen_ui.ProfileUI;
 import aurora.V1.core.screen_ui.SettingsUI;
+import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.ARssReader;
 import aurora.engine.V1.Logic.ARssReader.Feed;
 import aurora.engine.V1.Logic.AThreadWorker;
@@ -384,6 +385,15 @@ public class DashboardLogic implements AuroraScreenLogic {
         int fontSize = 20;
         String seperator = "dash_infoBar_seperator.png";
         Iterator<JLabel> it = labelList.iterator();
+
+        // Set aurora to minimize when link clicked
+        infoFeed.setPreOnReleaseAction(new APostHandler() {
+
+            @Override
+            public void doAction() {
+                dashboardUI.getCoreUI().minimizeAurora("minimize");
+            }
+        });
 
         // Go through the AInfoLabelList and add all the labels to the
         // MarqueePanel

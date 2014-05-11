@@ -2038,7 +2038,7 @@ public class LibraryHandler implements
                             .appendPostAnimationListener(
                                     new APostHandler() {
                                         @Override
-                                        public void postAction() {
+                                        public void doAction() {
 
                                             libraryUI.getAddGameUI()
                                             .hideAddGameUI();
@@ -2167,7 +2167,7 @@ public class LibraryHandler implements
                                             new APostHandler() {
 
                                                 @Override
-                                                public void postAction() {
+                                                public void doAction() {
                                                     GridMove = new MoveToGrid(
                                                             game);
 
@@ -2813,7 +2813,7 @@ public class LibraryHandler implements
             editCoverAnimator.addPostAnimationListener(new APostHandler() {
 
                 @Override
-                public void postAction() {
+                public void doAction() {
                     frameFadeAnimator
                             .fadeIn(libraryUI.getCoreUI()
                                     .getFrame());

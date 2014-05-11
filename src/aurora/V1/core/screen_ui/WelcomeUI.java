@@ -219,7 +219,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         promptDisplay.setIgnoreRepaint(true);
         promptDisplay.addPost(new APostHandler() {
             @Override
-            public void postAction() {
+            public void doAction() {
                 completedStartUp();
             }
         });

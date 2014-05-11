@@ -865,7 +865,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                 addGameToLibButtonAnimator
                                 .addPostAnimationListener(new APostHandler() {
                                     @Override
-                                    public void postAction() {
+                                    public void doAction() {
                                         libraryUI.getAddGameUI()
                                         .getAddGameToLibraryButton()
                                         .setVisible(false);

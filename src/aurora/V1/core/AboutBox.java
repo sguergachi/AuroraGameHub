@@ -232,7 +232,7 @@ public class AboutBox {
             aboutBoxAnimator.moveVertical(-485, 33);
             aboutBoxAnimator.addPostAnimationListener(new APostHandler() {
                 @Override
-                public void postAction() {
+                public void doAction() {
                     pnlGlass.remove(pnlAboutPane);
                     pnlGlass.setVisible(false);
                 }

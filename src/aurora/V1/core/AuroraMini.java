@@ -98,6 +98,10 @@ public class AuroraMini {
     public AuroraMini(AuroraCoreUI ui, String mode) {
         this.coreUI = ui;
         this.mode = mode;
+
+        if (mode == null || mode.equals("")) {
+            this.mode = "minimize";
+        }
     }
 
     public void setStatus(String status) {
@@ -106,7 +110,11 @@ public class AuroraMini {
     }
 
     public void setMode(String mode) {
+
         this.mode = mode;
+        if (mode == null || mode.equals("")) {
+            this.mode = "minimize";
+        }
         executeMode();
     }
 
@@ -122,8 +130,8 @@ public class AuroraMini {
             mini.setBackground(Color.BLACK);
             mini.setSize(300, 65);
             mini.setLocation(coreUI.getScreenWidth() - 65, coreUI
-                    .getScreenHeight()
-                                                           - 160);
+                             .getScreenHeight()
+                                                                   - 160);
 
             mini.setAlwaysOnTop(true);
             mini.requestFocusInWindow();
@@ -146,7 +154,7 @@ public class AuroraMini {
 
             //SET UP BACKGROUND
             pnlBackground = new AImagePane("app_miniMode_bg.png", mini
-                    .getWidth(), mini.getHeight(),
+                                           .getWidth(), mini.getHeight(),
                                            new FlowLayout(FlowLayout.LEFT, 0, 0));
             pnlBackground.setPreferredSize(mini.getSize());
 
@@ -203,7 +211,8 @@ public class AuroraMini {
         try {
             mini.setShape(new RoundRectangle2D.Double(0, 0,
                                                       mini
-                    .getWidth(), mini.getHeight(), 30,
+                                                      .getWidth(),
+                                                      mini.getHeight(), 30,
                                                       27));
         } catch (UnsupportedOperationException ex) {
             logger.fatal("System does not support Shapes");
@@ -624,9 +633,9 @@ public class AuroraMini {
                     //* move Frame from left smoothly *//
                     coreUI.getFrame()
                             .setBounds(coreUI.getFrame().getLocation().x
-                                       - (3 + acc), 0, coreUI.getFrame()
-                                    .getWidth(), coreUI
-                                    .getFrame().getHeight());
+                                               - (3 + acc), 0, coreUI.getFrame()
+                                       .getWidth(), coreUI
+                                       .getFrame().getHeight());
 
                     //* 60fps *//
                     try {
@@ -640,8 +649,8 @@ public class AuroraMini {
                 //* Reset to correct location *//
                 coreUI.getFrame()
                         .setBounds(0, 0, coreUI.getFrame()
-                                .getWidth(), coreUI
-                                .getFrame().getHeight());
+                                   .getWidth(), coreUI
+                                   .getFrame().getHeight());
                 coreUI.getFrame().requestFocusInWindow();
             }
         });

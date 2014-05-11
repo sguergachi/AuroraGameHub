@@ -122,7 +122,7 @@ public class DashboardHandler implements AuroraScreenHandler {
 
             dashboardUI.getCarousel().setPostLeftAnimation(new APostHandler() {
                 @Override
-                public void postAction() {
+                public void doAction() {
                     if (soundEffectsSetting.equals("enabled")) {
                         ASound showSound = new ASound("click_3.wav", false);
                         showSound.Play();
@@ -157,7 +157,7 @@ public class DashboardHandler implements AuroraScreenHandler {
 
             dashboardUI.getCarousel().setPostRightAnimation(new APostHandler() {
                 @Override
-                public void postAction() {
+                public void doAction() {
                     if (soundEffectsSetting.equals("enabled")) {
                         ASound showSound = new ASound("click_1.wav", false);
                         showSound.Play();
@@ -201,7 +201,7 @@ public class DashboardHandler implements AuroraScreenHandler {
                 dashboardUI.getCarousel()
                         .setPostRightAnimation(new APostHandler() {
                             @Override
-                            public void postAction() {
+                            public void doAction() {
                                 if (soundEffectsSetting.equals("enabled")) {
                                     ASound showSound = new ASound("click_1.wav",
                                             false);
@@ -217,7 +217,7 @@ public class DashboardHandler implements AuroraScreenHandler {
                 dashboardUI.getCarousel()
                         .setPostLeftAnimation(new APostHandler() {
                             @Override
-                            public void postAction() {
+                            public void doAction() {
                                 if (soundEffectsSetting.equals("enabled")) {
                                     ASound showSound = new ASound("click_3.wav",
                                             false);
@@ -372,7 +372,7 @@ public class DashboardHandler implements AuroraScreenHandler {
                     dashboardUI.getCarousel()
                             .setPostLeftAnimation(new APostHandler() {
                                 @Override
-                                public void postAction() {
+                                public void doAction() {
 
                                     ASound showSound = new ASound("click_3.wav",
                                             false);
@@ -387,7 +387,7 @@ public class DashboardHandler implements AuroraScreenHandler {
                     dashboardUI.getCarousel()
                             .setPostRightAnimation(new APostHandler() {
                                 @Override
-                                public void postAction() {
+                                public void doAction() {
 
                                     ASound showSound = new ASound("click_1.wav",
                                             false);

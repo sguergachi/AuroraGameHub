@@ -385,7 +385,7 @@ public class EditCoverUI {
                         editGameCoverFrameAnimator.addPostAnimationListener(
                                 new APostHandler() {
                                     @Override
-                                    public void postAction() {
+                                    public void doAction() {
 
                                         coreUI.getFrame().setVisible(false);
 

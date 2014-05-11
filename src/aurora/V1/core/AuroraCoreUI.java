@@ -440,7 +440,7 @@ public class AuroraCoreUI {
                                      InterruptedException,
                                      FontFormatException {
 
-        //* Determine Global Size based on Screen Size *//
+        // Determine Global Size based on Screen Size
 
         // TODO work on Screen Gui Change
 
@@ -458,10 +458,10 @@ public class AuroraCoreUI {
         logger.info("Current Screen Resolution: " + screenWidth + "x"
                             + screenHeight);
 
-        //*
+        //
         // Check the resolution (in pixels) of the screen to
         // determine if the screen is large or not
-        //*
+        //
         if (screenWidth >= 1680 && screenHeight >= 1050) {
             isLargeScreen = true;
         } else {
@@ -473,18 +473,18 @@ public class AuroraCoreUI {
             logger.debug("High Resolution Boolean = " + isLargeScreen);
         }
 
-        //* Set Size For UI *//
+        // Set Size For UI
 
         setSizes();
 
-        //* Tooltip //
+        // Tooltip //
         UIManager.put("ToolTip.background", new ColorUIResource(new Color(87,
                                                                           140,
                                                                           204)));
         UIManager.put("ToolTip.foreground", new ColorUIResource(Color.BLACK));
 
 
-        //* Get Font *//
+        // Get Font
 
         try {
             regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
@@ -521,10 +521,10 @@ public class AuroraCoreUI {
             }
         }
 
-        //*
+        //
         // The Background Panel Contains The Background Image for the Window as
         // Well as all components found in the window
-        //*
+        //
 
         paneBackground = new AImagePane("app_background.png", frame
                                         .getSize().width, frame.getSize().height,
@@ -534,10 +534,10 @@ public class AuroraCoreUI {
         paneBackground.setLayout(new BoxLayout(paneBackground,
                                                BoxLayout.Y_AXIS));
 
-        //*
+        //
         // The Top Panel Contains Header Image as well as the Frame Buttons:
         // Exit and Minimize
-        //*
+        //
 
         paneTop = new AImagePane("app_header.png",
                                  frame.getSize().width, topPanelHeight, true);
@@ -548,10 +548,10 @@ public class AuroraCoreUI {
         paneTop.setLayout(new BorderLayout(0, 0));
 
 
-        //*
+        //
         // The Center Panel
         // and maintains a space between top and bottom panel
-        //*
+        //
 
         paneCenter = new JPanel(true);
         paneCenter.setPreferredSize(new Dimension(frame.getSize().width, frame
@@ -564,10 +564,10 @@ public class AuroraCoreUI {
         paneCenter.setLayout(new BorderLayout(0, 0));
         paneCenter.setIgnoreRepaint(true);
 
-        //*
+        //
         // The Bottom Panel Contains the Footer Image as well as
         // the Time and the Login Controls
-        //*
+        //
         paneBottom = new AImagePane("app_footer.png",
                                     frame.getSize().width, topPanelHeight, true);
         paneBottom.setPreferredSize(new Dimension(frame.getSize().width,
@@ -575,10 +575,10 @@ public class AuroraCoreUI {
         paneBottom.setOpaque(false);
         paneBottom.setLayout(new BorderLayout(0, 0));
 
-        //*
+        //
         // Configure Panels:
         // Add specific UI components to each panel
-        //*
+        //
 
         // Create V.I
         fileIO = new AFileManager(System.getProperty("user.home") + "/");
@@ -610,7 +610,7 @@ public class AuroraCoreUI {
                 vi = new ANuance();
             }
         }
-        //* Setup Buttons *//
+        // Setup Buttons
         btnExit = new AButton("app_btn_close_norm.png",
                               "app_btn_close_down.png", "app_btn_close_over.png",
                               exitButtonWidth, exitButtonHeight);
@@ -631,7 +631,7 @@ public class AuroraCoreUI {
         // TOP PANEL
         // --------------------------------------------------------------------
 
-        //* Frame Buttons *//
+        // Frame Buttons
 
         paneFrameControl = new AImagePane("start_frameControl_bg.png",
                                           controlWidth, controlHeight);
@@ -767,10 +767,10 @@ public class AuroraCoreUI {
 
 
 
-        //*
+        //
         // Add All 3 Main Panels To
         // Background Panel
-        //*
+        //
 
         paneBackground.add(paneTop);
         paneBackground.add(paneCenter);
@@ -829,9 +829,9 @@ public class AuroraCoreUI {
         this.paneFrameControlContainer = frameControlContainerPanel;
     }
 
-    public void minimizeAurora(String arg) {
+    public void minimizeAurora(String mode) {
         if (miniMode == null) {
-            miniMode = new AuroraMini(this, arg); //retain state
+            miniMode = new AuroraMini(this, mode); //retain state
         }
         miniMode.createUI();
 
@@ -845,7 +845,7 @@ public class AuroraCoreUI {
 
     public AuroraMini getMiniMode() {
         if (miniMode == null) {
-            miniMode = new AuroraMini(this, "null"); //* retain state *//
+            miniMode = new AuroraMini(this, "null"); // retain state
         }
         return miniMode;
     }
@@ -950,7 +950,7 @@ public class AuroraCoreUI {
         warningDialog.setVisible(true);
     }
 
-    //* Get Build Version Of Application *//
+    // Get Build Version Of Application
     private static String getResourceBundleToken(String propertyToken) {
         String msg = "";
         try {

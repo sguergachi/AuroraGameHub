@@ -935,7 +935,7 @@ public class EditGameUI {
                             editGameAnimator.addPostAnimationListener(
                                     new APostHandler() {
                                         @Override
-                                        public void postAction() {
+                                        public void doAction() {
 
                                         }
                                     });
@@ -983,7 +983,7 @@ public class EditGameUI {
             editGameAnimator.moveVertical(-492, 35);
             editGameAnimator.addPostAnimationListener(new APostHandler() {
                 @Override
-                public void postAction() {
+                public void doAction() {
                     pnlGlass.setVisible(false);
 
                 }
