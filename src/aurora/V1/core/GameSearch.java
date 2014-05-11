@@ -766,6 +766,8 @@ public class GameSearch implements Runnable {
             statusIcon.setImgURl("addUI_img_autoSearchOn.png");
         } else {
             listModel.clear();
+
+            // Check if Game was inddeed added to the AddGameUI
             if (!(pnlGameCoverPane.getComponent(0) instanceof Game)) {
 
                 pnlGameCoverPane.removeAll();
@@ -785,7 +787,6 @@ public class GameSearch implements Runnable {
 
                     try {
                         notFoundCover.update();
-                        notFoundCover.removeOverlayUI();
 
                         // Allow for custom editing cover art
                         if (canEditCover) {
@@ -795,17 +796,40 @@ public class GameSearch implements Runnable {
                                             libraryUI.getHandler().new GameCoverEditListner(
                                                     notFoundCover));
                         }
+
+
                     } catch (MalformedURLException ex) {
                         logger.error(ex);
                     }
                 }
 
+                notFoundCover.removeOverlayUI();
                 pnlGameCoverPane.add(notFoundCover);
-                // Change notification
+
+                // Change status
                 imgStatus.setImgURl("addUI_badge_invalid.png");
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
                 notFoundCover.revalidate();
+
+                // Check if there is any value in text to validate
+            } else if (txtSearch.getText().length() != 0
+                               && !txtSearch.getText().equals(
+                            DEFAULT_SEARCH_TEXT)) {
+
+
+                // Change status
+                imgStatus.setImgURl("addUI_badge_valid.png");
+                pnlGameCoverPane.repaint();
+                pnlGameCoverPane.revalidate();
+                notFoundCover.revalidate();
+
+                // If no text or default text then its not valid for adding to lib
+            } else {
+                // Change status
+                imgStatus.setImgURl("addUI_badge_invalid.png");
+                pnlGameCoverPane.repaint();
+                pnlGameCoverPane.revalidate();
             }
         }
     }

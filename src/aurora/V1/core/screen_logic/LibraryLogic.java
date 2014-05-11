@@ -1619,14 +1619,12 @@ public class LibraryLogic implements AuroraScreenLogic {
             editingGame.disableEditCoverOverlay();
 
             if (libraryUI.isAddGameUIVisible()) {
-                libraryUI.getAddGameUI().setCoverArtIndicator(true);
                 gameSearch_addUI.disableSearch();
                 gameSearch_addUI.getTxtSearch().setText(
                         GameSearch.DEFAULT_SEARCH_TEXT);
                 gameSearch_addUI.getTxtSearch().requestFocusInWindow();
 
             } else if (libraryUI.isEditGameUIVisible()) {
-                libraryUI.getEditGameUI().setGameCoverInicator(true);
                 gameSearch_editUI.disableSearch();
                 gameSearch_addUI.getTxtSearch().setText(
                         GameSearch.DEFAULT_SEARCH_TEXT);
