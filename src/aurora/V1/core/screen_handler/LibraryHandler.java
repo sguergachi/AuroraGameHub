@@ -2600,7 +2600,7 @@ public class LibraryHandler implements
                                     .getCurrentlySearchedGame().getName()
                                         == null
                                 || !libraryLogic.getGameSearch_editUI()
-                                    .isIsSearchEnabled()) {
+                                    .isSearchEnabled()) {
                                 editGameName = libraryLogic
                                         .getGameSearch_editUI()
                                         .getAppendedName();
@@ -2640,7 +2640,7 @@ public class LibraryHandler implements
 
                                 //refresh
                                 libraryUI.getEditGameUI()
-                                        .getCurrentGame_editUI().refresh(true);
+                                        .getCurrentGame_editUI().refresh();
 
                                 // Re Save
                                 libraryUI.getStorage().getStoredLibrary()

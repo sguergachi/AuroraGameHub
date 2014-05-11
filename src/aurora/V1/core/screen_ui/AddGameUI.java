@@ -189,8 +189,6 @@ public class AddGameUI {
 
     private final LibraryHandler libraryHandler;
 
-    private boolean addGameUI_Visible;
-
     private AAnimate addGameAnimator;
 
     private final AuroraStorage auroraStorage;
@@ -232,7 +230,7 @@ public class AddGameUI {
         //
         pnlGlass = (JPanel) coreUI.getFrame().getGlassPane();
         pnlAddGamePane = new AImagePane("addUI_bg.png",
-                new BorderLayout());
+                                        new BorderLayout());
         //
         // Top Panel Components
         //
@@ -241,8 +239,8 @@ public class AddGameUI {
         pnlTopPane_addUI.setOpaque(false);
 
         btnClose_addUI = new AButton("addUI_btnClose_norm.png",
-                "addUI_btnClose_down.png",
-                "addUI_btnClose_over.png");
+                                     "addUI_btnClose_down.png",
+                                     "addUI_btnClose_over.png");
 
         pnlAddGameType = new JPanel(new FlowLayout(FlowLayout.CENTER, -18, 0));
         pnlAddGameType.setOpaque(false);
@@ -258,12 +256,12 @@ public class AddGameUI {
         pnlManualAdd.setOpaque(false);
 
         btnManual = new ARadioButton("addUI_btnManual_norm.png",
-                "addUI_btnManual_down.png");
+                                     "addUI_btnManual_down.png");
         btnManual.setBorder(null);
 
         btnGoToSteam = new AButton("addUI_btnGoToSteam_norm.png",
-                "addUI_btnGoToSteam_down.png",
-                "addUI_btnGoToSteam_over.png");
+                                   "addUI_btnGoToSteam_down.png",
+                                   "addUI_btnGoToSteam_over.png");
         btnGoToSteam.setBorder(null);
         btnGoToSteam.setMargin(new Insets(0, 0, 0, 0));
         btnGoToSteam.addActionListener(
@@ -272,12 +270,12 @@ public class AddGameUI {
 
         if (coreUI.getOS().contains("Mac")) {
             btnGoToProgram = new AButton("addUI_btnGoToApps_norm.png",
-                    "addUI_btnGoToApps_down.png",
-                    "addUI_btnGoToApps_over.png");
+                                         "addUI_btnGoToApps_down.png",
+                                         "addUI_btnGoToApps_over.png");
         } else {
             btnGoToProgram = new AButton("addUI_btnGoToPrograms_norm.png",
-                    "addUI_btnGoToPrograms_down.png",
-                    "addUI_btnGoToPrograms_over.png");
+                                         "addUI_btnGoToPrograms_down.png",
+                                         "addUI_btnGoToPrograms_over.png");
         }
 
         btnGoToProgram.setBorder(null);
@@ -285,31 +283,31 @@ public class AddGameUI {
 
         btnGoToProgram.addActionListener(
                 libraryHandler.new GoToProgramsListener(coreUI,
-                        gameFileChooser_addUI));
+                                                        gameFileChooser_addUI));
 
         pnlTopOfCenter = new JPanel(new BorderLayout());
         pnlTopOfCenter.setOpaque(false);
 
         pnlLeftOfTopCenter = new AImagePane("addUI_status_container.png",
-                new FlowLayout(FlowLayout.LEFT));
+                                            new FlowLayout(FlowLayout.LEFT));
         pnlRightOfTop = new AImagePane("addUI_status_container.png",
-                new FlowLayout(FlowLayout.LEFT, 0, 5));
+                                       new FlowLayout(FlowLayout.LEFT, 0, 5));
 
         pnlRightOfTopEast = new JPanel(new BorderLayout(-2, 0));
         pnlRightOfTopEast.setOpaque(false);
 
         pnlRightOfTopEastContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT,
-                0, 0));
+                                                               0, 0));
         pnlRightOfTopEastContainer.setOpaque(false);
 
         pnlLeftOfBottom = new JPanel(new FlowLayout(FlowLayout.LEFT,
-                0, 0));
+                                                    0, 0));
         pnlLeftOfBottom.setOpaque(false);
         pnlRightOfBottom = new JPanel(new FlowLayout(FlowLayout.CENTER,
-                0, 0));
+                                                     0, 0));
         pnlRightOfBottom.setOpaque(true);
         pnlRightOfBottomContainer = new JPanel(new FlowLayout(FlowLayout.LEFT,
-                0, 0));
+                                                              0, 0));
         pnlRightOfBottomContainer.setOpaque(false);
         pnlAddGameContainer = new JPanel(new BorderLayout(0, 0));
         pnlAddGameContainer.setOpaque(false);
@@ -321,8 +319,8 @@ public class AddGameUI {
         gameLocationStatusIndicator = new AImage("addUI_badge_idle.png");
 
         pnlCoverPane_addUI = new AImagePane("addUI_game_bg.png",
-                new FlowLayout(FlowLayout.RIGHT, -7,
-                        10));
+                                            new FlowLayout(FlowLayout.RIGHT, -7,
+                                                           10));
         pnlBlankCoverGame_addUI = new AImagePane("Blank-Case.png", 240, 260);
         gamesList_addUI = new JList<>();
         listModel_addUI = new DefaultListModel<>();
@@ -393,7 +391,7 @@ public class AddGameUI {
         pnlBottomOfCenter.setOpaque(false);
 
         pnlSearchBG = new AImagePane("addUI_text_inactive.png",
-                new FlowLayout(FlowLayout.RIGHT, 5, -1));
+                                     new FlowLayout(FlowLayout.RIGHT, 5, -1));
         pnlSearchBG.setLayout(new BorderLayout(0, -1));
 
         txtSearchField_addUI = new JTextField("Search For Game...");
@@ -403,16 +401,16 @@ public class AddGameUI {
         pnlAddGameSearchContainer.setOpaque(false);
 
         btnClearSearch_addUI = new AButton("addUI_btnClearText_norm.png",
-                "addUI_btnClearText_down.png",
-                "addUI_btnClearText_over.png");
+                                           "addUI_btnClearText_down.png",
+                                           "addUI_btnClearText_over.png");
 
         btnAutoSearchDB_addUI = new AButton("addUI_btn_autoSearch_norm.png",
-                "addUI_btn_autoSearch_down.png",
-                "addUI_btn_autoSearch_norm.png");
+                                            "addUI_btn_autoSearch_down.png",
+                                            "addUI_btn_autoSearch_norm.png");
 
         btnAddGameToLib_addUI = new AButton("addUI_btnAdd_norm.png",
-                "addUI_btnAdd_down.png",
-                "addUI_btnAdd_over.png");
+                                            "addUI_btnAdd_down.png",
+                                            "addUI_btnAdd_over.png");
         btnAddGameToLib_addUI.setVisible(false);
 
         libraryLogic.getGameSearch_addUI().setUpGameSearch(
@@ -424,7 +422,7 @@ public class AddGameUI {
         // Auto Mode
         // ----------------------------------------------------------------.
         btnAuto = new ARadioButton("addUI_btnAuto_norm.png",
-                "addUI_btnAuto_down.png");
+                                   "addUI_btnAuto_down.png");
 
         //Panels
         pnlAutoAdd = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -447,8 +445,8 @@ public class AddGameUI {
 
         //Components
         pnlCoverPane_autoUI = new AImagePane("autoUI_coverBG.png",
-                new FlowLayout(
-                        FlowLayout.RIGHT, 0, 15));
+                                             new FlowLayout(
+                                                     FlowLayout.RIGHT, 0, 15));
 
         pnlBlankCoverGame_autoUI = new AImagePane("Blank-Case.png", 280, 300);
 
@@ -460,8 +458,8 @@ public class AddGameUI {
         pnlScrollPane.setOpaque(false);
 
         scrollList_autoUI = new JScrollPane(pnlScrollPane,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                                            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                                            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         scrollList_autoUI.setOpaque(false);
         scrollList_autoUI.getViewport().setOpaque(false);
@@ -479,32 +477,32 @@ public class AddGameUI {
         pnlCheckList = new JList<>();
 
         pnlAutoStatusContainer = new AImagePane("addUI_status_container.png",
-                new FlowLayout(FlowLayout.LEFT,
-                        0, 5));
+                                                new FlowLayout(FlowLayout.LEFT,
+                                                               0, 5));
         pnlAutoStatusContainer.setImageSize(pnlAutoStatusContainer
                 .getRealImageWidth() + 35,
-                pnlAutoStatusContainer
-                .getRealImageHeight());
+                                            pnlAutoStatusContainer
+                                            .getRealImageHeight());
 
         pnlListButtons_autoUI = new JPanel(new FlowLayout(FlowLayout.CENTER, 0,
-                0));
+                                                          0));
         pnlListButtons_autoUI.setOpaque(false);
 
         btnAddAll = new AButton("autoUI_btnAll_norm.png",
-                "autoUI_btnAll_down.png",
-                "autoUI_btnAll_over.png");
+                                "autoUI_btnAll_down.png",
+                                "autoUI_btnAll_over.png");
         btnAddAll.setBorder(null);
         btnAddAll.setMargin(new Insets(0, 0, 0, 0));
 
         btnClearAll = new AButton("autoUI_btnClear_norm.png",
-                "autoUI_btnClear_down.png",
-                "autoUI_btnClear_over.png");
+                                  "autoUI_btnClear_down.png",
+                                  "autoUI_btnClear_over.png");
         btnClearAll.setBorder(null);
         btnClearAll.setMargin(new Insets(0, 0, 0, 0));
 
         btnAutoRefresh = new AButton("autoUI_btnRefresh_norm.png",
-                "autoUI_btnRefresh_down.png",
-                "autoUI_btnRefresh_over.png");
+                                     "autoUI_btnRefresh_down.png",
+                                     "autoUI_btnRefresh_over.png");
 
         imgAutoSearchStatus_addUI = new AImage("addUI_img_autoSearchOn.png");
 
@@ -551,17 +549,17 @@ public class AddGameUI {
             // and Right side of the Central Panel
             //
             lblLeftTitle.setFont(coreUI.getDefaultFont().deriveFont(Font.BOLD,
-                    33));
+                                                                    33));
             lblLeftTitle.setForeground(Color.lightGray);
             lblRightTitle.setFont(coreUI.getDefaultFont().deriveFont(Font.BOLD,
-                    33));
+                                                                     33));
             lblRightTitle.setForeground(Color.lightGray);
 
             // Set Up Panels containing the Game Cover Art
             pnlCoverPane_addUI.setPreferredSize(new Dimension(pnlCoverPane_addUI
                     .getImgIcon()
                     .getIconWidth(), pnlCoverPane_addUI.getImgIcon()
-                    .getIconHeight()));
+                                                              .getIconHeight()));
 
             //
             // Set Up 2 Panels containing the Left and
@@ -575,23 +573,23 @@ public class AddGameUI {
             pnlLeftOfBottom
                     .setPreferredSize(new Dimension(pnlAddGamePane
                                     .getImgIcon().getIconWidth() / 2 - 10,
-                                    pnlCoverPane_addUI
-                                    .getImgIcon()
-                                    .getIconHeight()));
+                                                    pnlCoverPane_addUI
+                                                    .getImgIcon()
+                                                    .getIconHeight()));
             pnlRightOfBottom
                     .setPreferredSize(new Dimension(pnlAddGamePane
                                     .getImgIcon().getIconWidth() / 2 - 10,
-                                    pnlCoverPane_addUI
-                                    .getImgIcon()
-                                    .getIconHeight()));
+                                                    pnlCoverPane_addUI
+                                                    .getImgIcon()
+                                                    .getIconHeight()));
             pnlRightOfBottom.setBackground(new Color(38, 46, 60));
 
             pnlRightOfBottomContainer
                     .setPreferredSize(new Dimension(pnlAddGamePane
                                     .getImgIcon().getIconWidth() / 2,
-                                    pnlCoverPane_addUI
-                                    .getImgIcon()
-                                    .getIconHeight()));
+                                                    pnlCoverPane_addUI
+                                                    .getImgIcon()
+                                                    .getIconHeight()));
 
             pnlBlankCoverGame_addUI.setPreferredSize(new Dimension(240, 260));
 
@@ -615,15 +613,15 @@ public class AddGameUI {
             // Set up Game List //
             gamesList_addUI.setPreferredSize(
                     new Dimension(
-                            pnlCoverPane_addUI.getImgIcon().getIconWidth() +
-                            90, pnlCoverPane_addUI.getImgIcon()
+                            pnlCoverPane_addUI.getImgIcon().getIconWidth() + 90,
+                            pnlCoverPane_addUI.getImgIcon()
                             .getIconHeight()));
 
             gamesList_addUI.setBackground(new Color(38, 46, 60));
             gamesList_addUI.setForeground(Color.lightGray);
             gamesList_addUI.setFont(coreUI.getDefaultFont()
                     .deriveFont(Font.BOLD,
-                            listFontSize));
+                                listFontSize));
             gamesList_addUI
                     .setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             gamesList_addUI.setSelectionBackground(new Color(54, 95, 143));
@@ -677,20 +675,18 @@ public class AddGameUI {
             pnlGlass.setLayout(null);
 
             // Set Location for Add Game UI panels
-            pnlAddGamePane.setLocation((coreUI.getFrame().getWidth() / 2) -
-                                       (pnlAddGamePane.getImgIcon()
-                                       .getIconWidth() /
-                                        2), -380);
+            pnlAddGamePane.setLocation((coreUI.getFrame().getWidth() / 2)
+                                               - (pnlAddGamePane.getImgIcon()
+                    .getIconWidth() / 2), -380);
             pnlAddGamePane
                     .setSize(
                             new Dimension(pnlAddGamePane.getImgIcon()
                                     .getIconWidth(), pnlAddGamePane.getImgIcon()
-                                    .getIconHeight()));
+                                          .getIconHeight()));
             pnlAddGamePane.revalidate();
 
             btnAddGameToLib_addUI.setLocation(
-                    (coreUI.getFrame().getWidth() / 2) -
-                    btnAddGameToLib_addUI
+                    (coreUI.getFrame().getWidth() / 2) - btnAddGameToLib_addUI
                     .getWidth() / 2,
                     pnlAddGamePane
                     .getImgIcon()
@@ -715,15 +711,15 @@ public class AddGameUI {
             pnlTopPane_addUI.add(pnlAddGameType, BorderLayout.CENTER);
 
             pnlTopPane_addUI.add(Box.createHorizontalStrut(82),
-                    BorderLayout.WEST);
+                                 BorderLayout.WEST);
 
             //
             // Bottom Panel Components
             //
             btnClearSearch_addUI.addActionListener(
                     libraryHandler.new GameSearchBoxClear(txtSearchField_addUI,
-                            libraryLogic
-                            .getGameSearch_addUI()));
+                                                          libraryLogic
+                                                          .getGameSearch_addUI()));
             btnClearSearch_addUI.setMargin(new Insets(0, 0, 0, 0));
 
             // Add components to form the Search Box
@@ -805,7 +801,7 @@ public class AddGameUI {
             gameList_autoUI.setForeground(Color.lightGray);
             gameList_autoUI.setFont(coreUI.getDefaultFont()
                     .deriveFont(Font.BOLD,
-                            listFontSize));
+                                listFontSize));
             gameList_autoUI
                     .setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             gameList_autoUI.setSelectionBackground(new Color(54, 95, 143));
@@ -825,8 +821,8 @@ public class AddGameUI {
             // Check Box Pane
             pnlCheckBG.setPreferredSize(new Dimension(pnlCheckBG
                     .getRealImageWidth(),
-                    pnlCoverPane_autoUI
-                    .getRealImageHeight()));
+                                                      pnlCoverPane_autoUI
+                                                      .getRealImageHeight()));
 
             scrollList_autoUI.getViewport().addChangeListener(
                     new ChangeListener() {
@@ -835,22 +831,22 @@ public class AddGameUI {
 
                             pnlCheckBG.setImageSize(pnlCheckBG
                                     .getRealImageWidth(),
-                                    scrollList_autoUI
-                                    .getViewport()
-                                    .getPreferredSize().height);
+                                                    scrollList_autoUI
+                                                    .getViewport()
+                                                    .getPreferredSize().height);
 
                             pnlCheckBG.setPreferredSize(new Dimension(pnlCheckBG
                                             .getRealImageWidth(),
-                                            scrollList_autoUI
-                                            .getViewport()
-                                            .getPreferredSize().height));
+                                                                      scrollList_autoUI
+                                                                      .getViewport()
+                                                                      .getPreferredSize().height));
 
                         }
                     });
 
             pnlCheckList.setModel(modelCheckList);
             pnlCheckList.setBorder(BorderFactory.createEmptyBorder(0, 1,
-                    0, 0));
+                                                                   0, 0));
             pnlCheckList.setOpaque(false);
             pnlCheckList.setLayoutOrientation(JList.VERTICAL);
             pnlCheckList.setCellRenderer(
@@ -871,8 +867,8 @@ public class AddGameUI {
             scrollList_autoUI.setVerticalScrollBar(scrollBar);
             scrollList_autoUI.setPreferredSize(new Dimension(pnlAddGamePane
                     .getPreferredSize().width / 2 - 50,
-                    pnlCoverPane_autoUI
-                    .getRealImageHeight()));
+                                                             pnlCoverPane_autoUI
+                                                             .getRealImageHeight()));
 
             pnlScrollPane.add(gameList_autoUI, BorderLayout.CENTER);
             pnlScrollPane.add(pnlCheckBG, BorderLayout.EAST);
@@ -931,7 +927,8 @@ public class AddGameUI {
                                     libraryLogic
                                     .getGameSearch_addUI()));
             txtSearchField_addUI
-                    .addMouseListener(libraryHandler.new GameSearchBoxMouseHandler(
+                    .addMouseListener(
+                            libraryHandler.new GameSearchBoxMouseHandler(
                                     txtSearchField_addUI, pnlSearchBG,
                                     libraryLogic
                                     .getGameSearch_addUI()));
@@ -1009,8 +1006,8 @@ public class AddGameUI {
                             buildAddGameUI();
 
                             if (main.LAUNCHES > 5 || auroraStorage
-                                .getStoredLibrary()
-                                .getNumberGames() > 0) {
+                            .getStoredLibrary()
+                            .getNumberGames() > 0) {
                                 btnManual.setSelected();
                                 btnAuto.setUnSelected();
                             } else {
@@ -1029,8 +1026,8 @@ public class AddGameUI {
                             libraryLogic.getGameSearch_addUI().resetCover();
 
                             addGameAnimator.setInitialLocation(
-                                    (coreUI.getFrame().getWidth() / 2) -
-                                    (pnlAddGamePane.getImgIcon()
+                                    (coreUI.getFrame().getWidth() / 2)
+                                            - (pnlAddGamePane.getImgIcon()
                                     .getIconWidth() / 2), -390);
                         }
                     }, new ActionListener() {
@@ -1047,7 +1044,8 @@ public class AddGameUI {
                                     new APostHandler() {
                                         @Override
                                         public void postAction() {
-                                            addGameUI_Visible = true;
+                                            libraryUI.setIsAddGameUI_Visible(
+                                                    true);
                                             txtSearchField_addUI.requestFocus();
                                         }
                                     });
@@ -1060,8 +1058,9 @@ public class AddGameUI {
     }
 
     public void hideAddGameUI() {
-        if (addGameUI_Visible) {
-            addGameUI_Visible = false;
+        if (libraryUI.isAddGameUIVisible()) {
+            libraryUI.setIsAddGameUI_Visible(
+                    false);
 
             btnAddGameToLib_addUI.setVisible(false);
 
@@ -1076,7 +1075,7 @@ public class AddGameUI {
 
             if (soundEffectsSetting.equals("enabled")) {
                 ASound showSound = new ASound("reverse_swoop_" + num + ".wav",
-                        false);
+                                              false);
                 showSound.Play();
             }
 

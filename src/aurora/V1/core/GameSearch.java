@@ -78,16 +78,13 @@ public class GameSearch implements Runnable {
 
     private boolean isSearchEnabled = true;
 
-    /////////////////////
-    /////Constructor/////
-    /////////////////////
-    public GameSearch(LibraryUI gameLibraryUI, ASimpleDB database,
-                      AuroraStorage storage) {
 
-        this.coreUI = gameLibraryUI.getCoreUI();
+    public GameSearch(LibraryUI libraryUI, ASimpleDB database) {
+
+        this.coreUI = libraryUI.getCoreUI();
         this.db = database;
-        this.storage = storage;
-        libraryUI = gameLibraryUI;
+        this.storage = libraryUI.getStorage();
+        this.libraryUI = libraryUI;
 
     }
 
@@ -103,12 +100,12 @@ public class GameSearch implements Runnable {
 
     }
 
-    //Reset text, Cover Image, List and turn notification to red
+    // Reset text, Cover Image, List and turn notification to red
     public void resetCover() {
 
         if (notFoundCover == null || !notFoundCover.getCoverURL().equals(
                 "library_noGameFound.png")) {
-            //Create the new GameCover object
+            // Create the new GameCover object
             notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
                     libraryUI
                     .getDashboardUI(), storage);
@@ -131,7 +128,7 @@ public class GameSearch implements Runnable {
         if (isSearchEnabled) {
 
             notFoundCover.removeOverlayUI();
-            //Allow for custom editing cover art
+            // Allow for custom editing cover art
             if (canEditCover) {
                 notFoundCover.enableEditCoverOverlay();
                 notFoundCover.getBtnAddCustomOverlay()
@@ -164,14 +161,14 @@ public class GameSearch implements Runnable {
             logger.debug("Appended name: " + AppendedName);
         }
 
-        //Remove ONE Character From End of Appended Name
+        // Remove ONE Character From End of Appended Name
         if (AppendedName.length() <= 0) {
             if (isSearchEnabled) {
                 resetCover();
                 searchGame();
             }
 
-        } //Start search only when more than 1 character is typed
+        } // Start search only when more than 1 character is typed
         else if (AppendedName.length() > 0) {
 
             //Delay to allow for typing
@@ -184,7 +181,7 @@ public class GameSearch implements Runnable {
                 typeThread = new Thread(this);
             }
 
-            //Start Search thread with Delay
+            // Start Search thread with Delay
             try {
                 if (!typeThread.isAlive()) {
                     typeThread.start();
@@ -222,12 +219,12 @@ public class GameSearch implements Runnable {
                 statusIcon.setImgURl("addUI_img_autoSearchLooking.png");
             }
 
-            //If not found show Placeholder and turn notification red
+            // If not found show Placeholder and turn notification red
             if (gameImageName == null) {
 
                 pnlGameCoverPane.removeAll();
                 if (notFoundCover == null) {
-                    //Create the new GameCover object
+                    // Create the new GameCover object
                     notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
                             libraryUI
                             .getDashboardUI(), storage);
@@ -265,11 +262,11 @@ public class GameSearch implements Runnable {
 
                 return notFoundCover;
 
-                //Show the game Cover if a single database item is found
+                // Show the game Cover if a single database item is found
             } else {
 
                 pnlGameCoverPane.removeAll();
-                //Create the new GameCover object
+                // Create the new GameCover object
                 foundGameCover = new Game(libraryUI.getGridSplit(), coreUI,
                         libraryUI
                         .getDashboardUI(), storage);
@@ -298,7 +295,7 @@ public class GameSearch implements Runnable {
                     logger.error(ex);
                 }
 
-                //Change notification
+                // Change notification
                 imgStatus.setImgURl("addUI_badge_valid.png");
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
@@ -337,12 +334,12 @@ public class GameSearch implements Runnable {
 
             foundGameCover = null;
 
-            //If not found show Placeholder and turn notification red
+            // If not found show Placeholder and turn notification red
             if (foundGame == null) {
 
                 pnlGameCoverPane.removeAll();
                 if (notFoundCover == null) {
-                    //Create the new GameCover object
+                    // Create the new GameCover object
                     notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
                             libraryUI
                             .getDashboardUI(), storage);
@@ -374,7 +371,7 @@ public class GameSearch implements Runnable {
                 }
 
                 pnlGameCoverPane.add(notFoundCover);
-                //Change notification
+                // Change notification
                 imgStatus.setImgURl("addUI_badge_invalid.png");
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
@@ -384,7 +381,7 @@ public class GameSearch implements Runnable {
 
                 return notFoundCover;
 
-                //Show the game Cover if a single database item is found
+                // Show the game Cover if a single database item is found
             } else {
 
                 pnlGameCoverPane.removeAll();
@@ -419,7 +416,7 @@ public class GameSearch implements Runnable {
                     logger.error(ex);
                 }
 
-                //Change notification
+                // Change notification
                 imgStatus.setImgURl("addUI_badge_valid.png");
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
@@ -450,7 +447,6 @@ public class GameSearch implements Runnable {
 
         String possibleGameName = null;
         String possibleGameImageName = null;
-        //TODO use flex query to make multiple searches to find a possible match
         try {
 
             String tableName = "AuroraTable";
@@ -532,7 +528,7 @@ public class GameSearch implements Runnable {
             if (Character.isUpperCase(c)
                 && tempString.length() - 2 > 0) {
 
-                //Afterward check if previous char is lowercase
+                // Afterward check if previous char is lowercase
                 Character c2 = tempString.charAt(tempString.length() - 2);
 
                 if (Character.isLowerCase(c2)) {
@@ -613,7 +609,7 @@ public class GameSearch implements Runnable {
 
             statusIcon.setImgURl("addUI_img_autoSearchLooking.png");
 
-            //What Happends When The Length is zero
+            // What Happends When The Length is zero
             if (AppendedName.length() <= 0 || txtSearch.getText()
                     .length() == 0) {
 
@@ -626,8 +622,8 @@ public class GameSearch implements Runnable {
                 pnlGameCoverPane.revalidate();
             } else {
                 listModel.removeAllElements();
-                //Query the database
 
+                // Query the database
                 try {
                     if (logger.isDebugEnabled()) {
                         logger.debug("Searching for" + AppendedName.toString());
@@ -640,8 +636,8 @@ public class GameSearch implements Runnable {
                     logger.error(ex);
                 }
                 try {
-                    //Get the first game name as a seperate string to show
-                    //in cover Art
+                    // Get the first game name as a seperate string to show
+                    // in cover Art
                     foundGame = (String) foundArray[0];
                     if (logger.isDebugEnabled()) {
                         logger.debug(foundGame);
@@ -674,13 +670,13 @@ public class GameSearch implements Runnable {
                     foundGame = null;
                 }
 
-                //If Can't Get the game then show a Placeholder Image
-                //and turn the notifier red
+                // If Can't Get the game then show a Placeholder Image
+                // and turn the notifier red
                 if (foundGame == null) {
 
                     pnlGameCoverPane.removeAll();
                     if (notFoundCover == null) {
-                        //Create the new GameCover object
+                        // Create the new GameCover object
                         notFoundCover = new Game(libraryUI.getGridSplit(),
                                 coreUI,
                                 libraryUI
@@ -697,7 +693,7 @@ public class GameSearch implements Runnable {
                             notFoundCover.update();
                             notFoundCover.removeOverlayUI();
 
-                            //Allow for custom editing cover art
+                            // Allow for custom editing cover art
                             if (canEditCover) {
                                 notFoundCover.enableEditCoverOverlay();
                                 notFoundCover.getBtnAddCustomOverlay()
@@ -711,7 +707,7 @@ public class GameSearch implements Runnable {
                     }
 
                     pnlGameCoverPane.add(notFoundCover);
-                    //Change notification
+                    // Change notification
                     imgStatus.setImgURl("addUI_badge_invalid.png");
                     pnlGameCoverPane.repaint();
                     pnlGameCoverPane.revalidate();
@@ -721,7 +717,7 @@ public class GameSearch implements Runnable {
 
                     pnlGameCoverPane.removeAll();
 
-                    //Set up GameCover object with First Database item found
+                    // Set up GameCover object with First Database item found
                     foundGameCover = new Game(libraryUI.getGridSplit(), coreUI,
                             libraryUI.getDashboardUI(),
                             storage);
@@ -738,12 +734,12 @@ public class GameSearch implements Runnable {
                                     ".png", ""));
 
                     pnlGameCoverPane.add(foundGameCover);
-                    //Show GameCover
+                    // Show GameCover
                     try {
                         foundGameCover.update();
                         foundGameCover.removeOverlayUI();
 
-                        //Enable the ability to edit cover art
+                        // Enable the ability to edit cover art
                         if (canEditCover) {
                             foundGameCover.enableEditCoverOverlay();
                             foundGameCover.getBtnAddCustomOverlay()
@@ -755,7 +751,7 @@ public class GameSearch implements Runnable {
                         logger.error(ex);
                     }
 
-                    //Turn notifier Green
+                    // Turn notifier Green
                     imgStatus.setImgURl("addUI_badge_valid.png");
                     libraryUI.getLogic().checkManualAddGameStatus();
                     pnlGameCoverPane.repaint();
@@ -771,7 +767,7 @@ public class GameSearch implements Runnable {
                 pnlGameCoverPane.removeAll();
 
                 if (notFoundCover == null) {
-                    //Create the new GameCover object
+                    // Create the new GameCover object
                     notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
                             libraryUI
                             .getDashboardUI(), storage);
@@ -787,7 +783,7 @@ public class GameSearch implements Runnable {
                         notFoundCover.update();
                         notFoundCover.removeOverlayUI();
 
-                        //Allow for custom editing cover art
+                        // Allow for custom editing cover art
                         if (canEditCover) {
                             notFoundCover.enableEditCoverOverlay();
                             notFoundCover.getBtnAddCustomOverlay()
@@ -801,7 +797,7 @@ public class GameSearch implements Runnable {
                 }
 
                 pnlGameCoverPane.add(notFoundCover);
-                //Change notification
+                // Change notification
                 imgStatus.setImgURl("addUI_badge_invalid.png");
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
@@ -825,7 +821,7 @@ public class GameSearch implements Runnable {
         statusIcon.setImgURl("addUI_img_autoSearchOff.png");
     }
 
-    public boolean isIsSearchEnabled() {
+    public boolean isSearchEnabled() {
         return isSearchEnabled;
     }
 

@@ -25,7 +25,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -64,9 +63,9 @@ public class GridSearch {
 
     static final Logger logger = Logger.getLogger(GridSearch.class);
 
-    public GridSearch(AuroraCoreUI ui, LibraryUI aLibraryUI,
+    public GridSearch( LibraryUI aLibraryUI,
                       LibraryHandler aLibraryHandler) {
-        this.ui = ui;
+        this.ui = aLibraryUI.getCoreUI();
         this.libraryUI = aLibraryUI;
         this.handler = aLibraryHandler;
         foundGameList = new ArrayList<Game>();
