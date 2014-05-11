@@ -17,7 +17,6 @@
  */
 package aurora.V1.core.screen_logic;
 
-import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.Game;
 import aurora.V1.core.screen_handler.DashboardHandler;
@@ -31,8 +30,12 @@ import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.ACarouselPane;
+import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AInfoFeedLabel;
+import aurora.engine.V1.UI.AMarqueePanel;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -42,6 +45,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
@@ -82,10 +86,6 @@ public class DashboardLogic implements AuroraScreenLogic {
      */
     private final AuroraStorage storage;
 
-    /**
-     * The AuroraCoreUI instance from DashboardUI.
-     */
-    private final AuroraCoreUI coreUI;
 
     /**
      * Instance of the GameLibrary UI.
@@ -142,7 +142,6 @@ public class DashboardLogic implements AuroraScreenLogic {
     public DashboardLogic(final DashboardUI dashboardUi) {
 
         this.dashboardUI = dashboardUi;
-        this.coreUI = dashboardUI.getCoreUI();
 
         this.storage = dashboardUI.getStorage();
 
@@ -175,7 +174,7 @@ public class DashboardLogic implements AuroraScreenLogic {
 
         AImagePane icon;
 
-        //* Double check there are no games in Storage *//
+        // Double check there are no games in Storage
         if (logger.isDebugEnabled()) {
             logger.debug(storage);
         }
@@ -183,15 +182,16 @@ public class DashboardLogic implements AuroraScreenLogic {
         if (storage.getStoredLibrary().getBoxArtPath() == null || storage.
                 getStoredLibrary().getBoxArtPath().isEmpty()) {
 
-            //* Set icon to Blank Case *//
+            // Set icon to Blank Case
             icon = new AImagePane("Blank-Case.png",
-                    dashboardUI.getGameCoverWidth() - 10, dashboardUI.
-                    getGameCoverHeight() - 10);
+                                  dashboardUI.getGameCoverWidth() - 10,
+                                  dashboardUI.
+                                  getGameCoverHeight() - 10);
 
         } else {
             Random rand = new Random();
 
-            //* Generate random num based on number of games in storage *//
+            // Generate random num based on number of games in storage
             int randomNum = rand.nextInt(dashboardUI.getStorage().
                     getStoredLibrary().
                     getGameNames().size());
@@ -204,7 +204,7 @@ public class DashboardLogic implements AuroraScreenLogic {
             while (dashboardUI.getStorage().
                     getStoredLibrary().getBoxArtPath().
                     get(randomNum).equals("library_noGameFound.png")
-                   && redo < dashboardUI.getStorage().getStoredLibrary()
+                           && redo < dashboardUI.getStorage().getStoredLibrary()
                     .getNumberGames()) {
 
                 randomNum = rand.nextInt(dashboardUI.getStorage().
@@ -213,22 +213,22 @@ public class DashboardLogic implements AuroraScreenLogic {
                 redo++;
             }
 
-            //* Get the random game *//
+            // Get the random game
             Game randomGame = new Game(dashboardUI.getStorage().
                     getStoredLibrary().
                     getBoxArtPath().
                     get(randomNum), dashboardUI);
             randomGame.setCoverSize(dashboardUI.getGameCoverWidth() - 10,
-                    dashboardUI.getGameCoverHeight() - 10);
+                                    dashboardUI.getGameCoverHeight() - 10);
             try {
                 randomGame.update();
             } catch (MalformedURLException ex) {
                 logger.error(ex);
             }
 
-            //* Disable overlay UI of Game *//
+            // Disable overlay UI of Game
             randomGame.removeOverlayUI();
-            //* Instead, when clicking on game, launch appropriate App *//
+            // Instead, when clicking on game, launch appropriate App
 
             if (logger.isDebugEnabled()) {
                 logger.debug("ADDING MOUSE LISTENER TO COVER");
@@ -238,7 +238,7 @@ public class DashboardLogic implements AuroraScreenLogic {
                     addMouseListener(
                             dashboardHandler.new CarouselLibraryMouseListener());
 
-            //* Now give icon the cleaned up Random game *//
+            // Now give icon the cleaned up Random game
             icon = randomGame;
         }
 
@@ -315,7 +315,7 @@ public class DashboardLogic implements AuroraScreenLogic {
                 // Set up label item for the Info Feed
                 AInfoFeedLabel label = new AInfoFeedLabel(message
                         .getTitle(),
-                        message.getLink());
+                                                          message.getLink());
 
                 // Determine the source of the news article //
                 String url = message.getLink();
@@ -378,6 +378,32 @@ public class DashboardLogic implements AuroraScreenLogic {
 
     }
 
+    public void loadInfoFeed(
+            AMarqueePanel infoFeed, ArrayList<JLabel> labelList) {
+        int spacerAmount = 20;
+        int fontSize = 20;
+        String seperator = "dash_infoBar_seperator.png";
+        Iterator<JLabel> it = labelList.iterator();
+
+        // Go through the AInfoLabelList and add all the labels to the
+        // MarqueePanel
+        while (it.hasNext()) {
+            JLabel label = it.next();
+            label.setFont(new Font("Arial", Font.PLAIN, fontSize));
+            label.setForeground(Color.WHITE);
+            infoFeed.add(Box.createHorizontalStrut(spacerAmount));
+            infoFeed.add(label);
+
+            // if there is another label in the array list, then we add a
+            // separator
+            if (it.hasNext()) {
+                infoFeed.add(Box.createHorizontalStrut(spacerAmount));
+                infoFeed.add(new AImage(seperator));
+            }
+        }
+
+    }
+
     public boolean isIsRssLoaded() {
         return isRssLoaded;
     }
@@ -420,7 +446,7 @@ public class DashboardLogic implements AuroraScreenLogic {
         ACarouselPane pane = aCarouselPane;
 
         if (pane == dashboardUI.getLibraryPane()) {
-            //* action on click right Panel *//
+            // action on click right Panel
             if (dashboardUI != null) {
 
                 SwingUtilities.invokeLater(new Runnable() {
@@ -448,7 +474,7 @@ public class DashboardLogic implements AuroraScreenLogic {
                 }
             });
         } else if (pane == dashboardUI.getAuroraNetPane()) {
-            //* do nothing for now *//
+            // do nothing for now
         }
 
     }
@@ -485,7 +511,7 @@ public class DashboardLogic implements AuroraScreenLogic {
             } else if (pane.getPointX() == dashboardUI.getCarousel().getLeftX()) {
                 dashboardUI.getCarousel().MoveRight();
 
-                /* if Pane is in the Center then launch the App associated with it*/
+                /* if Pane is in the Center then launch the App associated with it */
             } else if (pane.getPointX() == dashboardUI.getCarousel().getCentX()) {
                 this.launchAuroraApp(pane);
             }
@@ -515,16 +541,16 @@ public class DashboardLogic implements AuroraScreenLogic {
 
                 libraryUI = new LibraryUI(dashboardUI
                         .getStartUI().getAuroraStorage(), dashboardUI,
-                        dashboardUI.getCoreUI());
+                                          dashboardUI.getCoreUI());
                 libraryUI.loadUI();
 
                 profileUI = new ProfileUI(dashboardUI,
-                        dashboardUI.getCoreUI());
+                                          dashboardUI.getCoreUI());
                 profileUI.loadUI();
 
                 settingsUI = new SettingsUI(dashboardUI
-                        .getStartUI().getAuroraStorage(),dashboardUI,
-                        dashboardUI.getCoreUI());
+                        .getStartUI().getAuroraStorage(), dashboardUI,
+                                            dashboardUI.getCoreUI());
 
                 settingsUI.loadUI();
 

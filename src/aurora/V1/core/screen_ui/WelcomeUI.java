@@ -20,6 +20,7 @@ package aurora.V1.core.screen_ui;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraMini;
 import aurora.V1.core.AuroraStorage;
+import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.WelcomeHandler;
 import aurora.V1.core.screen_handler.WelcomeHandler.FrameKeyListener;
 import aurora.V1.core.screen_logic.WelcomeLogic;
@@ -85,7 +86,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
     public static boolean Online = false;
 
-    private String path = "//AuroraData//";
+
 
     private JPanel loadingPane;
 
@@ -187,25 +188,25 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         // --------------------------------------------------------------------.
         setSizes();
 
-        //* Option to start with AuroraMini *//
+        // Option to start with AuroraMini
         if (START_WITH_MINI) {
             coreUI.getMinimizeHandler().setArg(AuroraMini.LOADING_MODE);
             coreUI.minimizeAurora(AuroraMini.LOADING_MODE);
         }
 
-        //*
+        //
         // The setCenterToFrame Panel Contains Hex Animation
         // and maintains a space between top and bottom panel
-        //*
+        //
         coreUI.getCenterPanel().add(BorderLayout.CENTER, imgHexPane);
 
-        //* Set Up Prompter and Scrolling Animation *//
+        // Set Up Prompter and Scrolling Animation
         imgHexPane.StartLoop();
 
-        //* Add Escape Key Listener to frame *//
+        // Add Escape Key Listener to frame
         frame.addKeyListener(startKeyHandler);
 
-        //* set up prompter *//
+        // set up prompter
         promptDisplay = new APrompter(new Color(0, 127, 153), coreUI
                 .getBoldFont()
                 .deriveFont(Font.PLAIN, displayFontSize));
@@ -223,7 +224,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
             }
         });
 
-        //* panel containing progress wheel and prompter *//
+        // panel containing progress wheel and prompter
         loadingPane.add(BorderLayout.CENTER, promptDisplay);
         loadingPane.add(BorderLayout.SOUTH, progressWheel);
         loadingPane.revalidate();
@@ -233,14 +234,14 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         coreUI.getBottomContentPane().revalidate();
         coreUI.getBottomContentPane().repaint();
 
-        //* prep Aurora for dashboard *//
+        // prep Aurora for dashboard
         try {
             backgroundLoad();
         } catch (IOException ex) {
             logger.error(ex);
         }
 
-        //* Add Background containing CoreUI to Frame *//
+        // Add Background containing CoreUI to Frame
         frame.getContentPane().add(coreUI.getBackgroundImagePane());
         frame.setVisible(true);
 
@@ -269,14 +270,14 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
     public ArrayList<String> generatePrompts() {
 
         if (logger.isDebugEnabled()) {
-            logger.debug(fileIO.getPath() + path + "/User Data");
+            logger.debug(fileIO.getPath() + main.DATA_PATH + "/User Data");
         }
 
         auroraVI = new ANuance(System.getProperty("user.home")
                                + "/AuroraData/User Data/AIDictionary.txt");
 
         ArrayList<String> toDisplayList = new ArrayList<String>();
-        if (checkUser()) {
+        if (logic.checkUser()) {
 
             toDisplayList.add(auroraVI.VI(ANuance.inx_Greeting) + " " + fileIO.
                     getUserName());
@@ -313,7 +314,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
         backgroundLoadThread.setName("Startup Thread");
 
-        //* Start background loader *//
+        // Start background loader
         backgroundLoadThread.start();
 
     }
@@ -330,11 +331,11 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 Boolean FirstTimeLoad = false;
 
                 // Check if Main Folder "AuroraData" Exists //
-                if (!checkMainDir()) {
+                if (!logic.checkMainDir()) {
 
                     FirstTimeLoad = true;
                     fileIO.createFolder("AuroraData");
-                    fileIO.setPath(fileIO.getPath() + path);
+                    fileIO.setPath(fileIO.getPath() + main.DATA_PATH);
                     fileIO.createFolder("User Data");
                     fileIO.createFolder("Game Data");
 
@@ -351,11 +352,11 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
                     promptDisplay.add("Created New Profile");
 
-                    //* Check if both Sub folders Exist *//
-                } else if (!checkSubDir()) {
+                    // Check if both Sub folders Exist
+                } else if (!logic.checkSubDir()) {
                     FirstTimeLoad = true;
                     promptDisplay.add("Attempting to Create Subfolders...");
-                    fileIO.setPath(fileIO.getPath() + path);
+                    fileIO.setPath(fileIO.getPath() + main.DATA_PATH);
                     fileIO.createFolder("User Data");
                     fileIO.createFolder("Game Data");
 
@@ -370,11 +371,11 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                             FirstTimeLoad,
                             fileIO.getPath() + "/User Data/");
 
-                } else if (!checkDBFiles()) {
+                } else if (!logic.checkDBFiles()) {
                     FirstTimeLoad = false;
-                    fileIO.setPath(fileIO.getPath() + path);
+                    fileIO.setPath(fileIO.getPath() + main.DATA_PATH);
                     System.out.println("Moved AuroraDB");
-                    if (!checkDBFiles()) {
+                    if (!logic.checkDBFiles()) {
                         FirstTimeLoad = true;
                         promptDisplay.add("Creating Missing Database Files...");
                         //Load Databases
@@ -389,24 +390,24 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                                 fileIO.getPath() + "/User Data/");
                     }
                 } else {
-                    fileIO.setPath(fileIO.getPath() + path);
+                    fileIO.setPath(fileIO.getPath() + main.DATA_PATH);
                 }
 
                 if (!FirstTimeLoad && START_WITH_MINI) {
                     coreUI.minimizeAurora(AuroraMini.LOADING_MODE);
                 }
 
-                //* Check if Online *//
+                // Check if Online
                 if (!logic.checkOnline("http://aws.amazon.com")) {
                     Online = false;
                     promptDisplay.add(
                             "Can't Connect To AuroraDB, Let Me Try Again...",
                             Color.RED);
 
-                    //*
+                    //
                     // Check if its Users Internet is down
                     // or Aurora Servers are down
-                    //*
+                    //
                     if (logic.checkOnline("http://google.com") && !logic
                             .checkOnline(
                                     "https://s3.amazonaws.com")) {
@@ -427,6 +428,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                         promptDisplay
                                 .add(
                                         "I Seem To Have Finally Established Connection...");
+                           Online = true;
                     }
                 } else {
                     Online = true;
@@ -460,7 +462,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 // Update or move AuroraDB
                 logic.moveAuroraDB(promptDisplay);
 
-                //* load DashboardUI *//
+                // load DashboardUI
                 loadedDashboardUI = new DashboardUI(coreUI, this);
 
                 if (logger.isDebugEnabled()) {
@@ -525,41 +527,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
     }
 
-    private boolean checkUser() {
-        if (checkSubDir()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
-    private boolean checkMainDir() {
-
-        if (fileIO.checkFile(fileIO.getPath() + path)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private boolean checkSubDir() {
-        if (fileIO.checkFile(fileIO.getPath() + path + "/User Data") && fileIO.
-                checkFile(fileIO.getPath() + path + "/Game Data")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private boolean checkDBFiles() {
-        if (fileIO.checkFile(fileIO.getPath() + "/User Data/User.h2.db")
-            && fileIO.
-                checkFile(fileIO.getPath() + "/Game Data/Games.h2.db")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public FrameKeyListener getStartKeyHandler() {
         return startKeyHandler;

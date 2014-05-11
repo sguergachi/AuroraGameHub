@@ -48,6 +48,8 @@ public class main {
 
     public static int LAUNCHES;
 
+    public static String DATA_PATH  = "//AuroraData//";
+
     static final Logger logger = Logger.getLogger(main.class);
 
     public static void main(String[] args) throws InterruptedException,
@@ -90,16 +92,18 @@ public class main {
             ressource = new ASurface("");
             try {
                 FontRegular = Font.createFont(Font.TRUETYPE_FONT, new URL(
-                        ressource.getSurfacePath()
-                                + "/aurora/V1/resources/AGENCYR.TTF")
-                        .openStream());
+                                              ressource.getSurfacePath()
+                                                      + "/aurora/V1/resources/AGENCYR.TTF")
+                                              .openStream());
             } catch (Exception ex) {
                 FontRegular = Font.createFont(Font.TRUETYPE_FONT, main.class
-                        .getResourceAsStream("/aurora/V1/resources/AGENCYR.TTF"));
+                                              .getResourceAsStream(
+                                                      "/aurora/V1/resources/AGENCYR.TTF"));
             }
             err = new ADialog(ADialog.aDIALOG_ERROR,
-                    "Latest Version of Java 7 is Required   ", FontRegular
-                    .deriveFont(Font.BOLD, 25), new ActionListener() {
+                              "Latest Version of Java 7 is Required   ",
+                              FontRegular
+                              .deriveFont(Font.BOLD, 25), new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             System.exit(0);

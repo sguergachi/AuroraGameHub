@@ -3,6 +3,19 @@
         |  Crafted With Care by the Sardonix Creative Team |
         ====================================================
 
+
+////////////////////////////////////////////------------------------------------
+// Aurora_Alpha 9  Build:827  Date:1/3/2014  || Sammy Guergachi, Carlos Machado
+////////////////////////////////////////////------------------------------------
+
+
+
+- Fixed pressing Done button in Edit Cover UI to many times causing issues
+
+- Improved loading of dashboard
+- Major code refactoring and clean up
+
+
 ////////////////////////////////////////////------------------------------------
 // Aurora_Alpha 9  Build:827  Date:1/3/2014  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------

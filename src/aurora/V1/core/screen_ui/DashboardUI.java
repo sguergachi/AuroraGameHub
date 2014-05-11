@@ -42,8 +42,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
-import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
@@ -313,7 +311,7 @@ public class DashboardUI implements AuroraScreenUI {
     /**
      * This is the Logic for the DashboardUIs Processing.
      */
-    private final DashboardLogic logic;
+    private final DashboardLogic dashboardLogic;
 
     /**
      * Boolean to see when the loadedUI() method is completed.
@@ -354,11 +352,11 @@ public class DashboardUI implements AuroraScreenUI {
         this.coreUI = auroraCoreUi;
 
 
-        //* The Dashboard Handler + Logic
+        // The Dashboard Handler + Logic
         this.handler = new DashboardHandler(this);
-        this.logic = new DashboardLogic(this);
-        handler.setLogic(logic);
-        logic.setHandler(handler);
+        this.dashboardLogic = new DashboardLogic(this);
+        handler.setLogic(dashboardLogic);
+        dashboardLogic.setHandler(handler);
     }
 
     @Override
@@ -367,9 +365,7 @@ public class DashboardUI implements AuroraScreenUI {
         //Initialize Sizes
         setSizes();
 
-
-
-        // Carousel
+        // Initialize Carousel
         // --------------------------------------------------------------------.
 
         titleSettingGlow = new AImage("dash_carousel_settings_glow.png");
@@ -387,49 +383,109 @@ public class DashboardUI implements AuroraScreenUI {
         icoProfile = new AImage("dash_carousel_profileIcon.png");
         icoSetting = new AImage("dash_carousel_settingsIcon.png");
         icoNet = new AImage("ComingSoon.png");
-        icoLibrary = logic.getLibraryIcon();
+        icoLibrary = dashboardLogic.getLibraryIcon();
 
         titleProfile = new ACarouselTitle(titleProfileNorm, titleProfileGlow);
         titleSetting = new ACarouselTitle(titleSettingNorm, titleSettingGlow);
         titleLibrary = new ACarouselTitle(titleLibraryNorm, titleLibraryGlow);
         titleAuroraNet = new ACarouselTitle(titleAuroraNetNorm,
-                titleAuroraNetGlow);
+                                            titleAuroraNetGlow);
 
         carousel = new ACarousel(carouselWidth, carouselHeight,
-                Toolkit.getDefaultToolkit().getScreenSize().width);
+                                 Toolkit.getDefaultToolkit().getScreenSize().width);
         carousel.setVisible(false);
 
         paneSettings = new ACarouselPane("dash_carousel_bg.png",
-                (int) carouselWidth + 25,
-                carouselHeight - 25, true, titleSetting, "Setting Pane");
+                                         (int) carouselWidth + 25,
+                                         carouselHeight - 25, true, titleSetting,
+                                         "Setting Pane");
         paneSettings.setVisible(false);
 
         paneProfile = new ACarouselPane("dash_carousel_bg.png",
-                (int) carouselWidth + 25,
-                carouselHeight - 25, true, titleProfile, "Profile pane");
+                                        (int) carouselWidth + 25,
+                                        carouselHeight - 25, true, titleProfile,
+                                        "Profile pane");
         paneProfile.setVisible(false);
 
         paneLibrary = new ACarouselPane("dash_carousel_bg.png",
-                (int) carouselWidth + 25,
-                carouselHeight - 25, true, titleLibrary, "library pane");
+                                        (int) carouselWidth + 25,
+                                        carouselHeight - 25, true, titleLibrary,
+                                        "library pane");
         paneLibrary.setVisible(false);
 
         paneNet = new ACarouselPane("dash_carousel_bg.png", (int) carouselWidth
-                                                            + 25,
-                carouselHeight - 25, true, titleAuroraNet, "auroranet");
+                                                                    + 25,
+                                    carouselHeight - 25, true, titleAuroraNet,
+                                    "auroranet");
         paneNet.setVisible(false);
 
         btnCarouselLeft = new AButton("dash_btn_carouselLeft_norm.png",
-                "dash_btn_carouselLeft_down.png",
-                "dash_btn_carouselLeft_over.png",
-                carouselButtonWidth, carouselButtonHeight);
+                                      "dash_btn_carouselLeft_down.png",
+                                      "dash_btn_carouselLeft_over.png",
+                                      carouselButtonWidth, carouselButtonHeight);
         btnCarouselLeft.setVisible(false);
 
         btnCarouselRight = new AButton("dash_btn_carouselRight_norm.png",
-                "dash_btn_carouselRight_down.png",
-                "dash_btn_carouselRight_over.png",
-                carouselButtonWidth, carouselButtonHeight);
+                                       "dash_btn_carouselRight_down.png",
+                                       "dash_btn_carouselRight_over.png",
+                                       carouselButtonWidth, carouselButtonHeight);
         btnCarouselRight.setVisible(false);
+
+
+
+        // Setup Carousel
+        // --------------------------------------------------------------------.
+
+        paneSettings.addKeyListener(handler.new DashboardlKeyListener());
+        paneProfile.addKeyListener(handler.new DashboardlKeyListener());
+        paneLibrary.addKeyListener(handler.new DashboardlKeyListener());
+        paneNet.addKeyListener(handler.new DashboardlKeyListener());
+
+         // Set ID For each Panel and add ENTER Key Listener
+        paneSettings.setName("settingsPane");
+        paneProfile.setName("profilePane");
+        paneLibrary.setName("libraryPane");
+        paneNet.setName("auroraNetPane");
+
+
+        // Set ID For each Panel and add ENTER Key Listener
+
+        paneSettings.addContent(icoSetting, TitleType.NORMAL);
+        paneProfile.addContent(icoProfile, TitleType.NORMAL);
+        paneNet.addContent(icoNet, TitleType.NORMAL);
+        // Initially set to Glow state
+        paneLibrary.addContent(icoLibrary, TitleType.GLOW);
+
+
+        // Add each Pane to the Carousel
+
+        carousel.addPane(paneSettings);
+        carousel.addPane(paneLibrary);
+        carousel.addPane(paneProfile);
+        carousel.addPane(paneNet);
+        carousel.addKeyListener(handler.new DashboardlKeyListener());
+
+
+        // Set size of Icons inside each Carousel Pane
+
+        icoSetting.addMouseListener(handler.new CarouselPaneMouseListener(
+                paneSettings));
+        icoProfile.addMouseListener(handler.new CarouselPaneMouseListener(
+                paneProfile));
+        icoNet.addMouseListener(handler.new CarouselPaneMouseListener(paneNet));
+        icoLibrary.setPreferredSize(new Dimension(gameCoverWidth,
+                                                  gameCoverHeight));
+        icoLibrary.addMouseListener(handler.new CarouselPaneMouseListener(
+                paneLibrary));
+
+        // Check for the Enter Button Press OR Mouse Click
+        paneProfile
+                .addMouseListener(handler.new CarouselPaneMouseListener(null));
+        paneSettings.addMouseListener(
+                handler.new CarouselPaneMouseListener(null));
+        paneLibrary
+                .addMouseListener(handler.new CarouselPaneMouseListener(null));
+        paneNet.addMouseListener(handler.new CarouselPaneMouseListener(null));
 
 
 
@@ -445,17 +501,17 @@ public class DashboardUI implements AuroraScreenUI {
         // Marquee Panel Text
         // --------------------------------------------------------------------.
         infoFeed = new AMarqueePanel(infoFeedWidth, infoFeedHeight,
-                "dash_infoBar_bg.png");
+                                     "dash_infoBar_bg.png");
         infoFeed.setVisible(false);
         infoFeedContainer.setPreferredSize(new Dimension(infoFeedWidth,
-                infoFeedHeight));
+                                                         infoFeedHeight));
 
         AThreadWorker work = new AThreadWorker(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                infoFeedLabelList = logic.createRssFeed();
-                loadInfoFeed(infoFeedLabelList);
+                infoFeedLabelList = dashboardLogic.createRssFeed();
+                dashboardLogic.loadInfoFeed(infoFeed, infoFeedLabelList);
 
 
                 infoFeed.setPostCycleListener(new ActionListener() {
@@ -467,9 +523,9 @@ public class DashboardUI implements AuroraScreenUI {
                         }
 
                         infoFeed.removeAll();
-                        infoFeedLabelList = logic.refreshRssFeed(
+                        infoFeedLabelList = dashboardLogic.refreshRssFeed(
                                 infoFeedLabelList);
-                        loadInfoFeed(infoFeedLabelList);
+                        dashboardLogic.loadInfoFeed(infoFeed, infoFeedLabelList);
                         infoFeed.startScrolling();
 
 
@@ -494,13 +550,13 @@ public class DashboardUI implements AuroraScreenUI {
 
         // About Box //
         aboutBox = new AboutBox(coreUI);
-
+        coreUI.getLogoImage().addMouseListener(new HeaderMouseListener());
 
         // Finalize
         // --------------------------------------------------------------------.
 
         keyArrows = new AImage("KeyboardKeys/arrows.png", coreUI.
-                getKeyIconWidth(), coreUI.getKeyIconHeight());
+                               getKeyIconWidth(), coreUI.getKeyIconHeight());
 
         lblKeyActionArrow = new JLabel();
 
@@ -509,31 +565,6 @@ public class DashboardUI implements AuroraScreenUI {
         }
 
         dashboardUiLoaded = true;
-
-    }
-
-    private void loadInfoFeed(ArrayList<JLabel> labelList) {
-        int spacerAmount = 20;
-        int fontSize = 20;
-        String seperator = "dash_infoBar_seperator.png";
-        Iterator<JLabel> it = labelList.iterator();
-
-        // go through the AInfoLabelList and add all the labels to the
-        // MarqueePanel
-        while (it.hasNext()) {
-            JLabel label = it.next();
-            label.setFont(new Font("Arial", Font.PLAIN, fontSize));
-            label.setForeground(Color.WHITE);
-            infoFeed.add(Box.createHorizontalStrut(spacerAmount));
-            infoFeed.add(label);
-
-            // if there is another label in the array list, then we add a
-            // separator
-            if (it.hasNext()) {
-                infoFeed.add(Box.createHorizontalStrut(spacerAmount));
-                infoFeed.add(new AImage(seperator));
-            }
-        }
 
     }
 
@@ -584,84 +615,19 @@ public class DashboardUI implements AuroraScreenUI {
     @Override
     public final void buildUI() {
 
-        //* Indicate to User DashboardUI is loading. *//
+        // Indicate to User DashboardUI is loading.
         coreUI.getTitleLabel().setText("  " + ".: Loading :.");
 
 
-        //* Set bigger Logo to Header *//
+        // Set bigger Logo to Header
         coreUI.getLogoImage().setImgURl("dash_header_logo.png");
         coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
-        coreUI.getLogoImage().addMouseListener(new HeaderMouseListener());
-
-
-        // Carousel
-        // --------------------------------------------------------------------.
-
-
-        //* Set ID For each Panel and add ENTER Key Listener *//
-
-        paneSettings.setName("settingsPane");
-        paneSettings.addKeyListener(handler.new DashboardlKeyListener());
-
-        paneProfile.setName("profilePane");
-        paneProfile.addKeyListener(handler.new DashboardlKeyListener());
-
-        paneLibrary.setName("libraryPane");
-        paneLibrary.addKeyListener(handler.new DashboardlKeyListener());
-
-        paneNet.setName("auroraNetPane");
-        paneNet.addKeyListener(handler.new DashboardlKeyListener());
-
-        //* Set ID For each Panel and add ENTER Key Listener *//
-
-        paneSettings.addContent(icoSetting, TitleType.NORMAL);
-        paneProfile.addContent(icoProfile, TitleType.NORMAL);
-        paneNet.addContent(icoNet, TitleType.NORMAL);
-        //* Initially set to Glow state *//
-        paneLibrary.addContent(icoLibrary, TitleType.GLOW);
-
-
-        //* Add each Pane to the Carousel *//
-
-        carousel.addPane(paneSettings);
-        carousel.addPane(paneLibrary);
-        carousel.addPane(paneProfile);
-        carousel.addPane(paneNet);
-        carousel.addKeyListener(handler.new DashboardlKeyListener());
-
-
-
-        //* Set size of Icons inside each Carousel Pane *//
-
-        icoSetting.addMouseListener(handler.new CarouselPaneMouseListener(
-                paneSettings));
-        icoProfile.addMouseListener(handler.new CarouselPaneMouseListener(
-                paneProfile));
-        icoNet.addMouseListener(handler.new CarouselPaneMouseListener(paneNet));
-        icoLibrary.setPreferredSize(new Dimension(gameCoverWidth,
-                gameCoverHeight));
-        icoLibrary.addMouseListener(handler.new CarouselPaneMouseListener(paneLibrary));
-
-        //* Check for the Enter Button Press OR Mouse Click *//
-        paneProfile
-                .addMouseListener(handler.new CarouselPaneMouseListener(null));
-        paneSettings.addMouseListener(
-                handler.new CarouselPaneMouseListener(null));
-        paneLibrary
-                .addMouseListener(handler.new CarouselPaneMouseListener(null));
-        paneNet.addMouseListener(handler.new CarouselPaneMouseListener(null));
-
-
-        //* Info Feed *//
-
-
-
 
         // About Box //
         aboutBox.buildAboutUI();
 
 
-        //* Add UI to Canvas *//
+        // Add UI to Canvas
         addToCanvas();
 
         setAllToVisible();
@@ -676,38 +642,38 @@ public class DashboardUI implements AuroraScreenUI {
         // --------------------------------------------------------------------.
 
 
-        //* Add Carousel to Center Panel *//
+        // Add Carousel to Center Panel
         coreUI.getCenterPanel().add(BorderLayout.CENTER, carousel);
 
 
 
-        //* Set size of Top panel in CoreUI *//
+        // Set size of Top panel in CoreUI
         coreUI.getTopPane().setImageHeight(topHeight);
         coreUI.getTopPane().setPreferredSize(new Dimension(coreUI
                 .getTopPane().
                 getWidth(), coreUI.getTopPane().getImageHeight() + coreUI.
-                getFrameControlContainerPanel().getHeight()));
+                                                           getFrameControlContainerPanel().getHeight()));
 
-        //* Set size of Bottom panel in CoreUI *//
+        // Set size of Bottom panel in CoreUI
         coreUI.getBottomPane().setPreferredSize(new Dimension(coreUI
                 .getBottomPane().getWidth(), bottomPaneHeightAdjust));
         coreUI.getBottomPane().setImageHeight(bottomPaneHeightAdjust);
 
-        //* Set size of Top Panels *//
+        // Set size of Top Panels
         coreUI.getSouthFromTopPanel().revalidate();
         coreUI.getSouthFromTopPanel().setPreferredSize(new Dimension(coreUI.
                 getSouthFromTopPanel().getWidth(), coreUI
-                .getFrameControlContainerPanel().
-                getHeight()));
+                                                                     .getFrameControlContainerPanel().
+                                                                     getHeight()));
         coreUI.getTopPane().setPreferredSize(new Dimension(coreUI
                 .getTopPane().
                 getWidth(), coreUI.getTopPane().getImageHeight() + coreUI.
-                getFrameControlContainerPanel().getHeight()));
+                                                           getFrameControlContainerPanel().getHeight()));
         coreUI.getSouthFromTopPanel().revalidate();
 
-        //* Set Font of Keyboard Action Label *//
+        // Set Font of Keyboard Action Label
         lblKeyActionArrow.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
-                coreUI.getKeysFontSize()));
+                                                                     coreUI.getKeysFontSize()));
         lblKeyActionArrow.setForeground(new Color(0, 178, 178));
         lblKeyActionArrow.setText(" Move ");
 
@@ -716,24 +682,24 @@ public class DashboardUI implements AuroraScreenUI {
 
 
 
-        //* Add  Components to CoreUI *//
+        // Add  Components to CoreUI
 
-        //* Add Arrow Keys Icons *//
+        // Add Arrow Keys Icons
         coreUI.getKeyToPressPanel().add(keyArrows);
         coreUI.getKeyToPressPanel().add(lblKeyActionArrow);
 
-        //* Add Enter Key Icons *//
+        // Add Enter Key Icons
         coreUI.getKeyToPressPanel().add(coreUI.getKeyIconImage());
         coreUI.getKeyToPressPanel().add(coreUI.getKeyActionLabel());
 
-        //* Add Carousel to Center Panel *//
+        // Add Carousel to Center Panel
         coreUI.getCenterPanel().add(BorderLayout.CENTER, carousel);
 
-        //* Add To Bottom Panel  InfoFeed and both Carousel Buttons*//
+        // Add To Bottom Panel  InfoFeed and both Carousel Buttons*//
         coreUI.getCenterFromBottomPanel().add(BorderLayout.EAST,
-                btnCarouselRight);
+                                              btnCarouselRight);
         coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER,
-                infoFeedContainer);
+                                              infoFeedContainer);
         coreUI.getCenterFromBottomPanel()
                 .add(BorderLayout.WEST, btnCarouselLeft);
 
@@ -749,13 +715,13 @@ public class DashboardUI implements AuroraScreenUI {
 
 
 
-        //* Check for Mouse Wheel Rotation *//
+        // Check for Mouse Wheel Rotation
         carousel.
                 addMouseWheelListener(
-                handler.new CarouselPaneMouseWheelListener());
+                        handler.new CarouselPaneMouseWheelListener());
 
 
-        //* Add Listeners to the Left and Right Carousel Buttons *//
+        // Add Listeners to the Left and Right Carousel Buttons
         btnCarouselLeft.addActionListener(handler.new LeftButtonListener());
         btnCarouselLeft.addKeyListener(handler.new DashboardlKeyListener());
 
@@ -763,24 +729,24 @@ public class DashboardUI implements AuroraScreenUI {
         btnCarouselRight.addKeyListener(handler.new DashboardlKeyListener());
 
 
-        //* CoreUI Listeners *//
+        // CoreUI Listeners
 
-        //* Remove ENTER KeyListener attached to frame. *//
+        // Remove ENTER KeyListener attached to frame.
         coreUI.getFrame().removeKeyListener(startUI.getStartKeyHandler());
 
-        //* Add Carousel KeyListener to Background *//
+        // Add Carousel KeyListener to Background
         coreUI.getFrame().getContentPane().
                 addKeyListener(handler.new DashboardlKeyListener());
         coreUI.getFrame().addKeyListener(handler.new DashboardlKeyListener());
         coreUI.getBackgroundImagePane().
                 addKeyListener(handler.new DashboardlKeyListener());
 
-        //* Finished loading so change text *//
+        // Finished loading so change text
         coreUI.getTitleLabel().setText("  " + " Dashboard ");
 
 
 
-        //* Final Refresh and Refocus *//
+        // Final Refresh and Refocus
         coreUI.getFrame().repaint();
         coreUI.getFrame().requestFocus();
 
@@ -812,7 +778,7 @@ public class DashboardUI implements AuroraScreenUI {
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
             carouselImageWidth = carouselHeight - (2 * carouselHeight / 6);
             carouselImageHeight = (int) carouselWidth
-                                  - (int) (carouselWidth / 4) - 20;
+                                          - (int) (carouselWidth / 4) - 20;
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
@@ -823,7 +789,7 @@ public class DashboardUI implements AuroraScreenUI {
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
             infoFeedWidth = coreUI.getFrame().getSize().width
-                            - (carouselButtonWidth * 2) - 70;
+                                    - (carouselButtonWidth * 2) - 70;
             infoFeedHeight = 55;
 
 
@@ -836,7 +802,7 @@ public class DashboardUI implements AuroraScreenUI {
             btnBackHeight = 35;
 
             carouselWidth = (coreUI.getFrame().getWidth() / 40 + topHeight / 55)
-                            * 16;
+                                    * 16;
             carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
                     getFrame().getWidth() / 7);
 
@@ -845,7 +811,7 @@ public class DashboardUI implements AuroraScreenUI {
 
             carouselImageWidth = (int) carouselWidth - 400 / 2;
             carouselImageHeight = carouselHeight - (450 / 2)
-                                  - 55;
+                                          - 55;
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
@@ -856,9 +822,9 @@ public class DashboardUI implements AuroraScreenUI {
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
             infoFeedWidth = coreUI.getFrame().getSize().width
-                            - (carouselButtonWidth * 2) - 70;
+                                    - (carouselButtonWidth * 2) - 70;
             infoFeedHeight = carouselButtonHeight
-                             - (bottomPaneHeightAdjust / 18);
+                                     - (bottomPaneHeightAdjust / 18);
 
 
             if (logger.isDebugEnabled()) {
@@ -913,7 +879,7 @@ public class DashboardUI implements AuroraScreenUI {
      * @return DashboardLogic
      */
     public final DashboardLogic getDashboardLogic() {
-        return logic;
+        return dashboardLogic;
     }
 
     /**

@@ -76,6 +76,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
     static final Logger logger = Logger.getLogger(WelcomeLogic.class);
 
     private int frameControlHeight;
+
     private AFileManager fileIO;
 
     public WelcomeLogic(WelcomeUI aStartScreenUI) {
@@ -103,30 +104,29 @@ public class WelcomeLogic implements AuroraScreenLogic {
 
     }
 
-
     public void transisionToDashboard() {
 
         loadTransitionUI();
 
         animateTransision = new AThreadWorker(new ActionListener() {
-            //* Times cycling through threadWorker loop *//
+            // Times cycling through threadWorker loop
             private int c = 0;
 
-            //* Scale of Hex Image growning *//
+            // Scale of Hex Image growning
             private int scale = 0;
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 c++;
                 if (c == 1) {
-                    //* change header logo to smaller logo *//
+                    // change header logo to smaller logo
                     imgTopLogo.setIcon(imgTopLogoSmall.getImgIcon());
                     imgTopLogo.repaint();
 
-                    //* stop scrolling Animation *//
+                    // stop scrolling Animation
                     imgHexPane.stop();
 
-                    //* Remove Panel Containing Frame Controls*//
+                    // Remove Panel Containing Frame Controls*//
                     coreUI.getTopPane().remove(coreUI.getSouthFromTopPanel());
                     coreUI.getSouthFromTopPanel().setVisible(false);
                     coreUI.getTopPane().revalidate();
@@ -135,12 +135,12 @@ public class WelcomeLogic implements AuroraScreenLogic {
                     imgHexPane.repaint();
 
                 } else {
-                    //* Change Size Values *//
+                    // Change Size Values
                     scale++;
                     topHeight--;
                     centerHeight += 5;
 
-                    //* Change Component Sizes *//
+                    // Change Component Sizes
                     imgHexPane.grow(scale);
                     coreUI.getTopPane().setImageHeight(topHeight);
                     imgHexPane.repaint();
@@ -149,12 +149,13 @@ public class WelcomeLogic implements AuroraScreenLogic {
                     coreUI.getTopPane().setPreferredSize(new Dimension(coreUI
                             .getTopPane()
                             .getWidth(),
-                            topHeight - 50));
+                                                                       topHeight
+                                                                       - 50));
                     coreUI.getCenterPanel()
                             .setPreferredSize(new Dimension(coreUI
                                             .getCenterPanel()
                                             .getWidth(),
-                                            centerHeight));
+                                                            centerHeight));
 
 
 
@@ -163,12 +164,12 @@ public class WelcomeLogic implements AuroraScreenLogic {
                             .getIconHeight() + 300) {
                         centerHeight = centerHeight - 2;
                         topHeight = imgTopLogoSmall.getImgIcon().getIconHeight()
-                                    + 50;
+                                            + 50;
                         coreUI.getTopPane().setImageHeight(topHeight);
 
                     }
 
-                    //* Check if Reached Proper Size to stop *//
+                    // Check if Reached Proper Size to stop
                     if (scale == 37) {
 
                         showDashdoard();
@@ -191,14 +192,14 @@ public class WelcomeLogic implements AuroraScreenLogic {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                //* Re-add Frame Controls *//
+                // Re-add Frame Controls
 
                 coreUI.getTopPane().add(BorderLayout.PAGE_END, coreUI
-                        .getSouthFromTopPanel());
+                                        .getSouthFromTopPanel());
                 coreUI.getTopPane().revalidate();
                 coreUI.getSouthFromTopPanel().revalidate();
 
-                //* Set bigger background image for Frame Control panel *//
+                // Set bigger background image for Frame Control panel
                 coreUI.getFrameControlImagePane().setImage(
                         "dash_frameControl_bg.png");
                 coreUI.getFrameControlImagePane().repaint();
@@ -207,10 +208,10 @@ public class WelcomeLogic implements AuroraScreenLogic {
                 coreUI.getFrameControlImagePane().revalidate();
 
 
-                //* Remove all components in Center Panel *//
+                // Remove all components in Center Panel
                 coreUI.getCenterPanel().removeAll();
 
-                //* Get or Generate new DashboardUI *//
+                // Get or Generate new DashboardUI
                 dashboardUI = startScreenUI.getLoadedDashboardUI();
 
                 if (dashboardUI == null) {
@@ -225,7 +226,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
                     }
                 }
 
-                //* Build DashboardUI *//
+                // Build DashboardUI
                 dashboardUI.buildUI();
 
                 coreUI.getSouthFromTopPanel().setVisible(true);
@@ -265,9 +266,9 @@ public class WelcomeLogic implements AuroraScreenLogic {
         AMixpanelAnalytics analytics = new AMixpanelAnalytics(
                 "f5f777273e62089193a68f99f4885a55");
         analytics.addProperty("Version", main.VERSION + " b" + coreUI
-                .getBuildNumber());
+                              .getBuildNumber());
         analytics.addProperty("Resolution", coreUI.getScreenHeight() + "x"
-                                            + coreUI.getScreenWidth());
+                                                    + coreUI.getScreenWidth());
         analytics
                 .addProperty("Java Version", System.getProperty("java.version"));
         analytics.addProperty("OS", System.getProperty("os.name"));
@@ -311,7 +312,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
 
         if (!fileIO.checkFile(fileIO
                 .getPath() + "AuroraDB.h2.db")
-            || fileIO.checkFile(installPath + "/updateDB")) {
+                    || fileIO.checkFile(installPath + "/updateDB")) {
 
             if (fileIO.checkFile(installPath + "/updateDB")) {
                 try {
@@ -326,7 +327,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
             if (fileIO.checkFile(auroraDbPath)) {
                 try {
                     fileIO.copyFile(new File(auroraDbPath), new File(fileIO
-                            .getPath() + "AuroraDB.h2.db"));
+                                    .getPath() + "AuroraDB.h2.db"));
                 } catch (IOException ex) {
                     java.util.logging.Logger
                             .getLogger(WelcomeUI.class.getName()).
@@ -336,7 +337,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
                 logger.info("Did Not Move AuroraDB to AuroraData");
                 promptDisplay
                         .add("Downloading AuroraCoverDB...", new Color(0, 191,
-                                        255));
+                                                                       255));
 
                 downloadAuroraDB();
 
@@ -349,7 +350,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
         try {
             fileIO.downloadFile(new URL(
                     "http://s3.amazonaws.com/AuroraStorage/AuroraDB.h2.db"),
-                    new File(fileIO.getPath() + "/AuroraDB.h2.db"));
+                                new File(fileIO.getPath() + "/AuroraDB.h2.db"));
 
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(WelcomeUI.class.getName()).
@@ -362,9 +363,43 @@ public class WelcomeLogic implements AuroraScreenLogic {
 
     }
 
+    public boolean checkUser() {
+        if (checkSubDir()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean checkMainDir() {
+
+        if (fileIO.checkFile(fileIO.getPath() + main.DATA_PATH)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean checkSubDir() {
+        if (fileIO.checkFile(fileIO.getPath() + main.DATA_PATH + "/User Data") && fileIO.
+                checkFile(fileIO.getPath() + main.DATA_PATH + "/Game Data")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean checkDBFiles() {
+        if (fileIO.checkFile(fileIO.getPath() + "/User Data/User.h2.db")
+                    && fileIO.
+                checkFile(fileIO.getPath() + "/Game Data/Games.h2.db")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private void setSize() {
-
-
 
         if (coreUI.isLargeScreen()) {
             frameControlHeight = 0;
