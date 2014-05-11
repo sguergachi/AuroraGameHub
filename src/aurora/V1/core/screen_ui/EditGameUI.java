@@ -8,6 +8,7 @@ package aurora.V1.core.screen_ui;
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.Game;
+import aurora.V1.core.GameSearch;
 import aurora.V1.core.screen_handler.LibraryHandler;
 import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_logic.SettingsLogic;
@@ -709,7 +710,7 @@ public class EditGameUI {
                     .getRopaFont()
                     .deriveFont(
                             Font.PLAIN, 28));
-            txtGameCoverSearch_editUI.setText("Search For Game...");
+            txtGameCoverSearch_editUI.setText(GameSearch.DEFAULT_SEARCH_TEXT);
             txtGameCoverSearch_editUI.setTextboxSize(0, 0);
 
             txtGameCoverSearch_editUI.add(Box.createHorizontalStrut(10),

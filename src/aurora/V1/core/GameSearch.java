@@ -38,6 +38,8 @@ import org.apache.log4j.Logger;
  */
 public class GameSearch implements Runnable {
 
+    public static String DEFAULT_SEARCH_TEXT = "Search For Game...";
+
     private final AuroraCoreUI coreUI;
 
     private final LibraryUI libraryUI;
@@ -78,7 +80,6 @@ public class GameSearch implements Runnable {
 
     private boolean isSearchEnabled = true;
 
-
     public GameSearch(LibraryUI libraryUI, ASimpleDB database) {
 
         this.coreUI = libraryUI.getCoreUI();
@@ -107,8 +108,8 @@ public class GameSearch implements Runnable {
                 "library_noGameFound.png")) {
             // Create the new GameCover object
             notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
-                    libraryUI
-                    .getDashboardUI(), storage);
+                                     libraryUI
+                                     .getDashboardUI(), storage);
             try {
                 notFoundCover.setCoverUrl("library_noGameFound.png");
             } catch (MalformedURLException ex) {
@@ -198,7 +199,8 @@ public class GameSearch implements Runnable {
         try {
             foundGame = (String) db.getRowFlex("AuroraTable", new String[]{
                 "FILE_NAME"}, "GAME_NAME='" + gameName
-                    .replace("'", "''") + "'", "FILE_NAME")[0];
+                                               .replace("'", "''") + "'",
+                                               "FILE_NAME")[0];
         } catch (Exception ex) {
             logger.error(ex);
             foundGame = null;
@@ -226,8 +228,8 @@ public class GameSearch implements Runnable {
                 if (notFoundCover == null) {
                     // Create the new GameCover object
                     notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
-                            libraryUI
-                            .getDashboardUI(), storage);
+                                             libraryUI
+                                             .getDashboardUI(), storage);
                     try {
                         notFoundCover.setCoverUrl("library_noGameFound.png");
                     } catch (MalformedURLException ex) {
@@ -268,8 +270,8 @@ public class GameSearch implements Runnable {
                 pnlGameCoverPane.removeAll();
                 // Create the new GameCover object
                 foundGameCover = new Game(libraryUI.getGridSplit(), coreUI,
-                        libraryUI
-                        .getDashboardUI(), storage);
+                                          libraryUI
+                                          .getDashboardUI(), storage);
                 try {
                     foundGameCover.setCoverUrl(gameImageName);
                 } catch (MalformedURLException ex) {
@@ -326,7 +328,8 @@ public class GameSearch implements Runnable {
             try {
                 foundGame = (String) db.getRowFlex("AuroraTable", new String[]{
                     "FILE_NAME"}, "GAME_NAME='" + gameName
-                        .replace("'", "''") + "'", "FILE_NAME")[0];
+                                                   .replace("'", "''") + "'",
+                                                   "FILE_NAME")[0];
             } catch (Exception ex) {
                 logger.error(ex);
                 foundGame = null;
@@ -341,8 +344,8 @@ public class GameSearch implements Runnable {
                 if (notFoundCover == null) {
                     // Create the new GameCover object
                     notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
-                            libraryUI
-                            .getDashboardUI(), storage);
+                                             libraryUI
+                                             .getDashboardUI(), storage);
                     try {
                         notFoundCover.setCoverUrl("library_noGameFound.png");
                     } catch (MalformedURLException ex) {
@@ -387,8 +390,8 @@ public class GameSearch implements Runnable {
                 pnlGameCoverPane.removeAll();
                 // Create the new GameCover object
                 foundGameCover = new Game(libraryUI.getGridSplit(), coreUI,
-                        libraryUI
-                        .getDashboardUI(), storage);
+                                          libraryUI
+                                          .getDashboardUI(), storage);
                 try {
                     foundGameCover.setCoverUrl(foundGame);
                 } catch (MalformedURLException ex) {
@@ -457,10 +460,10 @@ public class GameSearch implements Runnable {
             while (attempt >= 0) {
 
                 String whereQuery = "GAME_NAME='" + gameName.replace("'", "''")
-                                    + "'";
+                                            + "'";
                 ResultSet rs = null;
                 rs = db.flexQuery("SELECT " + columnCSV + " FROM "
-                                  + tableName + " WHERE " + whereQuery);
+                                          + tableName + " WHERE " + whereQuery);
 
                 // Check if found a match
                 if (rs.getRow() > 0) {
@@ -475,7 +478,7 @@ public class GameSearch implements Runnable {
                         case 0: // First attempt: remove garbage characters
                             if (gameName.matches("^.*[©®™°²³º¼½¾].*$")) {
                                 gameName = gameName.replaceAll("[©®™°²³º¼½¾]",
-                                        "");
+                                                               "");
                                 break;
                             }
                         case 1: // Second attempt: add spaces between Letters
@@ -526,7 +529,7 @@ public class GameSearch implements Runnable {
 
             // Check if Upper case is detected
             if (Character.isUpperCase(c)
-                && tempString.length() - 2 > 0) {
+                        && tempString.length() - 2 > 0) {
 
                 // Afterward check if previous char is lowercase
                 Character c2 = tempString.charAt(tempString.length() - 2);
@@ -537,9 +540,10 @@ public class GameSearch implements Runnable {
 
                     // Add space
                     modifiedText = modifiedText.substring(0, spaceIndex)
-                                   + " " + modifiedText.substring(spaceIndex,
-                            modifiedText
-                            .length());
+                                           + " " + modifiedText.substring(
+                                    spaceIndex,
+                                    modifiedText
+                                    .length());
 
                 }
 
@@ -572,13 +576,13 @@ public class GameSearch implements Runnable {
             ResultSet rs = null;
             try {
                 rs = db.flexQuery("SELECT "
-                                  + column
-                                  + " FROM "
-                                  + tableName
-                                  + " WHERE "
-                                  + whereQuery
-                                  + " LIKE '%"
-                                  + tempName
+                                          + column
+                                          + " FROM "
+                                          + tableName
+                                          + " WHERE "
+                                          + whereQuery
+                                          + " LIKE '%"
+                                          + tempName
                         .replace("'", "''") + "%'");
 
                 // Check if found a match
@@ -630,8 +634,8 @@ public class GameSearch implements Runnable {
                     }
 
                     foundArray = db.searchAprox("AuroraTable", "FILE_NAME",
-                            "GAME_NAME", AppendedName
-                            .toString());
+                                                "GAME_NAME", AppendedName
+                                                .toString());
                 } catch (SQLException ex) {
                     logger.error(ex);
                 }
@@ -654,7 +658,7 @@ public class GameSearch implements Runnable {
                                     String gameItem = (String) foundArray[i];
                                     if (!listModel.contains(gameItem
                                             .replace("-", " ").replace(".png",
-                                                    ""))) {
+                                                                       ""))) {
                                         listModel.addElement(gameItem
                                                 .replace("-", " ").replace(
                                                         ".png",
@@ -678,9 +682,9 @@ public class GameSearch implements Runnable {
                     if (notFoundCover == null) {
                         // Create the new GameCover object
                         notFoundCover = new Game(libraryUI.getGridSplit(),
-                                coreUI,
-                                libraryUI
-                                .getDashboardUI(), storage);
+                                                 coreUI,
+                                                 libraryUI
+                                                 .getDashboardUI(), storage);
                         try {
                             notFoundCover.setCoverUrl("library_noGameFound.png");
                         } catch (MalformedURLException ex) {
@@ -719,8 +723,8 @@ public class GameSearch implements Runnable {
 
                     // Set up GameCover object with First Database item found
                     foundGameCover = new Game(libraryUI.getGridSplit(), coreUI,
-                            libraryUI.getDashboardUI(),
-                            storage);
+                                              libraryUI.getDashboardUI(),
+                                              storage);
                     try {
                         foundGameCover.setCoverUrl(foundGame); //use seperate string
                     } catch (MalformedURLException ex) {
@@ -728,7 +732,7 @@ public class GameSearch implements Runnable {
                     }
                     foundGameCover.setCoverSize(imgBlankCover
                             .getImageWidth(), imgBlankCover
-                            .getImageHeight());
+                                                .getImageHeight());
                     foundGameCover.setGameName(foundGame.replace("-", " ")
                             .replace(
                                     ".png", ""));
@@ -769,8 +773,8 @@ public class GameSearch implements Runnable {
                 if (notFoundCover == null) {
                     // Create the new GameCover object
                     notFoundCover = new Game(libraryUI.getGridSplit(), coreUI,
-                            libraryUI
-                            .getDashboardUI(), storage);
+                                             libraryUI
+                                             .getDashboardUI(), storage);
                     try {
                         notFoundCover.setCoverUrl("library_noGameFound.png");
                     } catch (MalformedURLException ex) {
@@ -811,6 +815,8 @@ public class GameSearch implements Runnable {
 
         searchGame();
         statusIcon.setImgURl("addUI_img_autoSearchOn.png");
+
+        DEFAULT_SEARCH_TEXT = "Search For Game...";
     }
 
     public void disableSearch() {
@@ -819,6 +825,8 @@ public class GameSearch implements Runnable {
 
         searchGame();
         statusIcon.setImgURl("addUI_img_autoSearchOff.png");
+
+        DEFAULT_SEARCH_TEXT = "Enter Name Of Game...";
     }
 
     public boolean isSearchEnabled() {

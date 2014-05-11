@@ -7,6 +7,7 @@ package aurora.V1.core.screen_ui;
 
 import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
+import aurora.V1.core.GameSearch;
 import aurora.V1.core.main;
 import aurora.V1.core.screen_handler.LibraryHandler;
 import aurora.V1.core.screen_logic.LibraryLogic;
@@ -58,6 +59,8 @@ import javax.swing.event.ChangeListener;
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class AddGameUI {
+
+
 
     private final AuroraCoreUI coreUI;
 
@@ -252,6 +255,9 @@ public class AddGameUI {
         //
         // Central Panel Components
         //
+
+        gameFileChooser_addUI = new JFileChooser(System.getProperty("user.home"));
+
         pnlManualAdd = new JPanel(new BorderLayout());
         pnlManualAdd.setOpaque(false);
 
@@ -325,7 +331,7 @@ public class AddGameUI {
         gamesList_addUI = new JList<>();
         listModel_addUI = new DefaultListModel<>();
 
-        gameFileChooser_addUI = new JFileChooser(System.getProperty("user.home"));
+
 
         // Set up File Chooser UI //
         try {
@@ -394,7 +400,7 @@ public class AddGameUI {
                                      new FlowLayout(FlowLayout.RIGHT, 5, -1));
         pnlSearchBG.setLayout(new BorderLayout(0, -1));
 
-        txtSearchField_addUI = new JTextField("Search For Game...");
+        txtSearchField_addUI = new JTextField(GameSearch.DEFAULT_SEARCH_TEXT);
 
         pnlAddGameSearchContainer = new JPanel(new FlowLayout(
                 FlowLayout.LEFT, 0, 5));
@@ -657,7 +663,7 @@ public class AddGameUI {
             txtSearchField_addUI.setFont(coreUI.getRopaFont().deriveFont(
                     Font.PLAIN,
                     libraryUI.getGameNameFontSize() - 3));
-            txtSearchField_addUI.setForeground(Color.gray);
+            txtSearchField_addUI.setForeground(Color.darkGray);
             txtSearchField_addUI.setOpaque(false);
             txtSearchField_addUI.setBorder(null);
             txtSearchField_addUI.setBorder(BorderFactory.createEmptyBorder());
@@ -1015,15 +1021,14 @@ public class AddGameUI {
                                 btnManual.setUnSelected();
                             }
 
-                            txtSearchField_addUI.setText("");
+                            libraryLogic.getGameSearch_addUI().enableSearch();
+                            libraryLogic.getGameSearch_addUI().resetCover();
+
 
                             coverArtStatusIndicator.setImgURl(
                                     "addUI_badge_idle.png");
                             gameLocationStatusIndicator.setImgURl(
                                     "addUI_badge_idle.png");
-
-                            libraryLogic.getGameSearch_addUI().enableSearch();
-                            libraryLogic.getGameSearch_addUI().resetCover();
 
                             addGameAnimator.setInitialLocation(
                                     (coreUI.getFrame().getWidth() / 2)
@@ -1038,15 +1043,14 @@ public class AddGameUI {
                             addGameAnimator.moveVertical(0, 33);
                             pnlAddGamePane.revalidate();
 
-                            txtSearchField_addUI.setFocusable(true);
-
                             addGameAnimator.addPostAnimationListener(
                                     new APostHandler() {
                                         @Override
                                         public void doAction() {
                                             libraryUI.setIsAddGameUI_Visible(
                                                     true);
-                                            txtSearchField_addUI.requestFocus();
+//                                            txtSearchField_addUI.requestFocus();
+
                                         }
                                     });
                         }

@@ -209,7 +209,7 @@ public class LibraryLogic implements AuroraScreenLogic {
             logger.error(ex);
         }
 
-        gridSearch = new GridSearch(libraryUI,  libraryHandler);
+        gridSearch = new GridSearch(libraryUI, libraryHandler);
         gameSearch_addUI = new GameSearch(libraryUI, coverDB);
         gameSearch_editUI = new GameSearch(libraryUI, coverDB);
         gameSearch_autoUI = new GameSearch(libraryUI, coverDB);
@@ -253,7 +253,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             // check that favorite states are not null
             if (libraryUI.getStorage().getStoredLibrary().getFaveStates()
-                != null) {
+                        != null) {
                 libHasFavourites = true;
             }
 
@@ -610,14 +610,15 @@ public class LibraryLogic implements AuroraScreenLogic {
         //Load Second Panel if exists -- SMART LOAD
         if (currentGrid < libraryUI.getGridSplit().getArray().size() - 1) {
             for (int i = 0; i
-                            < libraryUI.getGridSplit().getGrid(currentGrid + 1)
+                                    < libraryUI.getGridSplit().getGrid(
+                            currentGrid + 1)
                     .getArray()
                     .size(); i++) {
                 Game game = new Game(libraryUI.getGridSplit(), coreUI,
                                      dashboardUI);
                 try {
                     game = (Game) libraryUI.getGridSplit().getGrid(currentGrid
-                                                                   + 1)
+                                                                           + 1)
                             .getArray()
                             .get(i);
 
@@ -722,15 +723,15 @@ public class LibraryLogic implements AuroraScreenLogic {
                 .getAddGameUI().getAddGameToLibraryButton().isVisible());
         System.out.println("==");
         if (libraryUI.getAddGameUI().isCoverArtStatusIndicatorValid()
-            && libraryUI.getAddGameUI().isGameLocationStatusValid()
-            && !libraryUI
+                    && libraryUI.getAddGameUI().isGameLocationStatusValid()
+                    && !libraryUI
                 .getAddGameUI().getAddGameToLibraryButton().isVisible()) {
 
             //Animate the Button below Add Game UI//
             animateAddButtonDown();
 
         } else if ((!libraryUI.getAddGameUI().isCoverArtStatusIndicatorValid()
-                    && !libraryUI.getAddGameUI()
+                            && !libraryUI.getAddGameUI()
                 .isGameLocationStatusValid()) && libraryUI.getAddGameUI()
                 .getAddGameToLibraryButton().isVisible()) {
 
@@ -1475,7 +1476,7 @@ public class LibraryLogic implements AuroraScreenLogic {
         if (coreUI.getOS().contains("Windows")) {
             try {
                 String loc = "\"" + System.getenv("APPDATA")
-                             + "\\Microsoft\\Internet Explorer\\Quick Launch\\Shows Desktop.lnk"
+                                     + "\\Microsoft\\Internet Explorer\\Quick Launch\\Shows Desktop.lnk"
                              + "\"";
                 Runtime.getRuntime().exec(
                         new String[]{
@@ -1620,11 +1621,15 @@ public class LibraryLogic implements AuroraScreenLogic {
             if (libraryUI.isAddGameUIVisible()) {
                 libraryUI.getAddGameUI().setCoverArtIndicator(true);
                 gameSearch_addUI.disableSearch();
+                gameSearch_addUI.getTxtSearch().setText(
+                        GameSearch.DEFAULT_SEARCH_TEXT);
                 gameSearch_addUI.getTxtSearch().requestFocusInWindow();
 
             } else if (libraryUI.isEditGameUIVisible()) {
                 libraryUI.getEditGameUI().setGameCoverInicator(true);
                 gameSearch_editUI.disableSearch();
+                gameSearch_addUI.getTxtSearch().setText(
+                        GameSearch.DEFAULT_SEARCH_TEXT);
                 gameSearch_editUI.getTxtSearch().requestFocusInWindow();
 
             }

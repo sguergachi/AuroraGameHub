@@ -74,6 +74,7 @@ import org.apache.log4j.Logger;
  * <p/>
  */
 public class LibraryUI extends AuroraApp {
+   
 
     /**
      * Search Button to activate focus on Library Search Bar.

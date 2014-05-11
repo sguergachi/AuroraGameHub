@@ -1184,43 +1184,43 @@ public class LibraryHandler implements
             if (!libraryUI.isAddGameUIVisible()) {
                 if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode()
                                                                == KeyEvent.VK_B
-                            || e.getKeyCode() == KeyEvent.VK_C || e.getKeyCode()
-                                                                          == KeyEvent.VK_D
-                    || e.getKeyCode() == KeyEvent.VK_E || e.getKeyCode()
-                                                                  == KeyEvent.VK_F
-                    || e.getKeyCode() == KeyEvent.VK_G || e.getKeyCode()
-                                                                  == KeyEvent.VK_H
-                    || e.getKeyCode() == KeyEvent.VK_I || e.getKeyCode()
-                                                                  == KeyEvent.VK_J
-                    || e.getKeyCode() == KeyEvent.VK_K || e.getKeyCode()
-                                                                  == KeyEvent.VK_L
-                    || e.getKeyCode() == KeyEvent.VK_M || e.getKeyCode()
-                                                                  == KeyEvent.VK_N
-                    || e.getKeyCode() == KeyEvent.VK_O || e.getKeyCode()
-                                                                  == KeyEvent.VK_P
-                    || e.getKeyCode() == KeyEvent.VK_Q || e.getKeyCode()
-                                                                  == KeyEvent.VK_R
-                    || e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode()
-                                                                  == KeyEvent.VK_T
-                    || e.getKeyCode() == KeyEvent.VK_U || e.getKeyCode()
-                                                                  == KeyEvent.VK_V
-                    || e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode()
-                                                                  == KeyEvent.VK_X
-                    || e.getKeyCode() == KeyEvent.VK_Y || e.getKeyCode()
-                                                                  == KeyEvent.VK_Z
-                    || e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode()
-                                                                      == KeyEvent.VK_1
-                    || e.getKeyCode() == KeyEvent.VK_2 || e.getKeyCode()
-                                                                  == KeyEvent.VK_3
-                    || e.getKeyCode() == KeyEvent.VK_4 || e.getKeyCode()
-                                                                  == KeyEvent.VK_5
-                    || e.getKeyCode() == KeyEvent.VK_6 || e.getKeyCode()
-                                                                  == KeyEvent.VK_7
-                    || e.getKeyCode() == KeyEvent.VK_8 || e.getKeyCode()
-                                                                  == KeyEvent.VK_9
-                    || e.getKeyCode() == KeyEvent.VK_0 || e.getKeyCode()
-                                                                  == KeyEvent.VK_QUOTE
-                    || e.getKeyCode() == KeyEvent.VK_PERIOD) {
+                            || e.getKeyCode() == KeyEvent.VK_C
+                            || e.getKeyCode() == KeyEvent.VK_D
+                            || e.getKeyCode() == KeyEvent.VK_E
+                            || e.getKeyCode() == KeyEvent.VK_F
+                            || e.getKeyCode() == KeyEvent.VK_G
+                            || e.getKeyCode() == KeyEvent.VK_H
+                            || e.getKeyCode() == KeyEvent.VK_I
+                            || e.getKeyCode() == KeyEvent.VK_J
+                            || e.getKeyCode() == KeyEvent.VK_K
+                            || e.getKeyCode() == KeyEvent.VK_L
+                            || e.getKeyCode() == KeyEvent.VK_M
+                            || e.getKeyCode() == KeyEvent.VK_N
+                            || e.getKeyCode() == KeyEvent.VK_O
+                            || e.getKeyCode() == KeyEvent.VK_P
+                            || e.getKeyCode() == KeyEvent.VK_Q
+                            || e.getKeyCode() == KeyEvent.VK_R
+                            || e.getKeyCode() == KeyEvent.VK_S
+                            || e.getKeyCode() == KeyEvent.VK_T
+                            || e.getKeyCode() == KeyEvent.VK_U
+                            || e.getKeyCode() == KeyEvent.VK_V
+                            || e.getKeyCode() == KeyEvent.VK_W
+                            || e.getKeyCode() == KeyEvent.VK_X
+                            || e.getKeyCode() == KeyEvent.VK_Y
+                            || e.getKeyCode() == KeyEvent.VK_Z
+                            || e.getKeyCode() == KeyEvent.VK_SPACE
+                            || e.getKeyCode() == KeyEvent.VK_1
+                            || e.getKeyCode() == KeyEvent.VK_2
+                            || e.getKeyCode() == KeyEvent.VK_3
+                            || e.getKeyCode() == KeyEvent.VK_4
+                            || e.getKeyCode() == KeyEvent.VK_5
+                            || e.getKeyCode() == KeyEvent.VK_6
+                            || e.getKeyCode() == KeyEvent.VK_7
+                            || e.getKeyCode() == KeyEvent.VK_8
+                            || e.getKeyCode() == KeyEvent.VK_9
+                            || e.getKeyCode() == KeyEvent.VK_0
+                            || e.getKeyCode() == KeyEvent.VK_QUOTE
+                            || e.getKeyCode() == KeyEvent.VK_PERIOD) {
                     //Sends the key to the search engine to be appended and check for match
                     libraryLogic.getGridSearch().typedChar(e.getKeyChar());
 
@@ -1249,55 +1249,40 @@ public class LibraryHandler implements
         public void keyReleased(KeyEvent e) {
             //pressing any Number or Letter can activate this
             if (!libraryUI.isAddGameUIVisible()) {
-                if (//e.getKeyCode() == KeyEvent.VK_A
-                        e.getKeyCode() == KeyEvent.VK_B || e.getKeyCode()
-                                                                   == KeyEvent.VK_C // || e.getKeyCode() == KeyEvent.VK_D
-                        || e.getKeyCode() == KeyEvent.VK_E
-                                || e.getKeyCode() == KeyEvent.VK_F
-                        || e.getKeyCode()
-                                   == KeyEvent.VK_G
-                                || e.getKeyCode() == KeyEvent.VK_H
-                        || e.getKeyCode()
-                                   == KeyEvent.VK_I
-                                || e.getKeyCode() == KeyEvent.VK_J
-                        || e.getKeyCode()
-                                   == KeyEvent.VK_K
-                                || e.getKeyCode() == KeyEvent.VK_L
-                        || e.getKeyCode()
-                                   == KeyEvent.VK_M
-                                || e.getKeyCode() == KeyEvent.VK_N
-                        || e.getKeyCode()
-                                   == KeyEvent.VK_O
-                                || e.getKeyCode() == KeyEvent.VK_P
-                        || e.getKeyCode()
-                                   == KeyEvent.VK_Q
-                                || e.getKeyCode() == KeyEvent.VK_R // || e.getKeyCode() == KeyEvent.VK_S
-                                || e.getKeyCode() == KeyEvent.VK_T
-                                || e.getKeyCode() == KeyEvent.VK_U
-                        || e.getKeyCode()
-                                   == KeyEvent.VK_V // || e.getKeyCode() == KeyEvent.VK_W
-                                || e.getKeyCode() == KeyEvent.VK_X
-                                || e.getKeyCode() == KeyEvent.VK_Y
-                        || e.getKeyCode()
-                                   == KeyEvent.VK_Z
-                                || e.getKeyCode() == KeyEvent.VK_1
-                        || e.getKeyCode()
-                                   == KeyEvent.VK_2
-                                || e.getKeyCode() == KeyEvent.VK_3
-                        || e.getKeyCode()
-                                   == KeyEvent.VK_4
-                                || e.getKeyCode() == KeyEvent.VK_5
-                        || e.getKeyCode()
-                                   == KeyEvent.VK_6
-                                || e.getKeyCode() == KeyEvent.VK_7
-                        || e.getKeyCode()
-                                   == KeyEvent.VK_8
-                                || e.getKeyCode() == KeyEvent.VK_9
-                        || e.getKeyCode()
-                                   == KeyEvent.VK_0
-                                || e.getKeyCode() == KeyEvent.VK_QUOTE
-                        || e.getKeyCode()
-                                   == KeyEvent.VK_PERIOD) {
+                if (e.getKeyCode() == KeyEvent.VK_B || e.getKeyCode()
+                                                               == KeyEvent.VK_C
+                            || e.getKeyCode() == KeyEvent.VK_E
+                            || e.getKeyCode() == KeyEvent.VK_F
+                            || e.getKeyCode() == KeyEvent.VK_G
+                            || e.getKeyCode() == KeyEvent.VK_H
+                            || e.getKeyCode() == KeyEvent.VK_I
+                            || e.getKeyCode() == KeyEvent.VK_J
+                            || e.getKeyCode() == KeyEvent.VK_K
+                            || e.getKeyCode() == KeyEvent.VK_L
+                            || e.getKeyCode() == KeyEvent.VK_M
+                            || e.getKeyCode() == KeyEvent.VK_N
+                            || e.getKeyCode() == KeyEvent.VK_O
+                            || e.getKeyCode() == KeyEvent.VK_P
+                            || e.getKeyCode() == KeyEvent.VK_Q
+                            || e.getKeyCode() == KeyEvent.VK_R
+                            || e.getKeyCode() == KeyEvent.VK_T
+                            || e.getKeyCode() == KeyEvent.VK_U
+                            || e.getKeyCode() == KeyEvent.VK_V
+                            || e.getKeyCode() == KeyEvent.VK_X
+                            || e.getKeyCode() == KeyEvent.VK_Y
+                            || e.getKeyCode() == KeyEvent.VK_Z
+                            || e.getKeyCode() == KeyEvent.VK_1
+                            || e.getKeyCode() == KeyEvent.VK_2
+                            || e.getKeyCode() == KeyEvent.VK_3
+                            || e.getKeyCode() == KeyEvent.VK_4
+                            || e.getKeyCode() == KeyEvent.VK_5
+                            || e.getKeyCode() == KeyEvent.VK_6
+                            || e.getKeyCode() == KeyEvent.VK_7
+                            || e.getKeyCode() == KeyEvent.VK_8
+                            || e.getKeyCode() == KeyEvent.VK_9
+                            || e.getKeyCode() == KeyEvent.VK_0
+                            || e.getKeyCode() == KeyEvent.VK_QUOTE
+                            || e.getKeyCode() == KeyEvent.VK_PERIOD) {
 
                     //Set first character of Search Box to the key typed
                     SearchBar.setText(String.valueOf(e.getKeyChar()));
@@ -1347,17 +1332,20 @@ public class LibraryHandler implements
 
         @Override
         public void focusGained(FocusEvent e) {
-
+            if (!(txtBackground instanceof ATextField)) {
+                txtBackground.setImage(
+                        "addUI_text_active.png");
+                txtBackground.repaint();
+            }
+            txtField.setCaretColor(Color.cyan);
             if (txtField.getText().equals(
-                    "Search For Game...") || txtField.getText().equals("")) {
+                    GameSearch.DEFAULT_SEARCH_TEXT)
+                        || txtField.getText().equals("")) {
                 txtField.setText("");
-                txtField.setCaretColor(Color.cyan);
+
                 gameSearch.resetCover();
                 txtField.setForeground(new Color(23, 139, 255));
-                if (!(txtBackground instanceof ATextField)) {
-                    txtBackground.setImage(
-                            "addUI_text_active.png");
-                }
+
 
             }
 
@@ -1375,7 +1363,7 @@ public class LibraryHandler implements
                 }
                 if (txtField.getText().length() < 1) {
                     txtField.setText(
-                            "Search For Game...");
+                            GameSearch.DEFAULT_SEARCH_TEXT);
                     txtField.setForeground(Color.darkGray);
                     if (!(txtBackground instanceof ATextField)) {
                         txtBackground.setImage(
@@ -1406,7 +1394,7 @@ public class LibraryHandler implements
             if (extension != null) {
                 if (extension.equals("exe") || extension.equals("app")
                             || extension.equals("lnk")
-                    || extension.equals("url")
+                            || extension.equals("url")
                             || extension.equals("bat")) {
 
                     return true;
@@ -1600,7 +1588,7 @@ public class LibraryHandler implements
         public void mousePressed(MouseEvent e) {
 
             if (txtField.getText().equals(
-                    "Search For Game...")) {
+                    GameSearch.DEFAULT_SEARCH_TEXT)) {
                 txtField.requestFocus();
                 txtField.setText("");
                 gameSearch.resetCover();
@@ -2599,7 +2587,7 @@ public class LibraryHandler implements
                             if (libraryLogic.getGameSearch_editUI()
                                     .getCurrentlySearchedGame().getName()
                                         == null
-                                || !libraryLogic.getGameSearch_editUI()
+                                        || !libraryLogic.getGameSearch_editUI()
                                     .isSearchEnabled()) {
                                 editGameName = libraryLogic
                                         .getGameSearch_editUI()
