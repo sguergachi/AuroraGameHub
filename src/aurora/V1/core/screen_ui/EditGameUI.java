@@ -36,6 +36,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -164,8 +165,7 @@ public class EditGameUI {
 
     private AAnimate editGameAnimator;
 
-    private boolean gameCoverChanged;
-
+//    private boolean gameCoverChanged;
     private boolean gameLocationChanged;
 
     private boolean gameCoverStatusEnabled;
@@ -487,10 +487,10 @@ public class EditGameUI {
             pnlGlass.setLayout(null);
 
             // Set Location for Edit Game UI panels
-            pnlEditGamePane.setLocation((coreUI.getFrame().getWidth() / 2) -
-                                        (addGameUI.getPnlAddGamePane()
-                                        .getImgIcon()
-                                        .getIconWidth() / 2), -380);
+            pnlEditGamePane.setLocation((coreUI.getFrame().getWidth() / 2)
+                                                - (addGameUI.getPnlAddGamePane()
+                    .getImgIcon()
+                    .getIconWidth() / 2), -380);
             pnlEditGamePane
                     .setSize(
                             new Dimension(addGameUI.getPnlAddGamePane()
@@ -511,7 +511,7 @@ public class EditGameUI {
                     Font.PLAIN, 13));
             lblCurrentName_editUI.setForeground(Color.LIGHT_GRAY);
             lblCurrentName_editUI.setText("  " + currentGameBeingEdited
-                                          .getName());
+                    .getName());
             imgCurrentGame_editUI
                     .setImage(currentGameBeingEdited.getCoverImagePane()
                             .getImgIcon(),
@@ -605,8 +605,8 @@ public class EditGameUI {
                     .setPreferredSize(new Dimension(txtCurrentLocation_editUI
                                     .getImageWidth(),
                                                     pnlEditGamePane
-                                                    .getRealImageHeight() / 2 +
-                                                    15));
+                                                    .getRealImageHeight() / 2
+                                                            + 15));
             pnlGameFileChooser_editUI.setBackground(new Color(38, 46, 60));
 
             gameFileChooser_editUI.setPreferredSize(new Dimension(
@@ -657,8 +657,7 @@ public class EditGameUI {
             //
             gamesList_editUI.setPreferredSize(
                     new Dimension(pnlCoverPane_editUI.getImgIcon()
-                            .getIconWidth() +
-                                  110,
+                            .getIconWidth() + 110,
                                   pnlCoverPane_editUI.getImgIcon()
                                   .getIconHeight()));
             gamesList_editUI.setForeground(Color.lightGray);
@@ -705,7 +704,7 @@ public class EditGameUI {
             lblGameCoverSearch.setFont(coreUI.getRopaFont().deriveFont(
                     Font.PLAIN, 22));
 
-            txtGameCoverSearch_editUI.getTextBox().setForeground(Color.gray);
+            txtGameCoverSearch_editUI.getTextBox().setForeground(Color.darkGray);
             txtGameCoverSearch_editUI.getTextBox().setFont(coreUI
                     .getRopaFont()
                     .deriveFont(
@@ -761,12 +760,14 @@ public class EditGameUI {
                     libraryHandler.new UnselectSettingListener(lblOther_editUI));
 
             txtGameCoverSearch_editUI.getTextBox()
-                    .addFocusListener(libraryHandler.new GameSearchBoxFocusHandler(
+                    .addFocusListener(
+                            libraryHandler.new GameSearchBoxFocusHandler(
                                     txtGameCoverSearch_editUI.getTextBox(),
                                     txtGameCoverSearch_editUI, libraryLogic
                                     .getGameSearch_editUI()));
             txtGameCoverSearch_editUI.getTextBox()
-                    .addMouseListener(libraryHandler.new GameSearchBoxMouseHandler(
+                    .addMouseListener(
+                            libraryHandler.new GameSearchBoxMouseHandler(
                                     txtGameCoverSearch_editUI.getTextBox(),
                                     txtGameCoverSearch_editUI, libraryLogic
                                     .getGameSearch_editUI()));
@@ -801,7 +802,7 @@ public class EditGameUI {
                 game.getGameName())) {
             currentGameBeingEdited = game;
             lblCurrentName_editUI.setText("  " + currentGameBeingEdited
-                                          .getName());
+                    .getName());
             imgCurrentGame_editUI
                     .setImage(currentGameBeingEdited.getCoverImagePane()
                             .getImgIcon(),
@@ -813,15 +814,15 @@ public class EditGameUI {
 
         // reset UI
         txtNewLocation_editUI.setText("");
-        txtGameCoverSearch_editUI.getTextBox().setText("");
+//        txtGameCoverSearch_editUI.getTextBox().setText("");
         gameLocationStatusIndicator.setImgURl("addUI_badge_idle.png");
         gameCoverStatusIndicator.setImgURl("addUI_badge_idle.png");
         libraryLogic.getGameSearch_editUI().resetCover();
 
         // First to be selected when edit UI summoned
-        if (!btnGameLocation_editUI.isSelected &&
-            !btnGameCover_editUI.isSelected &&
-            !btnOther_editUI.isSelected) {
+        if (!btnGameLocation_editUI.isSelected
+                    && !btnGameCover_editUI.isSelected
+                    && !btnOther_editUI.isSelected) {
             btnGameCover_editUI.setSelected();
         }
 
@@ -871,10 +872,31 @@ public class EditGameUI {
     public void showEditGameUI(final Game game) {
 
         // Check if other UI panels are already visible and hide them
-
+        // Also hide and reshow based on whether a diffrent game is being edited
         if (libraryUI.isAddGameUIVisible()) {
             addGameUI.hideAddGameUI();
             showEditGameUI(game);
+        } else if (libraryUI.isEditGameUIVisible() && currentGameBeingEdited
+                                                              != game) {
+            hideEditGameUI();
+
+            // Wait till after the hide animation to reshow the edit UI
+            editGameAnimator.appendPostAnimationListener(new APostHandler() {
+
+                @Override
+                public void doAction() {
+                    try {
+                        Thread.sleep(100);
+                        showEditGameUI(game);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(EditGameUI.class.getName()).log(
+                                Level.SEVERE,
+                                null,
+                                ex);
+                    }
+                }
+            });
+
         } else if (libraryUI.isEditGameUIVisible()) {
             hideEditGameUI();
         } else {
@@ -909,20 +931,10 @@ public class EditGameUI {
 
 
                             editGameAnimator.setInitialLocation(
-                                    (coreUI.getFrame().getWidth() / 2) -
-                                    (pnlEditGamePane.getImgIcon()
+                                    (coreUI.getFrame().getWidth() / 2)
+                                            - (pnlEditGamePane.getImgIcon()
                                     .getIconWidth() / 2), -390);
                             editGameAnimator.moveVertical(0, 33);
-
-                            libraryLogic.getGameSearch_addUI().resetCover();
-
-                            editGameAnimator.addPostAnimationListener(
-                                    new APostHandler() {
-                                        @Override
-                                        public void doAction() {
-
-                                        }
-                                    });
 
                             pnlEditGamePane.revalidate();
 
@@ -981,14 +993,7 @@ public class EditGameUI {
 
             libraryUI.getSearchBar().requestFocus();
             coreUI.getFrame().requestFocus();
-//
-//            try {
-//                Thread.sleep(20);
-//            } catch (InterruptedException ex) {
-//                logger.error(ex);
-//            }
-//
-//            coreUI.getFrame().requestFocus();
+
         }
 
     }
@@ -1048,8 +1053,6 @@ public class EditGameUI {
             pnlLeftPane_editUI.revalidate();
             pnlLeftPane_editUI.repaint();
 
-            setGameCoverChanged(true);
-
             pnlLeftPane_editUI.add(pnlGameCover_editUI);
             pnlLeftPane_editUI.revalidate();
             pnlLeftPane_editUI.repaint();
@@ -1057,6 +1060,7 @@ public class EditGameUI {
             txtGameCoverSearch_editUI.getTextBox().requestFocusInWindow();
             libraryLogic.getGameSearch_editUI().enableSearch();
             libraryLogic.getGameSearch_editUI().resetCover();
+            this.resetGameCoverIndicator();
         }
     }
 
@@ -1075,10 +1079,6 @@ public class EditGameUI {
     //
     // Setters and Getters
     //
-    public void setGameCoverChanged(boolean isGameCover) {
-        this.gameCoverChanged = isGameCover;
-    }
-
     public boolean isGameCoverChanged() {
         return txtGameCoverSearch_editUI.getText().length() > 0;
     }

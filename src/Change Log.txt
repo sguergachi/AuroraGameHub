@@ -8,6 +8,7 @@
 // Aurora_Alpha 10  Build:  Date:  || Sammy Guergachi, Carlos Machado
 ////////////////////////////////////////////------------------------------------
 
++ Made a lot of UX improvements
 
 
 - Fixed pressing Done button in Edit Cover UI to many times causing issues

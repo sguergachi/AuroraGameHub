@@ -89,7 +89,7 @@ public class LibraryUI extends AuroraApp {
     /**
      * Button to Exit out of Library Search.
      */
-    private AButton removeSearchButton;
+    private AButton btnRemoveSearch;
 
     /**
      * Hover Button to navigate Right in Library.
@@ -369,7 +369,7 @@ public class LibraryUI extends AuroraApp {
         //
         pnlSearchBarBG = new AImagePane("library_searchBar_inactive.png",
                                         new BorderLayout());
-        removeSearchButton = new AButton("library_btnCancelSearch_norm.png",
+        btnRemoveSearch = new AButton("library_btnCancelSearch_norm.png",
                                          "library_btnCancelSearch_down.png",
                                          "library_btnCancelSearch_over.png");
         txtGridSearchField = new JTextField("Just Start Typing...");
@@ -467,7 +467,7 @@ public class LibraryUI extends AuroraApp {
             // ----------------------------------------------------------------.
             pnlSearchBarBG.setPreferredSize(new Dimension(SearchBarWidth,
                                                           50));
-            removeSearchButton.setPreferredSize(new Dimension(70, 51));
+            btnRemoveSearch.setPreferredSize(new Dimension(70, 51));
             // Search bar above grid
             txtGridSearchField.setOpaque(false);
             txtGridSearchField.setBorder(null);
@@ -1064,7 +1064,7 @@ public class LibraryUI extends AuroraApp {
     }
 
     public AButton getRemoveSearchButton() {
-        return removeSearchButton;
+        return btnRemoveSearch;
     }
 
     public JScrollPane getListScrollPane() {
