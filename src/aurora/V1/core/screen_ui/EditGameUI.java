@@ -67,33 +67,33 @@ public class EditGameUI {
 
     private JPanel pnlCenter_editUI;
 
-    private AImagePane pnlRightPane_editUI;
+    private AImagePane pnlRightPane;
 
-    private JPanel pnlTopRightPane_editUI;
+    private JPanel pnlTopRightPane;
 
-    private ASlickLabel lblCurrentName_editUI;
+    private ASlickLabel lblCurrentName;
 
-    private JPanel pnlCurrentName_editUI;
+    private JPanel pnlCurrentName;
 
-    private JPanel pnlCurrentImage_editUI;
+    private JPanel pnlCurrentImage;
 
-    private JPanel pnlCenterRight_editUI;
+    private JPanel pnlCenterRight;
 
     private AButton btnDone_editUI;
 
     private JPanel pnlLeftPane_editUI;
 
-    private ASlickLabel lblGameLocation_editUI;
+    private ASlickLabel lblGameLocation;
 
-    private ASlickLabel lblGameCover_editUI;
+    private ASlickLabel lblGameCover;
 
-    private ASlickLabel lblOther_editUI;
+    private ASlickLabel lblOther;
 
-    private ARadioButton btnGameLocation_editUI;
+    private ARadioButton btnGameLocation;
 
-    private ARadioButton btnGameCover_editUI;
+    private ARadioButton btnGameCover;
 
-    private ARadioButton btnOther_editUI;
+    private ARadioButton btnOther;
 
     private AButton btnClose_editUI;
 
@@ -219,20 +219,20 @@ public class EditGameUI {
         pnlCenter_editUI.setOpaque(false);
 
         // Right Menu Pane
-        pnlRightPane_editUI = new AImagePane("editUI_right.png");
-        pnlRightPane_editUI.setPreferredSize(new Dimension(pnlRightPane_editUI
-                .getRealImageWidth() + 5, pnlRightPane_editUI
+        pnlRightPane = new AImagePane("editUI_right.png");
+        pnlRightPane.setPreferredSize(new Dimension(pnlRightPane
+                .getRealImageWidth() + 5, pnlRightPane
                                                            .getRealImageHeight()));
-        pnlRightPane_editUI.setLayout(new BoxLayout(pnlRightPane_editUI,
+        pnlRightPane.setLayout(new BoxLayout(pnlRightPane,
                                                     BoxLayout.Y_AXIS));
 
         // Panel containing current Game cover with game name
-        pnlTopRightPane_editUI = new JPanel();
-        pnlTopRightPane_editUI.setLayout(new BoxLayout(pnlTopRightPane_editUI,
+        pnlTopRightPane = new JPanel();
+        pnlTopRightPane.setLayout(new BoxLayout(pnlTopRightPane,
                                                        BoxLayout.Y_AXIS));
-        pnlTopRightPane_editUI.setOpaque(false);
+        pnlTopRightPane.setOpaque(false);
 
-        lblCurrentName_editUI = new ASlickLabel("Game Name");
+        lblCurrentName = new ASlickLabel("Game Name");
 
         imgCurrentGame_editUI = new AImagePane("Blank-Case.png");
         imgCurrentGame_editUI.setImageSize(((imgCurrentGame_editUI
@@ -243,41 +243,41 @@ public class EditGameUI {
                 imgCurrentGame_editUI.getImageWidth(), imgCurrentGame_editUI
                 .getImageHeight() + 2));
 
-        pnlCurrentName_editUI = new JPanel();
-        pnlCurrentName_editUI.setOpaque(false);
-        pnlCurrentName_editUI.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        pnlCurrentName = new JPanel();
+        pnlCurrentName.setOpaque(false);
+        pnlCurrentName.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
-        pnlCurrentImage_editUI = new JPanel();
-        pnlCurrentImage_editUI.setOpaque(false);
-        pnlCurrentImage_editUI
+        pnlCurrentImage = new JPanel();
+        pnlCurrentImage.setOpaque(false);
+        pnlCurrentImage
                 .setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        pnlCurrentImage_editUI.setPreferredSize(new Dimension(
-                pnlRightPane_editUI.getRealImageWidth(), imgCurrentGame_editUI
+        pnlCurrentImage.setPreferredSize(new Dimension(
+                pnlRightPane.getRealImageWidth(), imgCurrentGame_editUI
                 .getImageHeight() - 5));
 
         // Panel containing Buttons to go between diffrent settings
-        pnlCenterRight_editUI = new JPanel();
-        pnlCenterRight_editUI.setOpaque(false);
-        pnlCenterRight_editUI.setLayout(new GridLayout(3, 1, 0, -6));
+        pnlCenterRight = new JPanel();
+        pnlCenterRight.setOpaque(false);
+        pnlCenterRight.setLayout(new GridLayout(3, 1, 0, -6));
 
-        btnGameLocation_editUI = new ARadioButton("editUI_btnSetting_norm.png",
+        btnGameLocation = new ARadioButton("editUI_btnSetting_norm.png",
                                                   "editUI_btnSetting_down.png");
-        btnGameLocation_editUI.setLayout(new BoxLayout(btnGameLocation_editUI,
+        btnGameLocation.setLayout(new BoxLayout(btnGameLocation,
                                                        BoxLayout.Y_AXIS));
 
-        btnGameCover_editUI = new ARadioButton("editUI_btnSetting_norm.png",
+        btnGameCover = new ARadioButton("editUI_btnSetting_norm.png",
                                                "editUI_btnSetting_down.png");
-        btnGameCover_editUI.setLayout(new BoxLayout(btnGameCover_editUI,
+        btnGameCover.setLayout(new BoxLayout(btnGameCover,
                                                     BoxLayout.Y_AXIS));
 
-        btnOther_editUI = new ARadioButton("editUI_btnSetting_norm.png",
+        btnOther = new ARadioButton("editUI_btnSetting_norm.png",
                                            "editUI_btnSetting_down.png");
-        btnOther_editUI.setLayout(new BoxLayout(btnOther_editUI,
+        btnOther.setLayout(new BoxLayout(btnOther,
                                                 BoxLayout.Y_AXIS));
 
-        lblGameLocation_editUI = new ASlickLabel(" Game Location ");
-        lblGameCover_editUI = new ASlickLabel(" Box Art ");
-        lblOther_editUI = new ASlickLabel(" Other ");
+        lblGameLocation = new ASlickLabel(" Game Location ");
+        lblGameCover = new ASlickLabel(" Box Art ");
+        lblOther = new ASlickLabel(" Other ");
 
         // Button when setting is done, to save.
         btnDone_editUI = new AButton("editUI_btnDone_norm.png",
@@ -507,10 +507,10 @@ public class EditGameUI {
             pnlTopPane_editUI.add(btnClose_editUI);
 
             // Right Menu Pane
-            lblCurrentName_editUI.setFont(coreUI.getRopaFont().deriveFont(
+            lblCurrentName.setFont(coreUI.getRopaFont().deriveFont(
                     Font.PLAIN, 13));
-            lblCurrentName_editUI.setForeground(Color.LIGHT_GRAY);
-            lblCurrentName_editUI.setText("  " + currentGameBeingEdited
+            lblCurrentName.setForeground(Color.LIGHT_GRAY);
+            lblCurrentName.setText("  " + currentGameBeingEdited
                     .getName());
             imgCurrentGame_editUI
                     .setImage(currentGameBeingEdited.getCoverImagePane()
@@ -519,63 +519,63 @@ public class EditGameUI {
                               imgCurrentGame_editUI
                               .getImageHeight());
 
-            pnlCurrentImage_editUI.add(imgCurrentGame_editUI);
-            pnlCurrentName_editUI.add(lblCurrentName_editUI);
+            pnlCurrentImage.add(imgCurrentGame_editUI);
+            pnlCurrentName.add(lblCurrentName);
 
-            pnlCurrentImage_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-            pnlCurrentName_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-            pnlTopRightPane_editUI.add(Box.createVerticalGlue());
-            pnlTopRightPane_editUI.add(pnlCurrentImage_editUI);
-            pnlTopRightPane_editUI.add(pnlCurrentName_editUI);
+            pnlCurrentImage.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            pnlCurrentName.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            pnlTopRightPane.add(Box.createVerticalGlue());
+            pnlTopRightPane.add(pnlCurrentImage);
+            pnlTopRightPane.add(pnlCurrentName);
 
-            lblGameLocation_editUI.setFont(coreUI.getRopaFont().deriveFont(
+            lblGameLocation.setFont(coreUI.getRopaFont().deriveFont(
                     Font.PLAIN, 25));
-            lblGameLocation_editUI.setForeground(Color.lightGray);
+            lblGameLocation.setForeground(Color.lightGray);
 
-            lblGameCover_editUI.setFont(coreUI.getRopaFont().deriveFont(
+            lblGameCover.setFont(coreUI.getRopaFont().deriveFont(
                     Font.PLAIN, 25));
-            lblGameCover_editUI.setForeground(Color.lightGray);
+            lblGameCover.setForeground(Color.lightGray);
 
-            lblOther_editUI.setFont(coreUI.getRopaFont().deriveFont(
+            lblOther.setFont(coreUI.getRopaFont().deriveFont(
                     Font.PLAIN, 25));
-            lblOther_editUI.setForeground(Color.lightGray);
+            lblOther.setForeground(Color.lightGray);
 
-            lblGameLocation_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-            btnGameLocation_editUI.add(Box.createVerticalStrut(btnOther_editUI
+            lblGameLocation.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            btnGameLocation.add(Box.createVerticalStrut(btnOther
                     .getRealImageHeight() / 4));
-            btnGameLocation_editUI.add(lblGameLocation_editUI);
+            btnGameLocation.add(lblGameLocation);
 
-            lblGameCover_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-            btnGameCover_editUI.add(Box.createVerticalStrut(btnOther_editUI
+            lblGameCover.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            btnGameCover.add(Box.createVerticalStrut(btnOther
                     .getRealImageHeight() / 4));
-            btnGameCover_editUI.add(lblGameCover_editUI);
+            btnGameCover.add(lblGameCover);
 
-            lblOther_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-            btnOther_editUI.add(Box.createVerticalStrut(btnOther_editUI
+            lblOther.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            btnOther.add(Box.createVerticalStrut(btnOther
                     .getRealImageHeight() / 4));
-            btnOther_editUI.add(lblOther_editUI);
+            btnOther.add(lblOther);
 
             ARadioButtonManager rdbManager = new ARadioButtonManager();
-            rdbManager.addButton(btnGameLocation_editUI);
-            rdbManager.addButton(btnGameCover_editUI);
-            rdbManager.addButton(btnOther_editUI);
+            rdbManager.addButton(btnGameLocation);
+            rdbManager.addButton(btnGameCover);
+            rdbManager.addButton(btnOther);
             rdbManager.setRadioButton();
 
-            btnGameLocation_editUI.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-            btnGameCover_editUI.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-            btnOther_editUI.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
-            pnlCenterRight_editUI.add(btnGameCover_editUI);
-            pnlCenterRight_editUI.add(btnGameLocation_editUI);
+            btnGameLocation.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+            btnGameCover.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+            btnOther.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+            pnlCenterRight.add(btnGameCover);
+            pnlCenterRight.add(btnGameLocation);
 
 //          pnlCenterRight_editUI.add(btnOther_editUI);
-            pnlTopRightPane_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-            pnlCenterRight_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            pnlTopRightPane.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            pnlCenterRight.setAlignmentX(JComponent.CENTER_ALIGNMENT);
             btnDone_editUI.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-            pnlRightPane_editUI.add(pnlTopRightPane_editUI);
-            pnlRightPane_editUI.add(pnlCenterRight_editUI);
-            pnlRightPane_editUI.add(Box.createVerticalStrut(10));
-            pnlRightPane_editUI.add(btnDone_editUI);
-            pnlRightPane_editUI.add(Box.createVerticalStrut(25));
+            pnlRightPane.add(pnlTopRightPane);
+            pnlRightPane.add(pnlCenterRight);
+            pnlRightPane.add(Box.createVerticalStrut(10));
+            pnlRightPane.add(btnDone_editUI);
+            pnlRightPane.add(Box.createVerticalStrut(25));
             //
             // Left Content Panel
             //
@@ -641,7 +641,7 @@ public class EditGameUI {
             //
             // Add major panels to component
             //
-            pnlCenter_editUI.add(pnlRightPane_editUI, BorderLayout.EAST);
+            pnlCenter_editUI.add(pnlRightPane, BorderLayout.EAST);
             pnlCenter_editUI.add(pnlLeftPane_editUI, BorderLayout.CENTER);
 
             pnlEditGamePane.add(pnlTopPane_editUI, BorderLayout.PAGE_START);
@@ -740,24 +740,24 @@ public class EditGameUI {
             pnlEditGamePane.addMouseListener(
                     libraryHandler.new EmptyMouseHandler());
 
-            btnGameLocation_editUI.setSelectedHandler(
+            btnGameLocation.setSelectedHandler(
                     libraryHandler.new GameLocationSettingListener(
-                            lblGameLocation_editUI));
-            btnGameLocation_editUI.setUnSelectedHandler(
+                            lblGameLocation));
+            btnGameLocation.setUnSelectedHandler(
                     libraryHandler.new UnselectSettingListener(
-                            lblGameLocation_editUI));
+                            lblGameLocation));
 
-            btnGameCover_editUI.setSelectedHandler(
+            btnGameCover.setSelectedHandler(
                     libraryHandler.new GameCoverSettingListener(
-                            lblGameCover_editUI));
-            btnGameCover_editUI.setUnSelectedHandler(
+                            lblGameCover));
+            btnGameCover.setUnSelectedHandler(
                     libraryHandler.new UnselectSettingListener(
-                            lblGameCover_editUI));
+                            lblGameCover));
 
-            btnOther_editUI.setSelectedHandler(
-                    libraryHandler.new OtherSettingListener(lblOther_editUI));
-            btnOther_editUI.setUnSelectedHandler(
-                    libraryHandler.new UnselectSettingListener(lblOther_editUI));
+            btnOther.setSelectedHandler(
+                    libraryHandler.new OtherSettingListener(lblOther));
+            btnOther.setUnSelectedHandler(
+                    libraryHandler.new UnselectSettingListener(lblOther));
 
             txtGameCoverSearch_editUI.getTextBox()
                     .addFocusListener(
@@ -798,10 +798,10 @@ public class EditGameUI {
 
             btnDone_editUI.addActionListener(
                     libraryHandler.new EditSettingDoneHandler());
-        } else if (!lblCurrentName_editUI.getText().trim().equals(
+        } else if (!lblCurrentName.getText().trim().equals(
                 game.getGameName())) {
             currentGameBeingEdited = game;
-            lblCurrentName_editUI.setText("  " + currentGameBeingEdited
+            lblCurrentName.setText("  " + currentGameBeingEdited
                     .getName());
             imgCurrentGame_editUI
                     .setImage(currentGameBeingEdited.getCoverImagePane()
@@ -820,10 +820,10 @@ public class EditGameUI {
         libraryLogic.getGameSearch_editUI().resetCover();
 
         // First to be selected when edit UI summoned
-        if (!btnGameLocation_editUI.isSelected
-                    && !btnGameCover_editUI.isSelected
-                    && !btnOther_editUI.isSelected) {
-            btnGameCover_editUI.setSelected();
+        if (!btnGameLocation.isSelected
+                    && !btnGameCover.isSelected
+                    && !btnOther.isSelected) {
+            btnGameCover.setSelected();
         }
 
     }
@@ -987,9 +987,9 @@ public class EditGameUI {
 
             editGameAnimator.removeAllListeners();
 
-            btnGameLocation_editUI.setUnSelected();
-            btnGameCover_editUI.setUnSelected();
-            btnOther_editUI.setUnSelected();
+            btnGameLocation.setUnSelected();
+            btnGameCover.setUnSelected();
+            btnOther.setUnSelected();
 
             libraryUI.getSearchBar().requestFocus();
             coreUI.getFrame().requestFocus();

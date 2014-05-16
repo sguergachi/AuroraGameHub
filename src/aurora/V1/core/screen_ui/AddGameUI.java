@@ -60,8 +60,6 @@ import javax.swing.event.ChangeListener;
  */
 public class AddGameUI {
 
-
-
     private final AuroraCoreUI coreUI;
 
     private JPanel pnlGlass;
@@ -204,6 +202,7 @@ public class AddGameUI {
 
     private boolean gameLocationStatusEnabled;
 
+
     public AddGameUI(AuroraCoreUI coreUI, LibraryUI libraryUI) {
         this.coreUI = coreUI;
         this.libraryUI = libraryUI;
@@ -256,7 +255,8 @@ public class AddGameUI {
         // Central Panel Components
         //
 
-        gameFileChooser_addUI = new JFileChooser(System.getProperty("user.home"));
+        gameFileChooser_addUI
+                = new JFileChooser(System.getProperty("user.home"));
 
         pnlManualAdd = new JPanel(new BorderLayout());
         pnlManualAdd.setOpaque(false);
@@ -557,9 +557,15 @@ public class AddGameUI {
             lblLeftTitle.setFont(coreUI.getDefaultFont().deriveFont(Font.BOLD,
                                                                     33));
             lblLeftTitle.setForeground(Color.lightGray);
+
             lblRightTitle.setFont(coreUI.getDefaultFont().deriveFont(Font.BOLD,
                                                                      33));
             lblRightTitle.setForeground(Color.lightGray);
+
+
+
+
+            lblLeftTitle.setForeground(Color.lightGray);
 
             // Set Up Panels containing the Game Cover Art
             pnlCoverPane_addUI.setPreferredSize(new Dimension(pnlCoverPane_addUI
@@ -739,7 +745,7 @@ public class AddGameUI {
                 btnAutoSearchDB_addUI.setToolTipText("Disable AuroraCoverDB");
             }
 
-            pnlAddGameSearchContainer.add(Box.createHorizontalStrut(105));
+            pnlAddGameSearchContainer.add(Box.createHorizontalStrut(110));
             pnlAddGameSearchContainer.add(pnlSearchBG);
             pnlAddGameSearchContainer.add(btnAutoSearchDB_addUI);
 

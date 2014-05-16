@@ -639,14 +639,10 @@ public class DashboardUI implements AuroraScreenUI {
         // --------------------------------------------------------------------.
 
 
-        // Center pane
-//        coreUI.getCenterPanel().setPreferredSize(
-//                new Dimension(
-//                        getCoreUI().getCenterPanel().getWidth(),
-//                        getCoreUI().getFrame().getHeight() - getCoreUI()
-//                        .getBottomPane().getHeight() - getCoreUI().getTopPane()
-//                        .getHeight()));
-
+        // Set size of Bottom panel in CoreUI
+        coreUI.getBottomPane().setPreferredSize(new Dimension(coreUI
+                .getBottomPane().getWidth(), bottomPaneHeightAdjust));
+        coreUI.getBottomPane().setImageHeight(bottomPaneHeightAdjust);
 
         // Set size of Top panel in CoreUI
         coreUI.getTopPane().setImageHeight(topHeight);
@@ -655,11 +651,6 @@ public class DashboardUI implements AuroraScreenUI {
                 getWidth(), coreUI.getTopPane().getImageHeight() + coreUI.
                                                            getFrameControlContainerPanel()
                                                            .getHeight()));
-
-        // Set size of Bottom panel in CoreUI
-        coreUI.getBottomPane().setPreferredSize(new Dimension(coreUI
-                .getBottomPane().getWidth(), bottomPaneHeightAdjust));
-        coreUI.getBottomPane().setImageHeight(bottomPaneHeightAdjust);
 
         // Set size of Top Panels
         coreUI.getSouthFromTopPanel().revalidate();

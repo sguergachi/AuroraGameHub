@@ -1,25 +1,37 @@
         =================AURORA CHANGE LOG==================
-        |  Current Milestone: Alpha 9			   |
+        |  Current Milestone: Alpha 10			   		   |
         |  Crafted With Care by the Sardonix Creative Team |
         ====================================================
 
 
-////////////////////////////////////////////------------------------------------
-// Aurora_Alpha 10  Build:  Date:  || Sammy Guergachi, Carlos Machado
-////////////////////////////////////////////------------------------------------
+---
+#### 
+Release: `Aurora_Alpha 10`  
+Build:`833`  
+Date: `5/15/2014`   
+Author: Sammy Guergachi, Carlos Machado 
+####
+---
+
+**Additions:**
 
 + Made a lot of UX improvements
 
-= Improved startup loading speed
-= Clicking on link in info feed now shows Aurora Mini
-= Major code refactoring and clean up
-= Yes, Details Matter
+**Changes:**
+
+* Improved startup loading speed
+* Clicking on link in info feed now shows Aurora Mini
+* On Windows launching more than one instanse of Aurora is blocked
+* Major code refactoring and clean up
+* Yes, Details Matter
+
+**Fixed**:
 
 - Fixed pressing Done button in Edit Cover UI to many times causing issues
 - Fixed issue with going offline and back online not being detected
 - Fixed issue going in and out of Settings app re-showing info bar status
 
-
+---
 
 ////////////////////////////////////////////------------------------------------
 // Aurora_Alpha 9  Build:827  Date:1/3/2014  || Sammy Guergachi, Carlos Machado

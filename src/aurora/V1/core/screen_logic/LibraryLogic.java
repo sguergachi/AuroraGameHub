@@ -1333,7 +1333,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                     // After adding display completion in green
                     LibraryUI.lblLibraryStatus.setForeground(Color.GREEN);
-                    LibraryUI.lblLibraryStatus.setText("Finished");
+                    LibraryUI.lblLibraryStatus.setText("Finished Searching");
 
                     libraryUI.getPrgLibraryStatus().stop();
 
