@@ -982,13 +982,15 @@ public class LibraryHandler implements
             }
             libraryLogic.getGridSearch().resetAppendedName();
             libraryUI.getSearchBar().setText("");
-            libraryUI.getSearchBar().setText("Search Here...");
+            libraryUI.getSearchBar().setText("Just Start Typing...");
             libraryUI.getSearchBar().setForeground(Color.darkGray);
             libraryUI.getSearchBarBG()
                     .setImage("library_searchBar_inactive.png");
             libraryUI.getSearchButtonBG().removeAll();
             libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(),
                                               BorderLayout.NORTH);
+            libraryUI.getSearchButtonBG().revalidate();
+            libraryUI.getRemoveSearchButton().revalidate();
             libraryUI.getCoreUI().getFrame().requestFocus();
             libraryUI.getGamesContainer().revalidate();
         }
@@ -1007,6 +1009,7 @@ public class LibraryHandler implements
                 libraryUI.getSearchButtonBG().removeAll();
                 libraryUI.getSearchButtonBG().add(libraryUI
                         .getRemoveSearchButton(), BorderLayout.NORTH);
+                libraryUI.getSearchButtonBG().revalidate();
                 libraryLogic.getGridSearch().resetAppendedName();
             }
         }
@@ -1026,8 +1029,7 @@ public class LibraryHandler implements
             libraryUI.getSearchButtonBG().removeAll();
             libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(),
                                               BorderLayout.NORTH);
-            libraryUI.getRemoveSearchButton()
-                    .addActionListener(new ResetSearchHandler());
+            libraryUI.getSearchButtonBG().revalidate();
         }
     }
 
@@ -2608,59 +2610,59 @@ public class LibraryHandler implements
 
                         if (!libraryUI
                                 .getGridSplit().isDupicate(editGameName)) {
-                        // Remove Game
-                        libraryUI.getStorage().getStoredLibrary()
-                                .removeGame(libraryUI
-                                        .getEditGameUI()
-                                        .getCurrentGame_editUI());
-                        try {
-                            //Set new path if new cover art added
-                            if (!libraryLogic
-                                    .getGameSearch_editUI()
-                                    .getCurrentlySearchedGame()
-                                    .getBoxArtUrl().equals(
-                                            "library_noGameFound.png")) {
+                            // Remove Game
+                            libraryUI.getStorage().getStoredLibrary()
+                                    .removeGame(libraryUI
+                                            .getEditGameUI()
+                                            .getCurrentGame_editUI());
+                            try {
+                                //Set new path if new cover art added
+                                if (!libraryLogic
+                                        .getGameSearch_editUI()
+                                        .getCurrentlySearchedGame()
+                                        .getBoxArtUrl().equals(
+                                                "library_noGameFound.png")) {
+                                    libraryUI.getEditGameUI()
+                                            .getCurrentGame_editUI()
+                                            .setCoverUrl(
+                                                    libraryLogic
+                                                    .getGameSearch_editUI()
+                                                    .getCurrentlySearchedGame()
+                                                    .getBoxArtUrl());
+                                    completedText = "Changed Game Cover";
+                                }
+
                                 libraryUI.getEditGameUI()
                                         .getCurrentGame_editUI()
-                                        .setCoverUrl(
-                                                libraryLogic
-                                                .getGameSearch_editUI()
-                                                .getCurrentlySearchedGame()
-                                                .getBoxArtUrl());
-                                completedText = "Changed Game Cover";
+                                        .setGameName(
+                                                editGameName);
+
+                            } catch (MalformedURLException ex) {
+                                java.util.logging.Logger.getLogger(
+                                        LibraryHandler.class.getName()).
+                                        log(Level.SEVERE, null, ex);
                             }
 
+                            //refresh
                             libraryUI.getEditGameUI()
-                                    .getCurrentGame_editUI()
-                                    .setGameName(
-                                            editGameName);
+                                    .getCurrentGame_editUI().refresh();
 
-                        } catch (MalformedURLException ex) {
-                            java.util.logging.Logger.getLogger(
-                                    LibraryHandler.class.getName()).
-                                    log(Level.SEVERE, null, ex);
-                        }
+                            // Re Save
+                            libraryUI.getStorage().getStoredLibrary()
+                                    .SaveGame(libraryUI
+                                            .getEditGameUI()
+                                            .getCurrentGame_editUI());
 
-                        //refresh
-                        libraryUI.getEditGameUI()
-                                .getCurrentGame_editUI().refresh();
+                            LibraryUI.lblLibraryStatus.setForeground(
+                                    Color.orange);
+                            LibraryUI.lblLibraryStatus.setText(
+                                    completedText);
 
-                        // Re Save
-                        libraryUI.getStorage().getStoredLibrary()
-                                .SaveGame(libraryUI
-                                        .getEditGameUI()
-                                        .getCurrentGame_editUI());
+                            // Transition towards to left most grid to see the game added
+                            GridMove = new MoveToGrid(libraryUI
+                                    .getEditGameUI().getCurrentGame_editUI());
 
-                        LibraryUI.lblLibraryStatus.setForeground(
-                                Color.orange);
-                        LibraryUI.lblLibraryStatus.setText(
-                                completedText);
-
-                        // Transition towards to left most grid to see the game added
-                        GridMove = new MoveToGrid(libraryUI
-                                .getEditGameUI().getCurrentGame_editUI());
-
-                        libraryUI.getGridSplit().unselectPrevious();
+                            libraryUI.getGridSplit().unselectPrevious();
                         } else {
                             ADialog info = new ADialog(
                                     ADialog.aDIALOG_WARNING,

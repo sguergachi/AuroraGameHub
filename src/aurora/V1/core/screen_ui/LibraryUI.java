@@ -782,6 +782,9 @@ public class LibraryUI extends AuroraApp {
         this.btnGameRight
                 .addKeyListener(libraryHandler.new GameLibraryKeyListener());
 
+        this.btnRemoveSearch.addActionListener(
+                libraryHandler.new ResetSearchHandler());
+
     }
 
     /**

@@ -23,16 +23,16 @@ Author: Sammy Guergachi, Carlos Machado
 * Show "unsure" icon in auto searches that Aurora 
 * Game Cover alternatives are shown in AuroraCoverDB now
 * No more random annoying resets to first grid
-* Improved startup loading speed
+* Improved start up loading speed
 * Clicking on link in info feed now shows Aurora Mini
-* On Windows launching more than one instanse of Aurora is blocked
+* On Windows launching more than one instance of Aurora is blocked
 * Major code refactoring and clean up
 * And a whole bunch of other little things. Yes, Details Matter.
 
 **Fixed**:
 
-
-- Fixed bug preventing playing game from search view
+- Fixed unable to delete game from library search view
+- Fixed bug preventing playing game from library search view
 - Fixed a few other library search related bugs
 - Fixed pressing Done button in Edit Cover UI to many times causing issues
 - Fixed issue with going offline and back online not being detected
