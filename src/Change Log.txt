@@ -27,7 +27,7 @@ Author: Sammy Guergachi, Carlos Machado
 * Clicking on link in info feed now shows Aurora Mini
 * On Windows launching more than one instanse of Aurora is blocked
 * Major code refactoring and clean up
-* Yes, Details Matter
+* And a whole bunch of other little things. Yes, Details Matter.
 
 **Fixed**:
 

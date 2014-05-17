@@ -36,6 +36,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -49,7 +50,7 @@ public class AboutBox {
 
     private final AuroraCoreUI coreUI;
 
-    private JPanel pnlGlass;
+    private JLayeredPane pnlGlass;
 
     private AImagePane pnlAboutPane;
 
@@ -96,7 +97,7 @@ public class AboutBox {
         // Create Components
         // ----------------------------------------------------------------.
         // Get Glass Pane to Put UI On //
-        pnlGlass = (JPanel) coreUI.getFrame().getGlassPane();
+        pnlGlass =  coreUI.getFrame().getLayeredPane();
 
         pnlAboutPane = new AImagePane("app_about_bg.png",
                 new BorderLayout());
@@ -203,7 +204,7 @@ public class AboutBox {
         ASound showSound = new ASound("swoop_" + num + ".wav", false);
         showSound.Play();
 
-        pnlGlass.add(pnlAboutPane);
+        pnlGlass.add(pnlAboutPane, JLayeredPane.MODAL_LAYER);
         pnlGlass.setLayout(null);
         pnlGlass.setOpaque(false);
         pnlGlass.setVisible(true);
@@ -234,7 +235,6 @@ public class AboutBox {
                 @Override
                 public void doAction() {
                     pnlGlass.remove(pnlAboutPane);
-                    pnlGlass.setVisible(false);
                 }
             });
 

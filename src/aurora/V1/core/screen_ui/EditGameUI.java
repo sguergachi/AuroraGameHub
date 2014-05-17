@@ -982,7 +982,6 @@ public class EditGameUI {
                 @Override
                 public void doAction() {
                     txtGameCoverSearch_editUI.setText("");
-                    pnlGlass.setVisible(false);
                 }
             });
             editGameAnimator.moveVertical(-492, 35);
