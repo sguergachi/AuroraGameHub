@@ -446,16 +446,18 @@ public class GameSearch implements Runnable {
      *                 <p>
      * @return
      */
-    public String[] searchSimilarGame(String gameName) {
+    public Object[] searchSimilarGame(String gameName) {
 
         String possibleGameName = null;
         String possibleGameImageName = null;
+        int attempt = 0;
+        boolean findExact = true;
         try {
 
             String tableName = "AuroraTable";
             String columnCSV = "FILE_NAME";
 
-            int attempt = 0;
+
             String savedGameName = null;
             while (attempt >= 0) {
 
@@ -474,6 +476,8 @@ public class GameSearch implements Runnable {
                     break;
                 } else { // If no match found, change game name a little
 
+
+
                     switch (attempt) {
                         case 0: // First attempt: remove garbage characters
                             if (gameName.matches("^.*[©®™°²³º¼½¾].*$")) {
@@ -485,7 +489,8 @@ public class GameSearch implements Runnable {
                             savedGameName = gameName;
                             gameName = addSpaces(gameName);
                             break;
-                        case 2:
+                        case 2: // Last attempt: remove one letter at a time untill it works
+                            findExact = false;
                             gameName = savedGameName;
                             possibleGameName = gameName;
                             possibleGameImageName = reductiveSearch(gameName);
@@ -497,7 +502,6 @@ public class GameSearch implements Runnable {
 
                     }
                 }
-
                 attempt++;
             }
 
@@ -506,10 +510,11 @@ public class GameSearch implements Runnable {
             foundGame = null;
         }
 
-        String[] returnArray = new String[2];
+        Object[] returnArray = new Object[3];
 
         returnArray[0] = possibleGameName;
         returnArray[1] = possibleGameImageName;
+        returnArray[2] = findExact;
 
         if (possibleGameName == null) {
             returnArray = null;
@@ -658,8 +663,9 @@ public class GameSearch implements Runnable {
                                     String gameItem = (String) foundArray[i];
                                     String gameName = gameItem
                                             .replace("-", " ").replace("+",
-                                                                       " ").replace(".png",
-                                                                       "");
+                                                                       " ")
+                                            .replace(".png",
+                                                     "");
                                     if (!listModel.contains(gameName)) {
                                         listModel.addElement(gameName);
                                     }

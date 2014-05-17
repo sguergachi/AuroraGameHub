@@ -1002,6 +1002,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
         findGames = new AThreadWorker(new ActionListener() {
             private ArrayList<String> gameImageNames;
+            private ArrayList<Boolean> unsureGameList;
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1043,7 +1044,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                     nameOfGames = GameFinder.getNameOfGamesOnDrive();
                     executableGamePath = GameFinder.getExecutablePathsOnDrive(
                             nameOfGames);
-                    gameImageNames = new ArrayList<String>();
+                    gameImageNames = new ArrayList<>();
+                    unsureGameList = new ArrayList<>();
                     // Remove null in name of games and executable lists
                     int count = 0;
                     while (count < executableGamePath.size()) {
@@ -1060,15 +1062,17 @@ public class LibraryLogic implements AuroraScreenLogic {
                         // Check for duplicates
                         if (!libraryUI.getStorage().getStoredLibrary()
                                 .getGameNames().contains(nameOfGames.get(f))) {
-                            String[] array = gameSearch_autoUI
+                            Object[] array = gameSearch_autoUI
                                     .searchSimilarGame(
                                             nameOfGames
                                             .get(f));
+                            // Check again if similar game isn't already in library
                             if (!libraryUI.getStorage().getStoredLibrary()
                                     .getGameNames().contains(array[0])) {
                                 if (array != null) {
-                                    nameOfGames.set(f, array[0]);
-                                    gameImageNames.add(array[1]);
+                                    nameOfGames.set(f, (String) array[0]);
+                                    gameImageNames.add((String) array[1]);
+                                    unsureGameList.add((boolean) array[2]);
                                 } else {
                                     gameImageNames.add(null);
                                 }
@@ -1106,16 +1110,30 @@ public class LibraryLogic implements AuroraScreenLogic {
                         JPanel pnlListElement = new JPanel(new FlowLayout(
                                 FlowLayout.LEFT, 5, 0));
 
-                        AImagePane imgStatusIcon = new AImagePane(
-                                "autoUI_unavailableIcon.png");
-                        imgStatusIcon.setPreferredSize(new Dimension(
-                                imgStatusIcon.getRealImageWidth(),
-                                imgStatusIcon.getRealImageHeight()));
+
 
                         // Try and find a search
                         // TODO prevent duplicate
                         if (gameSearch_autoUI == null) {
-                            pnlListElement.add(imgStatusIcon);
+
+                            AImagePane imgStatusIcon_unavailabe
+                                               = new AImagePane(
+                                            "autoUI_unavailableIcon.png");
+                            imgStatusIcon_unavailabe.setPreferredSize(
+                                    new Dimension(
+                                            imgStatusIcon_unavailabe
+                                            .getRealImageWidth(),
+                                            imgStatusIcon_unavailabe
+                                            .getRealImageHeight()));
+
+                            pnlListElement.add(imgStatusIcon_unavailabe);
+                        } else if (!unsureGameList.get(i)) {
+                            AImagePane imgStatusIcon_unsure = new AImagePane(
+                                    "autoUI_notsureIcon.png");
+                            imgStatusIcon_unsure.setPreferredSize(new Dimension(
+                                    imgStatusIcon_unsure.getRealImageWidth(),
+                                    imgStatusIcon_unsure.getRealImageHeight()));
+                            pnlListElement.add(imgStatusIcon_unsure);
                         }
 
                         // Create labels containing name of games
@@ -1254,7 +1272,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                                                     MouseEvent e) {
 
                                                         // Verify that the click occured on the selected cell
-                                                        final int index = libraryUI
+                                                        final int index
+                                                                          = libraryUI
                                                         .getAddGameUI()
                                                         .getPnlCheckList()
                                                         .locationToIndex(e
