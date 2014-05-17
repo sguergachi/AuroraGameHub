@@ -593,18 +593,14 @@ public class AuroraCoreUI {
                               "app_btn_close_down.png", "app_btn_close_over.png",
                               exitButtonWidth, exitButtonHeight);
         btnExit.addActionListener(new CloseListener());
-        if (main.LAUNCHES < 5) {
-            btnExit.setToolTipText("Exit");
-        }
+
         btnMinimize = new AButton("app_btn_minimize_norm.png",
                                   "app_btn_minimize_down.png",
                                   "app_btn_minimize_over.png",
                                   minimizeButtonWidth, minimizeButtonHeight);
         minimizeHandler = new MinimizeListener(this, AuroraMini.MINIMIZE_MODE);
         btnMinimize.addActionListener(minimizeHandler);
-        if (main.LAUNCHES < 5) {
-            btnMinimize.setToolTipText("Minimize");
-        }
+        
 
         // TOP PANEL
         // --------------------------------------------------------------------
@@ -909,6 +905,14 @@ public class AuroraCoreUI {
 
         }
         warningDialog.setVisible(true);
+    }
+
+    public JButton getBtnExit() {
+        return btnExit;
+    }
+
+    public JButton getBtnMinimize() {
+        return btnMinimize;
     }
 
     // Get Build Version Of Application

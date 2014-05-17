@@ -907,9 +907,9 @@ public class LibraryLogic implements AuroraScreenLogic {
      *
      */
     public File fetchSteamDirOnWindows() {
-        final int HKEY_CURRENT_USER = 0x80000001;
-        final int KEY_QUERY_VALUE = 1;
-        final int KEY_SET_VALUE = 2;
+//        final int HKEY_CURRENT_USER = 0x80000001;
+//        final int KEY_QUERY_VALUE = 1;
+//        final int KEY_SET_VALUE = 2;
         final int KEY_READ = 0x20019;
 
         final Preferences userRoot = Preferences.userRoot();

@@ -187,7 +187,7 @@ public class LibraryUI extends AuroraApp {
 
     private JTextField txtGridSearchField;
 
-    private LibraryHandler libraryHandler;
+    private final LibraryHandler libraryHandler;
 
     private SearchBoxHandler searchBoxHandler;
 
@@ -197,7 +197,7 @@ public class LibraryUI extends AuroraApp {
 
     private JScrollPane gameScrollPane;
 
-    private AuroraStorage storage;
+    private final AuroraStorage storage;
 
     private HoverButtonLeft moveLibraryLeftHandler;
 
@@ -245,13 +245,7 @@ public class LibraryUI extends AuroraApp {
 
     private boolean editGameUIVisible = false;
 
-    private boolean gameLocation = false;
-
     private boolean editUILoaded = false;
-
-    private boolean isGameCover = false;
-
-    private boolean isOther = false;
 
     private boolean editGameCoverUIvisible;
 
@@ -380,7 +374,7 @@ public class LibraryUI extends AuroraApp {
         pnlSearchText = new JPanel(new BorderLayout());
         pnlSearchButton = new JPanel(new BorderLayout());
         pnlSearchContainer = new JPanel(new BorderLayout());
-        pnlSearchBar = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
+        pnlSearchBar = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         //
         // Set up grid
         //
@@ -549,7 +543,7 @@ public class LibraryUI extends AuroraApp {
                                 "background_game_search");
                         if (backgroundGameSearch == null) {
                             backgroundGameSearch
-                            = SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING;
+                                    = SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING;
                         }
 
                         if (backgroundGameSearch.equals("enabled")) {
@@ -958,9 +952,9 @@ public class LibraryUI extends AuroraApp {
 
         if (coreUI.isLargeScreen()) {
             gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio2 / 10)
-                              + 5;
+                                      + 5;
             gameCoverWidth = coreUI.getFrame().getWidth() / 5 - (Ratio2 / 10)
-                             - 5;
+                                     - 5;
             selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
             selectedGameBarWidth = coreUI.getFrame().getWidth() / 3;
             addGameWidth = coreUI.getFrame().getWidth() / 3;

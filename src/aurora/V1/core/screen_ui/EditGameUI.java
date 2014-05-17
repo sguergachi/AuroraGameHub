@@ -42,6 +42,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JLayeredPane;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -159,13 +160,12 @@ public class EditGameUI {
 
     private Game currentGameBeingEdited;
 
-    private JPanel pnlGlass;
+    private JLayeredPane pnlGlass;
 
     private final AddGameUI addGameUI;
 
     private AAnimate editGameAnimator;
 
-//    private boolean gameCoverChanged;
     private boolean gameLocationChanged;
 
     private boolean gameCoverStatusEnabled;
@@ -199,10 +199,10 @@ public class EditGameUI {
 
         // Get Glass Pane to Put UI On
 
-        pnlGlass = (JPanel) coreUI.getFrame().getGlassPane();
+
 
         if (pnlGlass == null) {
-            pnlGlass = (JPanel) coreUI.getFrame().getGlassPane();
+            pnlGlass = coreUI.getFrame().getLayeredPane();
         }
         pnlEditGamePane = new AImagePane("editUI_bg.png",
                                          new BorderLayout());
@@ -647,7 +647,7 @@ public class EditGameUI {
             pnlEditGamePane.add(pnlTopPane_editUI, BorderLayout.PAGE_START);
             pnlEditGamePane.add(pnlCenter_editUI, BorderLayout.CENTER);
 
-            pnlGlass.add(pnlEditGamePane);
+            pnlGlass.add(pnlEditGamePane, JLayeredPane.MODAL_LAYER);
 
             // Game Cover
             // ----------------------------------------------------------------.
@@ -815,7 +815,6 @@ public class EditGameUI {
 
         // reset UI
         txtNewLocation_editUI.setText("");
-//        txtGameCoverSearch_editUI.getTextBox().setText("");
         gameLocationStatusIndicator.setImgURl("addUI_badge_idle.png");
         gameCoverStatusIndicator.setImgURl("addUI_badge_idle.png");
         libraryLogic.getGameSearch_editUI().resetCover();
@@ -979,15 +978,11 @@ public class EditGameUI {
 
             // Animate Up Add Game UI
 
-            editGameAnimator.addPostAnimationListener(new APostHandler() {
+            editGameAnimator.appendPostAnimationListener(new APostHandler() {
                 @Override
                 public void doAction() {
+                    txtGameCoverSearch_editUI.setText("");
                     pnlGlass.setVisible(false);
-                    txtGameCoverSearch_editUI.getTextBox().setText("");
-                    txtGameCoverSearch_editUI.getTextBox()
-                            .requestFocusInWindow();
-                    txtNewLocation_editUI.setText("");
-
                 }
             });
             editGameAnimator.moveVertical(-492, 35);
@@ -999,8 +994,7 @@ public class EditGameUI {
             btnGameCover.setUnSelected();
             btnOther.setUnSelected();
 
-            libraryUI.getSearchBar().requestFocus();
-            coreUI.getFrame().requestFocus();
+
 
         }
 
@@ -1068,9 +1062,10 @@ public class EditGameUI {
 
             libraryLogic.getGameSearch_editUI().enableSearch();
             libraryLogic.getGameSearch_editUI().resetCover();
-//            txtGameCoverSearch_editUI.setText(GameSearch.DEFAULT_SEARCH_TEXT);
-            txtGameCoverSearch_editUI.getTextBox().requestFocusInWindow();
+            libraryLogic.getGameSearch_editUI().resetText();
             this.resetGameCoverIndicator();
+//            txtGameCoverSearch_editUI.getTextBox().requestFocusInWindow();
+//            btnDone_editUI.requestFocusInWindow();
         }
     }
 

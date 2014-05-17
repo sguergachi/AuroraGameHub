@@ -21,6 +21,7 @@ import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
+import java.awt.Color;
 import java.net.MalformedURLException;
 import java.sql.Array;
 import java.sql.ResultSet;
@@ -152,10 +153,20 @@ public class GameSearch implements Runnable {
 
             foundArray = null;
             listModel.removeAllElements();
-            imgStatus.setImgURl("addUI_badge_invalid.png");
+            imgStatus.setImgURl("addUI_badge_idle.png");
             libraryUI.getLogic().checkManualAddGameStatus();
         }
 
+
+
+    }
+
+    public void resetText() {
+        if (txtSearch.getText().length() < 1) {
+            txtSearch.setForeground(Color.darkGray);
+            txtSearch.setText(
+                    GameSearch.DEFAULT_SEARCH_TEXT);
+        }
     }
 
     public void setAppendedName(String AppendedName) {
@@ -848,7 +859,7 @@ public class GameSearch implements Runnable {
     public void enableSearch() {
         isSearchEnabled = true;
 
-        searchGame();
+//        searchGame();
         statusIcon.setImgURl("addUI_img_autoSearchOn.png");
         DEFAULT_SEARCH_TEXT = "Search For Game...";
         if (txtSearch.getText().equals(DEFAULT_SEARCH_TEXT2)) {

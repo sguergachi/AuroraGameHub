@@ -468,6 +468,11 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                                 System.getProperty("user.home") + "/"
                                         + "AuroraData/User Data/AIDictionary.txt"));
                     }
+
+                    if (main.LAUNCHES < 5) {
+                        coreUI.getBtnExit().setToolTipText("Exit");
+                        coreUI.getBtnMinimize().setToolTipText("Minimize");
+                    }
                 } catch (IOException ex) {
                     java.util.logging.Logger
                             .getLogger(WelcomeUI.class.getName()).log(

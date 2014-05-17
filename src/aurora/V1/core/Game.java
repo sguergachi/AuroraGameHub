@@ -245,9 +245,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private AButton btnAddCustomOverlay;
 
-    private ActionListener customGameCoverListener;
-
     private String localGameRootPath;
+    private ActionListener settingsListener;
 
     public Game() {
     }
@@ -1165,14 +1164,19 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public void setSettingsListener(final ActionListener action) {
+        this.settingsListener = action;
         if (btnSetting.getActionListeners().length == 0) {
             btnSetting.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    action.actionPerformed(new ActionEvent(thisGame(), 0, ""));
+                    settingsListener.actionPerformed(new ActionEvent(thisGame(), 0, ""));
                 }
             });
         }
+    }
+
+    public ActionListener getSettingsListener() {
+        return settingsListener;
     }
 
     /**
@@ -1432,7 +1436,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 - 2));
         lblTimesPlayed.setForeground(new Color(202, 202, 217));
 
-        lblGameType = new ASlickLabel("Game Type");
+        lblGameType = new ASlickLabel("Game Genre");
         lblGameType.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
                 labelFontSize
                 - 2));
@@ -2355,9 +2359,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.timePlayed = timePlayed;
     }
 
-    public final Game copy() {
+    public synchronized final Game copy() {
         try {
-            return (Game) this.clone();
+            return (Game) super.clone();
         } catch (CloneNotSupportedException ex) {
             logger.error(ex);
             return null;

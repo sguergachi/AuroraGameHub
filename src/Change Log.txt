@@ -19,8 +19,10 @@ Author: Sammy Guergachi, Carlos Machado
 
 **Changes:**
 
+* Library search bar is centered for large screens
 * Show "unsure" icon in auto searches that Aurora 
 * Game Cover alternatives are shown in AuroraCoverDB now
+* No more random annoying resets to first grid
 * Improved startup loading speed
 * Clicking on link in info feed now shows Aurora Mini
 * On Windows launching more than one instanse of Aurora is blocked
@@ -29,6 +31,9 @@ Author: Sammy Guergachi, Carlos Machado
 
 **Fixed**:
 
+
+- Fixed bug preventing playing game from search view
+- Fixed a few other library search related bugs
 - Fixed pressing Done button in Edit Cover UI to many times causing issues
 - Fixed issue with going offline and back online not being detected
 - Fixed issue going in and out of Settings app re-showing info bar status

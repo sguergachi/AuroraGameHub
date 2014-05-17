@@ -42,6 +42,7 @@ import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -62,7 +63,8 @@ public class AddGameUI {
 
     private final AuroraCoreUI coreUI;
 
-    private JPanel pnlGlass;
+//    private JPanel pnlGlass;
+    private JLayeredPane pnlGlass;
 
     private AImagePane pnlAddGamePane;
 
@@ -202,7 +204,6 @@ public class AddGameUI {
 
     private boolean gameLocationStatusEnabled;
 
-
     public AddGameUI(AuroraCoreUI coreUI, LibraryUI libraryUI) {
         this.coreUI = coreUI;
         this.libraryUI = libraryUI;
@@ -230,7 +231,7 @@ public class AddGameUI {
         //
         // Get Glass Pane to Put UI On
         //
-        pnlGlass = (JPanel) coreUI.getFrame().getGlassPane();
+        pnlGlass = coreUI.getFrame().getLayeredPane();
         pnlAddGamePane = new AImagePane("addUI_bg.png",
                                         new BorderLayout());
         //
@@ -789,8 +790,8 @@ public class AddGameUI {
             pnlAddGamePane.add(pnlTopPane_addUI, BorderLayout.PAGE_START);
             pnlAddGamePane.add(pnlManualAdd, BorderLayout.CENTER);
 
-            pnlGlass.add(pnlAddGamePane);
-            pnlGlass.add(btnAddGameToLib_addUI);
+            pnlGlass.add(pnlAddGamePane, JLayeredPane.MODAL_LAYER);
+            pnlGlass.add(btnAddGameToLib_addUI, JLayeredPane.MODAL_LAYER);
 
             // Auto UI
             // ----------------------------------------------------------------.
@@ -1055,8 +1056,7 @@ public class AddGameUI {
                                         public void doAction() {
                                             libraryUI.setIsAddGameUI_Visible(
                                                     true);
-//                                            txtSearchField_addUI.requestFocus();
-
+                                            txtSearchField_addUI.requestFocus();
                                         }
                                     });
                         }
@@ -1090,10 +1090,10 @@ public class AddGameUI {
             }
 
             // Animate Up Add Game UI
-            addGameAnimator.addPostAnimationListener(new APostHandler() {
+            addGameAnimator.appendPostAnimationListener(new APostHandler() {
                 @Override
                 public void doAction() {
-                    pnlGlass.setVisible(false);
+                    txtSearchField_addUI.setText("");
                 }
             });
             addGameAnimator.moveVertical(-492, 35);
@@ -1102,7 +1102,6 @@ public class AddGameUI {
             resetAddGameUI();
 
 
-//            txtGridSearchField.requestFocus();
             coreUI.getFrame().requestFocus();
 
 
