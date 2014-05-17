@@ -2606,8 +2606,8 @@ public class LibraryHandler implements
                                     .getCurrentlySearchedGame().getName();
                         }
 
-//                        if (!libraryUI
-//                                .getGridSplit().isDupicate(editGameName)) {
+                        if (!libraryUI
+                                .getGridSplit().isDupicate(editGameName)) {
                         // Remove Game
                         libraryUI.getStorage().getStoredLibrary()
                                 .removeGame(libraryUI
@@ -2661,19 +2661,19 @@ public class LibraryHandler implements
                                 .getEditGameUI().getCurrentGame_editUI());
 
                         libraryUI.getGridSplit().unselectPrevious();
-//                        } else {
-//                            ADialog info = new ADialog(
-//                                    ADialog.aDIALOG_WARNING,
-//                                    "Cannot Add Duplicate Game",
-//                                    libraryUI
-//                                    .getCoreUI()
-//                                    .getRegularFont()
-//                                    .deriveFont(Font.BOLD, 28));
-//                            info.showDialog();
-//                            info.setVisible(true);
-//
-//
-//                        }
+                        } else {
+                            ADialog info = new ADialog(
+                                    ADialog.aDIALOG_WARNING,
+                                    "Cannot Add Duplicate Game",
+                                    libraryUI
+                                    .getCoreUI()
+                                    .getRegularFont()
+                                    .deriveFont(Font.BOLD, 28));
+                            info.showDialog();
+                            info.setVisible(true);
+
+
+                        }
                     }
 
 

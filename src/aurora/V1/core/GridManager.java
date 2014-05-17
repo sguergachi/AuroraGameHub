@@ -60,6 +60,8 @@ public class GridManager {
 
     static final Logger logger = Logger.getLogger(GridManager.class);
 
+    private boolean allowAddGameButton = true;
+
     /**
      * Manages GridPanels for GameLibrary
      *
@@ -166,7 +168,7 @@ public class GridManager {
         for (int i = 0; i < Grids.size(); i++) {
             for (int a = 0; a < Grids.get(i).getArray().size(); a++) {
                 if (Grids.get(i).getArray().get(a) instanceof GamePlaceholder
-                    == false) {
+                            == false) {
                     Game cover = (Game) Grids.get(i).getArray().get(a);
                     if (cover.getGameName().equals(game.getGameName())) {
                         return true;
@@ -177,7 +179,7 @@ public class GridManager {
         return false;
     }
 
-     /**
+    /**
      * check if Game Cover Art is already in the library
      *
      * @param game GameCover to check for duplicates
@@ -186,7 +188,7 @@ public class GridManager {
         for (int i = 0; i < Grids.size(); i++) {
             for (int a = 0; a < Grids.get(i).getArray().size(); a++) {
                 if (Grids.get(i).getArray().get(a) instanceof GamePlaceholder
-                    == false) {
+                            == false) {
                     Game cover = (Game) Grids.get(i).getArray().get(a);
                     if (cover.getGameName().equals(gameName)) {
                         return true;
@@ -209,7 +211,7 @@ public class GridManager {
         for (int i = 0; i < Grids.size(); i++) {
             for (int a = 0; a < Grids.get(i).getArray().size(); a++) {
                 if (Grids.get(i).getArray().get(a) instanceof GamePlaceholder
-                    == false) {
+                            == false) {
 
                     Game cover = (Game) Grids.get(i).getArray().get(a);
                     if (cover.getBoxArtUrl().equals(game.getBoxArtUrl())) {
@@ -230,11 +232,12 @@ public class GridManager {
 
         this.blankAddGame = new GamePlaceholder();
         blankAddGame.setUp(width, height,
-                "library_placeholder_bg.png");
-        blankAddGame.addButton("library_placeholder_add_norm.png",
-                "library_placeholder_add_down.png",
-                "library_placeholder_add_over.png", listener);
-
+                           "library_placeholder_bg.png");
+        if (allowAddGameButton) {
+            blankAddGame.addButton("library_placeholder_add_norm.png",
+                                   "library_placeholder_add_down.png",
+                                   "library_placeholder_add_over.png", listener);
+        }
         if (!Grids.get(Grids.size() - 1).isGridFull()) {
 
             Grids.get(Grids.size() - 1).addToGrid(blankAddGame);
@@ -266,7 +269,7 @@ public class GridManager {
         while (!Grids.get(Grids.size() - 1).isGridFull()) {
             this.placeholder = new GamePlaceholder();
             placeholder.setUp(width, height,
-                    "library_placeholder_bg.png");
+                              "library_placeholder_bg.png");
 
             Grids.get(Grids.size() - 1).addToGrid(placeholder);
         }
@@ -526,7 +529,7 @@ public class GridManager {
 
         if (logger.isDebugEnabled()) {
             logger.debug("Game as found in grid location: " + gridLocation[0]
-                         + "," + gridLocation[1]);
+                                 + "," + gridLocation[1]);
         }
 
         // grab the index of where the grid is located in the manager
@@ -598,7 +601,7 @@ public class GridManager {
 
         if (logger.isDebugEnabled()) {
             logger.debug("Game was found in grid location: " + gridLocation[0]
-                         + "," + gridLocation[1]);
+                                 + "," + gridLocation[1]);
         }
 
         // grab the index of where the grid is located in the manager
@@ -653,7 +656,7 @@ public class GridManager {
 
         if (logger.isDebugEnabled()) {
             logger.debug("Game was found in grid location: " + gridLocation[0]
-                         + "," + gridLocation[1]);
+                                 + "," + gridLocation[1]);
         }
 
         // grab the index of where the grid is located in the manager
@@ -934,5 +937,17 @@ public class GridManager {
 
     public int getNumberOfGrids() {
         return Grids.size();
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void setAllowAddGameButton(boolean allowAddGameButton) {
+        this.allowAddGameButton = allowAddGameButton;
     }
 }

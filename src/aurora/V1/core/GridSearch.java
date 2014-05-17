@@ -288,8 +288,13 @@ public class GridSearch {
                 libraryUI.getGridSplit().findGameName(name)[0]).getArray().get(
                         libraryUI.getGridSplit().findGameName(name)[1]));
 
+        // Set sizes for SearchManager
+        SearchManager.setWidth(GameOriginal.getWidth());
+        SearchManager.setHeight(GameOriginal.getHeight());
+        SearchManager.setAllowAddGameButton(false);
         //Set Up New Cover
         foundGame = new Game(SearchManager, ui, GameOriginal.getBoxArtUrl());
+        foundGame.setLibraryManager(GameOriginal.getManager());
         //manually copying it over
         foundGame.setFavorite(GameOriginal.isFavorite());
         foundGame.setGameName(GameOriginal.getName());
@@ -304,6 +309,7 @@ public class GridSearch {
         foundGame.setLastPlayed(GameOriginal.getLastPlayed());
         foundGame.setOcurrencesPlayed(GameOriginal.getOccurencesPlayed());
         foundGame.setTotalTimePlayed(GameOriginal.getTotalTimePlayed());
+
 
         try {
             foundGame.update();

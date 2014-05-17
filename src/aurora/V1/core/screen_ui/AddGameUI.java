@@ -853,7 +853,9 @@ public class AddGameUI {
                                                                       scrollList_autoUI
                                                                       .getViewport()
                                                                       .getPreferredSize().height));
-
+                            scrollList_autoUI.repaint();
+                            scrollList_autoUI.getViewport().repaint();
+                            scrollList_autoUI.getVerticalScrollBar().revalidate();
                         }
                     });
 
@@ -877,11 +879,17 @@ public class AddGameUI {
             scrollBar.setUI(autoScrollBar);
             scrollBar.setUnitIncrement(35);
 
-            scrollList_autoUI.setVerticalScrollBar(scrollBar);
+
             scrollList_autoUI.setPreferredSize(new Dimension(pnlAddGamePane
                     .getPreferredSize().width / 2 - 50,
                                                              pnlCoverPane_autoUI
                                                              .getRealImageHeight()));
+            scrollList_autoUI.setVerticalScrollBar(scrollBar);
+
+            scrollBar.revalidate();
+            scrollList_autoUI.revalidate();
+            scrollList_autoUI.repaint();
+            scrollBar.repaint();
 
             pnlScrollPane.add(gameList_autoUI, BorderLayout.CENTER);
             pnlScrollPane.add(pnlCheckBG, BorderLayout.EAST);
