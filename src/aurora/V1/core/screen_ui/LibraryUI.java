@@ -74,7 +74,6 @@ import org.apache.log4j.Logger;
  * <p/>
  */
 public class LibraryUI extends AuroraApp {
-   
 
     /**
      * Search Button to activate focus on Library Search Bar.
@@ -370,8 +369,8 @@ public class LibraryUI extends AuroraApp {
         pnlSearchBarBG = new AImagePane("library_searchBar_inactive.png",
                                         new BorderLayout());
         btnRemoveSearch = new AButton("library_btnCancelSearch_norm.png",
-                                         "library_btnCancelSearch_down.png",
-                                         "library_btnCancelSearch_over.png");
+                                      "library_btnCancelSearch_down.png",
+                                      "library_btnCancelSearch_over.png");
         txtGridSearchField = new JTextField("Just Start Typing...");
         btnSearch = new AButton("library_btnSearch_norm.png",
                                 "library_btnSearch_down.png",
@@ -381,7 +380,7 @@ public class LibraryUI extends AuroraApp {
         pnlSearchText = new JPanel(new BorderLayout());
         pnlSearchButton = new JPanel(new BorderLayout());
         pnlSearchContainer = new JPanel(new BorderLayout());
-        pnlSearchBar = new JPanel(new BorderLayout());
+        pnlSearchBar = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
         //
         // Set up grid
         //
@@ -465,8 +464,6 @@ public class LibraryUI extends AuroraApp {
 
             // Search Bar
             // ----------------------------------------------------------------.
-            pnlSearchBarBG.setPreferredSize(new Dimension(SearchBarWidth,
-                                                          50));
             btnRemoveSearch.setPreferredSize(new Dimension(70, 51));
             // Search bar above grid
             txtGridSearchField.setOpaque(false);
@@ -499,11 +496,16 @@ public class LibraryUI extends AuroraApp {
             pnlSearchBarBG.add(pnlSearchContainer, BorderLayout.WEST);
             pnlSearchBarBG.validate();
 
+            pnlSearchBar.setBackground(Color.GREEN);
             pnlSearchBar.setOpaque(false);
-            pnlSearchBar.add(pnlSearchBarBG, BorderLayout.EAST);
-            pnlSearchBar.setPreferredSize(new Dimension(
-                    pnlSearchBar.getBounds().width,
-                    75));
+            pnlSearchBar.add(Box.createHorizontalStrut(coreUI
+                    .getFrameControlImagePane().getRealImageWidth()));
+            pnlSearchBar.add(pnlSearchBarBG);
+            pnlSearchBar.setPreferredSize(new Dimension(pnlSearchBar
+                    .getPreferredSize().width,
+                                                        coreUI
+                                                        .getFrameControlImagePane()
+                                                        .getRealImageHeight()));
             pnlSearchBar.validate();
 
             // Initiate Library Grid
@@ -546,7 +548,8 @@ public class LibraryUI extends AuroraApp {
                         .getStoredSettings().getSettingValue(
                                 "background_game_search");
                         if (backgroundGameSearch == null) {
-                            backgroundGameSearch = SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING;
+                            backgroundGameSearch
+                            = SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING;
                         }
 
                         if (backgroundGameSearch.equals("enabled")) {
@@ -605,6 +608,7 @@ public class LibraryUI extends AuroraApp {
         attactchHandlers();
 
         // Add Search Bar to Top Bar
+
         coreUI.getSouthFromTopPanel().add(BorderLayout.CENTER, pnlSearchBar);
         coreUI.getSouthFromTopPanel().setPreferredSize(
                 new Dimension(coreUI.getSouthFromTopPanel().getWidth(), coreUI
@@ -803,7 +807,7 @@ public class LibraryUI extends AuroraApp {
         }
 
         if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
-            .getAnimator2().isAnimating()) {
+                .getAnimator2().isAnimating()) {
 
             //
             // Get The Index of The Current Panel Being Displayed
@@ -876,7 +880,7 @@ public class LibraryUI extends AuroraApp {
         }
 
         if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
-            .getAnimator2().isAnimating()) {
+                .getAnimator2().isAnimating()) {
 
             currentIndex = GridSplit.getArray()
                     .indexOf(pnlLibraryContainer.getComponent(1));
@@ -939,11 +943,11 @@ public class LibraryUI extends AuroraApp {
 
     public void setSize() {
 
-        double Ratio = ((double) coreUI.getFrame().getWidth() /
-                        (double) coreUI.getFrame().getHeight());
+        double Ratio = ((double) coreUI.getFrame().getWidth() / (double) coreUI
+                .getFrame().getHeight());
 
         int Ratio2 = (coreUI.getFrame().getWidth() - coreUI.getFrame()
-                      .getHeight()) / 2;
+                .getHeight()) / 2;
 
         if (logger.isDebugEnabled()) {
             logger.debug("Ratio " + Ratio);
@@ -953,29 +957,27 @@ public class LibraryUI extends AuroraApp {
         }
 
         if (coreUI.isLargeScreen()) {
-            gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio2 / 10) +
-                              5;
-            gameCoverWidth = coreUI.getFrame().getWidth() / 5 - (Ratio2 / 10) -
-                             5;
+            gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio2 / 10)
+                              + 5;
+            gameCoverWidth = coreUI.getFrame().getWidth() / 5 - (Ratio2 / 10)
+                             - 5;
             selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
             selectedGameBarWidth = coreUI.getFrame().getWidth() / 3;
             addGameWidth = coreUI.getFrame().getWidth() / 3;
             addGameHeight = coreUI.getBottomPane().getHeight() / 3;
             gameNameFontSize = 32;
-            SearchBarWidth = 880;
+            SearchBarWidth = coreUI.getFrame().getWidth() - coreUI
+                    .getFrameControlImagePane().getHeight();
             listFontSize = 19;
             gridSearchFontSize = 35;
             addGameFontSize = 28;
             bottomTopPadding = 10;
 
         } else {
-            gameCoverHeight = (int) ((coreUI.getFrame().getHeight() +
-                                      (coreUI.getTopPanelHeight() * 2)) /
-                                     (Ratio * 2.5));
-            gameCoverWidth = (int) ((coreUI.getFrame().getWidth() +
-                                     coreUI.getTopPanelHeight()) /
-                                    (Ratio *
-                                     3.5));
+            gameCoverHeight = (int) ((coreUI.getFrame().getHeight() + (coreUI
+                    .getTopPanelHeight() * 2)) / (Ratio * 2.5));
+            gameCoverWidth = (int) ((coreUI.getFrame().getWidth() + coreUI
+                    .getTopPanelHeight()) / (Ratio * 3.5));
             addGameWidth = coreUI.getFrame().getWidth() / 3 - 20;
             addGameWidth = gameCoverWidth;
             addGameHeight = 40;
@@ -983,7 +985,7 @@ public class LibraryUI extends AuroraApp {
             selectedGameBarWidth = coreUI.getFrame().getWidth() / 3 - 20;
             gameNameFontSize = 30;
             SearchBarWidth = coreUI.getFrame().getWidth() / 2 + coreUI
-                             .getControlWidth() / 2;
+                    .getControlWidth() / 2;
             listFontSize = 19;
             gridSearchFontSize = 35;
             addGameFontSize = 28;
