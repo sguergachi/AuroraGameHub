@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -285,15 +286,25 @@ public class GridSearch {
                 libraryUI.getGridSplit().findGameName(name)[0]).getArray().get(
                 libraryUI.getGridSplit().findGameName(name)[1]));
 
-        //Set Up New Cover
-        foundGame = new Game(SearchManager, ui, GameOriginal.getBoxArtUrl());
-        //manually copying it over
-        foundGame.setFavorite(GameOriginal.isFavorite());
-        foundGame.setGameName(GameOriginal.getName());
-        foundGame
-                .setCoverSize(GameOriginal.getWidth(), GameOriginal.getHeight());
-        foundGame.setDashboardUI(GameOriginal.getDashboardUI());
-        foundGame.setStorage(GameOriginal.getStorage());
+//        //Set Up New Cover
+//        foundGame = new Game(SearchManager, ui, GameOriginal.getBoxArtUrl());
+//        //manually copying it over
+//        foundGame.setFavorite(GameOriginal.isFavorite());
+//        foundGame.setGameName(GameOriginal.getName());
+//        foundGame
+//                .setCoverSize(GameOriginal.getWidth(), GameOriginal.getHeight());
+//        foundGame.setDashboardUI(GameOriginal.getDashboardUI());
+//        foundGame.setStorage(GameOriginal.getStorage());
+//        foundGame.setGamePath(GameOriginal.getGamePath());
+
+        foundGame = GameOriginal.copy();
+        try {
+            foundGame.update();
+        } catch (MalformedURLException ex) {
+            java.util.logging.Logger.getLogger(GridSearch.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+        foundGame.enableEditCoverOverlay();
 
         if (foundGameList.size() <= 7) {
             foundGameList.add(foundGame);

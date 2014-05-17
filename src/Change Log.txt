@@ -19,6 +19,8 @@ Author: Sammy Guergachi, Carlos Machado
 
 **Changes:**
 
+* Show "unsure" icon in auto searches that Aurora 
+* Game Cover alternatives are shown in AuroraCoverDB now
 * Improved startup loading speed
 * Clicking on link in info feed now shows Aurora Mini
 * On Windows launching more than one instanse of Aurora is blocked
