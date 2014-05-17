@@ -656,14 +656,12 @@ public class GameSearch implements Runnable {
                                     i++) {
                                 if (foundArray[i] != null) {
                                     String gameItem = (String) foundArray[i];
-                                    if (!listModel.contains(gameItem
-                                            .replace("-", " ").replace(".png",
-                                                                       ""))) {
-                                        listModel.addElement(gameItem
-                                                .replace("-", " ").replace(
-                                                        ".png",
-                                                        ""));
-
+                                    String gameName = gameItem
+                                            .replace("-", " ").replace("+",
+                                                                       " ").replace(".png",
+                                                                       "");
+                                    if (!listModel.contains(gameName)) {
+                                        listModel.addElement(gameName);
                                     }
                                 }
                             }
@@ -734,6 +732,7 @@ public class GameSearch implements Runnable {
                             .getImageWidth(), imgBlankCover
                                                 .getImageHeight());
                     foundGameCover.setGameName(foundGame.replace("-", " ")
+                            .replace("+", " ")
                             .replace(
                                     ".png", ""));
 

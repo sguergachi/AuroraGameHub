@@ -87,13 +87,13 @@ public final class DBUpdater {
 
             String file;
             if (file1.contains("(") && file1.contains(")")) {
-//                file = file1.substring(0, file1.indexOf("(")-1).replace(" ", "-")
-//                       + "+" + file1.substring(file1.indexOf("("), file1.length())
-//                       + ".png"; //Convert to URL path
-                file = file1.substring(0, file1.indexOf("(") - 1).replace(" ",
-                        "-")
-                       + file1.substring(file1.indexOf("(") - 1, file1.length())
+                file = file1.substring(0, file1.indexOf("(")-1).replace(" ", "-")
+                       + "+" + file1.substring(file1.indexOf("("), file1.length())
                        + ".png"; //Convert to URL path
+//                file = file1.substring(0, file1.indexOf("(") - 1).replace(" ",
+//                        "-")
+//                       + file1.substring(file1.indexOf("(") - 1, file1.length())
+//                       + ".png"; //Convert to URL path
             } else {
                 file = file1.replace(" ", "-") + ".png"; //Convert to URL path
             }
