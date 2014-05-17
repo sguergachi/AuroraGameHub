@@ -787,8 +787,9 @@ public class LibraryHandler implements
 
                     // Check to see if the setSelected is not the last game in the grid
                     if ((col < grid.getCol() || (col == grid.getCol() && row
-                                                                                 < grid.getRow()))
-                        && comp.size() > i + 1) {
+                                                                                 < grid
+                            .getRow()))
+                                && comp.size() > i + 1) {
 
                         if (logger.isDebugEnabled()) {
                             logger.debug("Cursor is moving right!");
@@ -1335,7 +1336,9 @@ public class LibraryHandler implements
             }
             txtField.setCaretColor(Color.cyan);
             if (txtField.getText().equals(
-                    GameSearch.DEFAULT_SEARCH_TEXT)
+                    GameSearch.DEFAULT_SEARCH_TEXT) || txtField.getText()
+                    .equals(
+                            GameSearch.DEFAULT_SEARCH_TEXT2)
                         || txtField.getText().equals("")) {
                 txtField.setText("");
 
@@ -1584,7 +1587,9 @@ public class LibraryHandler implements
         public void mousePressed(MouseEvent e) {
 
             if (txtField.getText().equals(
-                    GameSearch.DEFAULT_SEARCH_TEXT)) {
+                    GameSearch.DEFAULT_SEARCH_TEXT) || txtField.getText()
+                    .equals(
+                            GameSearch.DEFAULT_SEARCH_TEXT2)) {
                 txtField.requestFocus();
                 txtField.setText("");
                 gameSearch.resetCover();
@@ -1818,7 +1823,8 @@ public class LibraryHandler implements
                                                       boolean isSelected,
                                                       boolean cellHasFocus) {
 
-            JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane)
+            JLabel label
+                           = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane)
                     ? ((JPanel) value).getComponent(0)
                     : ((JPanel) value)
                     .getComponent(1));
@@ -1888,7 +1894,8 @@ public class LibraryHandler implements
                 Object value = listModel.get(gamesList
                         .getSelectedIndex());
 
-                JLabel label = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane)
+                JLabel label
+                               = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane)
                         ? ((JPanel) value).getComponent(0)
                         : ((JPanel) value)
                         .getComponent(1));
@@ -2166,8 +2173,9 @@ public class LibraryHandler implements
                                     .setForeground(Color.green);
                             LibraryUI.lblLibraryStatus.setText("Added Game");
 
-                            AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
-                                    "f5f777273e62089193a68f99f4885a55");
+                            AMixpanelAnalytics mixpanelAnalytics
+                                                       = new AMixpanelAnalytics(
+                                            "f5f777273e62089193a68f99f4885a55");
                             mixpanelAnalytics.addProperty("Game Added", game
                                                           .getName());
                             mixpanelAnalytics.sendEventProperty("Added Game");
@@ -2301,8 +2309,9 @@ public class LibraryHandler implements
                                 LibraryUI.DEFAULT_LIBRARY_COLOR);
 
                         // Tell Mixpanel that latest games added were auto added
-                        AMixpanelAnalytics mixpanelAnalytics = new AMixpanelAnalytics(
-                                "f5f777273e62089193a68f99f4885a55");
+                        AMixpanelAnalytics mixpanelAnalytics
+                                                   = new AMixpanelAnalytics(
+                                        "f5f777273e62089193a68f99f4885a55");
                         mixpanelAnalytics.addProperty("Auto Added", libraryLogic
                                                       .getAutoAddCurrentList()
                                                       .size());
@@ -2574,35 +2583,42 @@ public class LibraryHandler implements
                                     "Changed Game Path");
 
                         }
+                    }
+                    if (libraryUI.getEditGameUI().isGameCoverChanged()) {
 
-                        if (libraryUI.getEditGameUI().isGameCoverChanged()) {
 
+                        // The library status text when completed
+                        String completedText = "Changed Game Name";
+                        //Set new name
+                        String editGameName;
+                        if (libraryLogic.getGameSearch_editUI()
+                                .getCurrentlySearchedGame().getName()
+                                    == null
+                                    || !libraryLogic.getGameSearch_editUI()
+                                .isSearchEnabled()) {
+                            editGameName = libraryLogic
+                                    .getGameSearch_editUI()
+                                    .getAppendedName();
+                        } else {
+                            editGameName = libraryLogic
+                                    .getGameSearch_editUI()
+                                    .getCurrentlySearchedGame().getName();
+                        }
 
-                            //Set new name
-                            String editGameName;
-                            if (libraryLogic.getGameSearch_editUI()
-                                    .getCurrentlySearchedGame().getName()
-                                        == null
-                                        || !libraryLogic.getGameSearch_editUI()
-                                    .isSearchEnabled()) {
-                                editGameName = libraryLogic
+//                        if (!libraryUI
+//                                .getGridSplit().isDupicate(editGameName)) {
+                            // Remove Game
+                            libraryUI.getStorage().getStoredLibrary()
+                                    .removeGame(libraryUI
+                                            .getEditGameUI()
+                                            .getCurrentGame_editUI());
+                            try {
+                                //Set new path if new cover art added
+                                if (!libraryLogic
                                         .getGameSearch_editUI()
-                                        .getAppendedName();
-                            } else {
-                                editGameName = libraryLogic
-                                        .getGameSearch_editUI()
-                                        .getCurrentlySearchedGame().getName();
-                            }
-
-                            if (!libraryUI
-                                    .getGridSplit().isDupicate(editGameName)) {
-                                // Remove Game
-                                libraryUI.getStorage().getStoredLibrary()
-                                        .removeGame(libraryUI
-                                                .getEditGameUI()
-                                                .getCurrentGame_editUI());
-                                try {
-                                    //Set new path
+                                        .getCurrentlySearchedGame()
+                                        .getBoxArtUrl().equals(
+                                                "library_noGameFound.png")) {
                                     libraryUI.getEditGameUI()
                                             .getCurrentGame_editUI()
                                             .setCoverUrl(
@@ -2610,52 +2626,55 @@ public class LibraryHandler implements
                                                     .getGameSearch_editUI()
                                                     .getCurrentlySearchedGame()
                                                     .getBoxArtUrl());
-
-                                    libraryUI.getEditGameUI()
-                                            .getCurrentGame_editUI()
-                                            .setGameName(
-                                                    editGameName);
-
-                                } catch (MalformedURLException ex) {
-                                    java.util.logging.Logger.getLogger(
-                                            LibraryHandler.class.getName()).
-                                            log(Level.SEVERE, null, ex);
+                                    completedText = "Changed Game Cover";
                                 }
 
-                                //refresh
                                 libraryUI.getEditGameUI()
-                                        .getCurrentGame_editUI().refresh();
+                                        .getCurrentGame_editUI()
+                                        .setGameName(
+                                                editGameName);
 
-                                // Re Save
-                                libraryUI.getStorage().getStoredLibrary()
-                                        .SaveGame(libraryUI
-                                                .getEditGameUI()
-                                                .getCurrentGame_editUI());
-
-                                LibraryUI.lblLibraryStatus.setForeground(
-                                        Color.orange);
-                                LibraryUI.lblLibraryStatus.setText(
-                                        "Changed Game Cover");
-
-                                // Transition towards to left most grid to see the game added
-                                GridMove = new MoveToGrid(libraryUI
-                                        .getEditGameUI().getCurrentGame_editUI());
-
-                                libraryUI.getGridSplit().unselectPrevious();
-                            } else {
-                                ADialog info = new ADialog(
-                                        ADialog.aDIALOG_WARNING,
-                                        "Cannot Add Duplicate Game",
-                                        libraryUI
-                                        .getCoreUI()
-                                        .getRegularFont()
-                                        .deriveFont(Font.BOLD, 28));
-                                info.setVisible(true);
-                                info.showDialog();
-
+                            } catch (MalformedURLException ex) {
+                                java.util.logging.Logger.getLogger(
+                                        LibraryHandler.class.getName()).
+                                        log(Level.SEVERE, null, ex);
                             }
-                        }
+
+                            //refresh
+                            libraryUI.getEditGameUI()
+                                    .getCurrentGame_editUI().refresh();
+
+                            // Re Save
+                            libraryUI.getStorage().getStoredLibrary()
+                                    .SaveGame(libraryUI
+                                            .getEditGameUI()
+                                            .getCurrentGame_editUI());
+
+                            LibraryUI.lblLibraryStatus.setForeground(
+                                    Color.orange);
+                            LibraryUI.lblLibraryStatus.setText(
+                                    completedText);
+
+                            // Transition towards to left most grid to see the game added
+                            GridMove = new MoveToGrid(libraryUI
+                                    .getEditGameUI().getCurrentGame_editUI());
+
+                            libraryUI.getGridSplit().unselectPrevious();
+//                        } else {
+//                            ADialog info = new ADialog(
+//                                    ADialog.aDIALOG_WARNING,
+//                                    "Cannot Add Duplicate Game",
+//                                    libraryUI
+//                                    .getCoreUI()
+//                                    .getRegularFont()
+//                                    .deriveFont(Font.BOLD, 28));
+//                            info.showDialog();
+//                            info.setVisible(true);
+//
+//
+//                        }
                     }
+
 
                     libraryUI.getEditGameUI().hideEditGameUI();
 

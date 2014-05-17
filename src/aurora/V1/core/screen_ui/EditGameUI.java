@@ -222,14 +222,14 @@ public class EditGameUI {
         pnlRightPane = new AImagePane("editUI_right.png");
         pnlRightPane.setPreferredSize(new Dimension(pnlRightPane
                 .getRealImageWidth() + 5, pnlRightPane
-                                                           .getRealImageHeight()));
+                                                    .getRealImageHeight()));
         pnlRightPane.setLayout(new BoxLayout(pnlRightPane,
-                                                    BoxLayout.Y_AXIS));
+                                             BoxLayout.Y_AXIS));
 
         // Panel containing current Game cover with game name
         pnlTopRightPane = new JPanel();
         pnlTopRightPane.setLayout(new BoxLayout(pnlTopRightPane,
-                                                       BoxLayout.Y_AXIS));
+                                                BoxLayout.Y_AXIS));
         pnlTopRightPane.setOpaque(false);
 
         lblCurrentName = new ASlickLabel("Game Name");
@@ -261,19 +261,19 @@ public class EditGameUI {
         pnlCenterRight.setLayout(new GridLayout(3, 1, 0, -6));
 
         btnGameLocation = new ARadioButton("editUI_btnSetting_norm.png",
-                                                  "editUI_btnSetting_down.png");
+                                           "editUI_btnSetting_down.png");
         btnGameLocation.setLayout(new BoxLayout(btnGameLocation,
-                                                       BoxLayout.Y_AXIS));
+                                                BoxLayout.Y_AXIS));
 
         btnGameCover = new ARadioButton("editUI_btnSetting_norm.png",
-                                               "editUI_btnSetting_down.png");
+                                        "editUI_btnSetting_down.png");
         btnGameCover.setLayout(new BoxLayout(btnGameCover,
-                                                    BoxLayout.Y_AXIS));
+                                             BoxLayout.Y_AXIS));
 
         btnOther = new ARadioButton("editUI_btnSetting_norm.png",
-                                           "editUI_btnSetting_down.png");
+                                    "editUI_btnSetting_down.png");
         btnOther.setLayout(new BoxLayout(btnOther,
-                                                BoxLayout.Y_AXIS));
+                                         BoxLayout.Y_AXIS));
 
         lblGameLocation = new ASlickLabel(" Game Location ");
         lblGameCover = new ASlickLabel(" Box Art ");
@@ -672,7 +672,8 @@ public class EditGameUI {
             gamesList_editUI.setLayoutOrientation(JList.VERTICAL);
             gamesList_editUI.setVisibleRowCount(10);
 
-            gamesList_editUI.setCellRenderer(libraryHandler.new GameListRender());
+            gamesList_editUI
+                    .setCellRenderer(libraryHandler.new GameListRender());
             gamesList_editUI.setModel(listModel_editUI);
 
             pnlGameCoverContainer
@@ -888,6 +889,7 @@ public class EditGameUI {
                     try {
                         Thread.sleep(100);
                         showEditGameUI(game);
+                        currentGameBeingEdited = game;
                     } catch (InterruptedException ex) {
                         Logger.getLogger(EditGameUI.class.getName()).log(
                                 Level.SEVERE,
@@ -976,14 +978,20 @@ public class EditGameUI {
             }
 
             // Animate Up Add Game UI
-            editGameAnimator.moveVertical(-492, 35);
+
             editGameAnimator.addPostAnimationListener(new APostHandler() {
                 @Override
                 public void doAction() {
                     pnlGlass.setVisible(false);
+                    txtGameCoverSearch_editUI.getTextBox().setText("");
+                    txtGameCoverSearch_editUI.getTextBox()
+                            .requestFocusInWindow();
+                    txtNewLocation_editUI.setText("");
 
                 }
             });
+            editGameAnimator.moveVertical(-492, 35);
+
 
             editGameAnimator.removeAllListeners();
 
@@ -1057,9 +1065,11 @@ public class EditGameUI {
             pnlLeftPane_editUI.revalidate();
             pnlLeftPane_editUI.repaint();
 
-            txtGameCoverSearch_editUI.getTextBox().requestFocusInWindow();
+
             libraryLogic.getGameSearch_editUI().enableSearch();
             libraryLogic.getGameSearch_editUI().resetCover();
+//            txtGameCoverSearch_editUI.setText(GameSearch.DEFAULT_SEARCH_TEXT);
+            txtGameCoverSearch_editUI.getTextBox().requestFocusInWindow();
             this.resetGameCoverIndicator();
         }
     }
@@ -1080,7 +1090,13 @@ public class EditGameUI {
     // Setters and Getters
     //
     public boolean isGameCoverChanged() {
-        return txtGameCoverSearch_editUI.getText().length() > 0;
+        if (txtGameCoverSearch_editUI.getText().length() > 0
+                    && !txtGameCoverSearch_editUI.getText().equals(
+                        GameSearch.DEFAULT_SEARCH_TEXT)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void setEditGameLocationChanged(boolean isGameLocationChanged) {

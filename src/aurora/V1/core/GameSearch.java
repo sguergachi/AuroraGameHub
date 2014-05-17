@@ -40,6 +40,8 @@ public class GameSearch implements Runnable {
 
     public static String DEFAULT_SEARCH_TEXT = "Search For Game...";
 
+    public static String DEFAULT_SEARCH_TEXT2 = "Enter Name Of Game...";
+
     private final AuroraCoreUI coreUI;
 
     private final LibraryUI libraryUI;
@@ -828,7 +830,11 @@ public class GameSearch implements Runnable {
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
                 notFoundCover.revalidate();
-
+                if (foundGameCover != null) {
+                    foundGameCover.setGameName(txtSearch.getText());
+                } else {
+                    AppendedName = txtSearch.getText();
+                }
                 // If no text or default text then its not valid for adding to lib
             } else {
                 // Change status
@@ -844,8 +850,11 @@ public class GameSearch implements Runnable {
 
         searchGame();
         statusIcon.setImgURl("addUI_img_autoSearchOn.png");
-
         DEFAULT_SEARCH_TEXT = "Search For Game...";
+        if (txtSearch.getText().equals(DEFAULT_SEARCH_TEXT2)) {
+            txtSearch.setText(DEFAULT_SEARCH_TEXT);
+        }
+
     }
 
     public void disableSearch() {
@@ -853,9 +862,32 @@ public class GameSearch implements Runnable {
         isSearchEnabled = false;
 
         searchGame();
+
+        notFoundCover.removeOverlayUI();
+        // Allow for custom editing cover art
+        if (canEditCover) {
+            notFoundCover.enableEditCoverOverlay();
+            notFoundCover.getBtnAddCustomOverlay()
+                    .addActionListener(
+                            libraryUI.getHandler().new GameCoverEditListner(
+                                    notFoundCover));
+        }
+
+        pnlGameCoverPane.removeAll();
+        pnlGameCoverPane.revalidate();
+        pnlGameCoverPane.add(notFoundCover);
+        pnlGameCoverPane.revalidate();
+        pnlGameCoverPane.repaint();
+        imgBlankCover.repaint();
+
         statusIcon.setImgURl("addUI_img_autoSearchOff.png");
 
-        DEFAULT_SEARCH_TEXT = "Enter Name Of Game...";
+        if (txtSearch.getText().equals(DEFAULT_SEARCH_TEXT)) {
+            txtSearch.setText(DEFAULT_SEARCH_TEXT2);
+        }
+        DEFAULT_SEARCH_TEXT = DEFAULT_SEARCH_TEXT2;
+
+
     }
 
     public boolean isSearchEnabled() {
