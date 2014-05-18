@@ -344,11 +344,11 @@ public class DashboardUI implements AuroraScreenUI {
      */
     public DashboardUI(final AuroraCoreUI auroraCoreUi,
                        final WelcomeUI startScreenUi) {
-        // Other core objects //
+        // Other core objects
         this.startUI = startScreenUi;
         this.storage = startUI.getAuroraStorage();
 
-        // Core UI Canvas //
+        // Core UI Canvas
         this.coreUI = auroraCoreUi;
 
 
@@ -449,7 +449,6 @@ public class DashboardUI implements AuroraScreenUI {
 
 
         // Set ID For each Panel and add ENTER Key Listener
-
         paneSettings.addContent(icoSetting, TitleType.NORMAL);
         paneProfile.addContent(icoProfile, TitleType.NORMAL);
         paneNet.addContent(icoNet, TitleType.NORMAL);
@@ -548,7 +547,7 @@ public class DashboardUI implements AuroraScreenUI {
         work.startOnce();
 
 
-        // About Box //
+        // About Box 
         aboutBox = new AboutBox(coreUI);
         coreUI.getLogoImage().addMouseListener(new HeaderMouseListener());
         aboutBox.buildAboutUI();
@@ -648,8 +647,7 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getTopPane().setImageHeight(topHeight);
         coreUI.getTopPane().setPreferredSize(new Dimension(coreUI
                 .getTopPane().
-                getWidth(), coreUI.getTopPane().getImageHeight() + coreUI.
-                                                           getFrameControlContainerPanel()
+                getWidth(), topHeight + coreUI.getFrameControlContainerPanel()
                                                            .getHeight()));
 
         // Set size of Top Panels

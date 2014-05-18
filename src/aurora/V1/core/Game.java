@@ -252,6 +252,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private GridManager libraryManager;
 
+    private boolean canShowGameInfoInLibraryStatusBar;
+
     public Game() {
     }
 
@@ -916,6 +918,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             this.add(imgSelectedGlow);
             this.repaint();
             this.validate();
+
+            canShowGameInfoInLibraryStatusBar = true;
+            tranisionBetweenGameInfoInLibraryStatusBar();
+
         }
 
     }
@@ -946,6 +952,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             this.remove(imgSelectedGlow);
             this.repaint();
             this.revalidate();
+
+            canShowGameInfoInLibraryStatusBar = false;
+
 
         }
 
@@ -1090,7 +1099,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         thisGame().clearImage();
         thisGame().setImage(temp.getCoverImagePane().getImgIcon(),
                             height, width);
-        showOverlayUI();
         select();
     }
 
@@ -1144,7 +1152,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         thisGame().clearImage();
         thisGame().setImage(temp.getCoverImagePane().getImgIcon(),
                             height, width);
-        showOverlayUI();
         select();
     }
 
@@ -1205,6 +1212,83 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     public GridManager getManager() {
         return manager;
+    }
+
+    private void tranisionBetweenGameInfoInLibraryStatusBar() {
+        AThreadWorker run = new AThreadWorker();
+        run.setAction(new TransisionBetweenGameInfo(run));
+
+        run.start();
+    }
+
+    private class TransisionBetweenGameInfo implements ActionListener {
+
+        private final AThreadWorker run;
+
+        public TransisionBetweenGameInfo(AThreadWorker run) {
+            this.run = run;
+        }
+
+        int count = 0;
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            try {
+                Thread.sleep(2700);
+            } catch (InterruptedException ex) {
+                java.util.logging.Logger.getLogger(Game.class.getName())
+                        .log(Level.SEVERE, null, ex);
+            }
+
+            if (canShowGameInfoInLibraryStatusBar) {
+                count++;
+
+                switch (count) {
+                    case 1: // Times Played
+
+                        LibraryUI.lblLibraryStatus.setForeground(
+                                LibraryUI.DEFAULT_LIBRARY_COLOR);
+                        String timesPlayed = parseTotalOccurence();
+                        if (timesPlayed.equals("None")) {
+                            LibraryUI.lblLibraryStatus.setText("Never Played");
+                            count = 3;
+                        } else {
+                            LibraryUI.lblLibraryStatus.setText("Played - "
+                                                                       + timesPlayed);
+                        }
+
+                        break;
+                    case 2: // Total Time Played
+
+                        LibraryUI.lblLibraryStatus.setForeground(
+                                LibraryUI.DEFAULT_LIBRARY_COLOR);
+                        LibraryUI.lblLibraryStatus.setText("Played for - "
+                                                                   + parseTotalTimePlayed());
+
+                        break;
+                    case 3: // Last Played
+                        LibraryUI.lblLibraryStatus.setForeground(
+                                LibraryUI.DEFAULT_LIBRARY_COLOR);
+                        LibraryUI.lblLibraryStatus.setText("Last Played - "
+                                                                   + parseLastTimePlayed());
+
+                        break;
+                    case 4:
+                        LibraryUI.lblLibraryStatus.setForeground(
+                                LibraryUI.DEFAULT_LIBRARY_COLOR);
+                        LibraryUI.lblLibraryStatus.setText(getGameName());
+                        // reset to first case
+                        count = 0;
+                        break;
+                }
+
+
+
+            } else {
+                run.stop();
+            }
+        }
     }
 
     private class EnterGameTypeListener implements ActionListener {
@@ -1580,6 +1664,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         isFlipUIReady = true;
         flipGame();
 
+
+
     }
 
     /**
@@ -1696,29 +1782,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
-    /**
-     * .-----------------------------------------------------------------------.
-     * | showFlipUIContent()
-     * .-----------------------------------------------------------------------.
-     * |
-     * | Shows the flip UI which has been loaded using the setUpFlipedUI()
-     * |
-     * .........................................................................
-     * <p/>
-     */
-    private void flipGame() {
-
-        topPanel.removeAll();
-        topPanel.revalidate();
-        topPanel.setPreferredSize(pnlTopImageContainer.getPreferredSize());
-        topPanel.add(pnlTopImageContainer, BorderLayout.CENTER);
-        topPanel.revalidate();
-
-        pnlInteractivePane.add(pnlFlipContainer, BorderLayout.CENTER, 1);
-        pnlInteractivePane.revalidate();
-
-        // Hours Played
-        // ----------------------------------------------------------------.
+    protected String parseTotalTimePlayed() {
         if (this.timePlayed != null && !this.timePlayed.equals("null")) {
 
             // Parse time //
@@ -1739,61 +1803,54 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             int hours = Integer.parseInt(hoursPlayed);
             int mins = Integer.parseInt(minutesPlayed);
 
-            String hourTxt = "hr";
-            String minTxt = "min";
+            String hourTxt = " hr";
+            String minTxt = " min";
 
             if (hours > 1) {
-                hourTxt = "hrs";
+                hourTxt = " hrs";
             }
             if (mins > 1) {
-                minTxt = "mins";
+                minTxt = " mins";
             }
 
             // parse to textbox
             if ((minutesPlayed.equals("0")) && (hoursPlayed.equals("0"))) {
 
-                txtHoursPlayed.setText("Under a min");
+                return "Under a min";
 
             } else if (minutesPlayed.equals("0")) {
 
-                txtHoursPlayed.setText(hoursPlayed + hourTxt);
+                return hoursPlayed + hourTxt;
 
             } else if (hoursPlayed.equals("0")) {
 
-                txtHoursPlayed.setText(minutesPlayed + minTxt);
+                return minutesPlayed + minTxt;
 
             } else {
 
-                txtHoursPlayed.setText(hoursPlayed + hourTxt + " "
-                                               + minutesPlayed
-                                               + minTxt);
+                return hoursPlayed + hourTxt + " "
+                               + minutesPlayed
+                               + minTxt;
             }
         } else {
-            txtHoursPlayed.setText("None");
+            return "None";
         }
-        txtHoursPlayed.getTextBox().setEnabled(false);
-        txtHoursPlayed.revalidate();
+    }
 
-        // Occurences Played
-        // ----------------------------------------------------------------.
-        txtTimesPlayed.getTextBox().setEnabled(false);
+    protected String parseTotalOccurence() {
         String occurence = Integer.toString(this.getOccurencesPlayed());
         if (occurence.equals("0")) {
-            txtTimesPlayed.setText("None");
+            return "None";
         } else {
             if (Integer.parseInt(occurence) > 1) {
-                txtTimesPlayed.setText(occurence + " Times");
+                return occurence + " Times";
             } else {
-                txtTimesPlayed.setText(occurence + " Time");
+                return occurence + " Time";
             }
         }
-        txtTimesPlayed.revalidate();
+    }
 
-        // Last Time Played
-        // ----------------------------------------------------------------.
-        txtLastPlayed.getTextBox().setEnabled(false);
-
-        // Calculate days past //
+    protected String parseLastTimePlayed() {
         SimpleDateFormat format = new SimpleDateFormat(ATimeLabel.DATE);
         Date past = null;
 
@@ -1801,8 +1858,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         if (this.lastPlayed != null && !this.lastPlayed.equals("null")) {
             try {
                 past = format.parse(lastPlayed);
+
+
             } catch (ParseException ex) {
-                java.util.logging.Logger.getLogger(Game.class.getName()).
+                java.util.logging.Logger.getLogger(Game.class
+                        .getName()).
                         log(Level.SEVERE, null, ex);
             }
             Date now = new Date();
@@ -1811,30 +1871,82 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     .getTime() - past.getTime()));
             if (daysPast.equals("0")) {
 
-                txtLastPlayed.setText("Today");
+                return "Today";
 
             } else {
 
                 if (Integer.parseInt(daysPast) > 30) {
-                    txtLastPlayed.setText("Over a month ago");
+                    return "Over a month ago";
                 } else if (Integer.parseInt(daysPast) > 1) {
-                    txtLastPlayed.setText(daysPast + " days ago");
+                    return daysPast + " days ago";
                 } else {
-                    txtLastPlayed.setText("Yesterday");
+                    return "Yesterday";
                 }
 
             }
         } else {
 
-            txtLastPlayed.setText("Not Played");
+            return "Not Played";
         }
+    }
+
+    protected String parseGameType() {
+        if (this.getGameType() != null && !this.getGameType().equals("null")) {
+            return this.getGameType();
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | flipGame()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Shows the flip UI which has been loaded using the setUpFlipedUI()
+     * |
+     * .........................................................................
+     * <p/>
+     */
+    private void flipGame() {
+
+        canShowGameInfoInLibraryStatusBar = false;
+        LibraryUI.lblLibraryStatus.setForeground(
+                LibraryUI.DEFAULT_LIBRARY_COLOR);
+        LibraryUI.lblLibraryStatus.setText(getGameName());
+
+        topPanel.removeAll();
+        topPanel.revalidate();
+        topPanel.setPreferredSize(pnlTopImageContainer.getPreferredSize());
+        topPanel.add(pnlTopImageContainer, BorderLayout.CENTER);
+        topPanel.revalidate();
+
+        pnlInteractivePane.add(pnlFlipContainer, BorderLayout.CENTER, 1);
+        pnlInteractivePane.revalidate();
+
+        // Hours Played
+        // ----------------------------------------------------------------.
+        txtHoursPlayed.setText(parseTotalTimePlayed());
+        txtHoursPlayed.getTextBox().setEnabled(false);
+        txtHoursPlayed.revalidate();
+
+        // Occurences Played
+        // ----------------------------------------------------------------.
+        txtTimesPlayed.getTextBox().setEnabled(false);
+        txtTimesPlayed.setText(parseTotalOccurence());
+        txtTimesPlayed.revalidate();
+
+        // Last Time Played
+        // ----------------------------------------------------------------.
+        txtLastPlayed.getTextBox().setEnabled(false);
+
+        // Calculate days past //
+        txtLastPlayed.setText(parseLastTimePlayed());
         txtLastPlayed.revalidate();
 
         // Game Type
         // ----------------------------------------------------------------.
-        if (this.getGameType() != null && !this.getGameType().equals("null")) {
-            txtGameType.setText(this.getGameType());
-        }
+        txtGameType.setText(parseGameType());
 
     }
     boolean isFavoriting;
@@ -2140,14 +2252,16 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         manager.unselectPrevious();
         showOverlayUI();
-
+        canShowGameInfoInLibraryStatusBar = true;
     }
 
     private void unselect() {
         hideOverlayUI();
-
+        canShowGameInfoInLibraryStatusBar = false;
         if (logger.isDebugEnabled()) {
             logger.debug("GAME UNSELECTED");
+
+
 
         }
     }

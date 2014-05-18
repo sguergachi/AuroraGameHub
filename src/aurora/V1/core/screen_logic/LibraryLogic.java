@@ -1112,8 +1112,6 @@ public class LibraryLogic implements AuroraScreenLogic {
                                 FlowLayout.LEFT, 5, 0));
 
 
-
-
                         // Try and find a search
                         // TODO prevent duplicate
                         if (gameSearch_autoUI == null) {

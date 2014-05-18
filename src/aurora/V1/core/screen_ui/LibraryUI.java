@@ -443,9 +443,14 @@ public class LibraryUI extends AuroraApp {
             imgLibraryStatusPane.add(lblLibraryStatus,
                                      BorderLayout.CENTER);
 
-            lblLibraryStatus.setSize(new Dimension(lblLibraryStatus
-                    .getPreferredSize().width, lblLibraryStatus
-                                                   .getPreferredSize().height));
+            lblLibraryStatus.setSize(new Dimension(imgLibraryStatusPane
+                    .getRealImageWidth(), imgLibraryStatusPane
+                                                            .getRealImageHeight()
+                                          / 2 + gameNameFontSize / 2));
+
+//            lblLibraryStatus.setSize(new Dimension(lblLibraryStatus
+//                    .getPreferredSize().width, lblLibraryStatus
+//                                                   .getPreferredSize().height));
             lblLibraryStatus.validate();
             pnlLibraryStatusContainer.validate();
 
@@ -1371,7 +1376,6 @@ public class LibraryUI extends AuroraApp {
     public ASlickLabel getLblSearchResultsInfo() {
         return lblSearchResultsInfo;
     }
-
 
     public AHoverButton getBtnGameLeft() {
         return btnGameLeft;
