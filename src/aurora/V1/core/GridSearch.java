@@ -269,6 +269,12 @@ public class GridSearch {
                                                                            .getRealImageHeight()));
         }
 
+        if (results == 1 || results == 0) {
+            libraryUI.getLblSearchResultsInfo().setText("Result");
+        } else {
+            libraryUI.getLblSearchResultsInfo().setText("Results");
+        }
+
         libraryUI.getLblSearchResults()
                 .setText(Integer.toString(results));
 

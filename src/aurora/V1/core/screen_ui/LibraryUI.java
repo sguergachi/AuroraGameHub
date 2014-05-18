@@ -386,7 +386,7 @@ public class LibraryUI extends AuroraApp {
                                                               0, 0));
         pnlSearchResultsContainer.setOpaque(false);
         lblSearchResults = new ASlickLabel();
-        lblSearchResultsInfo = new ASlickLabel("results");
+        lblSearchResultsInfo = new ASlickLabel("Results");
         //
         // Set up grid
         //
@@ -488,7 +488,7 @@ public class LibraryUI extends AuroraApp {
             lblSearchResultsInfo.setFont(coreUI.getDefaultFont()
                     .deriveFont(Font.BOLD,
                                 gridSearchFontSize - 15));
-            lblSearchResultsInfo.setPreferredSize(new Dimension(58,
+            lblSearchResultsInfo.setPreferredSize(new Dimension(60,
                                                                 coreUI
                                                                 .getFrameControlImagePane()
                                                                 .getRealImageHeight()));
@@ -1366,6 +1366,10 @@ public class LibraryUI extends AuroraApp {
 
     public JTextField getTxtGridSearchField() {
         return txtGridSearchField;
+    }
+
+    public ASlickLabel getLblSearchResultsInfo() {
+        return lblSearchResultsInfo;
     }
 
     public static int getListFontSize() {
