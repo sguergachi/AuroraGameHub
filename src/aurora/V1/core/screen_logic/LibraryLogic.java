@@ -1002,6 +1002,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
         findGames = new AThreadWorker(new ActionListener() {
             private ArrayList<String> gameImageNames;
+
             private ArrayList<Boolean> unsureGameList;
 
             @Override
@@ -1112,6 +1113,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
 
 
+
                         // Try and find a search
                         // TODO prevent duplicate
                         if (gameSearch_autoUI == null) {
@@ -1141,6 +1143,9 @@ public class LibraryLogic implements AuroraScreenLogic {
                                 .get(i));
 
                         pnlListElement.add(lblGameName);
+                        pnlListElement.setToolTipText(executableGamePath.get(i)
+                                .getPath());
+
 
                         Game game = new Game(libraryUI.getGridSplit(),
                                              coreUI, dashboardUI, libraryUI
@@ -1370,7 +1375,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                     LibraryUI.lblLibraryStatus.setText(previousLibraryStatus);
                 }
             }
-        });
+        }
+        );
 
         findGames.startOnce();
     }
@@ -1421,6 +1427,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                         try {
                             Thread.sleep(20);
 
+
+
                         } catch (InterruptedException ex) {
                             java.util.logging.Logger.getLogger(
                                     LibraryLogic.class
@@ -1464,6 +1472,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                         try {
                             Thread.sleep(20);
 
+
+
                         } catch (InterruptedException ex) {
                             java.util.logging.Logger.getLogger(
                                     LibraryLogic.class
@@ -1502,8 +1512,11 @@ public class LibraryLogic implements AuroraScreenLogic {
                             "cmd.exe",
                             "/c", loc
                         });
+
+
             } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(LibraryLogic.class.getName())
+                java.util.logging.Logger.getLogger(LibraryLogic.class
+                        .getName())
                         .log(Level.SEVERE, null, ex);
             }
         }
@@ -1513,8 +1526,11 @@ public class LibraryLogic implements AuroraScreenLogic {
         Desktop desktop = Desktop.getDesktop();
         try {
             desktop.open(file);
+
+
         } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(LibraryLogic.class.getName())
+            java.util.logging.Logger.getLogger(LibraryLogic.class
+                    .getName())
                     .log(Level.SEVERE, null, ex);
         }
 
@@ -1580,8 +1596,11 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                 fileIO.writeImage(currentImagePane, fileName, "Game Data");
 
+
+
             } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(LibraryLogic.class.getName())
+                java.util.logging.Logger.getLogger(LibraryLogic.class
+                        .getName())
                         .log(Level.SEVERE, null, ex);
             }
         }
@@ -1615,6 +1634,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                     count++;
                     try {
                         Thread.sleep(200);
+
+
                     } catch (InterruptedException ex) {
                         java.util.logging.Logger.getLogger(LibraryLogic.class
                                 .getName())
@@ -1649,10 +1670,13 @@ public class LibraryLogic implements AuroraScreenLogic {
                         GameSearch.DEFAULT_SEARCH_TEXT);
                 gameSearch_editUI.getTxtSearch().requestFocusInWindow();
 
+
+
             }
 
         } catch (MalformedURLException ex) {
-            java.util.logging.Logger.getLogger(LibraryLogic.class.getName())
+            java.util.logging.Logger.getLogger(LibraryLogic.class
+                    .getName())
                     .log(Level.SEVERE, null, ex);
         }
 

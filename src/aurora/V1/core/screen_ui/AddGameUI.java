@@ -31,8 +31,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
@@ -63,7 +65,6 @@ public class AddGameUI {
 
     private final AuroraCoreUI coreUI;
 
-//    private JPanel pnlGlass;
     private JLayeredPane pnlGlass;
 
     private AImagePane pnlAddGamePane;
@@ -459,7 +460,7 @@ public class AddGameUI {
 
         listModel_autoUI = new DefaultListModel<>();
 
-        gameList_autoUI = new JList<>();
+
 
         pnlScrollPane = new JPanel(new BorderLayout());
         pnlScrollPane.setOpaque(false);
@@ -512,6 +513,30 @@ public class AddGameUI {
                                      "autoUI_btnRefresh_over.png");
 
         imgAutoSearchStatus_addUI = new AImage("addUI_img_autoSearchOn.png");
+
+        gameList_autoUI = new JList() {
+            @Override
+            public Point getToolTipLocation(MouseEvent e) {
+                scrollList_autoUI.getViewport().repaint();
+
+
+                if (e.getLocationOnScreen() != null) {
+
+                    return new Point(((JList) e.getSource())
+                            .getLocation().x
+                                             + (pnlAddGamePane
+                            .getRealImageWidth() / 2 - 50), e.getY());
+
+
+                } else {
+                    return null;
+                }
+
+            }
+
+
+
+        };
 
         libraryLogic.getGameSearch_autoUI().setCanEditCover(false);
 
@@ -853,9 +878,7 @@ public class AddGameUI {
                                                                       scrollList_autoUI
                                                                       .getViewport()
                                                                       .getPreferredSize().height));
-                            scrollList_autoUI.repaint();
                             scrollList_autoUI.getViewport().repaint();
-                            scrollList_autoUI.getVerticalScrollBar().revalidate();
                         }
                     });
 
@@ -886,10 +909,8 @@ public class AddGameUI {
                                                              .getRealImageHeight()));
             scrollList_autoUI.setVerticalScrollBar(scrollBar);
 
-            scrollBar.revalidate();
             scrollList_autoUI.revalidate();
             scrollList_autoUI.repaint();
-            scrollBar.repaint();
 
             pnlScrollPane.add(gameList_autoUI, BorderLayout.CENTER);
             pnlScrollPane.add(pnlCheckBG, BorderLayout.EAST);
@@ -1363,5 +1384,9 @@ public class AddGameUI {
 
     public DefaultListModel<Object> getListModel_autoUI() {
         return listModel_autoUI;
+    }
+
+    public JScrollPane getScrollList_autoUI() {
+        return scrollList_autoUI;
     }
 }
