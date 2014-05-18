@@ -263,7 +263,7 @@ public class LibraryHandler implements
         @Override
         public void mouseClicked(MouseEvent e) {
             imgGameLeft = libraryUI.getImgGameLeft();
-            imgGameRight = libraryUI.getImgGameRight();
+            imgGameRight = libraryUI.getBtnGameRight();
             imgFavorite = libraryUI.getImgOrganizeType();
             GridAnimate = libraryUI.getGridAnimate();
 
@@ -325,7 +325,7 @@ public class LibraryHandler implements
         @Override
         public void mouseEntered(MouseEvent e) {
             imgGameLeft = libraryUI.getImgGameLeft();
-            imgGameRight = libraryUI.getImgGameRight();
+            imgGameRight = libraryUI.getBtnGameRight();
             imgFavorite = libraryUI.getImgOrganizeType();
             GridAnimate = libraryUI.getGridAnimate();
             GridAnimate = libraryUI.getGridAnimate();
@@ -340,7 +340,7 @@ public class LibraryHandler implements
         @Override
         public void mouseExited(MouseEvent e) {
             imgGameLeft = libraryUI.getImgGameLeft();
-            imgGameRight = libraryUI.getImgGameRight();
+            imgGameRight = libraryUI.getBtnGameRight();
             imgFavorite = libraryUI.getImgOrganizeType();
             GridAnimate = libraryUI.getGridAnimate();
             imgGameLeft.mouseExit();
@@ -369,7 +369,7 @@ public class LibraryHandler implements
 
             GameBack = libraryUI.getGamesContainer();
             imgGameLeft = libraryUI.getImgGameLeft();
-            imgGameRight = libraryUI.getImgGameRight();
+            imgGameRight = libraryUI.getBtnGameRight();
             imgFavorite = libraryUI.getImgOrganizeType();
             GridAnimate = libraryUI.getGridAnimate();
         }
@@ -408,7 +408,7 @@ public class LibraryHandler implements
                             .getArray()
                             .size() - 1)) {
 
-                        GameBack.remove(libraryUI.getImgGameRight());
+                        GameBack.remove(libraryUI.getBtnGameRight());
                         GameBack.add(Box.createHorizontalStrut(140),
                                      BorderLayout.EAST, 2);
                         imgGameRight.mouseExit();
@@ -434,7 +434,7 @@ public class LibraryHandler implements
             }
 
             GridAnimate = libraryUI.getGridAnimate();
-            imgGameRight = libraryUI.getImgGameRight();
+            imgGameRight = libraryUI.getBtnGameRight();
 
             if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
                     .getAnimator2().isAnimating()) {

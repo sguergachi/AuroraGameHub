@@ -27,6 +27,7 @@ import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
+import javax.swing.Box;
 import org.apache.log4j.Logger;
 
 /**
@@ -249,6 +250,7 @@ public class GridSearch {
         SearchManager.addPlaceHolders(libraryUI.getGameCoverWidth(), libraryUI
                                       .getGameCoverHeight());
 
+        // Padding scalling depending on results
         if (results <= 9) {
             libraryUI.getLblSearchResults().setPreferredSize(new Dimension(30,
                                                                            libraryUI
@@ -440,9 +442,13 @@ public class GridSearch {
         //Remove Favorite Side Image
         libraryUI.getGamesContainer().remove(0);
         libraryUI.getGamesContainer().remove(libraryUI.getImgOrganizeType());
+        libraryUI.getGamesContainer().remove(libraryUI.getBtnGameRight());
+        libraryUI.getGamesContainer().add(Box.createHorizontalStrut(libraryUI
+                .getBtnGameRight().getImgWidth()), BorderLayout.EAST);
         //Add search Side image
         this.sideSearchImage = new AImage("library_search.png");
         libraryUI.getGamesContainer().add(sideSearchImage, BorderLayout.WEST);
+
         for (int i = 0; i < libraryUI.getGridSplit().getArray().size(); i++) {
             libraryUI.getGamesContainer().remove(libraryUI.getGridSplit()
                     .getGrid(i));
@@ -470,6 +476,8 @@ public class GridSearch {
             // hide search results
             libraryUI.getPnlSearchResultsContainer().setVisible(false);
 
+            // show righ arrow again
+
             restoredGrid = true;
             clearedGrid = false;
 
@@ -480,7 +488,7 @@ public class GridSearch {
             libraryUI.getGamesContainer().add(libraryUI.getGridSplit()
                     .getGrid(0),
                                               BorderLayout.CENTER);
-            libraryUI.getGamesContainer().add(libraryUI.getImgGameRight(),
+            libraryUI.getGamesContainer().add(libraryUI.getBtnGameRight(),
                                               BorderLayout.EAST);
 
             libraryUI.getGamesContainer().revalidate();

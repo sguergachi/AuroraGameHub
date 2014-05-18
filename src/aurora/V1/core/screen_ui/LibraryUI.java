@@ -1304,7 +1304,7 @@ public class LibraryUI extends AuroraApp {
         return btnGameLeft;
     }
 
-    public AHoverButton getImgGameRight() {
+    public AHoverButton getBtnGameRight() {
         return btnGameRight;
     }
 
@@ -1370,6 +1370,11 @@ public class LibraryUI extends AuroraApp {
 
     public ASlickLabel getLblSearchResultsInfo() {
         return lblSearchResultsInfo;
+    }
+
+
+    public AHoverButton getBtnGameLeft() {
+        return btnGameLeft;
     }
 
     public static int getListFontSize() {
