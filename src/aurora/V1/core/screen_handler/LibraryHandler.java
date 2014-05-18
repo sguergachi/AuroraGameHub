@@ -1002,7 +1002,7 @@ public class LibraryHandler implements
             if (libraryUI.getSearchBar().getText().equals(
                     "Just Start Typing...")) {
                 libraryUI.getSearchBar().setText("");
-                libraryUI.getSearchBar().setForeground(Color.darkGray);
+                libraryUI.getSearchBar().setForeground(Color.gray);
                 libraryUI.getSearchBarBG().setImage(
                         "library_searchBar_active.png");
                 libraryUI.getSearchButtonBG().removeAll();
@@ -1023,7 +1023,7 @@ public class LibraryHandler implements
 
             libraryUI.getSearchBar().requestFocus();
             libraryUI.getSearchBar().setText("");
-            libraryUI.getSearchBar().setForeground(Color.darkGray);
+            libraryUI.getSearchBar().setForeground(Color.gray);
             libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
             libraryUI.getSearchButtonBG().removeAll();
             libraryUI.getSearchButtonBG().add(libraryUI.getRemoveSearchButton(),
@@ -1065,7 +1065,7 @@ public class LibraryHandler implements
                 if (e.getOppositeComponent() == SearchButton) {
                     SearchBar.setText("");
                     libraryLogic.getGridSearch().resetAppendedName();
-                    libraryUI.getSearchBar().setForeground(Color.darkGray);
+                    libraryUI.getSearchBar().setForeground(Color.gray);
                     libraryUI.getSearchBarBG().setImage(
                             "library_searchBar_active.png");
                     libraryUI.getSearchButtonBG().removeAll();
@@ -1177,7 +1177,7 @@ public class LibraryHandler implements
         public void keyReleased(KeyEvent e) {
 
             // This activates for any letter number or space key
-            libraryUI.getSearchBar().setForeground(Color.darkGray);
+            libraryUI.getSearchBar().setForeground(Color.gray);
             libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
             if (!libraryUI.isAddGameUIVisible()) {
                 if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode()
@@ -1293,7 +1293,7 @@ public class LibraryHandler implements
                     // Get focus of Search Box
                     SearchBar.requestFocus();
 
-                    libraryUI.getSearchBar().setForeground(Color.darkGray);
+                    libraryUI.getSearchBar().setForeground(Color.gray);
                     libraryUI.getSearchBarBG().setImage(
                             "library_searchBar_active.png");
                     libraryUI.getSearchButtonBG().removeAll();
