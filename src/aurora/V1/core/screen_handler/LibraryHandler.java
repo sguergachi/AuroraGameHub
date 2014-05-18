@@ -990,7 +990,6 @@ public class LibraryHandler implements
             libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(),
                                               BorderLayout.NORTH);
             libraryUI.getSearchButtonBG().revalidate();
-            libraryUI.getRemoveSearchButton().revalidate();
             libraryUI.getCoreUI().getFrame().requestFocus();
             libraryUI.getGamesContainer().revalidate();
         }

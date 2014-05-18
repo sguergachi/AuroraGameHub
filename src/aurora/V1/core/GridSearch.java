@@ -21,6 +21,7 @@ import aurora.V1.core.screen_handler.LibraryHandler;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.UI.AImage;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
@@ -142,10 +143,7 @@ public class GridSearch {
 
         this.clearSearchGrid();
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("Check EXACT Search: " + checkGameExistsInLibrary(
-                    AppendedName));
-        }
+        int results = 0;
 
         //EXACT SEARCH
         if (checkGameExistsInLibrary(AppendedName)) { // Check if game is exact match to library game
@@ -154,10 +152,10 @@ public class GridSearch {
                 logger.debug("Performing Exact Search: " + AppendedName);
             }
 
-            //Remove what ever is in the search grid
-
             //Add the exact game found
             addFoundGame(AppendedName);
+            results++;
+
             //Display the game found
             try {
                 displayGames();
@@ -216,6 +214,7 @@ public class GridSearch {
                                 //Check for duplicates
                                 if (!foundGameList.contains(game)) {
                                     addFoundGame(game.getName());
+                                    results += 1;
                                     try {
                                         displayGames();
 
@@ -236,18 +235,53 @@ public class GridSearch {
             if (foundGameList.isEmpty()) {
                 this.clearSearchGrid();
                 libraryUI.getGamesContainer().repaint();
+                results = 0;
             }
 
             //Clear grid
         } else if (AppendedName.length() != 0) {
             this.clearSearchGrid();
             libraryUI.getGamesContainer().repaint();
-
+            results = 0;
         }
 
         //add the place holders at the end
         SearchManager.addPlaceHolders(libraryUI.getGameCoverWidth(), libraryUI
                                       .getGameCoverHeight());
+
+        if (results <= 9) {
+            libraryUI.getLblSearchResults().setPreferredSize(new Dimension(30,
+                                                                           libraryUI
+                                                                           .getCoreUI()
+                                                                           .getFrameControlImagePane()
+                                                                           .getRealImageHeight()));
+        } else if (results >= 10 && results < 100) {
+            libraryUI.getLblSearchResults().setPreferredSize(new Dimension(50,
+                                                                           libraryUI
+                                                                           .getCoreUI()
+                                                                           .getFrameControlImagePane()
+                                                                           .getRealImageHeight()));
+        } else if (results >= 100) {
+            libraryUI.getLblSearchResults().setPreferredSize(new Dimension(60,
+                                                                           libraryUI
+                                                                           .getCoreUI()
+                                                                           .getFrameControlImagePane()
+                                                                           .getRealImageHeight()));
+        }
+
+        libraryUI.getLblSearchResults()
+                .setText(Integer.toString(results));
+
+        if (results > 999) {
+            libraryUI.getLblSearchResults().setPreferredSize(new Dimension(70,
+                                                                           libraryUI
+                                                                           .getCoreUI()
+                                                                           .getFrameControlImagePane()
+                                                                           .getRealImageHeight()));
+            libraryUI.getLblSearchResults()
+                    .setText("999+");
+        }
+
 
         SearchManager.getGrid(0).revalidate();
         SearchManager.getGrid(0).repaint();
@@ -391,6 +425,9 @@ public class GridSearch {
      */
     public void clearGameGrid() {
 
+        // show search results
+        libraryUI.getPnlSearchResultsContainer().setVisible(true);
+
         //Tells Every body here that this method has already been executed
         clearedGrid = true;
 
@@ -423,6 +460,10 @@ public class GridSearch {
     public void restoreGrid() throws MalformedURLException {
 
         if (!restoredGrid) {
+
+            // hide search results
+            libraryUI.getPnlSearchResultsContainer().setVisible(false);
+
             restoredGrid = true;
             clearedGrid = false;
 

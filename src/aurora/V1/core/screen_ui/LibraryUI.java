@@ -38,6 +38,7 @@ import aurora.engine.V1.UI.AHoverButton;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import aurora.engine.V1.UI.AProgressWheel;
+import aurora.engine.V1.UI.ASlickLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -271,6 +272,12 @@ public class LibraryUI extends AuroraApp {
 
     private OrganizeUI organizeUI;
 
+    private JPanel pnlSearchResultsContainer;
+
+    private ASlickLabel lblSearchResults;
+
+    private ASlickLabel lblSearchResultsInfo;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
@@ -375,6 +382,11 @@ public class LibraryUI extends AuroraApp {
         pnlSearchButton = new JPanel(new BorderLayout());
         pnlSearchContainer = new JPanel(new BorderLayout());
         pnlSearchBar = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        pnlSearchResultsContainer = new JPanel(new FlowLayout(FlowLayout.LEFT,
+                                                              0, 0));
+        pnlSearchResultsContainer.setOpaque(false);
+        lblSearchResults = new ASlickLabel();
+        lblSearchResultsInfo = new ASlickLabel("results");
         //
         // Set up grid
         //
@@ -458,27 +470,66 @@ public class LibraryUI extends AuroraApp {
 
             // Search Bar
             // ----------------------------------------------------------------.
+
             btnRemoveSearch.setPreferredSize(new Dimension(70, 51));
+
+            // Search results
+            lblSearchResults.setForeground(Color.darkGray);
+            lblSearchResults.setFont(coreUI.getDefaultFont()
+                    .deriveFont(Font.BOLD,
+                                gridSearchFontSize - 5));
+            lblSearchResults.setPreferredSize(new Dimension(30,
+                                                            coreUI
+                                                            .getFrameControlImagePane()
+                                                            .getRealImageHeight()));
+
+
+            lblSearchResultsInfo.setForeground(Color.darkGray);
+            lblSearchResultsInfo.setFont(coreUI.getDefaultFont()
+                    .deriveFont(Font.BOLD,
+                                gridSearchFontSize - 15));
+            lblSearchResultsInfo.setPreferredSize(new Dimension(58,
+                                                                coreUI
+                                                                .getFrameControlImagePane()
+                                                                .getRealImageHeight()));
+            pnlSearchResultsContainer.add(Box.createHorizontalStrut(10));
+            pnlSearchResultsContainer.add(lblSearchResults);
+            pnlSearchResultsContainer.add(lblSearchResultsInfo);
+
+            pnlSearchResultsContainer.setPreferredSize(new Dimension(150,
+                                                                     coreUI
+                                                                     .getFrameControlImagePane()
+                                                                     .getRealImageHeight()));
+
             // Search bar above grid
             txtGridSearchField.setOpaque(false);
             txtGridSearchField.setBorder(null);
             txtGridSearchField.setBorder(BorderFactory.createEmptyBorder());
-            txtGridSearchField.setColumns(20);
+            txtGridSearchField.setColumns(18);
             txtGridSearchField.setForeground(Color.darkGray);
             txtGridSearchField.setFont(coreUI.getDefaultFont()
                     .deriveFont(Font.BOLD,
                                 gridSearchFontSize));
-            txtGridSearchField.setPreferredSize(new Dimension(880, 50));
+            txtGridSearchField.setPreferredSize(new Dimension(700, 50));
+
             // Search button
             btnSearch.setPreferredSize(new Dimension(70, 51));
             btnSearch
                     .addActionListener(libraryHandler.new SearchButtonHandler());
+
             // Background img of search button
             pnlSearchButtonBG.setPreferredSize(new Dimension(70, 51));
             pnlSearchButtonBG.add(btnSearch, BorderLayout.NORTH);
+
             // Text in search bar
             pnlSearchText.setOpaque(false);
             pnlSearchText.add(txtGridSearchField, BorderLayout.CENTER);
+            pnlSearchText.add(pnlSearchResultsContainer,
+                              BorderLayout.EAST);
+            pnlSearchText.setPreferredSize(new Dimension(txtGridSearchField
+                    .getPreferredSize().width + pnlSearchResultsContainer
+                    .getPreferredSize().width, coreUI.getFrameControlImagePane()
+                                                         .getRealImageHeight()));
 
             pnlSearchButton.setOpaque(false);
             pnlSearchButton.add(pnlSearchButtonBG, BorderLayout.NORTH);
@@ -489,6 +540,7 @@ public class LibraryUI extends AuroraApp {
 
             pnlSearchBarBG.add(pnlSearchContainer, BorderLayout.WEST);
             pnlSearchBarBG.validate();
+            pnlSearchResultsContainer.setVisible(false);
 
             pnlSearchBar.setBackground(Color.GREEN);
             pnlSearchBar.setOpaque(false);
@@ -1302,6 +1354,18 @@ public class LibraryUI extends AuroraApp {
 
     public AButton getBtnOrganizeGames() {
         return btnOrganizeGames;
+    }
+
+    public ASlickLabel getLblSearchResults() {
+        return lblSearchResults;
+    }
+
+    public JPanel getPnlSearchResultsContainer() {
+        return pnlSearchResultsContainer;
+    }
+
+    public JTextField getTxtGridSearchField() {
+        return txtGridSearchField;
     }
 
     public static int getListFontSize() {
