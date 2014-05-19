@@ -2080,7 +2080,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                 LibraryUI.lblLibraryStatus.setForeground(Color.green);
                 LibraryUI.lblLibraryStatus.setText("Launching Game");
-
+                canShowGameInfoInLibraryStatusBar = false;
                 launcher = new AuroraLauncher(coreUI);
                 launcher.launchGame(thisGame());
 
