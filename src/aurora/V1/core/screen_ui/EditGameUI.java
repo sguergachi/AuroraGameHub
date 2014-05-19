@@ -200,7 +200,6 @@ public class EditGameUI {
         // Get Glass Pane to Put UI On
 
 
-
         if (pnlGlass == null) {
             pnlGlass = coreUI.getFrame().getLayeredPane();
         }
@@ -459,7 +458,8 @@ public class EditGameUI {
 
         btnAutoSearchDB_editUI.addActionListener(
                 libraryHandler.new GameSearchButtonListener(libraryLogic
-                        .getGameSearch_editUI(), autoSearchStatusIndictor));
+                        .getGameSearch_editUI(), autoSearchStatusIndictor,
+                                                            btnAutoSearchDB_editUI));
     }
 
     /**

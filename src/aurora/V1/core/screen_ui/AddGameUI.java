@@ -545,7 +545,8 @@ public class AddGameUI {
 
         btnAutoSearchDB_addUI.addActionListener(
                 libraryHandler.new GameSearchButtonListener(libraryLogic
-                        .getGameSearch_addUI(), imgAutoSearchStatus_addUI));
+                        .getGameSearch_addUI(), imgAutoSearchStatus_addUI,
+                                                            btnAutoSearchDB_addUI));
 
         btnAutoRefresh.setBorder(null);
         btnAutoRefresh.setMargin(new Insets(0, 0, 0, 0));
@@ -1301,7 +1302,7 @@ public class AddGameUI {
         }
 
         if (autoPrompt.isStopped()) {
-           autoPrompt.startOnce();
+            autoPrompt.startOnce();
         }
 
     }

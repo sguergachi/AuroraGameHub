@@ -5,22 +5,23 @@
 
 
 ---
-#### 
-Release: `Aurora_Alpha 10`  
-Build:`833`  
-Date: `5/15/2014`   
-Author: Sammy Guergachi, Carlos Machado 
+####
+Release: `Aurora_Alpha 10`
+Build:`833`
+Date: `5/15/2014`
+Author: Sammy Guergachi, Carlos Machado
 ####
 ---
 
 **Additions:**
 
-+ Made a lot of UX improvements
++ Made a lot of little UI/UX improvements
++ Selecting a game now shows game info in library info bar
 
 **Changes:**
 
 * Library search bar is centered for large screens
-* Show "unsure" icon in auto searches that Aurora 
+* Show "unsure" icon in auto searches that Aurora
 * Game Cover alternatives are shown in AuroraCoverDB now
 * No more random annoying resets to first grid
 * Improved start up loading speed

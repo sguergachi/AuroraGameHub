@@ -20,6 +20,7 @@ package aurora.V1.core;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.ASimpleDB;
+import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
 import java.awt.Color;
@@ -85,6 +86,8 @@ public class GameSearch implements Runnable {
     private boolean isSearchEnabled = true;
 
     private boolean isStatusChangeEnabled = true;
+
+    private AButton statusButton;
 
     public GameSearch(LibraryUI libraryUI, ASimpleDB database) {
 
@@ -249,6 +252,9 @@ public class GameSearch implements Runnable {
 
             if (statusIcon != null) {
                 statusIcon.setImgURl("addUI_img_autoSearchLooking.png");
+                if (main.LAUNCHES < 20) {
+                    statusButton.setToolTipText("Searching AuroraCoverDB...");
+                }
             }
 
             // If not found show Placeholder and turn notification red
@@ -293,6 +299,10 @@ public class GameSearch implements Runnable {
                 notFoundCover.revalidate();
 
                 statusIcon.setImgURl("addUI_img_autoSearchOn.png");
+                if (main.LAUNCHES < 20) {
+                    statusButton.setToolTipText("Aurora Cover DB is Enabled");
+                }
+
 
                 return notFoundCover;
 
@@ -342,6 +352,10 @@ public class GameSearch implements Runnable {
                     public void doAction() {
                         if (statusIcon != null) {
                             statusIcon.setImgURl("addUI_img_autoSearchOn.png");
+                            if (main.LAUNCHES < 20) {
+                                statusButton.setToolTipText(
+                                        "Aurora Cover DB is Enabled");
+                            }
                         }
                     }
                 });
@@ -365,6 +379,9 @@ public class GameSearch implements Runnable {
         if (isSearchEnabled) {
 
             statusIcon.setImgURl("addUI_img_autoSearchLooking.png");
+            if (main.LAUNCHES < 20) {
+                statusButton.setToolTipText("Searching AuroraCoverDB...");
+            }
 
             try {
                 foundGame = (String) db.getRowFlex("AuroraTable", new String[]{
@@ -424,7 +441,9 @@ public class GameSearch implements Runnable {
                 notFoundCover.revalidate();
 
                 statusIcon.setImgURl("addUI_img_autoSearchOn.png");
-                statusIcon.setToolTipText("Aurora Cover DB is enabled");
+                if (main.LAUNCHES < 20) {
+                    statusButton.setToolTipText("Aurora Cover DB is Enabled");
+                }
                 return notFoundCover;
 
                 // Show the game Cover if a single database item is found
@@ -474,6 +493,9 @@ public class GameSearch implements Runnable {
                 foundGameCover.revalidate();
 
                 statusIcon.setImgURl("addUI_img_autoSearchOn.png");
+                if (main.LAUNCHES < 20) {
+                    statusButton.setToolTipText("Aurora Cover DB is Enabled");
+                }
 
                 return foundGameCover;
             }
@@ -665,6 +687,9 @@ public class GameSearch implements Runnable {
         if (isSearchEnabled) {
 
             statusIcon.setImgURl("addUI_img_autoSearchLooking.png");
+            if (main.LAUNCHES < 20) {
+                statusButton.setToolTipText("Searching AuroraCoverDB...");
+            }
 
             // What Happends When The Length is zero
             if (AppendedName.length() <= 0 || txtSearch.getText()
@@ -817,6 +842,9 @@ public class GameSearch implements Runnable {
             }
 
             statusIcon.setImgURl("addUI_img_autoSearchOn.png");
+            if (main.LAUNCHES < 20) {
+                statusButton.setToolTipText("Aurora Cover DB is Enabled");
+            }
         } else {
             listModel.clear();
 
@@ -894,8 +922,11 @@ public class GameSearch implements Runnable {
     public void enableSearch() {
         isSearchEnabled = true;
 
-//        searchGame();
         statusIcon.setImgURl("addUI_img_autoSearchOn.png");
+        if (main.LAUNCHES < 20) {
+            statusButton.setToolTipText("Aurora Cover DB is Enabled");
+        }
+
         DEFAULT_SEARCH_TEXT = "Search For Game...";
         if (txtSearch.getText().equals(DEFAULT_SEARCH_TEXT2)) {
             txtSearch.setText(DEFAULT_SEARCH_TEXT);
@@ -927,6 +958,9 @@ public class GameSearch implements Runnable {
         imgBlankCover.repaint();
 
         statusIcon.setImgURl("addUI_img_autoSearchOff.png");
+        if (main.LAUNCHES < 20) {
+            statusButton.setToolTipText("Aurora Cover DB is Disabled");
+        }
 
         if (txtSearch.getText().equals(DEFAULT_SEARCH_TEXT)) {
             txtSearch.setText(DEFAULT_SEARCH_TEXT2);
@@ -981,6 +1015,11 @@ public class GameSearch implements Runnable {
 
     public JTextField getTxtSearch() {
         return txtSearch;
+    }
+
+    public void setStatusIcon(AImage icon, AButton btn) {
+        this.statusIcon = icon;
+        this.statusButton = btn;
     }
 
 }

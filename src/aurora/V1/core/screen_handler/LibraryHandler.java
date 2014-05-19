@@ -1611,11 +1611,11 @@ public class LibraryHandler implements
 
         private final GameSearch gameSearch;
 
-        public GameSearchButtonListener(GameSearch search, AImage icon) {
+        public GameSearchButtonListener(GameSearch search, AImage icon, AButton btn) {
             this.gameSearch = search;
             this.icon = icon;
 
-            gameSearch.setStatusIcon(icon);
+            gameSearch.setStatusIcon(icon, btn);
 
         }
 
