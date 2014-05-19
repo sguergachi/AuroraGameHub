@@ -18,6 +18,7 @@
 package aurora.V1.core;
 
 import aurora.V1.core.screen_ui.LibraryUI;
+import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.ASimpleDB;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
@@ -335,9 +336,16 @@ public class GameSearch implements Runnable {
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
 
-                if (statusIcon != null) {
-                    statusIcon.setImgURl("addUI_img_autoSearchOn.png");
-                }
+                foundGameCover.setPostLoad(new APostHandler() {
+
+                    @Override
+                    public void doAction() {
+                        if (statusIcon != null) {
+                            statusIcon.setImgURl("addUI_img_autoSearchOn.png");
+                        }
+                    }
+                });
+
 
                 return foundGameCover;
             }
@@ -416,7 +424,7 @@ public class GameSearch implements Runnable {
                 notFoundCover.revalidate();
 
                 statusIcon.setImgURl("addUI_img_autoSearchOn.png");
-
+                statusIcon.setToolTipText("Aurora Cover DB is enabled");
                 return notFoundCover;
 
                 // Show the game Cover if a single database item is found

@@ -23,6 +23,7 @@ import aurora.V1.core.screen_logic.WelcomeLogic;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.engine.V1.Logic.AFileManager;
+import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.UI.AButton;
@@ -253,6 +254,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private GridManager libraryManager;
 
     private boolean canShowGameInfoInLibraryStatusBar;
+
+    private APostHandler postLoad;
 
     public Game() {
     }
@@ -675,13 +678,19 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                 revalidate();
                 repaint();
-
+                if (postLoad != null) {
+                    postLoad.doAction();
+                }
             }
 
         });
 
         afterLoad.startOnce();
 
+    }
+
+    public void setPostLoad(APostHandler postLoad) {
+        this.postLoad = postLoad;
     }
 
     /**
@@ -1247,6 +1256,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 switch (count) {
                     case 1: // Times Played
 
+                        LibraryUI.lblLibraryStatus.setFont(
+                                LibraryUI.lblLibraryStatus
+                                .getFont()
+                                .deriveFont(Font.PLAIN,
+                                            LibraryUI.gameNameFontSize));
                         LibraryUI.lblLibraryStatus.setForeground(
                                 LibraryUI.DEFAULT_LIBRARY_COLOR);
                         String timesPlayed = parseTotalOccurence();
@@ -1261,6 +1275,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         break;
                     case 2: // Total Time Played
 
+                        LibraryUI.lblLibraryStatus.setFont(
+                                LibraryUI.lblLibraryStatus
+                                .getFont()
+                                .deriveFont(Font.PLAIN,
+                                            LibraryUI.gameNameFontSize));
                         LibraryUI.lblLibraryStatus.setForeground(
                                 LibraryUI.DEFAULT_LIBRARY_COLOR);
                         LibraryUI.lblLibraryStatus.setText("Played for - "
@@ -1268,6 +1287,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                         break;
                     case 3: // Last Played
+                        LibraryUI.lblLibraryStatus.setFont(
+                                LibraryUI.lblLibraryStatus
+                                .getFont()
+                                .deriveFont(Font.PLAIN,
+                                            LibraryUI.gameNameFontSize));
                         LibraryUI.lblLibraryStatus.setForeground(
                                 LibraryUI.DEFAULT_LIBRARY_COLOR);
                         LibraryUI.lblLibraryStatus.setText("Last Played - "
@@ -1275,6 +1299,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                         break;
                     case 4:
+                        LibraryUI.lblLibraryStatus.setFont(
+                                LibraryUI.lblLibraryStatus
+                                .getFont()
+                                .deriveFont(Font.PLAIN,
+                                            LibraryUI.gameNameFontSize));
                         LibraryUI.lblLibraryStatus.setForeground(
                                 LibraryUI.DEFAULT_LIBRARY_COLOR);
                         LibraryUI.lblLibraryStatus.setText(getGameName());
@@ -1498,7 +1527,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // ----------------------------------------------------------------.
         flipScrollBar = new JScrollBar();
         flipScrollBar.setUnitIncrement(20);
-        flipScrollBar.setUI(new AScrollBar("app_scrollBar.png",
+        flipScrollBar.setUI(new AScrollBar("game_scrollBar.png",
                                            "game_scrollBarBG.png"));
         flipScrollBar.setPreferredSize(new Dimension(6, flipScrollBar
                                                      .getPreferredSize().height));

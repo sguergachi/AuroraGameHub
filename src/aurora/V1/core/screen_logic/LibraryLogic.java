@@ -716,12 +716,6 @@ public class LibraryLogic implements AuroraScreenLogic {
      */
     public void checkManualAddGameStatus() {
 
-        System.out.println(libraryUI.getAddGameUI()
-                .isCoverArtStatusIndicatorValid());
-        System.out.println(libraryUI.getAddGameUI().isGameLocationStatusValid());
-        System.out.println(!libraryUI
-                .getAddGameUI().getAddGameToLibraryButton().isVisible());
-        System.out.println("==");
         if (libraryUI.getAddGameUI().isCoverArtStatusIndicatorValid()
                     && libraryUI.getAddGameUI().isGameLocationStatusValid()
                     && !libraryUI
@@ -735,8 +729,13 @@ public class LibraryLogic implements AuroraScreenLogic {
                 .isGameLocationStatusValid()) && libraryUI.getAddGameUI()
                 .getAddGameToLibraryButton().isVisible()) {
 
+
+
             //Animate up and hide it//
             animateAddButtonUp();
+        } else {
+            // Help users stuck as to what to do to add a game
+            libraryUI.getAddGameUI().startAutoPrompt();
         }
 
     }
@@ -907,9 +906,6 @@ public class LibraryLogic implements AuroraScreenLogic {
      *
      */
     public File fetchSteamDirOnWindows() {
-//        final int HKEY_CURRENT_USER = 0x80000001;
-//        final int KEY_QUERY_VALUE = 1;
-//        final int KEY_SET_VALUE = 2;
         final int KEY_READ = 0x20019;
 
         final Preferences userRoot = Preferences.userRoot();
@@ -1623,16 +1619,31 @@ public class LibraryLogic implements AuroraScreenLogic {
         AThreadWorker worker = new AThreadWorker(new ActionListener() {
             private int count;
 
+            private boolean flashIdleIcon;
+
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                if (status.getImgURl().equals("addUI_badge_idle.png") || status
+                        .getImgURl().equals("addUI_badge_idle_glow.png")) {
+                    flashIdleIcon = true;
+                }
+
                 while (count < 6) {
 
-                    if (count % 2 == 0) {
-                        status.setImgURl("addUI_badge_invalid_noglow.png");
+                    if (flashIdleIcon) {
+                        if (count % 2 == 0) {
+                            status.setImgURl("addUI_badge_idle_glow.png");
+                        } else {
+                            status.setImgURl("addUI_badge_idle.png");
+                        }
                     } else {
-                        status.setImgURl("addUI_badge_invalid.png");
+                        if (count % 2 == 0) {
+                            status.setImgURl("addUI_badge_invalid_noglow.png");
+                        } else {
+                            status.setImgURl("addUI_badge_invalid.png");
+                        }
                     }
-
                     count++;
                     try {
                         Thread.sleep(200);

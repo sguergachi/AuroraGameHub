@@ -39,6 +39,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
@@ -204,6 +205,8 @@ public class AddGameUI {
     private boolean autoAddStatusEnabled;
 
     private boolean gameLocationStatusEnabled;
+
+    private AThreadWorker autoPrompt;
 
     public AddGameUI(AuroraCoreUI coreUI, LibraryUI libraryUI) {
         this.coreUI = coreUI;
@@ -1086,6 +1089,7 @@ public class AddGameUI {
                                             libraryUI.setIsAddGameUI_Visible(
                                                     true);
                                             txtSearchField_addUI.requestFocus();
+                                            startAutoPrompt();
                                         }
                                     });
                         }
@@ -1227,6 +1231,7 @@ public class AddGameUI {
 
 
             // Auto focus on the game name text field
+            // Also start the auto prompter to help users add a game manually
             AThreadWorker wait = new AThreadWorker(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -1238,10 +1243,65 @@ public class AddGameUI {
                                 log(Level.SEVERE, null, ex);
                     }
                     txtSearchField_addUI.requestFocusInWindow();
+                    startAutoPrompt();
+
+                }
+
+
+            });
+            wait.startOnce();
+        }
+
+    }
+
+    /**
+     * .-----------------------------------------------------------------------.
+     * | startAutoPrompt()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | This method builds waits for a while then if the user hasn't completed
+     * | the 2 required steps to add a game it will flash the status icons for
+     * | the steps left to complete
+     * |
+     * .........................................................................
+     *
+     */
+    public void startAutoPrompt() {
+
+
+        if (autoPrompt == null) {
+            autoPrompt = new AThreadWorker();
+
+            autoPrompt.setAction(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    try {
+                        Thread.sleep(11000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(AddGameUI.class.getName())
+                                .log(Level.SEVERE, null, ex);
+                    }
+
+                    if (libraryUI.isAddGameUIVisible()) {
+                        if (!isCoverArtStatusIndicatorValid()) {
+                            libraryLogic.flashInvalidStatus(
+                                    coverArtStatusIndicator);
+                        }
+
+                        if (!isGameLocationStatusValid()) {
+                            libraryLogic.flashInvalidStatus(
+                                    gameLocationStatusIndicator);
+                        }
+                    }
 
                 }
             });
-            wait.startOnce();
+        }
+
+        if (autoPrompt.isStopped()) {
+           autoPrompt.startOnce();
         }
 
     }
