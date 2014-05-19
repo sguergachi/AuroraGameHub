@@ -550,7 +550,7 @@ public class AddGameUI {
         libraryLogic.getGameSearch_autoUI().setUpGameSearch(
                 pnlBlankCoverGame_autoUI,
                 pnlCoverPane_autoUI,
-                listModel_autoUI, autoAddStatusIndicator, null);
+                listModel_autoUI, null);
 
     }
 
@@ -1249,6 +1249,7 @@ public class AddGameUI {
     public void resetAddGameUI() {
 
         resetManualModeIndicators();
+        resetAutoModeIndicator();
         addGameAnimator.removeAllListeners();
         btnAddGameToLib_addUI.setVisible(false);
         btnAddGameToLib_addUI.repaint();

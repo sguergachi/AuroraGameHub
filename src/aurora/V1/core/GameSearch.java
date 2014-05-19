@@ -83,6 +83,8 @@ public class GameSearch implements Runnable {
 
     private boolean isSearchEnabled = true;
 
+    private boolean isStatusChangeEnabled = true;
+
     public GameSearch(LibraryUI libraryUI, ASimpleDB database) {
 
         this.coreUI = libraryUI.getCoreUI();
@@ -100,6 +102,18 @@ public class GameSearch implements Runnable {
         this.pnlGameCoverPane = coverPane;
         this.listModel = model;
         this.imgStatus = status;
+        this.txtSearch = textField;
+
+    }
+
+    public void setUpGameSearch(AImagePane imgBlank, AImagePane coverPane,
+                                DefaultListModel model,
+                                JTextField textField) {
+
+        this.imgBlankCover = imgBlank;
+        this.pnlGameCoverPane = coverPane;
+        this.listModel = model;
+        isStatusChangeEnabled = false;
         this.txtSearch = textField;
 
     }
@@ -153,7 +167,9 @@ public class GameSearch implements Runnable {
 
             foundArray = null;
             listModel.removeAllElements();
-            imgStatus.setImgURl("addUI_badge_idle.png");
+            if (isStatusChangeEnabled) {
+                imgStatus.setImgURl("addUI_badge_idle.png");
+            }
             libraryUI.getLogic().checkManualAddGameStatus();
         }
 
@@ -268,7 +284,9 @@ public class GameSearch implements Runnable {
                 }
                 pnlGameCoverPane.add(notFoundCover);
                 //Change notification
-                imgStatus.setImgURl("addUI_badge_invalid.png");
+                if (isStatusChangeEnabled) {
+                    imgStatus.setImgURl("addUI_badge_invalid.png");
+                }
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
                 notFoundCover.revalidate();
@@ -311,7 +329,9 @@ public class GameSearch implements Runnable {
                 }
 
                 // Change notification
-                imgStatus.setImgURl("addUI_badge_valid.png");
+                if (isStatusChangeEnabled) {
+                    imgStatus.setImgURl("addUI_badge_valid.png");
+                }
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
 
@@ -388,7 +408,9 @@ public class GameSearch implements Runnable {
 
                 pnlGameCoverPane.add(notFoundCover);
                 // Change notification
-                imgStatus.setImgURl("addUI_badge_invalid.png");
+                if (isStatusChangeEnabled) {
+                    imgStatus.setImgURl("addUI_badge_invalid.png");
+                }
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
                 notFoundCover.revalidate();
@@ -433,7 +455,12 @@ public class GameSearch implements Runnable {
                 }
 
                 // Change notification
-                imgStatus.setImgURl("addUI_badge_valid.png");
+
+                if (isStatusChangeEnabled) {
+                    imgStatus.setImgURl("addUI_badge_valid.png");
+                }
+
+
                 pnlGameCoverPane.repaint();
                 pnlGameCoverPane.revalidate();
                 foundGameCover.revalidate();
