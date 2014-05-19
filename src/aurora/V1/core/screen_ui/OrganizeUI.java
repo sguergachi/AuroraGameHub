@@ -236,7 +236,8 @@ public class OrganizeUI {
                 }
             } else {
 
-                auroraStorage.getStoredSettings().saveSetting("organize", "favorite");
+                auroraStorage.getStoredSettings().saveSetting("organize",
+                                                              "favorite");
                 value = "Favorite";
                 btnTop.setSelected();
             }
@@ -244,15 +245,14 @@ public class OrganizeUI {
 
         organizeMenu
                 .show(coreUI.getFrame(), libraryUI.getBtnOrganizeGames()
-                      .getLocationOnScreen().x + ((libraryUI.getBtnOrganizeGames()
-                                              .getBounds().width) / 3 -
-                                                  (libraryUI.getBtnOrganizeGames()
-                                                  .getBounds().width) / 5) - 3,
-                      libraryUI.getBtnOrganizeGames().getLocationOnScreen().y -
-                      libraryUI.getBtnOrganizeGames()
-                      .getBounds().height -
-                      btnMiddle
-                      .getRealImageHeight());
+                      .getLocationOnScreen().x + ((libraryUI
+                      .getBtnOrganizeGames()
+                      .getBounds().width) / 3 - (libraryUI.getBtnOrganizeGames()
+                      .getBounds().width) / 5) - 3,
+                      libraryUI.getBtnOrganizeGames().getLocationOnScreen().y
+                      - libraryUI.getBtnOrganizeGames()
+                      .getBounds().height - btnMiddle
+                      .getRealImageHeight() - 5);
 
     }
 }

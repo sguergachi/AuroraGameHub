@@ -178,7 +178,7 @@ public class LibraryUI extends AuroraApp {
 
     private ArrayList<AImagePane> gameCover;
 
-    private GridManager GridSplit;
+    private GridManager libraryGridManager;
 
     private int currentIndex;
 
@@ -390,8 +390,8 @@ public class LibraryUI extends AuroraApp {
         //
         // Set up grid
         //
-        GridSplit = new GridManager(2, 4, coreUI);
-        this.GridAnimate = new GridAnimation(GridSplit, pnlLibraryContainer);
+        libraryGridManager = new GridManager(2, 4, coreUI);
+        this.GridAnimate = new GridAnimation(libraryGridManager, pnlLibraryContainer);
 
 
         //
@@ -560,11 +560,11 @@ public class LibraryUI extends AuroraApp {
             pnlSearchBar.validate();
 
             // Initiate Library Grid
-            GridSplit.initiateGrid(0);
+            libraryGridManager.initiateGrid(0);
 
             // Add Components to Central Container
             pnlLibraryContainer.add(BorderLayout.WEST, imgOrganizeTypeSideBar);
-            pnlLibraryContainer.add(BorderLayout.CENTER, GridSplit.getGrid(0));
+            pnlLibraryContainer.add(BorderLayout.CENTER, libraryGridManager.getGrid(0));
             pnlLibraryContainer.add(BorderLayout.EAST, btnGameRight);
 
             // Add game to library
@@ -867,7 +867,7 @@ public class LibraryUI extends AuroraApp {
             // Get The Index of The Current Panel Being Displayed
             // Refer too GridManager array of All panels to find it
             //
-            currentIndex = GridSplit.getArray()
+            currentIndex = libraryGridManager.getArray()
                     .indexOf(pnlLibraryContainer.getComponent(1));
 
             // Stop from going to far left
@@ -876,9 +876,9 @@ public class LibraryUI extends AuroraApp {
                 btnGameLeft.mouseExit();
             }
 
-            if (currentIndex < GridSplit.getArray().size()) {
+            if (currentIndex < libraryGridManager.getArray().size()) {
 
-                GridSplit.decrementVisibleGridIndex();
+                libraryGridManager.decrementVisibleGridIndex();
                 // Clear Panel
                 if (currentIndex - 1 <= 0) {
                     // Far Left Image
@@ -936,12 +936,12 @@ public class LibraryUI extends AuroraApp {
         if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
                 .getAnimator2().isAnimating()) {
 
-            currentIndex = GridSplit.getArray()
+            currentIndex = libraryGridManager.getArray()
                     .indexOf(pnlLibraryContainer.getComponent(1));
 
-            if (currentIndex < GridSplit.getArray().size() - 1) {
+            if (currentIndex < libraryGridManager.getArray().size() - 1) {
 
-                GridSplit.incrementVisibleGridIndex();
+                libraryGridManager.incrementVisibleGridIndex();
 
                 pnlLibraryContainer.remove(0);
                 pnlLibraryContainer.add(btnGameLeft, BorderLayout.WEST, 0);
@@ -957,7 +957,7 @@ public class LibraryUI extends AuroraApp {
                 }
 
                 //of on last Grid then dont show right arrow button
-                if (!(currentIndex + 1 < GridSplit.getArray().size() - 1)) {
+                if (!(currentIndex + 1 < libraryGridManager.getArray().size() - 1)) {
 
                     pnlLibraryContainer.remove(btnGameRight);
                     pnlLibraryContainer.add(Box.createHorizontalStrut(140),
@@ -975,7 +975,7 @@ public class LibraryUI extends AuroraApp {
 
             coreUI.getFrame().requestFocus();
 
-            currentIndex = GridSplit.getArray()
+            currentIndex = libraryGridManager.getArray()
                     .indexOf(pnlLibraryContainer.getComponent(1));
 
         }
@@ -991,8 +991,8 @@ public class LibraryUI extends AuroraApp {
             editGameUI.hideEditGameUI();
         }
 
-        GridSplit.unFlipAll();
-        GridSplit.unselectPrevious();
+        libraryGridManager.unFlipAll();
+        libraryGridManager.unselectPrevious();
     }
 
     public void setSize() {
@@ -1144,7 +1144,7 @@ public class LibraryUI extends AuroraApp {
     }
 
     public GridManager getGridSplit() {
-        return GridSplit;
+        return libraryGridManager;
     }
 
     public boolean isEditGameCoverUI_visible() {
@@ -1283,7 +1283,7 @@ public class LibraryUI extends AuroraApp {
     public int getCurrentGridIndex() {
 
         if (updatedCurrentIndex == -1) {
-            currentIndex = GridSplit.getArray()
+            currentIndex = libraryGridManager.getArray()
                     .indexOf(pnlLibraryContainer.getComponent(1));
             return currentIndex;
         } else {
