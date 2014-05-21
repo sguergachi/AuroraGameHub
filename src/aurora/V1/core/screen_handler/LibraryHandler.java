@@ -2138,8 +2138,8 @@ public class LibraryHandler implements
             if (dropLocation != null && !dropLocation.isInsert()
                         && dropLocation.getIndex() == index) {
 
-                bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
-                fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
+//                bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
+//                fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
 
                 isSelected = true;
             }

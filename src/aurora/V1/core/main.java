@@ -106,13 +106,14 @@ public class main {
             err = new ADialog(ADialog.aDIALOG_ERROR,
                               "Latest Version of Java 7 is Required   ",
                               FontRegular
-                              .deriveFont(Font.PLAIN, 25), new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            System.exit(0);
+                              .deriveFont(Font.PLAIN, 25),
+                              new ActionListener() {
+                                  @Override
+                                  public void actionPerformed(ActionEvent e) {
+                                      System.exit(0);
 
-                        }
-                    });
+                                  }
+                              });
             err.setVisible(true);
 
             logger.info("Running Java Version: " + System.getProperty(
@@ -129,28 +130,31 @@ public class main {
         String line;
 
         // Prevent multiple instances of Aurora form being launched
-        try {
-            Process proc = Runtime.getRuntime().exec("wmic.exe");
-            BufferedReader input = new BufferedReader(new InputStreamReader(proc
-                    .getInputStream()));
-            OutputStreamWriter oStream = new OutputStreamWriter(proc
-                    .getOutputStream());
-            oStream.write("process where name='AuroraGameHub.exe'");
-            oStream.flush();
-            oStream.close();
+        if (System.getProperty("os.name").contains("Windows")) {
+            try {
+                Process proc = Runtime.getRuntime().exec("wmic.exe");
+                BufferedReader input = new BufferedReader(new InputStreamReader(
+                        proc
+                        .getInputStream()));
+                OutputStreamWriter oStream = new OutputStreamWriter(proc
+                        .getOutputStream());
+                oStream.write("process where name='AuroraGameHub.exe'");
+                oStream.flush();
+                oStream.close();
 
-            int count = 0;
-            while ((line = input.readLine()) != null) {
-                if (count > 1 && line.trim().contains("AuroraGameHub.exe")) {
-                    okToRun = false;
-                    break;
+                int count = 0;
+                while ((line = input.readLine()) != null) {
+                    if (count > 1 && line.trim().contains("AuroraGameHub.exe")) {
+                        okToRun = false;
+                        break;
+                    }
+
+                    count++;
                 }
-
-                count++;
+                input.close();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
             }
-            input.close();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
         }
 
         if (okToRun) {
