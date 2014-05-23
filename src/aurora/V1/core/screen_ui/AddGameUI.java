@@ -646,6 +646,8 @@ public class AddGameUI {
             }
 
             // Add Go To Program
+            pnlRightOfTopEastContainer.add(Box.createHorizontalStrut(
+                    10));
             pnlRightOfTopEastContainer.add(btnGoToProgram);
 
             pnlRightOfTopEast.add(Box.createHorizontalStrut(pnlRightOfTop
