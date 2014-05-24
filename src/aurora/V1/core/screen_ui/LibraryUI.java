@@ -44,6 +44,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
@@ -94,12 +96,12 @@ public class LibraryUI extends AuroraApp {
     /**
      * Hover Button to navigate Right in Library.
      */
-    private AHoverButton btnGameRight;
+    private AHoverButton btnMoveRight;
 
     /**
      * Hover Button to navigate Left in Library.
      */
-    private AHoverButton btnGameLeft;
+    private AHoverButton btnMoveLeft;
 
     /**
      * Panel Containing Hover Buttons and the Library Grids.
@@ -278,6 +280,12 @@ public class LibraryUI extends AuroraApp {
 
     private ASlickLabel lblSearchResultsInfo;
 
+    private JPanel pnlMoveRightContainer;
+
+    private JPanel pnlMoveLeftContainer;
+
+    private GridBagConstraints gridBagConstant;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
@@ -328,10 +336,20 @@ public class LibraryUI extends AuroraApp {
                                                                       0, 0, 0));
         imgOrganizeTypeSideBar = new AImage("library_favourites.png");
 
-        btnGameRight = new AHoverButton(3,
+
+
+        gridBagConstant = new GridBagConstraints();
+
+        pnlMoveRightContainer = new JPanel(new GridBagLayout());
+        pnlMoveRightContainer.setOpaque(false);
+        btnMoveRight = new AHoverButton(4,
                                         "library_navRight_norm.png",
                                         "library_navRight_over.png");
-        btnGameLeft = new AHoverButton(3,
+
+
+        pnlMoveLeftContainer = new JPanel(new GridBagLayout());
+        pnlMoveLeftContainer.setOpaque(false);
+        btnMoveLeft = new AHoverButton(4,
                                        "library_navLeft_norm.png",
                                        "library_navLeft_over.png");
         //
@@ -391,7 +409,8 @@ public class LibraryUI extends AuroraApp {
         // Set up grid
         //
         libraryGridManager = new GridManager(2, 4, coreUI);
-        this.GridAnimate = new GridAnimation(libraryGridManager, pnlLibraryContainer);
+        this.GridAnimate = new GridAnimation(libraryGridManager,
+                                             pnlLibraryContainer);
 
 
         //
@@ -420,6 +439,11 @@ public class LibraryUI extends AuroraApp {
             pnlLibraryContainer.setBackground(Color.red);
             pnlLibraryContainer.setLayout(new BorderLayout(0, 140));
 
+            pnlMoveLeftContainer.add(btnMoveLeft, gridBagConstant);
+
+            pnlMoveRightContainer.add(btnMoveRight, gridBagConstant);
+
+
             lblKeyAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
                                                                     coreUI
                                                                     .getKeysFontSize()));
@@ -445,12 +469,9 @@ public class LibraryUI extends AuroraApp {
 
             lblLibraryStatus.setSize(new Dimension(imgLibraryStatusPane
                     .getRealImageWidth(), imgLibraryStatusPane
-                                                            .getRealImageHeight()
-                                          / 2 + gameNameFontSize / 2));
+                                                   .getRealImageHeight()
+                                                  / 2 + gameNameFontSize / 2));
 
-//            lblLibraryStatus.setSize(new Dimension(lblLibraryStatus
-//                    .getPreferredSize().width, lblLibraryStatus
-//                                                   .getPreferredSize().height));
             lblLibraryStatus.validate();
             pnlLibraryStatusContainer.validate();
 
@@ -564,8 +585,9 @@ public class LibraryUI extends AuroraApp {
 
             // Add Components to Central Container
             pnlLibraryContainer.add(BorderLayout.WEST, imgOrganizeTypeSideBar);
-            pnlLibraryContainer.add(BorderLayout.CENTER, libraryGridManager.getGrid(0));
-            pnlLibraryContainer.add(BorderLayout.EAST, btnGameRight);
+            pnlLibraryContainer.add(BorderLayout.CENTER, libraryGridManager
+                                    .getGrid(0));
+            pnlLibraryContainer.add(BorderLayout.EAST, pnlMoveRightContainer);
 
             // Add game to library
             libraryLogic.addGamesToLibrary();
@@ -648,8 +670,8 @@ public class LibraryUI extends AuroraApp {
         addToVolatileListenerBank(coreUI.getTopPane());
         addToVolatileListenerBank(this.pnlLibraryContainer);
         addToVolatileListenerBank(this.imgLibraryStatusPane);
-        addToVolatileListenerBank(this.btnGameLeft);
-        addToVolatileListenerBank(this.btnGameRight);
+        addToVolatileListenerBank(this.btnMoveLeft);
+        addToVolatileListenerBank(this.btnMoveRight);
 
         // Remove Show Add Game UI Listener if it exists
         if (this.btnShowAddGameUI.getActionListeners().length > 0) {
@@ -715,7 +737,7 @@ public class LibraryUI extends AuroraApp {
 
         // Finalize
         coreUI.getTitleLabel().setText("     Game Library   ");
-        btnGameRight.requestFocusInWindow();
+        btnMoveRight.requestFocusInWindow();
         coreUI.getFrame().requestFocus();
 
     }
@@ -754,8 +776,8 @@ public class LibraryUI extends AuroraApp {
         btnOrganizeGames
                 .addActionListener(libraryHandler.new ShowOrganizeGameHandler());
 
-        btnGameRight.setMouseListener(moveLibraryRightHandler);
-        btnGameLeft.setMouseListener(moveLibraryLeftHandler);
+        btnMoveRight.setMouseListener(moveLibraryRightHandler);
+        btnMoveLeft.setMouseListener(moveLibraryLeftHandler);
 
         coreUI.getFrame()
                 .addKeyListener(libraryHandler.new SearchRefocusListener());
@@ -829,14 +851,14 @@ public class LibraryUI extends AuroraApp {
         this.imgLibraryStatusPane
                 .addKeyListener(libraryHandler.new GameLibraryKeyListener());
 
-        this.btnGameLeft.addKeyListener(
+        this.btnMoveLeft.addKeyListener(
                 libraryHandler.new SearchRefocusListener());
-        this.btnGameLeft.addKeyListener(
+        this.btnMoveLeft.addKeyListener(
                 libraryHandler.new GameLibraryKeyListener());
 
-        this.btnGameRight
+        this.btnMoveRight
                 .addKeyListener(libraryHandler.new SearchRefocusListener());
-        this.btnGameRight
+        this.btnMoveRight
                 .addKeyListener(libraryHandler.new GameLibraryKeyListener());
 
         this.btnRemoveSearch.addActionListener(
@@ -873,7 +895,7 @@ public class LibraryUI extends AuroraApp {
             // Stop from going to far left
             if (currentIndex - 1 == -1) {
                 currentIndex = 1;
-                btnGameLeft.mouseExit();
+                btnMoveLeft.mouseExit();
             }
 
             if (currentIndex < libraryGridManager.getArray().size()) {
@@ -889,13 +911,15 @@ public class LibraryUI extends AuroraApp {
                 } else {
                     // Left Button
                     pnlLibraryContainer.remove(0);
-                    pnlLibraryContainer.add(btnGameLeft, BorderLayout.WEST, 0);
+                    pnlLibraryContainer.add(pnlMoveLeftContainer,
+                                            BorderLayout.WEST, 0);
                 }
                 // Add GameCover Covers
 
                 GridAnimate.moveLeft(currentIndex);
 
-                pnlLibraryContainer.add(BorderLayout.EAST, btnGameRight);
+                pnlLibraryContainer
+                        .add(BorderLayout.EAST, pnlMoveRightContainer);
 
                 try {
                     libraryLogic.loadGames(currentIndex - 1);
@@ -914,7 +938,7 @@ public class LibraryUI extends AuroraApp {
             coreUI.getFrame().requestFocus();
 
         }
-        btnGameLeft.mouseExit();
+        btnMoveLeft.mouseExit();
     }
 
     /**
@@ -944,9 +968,11 @@ public class LibraryUI extends AuroraApp {
                 libraryGridManager.incrementVisibleGridIndex();
 
                 pnlLibraryContainer.remove(0);
-                pnlLibraryContainer.add(btnGameLeft, BorderLayout.WEST, 0);
+                pnlLibraryContainer.add(pnlMoveLeftContainer, BorderLayout.WEST,
+                                        0);
 
-                pnlLibraryContainer.add(btnGameRight, BorderLayout.EAST, 2);
+                pnlLibraryContainer
+                        .add(pnlMoveRightContainer, BorderLayout.EAST, 2);
 
                 GridAnimate.moveRight(currentIndex);
 
@@ -957,12 +983,13 @@ public class LibraryUI extends AuroraApp {
                 }
 
                 //of on last Grid then dont show right arrow button
-                if (!(currentIndex + 1 < libraryGridManager.getArray().size() - 1)) {
+                if (!(currentIndex + 1 < libraryGridManager.getArray().size()
+                                                 - 1)) {
 
-                    pnlLibraryContainer.remove(btnGameRight);
+                    pnlLibraryContainer.remove(pnlMoveRightContainer);
                     pnlLibraryContainer.add(Box.createHorizontalStrut(140),
                                             BorderLayout.EAST, 2);
-                    btnGameRight.mouseExit();
+                    btnMoveRight.mouseExit();
                 }
             }
 
@@ -979,7 +1006,7 @@ public class LibraryUI extends AuroraApp {
                     .indexOf(pnlLibraryContainer.getComponent(1));
 
         }
-        btnGameRight.mouseExit();
+        btnMoveRight.mouseExit();
     }
 
     @Override
@@ -1305,14 +1332,6 @@ public class LibraryUI extends AuroraApp {
         return imgOrganizeTypeSideBar;
     }
 
-    public AHoverButton getImgGameLeft() {
-        return btnGameLeft;
-    }
-
-    public AHoverButton getBtnGameRight() {
-        return btnGameRight;
-    }
-
     public AImage getImgKeyIco() {
         return imgKeyIco;
     }
@@ -1377,8 +1396,20 @@ public class LibraryUI extends AuroraApp {
         return lblSearchResultsInfo;
     }
 
-    public AHoverButton getBtnGameLeft() {
-        return btnGameLeft;
+    public AHoverButton getBtnMoveLeft() {
+        return btnMoveLeft;
+    }
+
+    public AHoverButton getBtnMoveRight() {
+        return btnMoveRight;
+    }
+
+    public JPanel getPnlMoveRightContainer() {
+        return pnlMoveRightContainer;
+    }
+
+    public JPanel getPnlMoveLeftContainer() {
+        return pnlMoveLeftContainer;
     }
 
     public static int getListFontSize() {

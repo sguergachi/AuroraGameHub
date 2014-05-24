@@ -239,6 +239,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
             try {
 
                 final URLConnection conn = url.openConnection();
+                conn.setConnectTimeout(1500);
                 conn.connect();
             } catch (IOException ex) {
                 logger.warn("Computer is not online");
@@ -246,6 +247,8 @@ public class WelcomeLogic implements AuroraScreenLogic {
             }
         } catch (MalformedURLException ex) {
             logger.error(ex);
+            logger.warn("Computer is not online");
+            return false;
         }
 
         if (logger.isDebugEnabled()) {

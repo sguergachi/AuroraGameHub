@@ -86,6 +86,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -247,9 +248,9 @@ public class LibraryHandler implements
 
         private JPanel GameBack;
 
-        private AHoverButton imgGameLeft;
+        private AHoverButton btnMoveLeft;
 
-        private AHoverButton imgGameRight;
+        private AHoverButton btnMoveRight;
 
         private AImage imgFavorite;
 
@@ -262,8 +263,8 @@ public class LibraryHandler implements
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            imgGameLeft = libraryUI.getImgGameLeft();
-            imgGameRight = libraryUI.getBtnGameRight();
+            btnMoveLeft = libraryUI.getBtnMoveLeft();
+            btnMoveRight = libraryUI.getBtnMoveRight();
             imgFavorite = libraryUI.getImgOrganizeType();
             GridAnimate = libraryUI.getGridAnimate();
 
@@ -283,7 +284,7 @@ public class LibraryHandler implements
                 // Stop from going to far left
                 if (currentIndex - 1 == -1) {
                     currentIndex = 1;
-                    imgGameLeft.mouseExit();
+                    btnMoveLeft.mouseExit();
                 }
 
                 if (currentIndex < gridManager.getArray().size()) {
@@ -296,7 +297,7 @@ public class LibraryHandler implements
                     } else {
                         // Left Button
                         GameBack.remove(0);
-                        GameBack.add(imgGameLeft, BorderLayout.WEST, 0);
+                        GameBack.add(libraryUI.getPnlMoveLeftContainer(), BorderLayout.WEST, 0);
                     }
                     // Add GameCover Covers
 
@@ -308,7 +309,7 @@ public class LibraryHandler implements
                         logger.error(ex);
                     }
 
-                    GameBack.add(BorderLayout.EAST, imgGameRight);
+                    GameBack.add(BorderLayout.EAST, libraryUI.getPnlMoveRightContainer());
                 }
 
                 libraryUI.getCoreUI().getCenterPanel().removeAll();
@@ -319,31 +320,31 @@ public class LibraryHandler implements
                 GameBack.revalidate();
 
             }
-            imgGameLeft.mouseExit();
+            btnMoveLeft.mouseExit();
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            imgGameLeft = libraryUI.getImgGameLeft();
-            imgGameRight = libraryUI.getBtnGameRight();
+            btnMoveLeft = libraryUI.getBtnMoveLeft();
+            btnMoveRight = libraryUI.getBtnMoveRight();
             imgFavorite = libraryUI.getImgOrganizeType();
             GridAnimate = libraryUI.getGridAnimate();
             GridAnimate = libraryUI.getGridAnimate();
-            imgGameLeft = libraryUI.getImgGameLeft();
+            btnMoveLeft = libraryUI.getBtnMoveLeft();
 
             if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
                     .getAnimator2().isAnimating()) {
-                imgGameLeft.mouseHover(e);
+                btnMoveLeft.mouseHover(e);
             }
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            imgGameLeft = libraryUI.getImgGameLeft();
-            imgGameRight = libraryUI.getBtnGameRight();
+            btnMoveLeft = libraryUI.getBtnMoveLeft();
+            btnMoveRight = libraryUI.getBtnMoveRight();
             imgFavorite = libraryUI.getImgOrganizeType();
             GridAnimate = libraryUI.getGridAnimate();
-            imgGameLeft.mouseExit();
+            btnMoveLeft.mouseExit();
 
         }
     }
@@ -354,23 +355,16 @@ public class LibraryHandler implements
 
         private JPanel GameBack;
 
-        private AHoverButton imgGameLeft;
-
-        private AHoverButton imgGameRight;
-
-        private AImage imgFavorite;
-
         private GridAnimation GridAnimate;
 
         private final AuroraCoreUI coreUI;
+        private  AHoverButton btnMoveRight;
 
         public HoverButtonRight() {
             this.coreUI = libraryUI.getCoreUI();
 
             GameBack = libraryUI.getGamesContainer();
-            imgGameLeft = libraryUI.getImgGameLeft();
-            imgGameRight = libraryUI.getBtnGameRight();
-            imgFavorite = libraryUI.getImgOrganizeType();
+            btnMoveRight = libraryUI.getBtnMoveRight();
             GridAnimate = libraryUI.getGridAnimate();
         }
 
@@ -389,10 +383,10 @@ public class LibraryHandler implements
                         .size() - 1) {
 
                     GameBack.remove(0);
-                    GameBack.add(libraryUI.getImgGameLeft(), BorderLayout.WEST,
+                    GameBack.add(libraryUI.getPnlMoveLeftContainer(), BorderLayout.WEST,
                                  0);
 
-                    GameBack.add(imgGameRight, BorderLayout.EAST, 2);
+                    GameBack.add(libraryUI.getPnlMoveRightContainer(), BorderLayout.EAST, 2);
 
                     GridAnimate.moveRight(libraryUI.getCurrentGridIndex());
 
@@ -408,10 +402,10 @@ public class LibraryHandler implements
                             .getArray()
                             .size() - 1)) {
 
-                        GameBack.remove(libraryUI.getBtnGameRight());
+                        GameBack.remove(libraryUI.getPnlMoveRightContainer());
                         GameBack.add(Box.createHorizontalStrut(140),
                                      BorderLayout.EAST, 2);
-                        imgGameRight.mouseExit();
+                        btnMoveRight.mouseExit();
                     }
                 }
 
@@ -423,7 +417,7 @@ public class LibraryHandler implements
                 GameBack.revalidate();
 
             }
-            imgGameRight.mouseExit();
+            btnMoveRight.mouseExit();
         }
 
         @Override
@@ -434,17 +428,17 @@ public class LibraryHandler implements
             }
 
             GridAnimate = libraryUI.getGridAnimate();
-            imgGameRight = libraryUI.getBtnGameRight();
+            btnMoveRight = libraryUI.getBtnMoveRight();
 
             if (!GridAnimate.getAnimator1().isAnimating() && !GridAnimate
                     .getAnimator2().isAnimating()) {
-                imgGameRight.mouseHover(e);
+                btnMoveRight.mouseHover(e);
             }
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            imgGameRight.mouseExit();
+            btnMoveRight.mouseExit();
         }
     }
 
@@ -2138,8 +2132,8 @@ public class LibraryHandler implements
             if (dropLocation != null && !dropLocation.isInsert()
                         && dropLocation.getIndex() == index) {
 
-//                bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
-//                fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
+                fg = UIManager.getColor("List.dropCellForeground");
+                bg = UIManager.getColor("List.dropCellBackground");
 
                 isSelected = true;
             }

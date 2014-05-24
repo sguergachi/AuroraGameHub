@@ -20,10 +20,10 @@ Author: Sammy Guergachi, Carlos Machado
 
 **Changes:**
 
-* Library search bar is centered for large screens
-* Show "unsure" icon in auto searches that Aurora
-* Game Cover alternatives are shown in AuroraCoverDB now
-* No more random annoying resets to first grid
+* Library search bar is centered for large screens (yeah, it was supposed to be centered)
+* Show "unsure" icon in auto searches that Aurora had to guess the cover art for
+* Game Cover alternatives can be seen in AuroraCoverDB now.
+* No more random annoying resets to first grid when adding a game etc.
 * Improved start up loading speed
 * Clicking on link in info feed now shows Aurora Mini
 * On Windows launching more than one instance of Aurora is blocked
@@ -32,12 +32,14 @@ Author: Sammy Guergachi, Carlos Machado
 
 **Fixed**:
 
+- Fixed rss feed, very weird bug that randomly stopped RSS feed parsing
 - Fixed unable to delete game from library search view
 - Fixed bug preventing playing game from library search view
 - Fixed a few other library search related bugs
 - Fixed pressing Done button in Edit Cover UI to many times causing issues
 - Fixed issue with going offline and back online not being detected
 - Fixed issue going in and out of Settings app re-showing info bar status
+- Fixed a whole lot of other long standing bugs that I forgot to record
 
 ---
 

@@ -661,7 +661,7 @@ public class GameSearch implements Runnable {
                         .replace("'", "''") + "%'");
 
                 // Check if found a match
-                if (rs.getRow() > 0) {
+                if (rs!= null && rs.getRow() > 0) {
                     Array a = rs.getArray(column);
                     Object[] array = (Object[]) a.getArray();
                     gameImagePath = (String) array[0];

@@ -40,7 +40,7 @@ import org.apache.log4j.Logger;
  */
 public class main {
 
-    private static ADialog err;
+    private static ADialog errorDialog;
 
     private static Font FontRegular;
 
@@ -103,7 +103,7 @@ public class main {
                                               .getResourceAsStream(
                                                       "/aurora/V1/resources/AGENCYR.TTF"));
             }
-            err = new ADialog(ADialog.aDIALOG_ERROR,
+            errorDialog = new ADialog(ADialog.aDIALOG_ERROR,
                               "Latest Version of Java 7 is Required   ",
                               FontRegular
                               .deriveFont(Font.PLAIN, 25),
@@ -114,7 +114,7 @@ public class main {
 
                                   }
                               });
-            err.setVisible(true);
+            errorDialog.setVisible(true);
 
             logger.info("Running Java Version: " + System.getProperty(
                     "java.version"));
@@ -192,7 +192,7 @@ public class main {
                             .log(Level.SEVERE, null, ex1);
                 }
             }
-            err = new ADialog(ADialog.aDIALOG_ERROR,
+            errorDialog = new ADialog(ADialog.aDIALOG_ERROR,
                               "An Instance of Aurora Is Already Running!  ",
                               FontRegular
                               .deriveFont(Font.PLAIN, 25),
@@ -204,7 +204,7 @@ public class main {
 
                                           }
                               });
-            err.setVisible(true);
+            errorDialog.setVisible(true);
         }
 
     }

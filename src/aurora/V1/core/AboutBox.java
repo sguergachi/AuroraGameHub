@@ -139,7 +139,7 @@ public class AboutBox {
         pnlVersion.setLayout(new BoxLayout(pnlVersion, BoxLayout.Y_AXIS));
 
         lblVersion = new ASlickLabel(main.VERSION);
-        lblBuild = new ASlickLabel("build: " + buildNumber.trim());
+        lblBuild = new ASlickLabel("build: " + buildNumber.trim() + "   ");
 
     }
 
@@ -152,8 +152,11 @@ public class AboutBox {
         lblVersion.setForeground(Color.white);
         lblBuild.setForeground(Color.white);
 
+
+
         lblVersion.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblBuild.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 
         pnlVersion.add(lblVersion, BorderLayout.CENTER);
         pnlVersion.add(lblBuild, BorderLayout.SOUTH);
