@@ -749,9 +749,11 @@ public class AddGameUI {
             rdbManager.addButton(btnAuto);
             rdbManager.setRadioButton();
 
-            pnlAddGameType.add(btnManual);
-            pnlAddGameType.add(btnAuto);
 
+            if (coreUI.getOS().contains("Windows")) {
+                pnlAddGameType.add(btnManual);
+                pnlAddGameType.add(btnAuto);
+            }
             pnlTopPane_addUI.add(pnlAddGameType, BorderLayout.CENTER);
 
             pnlTopPane_addUI.add(Box.createHorizontalStrut(82),
