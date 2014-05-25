@@ -928,6 +928,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             this.repaint();
             this.validate();
 
+            libraryLogic.getLibraryUI().showEnterKeyIcon();
+
             canShowGameInfoInLibraryStatusBar = true;
             tranisionBetweenGameInfoInLibraryStatusBar();
 
@@ -962,6 +964,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             this.repaint();
             this.revalidate();
 
+            libraryLogic.getLibraryUI().hideEnterKeyIcon();
             canShowGameInfoInLibraryStatusBar = false;
 
 
@@ -1012,6 +1015,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         showRemoveBtn();
         imgOverlayBar.setVisible(true);
         setSelected();
+
+
 
         LibraryUI.lblLibraryStatus.setFont(LibraryUI.lblLibraryStatus
                 .getFont()

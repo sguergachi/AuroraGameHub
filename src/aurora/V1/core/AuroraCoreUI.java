@@ -600,7 +600,7 @@ public class AuroraCoreUI {
                                   minimizeButtonWidth, minimizeButtonHeight);
         minimizeHandler = new MinimizeListener(this, AuroraMini.MINIMIZE_MODE);
         btnMinimize.addActionListener(minimizeHandler);
-        
+
 
         // TOP PANEL
         // --------------------------------------------------------------------
@@ -871,8 +871,8 @@ public class AuroraCoreUI {
             exitButtonHeight = 30;
             minimizeButtonWidth = 35;
             minimizeButtonHeight = 30;
-            keyIconWidth = bottomPanelSize / 4;
-            keyIconHeight = bottomPanelSize / 8;
+            keyIconWidth = 0;
+            keyIconHeight = 0;
         }
     }
 

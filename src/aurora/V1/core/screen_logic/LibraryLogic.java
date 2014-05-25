@@ -1238,6 +1238,14 @@ public class LibraryLogic implements AuroraScreenLogic {
         findGames.startOnce();
     }
 
+    public LibraryUI getLibraryUI() {
+        return libraryUI;
+    }
+
+    public LibraryHandler getLibraryHandler() {
+        return libraryHandler;
+    }
+
     public class CheckListMouseListener extends MouseAdapter {
 
         @Override

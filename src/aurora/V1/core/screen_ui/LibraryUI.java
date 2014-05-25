@@ -161,7 +161,7 @@ public class LibraryUI extends AuroraApp {
     /**
      * Image for keyboard icon.
      */
-    private AImage imgKeyIco;
+    private AImage imgArrowIco;
 
     /**
      * Image for Favorite logo on side of library.
@@ -171,7 +171,7 @@ public class LibraryUI extends AuroraApp {
     /**
      * AddGameUI Label explaining Keyboard action.
      */
-    private JLabel lblKeyAction;
+    private JLabel lbArrowAction;
 
     /**
      * AddGameUI Label showing status of Library
@@ -286,6 +286,10 @@ public class LibraryUI extends AuroraApp {
 
     private GridBagConstraints gridBagConstant;
 
+    private ASlickLabel lbEnterAction;
+
+    private AImage imgEnterIco;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
@@ -355,9 +359,14 @@ public class LibraryUI extends AuroraApp {
         //
         // Key Board Naviagtion Icon
         //
-        imgKeyIco = new AImage("KeyboardKeys/arrows.png", coreUI
-                               .getKeyIconWidth(), coreUI.getKeyIconHeight());
-        lblKeyAction = new JLabel(" Move ");
+        imgArrowIco = new AImage("KeyboardKeys/arrows.png", coreUI
+                                 .getKeyIconWidth(), coreUI.getKeyIconHeight());
+        lbArrowAction = new ASlickLabel(" Move");
+
+
+        imgEnterIco = new AImage("KeyboardKeys/enter.png", coreUI
+                                 .getKeyIconWidth(), coreUI.getKeyIconHeight());
+        lbEnterAction = new ASlickLabel(" Play");
         //
         // Library Status Pane
         //
@@ -444,10 +453,15 @@ public class LibraryUI extends AuroraApp {
             pnlMoveRightContainer.add(btnMoveRight, gridBagConstant);
 
 
-            lblKeyAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
-                                                                    coreUI
-                                                                    .getKeysFontSize()));
-            lblKeyAction.setForeground(new Color(0, 178, 178));
+            lbArrowAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
+                                                                     coreUI
+                                                                     .getKeysFontSize()));
+            lbArrowAction.setForeground(new Color(0, 178, 178));
+
+            lbEnterAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
+                                                                     coreUI
+                                                                     .getKeysFontSize()));
+            lbEnterAction.setForeground(new Color(0, 178, 178));
 
             // Bottom Center Bar
             pnlBottomCenterContainer.setOpaque(false);
@@ -654,9 +668,9 @@ public class LibraryUI extends AuroraApp {
 
     @Override
     public final void addToCanvas() {
-        coreUI.getTitleLabel().setText("   Loading...   ");
+        coreUI.getTitleLabel().setText("     Game Library   ");
 
-        coreUI.getLblKeyActionEnter().setText(" Play ");
+
         dashboardUI.getLblKeyActionArrow().setText(" Nav ");
 
         // Add Components with listeners to volatile listener bank
@@ -723,10 +737,8 @@ public class LibraryUI extends AuroraApp {
                                               .getBottomContentPane());
 
         // Add To Key Action Panel
-        coreUI.getKeyToPressPanel().add(coreUI.getKeyIconImage());
-        coreUI.getKeyToPressPanel().add(coreUI.getKeyActionLabel());
-        coreUI.getKeyToPressPanel().add(imgKeyIco);
-        coreUI.getKeyToPressPanel().add(lblKeyAction);
+        coreUI.getKeyToPressPanel().add(imgArrowIco);
+        coreUI.getKeyToPressPanel().add(lbArrowAction);
         coreUI.getHeaderOfCenterFromBottomPanel()
                 .setPreferredSize(new Dimension(coreUI.getFrame().getWidth(), 5));
         coreUI.getHeaderOfCenterFromBottomPanel().revalidate();
@@ -736,7 +748,6 @@ public class LibraryUI extends AuroraApp {
         coreUI.getCenterPanel().repaint();
 
         // Finalize
-        coreUI.getTitleLabel().setText("     Game Library   ");
         btnMoveRight.requestFocusInWindow();
         coreUI.getFrame().requestFocus();
 
@@ -1020,6 +1031,16 @@ public class LibraryUI extends AuroraApp {
 
         libraryGridManager.unFlipAll();
         libraryGridManager.unselectPrevious();
+    }
+
+    public void showEnterKeyIcon() {
+        coreUI.getKeyToPressPanel().add(imgEnterIco);
+        coreUI.getKeyToPressPanel().add(lbEnterAction);
+    }
+
+    public void hideEnterKeyIcon() {
+        coreUI.getKeyToPressPanel().remove(imgEnterIco);
+        coreUI.getKeyToPressPanel().remove(lbEnterAction);
     }
 
     public void setSize() {
@@ -1333,7 +1354,7 @@ public class LibraryUI extends AuroraApp {
     }
 
     public AImage getImgKeyIco() {
-        return imgKeyIco;
+        return imgArrowIco;
     }
 
     public AImagePane getImgSelectedGamePane() {
@@ -1341,7 +1362,7 @@ public class LibraryUI extends AuroraApp {
     }
 
     public JLabel getLblKeyAction() {
-        return lblKeyAction;
+        return lbArrowAction;
     }
 
     public ArrayList<Boolean> getLoadedPanels() {
