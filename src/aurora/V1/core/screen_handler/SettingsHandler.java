@@ -39,6 +39,10 @@ public class SettingsHandler implements AuroraScreenHandler {
 
     private SettingsUI settingsUI;
 
+    public static String WASD_SETTING = "wasd_navigation";
+    public static String BACKGROUNDLOAD_SETTING = "background_game_search";
+    public static String SOUNDFX_SETTING = "sound_effects";
+
     private final StoredSettings storage;
 
     public SettingsHandler(SettingsUI aThis) {

@@ -29,6 +29,7 @@ import aurora.V1.core.screen_handler.LibraryHandler.HoverButtonRight;
 import aurora.V1.core.screen_handler.LibraryHandler.SearchBoxHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.SearchFocusHandler;
 import aurora.V1.core.screen_handler.LibraryHandler.ShowAddGameUIHandler;
+import aurora.V1.core.screen_handler.SettingsHandler;
 import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_logic.SettingsLogic;
 import aurora.engine.V1.Logic.AThreadWorker;
@@ -359,8 +360,14 @@ public class LibraryUI extends AuroraApp {
         //
         // Key Board Naviagtion Icon
         //
+        String value = storage.getStoredSettings().getSettingValue(SettingsHandler.WASD_SETTING);
+        if(value.equals("enabled")){
+             imgArrowIco = new AImage("KeyboardKeys/wasd.png", coreUI
+                                 .getKeyIconWidth(), coreUI.getKeyIconHeight());
+        }else{
         imgArrowIco = new AImage("KeyboardKeys/arrows.png", coreUI
                                  .getKeyIconWidth(), coreUI.getKeyIconHeight());
+        }
         lbArrowAction = new ASlickLabel(" Move");
 
 
