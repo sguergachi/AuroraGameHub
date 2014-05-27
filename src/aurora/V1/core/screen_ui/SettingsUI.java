@@ -397,7 +397,7 @@ public class SettingsUI extends AuroraApp {
                 15, 5));
         pnlUpdateAuroraDBSearchSetting.setOpaque(false);
 
-        imgUpdateAuroraDBSearchIcon = new AImage("settings_img_update.png");
+        imgUpdateAuroraDBSearchIcon = new AImage("settings_img_auroraCoverDB.png");
 
         btnUpdateAuroraDBSearch = new AButton("settings_btn_select_norm.png",
                                               "settings_btn_select_down.png",
