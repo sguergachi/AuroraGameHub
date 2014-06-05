@@ -360,13 +360,16 @@ public class LibraryUI extends AuroraApp {
         //
         // Key Board Naviagtion Icon
         //
-        String value = storage.getStoredSettings().getSettingValue(SettingsHandler.WASD_SETTING);
-        if(value.equals("enabled")){
-             imgArrowIco = new AImage("KeyboardKeys/wasd.png", coreUI
-                                 .getKeyIconWidth(), coreUI.getKeyIconHeight());
-        }else{
-        imgArrowIco = new AImage("KeyboardKeys/arrows.png", coreUI
-                                 .getKeyIconWidth(), coreUI.getKeyIconHeight());
+        String value = storage.getStoredSettings().getSettingValue(
+                SettingsHandler.WASD_SETTING);
+        if (value.equals("enabled")) {
+            imgArrowIco = new AImage("KeyboardKeys/wasd.png", coreUI
+                                     .getKeyIconWidth(), coreUI
+                                     .getKeyIconHeight());
+        } else {
+            imgArrowIco = new AImage("KeyboardKeys/arrows.png", coreUI
+                                     .getKeyIconWidth(), coreUI
+                                     .getKeyIconHeight());
         }
         lbArrowAction = new ASlickLabel(" Move");
 
