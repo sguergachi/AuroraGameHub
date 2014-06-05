@@ -212,46 +212,75 @@ public class OrganizeUI {
     public void showOrganizeUI() {
 
 
-            String soundEffectsSetting = auroraStorage.getStoredSettings()
-                    .getSettingValue("sound_effects");
-            if (soundEffectsSetting == null) {
-                soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
-            }
+        String soundEffectsSetting = auroraStorage.getStoredSettings()
+                .getSettingValue("sound_effects");
+        if (soundEffectsSetting == null) {
+            soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
+        }
 
-            if (soundEffectsSetting.equals("enabled")) {
-                ASound organizeSFX = new ASound("tick_2.wav", false);
-                organizeSFX.Play();
-            }
+        if (soundEffectsSetting.equals("enabled")) {
+            ASound organizeSFX = new ASound("tick_2.wav", false);
+            organizeSFX.Play();
+        }
 
-            // States //
-            if (!btnTop.isSelected && !btnMiddle.isSelected
-                        && !btnBottom.isSelected) {
-                String value = auroraStorage.getStoredSettings()
-                        .getSettingValue(
-                                "organize");
-                if (value != null) {
-                    if (value.equalsIgnoreCase("Favorite")) {
-                        btnTop.setSelected();
-
-                    } else if (value.equalsIgnoreCase("Alphabetic")) {
-                        btnMiddle.setSelected();
-
-                    } else if (value.equalsIgnoreCase("Most Played")) {
-                        btnBottom.setSelected();
-                    }
-                } else {
-
-                    auroraStorage.getStoredSettings().saveSetting("organize",
-                                                                  "favorite");
-                    value = "Favorite";
+        // States //
+        if (!btnTop.isSelected && !btnMiddle.isSelected
+                    && !btnBottom.isSelected) {
+            String value = auroraStorage.getStoredSettings()
+                    .getSettingValue(
+                            "organize");
+            if (value != null) {
+                if (value.equalsIgnoreCase("Favorite")) {
                     btnTop.setSelected();
+
+                } else if (value.equalsIgnoreCase("Alphabetic")) {
+                    btnMiddle.setSelected();
+
+                } else if (value.equalsIgnoreCase("Most Played")) {
+                    btnBottom.setSelected();
                 }
+            } else {
+
+                auroraStorage.getStoredSettings().saveSetting("organize",
+                                                              "favorite");
+                value = "Favorite";
+                btnTop.setSelected();
             }
+        }
 
 
 
-            organizeMenu
-                    .show(coreUI.getFrame(), libraryUI.getBtnOrganizeGames()
+        organizeMenu
+                .show(coreUI.getFrame(), libraryUI.getBtnOrganizeGames()
+                      .getLocationOnScreen().x + ((libraryUI
+                      .getBtnOrganizeGames()
+                      .getBounds().width) / 3 - (libraryUI
+                      .getBtnOrganizeGames()
+                      .getBounds().width) / 5) - 3,
+                      libraryUI.getBtnOrganizeGames().getLocationOnScreen().y
+                              - libraryUI.getBtnOrganizeGames()
+                      .getBounds().height - btnMiddle
+                      .getRealImageHeight() - 5);
+
+
+        organizeUIVisible = true;
+
+    }
+
+    public void hideOrganizeUI() {
+        String soundEffectsSetting = auroraStorage.getStoredSettings()
+                .getSettingValue("sound_effects");
+        if (soundEffectsSetting == null) {
+            soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
+        }
+
+        if (soundEffectsSetting.equals("enabled")) {
+            ASound organizeSFX = new ASound("tick_2.wav", false);
+            organizeSFX.Play();
+        }
+
+
+        organizeMenu.show(coreUI.getFrame(), libraryUI.getBtnOrganizeGames()
                           .getLocationOnScreen().x + ((libraryUI
                           .getBtnOrganizeGames()
                           .getBounds().width) / 3 - (libraryUI
@@ -261,40 +290,15 @@ public class OrganizeUI {
                           - libraryUI.getBtnOrganizeGames()
                           .getBounds().height - btnMiddle
                           .getRealImageHeight() - 5);
-
-
-            organizeUIVisible = true;
-
-    }
-
-    public void hideOrganizeUI() {
-            String soundEffectsSetting = auroraStorage.getStoredSettings()
-                    .getSettingValue("sound_effects");
-            if (soundEffectsSetting == null) {
-                soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
-            }
-
-            if (soundEffectsSetting.equals("enabled")) {
-                ASound organizeSFX = new ASound("tick_2.wav", false);
-                organizeSFX.Play();
-            }
-        }
-
+        organizeMenu.removePopupMenuListener(organizeMenu
+                .getPopupMenuListeners()[0]);
         organizeMenu
-                .show(coreUI.getFrame(), libraryUI.getBtnOrganizeGames()
-                      .getLocationOnScreen().x + ((libraryUI
-                      .getBtnOrganizeGames()
-                      .getBounds().width) / 3 - (libraryUI.getBtnOrganizeGames()
-                      .getBounds().width) / 5) - 3,
-                      libraryUI.getBtnOrganizeGames().getLocationOnScreen().y
-                      - libraryUI.getBtnOrganizeGames()
-                      .getBounds().height - btnMiddle
-                      .getRealImageHeight() - 5);
-        organizeMenu.removePopupMenuListener(organizeMenu.getPopupMenuListeners()[0]);
-        organizeMenu.removeMenuKeyListener(organizeMenu.getMenuKeyListeners()[0]);
+                .removeMenuKeyListener(organizeMenu.getMenuKeyListeners()[0]);
 
 
-            organizeMenu.setVisible(false);
-            organizeUIVisible = false;
+        organizeMenu.setVisible(
+                false);
+        organizeUIVisible = false;
+
     }
 }
