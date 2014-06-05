@@ -1283,7 +1283,7 @@ public class AddGameUI {
                 public void actionPerformed(ActionEvent e) {
 
                     try {
-                        Thread.sleep(13000);
+                        Thread.sleep(5000);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(AddGameUI.class.getName())
                                 .log(Level.SEVERE, null, ex);
