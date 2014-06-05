@@ -394,7 +394,7 @@ public class SettingsUI extends AuroraApp {
         // Download AuroraDB
         pnlUpdateAuroraDBSearchSetting = new JPanel(new FlowLayout(
                 FlowLayout.LEFT,
-                15, 5));
+                14, 5));
         pnlUpdateAuroraDBSearchSetting.setOpaque(false);
 
         imgUpdateAuroraDBSearchIcon = new AImage("settings_img_auroraCoverDB.png");
