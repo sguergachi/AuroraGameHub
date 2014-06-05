@@ -33,6 +33,7 @@ import aurora.engine.V1.UI.APrompter;
 import aurora.engine.V1.UI.AScrollingImage;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
@@ -159,7 +160,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
             logger.error(ex);
         }
 
-        progressWheel = new AProgressWheel("app_progressWheel.png");
+        progressWheel = new AProgressWheel("app_progressWheel.png", 20);
         imgHexPane = new AScrollingImage("start_scrolling_hex.png", 0, 0);
         imgHexPane.setIgnoreRepaint(true);
         imgHexPane.setDoubleBuffered(true);
@@ -220,8 +221,13 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         });
 
         // panel containing progress wheel and prompter
+        JPanel progressContainer = new JPanel(new FlowLayout(FlowLayout.CENTER,
+                                                             0,
+                                                             0));
+        progressContainer.setOpaque(false);
+        progressContainer.add(progressWheel);
         loadingPane.add(BorderLayout.CENTER, promptDisplay);
-        loadingPane.add(BorderLayout.SOUTH, progressWheel);
+        loadingPane.add(BorderLayout.SOUTH, progressContainer);
         loadingPane.revalidate();
 
         coreUI.getBottomContentPane().add(loadingPane);

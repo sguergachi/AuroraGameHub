@@ -287,7 +287,7 @@ public class LibraryUI extends AuroraApp {
 
     private GridBagConstraints gridBagConstant;
 
-    private ASlickLabel lbEnterAction;
+    private ASlickLabel lblEnterAction;
 
     private AImage imgEnterIco;
 
@@ -371,12 +371,12 @@ public class LibraryUI extends AuroraApp {
                                      .getKeyIconWidth(), coreUI
                                      .getKeyIconHeight());
         }
-        lbArrowAction = new ASlickLabel(" Move");
+        lbArrowAction = new ASlickLabel();
 
 
         imgEnterIco = new AImage("KeyboardKeys/enter.png", coreUI
                                  .getKeyIconWidth(), coreUI.getKeyIconHeight());
-        lbEnterAction = new ASlickLabel(" Play");
+        lblEnterAction = new ASlickLabel();
         //
         // Library Status Pane
         //
@@ -467,11 +467,14 @@ public class LibraryUI extends AuroraApp {
                                                                      coreUI
                                                                      .getKeysFontSize()));
             lbArrowAction.setForeground(new Color(0, 178, 178));
+            lbArrowAction.setText(" Move");
 
-            lbEnterAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
+            lblEnterAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
                                                                      coreUI
                                                                      .getKeysFontSize()));
-            lbEnterAction.setForeground(new Color(0, 178, 178));
+            lblEnterAction.setForeground(new Color(0, 178, 178));
+            lblEnterAction.setText(" Play");
+
 
             // Bottom Center Bar
             pnlBottomCenterContainer.setOpaque(false);
@@ -1045,12 +1048,12 @@ public class LibraryUI extends AuroraApp {
 
     public void showEnterKeyIcon() {
         coreUI.getKeyToPressPanel().add(imgEnterIco);
-        coreUI.getKeyToPressPanel().add(lbEnterAction);
+        coreUI.getKeyToPressPanel().add(lblEnterAction);
     }
 
     public void hideEnterKeyIcon() {
         coreUI.getKeyToPressPanel().remove(imgEnterIco);
-        coreUI.getKeyToPressPanel().remove(lbEnterAction);
+        coreUI.getKeyToPressPanel().remove(lblEnterAction);
     }
 
     public void setSize() {
