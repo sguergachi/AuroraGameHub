@@ -1255,7 +1255,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         .log(Level.SEVERE, null, ex);
             }
 
-            if (canShowGameInfoInLibraryStatusBar) {
+            if (canShowGameInfoInLibraryStatusBar && !isRemoved) {
                 count++;
 
                 switch (count) {

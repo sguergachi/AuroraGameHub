@@ -452,7 +452,9 @@ public abstract class AuroraApp implements AuroraScreenUI {
         btnBack = new AButton("app_btn_back_norm.png",
                               "app_btn_back_down.png", "app_btn_back_over.png",
                               btnBackWidth, btnBackHeight);
-        btnBack.setToolTipText("Back");
+        if (main.LAUNCHES < 20) {
+            btnBack.setToolTipText("Back");
+        }
         try {
             getCoreUI().getFrameControlImagePane().setImageURL(
                     "dash_frameControlBig_bg.png");
