@@ -253,6 +253,9 @@ public class OrganizeUI {
                       - libraryUI.getBtnOrganizeGames()
                       .getBounds().height - btnMiddle
                       .getRealImageHeight() - 5);
+        organizeMenu.removePopupMenuListener(organizeMenu.getPopupMenuListeners()[0]);
+        organizeMenu.removeMenuKeyListener(organizeMenu.getMenuKeyListeners()[0]);
+
 
     }
 }
