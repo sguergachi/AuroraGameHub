@@ -97,10 +97,10 @@ public class AboutBox {
         // Create Components
         // ----------------------------------------------------------------.
         // Get Glass Pane to Put UI On //
-        pnlGlass =  coreUI.getFrame().getLayeredPane();
+        pnlGlass = coreUI.getFrame().getLayeredPane();
 
         pnlAboutPane = new AImagePane("app_about_bg.png",
-                new BorderLayout());
+                                      new BorderLayout());
         pnlAboutPane.addFocusListener(new AboutBoxFocusListener());
 
         // Inner Panels //
@@ -111,7 +111,7 @@ public class AboutBox {
         pnlCenterContainer.setOpaque(false);
 
         pnlCenter = new AImagePane("app_about_center.png", pnlAboutPane
-                .getRealImageWidth(), 0);
+                                   .getRealImageWidth(), 0);
 
         pnlBottom = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pnlBottom.setOpaque(false);
@@ -127,8 +127,8 @@ public class AboutBox {
         scrollBar.setUI(new AScrollBar("app_scrollBar.png", "app_scrollBG.png"));
 
         scrollPane = new JScrollPane(pnlCenterContainer,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                                     JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                                     JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBar(scrollBar);
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
@@ -166,7 +166,7 @@ public class AboutBox {
         scrollPane.setBorder(null);
         scrollPane.setWheelScrollingEnabled(true);
         scrollBar.setPreferredSize(new Dimension(18, pnlCenter
-                .getRealImageHeight()));
+                                                 .getRealImageHeight()));
 
         pnlCenter.setLayout(new BorderLayout());
         addContent();
@@ -176,11 +176,14 @@ public class AboutBox {
         // Bottom Pane //
         pnlBottom.add(imgLogo);
         imgLogo.setPreferredSize(new Dimension(imgLogo.getRealImageWidth(),
-                imgLogo.getRealImageHeight()));
+                                               imgLogo.getRealImageHeight()));
         pnlBottom.setPreferredSize(new Dimension(imgLogo.getRealImageWidth(),
-                pnlAboutPane.getRealImageHeight()
-                - pnlTop.getPreferredSize().height - pnlCenter
-                .getRealImageHeight()));
+                                                 pnlAboutPane
+                                                 .getRealImageHeight()
+                                                         - pnlTop
+                                                 .getPreferredSize().height
+                                                 - pnlCenter
+                                                 .getRealImageHeight()));
 
         // Add to Main Panel //
         pnlAboutPane.add(pnlTop, BorderLayout.NORTH);
@@ -188,14 +191,14 @@ public class AboutBox {
         pnlAboutPane.add(pnlBottom, BorderLayout.SOUTH);
 
         pnlAboutPane.setLocation((coreUI.getFrame().getWidth() / 2)
-                                 - (pnlAboutPane.getImgIcon()
+                                         - (pnlAboutPane.getImgIcon()
                 .getIconWidth()
-                                    / 2), -380);
+                                                    / 2), -380);
         pnlAboutPane
                 .setSize(
                         new Dimension(pnlAboutPane.getImgIcon()
                                 .getIconWidth(), pnlAboutPane.getImgIcon()
-                                .getIconHeight()));
+                                      .getIconHeight()));
         pnlAboutPane.revalidate();
         pnlAboutPane.requestFocusInWindow();
 
@@ -207,6 +210,8 @@ public class AboutBox {
         ASound showSound = new ASound("swoop_" + num + ".wav", false);
         showSound.Play();
 
+
+
         pnlGlass.add(pnlAboutPane, JLayeredPane.MODAL_LAYER);
         pnlGlass.setLayout(null);
         pnlGlass.setOpaque(false);
@@ -215,9 +220,11 @@ public class AboutBox {
         aboutBoxAnimator = new AAnimate(pnlAboutPane);
 
         aboutBoxAnimator.setInitialLocation((coreUI.getFrame().getWidth() / 2)
-                                            - (pnlAboutPane.getImgIcon()
+                                                    - (pnlAboutPane.getImgIcon()
                 .getIconWidth() / 2), -390);
         aboutBoxAnimator.moveVertical(0, 33);
+
+        coreUI.getLogoImage().setVisible(false);
         pnlAboutPane.revalidate();
 
         isAboutVisible = true;
@@ -230,10 +237,12 @@ public class AboutBox {
         if (isAboutVisible) {
 
             int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
-            ASound showSound = new ASound("reverse_swoop_" + num + ".wav", false);
+            ASound showSound
+                   = new ASound("reverse_swoop_" + num + ".wav", false);
             showSound.Play();
 
             aboutBoxAnimator.moveVertical(-485, 33);
+             coreUI.getLogoImage().setVisible(true);
             aboutBoxAnimator.addPostAnimationListener(new APostHandler() {
                 @Override
                 public void doAction() {
@@ -280,7 +289,7 @@ public class AboutBox {
         ASlickLabel lblCodeCreditTitle = new ASlickLabel(
                 "Portions of this Software Contains Code From");
         lblCodeCreditTitle.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                24));
+                                                                   24));
         lblCodeCreditTitle.setForeground(Color.LIGHT_GRAY);
         lblCodeCreditTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -288,7 +297,7 @@ public class AboutBox {
                 "H2 Database - Database Engine");
         lblh2Database.setLink("http://www.h2database.com");
         lblh2Database.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                20));
+                                                              20));
         lblh2Database.setForeground(Color.WHITE);
         lblh2Database.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -296,7 +305,7 @@ public class AboutBox {
                 "Lars Vogel - RSS Parser");
         lblRSSParser.setLink("http://www.vogella.com/");
         lblRSSParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                20));
+                                                             20));
         lblRSSParser.setForeground(Color.WHITE);
         lblRSSParser.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -304,7 +313,7 @@ public class AboutBox {
                 "Mixpanel Java - Analytics Library");
         lblAnalyticsParser.setLink("https://github.com/mixpanel/mixpanel-java");
         lblAnalyticsParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                20));
+                                                                   20));
         lblAnalyticsParser.setForeground(Color.WHITE);
         lblAnalyticsParser.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -312,7 +321,7 @@ public class AboutBox {
                 "JSON in Java - Used for Good, not Evil.");
         lblJSONParser.setLink("http://www.json.org/license.html");
         lblJSONParser.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                20));
+                                                              20));
         lblJSONParser.setForeground(Color.WHITE);
         lblJSONParser.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -320,7 +329,7 @@ public class AboutBox {
                 "Apache log4j - Logging Library for Java.");
         lblLogger.setLink("http://logging.apache.org/log4j/1.2/");
         lblLogger.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                20));
+                                                          20));
         lblLogger.setForeground(Color.WHITE);
         lblLogger.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -329,7 +338,7 @@ public class AboutBox {
         lblMixpanel.setLink(
                 "https://github.com/mixpanel/mixpanel-java/blob/master/LICENSE");
         lblMixpanel.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                20));
+                                                            20));
         lblMixpanel.setForeground(Color.WHITE);
         lblMixpanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -338,7 +347,7 @@ public class AboutBox {
         lblScalr.setLink(
                 "https://github.com/thebuzzmedia/imgscalr/blob/master/LICENSE");
         lblScalr.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                20));
+                                                         20));
         lblScalr.setForeground(Color.WHITE);
         lblScalr.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -371,7 +380,7 @@ public class AboutBox {
         ASlickLabel lblSpecialThanks = new ASlickLabel(
                 "Special Thanks To");
         lblSpecialThanks.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                24));
+                                                                 24));
         lblSpecialThanks.setForeground(Color.LIGHT_GRAY);
         lblSpecialThanks.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -379,7 +388,7 @@ public class AboutBox {
                 "Jeno-Cyber - Gorgeous Box Art");
         lblJeno.setLink("http://jeno-cyber.deviantart.com/");
         lblJeno.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                20));
+                                                        20));
         lblJeno.setForeground(Color.WHITE);
         lblJeno.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -387,7 +396,7 @@ public class AboutBox {
                 "Stack Overflow - Making Life Easier");
         lblStackOverflow.setLink("http://stackoverflow.com");
         lblStackOverflow.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                20));
+                                                                 20));
         lblStackOverflow.setForeground(Color.WHITE);
         lblStackOverflow.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -397,7 +406,7 @@ public class AboutBox {
                 "http://www.facebook.com/pages/Aurora-Game-Hub/588939407788712",
                 Color.red);
         lblUsers.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                20));
+                                                         20));
         lblUsers.setForeground(Color.WHITE);
         lblUsers.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -426,18 +435,18 @@ public class AboutBox {
         ASlickLabel lblLicense = new ASlickLabel(
                 "License");
         lblLicense.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                24));
+                                                           24));
         lblLicense.setForeground(Color.LIGHT_GRAY);
         lblLicense.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblLicenseText = new ASlickLabel(
                 "<html> This work is licensed under the <br>"
-                + " Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.<br>"
+                        + " Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.<br>"
                 + " To view a copy of this license, visit <br>"
-                + "'http://creativecommons.org/licenses/by-nc-nd/3.0/' <br> "
+                        + "'http://creativecommons.org/licenses/by-nc-nd/3.0/' <br> "
                 + " or send a letter to Creative Commons, 444 Castro Street, ScoreUIte 900, <br>"
                 + " Mountain View, California, 94041, USA.<br>"
-                + " Unless required by applicable law or agreed to in writing, software<br>"
+                        + " Unless required by applicable law or agreed to in writing, software<br>"
                 + " distributed under the License is distributed on an \"AS IS\" BASIS,<br>"
                 + " WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br>"
                 + " See the License for the specific language governing permissions and<br>"
@@ -467,10 +476,11 @@ public class AboutBox {
         pnlCenterContainer.revalidate();
         pnlCenterContainer.setPreferredSize(new Dimension(pnlCenter
                 .getRealImageWidth(), (pnlMadeBy.getPreferredSize().height
-                                       + pnlLicense.getPreferredSize().height
+                                               + pnlLicense.getPreferredSize().height
                                        + pnlSpecialThanks.getPreferredSize().height
                                        + imgThanks.getImgHeight() * 2
-                                       + pnlCodeCredit.getPreferredSize().height
+                                               + pnlCodeCredit
+                                                          .getPreferredSize().height
                                        + 50)));
 
     }

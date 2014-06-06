@@ -553,7 +553,6 @@ public class AuroraCoreUI {
                                     frame.getSize().width, topPanelHeight, true);
         paneBottom.setPreferredSize(new Dimension(frame.getSize().width,
                                                   topPanelHeight));
-//        paneBottom.setOpaque(false);
         paneBottom.setLayout(new BorderLayout(0, 0));
 
 
