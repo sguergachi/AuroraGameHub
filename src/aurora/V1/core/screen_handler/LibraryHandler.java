@@ -44,7 +44,6 @@ import aurora.engine.V1.UI.AGridPanel;
 import aurora.engine.V1.UI.AHoverButton;
 import aurora.engine.V1.UI.AImage;
 import aurora.engine.V1.UI.AImagePane;
-import aurora.engine.V1.UI.APopupMenu;
 import aurora.engine.V1.UI.AProgressWheel;
 import aurora.engine.V1.UI.ARadioButton;
 import aurora.engine.V1.UI.ASlickLabel;
@@ -297,7 +296,8 @@ public class LibraryHandler implements
                     } else {
                         // Left Button
                         GameBack.remove(0);
-                        GameBack.add(libraryUI.getPnlMoveLeftContainer(), BorderLayout.WEST, 0);
+                        GameBack.add(libraryUI.getPnlMoveLeftContainer(),
+                                     BorderLayout.WEST, 0);
                     }
                     // Add GameCover Covers
 
@@ -309,7 +309,8 @@ public class LibraryHandler implements
                         logger.error(ex);
                     }
 
-                    GameBack.add(BorderLayout.EAST, libraryUI.getPnlMoveRightContainer());
+                    GameBack.add(BorderLayout.EAST, libraryUI
+                                 .getPnlMoveRightContainer());
                 }
 
                 libraryUI.getCoreUI().getCenterPanel().removeAll();
@@ -358,7 +359,8 @@ public class LibraryHandler implements
         private GridAnimation GridAnimate;
 
         private final AuroraCoreUI coreUI;
-        private  AHoverButton btnMoveRight;
+
+        private AHoverButton btnMoveRight;
 
         public HoverButtonRight() {
             this.coreUI = libraryUI.getCoreUI();
@@ -383,10 +385,12 @@ public class LibraryHandler implements
                         .size() - 1) {
 
                     GameBack.remove(0);
-                    GameBack.add(libraryUI.getPnlMoveLeftContainer(), BorderLayout.WEST,
+                    GameBack.add(libraryUI.getPnlMoveLeftContainer(),
+                                 BorderLayout.WEST,
                                  0);
 
-                    GameBack.add(libraryUI.getPnlMoveRightContainer(), BorderLayout.EAST, 2);
+                    GameBack.add(libraryUI.getPnlMoveRightContainer(),
+                                 BorderLayout.EAST, 2);
 
                     GridAnimate.moveRight(libraryUI.getCurrentGridIndex());
 
@@ -1605,7 +1609,8 @@ public class LibraryHandler implements
 
         private final GameSearch gameSearch;
 
-        public GameSearchButtonListener(GameSearch search, AImage icon, AButton btn) {
+        public GameSearchButtonListener(GameSearch search, AImage icon,
+                                        AButton btn) {
             this.gameSearch = search;
             this.icon = icon;
 
@@ -2391,8 +2396,11 @@ public class LibraryHandler implements
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            libraryUI.getOrganizeUI().showOrganizeUI();
-
+            if (libraryUI.getOrganizeUI().isVisible()) {
+                libraryUI.getOrganizeUI().hideOrganizeUI();
+            } else {
+                libraryUI.getOrganizeUI().showOrganizeUI();
+            }
         }
     }
 
@@ -2432,9 +2440,9 @@ public class LibraryHandler implements
 
         private final ASlickLabel label;
 
-        private final APopupMenu organizeUI;
+        private final JComponent organizeUI;
 
-        public UnSelectedOrganizeListener(ASlickLabel lbl, APopupMenu popup) {
+        public UnSelectedOrganizeListener(ASlickLabel lbl, JComponent popup) {
 
             label = lbl;
             organizeUI = popup;

@@ -389,8 +389,10 @@ public class AuroraCoreUI {
      * .-----------------------------------------------------------------------.
      * | AuroraCoreUI(JFrame)
      * .-----------------------------------------------------------------------.
-     * | | This is the Constructor of the AuroraCoreUI class. | | The
-     * constructor sets up the Aurora app main frame
+     * |
+     * | This is the Constructor of the AuroraCoreUI class.
+     * |
+     * | The constructor sets up the Aurora app main frame
      * .........................................................................
      *
      * @param aFrame JFrame
@@ -416,8 +418,12 @@ public class AuroraCoreUI {
      * .-----------------------------------------------------------------------
      * | setUI()
      * .-----------------------------------------------------------------------
-     * | | Sets up the Aurora UI | | This method sets up all the key UI
-     * components that make up the core UI | for Aurora |
+     * |
+     * | Sets up the Aurora UI
+     * |
+     * | This method sets up all the key UI components that make up the core UI
+     * | for Aurora
+     * |
      * .........................................................................
      * <p/>
      * @throws UnsupportedAudioFileException Exception
@@ -513,8 +519,6 @@ public class AuroraCoreUI {
                                         true);
 
         paneBackground.setPreferredSize(frame.getSize());
-//        paneBackground.setLayout(new BoxLayout(paneBackground,
-//                                               BoxLayout.Y_AXIS));
         paneBackground.setLayout(new BorderLayout(0, 0));
 
         //
@@ -535,11 +539,8 @@ public class AuroraCoreUI {
         //
         paneCenter = new JPanel(true);
         paneCenter.setPreferredSize(new Dimension(frame.getSize().width, frame
-                                                  .getSize().height
-                                                                                 - (frame
-                                                  .getSize().height
-                                                                                            / 6
-                                                                                    + frame
+                                                  .getSize().height - (frame
+                                                  .getSize().height / 6 + frame
                                                   .getSize().height / 6)));
         paneCenter.setOpaque(false);
         paneCenter.setLayout(new BorderLayout(0, 0));
@@ -736,6 +737,7 @@ public class AuroraCoreUI {
         paneBackground.add(paneCenter, BorderLayout.CENTER);
         paneBackground.add(paneBottom, BorderLayout.SOUTH);
 
+        
         frame.addKeyListener(new FrameKeyListener());
         frame.requestFocus();
 
