@@ -39,6 +39,7 @@ Author: Sammy Guergachi, Carlos Machado
 - Fixed pressing Done button in Edit Cover UI to many times causing issues
 - Fixed issue with going offline and back online not being detected
 - Fixed issue going in and out of Settings app re-showing info bar status
+- Fixed clicking on sort button sometimes not able to dismiss popup
 - Fixed a whole lot of other long standing bugs that I forgot to record
 
 ---
