@@ -168,7 +168,7 @@ public class GridManager {
         for (int i = 0; i < Grids.size(); i++) {
             for (int a = 0; a < Grids.get(i).getArray().size(); a++) {
                 if (Grids.get(i).getArray().get(a) instanceof GamePlaceholder
-                            == false) {
+                    == false) {
                     Game cover = (Game) Grids.get(i).getArray().get(a);
                     if (cover.getGameName().equals(game.getGameName())) {
                         return true;
@@ -188,7 +188,7 @@ public class GridManager {
         for (int i = 0; i < Grids.size(); i++) {
             for (int a = 0; a < Grids.get(i).getArray().size(); a++) {
                 if (Grids.get(i).getArray().get(a) instanceof GamePlaceholder
-                            == false) {
+                    == false) {
                     Game cover = (Game) Grids.get(i).getArray().get(a);
                     if (cover.getGameName().equals(gameName)) {
                         return true;
@@ -211,7 +211,7 @@ public class GridManager {
         for (int i = 0; i < Grids.size(); i++) {
             for (int a = 0; a < Grids.get(i).getArray().size(); a++) {
                 if (Grids.get(i).getArray().get(a) instanceof GamePlaceholder
-                            == false) {
+                    == false) {
 
                     Game cover = (Game) Grids.get(i).getArray().get(a);
                     if (cover.getBoxArtUrl().equals(game.getBoxArtUrl())) {
@@ -293,6 +293,7 @@ public class GridManager {
 
         }
     }
+
 
     /**
      * check if any other cover was setSelected and sets it to setUnselected
@@ -529,7 +530,7 @@ public class GridManager {
 
         if (logger.isDebugEnabled()) {
             logger.debug("Game as found in grid location: " + gridLocation[0]
-                                 + "," + gridLocation[1]);
+                         + "," + gridLocation[1]);
         }
 
         // grab the index of where the grid is located in the manager
@@ -601,7 +602,7 @@ public class GridManager {
 
         if (logger.isDebugEnabled()) {
             logger.debug("Game was found in grid location: " + gridLocation[0]
-                                 + "," + gridLocation[1]);
+                         + "," + gridLocation[1]);
         }
 
         // grab the index of where the grid is located in the manager
@@ -656,7 +657,7 @@ public class GridManager {
 
         if (logger.isDebugEnabled()) {
             logger.debug("Game was found in grid location: " + gridLocation[0]
-                                 + "," + gridLocation[1]);
+                         + "," + gridLocation[1]);
         }
 
         // grab the index of where the grid is located in the manager

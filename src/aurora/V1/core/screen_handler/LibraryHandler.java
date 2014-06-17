@@ -93,7 +93,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import org.apache.log4j.Logger;
-import sun.swing.DefaultLookup;
 
 /**
  * .------------------------------------------------------------------------.
@@ -883,35 +882,39 @@ public class LibraryHandler implements
                     game = (Game) comp.get(0);
                     game.showOverlayUI();
                 }
-            } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            }
 
-                if (logger.isDebugEnabled()) {
-                    logger.debug("D key pressed");
-                }
+//            else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+//
+//                if (logger.isDebugEnabled()) {
+//                    logger.debug("D key pressed");
+//                }
+//
+//                int i = 0;
+//
+//                while (i < comp.size() && !selectedGameFound
+//                               && !(comp.get(i) instanceof GamePlaceholder)) {
+//                    game = (Game) comp.get(i);
+//                    if (game.isSelected()) {
+//                        selectedGameFound = true;
+//
+//                        if (logger.isDebugEnabled()) {
+//                            logger.debug("index = " + i);
+//                            logger.debug(game.getName()
+//                                                 + " is selected in the library");
+//                        }
+//                    } else {
+//                        i++;
+//                    }
+//                }
+//
+//                if (!cursorMoved && selectedGameFound) {
+//                    game.getPlayHandler().actionPerformed(null);
+//                }
+//
+//            }
 
-                int i = 0;
-
-                while (i < comp.size() && !selectedGameFound
-                               && !(comp.get(i) instanceof GamePlaceholder)) {
-                    game = (Game) comp.get(i);
-                    if (game.isSelected()) {
-                        selectedGameFound = true;
-
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("index = " + i);
-                            logger.debug(game.getName()
-                                                 + " is selected in the library");
-                        }
-                    } else {
-                        i++;
-                    }
-                }
-
-                if (!cursorMoved && selectedGameFound) {
-                    game.getPlayHandler().actionPerformed(null);
-                }
-
-            } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 coreUI.showExitDialog();
             }
 
@@ -1532,8 +1535,9 @@ public class LibraryHandler implements
             if (dropLocation != null && !dropLocation.isInsert()
                         && dropLocation.getIndex() == index) {
 
-                bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
-                fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
+
+                fg = UIManager.getColor("List.dropCellForeground");
+                bg = UIManager.getColor("List.dropCellBackground");
 
                 isSelected = true;
             }
@@ -2181,8 +2185,9 @@ public class LibraryHandler implements
             if (dropLocation != null && !dropLocation.isInsert()
                         && dropLocation.getIndex() == index) {
 
-                bg = DefaultLookup.getColor(this, ui, "List.dropCellBackground");
-                fg = DefaultLookup.getColor(this, ui, "List.dropCellForeground");
+
+                fg = UIManager.getColor("List.dropCellForeground");
+                bg = UIManager.getColor("List.dropCellBackground");
 
                 isSelected = true;
             }

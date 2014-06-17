@@ -46,6 +46,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -169,7 +171,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private AuroraStorage storage;
 
     private final String rootCoverDBPath
-                                 = "https://s3.amazonaws.com/CoverArtDB/";
+                         = "https://s3.amazonaws.com/CoverArtDB/";
 
     private PlayButtonListener playButtonListener;
 
@@ -256,6 +258,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private boolean canShowGameInfoInLibraryStatusBar;
 
     private APostHandler postLoad;
+
+    private boolean gameRemoved;
 
     public Game() {
     }
@@ -363,7 +367,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlInteractivePane.setName("pnlInteractivePane");
         pnlInteractivePane.addMouseListener(new Game.InteractiveListener());
         this.addMouseListener(new Game.InteractiveListener());
+        this.addKeyListener(new Game.KeyListener());
         this.add(pnlInteractivePane);
+        pnlInteractivePane.addKeyListener(new Game.KeyListener());
         this.revalidate();
 
         this.setLayout(new BorderLayout());
@@ -965,11 +971,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             this.revalidate();
 
             libraryLogic.getLibraryUI().hideEnterKeyIcon();
-            canShowGameInfoInLibraryStatusBar = false;
-
 
         }
-
+        canShowGameInfoInLibraryStatusBar = false;
     }
 
     /**
@@ -984,6 +988,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      * <p/>
      */
     public final void hideOverlayUI() {
+        canShowGameInfoInLibraryStatusBar = false;
         if (isLoaded) {
             btnRemove.setVisible(false);
             pnlInteractivePane.revalidate();
@@ -1005,25 +1010,27 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      */
     public final void showOverlayUI() {
 
-        pnlInteractivePane.setSize(width + 47, height + 28);
+        if (!isSelected) {
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("INTERACTIVE SIZE " + pnlInteractivePane.getWidth()
-                                 + " " + pnlInteractivePane.getHeight());
+            pnlInteractivePane.setSize(width + 47, height + 28);
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("INTERACTIVE SIZE " + pnlInteractivePane.getWidth()
+                             + " " + pnlInteractivePane.getHeight());
+            }
+
+            showRemoveBtn();
+            imgOverlayBar.setVisible(true);
+            setSelected();
+
+
+
+            LibraryUI.lblLibraryStatus.setFont(LibraryUI.lblLibraryStatus
+                    .getFont()
+                    .deriveFont(Font.PLAIN, LibraryUI.gameNameFontSize));
+            LibraryUI.lblLibraryStatus.setForeground(Color.lightGray);
+            LibraryUI.lblLibraryStatus.setText(getName());
         }
-
-        showRemoveBtn();
-        imgOverlayBar.setVisible(true);
-        setSelected();
-
-
-
-        LibraryUI.lblLibraryStatus.setFont(LibraryUI.lblLibraryStatus
-                .getFont()
-                .deriveFont(Font.PLAIN, LibraryUI.gameNameFontSize));
-        LibraryUI.lblLibraryStatus.setForeground(Color.lightGray);
-        LibraryUI.lblLibraryStatus.setText(getName());
-
     }
 
     /**
@@ -1235,6 +1242,29 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         run.start();
     }
 
+    public void setCanShowGameInfoInLibraryStatusBar(boolean canShowGameInfoInLibraryStatusBar) {
+        this.canShowGameInfoInLibraryStatusBar = canShowGameInfoInLibraryStatusBar;
+    }
+
+    public void setGameRemoved(boolean gameRemoved) {
+        this.gameRemoved = gameRemoved;
+    }
+
+    private class KeyListener extends KeyAdapter{
+
+        public KeyListener() {
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+           if(e.getKeyCode() == KeyEvent.VK_ENTER && isSelected){
+               getPlayHandler().actionPerformed(null);
+           }
+        }
+
+
+    }
+
     private class TransisionBetweenGameInfo implements ActionListener {
 
         private final AThreadWorker run;
@@ -1255,7 +1285,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         .log(Level.SEVERE, null, ex);
             }
 
-            if (canShowGameInfoInLibraryStatusBar && !isRemoved) {
+            if (canShowGameInfoInLibraryStatusBar && !gameRemoved) {
                 count++;
 
                 switch (count) {
@@ -1274,7 +1304,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                             count = 3;
                         } else {
                             LibraryUI.lblLibraryStatus.setText("Played - "
-                                                                       + timesPlayed);
+                                                               + timesPlayed);
                         }
 
                         break;
@@ -1288,7 +1318,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         LibraryUI.lblLibraryStatus.setForeground(
                                 LibraryUI.DEFAULT_LIBRARY_COLOR);
                         LibraryUI.lblLibraryStatus.setText("Played for - "
-                                                                   + parseTotalTimePlayed());
+                                                           + parseTotalTimePlayed());
 
                         break;
                     case 3: // Last Played
@@ -1300,7 +1330,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         LibraryUI.lblLibraryStatus.setForeground(
                                 LibraryUI.DEFAULT_LIBRARY_COLOR);
                         LibraryUI.lblLibraryStatus.setText("Last Played - "
-                                                                   + parseLastTimePlayed());
+                                                           + parseLastTimePlayed());
 
                         break;
                     case 4:
@@ -1558,7 +1588,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         lblLastPlayed = new ASlickLabel("Last Played");
         lblLastPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
                                                                    labelFontSize
-                                                                           - 2));
+                                                                   - 2));
         lblLastPlayed.setForeground(new Color(202, 202, 217));
 
         lblTimesPlayed = new ASlickLabel("Times Played");
@@ -1570,7 +1600,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         lblGameType = new ASlickLabel("Game Genre");
         lblGameType.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
                                                                  labelFontSize
-                                                                         - 2));
+                                                                 - 2));
         lblGameType.setForeground(new Color(202, 202, 217));
 
         // Text boxes //
@@ -1687,10 +1717,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlTopImageContainer.setBorder(BorderFactory.createEmptyBorder(20, 0,
                                                                        0, (width
-                                                                                   / 5)));
+                                                                           / 5)));
         pnlTopImageContainer.setPreferredSize(new Dimension(flipShortcutWidth,
                                                             flipShortcutHeight
-                                                                    + 25));
+                                                            + 25));
         pnlTopImageContainer.setOpaque(false);
 
         pnlTopImageContainer.add(pnlShortcutImage, BorderLayout.CENTER);
@@ -1823,7 +1853,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             String hoursPlayed = timePlayed
                     .substring(0, timePlayed.indexOf(":"));
             String minutesPlayed = timePlayed.substring(timePlayed.indexOf(':')
-                                                                + 1,
+                                                        + 1,
                                                         timePlayed.length());
 
             if (!hoursPlayed.equals("0")) {
@@ -1863,8 +1893,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             } else {
 
                 return hoursPlayed + hourTxt + " "
-                               + minutesPlayed
-                               + minTxt;
+                       + minutesPlayed
+                       + minTxt;
             }
         } else {
             return "None";
@@ -2029,8 +2059,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                                     // Check if still favourited
                                     if (!isFavorite && !isFavoriting
-                                                && prevState
-                                                           != isFavorite) {
+                                        && prevState
+                                           != isFavorite) {
                                         storage.getStoredLibrary().SaveFavState(
                                                 thisGame());
                                         animateUnFavouriteMove();
@@ -2062,8 +2092,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                                     // Check if still favourited
                                     if (isFavorite && !isUnfavoriting
-                                                && prevState
-                                                           != isFavorite) {
+                                        && prevState
+                                           != isFavorite) {
                                         storage.getStoredLibrary().SaveFavState(
                                                 thisGame());
                                         setUnFavorite();
@@ -2153,7 +2183,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             imgConfirmPromptImagePane
                     .setPreferredSize(new Dimension(imgConfirmPromptImagePane
                                     .getImgIcon().getImage().getWidth(null)
-                                                            + SIZE_TOPPANE_COMP,
+                                                    + SIZE_TOPPANE_COMP,
                                                     imgConfirmPromptImagePane
                                                     .getImgIcon()
                                                     .getImage().getHeight(
@@ -2237,6 +2267,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
 
             AThreadWorker removeGame = new AThreadWorker(new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     StoredLibrary libraryStorage = storage.getStoredLibrary();
@@ -2253,6 +2284,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         LibraryUI.lblLibraryStatus.setText("Removed Game");
 
                         LibraryLogic.refreshAuto = true;
+
+                        gameRemoved = true;
 
                         try {
                             Thread.sleep(1200);
@@ -2291,7 +2324,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private void unselect() {
         hideOverlayUI();
-        canShowGameInfoInLibraryStatusBar = false;
+
         if (logger.isDebugEnabled()) {
             logger.debug("GAME UNSELECTED");
 

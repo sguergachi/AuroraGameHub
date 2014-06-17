@@ -201,10 +201,10 @@ public class GridSearch {
 
                             if (logger.isDebugEnabled()) {
                                 logger.debug("!Substring of Appended is: "
-                                                     + appendedSub);
+                                             + appendedSub);
                                 logger
                                         .debug("!Substring of Game is: "
-                                                       + gameSub);
+                                               + gameSub);
                                 logger.debug("!!Match Found?: " + gameSub
                                         .equals(appendedSub));
                             }
@@ -316,7 +316,7 @@ public class GridSearch {
     private boolean checkGameExistsInLibrary(String name) {
 
         if (libraryUI.getGridSplit().findGameName(name)[0] != -1
-                    && libraryUI.getGridSplit().findGameName(name)[0] != -1) {
+            && libraryUI.getGridSplit().findGameName(name)[0] != -1) {
             return true;
         }
         return false;
@@ -359,7 +359,6 @@ public class GridSearch {
             java.util.logging.Logger.getLogger(GridSearch.class.getName())
                     .log(Level.SEVERE, null, ex);
         }
-        foundGame.enableEditCoverOverlay();
         foundGame.setSettingsListener(GameOriginal.getSettingsListener());
         if (foundGameList.size() <= 7) {
             foundGameList.add(foundGame);
@@ -374,13 +373,18 @@ public class GridSearch {
     //Live Display of GameCover Found
     private void displayGames() throws MalformedURLException {
 
+        // Prevent tranision info in status bar
+        for (Game game : foundGameList) {
+            game.setGameRemoved(true);
+        }
+
         //Go through Array and add to Grid
         for (int i = 0; i < foundGameList.size(); i++) {
             //Check for dupicates
             if (!checkGameExistsInSearch(foundGameList.get(i).getName())) {
 
                 SearchManager.addGame(foundGameList.get(i)); // add to the grid.
-
+                foundGameList.get(i).update();
 
                 foundGameList.get(i)
                         .addFocusListener(handler.new SearchLostFocusHandler());
@@ -402,14 +406,25 @@ public class GridSearch {
                 libraryUI.getGamesContainer().revalidate();
                 libraryUI.getGamesContainer().repaint();
 
-                SearchManager.getGrid(0).revalidate();
-                SearchManager.getGrid(0).repaint();
+
+
+
             }
 
         }
 
+        SearchManager.getGrid(0).revalidate();
+        SearchManager.getGrid(0).repaint();
         SearchManager.addPlaceHolders(foundGame.getImageWidth(), foundGame
                                       .getImageHeight());
+
+        SearchManager.getGrid(0).revalidate();
+        SearchManager.getGrid(0).repaint();
+
+        ((Game) SearchManager.getGrid(0).getArray().get(0)).revalidate();
+        ((Game) SearchManager.getGrid(0).getArray().get(0)).showOverlayUI();
+        ((Game) SearchManager.getGrid(0).getArray().get(0)).revalidate();
+
     }
 
     //Clears Search grid and foundGameList
@@ -454,6 +469,8 @@ public class GridSearch {
                     .getGrid(i));
 
         }
+
+        libraryUI.getGridSplit().unselectPrevious();
 
         libraryUI.getGamesContainer().revalidate();
         libraryUI.getGamesContainer().repaint();
