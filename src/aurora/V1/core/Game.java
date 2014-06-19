@@ -261,6 +261,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private boolean gameRemoved;
 
+    private boolean isTransisioningBetweenGameInfo;
+
     public Game() {
     }
 
@@ -1236,10 +1238,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     private void tranisionBetweenGameInfoInLibraryStatusBar() {
-        AThreadWorker run = new AThreadWorker();
-        run.setAction(new TransisionBetweenGameInfo(run));
+        if (!isTransisioningBetweenGameInfo) {
+            AThreadWorker run = new AThreadWorker();
+            run.setAction(new TransisionBetweenGameInfo(run));
 
-        run.start();
+            run.start();
+        }
     }
 
     public void setCanShowGameInfoInLibraryStatusBar(boolean canShowGameInfoInLibraryStatusBar) {
@@ -1250,18 +1254,25 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.gameRemoved = gameRemoved;
     }
 
-    private class KeyListener extends KeyAdapter{
+    public boolean isIsTransisioningBetweenGameInfo() {
+        return isTransisioningBetweenGameInfo;
+    }
+
+    public void setIsTransisioningBetweenGameInfo(boolean isTransisioningBetweenGameInfo) {
+        this.isTransisioningBetweenGameInfo = isTransisioningBetweenGameInfo;
+    }
+
+    private class KeyListener extends KeyAdapter {
 
         public KeyListener() {
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-           if(e.getKeyCode() == KeyEvent.VK_ENTER && isSelected){
-               getPlayHandler().actionPerformed(null);
-           }
+            if (e.getKeyCode() == KeyEvent.VK_ENTER && isSelected) {
+                getPlayHandler().actionPerformed(null);
+            }
         }
-
 
     }
 
@@ -1286,6 +1297,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             }
 
             if (canShowGameInfoInLibraryStatusBar && !gameRemoved) {
+
+                isTransisioningBetweenGameInfo = true;
+
                 count++;
 
                 switch (count) {
@@ -1351,6 +1365,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             } else {
                 run.stop();
+                isTransisioningBetweenGameInfo = false;
             }
         }
     }
