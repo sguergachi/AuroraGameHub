@@ -1,5 +1,5 @@
         =================AURORA CHANGE LOG==================
-        |  Current Milestone: Alpha 10			   		   |
+        |  Current Milestone: Alpha 10                     |
         |  Crafted With Care by the Sardonix Creative Team |
         ====================================================
 
@@ -21,6 +21,7 @@ Author: Sammy Guergachi, Carlos Machado
 **Changes:**
 
 * Library search bar is centered for large screens (yeah, it was supposed to be centered)
+* Pressing ENTER when searching for game in library launches the first game.
 * Show "unsure" icon in auto searches that Aurora had to guess the cover art for
 * Game Cover alternatives can be seen in AuroraCoverDB now.
 * No more random annoying resets to first grid when adding a game etc.

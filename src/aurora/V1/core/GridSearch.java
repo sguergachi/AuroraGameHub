@@ -19,11 +19,14 @@ package aurora.V1.core;
 
 import aurora.V1.core.screen_handler.LibraryHandler;
 import aurora.V1.core.screen_ui.LibraryUI;
+import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.UI.AImage;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -73,6 +76,7 @@ public class GridSearch {
         this.handler = aLibraryHandler;
         foundGameList = new ArrayList<Game>();
         this.clearedGrid = false;
+
     }
 
     public void typedChar(char typedChar) {
@@ -201,10 +205,10 @@ public class GridSearch {
 
                             if (logger.isDebugEnabled()) {
                                 logger.debug("!Substring of Appended is: "
-                                             + appendedSub);
+                                                     + appendedSub);
                                 logger
                                         .debug("!Substring of Game is: "
-                                               + gameSub);
+                                                       + gameSub);
                                 logger.debug("!!Match Found?: " + gameSub
                                         .equals(appendedSub));
                             }
@@ -316,7 +320,7 @@ public class GridSearch {
     private boolean checkGameExistsInLibrary(String name) {
 
         if (libraryUI.getGridSplit().findGameName(name)[0] != -1
-            && libraryUI.getGridSplit().findGameName(name)[0] != -1) {
+                    && libraryUI.getGridSplit().findGameName(name)[0] != -1) {
             return true;
         }
         return false;
@@ -421,9 +425,26 @@ public class GridSearch {
         SearchManager.getGrid(0).revalidate();
         SearchManager.getGrid(0).repaint();
 
-        ((Game) SearchManager.getGrid(0).getArray().get(0)).revalidate();
-        ((Game) SearchManager.getGrid(0).getArray().get(0)).showOverlayUI();
-        ((Game) SearchManager.getGrid(0).getArray().get(0)).revalidate();
+
+        AThreadWorker select = new AThreadWorker(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Thread.sleep(500);
+                    if (foundGameList.size() > 0) {
+                        foundGameList.get(0).showOverlayUI();
+                    }
+                } catch (InterruptedException ex) {
+                    java.util.logging.Logger.getLogger(GridSearch.class
+                            .getName())
+                            .log(Level.SEVERE, null, ex);
+                }
+
+            }
+        });
+
+        select.startOnce();
 
     }
 
@@ -457,7 +478,8 @@ public class GridSearch {
         //Remove Favorite Side Image
         libraryUI.getGamesContainer().remove(0);
         libraryUI.getGamesContainer().remove(libraryUI.getImgOrganizeType());
-        libraryUI.getGamesContainer().remove(libraryUI.getPnlMoveRightContainer());
+        libraryUI.getGamesContainer().remove(libraryUI
+                .getPnlMoveRightContainer());
         libraryUI.getGamesContainer().add(Box.createHorizontalStrut(libraryUI
                 .getBtnMoveRight().getImgWidth()), BorderLayout.EAST);
         //Add search Side image
@@ -505,7 +527,8 @@ public class GridSearch {
             libraryUI.getGamesContainer().add(libraryUI.getGridSplit()
                     .getGrid(0),
                                               BorderLayout.CENTER);
-            libraryUI.getGamesContainer().add(libraryUI.getPnlMoveRightContainer(),
+            libraryUI.getGamesContainer().add(libraryUI
+                    .getPnlMoveRightContainer(),
                                               BorderLayout.EAST);
 
             libraryUI.getGamesContainer().revalidate();
@@ -519,6 +542,26 @@ public class GridSearch {
         SearchManager.initiateGrid(0);
         libraryUI.getGamesContainer().add(SearchManager.getGrid(0),
                                           BorderLayout.CENTER);
+        libraryUI.getSearchBar().addKeyListener(new EnterKeyListener());
+    }
+
+    private class EnterKeyListener implements KeyListener {
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER && foundGameList.size() > 0) {
+                foundGameList.get(0).getPlayHandler().actionPerformed(null);
+            }
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+        }
     }
 
     class FavListener implements ActionListener {

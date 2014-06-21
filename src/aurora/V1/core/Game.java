@@ -262,6 +262,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private boolean gameRemoved;
 
     private boolean isTransisioningBetweenGameInfo;
+    private InteractiveListener gameClickListener;
 
     public Game() {
     }
@@ -367,8 +368,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlInteractivePane = new JPanel(new BorderLayout());
         pnlInteractivePane.setOpaque(false);
         pnlInteractivePane.setName("pnlInteractivePane");
-        pnlInteractivePane.addMouseListener(new Game.InteractiveListener());
-        this.addMouseListener(new Game.InteractiveListener());
+        gameClickListener = new InteractiveListener();
+        pnlInteractivePane.addMouseListener(gameClickListener);
+        this.addMouseListener(gameClickListener);
         this.addKeyListener(new Game.KeyListener());
         this.add(pnlInteractivePane);
         pnlInteractivePane.addKeyListener(new Game.KeyListener());
@@ -1262,6 +1264,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.isTransisioningBetweenGameInfo = isTransisioningBetweenGameInfo;
     }
 
+    public InteractiveListener getGameClickListener() {
+        return gameClickListener;
+    }
+
     private class KeyListener extends KeyAdapter {
 
         public KeyListener() {
@@ -1565,7 +1571,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlFlipContentPane.setBorder(BorderFactory.createEmptyBorder(5, 40,
                                                                      5, 0));
         pnlFlipContentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        pnlFlipContentPane.addMouseListener(new InteractiveListener());
+        pnlFlipContentPane.addMouseListener(gameClickListener);
 
         // Right Pane //
         pnlRightPane = new JPanel();
