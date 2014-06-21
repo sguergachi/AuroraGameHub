@@ -1425,7 +1425,7 @@ public class AddGameUI {
     }
 
     public String getCurrentGameLocation() {
-        return gameFileChooser_addUI.getCurrentDirectory().getPath();
+        return gameFileChooser_addUI.getSelectedFile().getAbsolutePath();
     }
 
     public AButton getBtnAutoRefresh() {

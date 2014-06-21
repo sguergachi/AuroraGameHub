@@ -150,7 +150,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
         launchPane.setUndecorated(true);
         launchPane.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-//        launchPane.addWindowFocusListener(new LaunchFrameFocusListener());
         launchPane.addWindowListener(new WindowAdapter() {
             private int count;
 
@@ -229,11 +228,13 @@ public class AuroraLauncher implements Runnable, MouseListener {
         lblGameName.setForeground(new Color(103, 103, 103));
 
         lblPlayedInfo = new ASlickLabel("You Played");
-        lblPlayedInfo.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN, 60));
+        lblPlayedInfo
+                .setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN, 60));
         lblPlayedInfo.setForeground(new Color(45, 59, 75));
 
         lblPlayedTime = new ASlickLabel();
-        lblPlayedTime.setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN, 80));
+        lblPlayedTime
+                .setFont(coreUI.getRegularFont().deriveFont(Font.PLAIN, 80));
         lblPlayedTime.setForeground(Color.white);
 
         // Shortcut Buttons
@@ -314,7 +315,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
                                      new BorderLayout(0, -4));
 
         // Top Button panels
-        pnlButtonContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, -1, 0));
+        pnlButtonContainer
+        = new JPanel(new FlowLayout(FlowLayout.CENTER, -1, 0));
         pnlButtonContainer.setOpaque(false);
 
 
@@ -359,7 +361,8 @@ public class AuroraLauncher implements Runnable, MouseListener {
         pnlTopTitle.setPreferredSize(pnlTopTitle.getRealImageSize());
 
         pnlTopContainer.add(pnlTopTitle);
-        pnlTopContainer.add(Box.createVerticalStrut(coreUI.getScreenHeight() / 12));
+        pnlTopContainer.add(Box.createVerticalStrut(coreUI.getScreenHeight()
+                                                    / 12));
 
 
 
@@ -367,9 +370,9 @@ public class AuroraLauncher implements Runnable, MouseListener {
         imgGameCover.setImage(game);
         imgGameCover.setImageHeight(launchPane.getHeight() / 3 + 80);
         imgGameCover.setImageWidth(imgGameCover.getImageHeight()
-                                   - imgGameCover.getImageHeight() / 15);
+                                           - imgGameCover.getImageHeight() / 15);
         imgGameCover.setPreferredSize(new Dimension(imgGameCover.getImageWidth()
-                                                    + 20, imgGameCover
+                                                            + 20, imgGameCover
                                                     .getImageHeight()));
         imgGameCover.setAlignmentY(JComponent.CENTER_ALIGNMENT);
         imgGameCover.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -413,8 +416,9 @@ public class AuroraLauncher implements Runnable, MouseListener {
         launchPane.repaint();
 
         pnlTimePlayed.setVisible(false);
+        launchPane.setAlwaysOnTop(true);
         launchPane.requestFocusInWindow();
-
+        launchPane.setAlwaysOnTop(false);
     }
 
     public void launchGame(Game game) {
@@ -509,7 +513,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                         // Set Commands to launch shortcut
                         ProcessBuilder processBuild = new ProcessBuilder();
                         processBuild.command("cmd", "/c", "", '"' + currentDir
-                                                              + '"');
+                                                                      + '"');
 
                         // Launch Game
                         launchGameProcess(processBuild);
@@ -608,7 +612,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
 
             launchPane.setState(JFrame.NORMAL);
-//            launchPane.setAlwaysOnTop(true);
 
             showTimeSpentPlaying();
 
@@ -634,7 +637,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
             ADialog error = new ADialog(
                     ADialog.aDIALOG_ERROR,
                     "Unable to launch Game "
-                    + "\n Make Sure To Launch Aurora In Administrator Mode",
+                            + "\n Make Sure To Launch Aurora In Administrator Mode",
                     coreUI.getRegularFont()
                     .deriveFont(Font.BOLD, 25));
 
@@ -688,6 +691,9 @@ public class AuroraLauncher implements Runnable, MouseListener {
         coreUI.getFrame().setState(JFrame.ICONIFIED);
         coreUI.getFrame().setVisible(false);
 
+        // Allow for Alt-Tabing  while playing Game
+        launchPane.setAlwaysOnTop(false);
+
         // Pause A Bit To Let Game Start
         try {
             Thread.sleep(5000);
@@ -706,8 +712,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
         // Change Title to "Playing..."
         imgTitle.setImage("launch_Playing_img.png");
 
-        // Allow for Alt-Tabing  while playing Game
-        launchPane.setAlwaysOnTop(false);
+
 
         // Wait For Game To Exit
         try {
@@ -731,10 +736,10 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         // Elapsed Time Calculation
         int hoursDiff = Math.abs(Integer.parseInt(timeAfter.substring(0, 2))
-                                 - Integer.parseInt(timeStarted
+                                         - Integer.parseInt(timeStarted
                         .substring(0, 2))) * 60;
         int minDiff = Math.abs(Integer.parseInt(timeAfter.substring(3, 5))
-                               - Integer.parseInt(timeStarted
+                                       - Integer.parseInt(timeStarted
                         .substring(3, 5)));
         //ELAPSED TIME IN MIN IS ((HOURS*60) - MIN FROM TIME1) + MIN FROM TIME2
         int elapsedTime = Math.abs((hoursDiff - Integer.parseInt(timeAfter
@@ -757,7 +762,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
             lblPlayedTime.setText(minDiff + " min  ");
         } else {
             lblPlayedTime.setText(hoursDiff + "hr and "
-                                  + minDiff + "min  ");
+                                          + minDiff + "min  ");
         }
 
         launchPane.setAlwaysOnTop(true);
@@ -789,13 +794,15 @@ public class AuroraLauncher implements Runnable, MouseListener {
     private void showTimeSpentPlaying() {
 
         pnlButtonContainer.setVisible(false);
+        launchPane.requestFocusInWindow();
 
         AThreadWorker showTime = new AThreadWorker(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 pnlTitle.remove(0);
-                pnlTitle.add(Box.createVerticalStrut(45), BorderLayout.CENTER, 0);
+                pnlTitle
+                        .add(Box.createVerticalStrut(45), BorderLayout.CENTER, 0);
                 imgTitle.setImage("launch_StandBy_img.png");
 
                 pnlTimePlayed.setVisible(true);

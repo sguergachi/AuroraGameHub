@@ -1270,8 +1270,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private class KeyListener extends KeyAdapter {
 
-        public KeyListener() {
-        }
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -1429,7 +1427,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     public void flip() {
 
-        AuroraStorage storage = dashboardUI.getStorage();
         String soundEffectsSetting = storage.getStoredSettings()
                 .getSettingValue("sound_effects");
         if (soundEffectsSetting == null) {
@@ -1490,6 +1487,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             // reset to normal overlay UI //
             reAddInteractive();
+            isSelected = false;
             showOverlayUI();
 
             thisGame().revalidate();
