@@ -58,6 +58,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 
 /**
  *
@@ -89,7 +91,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
     private Thread launcherThread;
 
-    private String timeAfter = null;
+    private DateTime timeAfter = null;
 
     private Process launchGameProcess;
 
@@ -105,7 +107,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
     static final Logger logger = Logger.getLogger(AuroraLauncher.class);
 
-    private String timeStarted;
+    private DateTime timeStarted;
 
     private AButton btnWatch;
 
@@ -316,7 +318,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         // Top Button panels
         pnlButtonContainer
-        = new JPanel(new FlowLayout(FlowLayout.CENTER, -1, 0));
+                = new JPanel(new FlowLayout(FlowLayout.CENTER, -1, 0));
         pnlButtonContainer.setOpaque(false);
 
 
@@ -362,7 +364,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         pnlTopContainer.add(pnlTopTitle);
         pnlTopContainer.add(Box.createVerticalStrut(coreUI.getScreenHeight()
-                                                    / 12));
+                                                            / 12));
 
 
 
@@ -594,8 +596,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
         if (timeAfter == null) {
 
             if (timeStarted == null) {
-                timeStarted = ATimeLabel.current(
-                        ATimeLabel.TIME_24HOUR);
+                timeStarted = new DateTime();
             }
 
             calculateTimePlayed();
@@ -659,8 +660,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         }
         if (!exitingLauncher) {
-            timeStarted = ATimeLabel.current(
-                    ATimeLabel.TIME_24HOUR);
+            timeStarted = new DateTime();
 
             // Tracker Data
             game.setLastPlayed(ATimeLabel.current(ATimeLabel.DATE));
@@ -702,8 +702,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         }
 
-        timeStarted = ATimeLabel.current(
-                ATimeLabel.TIME_24HOUR);
+        timeStarted = new DateTime();
 
         // Tracker Data
         game.setLastPlayed(ATimeLabel.current(ATimeLabel.DATE));
@@ -730,26 +729,16 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
     private void calculateTimePlayed() {
 
-        timeAfter = ATimeLabel.current(ATimeLabel.TIME_24HOUR);
+        timeAfter = new DateTime();
         logger.info(game.getLastPlayed());
         logger.info(timeAfter);
 
+        Period period = new Period(timeStarted,timeAfter);
+
         // Elapsed Time Calculation
-        int hoursDiff = Math.abs(Integer.parseInt(timeAfter.substring(0, 2))
-                                         - Integer.parseInt(timeStarted
-                        .substring(0, 2))) * 60;
-        int minDiff = Math.abs(Integer.parseInt(timeAfter.substring(3, 5))
-                                       - Integer.parseInt(timeStarted
-                        .substring(3, 5)));
-        //ELAPSED TIME IN MIN IS ((HOURS*60) - MIN FROM TIME1) + MIN FROM TIME2
-        int elapsedTime = Math.abs((hoursDiff - Integer.parseInt(timeAfter
-                .substring(3, 5))) + Integer.parseInt(timeStarted
-                        .substring(3, 5)));
+        int hoursDiff = period.getHours();
+        int minDiff = period.getMinutes();
 
-        hoursDiff = elapsedTime / 60;
-        minDiff = elapsedTime - (hoursDiff * 60);
-
-        logger.info("Elapsed " + elapsedTime);
         logger.info("Hours " + hoursDiff);
         logger.info("Min " + minDiff);
 
