@@ -595,7 +595,6 @@ public class AddGameUI {
 
 
 
-            lblLeftTitle.setForeground(Color.lightGray);
 
             // Set Up Panels containing the Game Cover Art
             pnlCoverPane_addUI.setPreferredSize(new Dimension(pnlCoverPane_addUI
