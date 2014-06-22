@@ -31,6 +31,7 @@ public class AuroraStorage {
     private StoredProfile storedProfile;
     static final Logger logger = Logger.getLogger(AuroraStorage.class);
 
+
     public AuroraStorage(){
         this.storedLibrary = new StoredLibrary();
         this.storedProfile = new StoredProfile();
