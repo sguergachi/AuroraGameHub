@@ -19,7 +19,6 @@ package aurora.V1.core;
 
 import aurora.V1.core.screen_handler.LibraryHandler;
 import aurora.V1.core.screen_ui.LibraryUI;
-import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.UI.AImage;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -426,25 +425,6 @@ public class GridSearch {
         SearchManager.getGrid(0).repaint();
 
 
-        AThreadWorker select = new AThreadWorker(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    Thread.sleep(500);
-                    if (foundGameList.size() > 0) {
-                        foundGameList.get(0).showOverlayUI();
-                    }
-                } catch (InterruptedException ex) {
-                    java.util.logging.Logger.getLogger(GridSearch.class
-                            .getName())
-                            .log(Level.SEVERE, null, ex);
-                }
-
-            }
-        });
-
-        select.startOnce();
 
     }
 
