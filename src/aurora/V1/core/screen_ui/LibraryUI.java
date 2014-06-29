@@ -49,15 +49,19 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import org.apache.log4j.Logger;
 
 /**
@@ -470,8 +474,8 @@ public class LibraryUI extends AuroraApp {
             lbArrowAction.setText(" Move");
 
             lblEnterAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
-                                                                     coreUI
-                                                                     .getKeysFontSize()));
+                                                                      coreUI
+                                                                      .getKeysFontSize()));
             lblEnterAction.setForeground(new Color(0, 178, 178));
             lblEnterAction.setText(" Play");
 
@@ -497,7 +501,7 @@ public class LibraryUI extends AuroraApp {
             lblLibraryStatus.setSize(new Dimension(imgLibraryStatusPane
                     .getRealImageWidth(), imgLibraryStatusPane
                                                    .getRealImageHeight()
-                                                  / 2 + gameNameFontSize / 2));
+                                          / 2 + gameNameFontSize / 2));
 
             lblLibraryStatus.validate();
             pnlLibraryStatusContainer.validate();
@@ -649,7 +653,7 @@ public class LibraryUI extends AuroraApp {
                                 "background_game_search");
                         if (backgroundGameSearch == null) {
                             backgroundGameSearch
-                                    = SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING;
+                            = SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING;
                         }
 
                         if (backgroundGameSearch.equals("enabled")) {
@@ -805,56 +809,89 @@ public class LibraryUI extends AuroraApp {
 
         coreUI.getFrame()
                 .addKeyListener(libraryHandler.new SearchRefocusListener());
-        coreUI.getFrame()
-                .addKeyListener(libraryHandler.new GameLibraryKeyListener());
+//        coreUI.getFrame()
+//                .addKeyListener(libraryHandler.new GameLibraryKeyListener());
         coreUI.getFrame()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
 
+
+
         coreUI.getBackgroundImagePane()
                 .addKeyListener(libraryHandler.new SearchRefocusListener());
-        coreUI.getBackgroundImagePane()
-                .addKeyListener(libraryHandler.new GameLibraryKeyListener());
+
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), "GridNav_W");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "GridNav_UP");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), "GridNav_S");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "GridNav_DOWN");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), "GridNav_A");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "GridNav_LEFT");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), "GridNav_D");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "GridNav_RIGHT");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "GridNav_ESCAPE");
+
+
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("GridNav_W", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_W));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("GridNav_UP", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_UP));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("GridNav_S", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_S));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("GridNav_DOWN", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_DOWN));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("GridNav_A", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_A));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("GridNav_LEFT", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_LEFT));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("GridNav_D", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_D));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("GridNav_RIGHT", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_RIGHT));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("GridNav_ESCAPE", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_ESCAPE));
+
         coreUI.getBackgroundImagePane()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
 
+
+
+
         coreUI.getBottomPane()
                 .addKeyListener(libraryHandler.new SearchRefocusListener());
-        coreUI.getBottomPane()
-                .addKeyListener(libraryHandler.new GameLibraryKeyListener());
         coreUI.getBottomPane()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
 
         coreUI.getCenterPanel()
                 .addKeyListener(libraryHandler.new SearchRefocusListener());
-        coreUI.getCenterPanel()
-                .addKeyListener(libraryHandler.new GameLibraryKeyListener());
         coreUI.getCenterPanel()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
 
         coreUI.getSouthFromTopPanel()
                 .addKeyListener(libraryHandler.new SearchRefocusListener());
-        coreUI.getSouthFromTopPanel()
-                .addKeyListener(libraryHandler.new GameLibraryKeyListener());
         coreUI.getSouthFromTopPanel()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
 
         coreUI.getFrameControlImagePane()
                 .addKeyListener(libraryHandler.new SearchRefocusListener());
-        coreUI.getFrameControlImagePane()
-                .addKeyListener(libraryHandler.new GameLibraryKeyListener());
         coreUI.getFrameControlImagePane()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
 
         coreUI.getTopPane()
                 .addKeyListener(libraryHandler.new SearchRefocusListener());
-        coreUI.getTopPane()
-                .addKeyListener(libraryHandler.new GameLibraryKeyListener());
         coreUI.getTopPane()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
@@ -862,28 +899,18 @@ public class LibraryUI extends AuroraApp {
 
         this.btnShowAddGameUI
                 .addKeyListener(libraryHandler.new SearchRefocusListener());
-        this.btnShowAddGameUI.addKeyListener(
-                libraryHandler.new GameLibraryKeyListener());
 
         this.pnlLibraryContainer.addKeyListener(
                 libraryHandler.new SearchRefocusListener());
-        this.pnlLibraryContainer
-                .addKeyListener(libraryHandler.new GameLibraryKeyListener());
 
         this.imgLibraryStatusPane
                 .addKeyListener(libraryHandler.new SearchRefocusListener());
-        this.imgLibraryStatusPane
-                .addKeyListener(libraryHandler.new GameLibraryKeyListener());
 
         this.btnMoveLeft.addKeyListener(
                 libraryHandler.new SearchRefocusListener());
-        this.btnMoveLeft.addKeyListener(
-                libraryHandler.new GameLibraryKeyListener());
 
         this.btnMoveRight
                 .addKeyListener(libraryHandler.new SearchRefocusListener());
-        this.btnMoveRight
-                .addKeyListener(libraryHandler.new GameLibraryKeyListener());
 
         this.btnRemoveSearch.addActionListener(
                 libraryHandler.new ResetSearchHandler());
@@ -1008,7 +1035,7 @@ public class LibraryUI extends AuroraApp {
 
                 //of on last Grid then dont show right arrow button
                 if (!(currentIndex + 1 < libraryGridManager.getArray().size()
-                                                 - 1)) {
+                                         - 1)) {
 
                     pnlLibraryContainer.remove(pnlMoveRightContainer);
                     pnlLibraryContainer.add(Box.createHorizontalStrut(140),
@@ -1073,9 +1100,9 @@ public class LibraryUI extends AuroraApp {
 
         if (coreUI.isLargeScreen()) {
             gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio2 / 10)
-                                      + 5;
+                              + 5;
             gameCoverWidth = coreUI.getFrame().getWidth() / 5 - (Ratio2 / 10)
-                                     - 5;
+                             - 5;
             selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
             selectedGameBarWidth = coreUI.getFrame().getWidth() / 3;
             addGameWidth = coreUI.getFrame().getWidth() / 3;

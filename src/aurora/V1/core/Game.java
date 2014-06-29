@@ -46,8 +46,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -61,6 +59,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -69,6 +68,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import org.apache.log4j.Logger;
 
 /**
@@ -262,6 +262,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private boolean gameRemoved;
 
     private boolean isTransisioningBetweenGameInfo;
+
     private InteractiveListener gameClickListener;
 
     public Game() {
@@ -371,9 +372,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         gameClickListener = new InteractiveListener();
         pnlInteractivePane.addMouseListener(gameClickListener);
         this.addMouseListener(gameClickListener);
-        this.addKeyListener(new Game.KeyListener());
+        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ENTER"), "EnterKeyHandler");
+        this.getActionMap().put("EnterKeyHandler", new Game.EnterKeyHandler());
         this.add(pnlInteractivePane);
-        pnlInteractivePane.addKeyListener(new Game.KeyListener());
         this.revalidate();
 
         this.setLayout(new BorderLayout());
@@ -1268,12 +1269,18 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         return gameClickListener;
     }
 
-    private class KeyListener extends KeyAdapter {
+    private class EnterKeyHandler extends AbstractAction {
 
-
+//
+//        @Override
+//        public void keyPressed(KeyEvent e) {
+//            if (e.getKeyCode() == KeyEvent.VK_ENTER && isSelected) {
+//                getPlayHandler().actionPerformed(null);
+//            }
+//        }
         @Override
-        public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_ENTER && isSelected) {
+        public void actionPerformed(ActionEvent e) {
+            if (isSelected) {
                 getPlayHandler().actionPerformed(null);
             }
         }
@@ -2376,6 +2383,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         @Override
         public void mouseEntered(final MouseEvent e) {
             // Mouse being dragged over game
+
+            if (!isSelected && !isRemoved) {
+                unSelectPrevious();
+                showOverlayUI();
+            }
+
             if (e.getModifiers() == MouseEvent.BUTTON1_MASK) {
 
                 if (!isRemoved) {

@@ -578,8 +578,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                                 .getName());
                     }
 
-                    game.addKeyListener(
-                            libraryHandler.new GameLibraryKeyListener());
+//                    game.addKeyListener(
+//                            libraryHandler.new GameLibraryKeyListener());
                 }
 
                 if (!game.isLoaded()) {
@@ -635,8 +635,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                                     .getName());
                         }
 
-                        game.addKeyListener(
-                                libraryHandler.new GameLibraryKeyListener());
+//                        game.addKeyListener(
+//                                libraryHandler.new GameLibraryKeyListener());
                     }
 
                     if (!game.isLoaded()) {

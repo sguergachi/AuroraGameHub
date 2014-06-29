@@ -71,6 +71,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultListCellRenderer;
@@ -395,7 +396,7 @@ public class LibraryHandler implements
 
                     try {
                         libraryLogic.loadGames(libraryUI.getCurrentGridIndex()
-                                                       + 1);
+                                               + 1);
                     } catch (MalformedURLException ex) {
                         logger.error(ex);
                     }
@@ -448,24 +449,34 @@ public class LibraryHandler implements
     /**
      * Handler for the Navigation using Keyboard
      */
-    public class GameLibraryKeyListener extends KeyAdapter {
+    public class GameLibraryKeyListener extends AbstractAction {
 
         private GridManager gridManager;
 
-        private JPanel GameBack;
+        private final JPanel pnlGameGridContainer;
 
         private final AuroraCoreUI coreUI;
 
         private AuroraStorage storage;
 
+        private int keyCode;
+
         public GameLibraryKeyListener() {
             this.coreUI = libraryUI.getCoreUI();
-            GameBack = libraryUI.getGamesContainer();
+            pnlGameGridContainer = libraryUI.getGamesContainer();
+            storage = libraryUI.getStorage();
+        }
+
+        public GameLibraryKeyListener(int KeyCode) {
+            this.keyCode = KeyCode;
+
+            this.coreUI = libraryUI.getCoreUI();
+            pnlGameGridContainer = libraryUI.getGamesContainer();
             storage = libraryUI.getStorage();
         }
 
         @Override
-        public void keyPressed(KeyEvent e) {
+        public void actionPerformed(ActionEvent e) {
 
             int currentIndex;
             gridManager = libraryUI.getGridSplit();
@@ -480,7 +491,7 @@ public class LibraryHandler implements
             }
 
             currentIndex = gridManager.getArray()
-                    .indexOf(GameBack.getComponent(1));
+                    .indexOf(pnlGameGridContainer.getComponent(1));
             libraryUI.setCurrentIndex(currentIndex);
 
             if (logger.isDebugEnabled()) {
@@ -509,13 +520,13 @@ public class LibraryHandler implements
                 wasdNavSetting = SettingsLogic.DEFAULT_WASD_NAV_SETTING;
             }
 
-            if ((e.getKeyCode() == KeyEvent.VK_W && wasdNavSetting.equals(
-                    "enabled")) || e.getKeyCode() == KeyEvent.VK_UP) {
+            if ((keyCode == KeyEvent.VK_W && wasdNavSetting.equals(
+                    "enabled")) || keyCode == KeyEvent.VK_UP) {
 
                 int i = 0;
 
                 while (comp.size() > i && !selectedGameFound
-                               && !(comp.get(i) instanceof GamePlaceholder)) {
+                       && !(comp.get(i) instanceof GamePlaceholder)) {
                     //Check for GamePlaceholder CANT MOVE THERE!
                     game = (Game) comp.get(i);
 
@@ -524,7 +535,7 @@ public class LibraryHandler implements
 
                         if (logger.isDebugEnabled()) {
                             logger.debug(game.getName()
-                                                 + " is selected in the library");
+                                         + " is selected in the library");
                         }
 
                         int[] columnAndRow = grid.getColumnAndRow(i + 1);
@@ -575,13 +586,13 @@ public class LibraryHandler implements
                 }
 
                 //>>> MOVE DOWN
-            } else if ((e.getKeyCode() == KeyEvent.VK_S && wasdNavSetting
-                    .equals("enabled")) || e.getKeyCode() == KeyEvent.VK_DOWN) {
+            } else if ((keyCode == KeyEvent.VK_S && wasdNavSetting
+                    .equals("enabled")) || keyCode == KeyEvent.VK_DOWN) {
 
                 int i = 0;
 
                 while (i < comp.size() && !selectedGameFound
-                               && !(comp.get(i) instanceof GamePlaceholder)) {
+                       && !(comp.get(i) instanceof GamePlaceholder)) {
                     //Check for GamePlaceholder CANT MOVE THERE!
                     game = (Game) comp.get(i);
 
@@ -590,7 +601,7 @@ public class LibraryHandler implements
 
                         if (logger.isDebugEnabled()) {
                             logger.debug(game.getName()
-                                                 + " is selected in the library");
+                                         + " is selected in the library");
                         }
 
                         int[] columnAndRow = grid.getColumnAndRow(i + 1);
@@ -643,8 +654,8 @@ public class LibraryHandler implements
                 }
 
                 //>>> MOVE LEFT
-            } else if ((e.getKeyCode() == KeyEvent.VK_A && wasdNavSetting
-                    .equals("enabled")) || e.getKeyCode() == KeyEvent.VK_LEFT) {
+            } else if ((keyCode == KeyEvent.VK_A && wasdNavSetting
+                    .equals("enabled")) || keyCode == KeyEvent.VK_LEFT) {
 
                 if (logger.isDebugEnabled()) {
                     logger.debug("A key pressed");
@@ -653,7 +664,7 @@ public class LibraryHandler implements
                 int i = 0;
 
                 while (i < comp.size() && !selectedGameFound
-                               && !(comp.get(i) instanceof GamePlaceholder)) {
+                       && !(comp.get(i) instanceof GamePlaceholder)) {
                     game = (Game) comp.get(i);
                     if (game.isSelected()) {
                         selectedGameFound = true;
@@ -661,7 +672,7 @@ public class LibraryHandler implements
                         if (logger.isDebugEnabled()) {
                             logger.debug("index = " + i);
                             logger.debug(game.getName()
-                                                 + " is selected in the library");
+                                         + " is selected in the library");
                         }
                     } else {
                         i++;
@@ -687,7 +698,7 @@ public class LibraryHandler implements
                         if (logger.isDebugEnabled()) {
                             logger.debug("Cursor is moving left");
                             logger.debug("visible grid after moving right = "
-                                                 + visibleGridIndex);
+                                         + visibleGridIndex);
                         }
 
                         game.hideOverlayUI();
@@ -697,7 +708,7 @@ public class LibraryHandler implements
                         cursorMoved = true;
                     } else if (col == 1 && row == 1) {
 
-                        if (gridManager.getArray().indexOf(GameBack
+                        if (gridManager.getArray().indexOf(pnlGameGridContainer
                                 .getComponent(1)) > 0) {
                             libraryUI.moveGridLeft();
                             /*
@@ -714,7 +725,7 @@ public class LibraryHandler implements
                             }
 
                             currentIndex = gridManager.getArray()
-                                    .indexOf(GameBack
+                                    .indexOf(pnlGameGridContainer
                                             .getComponent(1));
                             /*
                              * get the grid that is currently displayed
@@ -747,8 +758,8 @@ public class LibraryHandler implements
                 }
 
                 // >>> MOVE RIGHT
-            } else if ((e.getKeyCode() == KeyEvent.VK_D && wasdNavSetting
-                    .equals("enabled")) || e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            } else if ((keyCode == KeyEvent.VK_D && wasdNavSetting
+                    .equals("enabled")) ||keyCode == KeyEvent.VK_RIGHT) {
                 if (logger.isDebugEnabled()) {
                     logger.debug("D key pressed");
                 }
@@ -756,7 +767,7 @@ public class LibraryHandler implements
                 int i = 0;
 
                 while (i < comp.size() && !selectedGameFound
-                               && !(comp.get(i) instanceof GamePlaceholder)) {
+                       && !(comp.get(i) instanceof GamePlaceholder)) {
                     game = (Game) comp.get(i);
                     if (game.isSelected()) {
                         selectedGameFound = true;
@@ -764,7 +775,7 @@ public class LibraryHandler implements
                         if (logger.isDebugEnabled()) {
                             logger.debug("index = " + i);
                             logger.debug(game.getName()
-                                                 + " is selected in the library");
+                                         + " is selected in the library");
                         }
                     } else {
                         i++;
@@ -784,14 +795,14 @@ public class LibraryHandler implements
 
                     // Check to see if the setSelected is not the last game in the grid
                     if ((col < grid.getCol() || (col == grid.getCol() && row
-                                                                                 < grid
+                                                                         < grid
                             .getRow()))
-                                && comp.size() > i + 1) {
+                        && comp.size() > i + 1) {
 
                         if (logger.isDebugEnabled()) {
                             logger.debug("Cursor is moving right!");
                             logger.debug(game.getName()
-                                                 + " is Last Game in This Grid!");
+                                         + " is Last Game in This Grid!");
                         }
 
                         Game newGame;
@@ -818,15 +829,13 @@ public class LibraryHandler implements
                     } else if (col == grid.getCol() && row == grid.getRow()) {
 
                         if (logger.isDebugEnabled()) {
-                            logger
-                                    .debug(
-                                            "Cursor cannot move any further right! Grid needs to move right");
+                            logger.debug("Cursor cannot move any further right! Grid needs to move right");
                         }
 
                         // check to see if the the current grid is the last grid
                         if (gridManager.getVisibleGridIndex() < (gridManager
                                 .getNumberOfGrids())
-                                    && !(comp.get(0) instanceof GamePlaceholder)) {
+                            && !(comp.get(0) instanceof GamePlaceholder)) {
 
                             if (logger.isDebugEnabled()) {
                                 logger.debug("This is not the last grid");
@@ -848,7 +857,7 @@ public class LibraryHandler implements
                             }
 
                             currentIndex = gridManager.getArray()
-                                    .indexOf(GameBack
+                                    .indexOf(pnlGameGridContainer
                                             .getComponent(1));
 
                             /*
@@ -882,47 +891,15 @@ public class LibraryHandler implements
                     game = (Game) comp.get(0);
                     game.showOverlayUI();
                 }
-            }
-
-//            else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//
-//                if (logger.isDebugEnabled()) {
-//                    logger.debug("D key pressed");
-//                }
-//
-//                int i = 0;
-//
-//                while (i < comp.size() && !selectedGameFound
-//                               && !(comp.get(i) instanceof GamePlaceholder)) {
-//                    game = (Game) comp.get(i);
-//                    if (game.isSelected()) {
-//                        selectedGameFound = true;
-//
-//                        if (logger.isDebugEnabled()) {
-//                            logger.debug("index = " + i);
-//                            logger.debug(game.getName()
-//                                                 + " is selected in the library");
-//                        }
-//                    } else {
-//                        i++;
-//                    }
-//                }
-//
-//                if (!cursorMoved && selectedGameFound) {
-//                    game.getPlayHandler().actionPerformed(null);
-//                }
-//
-//            }
-
-            else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            } else if (keyCode == KeyEvent.VK_ESCAPE) {
                 coreUI.showExitDialog();
             }
 
         }
 
-        @Override
-        public void keyReleased(KeyEvent e) {
-        }
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//        }
     }
 
     public class GridMouseWheelListener implements MouseWheelListener {
@@ -1100,7 +1077,7 @@ public class LibraryHandler implements
 
                                 if (e.getOppositeComponent() instanceof GamePlaceholder) {
                                     if (e.getOppositeComponent()
-                                                != (Game) libraryLogic
+                                        != (Game) libraryLogic
                                             .getGridSearch()
                                             .getGridManager()
                                             .getGrid(i).getArray().get(j)) {
@@ -1133,7 +1110,7 @@ public class LibraryHandler implements
 
                                 if (e.getOppositeComponent() instanceof GamePlaceholder) {
                                     if (e.getOppositeComponent()
-                                                != (Game) libraryUI
+                                        != (Game) libraryUI
                                             .getGridSplit()
                                             .getGrid(i).getArray().get(j)) {
                                         if (logger.isDebugEnabled()) {
@@ -1182,44 +1159,44 @@ public class LibraryHandler implements
             libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
             if (!libraryUI.isAddGameUIVisible()) {
                 if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode()
-                                                               == KeyEvent.VK_B
-                            || e.getKeyCode() == KeyEvent.VK_C
-                            || e.getKeyCode() == KeyEvent.VK_D
-                            || e.getKeyCode() == KeyEvent.VK_E
-                            || e.getKeyCode() == KeyEvent.VK_F
-                            || e.getKeyCode() == KeyEvent.VK_G
-                            || e.getKeyCode() == KeyEvent.VK_H
-                            || e.getKeyCode() == KeyEvent.VK_I
-                            || e.getKeyCode() == KeyEvent.VK_J
-                            || e.getKeyCode() == KeyEvent.VK_K
-                            || e.getKeyCode() == KeyEvent.VK_L
-                            || e.getKeyCode() == KeyEvent.VK_M
-                            || e.getKeyCode() == KeyEvent.VK_N
-                            || e.getKeyCode() == KeyEvent.VK_O
-                            || e.getKeyCode() == KeyEvent.VK_P
-                            || e.getKeyCode() == KeyEvent.VK_Q
-                            || e.getKeyCode() == KeyEvent.VK_R
-                            || e.getKeyCode() == KeyEvent.VK_S
-                            || e.getKeyCode() == KeyEvent.VK_T
-                            || e.getKeyCode() == KeyEvent.VK_U
-                            || e.getKeyCode() == KeyEvent.VK_V
-                            || e.getKeyCode() == KeyEvent.VK_W
-                            || e.getKeyCode() == KeyEvent.VK_X
-                            || e.getKeyCode() == KeyEvent.VK_Y
-                            || e.getKeyCode() == KeyEvent.VK_Z
-                            || e.getKeyCode() == KeyEvent.VK_SPACE
-                            || e.getKeyCode() == KeyEvent.VK_1
-                            || e.getKeyCode() == KeyEvent.VK_2
-                            || e.getKeyCode() == KeyEvent.VK_3
-                            || e.getKeyCode() == KeyEvent.VK_4
-                            || e.getKeyCode() == KeyEvent.VK_5
-                            || e.getKeyCode() == KeyEvent.VK_6
-                            || e.getKeyCode() == KeyEvent.VK_7
-                            || e.getKeyCode() == KeyEvent.VK_8
-                            || e.getKeyCode() == KeyEvent.VK_9
-                            || e.getKeyCode() == KeyEvent.VK_0
-                            || e.getKeyCode() == KeyEvent.VK_QUOTE
-                            || e.getKeyCode() == KeyEvent.VK_PERIOD) {
+                                                       == KeyEvent.VK_B
+                    || e.getKeyCode() == KeyEvent.VK_C
+                    || e.getKeyCode() == KeyEvent.VK_D
+                    || e.getKeyCode() == KeyEvent.VK_E
+                    || e.getKeyCode() == KeyEvent.VK_F
+                    || e.getKeyCode() == KeyEvent.VK_G
+                    || e.getKeyCode() == KeyEvent.VK_H
+                    || e.getKeyCode() == KeyEvent.VK_I
+                    || e.getKeyCode() == KeyEvent.VK_J
+                    || e.getKeyCode() == KeyEvent.VK_K
+                    || e.getKeyCode() == KeyEvent.VK_L
+                    || e.getKeyCode() == KeyEvent.VK_M
+                    || e.getKeyCode() == KeyEvent.VK_N
+                    || e.getKeyCode() == KeyEvent.VK_O
+                    || e.getKeyCode() == KeyEvent.VK_P
+                    || e.getKeyCode() == KeyEvent.VK_Q
+                    || e.getKeyCode() == KeyEvent.VK_R
+                    || e.getKeyCode() == KeyEvent.VK_S
+                    || e.getKeyCode() == KeyEvent.VK_T
+                    || e.getKeyCode() == KeyEvent.VK_U
+                    || e.getKeyCode() == KeyEvent.VK_V
+                    || e.getKeyCode() == KeyEvent.VK_W
+                    || e.getKeyCode() == KeyEvent.VK_X
+                    || e.getKeyCode() == KeyEvent.VK_Y
+                    || e.getKeyCode() == KeyEvent.VK_Z
+                    || e.getKeyCode() == KeyEvent.VK_SPACE
+                    || e.getKeyCode() == KeyEvent.VK_1
+                    || e.getKeyCode() == KeyEvent.VK_2
+                    || e.getKeyCode() == KeyEvent.VK_3
+                    || e.getKeyCode() == KeyEvent.VK_4
+                    || e.getKeyCode() == KeyEvent.VK_5
+                    || e.getKeyCode() == KeyEvent.VK_6
+                    || e.getKeyCode() == KeyEvent.VK_7
+                    || e.getKeyCode() == KeyEvent.VK_8
+                    || e.getKeyCode() == KeyEvent.VK_9
+                    || e.getKeyCode() == KeyEvent.VK_0
+                    || e.getKeyCode() == KeyEvent.VK_QUOTE
+                    || e.getKeyCode() == KeyEvent.VK_PERIOD) {
                     //Sends the key to the search engine to be appended and check for match
                     libraryLogic.getGridSearch().typedChar(e.getKeyChar());
 
@@ -1249,39 +1226,39 @@ public class LibraryHandler implements
             //pressing any Number or Letter can activate this
             if (!libraryUI.isAddGameUIVisible()) {
                 if (e.getKeyCode() == KeyEvent.VK_B || e.getKeyCode()
-                                                               == KeyEvent.VK_C
-                            || e.getKeyCode() == KeyEvent.VK_E
-                            || e.getKeyCode() == KeyEvent.VK_F
-                            || e.getKeyCode() == KeyEvent.VK_G
-                            || e.getKeyCode() == KeyEvent.VK_H
-                            || e.getKeyCode() == KeyEvent.VK_I
-                            || e.getKeyCode() == KeyEvent.VK_J
-                            || e.getKeyCode() == KeyEvent.VK_K
-                            || e.getKeyCode() == KeyEvent.VK_L
-                            || e.getKeyCode() == KeyEvent.VK_M
-                            || e.getKeyCode() == KeyEvent.VK_N
-                            || e.getKeyCode() == KeyEvent.VK_O
-                            || e.getKeyCode() == KeyEvent.VK_P
-                            || e.getKeyCode() == KeyEvent.VK_Q
-                            || e.getKeyCode() == KeyEvent.VK_R
-                            || e.getKeyCode() == KeyEvent.VK_T
-                            || e.getKeyCode() == KeyEvent.VK_U
-                            || e.getKeyCode() == KeyEvent.VK_V
-                            || e.getKeyCode() == KeyEvent.VK_X
-                            || e.getKeyCode() == KeyEvent.VK_Y
-                            || e.getKeyCode() == KeyEvent.VK_Z
-                            || e.getKeyCode() == KeyEvent.VK_1
-                            || e.getKeyCode() == KeyEvent.VK_2
-                            || e.getKeyCode() == KeyEvent.VK_3
-                            || e.getKeyCode() == KeyEvent.VK_4
-                            || e.getKeyCode() == KeyEvent.VK_5
-                            || e.getKeyCode() == KeyEvent.VK_6
-                            || e.getKeyCode() == KeyEvent.VK_7
-                            || e.getKeyCode() == KeyEvent.VK_8
-                            || e.getKeyCode() == KeyEvent.VK_9
-                            || e.getKeyCode() == KeyEvent.VK_0
-                            || e.getKeyCode() == KeyEvent.VK_QUOTE
-                            || e.getKeyCode() == KeyEvent.VK_PERIOD) {
+                                                       == KeyEvent.VK_C
+                    || e.getKeyCode() == KeyEvent.VK_E
+                    || e.getKeyCode() == KeyEvent.VK_F
+                    || e.getKeyCode() == KeyEvent.VK_G
+                    || e.getKeyCode() == KeyEvent.VK_H
+                    || e.getKeyCode() == KeyEvent.VK_I
+                    || e.getKeyCode() == KeyEvent.VK_J
+                    || e.getKeyCode() == KeyEvent.VK_K
+                    || e.getKeyCode() == KeyEvent.VK_L
+                    || e.getKeyCode() == KeyEvent.VK_M
+                    || e.getKeyCode() == KeyEvent.VK_N
+                    || e.getKeyCode() == KeyEvent.VK_O
+                    || e.getKeyCode() == KeyEvent.VK_P
+                    || e.getKeyCode() == KeyEvent.VK_Q
+                    || e.getKeyCode() == KeyEvent.VK_R
+                    || e.getKeyCode() == KeyEvent.VK_T
+                    || e.getKeyCode() == KeyEvent.VK_U
+                    || e.getKeyCode() == KeyEvent.VK_V
+                    || e.getKeyCode() == KeyEvent.VK_X
+                    || e.getKeyCode() == KeyEvent.VK_Y
+                    || e.getKeyCode() == KeyEvent.VK_Z
+                    || e.getKeyCode() == KeyEvent.VK_1
+                    || e.getKeyCode() == KeyEvent.VK_2
+                    || e.getKeyCode() == KeyEvent.VK_3
+                    || e.getKeyCode() == KeyEvent.VK_4
+                    || e.getKeyCode() == KeyEvent.VK_5
+                    || e.getKeyCode() == KeyEvent.VK_6
+                    || e.getKeyCode() == KeyEvent.VK_7
+                    || e.getKeyCode() == KeyEvent.VK_8
+                    || e.getKeyCode() == KeyEvent.VK_9
+                    || e.getKeyCode() == KeyEvent.VK_0
+                    || e.getKeyCode() == KeyEvent.VK_QUOTE
+                    || e.getKeyCode() == KeyEvent.VK_PERIOD) {
 
                     //Set first character of Search Box to the key typed
                     SearchBar.setText(String.valueOf(e.getKeyChar()));
@@ -1341,7 +1318,7 @@ public class LibraryHandler implements
                     GameSearch.DEFAULT_SEARCH_TEXT) || txtField.getText()
                     .equals(
                             GameSearch.DEFAULT_SEARCH_TEXT2)
-                        || txtField.getText().equals("")) {
+                || txtField.getText().equals("")) {
 
                 txtField.setText("");
 
@@ -1397,9 +1374,9 @@ public class LibraryHandler implements
             String extension = AFileManager.getExtension(file);
             if (extension != null) {
                 if (extension.equals("exe") || extension.equals("app")
-                            || extension.equals("lnk")
-                            || extension.equals("url")
-                            || extension.equals("bat")) {
+                    || extension.equals("lnk")
+                    || extension.equals("url")
+                    || extension.equals("bat")) {
 
                     return true;
                 } else {
@@ -1533,7 +1510,7 @@ public class LibraryHandler implements
 
             JList.DropLocation dropLocation = list.getDropLocation();
             if (dropLocation != null && !dropLocation.isInsert()
-                        && dropLocation.getIndex() == index) {
+                && dropLocation.getIndex() == index) {
 
 
                 fg = UIManager.getColor("List.dropCellForeground");
@@ -1846,7 +1823,7 @@ public class LibraryHandler implements
                             LibraryUI.lblLibraryStatus.setText("Added Game");
 
                             AMixpanelAnalytics mixpanelAnalytics
-                                                       = new AMixpanelAnalytics(
+                                               = new AMixpanelAnalytics(
                                             "f5f777273e62089193a68f99f4885a55");
                             mixpanelAnalytics.addProperty("Game Added", game
                                                           .getName());
@@ -1958,12 +1935,12 @@ public class LibraryHandler implements
                         if (libraryLogic.getAutoAddCurrentList()
                                 .size() > 1) {
                             LibraryUI.lblLibraryStatus.setText("Added "
-                                                                       + libraryLogic
+                                                               + libraryLogic
                                     .getAutoAddCurrentList()
                                     .size() + " Games");
                         } else {
                             LibraryUI.lblLibraryStatus.setText("Added "
-                                                                       + libraryLogic
+                                                               + libraryLogic
                                     .getAutoAddCurrentList()
                                     .size() + " Game");
                         }
@@ -1982,7 +1959,7 @@ public class LibraryHandler implements
 
                         // Tell Mixpanel that latest games added were auto added
                         AMixpanelAnalytics mixpanelAnalytics
-                                                   = new AMixpanelAnalytics(
+                                           = new AMixpanelAnalytics(
                                         "f5f777273e62089193a68f99f4885a55");
                         mixpanelAnalytics.addProperty("Auto Added", libraryLogic
                                                       .getAutoAddCurrentList()
@@ -2139,7 +2116,7 @@ public class LibraryHandler implements
 
             JList.DropLocation dropLocation = list.getDropLocation();
             if (dropLocation != null && !dropLocation.isInsert()
-                        && dropLocation.getIndex() == index) {
+                && dropLocation.getIndex() == index) {
 
                 fg = UIManager.getColor("List.dropCellForeground");
                 bg = UIManager.getColor("List.dropCellBackground");
@@ -2173,7 +2150,7 @@ public class LibraryHandler implements
                                                       boolean cellHasFocus) {
 
             JLabel label
-                           = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane)
+                   = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane)
                     ? ((JPanel) value).getComponent(0)
                     : ((JPanel) value)
                     .getComponent(1));
@@ -2183,7 +2160,7 @@ public class LibraryHandler implements
 
             JList.DropLocation dropLocation = list.getDropLocation();
             if (dropLocation != null && !dropLocation.isInsert()
-                        && dropLocation.getIndex() == index) {
+                && dropLocation.getIndex() == index) {
 
 
                 fg = UIManager.getColor("List.dropCellForeground");
@@ -2245,7 +2222,7 @@ public class LibraryHandler implements
                         .getSelectedIndex());
 
                 JLabel label
-                               = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane)
+                       = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane)
                         ? ((JPanel) value).getComponent(0)
                         : ((JPanel) value)
                         .getComponent(1));
@@ -2602,8 +2579,8 @@ public class LibraryHandler implements
                         String editGameName;
                         if (libraryLogic.getGameSearch_editUI()
                                 .getCurrentlySearchedGame().getName()
-                                    == null
-                                    || !libraryLogic.getGameSearch_editUI()
+                            == null
+                            || !libraryLogic.getGameSearch_editUI()
                                 .isSearchEnabled()) {
                             editGameName = libraryLogic
                                     .getGameSearch_editUI()
