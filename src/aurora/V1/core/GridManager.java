@@ -294,7 +294,6 @@ public class GridManager {
         }
     }
 
-
     /**
      * check if any other cover was setSelected and sets it to setUnselected
      */
@@ -899,6 +898,10 @@ public class GridManager {
      */
     public AGridPanel getGrid(int panelIndex) {
 
+
+        if (panelIndex == -1) {
+            return Grids.get(0);
+        }
         return Grids.get(panelIndex);
 
     }

@@ -560,7 +560,6 @@ public class LibraryLogic implements AuroraScreenLogic {
             try {
                 game = (Game) libraryUI.getGridSplit().getGrid(currentGrid)
                         .getArray().get(i);
-                game.addKeyListener(libraryHandler.new SearchRefocusListener());
                 if (game.getLibraryLogic() == null) {
                     game.setLibraryLogic(this);
                 }
@@ -578,8 +577,6 @@ public class LibraryLogic implements AuroraScreenLogic {
                                 .getName());
                     }
 
-//                    game.addKeyListener(
-//                            libraryHandler.new GameLibraryKeyListener());
                 }
 
                 if (!game.isLoaded()) {
@@ -635,8 +632,6 @@ public class LibraryLogic implements AuroraScreenLogic {
                                     .getName());
                         }
 
-//                        game.addKeyListener(
-//                                libraryHandler.new GameLibraryKeyListener());
                     }
 
                     if (!game.isLoaded()) {

@@ -204,10 +204,10 @@ public class GridSearch {
 
                             if (logger.isDebugEnabled()) {
                                 logger.debug("!Substring of Appended is: "
-                                                     + appendedSub);
+                                             + appendedSub);
                                 logger
                                         .debug("!Substring of Game is: "
-                                                       + gameSub);
+                                               + gameSub);
                                 logger.debug("!!Match Found?: " + gameSub
                                         .equals(appendedSub));
                             }
@@ -319,7 +319,7 @@ public class GridSearch {
     private boolean checkGameExistsInLibrary(String name) {
 
         if (libraryUI.getGridSplit().findGameName(name)[0] != -1
-                    && libraryUI.getGridSplit().findGameName(name)[0] != -1) {
+            && libraryUI.getGridSplit().findGameName(name)[0] != -1) {
             return true;
         }
         return false;
@@ -387,8 +387,10 @@ public class GridSearch {
             if (!checkGameExistsInSearch(foundGameList.get(i).getName())) {
 
                 SearchManager.addGame(foundGameList.get(i)); // add to the grid.
-                foundGameList.get(i).update();
 
+                if (!foundGameList.get(i).isLoaded()) {
+                    foundGameList.get(i).update();
+                }
                 foundGameList.get(i)
                         .addFocusListener(handler.new SearchLostFocusHandler());
                 foundGameList.get(i).update();

@@ -461,12 +461,6 @@ public class LibraryHandler implements
 
         private int keyCode;
 
-        public GameLibraryKeyListener() {
-            this.coreUI = libraryUI.getCoreUI();
-            pnlGameGridContainer = libraryUI.getGamesContainer();
-            storage = libraryUI.getStorage();
-        }
-
         public GameLibraryKeyListener(int KeyCode) {
             this.keyCode = KeyCode;
 
@@ -521,7 +515,8 @@ public class LibraryHandler implements
             }
 
             if ((keyCode == KeyEvent.VK_W && wasdNavSetting.equals(
-                    "enabled")) || keyCode == KeyEvent.VK_UP) {
+                    "enabled") && !libraryUI.getSearchBar().isFocusOwner())
+                || keyCode == KeyEvent.VK_UP) {
 
                 int i = 0;
 
@@ -587,7 +582,8 @@ public class LibraryHandler implements
 
                 //>>> MOVE DOWN
             } else if ((keyCode == KeyEvent.VK_S && wasdNavSetting
-                    .equals("enabled")) || keyCode == KeyEvent.VK_DOWN) {
+                    .equals("enabled") && !libraryUI.getSearchBar().isFocusOwner())
+                       || keyCode == KeyEvent.VK_DOWN) {
 
                 int i = 0;
 
@@ -655,7 +651,8 @@ public class LibraryHandler implements
 
                 //>>> MOVE LEFT
             } else if ((keyCode == KeyEvent.VK_A && wasdNavSetting
-                    .equals("enabled")) || keyCode == KeyEvent.VK_LEFT) {
+                    .equals("enabled") && !libraryUI.getSearchBar().isFocusOwner())
+                       || keyCode == KeyEvent.VK_LEFT) {
 
                 if (logger.isDebugEnabled()) {
                     logger.debug("A key pressed");
@@ -759,7 +756,8 @@ public class LibraryHandler implements
 
                 // >>> MOVE RIGHT
             } else if ((keyCode == KeyEvent.VK_D && wasdNavSetting
-                    .equals("enabled")) ||keyCode == KeyEvent.VK_RIGHT) {
+                    .equals("enabled") && !libraryUI.getSearchBar().isFocusOwner())
+                       || keyCode == KeyEvent.VK_RIGHT) {
                 if (logger.isDebugEnabled()) {
                     logger.debug("D key pressed");
                 }
@@ -897,9 +895,6 @@ public class LibraryHandler implements
 
         }
 
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//        }
     }
 
     public class GridMouseWheelListener implements MouseWheelListener {
@@ -970,6 +965,7 @@ public class LibraryHandler implements
             libraryUI.getSearchButtonBG().revalidate();
             libraryUI.getCoreUI().getFrame().requestFocus();
             libraryUI.getGamesContainer().revalidate();
+            libraryUI.getCoreUI().getBackgroundImagePane().requestFocusInWindow();
         }
     }
 
@@ -1209,7 +1205,7 @@ public class LibraryHandler implements
         }
     }
 
-    public class SearchRefocusListener extends KeyAdapter {
+    public class SearchRefocusListener extends AbstractAction {
         //Handles When User Starts Typing While Components other than the
         //Search Box are in focus.
         //Must get first key typed and put it in the searchbox
@@ -1217,57 +1213,69 @@ public class LibraryHandler implements
 
         private JTextField SearchBar;
 
-        public SearchRefocusListener() {
+        private final int keyCode;
+
+        public SearchRefocusListener(int KeyCode) {
             this.SearchBar = libraryUI.getSearchBar();
+            this.keyCode = KeyCode;
         }
 
         @Override
-        public void keyReleased(KeyEvent e) {
+        public void actionPerformed(ActionEvent e) {
             //pressing any Number or Letter can activate this
-            if (!libraryUI.isAddGameUIVisible()) {
-                if (e.getKeyCode() == KeyEvent.VK_B || e.getKeyCode()
-                                                       == KeyEvent.VK_C
-                    || e.getKeyCode() == KeyEvent.VK_E
-                    || e.getKeyCode() == KeyEvent.VK_F
-                    || e.getKeyCode() == KeyEvent.VK_G
-                    || e.getKeyCode() == KeyEvent.VK_H
-                    || e.getKeyCode() == KeyEvent.VK_I
-                    || e.getKeyCode() == KeyEvent.VK_J
-                    || e.getKeyCode() == KeyEvent.VK_K
-                    || e.getKeyCode() == KeyEvent.VK_L
-                    || e.getKeyCode() == KeyEvent.VK_M
-                    || e.getKeyCode() == KeyEvent.VK_N
-                    || e.getKeyCode() == KeyEvent.VK_O
-                    || e.getKeyCode() == KeyEvent.VK_P
-                    || e.getKeyCode() == KeyEvent.VK_Q
-                    || e.getKeyCode() == KeyEvent.VK_R
-                    || e.getKeyCode() == KeyEvent.VK_T
-                    || e.getKeyCode() == KeyEvent.VK_U
-                    || e.getKeyCode() == KeyEvent.VK_V
-                    || e.getKeyCode() == KeyEvent.VK_X
-                    || e.getKeyCode() == KeyEvent.VK_Y
-                    || e.getKeyCode() == KeyEvent.VK_Z
-                    || e.getKeyCode() == KeyEvent.VK_1
-                    || e.getKeyCode() == KeyEvent.VK_2
-                    || e.getKeyCode() == KeyEvent.VK_3
-                    || e.getKeyCode() == KeyEvent.VK_4
-                    || e.getKeyCode() == KeyEvent.VK_5
-                    || e.getKeyCode() == KeyEvent.VK_6
-                    || e.getKeyCode() == KeyEvent.VK_7
-                    || e.getKeyCode() == KeyEvent.VK_8
-                    || e.getKeyCode() == KeyEvent.VK_9
-                    || e.getKeyCode() == KeyEvent.VK_0
-                    || e.getKeyCode() == KeyEvent.VK_QUOTE
-                    || e.getKeyCode() == KeyEvent.VK_PERIOD) {
+            if (!libraryUI.isAddGameUIVisible()
+                && !libraryUI.isEditGameUIVisible()
+                && !libraryUI.isEditGameCoverUI_visible()
+                && !SearchBar.isFocusOwner()) {
+                if (keyCode == KeyEvent.VK_B
+                    || keyCode == KeyEvent.VK_C
+                    || keyCode == KeyEvent.VK_E
+                    || keyCode == KeyEvent.VK_F
+                    || keyCode == KeyEvent.VK_G
+                    || keyCode == KeyEvent.VK_H
+                    || keyCode == KeyEvent.VK_I
+                    || keyCode == KeyEvent.VK_J
+                    || keyCode == KeyEvent.VK_K
+                    || keyCode == KeyEvent.VK_L
+                    || keyCode == KeyEvent.VK_M
+                    || keyCode == KeyEvent.VK_N
+                    || keyCode == KeyEvent.VK_O
+                    || keyCode == KeyEvent.VK_P
+                    || keyCode == KeyEvent.VK_Q
+                    || keyCode == KeyEvent.VK_R
+                    || keyCode == KeyEvent.VK_T
+                    || keyCode == KeyEvent.VK_U
+                    || keyCode == KeyEvent.VK_V
+                    || keyCode == KeyEvent.VK_X
+                    || keyCode == KeyEvent.VK_Y
+                    || keyCode == KeyEvent.VK_Z
+                    || keyCode == KeyEvent.VK_1
+                    || keyCode == KeyEvent.VK_2
+                    || keyCode == KeyEvent.VK_3
+                    || keyCode == KeyEvent.VK_4
+                    || keyCode == KeyEvent.VK_5
+                    || keyCode == KeyEvent.VK_6
+                    || keyCode == KeyEvent.VK_7
+                    || keyCode == KeyEvent.VK_8
+                    || keyCode == KeyEvent.VK_9
+                    || keyCode == KeyEvent.VK_0
+                    || keyCode == KeyEvent.VK_QUOTE
+                    || keyCode == KeyEvent.VK_PERIOD
+                    || (libraryUI.getStorage().getStoredSettings()
+                        .getSettingValue(SettingsLogic.WASD_NAV_SETTING).equals("disabled")
+                        && (keyCode == KeyEvent.VK_W
+                            || keyCode == KeyEvent.VK_A
+                            || keyCode == KeyEvent.VK_S
+                            || keyCode == KeyEvent.VK_D))) {
 
                     //Set first character of Search Box to the key typed
-                    SearchBar.setText(String.valueOf(e.getKeyChar()));
+                    SearchBar.setText(String.valueOf(KeyEvent.getKeyText(keyCode).toLowerCase().toCharArray()[0]));
+                    libraryLogic.getGridSearch().typedChar(KeyEvent.getKeyText(keyCode).toLowerCase().toCharArray()[0]);
+
                     //Clear appended text if there is anything still in there
                     libraryLogic.getGridSearch().resetAppendedName();
                     //clear and prep for search mode
                     libraryLogic.getGridSearch().clearGameGrid();
-                    // Pass to search engine first character
-                    libraryLogic.getGridSearch().typedChar(e.getKeyChar());
                     // Get focus of Search Box
                     SearchBar.requestFocus();
 

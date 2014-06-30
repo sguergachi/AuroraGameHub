@@ -692,6 +692,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 if (postLoad != null) {
                     postLoad.doAction();
                 }
+
+                progressWheel.setVisible(false);
             }
 
         });
@@ -1017,6 +1019,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         if (!isSelected) {
 
+            requestFocusInWindow();
+
             pnlInteractivePane.setSize(width + 47, height + 28);
 
             if (logger.isDebugEnabled()) {
@@ -1271,13 +1275,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private class EnterKeyHandler extends AbstractAction {
 
-//
-//        @Override
-//        public void keyPressed(KeyEvent e) {
-//            if (e.getKeyCode() == KeyEvent.VK_ENTER && isSelected) {
-//                getPlayHandler().actionPerformed(null);
-//            }
-//        }
         @Override
         public void actionPerformed(ActionEvent e) {
             if (isSelected) {
@@ -2385,8 +2382,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             // Mouse being dragged over game
 
             if (!isSelected && !isRemoved) {
-                unSelectPrevious();
-                showOverlayUI();
+//                unSelectPrevious();
+//                showOverlayUI();
             }
 
             if (e.getModifiers() == MouseEvent.BUTTON1_MASK) {

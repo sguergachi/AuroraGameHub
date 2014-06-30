@@ -764,6 +764,20 @@ public class LibraryUI extends AuroraApp {
         coreUI.getCenterPanel().add(BorderLayout.CENTER, pnlLibraryContainer);
         coreUI.getCenterPanel().repaint();
 
+        // Check if WASD setting changed
+        if (getStorage().getStoredSettings()
+                .getSettingValue(SettingsLogic.WASD_NAV_SETTING).equals("enabled")) {
+
+            coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                    .put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), "GridNav_W");
+            coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                    .put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), "GridNav_S");
+            coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                    .put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), "GridNav_A");
+            coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                    .put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), "GridNav_D");
+        }
+
         // Finalize
         btnMoveRight.requestFocusInWindow();
         coreUI.getFrame().requestFocus();
@@ -808,32 +822,99 @@ public class LibraryUI extends AuroraApp {
         btnMoveLeft.setMouseListener(moveLibraryLeftHandler);
 
         coreUI.getFrame()
-                .addKeyListener(libraryHandler.new SearchRefocusListener());
-//        coreUI.getFrame()
-//                .addKeyListener(libraryHandler.new GameLibraryKeyListener());
-        coreUI.getFrame()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
 
 
 
-        coreUI.getBackgroundImagePane()
-                .addKeyListener(libraryHandler.new SearchRefocusListener());
 
         coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), "GridNav_W");
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), "SearchFocus_W");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), "SearchFocus_S");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), "SearchFocus_A");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), "SearchFocus_D");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_B, 0), "SearchFocus_B");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_C, 0), "SearchFocus_C");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), "SearchFocus_E");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_F, 0), "SearchFocus_F");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_G, 0), "SearchFocus_G");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_H, 0), "SearchFocus_H");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_I, 0), "SearchFocus_I");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_J, 0), "SearchFocus_J");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_K, 0), "SearchFocus_K");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_L, 0), "SearchFocus_L");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_M, 0), "SearchFocus_M");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_N, 0), "SearchFocus_N");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_O, 0), "SearchFocus_O");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0), "SearchFocus_P");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), "SearchFocus_Q");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), "SearchFocus_R");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_T, 0), "SearchFocus_T");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_U, 0), "SearchFocus_U");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_V, 0), "SearchFocus_V");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_X, 0), "SearchFocus_X");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, 0), "SearchFocus_Y");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, 0), "SearchFocus_Z");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0), "SearchFocus_1");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_2, 0), "SearchFocus_2");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_3, 0), "SearchFocus_3");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_4, 0), "SearchFocus_4");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_5, 0), "SearchFocus_5");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_6, 0), "SearchFocus_6");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_7, 0), "SearchFocus_7");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_8, 0), "SearchFocus_8");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_9, 0), "SearchFocus_9");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_0, 0), "SearchFocus_0");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_QUOTE, 0), "SearchFocus_QUOTE");
+        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_PERIOD, 0), "SearchFocus_PERIOD");
+
+
+
+
+
         coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "GridNav_UP");
         coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), "GridNav_S");
-        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "GridNav_DOWN");
         coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), "GridNav_A");
-        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "GridNav_LEFT");
-        coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), "GridNav_D");
         coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "GridNav_RIGHT");
         coreUI.getBackgroundImagePane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
@@ -859,6 +940,86 @@ public class LibraryUI extends AuroraApp {
         coreUI.getBackgroundImagePane().getActionMap()
                 .put("GridNav_ESCAPE", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_ESCAPE));
 
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_W", libraryHandler.new SearchRefocusListener(KeyEvent.VK_W));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_S", libraryHandler.new SearchRefocusListener(KeyEvent.VK_S));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_A", libraryHandler.new SearchRefocusListener(KeyEvent.VK_A));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_D", libraryHandler.new SearchRefocusListener(KeyEvent.VK_D));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_B", libraryHandler.new SearchRefocusListener(KeyEvent.VK_B));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_C", libraryHandler.new SearchRefocusListener(KeyEvent.VK_C));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_E", libraryHandler.new SearchRefocusListener(KeyEvent.VK_E));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_F", libraryHandler.new SearchRefocusListener(KeyEvent.VK_F));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_G", libraryHandler.new SearchRefocusListener(KeyEvent.VK_G));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_H", libraryHandler.new SearchRefocusListener(KeyEvent.VK_H));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_I", libraryHandler.new SearchRefocusListener(KeyEvent.VK_I));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_J", libraryHandler.new SearchRefocusListener(KeyEvent.VK_J));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_K", libraryHandler.new SearchRefocusListener(KeyEvent.VK_K));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_L", libraryHandler.new SearchRefocusListener(KeyEvent.VK_L));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_M", libraryHandler.new SearchRefocusListener(KeyEvent.VK_M));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_N", libraryHandler.new SearchRefocusListener(KeyEvent.VK_N));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_O", libraryHandler.new SearchRefocusListener(KeyEvent.VK_O));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_P", libraryHandler.new SearchRefocusListener(KeyEvent.VK_P));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_Q", libraryHandler.new SearchRefocusListener(KeyEvent.VK_Q));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_R", libraryHandler.new SearchRefocusListener(KeyEvent.VK_R));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_T", libraryHandler.new SearchRefocusListener(KeyEvent.VK_T));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_U", libraryHandler.new SearchRefocusListener(KeyEvent.VK_U));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_V", libraryHandler.new SearchRefocusListener(KeyEvent.VK_V));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_X", libraryHandler.new SearchRefocusListener(KeyEvent.VK_X));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_Y", libraryHandler.new SearchRefocusListener(KeyEvent.VK_Y));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_Z", libraryHandler.new SearchRefocusListener(KeyEvent.VK_Z));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_1", libraryHandler.new SearchRefocusListener(KeyEvent.VK_1));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_2", libraryHandler.new SearchRefocusListener(KeyEvent.VK_2));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_3", libraryHandler.new SearchRefocusListener(KeyEvent.VK_3));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_4", libraryHandler.new SearchRefocusListener(KeyEvent.VK_4));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_5", libraryHandler.new SearchRefocusListener(KeyEvent.VK_5));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_6", libraryHandler.new SearchRefocusListener(KeyEvent.VK_6));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_7", libraryHandler.new SearchRefocusListener(KeyEvent.VK_7));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_8", libraryHandler.new SearchRefocusListener(KeyEvent.VK_8));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_9", libraryHandler.new SearchRefocusListener(KeyEvent.VK_9));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_0", libraryHandler.new SearchRefocusListener(KeyEvent.VK_0));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_QUOTE", libraryHandler.new SearchRefocusListener(KeyEvent.VK_QUOTE));
+        coreUI.getBackgroundImagePane().getActionMap()
+                .put("SearchFocus_PERIOD", libraryHandler.new SearchRefocusListener(KeyEvent.VK_PERIOD));
+
+
+
+
         coreUI.getBackgroundImagePane()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
@@ -867,50 +1028,23 @@ public class LibraryUI extends AuroraApp {
 
 
         coreUI.getBottomPane()
-                .addKeyListener(libraryHandler.new SearchRefocusListener());
-        coreUI.getBottomPane()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
 
-        coreUI.getCenterPanel()
-                .addKeyListener(libraryHandler.new SearchRefocusListener());
         coreUI.getCenterPanel()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
 
         coreUI.getSouthFromTopPanel()
-                .addKeyListener(libraryHandler.new SearchRefocusListener());
-        coreUI.getSouthFromTopPanel()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
 
         coreUI.getFrameControlImagePane()
-                .addKeyListener(libraryHandler.new SearchRefocusListener());
-        coreUI.getFrameControlImagePane()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
-
-        coreUI.getTopPane()
-                .addKeyListener(libraryHandler.new SearchRefocusListener());
         coreUI.getTopPane()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
-
-
-        this.btnShowAddGameUI
-                .addKeyListener(libraryHandler.new SearchRefocusListener());
-
-        this.pnlLibraryContainer.addKeyListener(
-                libraryHandler.new SearchRefocusListener());
-
-        this.imgLibraryStatusPane
-                .addKeyListener(libraryHandler.new SearchRefocusListener());
-
-        this.btnMoveLeft.addKeyListener(
-                libraryHandler.new SearchRefocusListener());
-
-        this.btnMoveRight
-                .addKeyListener(libraryHandler.new SearchRefocusListener());
 
         this.btnRemoveSearch.addActionListener(
                 libraryHandler.new ResetSearchHandler());
