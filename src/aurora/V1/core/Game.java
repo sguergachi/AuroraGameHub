@@ -372,7 +372,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         gameClickListener = new InteractiveListener();
         pnlInteractivePane.addMouseListener(gameClickListener);
         this.addMouseListener(gameClickListener);
-        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ENTER"), "EnterKeyHandler");
+        this.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ENTER"), "EnterKeyHandler");
         this.getActionMap().put("EnterKeyHandler", new Game.EnterKeyHandler());
         this.add(pnlInteractivePane);
         this.revalidate();
@@ -1273,17 +1273,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         return gameClickListener;
     }
 
-    private class EnterKeyHandler extends AbstractAction {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (isSelected) {
-                getPlayHandler().actionPerformed(null);
-            }
-        }
-
-    }
-
     private class TransisionBetweenGameInfo implements ActionListener {
 
         private final AThreadWorker run;
@@ -1380,9 +1369,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private class EnterGameTypeListener implements ActionListener {
 
-        public EnterGameTypeListener() {
-        }
-
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -1390,6 +1376,17 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             txtGameType.getTextBox().setFocusable(true);
 
         }
+    }
+
+    private class EnterKeyHandler extends AbstractAction {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (isSelected) {
+                getPlayHandler().actionPerformed(null);
+            }
+        }
+
     }
 
     private class GameTypeListener implements FocusListener {

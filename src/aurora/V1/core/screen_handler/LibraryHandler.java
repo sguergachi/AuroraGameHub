@@ -514,383 +514,387 @@ public class LibraryHandler implements
                 wasdNavSetting = SettingsLogic.DEFAULT_WASD_NAV_SETTING;
             }
 
-            if ((keyCode == KeyEvent.VK_W && wasdNavSetting.equals(
-                    "enabled") && !libraryUI.getSearchBar().isFocusOwner())
-                || keyCode == KeyEvent.VK_UP) {
+            if (!libraryUI.isAnyOverlayVisible()) {
 
-                int i = 0;
+                if ((keyCode == KeyEvent.VK_W && wasdNavSetting.equals(
+                        "enabled") && !libraryUI.getSearchBar().isFocusOwner())
+                    || keyCode == KeyEvent.VK_UP) {
 
-                while (comp.size() > i && !selectedGameFound
-                       && !(comp.get(i) instanceof GamePlaceholder)) {
-                    //Check for GamePlaceholder CANT MOVE THERE!
-                    game = (Game) comp.get(i);
+                    int i = 0;
 
-                    if (game.isSelected()) {
-                        selectedGameFound = true;
+                    while (comp.size() > i && !selectedGameFound
+                           && !(comp.get(i) instanceof GamePlaceholder)) {
+                        //Check for GamePlaceholder CANT MOVE THERE!
+                        game = (Game) comp.get(i);
 
-                        if (logger.isDebugEnabled()) {
-                            logger.debug(game.getName()
-                                         + " is selected in the library");
-                        }
+                        if (game.isSelected()) {
+                            selectedGameFound = true;
 
-                        int[] columnAndRow = grid.getColumnAndRow(i + 1);
-                        int col = columnAndRow[0];
-                        int row = columnAndRow[1];
-
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("Col = " + columnAndRow[0]);
-                            logger.debug("Row = " + columnAndRow[1]);
-                        }
-
-                        if (row > 1) {
                             if (logger.isDebugEnabled()) {
-                                logger.debug("Cursor is moving up!");
+                                logger.debug(game.getName()
+                                             + " is selected in the library");
                             }
 
-                            // Check for GamePlaceholder CANT MOVE THERE!
-                            if (!(comp.get(i - 4) instanceof GamePlaceholder)) {
-                                game.hideOverlayUI();
-                                Game newGame = (Game) comp.get(i - 4);
-                                gridManager.unselectPrevious();
-                                newGame.showOverlayUI();
+                            int[] columnAndRow = grid.getColumnAndRow(i + 1);
+                            int col = columnAndRow[0];
+                            int row = columnAndRow[1];
+
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("Col = " + columnAndRow[0]);
+                                logger.debug("Row = " + columnAndRow[1]);
                             }
 
-                        } else if (row == 1) {
-                            // Check for GamePlaceholder CANT MOVE THERE!
-                            if (!(comp.get(i + (4 * 1)) instanceof GamePlaceholder)) {
-                                game.hideOverlayUI();
-                                Game newGame = (Game) comp.get(i + (4 * 1));
-                                gridManager.unselectPrevious();
-                                newGame.showOverlayUI();
+                            if (row > 1) {
+                                if (logger.isDebugEnabled()) {
+                                    logger.debug("Cursor is moving up!");
+                                }
+
+                                // Check for GamePlaceholder CANT MOVE THERE!
+                                if (!(comp.get(i - 4) instanceof GamePlaceholder)) {
+                                    game.hideOverlayUI();
+                                    Game newGame = (Game) comp.get(i - 4);
+                                    gridManager.unselectPrevious();
+                                    newGame.showOverlayUI();
+                                }
+
+                            } else if (row == 1) {
+                                // Check for GamePlaceholder CANT MOVE THERE!
+                                if (!(comp.get(i + (4 * 1)) instanceof GamePlaceholder)) {
+                                    game.hideOverlayUI();
+                                    Game newGame = (Game) comp.get(i + (4 * 1));
+                                    gridManager.unselectPrevious();
+                                    newGame.showOverlayUI();
+                                }
+                            } else {
+                                if (logger.isDebugEnabled()) {
+                                    logger.debug(
+                                            "Cursor cannot move any further up!");
+                                }
                             }
                         } else {
-                            if (logger.isDebugEnabled()) {
-                                logger.debug(
-                                        "Cursor cannot move any further up!");
-                            }
+                            i++;
                         }
-                    } else {
-                        i++;
+
                     }
 
-                }
+                    if (!selectedGameFound && (comp.get(0) instanceof Game)) {
 
-                if (!selectedGameFound && (comp.get(0) instanceof Game)) {
-                    game = (Game) comp.get(0);
-                    game.showOverlayUI();
-                }
+                        game = (Game) comp.get(0);
+                        game.showOverlayUI();
+                    }
 
-                //>>> MOVE DOWN
-            } else if ((keyCode == KeyEvent.VK_S && wasdNavSetting
-                    .equals("enabled") && !libraryUI.getSearchBar().isFocusOwner())
-                       || keyCode == KeyEvent.VK_DOWN) {
+                    //>>> MOVE DOWN
+                } else if ((keyCode == KeyEvent.VK_S && wasdNavSetting
+                        .equals("enabled") && !libraryUI.getSearchBar().isFocusOwner())
+                           || keyCode == KeyEvent.VK_DOWN) {
 
-                int i = 0;
+                    int i = 0;
 
-                while (i < comp.size() && !selectedGameFound
-                       && !(comp.get(i) instanceof GamePlaceholder)) {
-                    //Check for GamePlaceholder CANT MOVE THERE!
-                    game = (Game) comp.get(i);
+                    while (i < comp.size() && !selectedGameFound
+                           && !(comp.get(i) instanceof GamePlaceholder)) {
+                        //Check for GamePlaceholder CANT MOVE THERE!
+                        game = (Game) comp.get(i);
 
-                    if (game.isSelected()) {
-                        selectedGameFound = true;
+                        if (game.isSelected()) {
+                            selectedGameFound = true;
 
-                        if (logger.isDebugEnabled()) {
-                            logger.debug(game.getName()
-                                         + " is selected in the library");
-                        }
-
-                        int[] columnAndRow = grid.getColumnAndRow(i + 1);
-                        int col = columnAndRow[0];
-                        int row = columnAndRow[1];
-
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("Col = " + columnAndRow[0]);
-                            logger.debug("Row = " + columnAndRow[1]);
-                        }
-
-                        if (row < grid.getRow()) {
                             if (logger.isDebugEnabled()) {
-                                logger.debug("Cursor is moving down!");
+                                logger.debug(game.getName()
+                                             + " is selected in the library");
                             }
 
-                            // Check for GamePlaceholder CANT MOVE THERE!
-                            if (!(comp.get(i + 4) instanceof GamePlaceholder)) {
-                                game.hideOverlayUI();
-                                Game newGame = (Game) comp.get(i + 4);
-                                gridManager.unselectPrevious();
-                                newGame.showOverlayUI();
+                            int[] columnAndRow = grid.getColumnAndRow(i + 1);
+                            int col = columnAndRow[0];
+                            int row = columnAndRow[1];
+
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("Col = " + columnAndRow[0]);
+                                logger.debug("Row = " + columnAndRow[1]);
                             }
 
-                        } else if (row == grid.getRow()) {
+                            if (row < grid.getRow()) {
+                                if (logger.isDebugEnabled()) {
+                                    logger.debug("Cursor is moving down!");
+                                }
 
-                            // Check for GamePlaceholder CANT MOVE THERE!
-                            if (!(comp.get(i - (4 * 1)) instanceof GamePlaceholder)) {
-                                game.hideOverlayUI();
-                                Game newGame = (Game) comp.get(i - (4 * 1));
-                                gridManager.unselectPrevious();
-                                newGame.showOverlayUI();
+                                // Check for GamePlaceholder CANT MOVE THERE!
+                                if (!(comp.get(i + 4) instanceof GamePlaceholder)) {
+                                    game.hideOverlayUI();
+                                    Game newGame = (Game) comp.get(i + 4);
+                                    gridManager.unselectPrevious();
+                                    newGame.showOverlayUI();
+                                }
+
+                            } else if (row == grid.getRow()) {
+
+                                // Check for GamePlaceholder CANT MOVE THERE!
+                                if (!(comp.get(i - (4 * 1)) instanceof GamePlaceholder)) {
+                                    game.hideOverlayUI();
+                                    Game newGame = (Game) comp.get(i - (4 * 1));
+                                    gridManager.unselectPrevious();
+                                    newGame.showOverlayUI();
+                                }
+                            } else {
+
+                                if (logger.isDebugEnabled()) {
+                                    logger.debug(
+                                            "Cursor cannot move any further down!");
+                                }
                             }
                         } else {
-
-                            if (logger.isDebugEnabled()) {
-                                logger.debug(
-                                        "Cursor cannot move any further down!");
-                            }
+                            i++;
                         }
-                    } else {
-                        i++;
+
                     }
 
-                }
-
-                if (!selectedGameFound && (comp.get(0) instanceof Game)) {
-                    game = (Game) comp.get(0);
-                    game.showOverlayUI();
-                }
-
-                //>>> MOVE LEFT
-            } else if ((keyCode == KeyEvent.VK_A && wasdNavSetting
-                    .equals("enabled") && !libraryUI.getSearchBar().isFocusOwner())
-                       || keyCode == KeyEvent.VK_LEFT) {
-
-                if (logger.isDebugEnabled()) {
-                    logger.debug("A key pressed");
-                }
-
-                int i = 0;
-
-                while (i < comp.size() && !selectedGameFound
-                       && !(comp.get(i) instanceof GamePlaceholder)) {
-                    game = (Game) comp.get(i);
-                    if (game.isSelected()) {
-                        selectedGameFound = true;
-
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("index = " + i);
-                            logger.debug(game.getName()
-                                         + " is selected in the library");
-                        }
-                    } else {
-                        i++;
+                    if (!selectedGameFound && (comp.get(0) instanceof Game)) {
+                        game = (Game) comp.get(0);
+                        game.showOverlayUI();
                     }
 
-                }
-
-                if (!cursorMoved && selectedGameFound) {
-                    int[] columnAndRow = grid.getColumnAndRow(i + 1);
-                    int col = columnAndRow[0];
-                    int row = columnAndRow[1];
+                    //>>> MOVE LEFT
+                } else if ((keyCode == KeyEvent.VK_A && wasdNavSetting
+                        .equals("enabled") && !libraryUI.getSearchBar().isFocusOwner())
+                           || keyCode == KeyEvent.VK_LEFT) {
 
                     if (logger.isDebugEnabled()) {
-                        logger.debug("Col = " + col);
-                        logger.debug("Row = " + row);
+                        logger.debug("A key pressed");
                     }
 
-                    // Check to see if the setSelected game is not the first game in the grid
-                    if (col > 1 || (col == 1 && row > 1)) {
-                        System.out.println("Cursor is moving left!");
-                        visibleGridIndex = gridManager.getVisibleGridIndex();
+                    int i = 0;
 
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("Cursor is moving left");
-                            logger.debug("visible grid after moving right = "
-                                         + visibleGridIndex);
+                    while (i < comp.size() && !selectedGameFound
+                           && !(comp.get(i) instanceof GamePlaceholder)) {
+                        game = (Game) comp.get(i);
+                        if (game.isSelected()) {
+                            selectedGameFound = true;
+
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("index = " + i);
+                                logger.debug(game.getName()
+                                             + " is selected in the library");
+                            }
+                        } else {
+                            i++;
                         }
 
-                        game.hideOverlayUI();
-                        Game newGame = (Game) comp.get(i - 1);
-                        gridManager.unselectPrevious();
-                        newGame.showOverlayUI();
-                        cursorMoved = true;
-                    } else if (col == 1 && row == 1) {
+                    }
 
-                        if (gridManager.getArray().indexOf(pnlGameGridContainer
-                                .getComponent(1)) > 0) {
-                            libraryUI.moveGridLeft();
-                            /*
-                             * get the index of the grid that is currently
-                             * displayed
-                             */
+                    if (!cursorMoved && selectedGameFound) {
+                        int[] columnAndRow = grid.getColumnAndRow(i + 1);
+                        int col = columnAndRow[0];
+                        int row = columnAndRow[1];
+
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("Col = " + col);
+                            logger.debug("Row = " + row);
+                        }
+
+                        // Check to see if the setSelected game is not the first game in the grid
+                        if (col > 1 || (col == 1 && row > 1)) {
+                            System.out.println("Cursor is moving left!");
                             visibleGridIndex = gridManager.getVisibleGridIndex();
 
                             if (logger.isDebugEnabled()) {
-                                logger
-                                        .debug(
-                                                "visible grid after moving right = "
-                                                + visibleGridIndex);
+                                logger.debug("Cursor is moving left");
+                                logger.debug("visible grid after moving right = "
+                                             + visibleGridIndex);
                             }
 
-                            currentIndex = gridManager.getArray()
-                                    .indexOf(pnlGameGridContainer
-                                            .getComponent(1));
-                            /*
-                             * get the grid that is currently displayed
-                             */
-                            grid = gridManager.getGrid(currentIndex);
-
-                            /*
-                             * get an array of all the components in the grid
-                             */
-                            comp = grid.getArray();
-
-                            // Check if GamePlaceholder is to the right.
-                            if (!(comp.get(comp.size() - 1) instanceof GamePlaceholder)) {
-                                game.hideOverlayUI();
-                                Game newGame = (Game) comp.get(comp.size() - 1);
-                                gridManager.unselectPrevious();
-                                newGame.showOverlayUI();
-                            }
-                        } else {
-                            if (logger.isDebugEnabled()) {
-                                logger.debug(
-                                        "Cursor cannot move any further left!");
-                            }
-                        }
-
-                    }
-                } else if (!selectedGameFound && (comp.get(0) instanceof Game)) {
-                    game = (Game) comp.get(0);
-                    game.showOverlayUI();
-                }
-
-                // >>> MOVE RIGHT
-            } else if ((keyCode == KeyEvent.VK_D && wasdNavSetting
-                    .equals("enabled") && !libraryUI.getSearchBar().isFocusOwner())
-                       || keyCode == KeyEvent.VK_RIGHT) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("D key pressed");
-                }
-
-                int i = 0;
-
-                while (i < comp.size() && !selectedGameFound
-                       && !(comp.get(i) instanceof GamePlaceholder)) {
-                    game = (Game) comp.get(i);
-                    if (game.isSelected()) {
-                        selectedGameFound = true;
-
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("index = " + i);
-                            logger.debug(game.getName()
-                                         + " is selected in the library");
-                        }
-                    } else {
-                        i++;
-                    }
-
-                }
-
-                if (!cursorMoved && selectedGameFound) {
-                    int[] columnAndRow = grid.getColumnAndRow(i + 1);
-                    int col = columnAndRow[0];
-                    int row = columnAndRow[1];
-
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("Col = " + col);
-                        logger.debug("Row = " + row);
-                    }
-
-                    // Check to see if the setSelected is not the last game in the grid
-                    if ((col < grid.getCol() || (col == grid.getCol() && row
-                                                                         < grid
-                            .getRow()))
-                        && comp.size() > i + 1) {
-
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("Cursor is moving right!");
-                            logger.debug(game.getName()
-                                         + " is Last Game in This Grid!");
-                        }
-
-                        Game newGame;
-
-                        // Get the next object
-                        Object obj = comp.get(i + 1);
-                        if (obj instanceof Game) {
-
-                            if (logger.isDebugEnabled()) {
-                                logger.debug("Object is a game");
-                            }
-
-                            newGame = (Game) obj;
+                            game.hideOverlayUI();
+                            Game newGame = (Game) comp.get(i - 1);
                             gridManager.unselectPrevious();
                             newGame.showOverlayUI();
                             cursorMoved = true;
-                        } else {
-                            if (logger.isDebugEnabled()) {
-                                logger.debug("Object is an add game icon");
+                        } else if (col == 1 && row == 1) {
+
+                            if (gridManager.getArray().indexOf(pnlGameGridContainer
+                                    .getComponent(1)) > 0) {
+                                libraryUI.moveGridLeft();
+                                /*
+                                 * get the index of the grid that is currently
+                                 * displayed
+                                 */
+                                visibleGridIndex = gridManager.getVisibleGridIndex();
+
+                                if (logger.isDebugEnabled()) {
+                                    logger
+                                            .debug(
+                                                    "visible grid after moving right = "
+                                                    + visibleGridIndex);
+                                }
+
+                                currentIndex = gridManager.getArray()
+                                        .indexOf(pnlGameGridContainer
+                                                .getComponent(1));
+                                /*
+                                 * get the grid that is currently displayed
+                                 */
+                                grid = gridManager.getGrid(currentIndex);
+
+                                /*
+                                 * get an array of all the components in the grid
+                                 */
+                                comp = grid.getArray();
+
+                                // Check if GamePlaceholder is to the right.
+                                if (!(comp.get(comp.size() - 1) instanceof GamePlaceholder)) {
+                                    game.hideOverlayUI();
+                                    Game newGame = (Game) comp.get(comp.size() - 1);
+                                    gridManager.unselectPrevious();
+                                    newGame.showOverlayUI();
+                                }
+                            } else {
+                                if (logger.isDebugEnabled()) {
+                                    logger.debug(
+                                            "Cursor cannot move any further left!");
+                                }
                             }
+
                         }
+                    } else if (!selectedGameFound && (comp.get(0) instanceof Game)) {
+                        game = (Game) comp.get(0);
+                        game.showOverlayUI();
+                    }
 
-                        // else check to see if the setSelected game is the last game in the grid
-                    } else if (col == grid.getCol() && row == grid.getRow()) {
+                    // >>> MOVE RIGHT
+                } else if ((keyCode == KeyEvent.VK_D && wasdNavSetting
+                        .equals("enabled") && !libraryUI.getSearchBar().isFocusOwner())
+                           || keyCode == KeyEvent.VK_RIGHT) {
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("D key pressed");
+                    }
 
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("Cursor cannot move any further right! Grid needs to move right");
-                        }
+                    int i = 0;
 
-                        // check to see if the the current grid is the last grid
-                        if (gridManager.getVisibleGridIndex() < (gridManager
-                                .getNumberOfGrids())
-                            && !(comp.get(0) instanceof GamePlaceholder)) {
-
-                            if (logger.isDebugEnabled()) {
-                                logger.debug("This is not the last grid");
-                            }
-
-                            libraryUI.moveGridRight();
-
-                            /*
-                             * get the index of the grid that is currently
-                             * displayed
-                             */
-                            visibleGridIndex = gridManager.getVisibleGridIndex();
+                    while (i < comp.size() && !selectedGameFound
+                           && !(comp.get(i) instanceof GamePlaceholder)) {
+                        game = (Game) comp.get(i);
+                        if (game.isSelected()) {
+                            selectedGameFound = true;
 
                             if (logger.isDebugEnabled()) {
-                                logger
-                                        .debug(
-                                                "visible grid after moving right = "
-                                                + visibleGridIndex);
+                                logger.debug("index = " + i);
+                                logger.debug(game.getName()
+                                             + " is selected in the library");
                             }
-
-                            currentIndex = gridManager.getArray()
-                                    .indexOf(pnlGameGridContainer
-                                            .getComponent(1));
-
-                            /*
-                             * get the grid that is currently displayed
-                             */
-                            grid = gridManager.getGrid(currentIndex);
-
-                            /*
-                             * get an array of all the components in the grid
-                             */
-                            comp = grid.getArray();
-
-                            Game newGame = (Game) comp.get(0);
-
-                            newGame.requestFocus();
-                            newGame.unSelectPrevious();
-                            newGame.revalidate();
-                            newGame.showOverlayUI();
-
                         } else {
-                            if (logger.isDebugEnabled()) {
-                                logger
-                                        .debug(
-                                                "Cannot move to the grid to the right."
-                                                + " No more grids!");
-                            }
+                            i++;
                         }
 
                     }
-                } else if (!selectedGameFound && (comp.get(0) instanceof Game)) {
-                    game = (Game) comp.get(0);
-                    game.showOverlayUI();
+
+                    if (!cursorMoved && selectedGameFound) {
+                        int[] columnAndRow = grid.getColumnAndRow(i + 1);
+                        int col = columnAndRow[0];
+                        int row = columnAndRow[1];
+
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("Col = " + col);
+                            logger.debug("Row = " + row);
+                        }
+
+                        // Check to see if the setSelected is not the last game in the grid
+                        if ((col < grid.getCol() || (col == grid.getCol() && row
+                                                                             < grid
+                                .getRow()))
+                            && comp.size() > i + 1) {
+
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("Cursor is moving right!");
+                                logger.debug(game.getName()
+                                             + " is Last Game in This Grid!");
+                            }
+
+                            Game newGame;
+
+                            // Get the next object
+                            Object obj = comp.get(i + 1);
+                            if (obj instanceof Game) {
+
+                                if (logger.isDebugEnabled()) {
+                                    logger.debug("Object is a game");
+                                }
+
+                                newGame = (Game) obj;
+                                gridManager.unselectPrevious();
+                                newGame.showOverlayUI();
+                                cursorMoved = true;
+                            } else {
+                                if (logger.isDebugEnabled()) {
+                                    logger.debug("Object is an add game icon");
+                                }
+                            }
+
+                            // else check to see if the setSelected game is the last game in the grid
+                        } else if (col == grid.getCol() && row == grid.getRow()) {
+
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("Cursor cannot move any further right! Grid needs to move right");
+                            }
+
+                            // check to see if the the current grid is the last grid
+                            if (gridManager.getVisibleGridIndex() < (gridManager
+                                    .getNumberOfGrids())
+                                && !(comp.get(0) instanceof GamePlaceholder)) {
+
+                                if (logger.isDebugEnabled()) {
+                                    logger.debug("This is not the last grid");
+                                }
+
+                                libraryUI.moveGridRight();
+
+                                /*
+                                 * get the index of the grid that is currently
+                                 * displayed
+                                 */
+                                visibleGridIndex = gridManager.getVisibleGridIndex();
+
+                                if (logger.isDebugEnabled()) {
+                                    logger
+                                            .debug(
+                                                    "visible grid after moving right = "
+                                                    + visibleGridIndex);
+                                }
+
+                                currentIndex = gridManager.getArray()
+                                        .indexOf(pnlGameGridContainer
+                                                .getComponent(1));
+
+                                /*
+                                 * get the grid that is currently displayed
+                                 */
+                                grid = gridManager.getGrid(currentIndex);
+
+                                /*
+                                 * get an array of all the components in the grid
+                                 */
+                                comp = grid.getArray();
+
+                                Game newGame = (Game) comp.get(0);
+
+                                newGame.requestFocus();
+                                newGame.unSelectPrevious();
+                                newGame.revalidate();
+                                newGame.showOverlayUI();
+
+                            } else {
+                                if (logger.isDebugEnabled()) {
+                                    logger
+                                            .debug(
+                                                    "Cannot move to the grid to the right."
+                                                    + " No more grids!");
+                                }
+                            }
+
+                        }
+                    } else if (!selectedGameFound && (comp.get(0) instanceof Game)) {
+                        game = (Game) comp.get(0);
+                        game.showOverlayUI();
+                    }
+                } else if (keyCode == KeyEvent.VK_ESCAPE) {
+                    coreUI.showExitDialog();
                 }
-            } else if (keyCode == KeyEvent.VK_ESCAPE) {
-                coreUI.showExitDialog();
             }
 
         }
@@ -1225,7 +1229,7 @@ public class LibraryHandler implements
             //pressing any Number or Letter can activate this
             if (!libraryUI.isAddGameUIVisible()
                 && !libraryUI.isEditGameUIVisible()
-                && !libraryUI.isEditGameCoverUI_visible()
+                && !libraryUI.isEditGameCoverUIVisible()
                 && !SearchBar.isFocusOwner()) {
                 if (keyCode == KeyEvent.VK_B
                     || keyCode == KeyEvent.VK_C
@@ -2991,7 +2995,7 @@ public class LibraryHandler implements
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!libraryUI.isEditGameCoverUI_visible()) {
+            if (!libraryUI.isEditGameCoverUIVisible()) {
                 libraryUI.getEditCoverUI().showEditGameCoverUI(game);
             }
 

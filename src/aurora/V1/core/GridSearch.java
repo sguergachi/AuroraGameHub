@@ -78,6 +78,10 @@ public class GridSearch {
 
     }
 
+    public void setUp(){
+         libraryUI.getSearchBar().addKeyListener(new EnterKeyListener());
+    }
+
     public void typedChar(char typedChar) {
         typed = typedChar; // Set variable to typeChar
 
@@ -524,7 +528,7 @@ public class GridSearch {
         SearchManager.initiateGrid(0);
         libraryUI.getGamesContainer().add(SearchManager.getGrid(0),
                                           BorderLayout.CENTER);
-        libraryUI.getSearchBar().addKeyListener(new EnterKeyListener());
+
     }
 
     private class EnterKeyListener implements KeyListener {

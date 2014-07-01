@@ -1049,6 +1049,7 @@ public class LibraryUI extends AuroraApp {
         this.btnRemoveSearch.addActionListener(
                 libraryHandler.new ResetSearchHandler());
 
+        libraryLogic.getGridSearch().setUp();
     }
 
     /**
@@ -1369,7 +1370,7 @@ public class LibraryUI extends AuroraApp {
         return libraryGridManager;
     }
 
-    public boolean isEditGameCoverUI_visible() {
+    public boolean isEditGameCoverUIVisible() {
         return editGameCoverUIvisible;
     }
 
@@ -1605,6 +1606,13 @@ public class LibraryUI extends AuroraApp {
 
     public JPanel getPnlMoveLeftContainer() {
         return pnlMoveLeftContainer;
+    }
+
+    public boolean isAnyOverlayVisible() {
+        if (isAddGameUIVisible() || isEditGameUIVisible() || isEditGameCoverUIVisible()) {
+            return true;
+        }
+        return false;
     }
 
     public static int getListFontSize() {
