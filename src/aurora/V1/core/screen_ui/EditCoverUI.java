@@ -58,9 +58,9 @@ public class EditCoverUI {
 
     private AImagePane pnlEditGameCoverPane;
 
-    private JPanel pnlBottomPane_editCoverUI;
+    private JPanel pnlBottomPane;
 
-    private AButton btnClose_editCoverUI;
+    private AButton btnClose;
 
     private JPanel pnlCenterPane_editCoverUI;
 
@@ -72,9 +72,9 @@ public class EditCoverUI {
 
     private AImage imgTopArrows;
 
-    private AButton btnDone_editCoverUI;
+    private AButton btnDone;
 
-    private JPanel pnlRightPane_editCoverUI;
+    private JPanel pnlRightPane;
 
     private JPanel pnlLeftPane_editCoverUI;
 
@@ -133,33 +133,31 @@ public class EditCoverUI {
                                                     imgTopArrows.getImgHeight()));
 
         // Bottom Panel Components
-        pnlBottomPane_editCoverUI = new JPanel(new FlowLayout(FlowLayout.RIGHT,
-                                                              10,
-                                                              3));
-        pnlBottomPane_editCoverUI.setOpaque(false);
-        btnClose_editCoverUI = new AButton("editCoverUI_btnClose_norm.png",
-                                           "editCoverUI_btnClose_down.png",
-                                           "editCoverUI_btnClose_over.png");
+        pnlBottomPane = new JPanel(new FlowLayout(FlowLayout.RIGHT,
+                                                  10,
+                                                  3));
+        pnlBottomPane.setOpaque(false);
+        btnClose = new AButton("editCoverUI_btnClose_norm.png",
+                               "editCoverUI_btnClose_down.png",
+                               "editCoverUI_btnClose_over.png");
         closeEditCoverListener = libraryHandler.new CloseEditCoverListener(
                 frameEditGameCoverPane);
 
         // Right Panel Components
-        pnlRightPane_editCoverUI = new JPanel();
-        pnlRightPane_editCoverUI.setLayout(new BoxLayout(
-                pnlRightPane_editCoverUI, BoxLayout.Y_AXIS));
-        pnlRightPane_editCoverUI.setOpaque(false);
-        btnDone_editCoverUI = new AButton("editCoverUI_btnDone_norm.png",
-                                          "editCoverUI_btnDone_down.png",
-                                          "editCoverUI_btnDone_over.png");
+        pnlRightPane = new JPanel();
+        pnlRightPane.setLayout(new BoxLayout(
+                pnlRightPane, BoxLayout.Y_AXIS));
+        pnlRightPane.setOpaque(false);
+        btnDone = new AButton("editCoverUI_btnDone_norm.png",
+                              "editCoverUI_btnDone_down.png",
+                              "editCoverUI_btnDone_over.png");
+
 
         // Left Panel Components
         pnlLeftPane_editCoverUI = new JPanel();
         pnlLeftPane_editCoverUI.setLayout(new BoxLayout(pnlLeftPane_editCoverUI,
                                                         BoxLayout.Y_AXIS));
         pnlLeftPane_editCoverUI.setOpaque(false);
-        btnDone_editCoverUI = new AButton("editCoverUI_btnDone_norm.png",
-                                          "editCoverUI_btnDone_down.png",
-                                          "editCoverUI_btnDone_over.png");
         imgEditGameCoverStatus = new AImage("addUI_badge_invalid.png");
 
         // Center Panel
@@ -203,6 +201,10 @@ public class EditCoverUI {
             frameEditGameCoverPane.setBackground(new Color(0, 0, 0, 0));
             frameEditGameCoverPane.setContentPane(new ShapedPane());
 
+            btnDone.addActionListener(
+                    libraryHandler.new EditCoverUIDoneListener(
+                            imgEditGameCoverStatus, game, fileDragedListener));
+
             frameEditGameCoverPane.setSize(pnlEditGameCoverPane
                     .getRealImageWidth(), pnlEditGameCoverPane
                                            .getRealImageHeight() + 50 + coreUI
@@ -218,14 +220,14 @@ public class EditCoverUI {
             pnlTopPane_editCoverUI.add(imgTopArrows);
 
             // Bottom
-            pnlBottomPane_editCoverUI.add(btnClose_editCoverUI);
-            btnClose_editCoverUI.addActionListener(closeEditCoverListener);
+            pnlBottomPane.add(btnClose);
+            btnClose.addActionListener(closeEditCoverListener);
 
             // Center
             int centerHeight = pnlDrag_editCoverUI.getRealImageHeight()
-                                       + (pnlEditGameCoverPane
+                               + (pnlEditGameCoverPane
                     .getRealImageHeight() - (imgTopArrows
-                    .getImgHeight() + pnlBottomPane_editCoverUI
+                    .getImgHeight() + pnlBottomPane
                     .getPreferredSize().height));
 
             pnlCenterPane_editCoverUI.add(pnlDrag_editCoverUI);
@@ -240,16 +242,13 @@ public class EditCoverUI {
             JPanel rightPaneContainer = new JPanel(new FlowLayout(
                     FlowLayout.CENTER));
             rightPaneContainer.setOpaque(false);
-            rightPaneContainer.add(btnDone_editCoverUI);
-            btnDone_editCoverUI.addActionListener(
-                    libraryHandler.new EditCoverUIDoneListener(
-                            imgEditGameCoverStatus, game, fileDragedListener));
+            rightPaneContainer.add(btnDone);
 
             rightPaneContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 
-            pnlRightPane_editCoverUI.add(Box.createVerticalGlue());
-            pnlRightPane_editCoverUI.add(rightPaneContainer);
-            pnlRightPane_editCoverUI.setPreferredSize(new Dimension(
+            pnlRightPane.add(Box.createVerticalGlue());
+            pnlRightPane.add(rightPaneContainer);
+            pnlRightPane.setPreferredSize(new Dimension(
                     (pnlEditGameCoverPane.getRealImageWidth() / 5),
                     centerHeight));
 
@@ -264,7 +263,7 @@ public class EditCoverUI {
             pnlLeftPane_editCoverUI.add(Box
                     .createVerticalStrut(centerHeight / 6));
             pnlLeftPane_editCoverUI.add(leftPaneContainer);
-            pnlLeftPane_editCoverUI.setPreferredSize(pnlRightPane_editCoverUI
+            pnlLeftPane_editCoverUI.setPreferredSize(pnlRightPane
                     .getPreferredSize());
 
             // Content Pane
@@ -272,14 +271,14 @@ public class EditCoverUI {
                                        BorderLayout.CENTER);
             pnlContent_editCoverUI.add(pnlTopPane_editCoverUI,
                                        BorderLayout.NORTH);
-            pnlContent_editCoverUI.add(pnlRightPane_editCoverUI,
+            pnlContent_editCoverUI.add(pnlRightPane,
                                        BorderLayout.EAST);
             pnlContent_editCoverUI.add(pnlLeftPane_editCoverUI,
                                        BorderLayout.WEST);
 
             pnlEditGameCoverPane
                     .add(pnlContent_editCoverUI, BorderLayout.CENTER);
-            pnlEditGameCoverPane.add(pnlBottomPane_editCoverUI,
+            pnlEditGameCoverPane.add(pnlBottomPane,
                                      BorderLayout.PAGE_END);
 
             frameEditGameCoverPane.getContentPane().add(pnlEditGameCoverPane,
@@ -290,11 +289,13 @@ public class EditCoverUI {
             editGameCoverUILoaded = true;
         } else {
             // If not then set Done button listener and reset everything
-            btnDone_editCoverUI.removeActionListener(btnDone_editCoverUI
+            btnDone.removeActionListener(btnDone
                     .getActionListeners()[0]);
-            btnDone_editCoverUI.addActionListener(
+            btnDone.addActionListener(
                     libraryHandler.new EditCoverUIDoneListener(
                             imgEditGameCoverStatus, game, fileDragedListener));
+
+
             pnlDrag_editCoverUI.removeAll();
             pnlDrag_editCoverUI.setImage("editCoverUI_dragBG.png");
             pnlDrag_editCoverUI.revalidate();
@@ -305,6 +306,8 @@ public class EditCoverUI {
             fileDragedListener.setIsOccupied(false);
 
         }
+
+
     }
 
     public class ShapedPane extends JPanel {
@@ -367,7 +370,7 @@ public class EditCoverUI {
 
                         editGameCoverAnimator
                         .setInitialLocation((coreUI.getFrame().getWidth() / 2)
-                                                    - (pnlEditGameCoverPane
+                                            - (pnlEditGameCoverPane
                                 .getRealImageWidth() / 2),
                                             coreUI.getScreenHeight());
 
@@ -399,7 +402,7 @@ public class EditCoverUI {
 
                                         editGameCoverAnimator.moveVertical(
                                                 coreUI.getScreenHeight()
-                                                        - pnlEditGameCoverPane
+                                                - pnlEditGameCoverPane
                                                 .getRealImageHeight() - (coreUI
                                                 .getTaskbarHeight() - 2),
                                                 -18);

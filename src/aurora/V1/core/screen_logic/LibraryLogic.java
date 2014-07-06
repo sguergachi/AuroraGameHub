@@ -253,7 +253,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             // check that favorite states are not null
             if (libraryUI.getStorage().getStoredLibrary().getFaveStates()
-                        != null) {
+                != null) {
                 libHasFavourites = true;
             }
 
@@ -607,7 +607,7 @@ public class LibraryLogic implements AuroraScreenLogic {
         //Load Second Panel if exists -- SMART LOAD
         if (currentGrid < libraryUI.getGridSplit().getArray().size() - 1) {
             for (int i = 0; i
-                                    < libraryUI.getGridSplit().getGrid(
+                            < libraryUI.getGridSplit().getGrid(
                             currentGrid + 1)
                     .getArray()
                     .size(); i++) {
@@ -615,7 +615,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                      dashboardUI);
                 try {
                     game = (Game) libraryUI.getGridSplit().getGrid(currentGrid
-                                                                           + 1)
+                                                                   + 1)
                             .getArray()
                             .get(i);
 
@@ -712,15 +712,15 @@ public class LibraryLogic implements AuroraScreenLogic {
     public void checkManualAddGameStatus() {
 
         if (libraryUI.getAddGameUI().isCoverArtStatusIndicatorValid()
-                    && libraryUI.getAddGameUI().isGameLocationStatusValid()
-                    && !libraryUI
+            && libraryUI.getAddGameUI().isGameLocationStatusValid()
+            && !libraryUI
                 .getAddGameUI().getAddGameToLibraryButton().isVisible()) {
 
             //Animate the Button below Add Game UI//
             animateAddButtonDown();
 
         } else if ((!libraryUI.getAddGameUI().isCoverArtStatusIndicatorValid()
-                            && !libraryUI.getAddGameUI()
+                    && !libraryUI.getAddGameUI()
                 .isGameLocationStatusValid()) && libraryUI.getAddGameUI()
                 .getAddGameToLibraryButton().isVisible()) {
 
@@ -1108,7 +1108,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                         if (gameSearch_autoUI == null) {
 
                             AImagePane imgStatusIcon_unavailabe
-                                               = new AImagePane(
+                                       = new AImagePane(
                                             "autoUI_unavailableIcon.png");
                             imgStatusIcon_unavailabe.setPreferredSize(
                                     new Dimension(
@@ -1144,32 +1144,27 @@ public class LibraryLogic implements AuroraScreenLogic {
                                 .get(i));
                         game.setGamePath(executableGamePath.get(i)
                                 .getPath());
-                        try {
-                            String imgURL;
-                            AImagePane searchedGame;
+                        String imgURL;
+                        AImagePane searchedGame;
 
-                            if (gameImageNames.get(i) != null) {
-                                searchedGame = gameSearch_autoUI
-                                        .getSpecificGame(gameImageNames.get(
-                                                        i));
-                            } else {
-                                searchedGame = gameSearch_autoUI
-                                        .searchSpecificGame(game.getName());
-                            }
-
-                            if ((searchedGame) instanceof Game) {
-                                imgURL = ((Game) searchedGame)
-                                        .getBoxArtUrl();
-                            } else {
-                                imgURL = searchedGame.getImageURL();
-                            }
-
-                            game.setCoverUrl(imgURL);
-                        } catch (MalformedURLException ex) {
-                            java.util.logging.Logger.getLogger(
-                                    LibraryLogic.class.getName()).
-                                    log(Level.SEVERE, null, ex);
+                        if (gameImageNames.get(i) != null) {
+                            searchedGame = gameSearch_autoUI
+                                    .getSpecificGame(gameImageNames.get(
+                                                    i));
+                        } else {
+                            searchedGame = gameSearch_autoUI
+                                    .searchSpecificGame(game.getName());
                         }
+
+                        if ((searchedGame) instanceof Game) {
+                            imgURL = ((Game) searchedGame)
+                                    .getBoxArtUrl();
+                        } else {
+                            imgURL = searchedGame.getImageURL();
+                        }
+
+                        game.setCoverUrl(imgURL);
+
 
                         // Add Game to list of games added in Auto Games
                         autoGameList.add(game);
@@ -1318,7 +1313,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
             // Verify that the click occured on the selected cell
             final int index
-                              = libraryUI
+                      = libraryUI
                     .getAddGameUI()
                     .getPnlCheckList()
                     .locationToIndex(e
@@ -1506,7 +1501,7 @@ public class LibraryLogic implements AuroraScreenLogic {
         if (coreUI.getOS().contains("Windows")) {
             try {
                 String loc = "\"" + System.getenv("APPDATA")
-                                     + "\\Microsoft\\Internet Explorer\\Quick Launch\\Shows Desktop.lnk"
+                             + "\\Microsoft\\Internet Explorer\\Quick Launch\\Shows Desktop.lnk"
                              + "\"";
                 Runtime.getRuntime().exec(
                         new String[]{
@@ -1544,9 +1539,13 @@ public class LibraryLogic implements AuroraScreenLogic {
      *             <p>
      * @return
      */
-    private int SCALE_WIDTH_PARAM = 398;
+    private int SCALE_WIDTH_PARAM_BLANK = 398;
 
-    private int SCALE_HEIGHT_PARAM = 498;
+    private int SCALE_WIDTH_PARAM = 330;
+
+    private int SCALE_HEIGHT_PARAM_BLANK = 498;
+
+    private int SCALE_HEIGHT_PARAM = 466;
 
     public AImagePane processNewCoverArtImage(File file) {
 
@@ -1555,6 +1554,8 @@ public class LibraryLogic implements AuroraScreenLogic {
         Boolean loadedImage = true;
         String fileName = file.getName();
         AImagePane currentImagePane = new AImagePane();
+
+        // Check if image has already been proccessed in Game Data folder
         try {
             ImageIcon img = fileIO.findImg("Game Data",
                                            fileName);
@@ -1574,26 +1575,27 @@ public class LibraryLogic implements AuroraScreenLogic {
                                                                      SCALE_WIDTH_PARAM,
                                                                      SCALE_HEIGHT_PARAM);
 
+                AImage blankCover = new AImage("Blank-Case.png", SCALE_WIDTH_PARAM_BLANK, SCALE_HEIGHT_PARAM_BLANK);
+                BufferedImage overlay = ImageIO.read(new File(blankCover.getImagePath()));
 
 
-                int width = 62;
-                int height = 14;
+
+                int width = 67;
+                int height = 20;
                 BufferedImage newImage = new BufferedImage(
-                        scaledImg.getWidth() + 2 * width,
-                        scaledImg.getHeight() + (2 * height),
+                        512,
+                        512,
                         BufferedImage.TYPE_INT_ARGB);
 
                 Graphics g = newImage.getGraphics();
 
-                g.setColor(new Color(0, 0, 0, 0));
-                g.fillRect(0, 0, scaledImg.getWidth() + (2 * width), scaledImg
-                           .getHeight() + (2 * height));
-                g.drawImage(scaledImg, width + 2, height - 2, null);
+                g.drawImage(scaledImg, width + (SCALE_WIDTH_PARAM_BLANK - SCALE_WIDTH_PARAM) - 18, height - 2, null);
+                g.drawImage(overlay, 0, 0, null);
                 g.dispose();
 
                 currentImagePane.setImage(new ImageIcon(newImage),
-                                          SCALE_HEIGHT_PARAM,
-                                          SCALE_WIDTH_PARAM);
+                                          512,
+                                          512);
 
                 fileIO.writeImage(currentImagePane, fileName, "Game Data");
 
@@ -1668,33 +1670,27 @@ public class LibraryLogic implements AuroraScreenLogic {
     }
 
     public void editCover(Game editingGame, String newGameName) {
-        try {
+        editingGame.setCoverUrl(newGameName);
+        editingGame.refresh();
+        editingGame.disableEditCoverOverlay();
 
-            editingGame.setCoverUrl(newGameName);
-            editingGame.refresh();
-            editingGame.disableEditCoverOverlay();
+        if (libraryUI.isAddGameUIVisible()) {
+            gameSearch_addUI.disableSearch();
+            gameSearch_addUI.getTxtSearch().setText(
+                    GameSearch.DEFAULT_SEARCH_TEXT);
+            gameSearch_addUI.getTxtSearch().requestFocusInWindow();
 
-            if (libraryUI.isAddGameUIVisible()) {
-                gameSearch_addUI.disableSearch();
-                gameSearch_addUI.getTxtSearch().setText(
-                        GameSearch.DEFAULT_SEARCH_TEXT);
-                gameSearch_addUI.getTxtSearch().requestFocusInWindow();
-
-            } else if (libraryUI.isEditGameUIVisible()) {
-                gameSearch_editUI.disableSearch();
-                gameSearch_addUI.getTxtSearch().setText(
-                        GameSearch.DEFAULT_SEARCH_TEXT);
-                gameSearch_editUI.getTxtSearch().requestFocusInWindow();
+        } else if (libraryUI.isEditGameUIVisible()) {
+            gameSearch_editUI.disableSearch();
+            gameSearch_addUI.getTxtSearch().setText(
+                    GameSearch.DEFAULT_SEARCH_TEXT);
+            gameSearch_editUI.getTxtSearch().requestFocusInWindow();
 
 
 
-            }
-
-        } catch (MalformedURLException ex) {
-            java.util.logging.Logger.getLogger(LibraryLogic.class
-                    .getName())
-                    .log(Level.SEVERE, null, ex);
         }
+
+
 
     }
 

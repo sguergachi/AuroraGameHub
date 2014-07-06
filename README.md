@@ -1,7 +1,7 @@
 **What**
 ------------
 
-**[Aurora Game Hub](http://auroragamehub.com)** is a slick desktop application
+**[Aurora Game Hub](http://auroragamehub.com)** is a desktop application
 built from ground up to enable PC gamers to better *manage*, *play* and *experience* their entire game library in the best way possible.
 
 
@@ -18,4 +18,3 @@ Currently you need **4** components to build the Aurora Game Hub.
 - **Third** you need a **Surface** which is the name we use to refer to the modular and customizable skin being implemented through Aurora Engine. The default surface for Aurora Game Hub is the [Onix Surface](https://github.com/sguergachi/OnixSurface "Onix Surface")
 
 - **Fourth** you need the [H2 Database Engine](http://h2database.com "H2 Database Engine"), which is the current JDBC SQL database Aurora Game Hub uses
-

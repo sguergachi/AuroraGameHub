@@ -242,10 +242,10 @@ public class DashboardHandler implements AuroraScreenHandler {
 
             if (keyCode == KeyEvent.VK_ENTER) {
 
-                //*
+                //
                 // Check which Pane is current Center pane. Then Launch
                 // the appropriate AuroraApp assosiated to that Center Pane
-                //*
+                //
 
                 ACarouselPane pane = dashboardUI.getCarousel().getCenterPane();
 

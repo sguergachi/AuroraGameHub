@@ -2433,9 +2433,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         try {
             coverImagePane.setURL(new File(localGameRootPath + coverURL)
                     .getPath());
+
         } catch (Exception ex) {
             coverImagePane.setURL(rootCoverDBPath + coverURL);
         }
+        coverImagePane.setImageFileName(localGameRootPath + coverURL);
 
         coverImagePane.setImageSize(width, height);
         this.setImage(coverImagePane);
@@ -2535,8 +2537,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         return this.dashboardUI;
     }
 
-    public final void setCoverUrl(final String coverUrl) throws
-            MalformedURLException {
+    public final void setCoverUrl(final String coverUrl) {
         this.coverURL = coverUrl;
 
     }

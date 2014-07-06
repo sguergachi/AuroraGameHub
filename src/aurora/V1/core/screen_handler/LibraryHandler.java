@@ -1732,6 +1732,7 @@ public class LibraryHandler implements
                         }
 
                         // reset cover to blank cover
+                        gameSearch.getStaticGameCover().setCoverUrl(null);
                         gameSearch.resetCover();
 
                     } else { // Save all selected games to storage
@@ -2610,33 +2611,28 @@ public class LibraryHandler implements
                                     .removeGame(libraryUI
                                             .getEditGameUI()
                                             .getCurrentGame_editUI());
-                            try {
-                                //Set new path if new cover art added
-                                if (!libraryLogic
-                                        .getGameSearch_editUI()
-                                        .getCurrentlySearchedGame()
-                                        .getBoxArtUrl().equals(
-                                                "library_noGameFound.png")) {
-                                    libraryUI.getEditGameUI()
-                                            .getCurrentGame_editUI()
-                                            .setCoverUrl(
-                                                    libraryLogic
-                                                    .getGameSearch_editUI()
-                                                    .getCurrentlySearchedGame()
-                                                    .getBoxArtUrl());
-                                    completedText = "Changed Game Cover";
-                                }
-
+                            //Set new path if new cover art added
+                            if (!libraryLogic
+                                    .getGameSearch_editUI()
+                                    .getCurrentlySearchedGame()
+                                    .getBoxArtUrl().equals(
+                                            "library_noGameFound.png")) {
                                 libraryUI.getEditGameUI()
                                         .getCurrentGame_editUI()
-                                        .setGameName(
-                                                editGameName);
-
-                            } catch (MalformedURLException ex) {
-                                java.util.logging.Logger.getLogger(
-                                        LibraryHandler.class.getName()).
-                                        log(Level.SEVERE, null, ex);
+                                        .setCoverUrl(
+                                                libraryLogic
+                                                .getGameSearch_editUI()
+                                                .getCurrentlySearchedGame()
+                                                .getBoxArtUrl());
+                                completedText = "Changed Game Cover";
                             }
+
+                            libraryUI.getEditGameUI()
+                                    .getCurrentGame_editUI()
+                                    .setGameName(
+                                            editGameName);
+
+
 
                             //refresh
                             libraryUI.getEditGameUI()
@@ -2895,7 +2891,6 @@ public class LibraryHandler implements
 
                     AImagePane coverArt = libraryLogic.processNewCoverArtImage(
                             files[0]);
-                    AImagePane scaledCoverArt = coverArt;
 
                     coverFileName = coverArt.getImageURL();
 
@@ -2904,16 +2899,17 @@ public class LibraryHandler implements
                             .getRealImageWidth()) / coverArt
                             .getRealImageHeight();
 
-                    scaledCoverArt.setImageSize(scaledWidth,
-                                                scaledHeight);
-                    scaledCoverArt.setPreferredSize(new Dimension(scaledWidth,
-                                                                  scaledHeight));
+                    coverArt.setImageSize(scaledWidth,
+                                          scaledHeight);
+                    coverArt.setPreferredSize(new Dimension(scaledWidth,
+                                                            scaledHeight));
 
                     contentContainer.removeAll();
+                    contentContainer.add(coverArt);
                     contentContainer.revalidate();
 
-                    contentContainer.add(scaledCoverArt);
                     dragPane.add(resetContainer, BorderLayout.EAST);
+                    dragPane.add(Box.createHorizontalStrut(resetContainer.getPreferredSize().width), BorderLayout.WEST);
                     dragPane.revalidate();
 
                     statusIcon.setImgURl("addUI_badge_valid.png");

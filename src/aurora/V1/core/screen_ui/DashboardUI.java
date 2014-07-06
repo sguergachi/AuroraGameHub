@@ -388,6 +388,8 @@ public class DashboardUI implements AuroraScreenUI {
         icoSetting = new AImage("dash_carousel_settingsIcon.png");
         icoNet = new AImage("ComingSoon.png");
         icoLibrary = dashboardLogic.getLibraryIcon();
+        icoLibrary.setPreferredSize(new Dimension(gameCoverWidth,
+                                                  gameCoverHeight));
 
         titleProfile = new ACarouselTitle(titleProfileNorm, titleProfileGlow);
         titleSetting = new ACarouselTitle(titleSettingNorm, titleSettingGlow);
@@ -492,19 +494,20 @@ public class DashboardUI implements AuroraScreenUI {
         carousel.getActionMap()
                 .put("Carousel_ESCAPE", handler.new DashboardlKeyListener(KeyEvent.VK_ESCAPE));
 
-        // Set size of Icons inside each Carousel Pane
+
+
+        // Handel mouse click
 
         icoSetting.addMouseListener(handler.new CarouselPaneMouseListener(
                 paneSettings));
         icoProfile.addMouseListener(handler.new CarouselPaneMouseListener(
                 paneProfile));
         icoNet.addMouseListener(handler.new CarouselPaneMouseListener(paneNet));
-        icoLibrary.setPreferredSize(new Dimension(gameCoverWidth,
-                                                  gameCoverHeight));
+
         icoLibrary.addMouseListener(handler.new CarouselPaneMouseListener(
                 paneLibrary));
 
-        // Check for the Enter Button Press OR Mouse Click
+
         paneProfile
                 .addMouseListener(handler.new CarouselPaneMouseListener(null));
         paneSettings.addMouseListener(

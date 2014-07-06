@@ -318,7 +318,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         // Top Button panels
         pnlButtonContainer
-                = new JPanel(new FlowLayout(FlowLayout.CENTER, -1, 0));
+        = new JPanel(new FlowLayout(FlowLayout.CENTER, -1, 0));
         pnlButtonContainer.setOpaque(false);
 
 
@@ -364,7 +364,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         pnlTopContainer.add(pnlTopTitle);
         pnlTopContainer.add(Box.createVerticalStrut(coreUI.getScreenHeight()
-                                                            / 12));
+                                                    / 12));
 
 
 
@@ -372,9 +372,9 @@ public class AuroraLauncher implements Runnable, MouseListener {
         imgGameCover.setImage(game);
         imgGameCover.setImageHeight(launchPane.getHeight() / 3 + 80);
         imgGameCover.setImageWidth(imgGameCover.getImageHeight()
-                                           - imgGameCover.getImageHeight() / 15);
+                                   - imgGameCover.getImageHeight() / 15);
         imgGameCover.setPreferredSize(new Dimension(imgGameCover.getImageWidth()
-                                                            + 20, imgGameCover
+                                                    + 20, imgGameCover
                                                     .getImageHeight()));
         imgGameCover.setAlignmentY(JComponent.CENTER_ALIGNMENT);
         imgGameCover.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -515,7 +515,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
                         // Set Commands to launch shortcut
                         ProcessBuilder processBuild = new ProcessBuilder();
                         processBuild.command("cmd", "/c", "", '"' + currentDir
-                                                                      + '"');
+                                                              + '"');
 
                         // Launch Game
                         launchGameProcess(processBuild);
@@ -627,7 +627,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         pnlTitle.add(lblManualMode, BorderLayout.SOUTH);
         pnlTitle.revalidate();
-        launchPane.requestFocusInWindow();
+//        launchPane.requestFocusInWindow();
     }
 
     private void launchGameProcess(ProcessBuilder processBuild) {
@@ -638,7 +638,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
             ADialog error = new ADialog(
                     ADialog.aDIALOG_ERROR,
                     "Unable to launch Game "
-                            + "\n Make Sure To Launch Aurora In Administrator Mode",
+                    + "\n Make Sure To Launch Aurora In Administrator Mode",
                     coreUI.getRegularFont()
                     .deriveFont(Font.BOLD, 25));
 
@@ -733,7 +733,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
         logger.info(game.getLastPlayed());
         logger.info(timeAfter);
 
-        Period period = new Period(timeStarted,timeAfter);
+        Period period = new Period(timeStarted, timeAfter);
 
         // Elapsed Time Calculation
         int hoursDiff = period.getHours();
@@ -751,12 +751,12 @@ public class AuroraLauncher implements Runnable, MouseListener {
             lblPlayedTime.setText(minDiff + " min  ");
         } else {
             lblPlayedTime.setText(hoursDiff + "hr and "
-                                          + minDiff + "min  ");
+                                  + minDiff + "min  ");
         }
 
-        launchPane.setAlwaysOnTop(true);
-        launchPane.requestFocusInWindow();
-        launchPane.setAlwaysOnTop(false);
+//        launchPane.setAlwaysOnTop(true);
+//        launchPane.requestFocusInWindow();
+//        launchPane.setAlwaysOnTop(false);
 
         // Add to total time played this game //
         game.addTime(minDiff, hoursDiff);
@@ -801,9 +801,11 @@ public class AuroraLauncher implements Runnable, MouseListener {
                                         .getWidth(),
                                         pnlTimePlayed
                                         .getHeight());
-
+                imgGameCover.setLocation(imgGameCover.getLocation());
                 pnlCenter.setLayout(null);
                 imgGameCover.setLocation(imgGameCover.getLocation());
+
+                imgGameCover.revalidate();
                 pnlCenter.revalidate();
 
                 pnlTopTitle.setIgnoreRepaint(true);
