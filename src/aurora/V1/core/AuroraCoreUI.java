@@ -737,7 +737,7 @@ public class AuroraCoreUI {
         paneBackground.add(paneCenter, BorderLayout.CENTER);
         paneBackground.add(paneBottom, BorderLayout.SOUTH);
 
-        
+
         frame.addKeyListener(new FrameKeyListener());
         frame.requestFocus();
 
@@ -906,6 +906,7 @@ public class AuroraCoreUI {
 
         }
         warningDialog.setVisible(true);
+
     }
 
     public JButton getBtnExit() {

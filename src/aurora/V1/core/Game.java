@@ -680,6 +680,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     if (progressWheel != null) {
                         progressWheel.stop();
                         remove(progressWheel);
+                        progressWheel.setVisible(false);
                     }
 
                 } catch (InterruptedException ex) {
@@ -693,7 +694,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     postLoad.doAction();
                 }
 
-                progressWheel.setVisible(false);
+
             }
 
         });

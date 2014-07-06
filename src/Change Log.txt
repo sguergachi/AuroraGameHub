@@ -17,6 +17,7 @@ Author: Sammy Guergachi, Carlos Machado
 
 ++ Made a lot of little UI/UX improvements
 + Reworked AuroraLauncher with improved timer and UI changes
++ Reworked navigation with keyboard to be more reliable in library
 + Selecting a game now shows game info in library info bar
 + Pressing ENTER when searching for game in library launches the first game.
 + Show "unsure" icon in auto searches that Aurora had to guess the cover art for

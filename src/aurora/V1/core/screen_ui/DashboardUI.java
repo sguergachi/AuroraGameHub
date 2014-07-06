@@ -22,6 +22,7 @@ import aurora.V1.core.AuroraCoreUI;
 import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.screen_handler.DashboardHandler;
 import aurora.V1.core.screen_logic.DashboardLogic;
+import aurora.V1.core.screen_logic.SettingsLogic;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenUI;
 import aurora.engine.V1.UI.AButton;
@@ -39,11 +40,14 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import org.apache.log4j.Logger;
 
 /**
@@ -414,7 +418,7 @@ public class DashboardUI implements AuroraScreenUI {
         paneLibrary.setVisible(false);
 
         paneNet = new ACarouselPane("dash_carousel_bg.png", (int) carouselWidth
-                                                                    + 25,
+                                                            + 25,
                                     carouselHeight - 25, true, titleAuroraNet,
                                     "auroranet");
         paneNet.setVisible(false);
@@ -436,10 +440,6 @@ public class DashboardUI implements AuroraScreenUI {
         // Setup Carousel
         // --------------------------------------------------------------------.
 
-        paneSettings.addKeyListener(handler.new DashboardlKeyListener());
-        paneProfile.addKeyListener(handler.new DashboardlKeyListener());
-        paneLibrary.addKeyListener(handler.new DashboardlKeyListener());
-        paneNet.addKeyListener(handler.new DashboardlKeyListener());
 
         // Set ID For each Panel and add ENTER Key Listener
         paneSettings.setName("settingsPane");
@@ -462,8 +462,35 @@ public class DashboardUI implements AuroraScreenUI {
         carousel.addPane(paneLibrary);
         carousel.addPane(paneProfile);
         carousel.addPane(paneNet);
-        carousel.addKeyListener(handler.new DashboardlKeyListener());
 
+        if (storage.getStoredSettings().getSettingValue(SettingsLogic.WASD_NAV_SETTING).equalsIgnoreCase("enabled")) {
+            carousel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                    .put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), "Carousel_D");
+            carousel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                    .put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), "Carousel_A");
+        }
+
+        carousel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "Carousel_LEFT");
+        carousel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "Carousel_RIGHT");
+        carousel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "Carousel_ENTER");
+        carousel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Carousel_ESCAPE");
+
+        carousel.getActionMap()
+                .put("Carousel_LEFT", handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
+        carousel.getActionMap()
+                .put("Carousel_RIGHT", handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
+        carousel.getActionMap()
+                .put("Carousel_D", handler.new DashboardlKeyListener(KeyEvent.VK_D));
+        carousel.getActionMap()
+                .put("Carousel_A", handler.new DashboardlKeyListener(KeyEvent.VK_A));
+        carousel.getActionMap()
+                .put("Carousel_ENTER", handler.new DashboardlKeyListener(KeyEvent.VK_ENTER));
+        carousel.getActionMap()
+                .put("Carousel_ESCAPE", handler.new DashboardlKeyListener(KeyEvent.VK_ESCAPE));
 
         // Set size of Icons inside each Carousel Pane
 
@@ -547,7 +574,7 @@ public class DashboardUI implements AuroraScreenUI {
         work.startOnce();
 
 
-        // About Box 
+        // About Box
         aboutBox = new AboutBox(coreUI);
         coreUI.getLogoImage().addMouseListener(new HeaderMouseListener());
         aboutBox.buildAboutUI();
@@ -659,7 +686,7 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getTopPane().setPreferredSize(new Dimension(coreUI
                 .getTopPane().
                 getWidth(), coreUI.getTopPane().getImageHeight()
-                                    + coreUI.getFrameControlContainerPanel()
+                            + coreUI.getFrameControlContainerPanel()
                                                            .getHeight()));
         coreUI.getSouthFromTopPanel().revalidate();
 
@@ -716,10 +743,8 @@ public class DashboardUI implements AuroraScreenUI {
 
         // Add Listeners to the Left and Right Carousel Buttons
         btnCarouselLeft.addActionListener(handler.new LeftButtonListener());
-        btnCarouselLeft.addKeyListener(handler.new DashboardlKeyListener());
 
         btnCarouselRight.addActionListener(handler.new RightButtonListener());
-        btnCarouselRight.addKeyListener(handler.new DashboardlKeyListener());
 
 
         // CoreUI Listeners
@@ -727,12 +752,6 @@ public class DashboardUI implements AuroraScreenUI {
         // Remove ENTER KeyListener attached to frame.
         coreUI.getFrame().removeKeyListener(startUI.getStartKeyHandler());
 
-        // Add Carousel KeyListener to Background
-        coreUI.getFrame().getContentPane().
-                addKeyListener(handler.new DashboardlKeyListener());
-        coreUI.getFrame().addKeyListener(handler.new DashboardlKeyListener());
-        coreUI.getBackgroundImagePane().
-                addKeyListener(handler.new DashboardlKeyListener());
 
         // Finished loading so change text
         coreUI.getTitleLabel().setText("  " + " Dashboard ");
@@ -771,7 +790,7 @@ public class DashboardUI implements AuroraScreenUI {
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
             carouselImageWidth = carouselHeight - (2 * carouselHeight / 6);
             carouselImageHeight = (int) carouselWidth
-                                          - (int) (carouselWidth / 4) - 20;
+                                  - (int) (carouselWidth / 4) - 20;
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
@@ -782,7 +801,7 @@ public class DashboardUI implements AuroraScreenUI {
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
             infoFeedWidth = coreUI.getFrame().getSize().width
-                                    - (carouselButtonWidth * 2) - 70;
+                            - (carouselButtonWidth * 2) - 70;
             infoFeedHeight = 55;
 
 
@@ -792,7 +811,7 @@ public class DashboardUI implements AuroraScreenUI {
             btnBackHeight = 35;
 
             carouselWidth = (coreUI.getFrame().getWidth() / 40 + topHeight / 55)
-                                    * 16;
+                            * 16;
             carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
                     getFrame().getWidth() / 7);
 
@@ -801,7 +820,7 @@ public class DashboardUI implements AuroraScreenUI {
 
             carouselImageWidth = (int) carouselWidth - 400 / 2;
             carouselImageHeight = carouselHeight - (450 / 2)
-                                          - 55;
+                                  - 55;
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
@@ -812,9 +831,9 @@ public class DashboardUI implements AuroraScreenUI {
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
             infoFeedWidth = coreUI.getFrame().getSize().width
-                                    - (carouselButtonWidth * 2) - 70;
+                            - (carouselButtonWidth * 2) - 70;
             infoFeedHeight = carouselButtonHeight
-                                     - (bottomPaneHeightAdjust / 18);
+                             - (bottomPaneHeightAdjust / 18);
 
 
             if (logger.isDebugEnabled()) {

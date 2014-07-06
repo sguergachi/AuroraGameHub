@@ -78,8 +78,8 @@ public class GridSearch {
 
     }
 
-    public void setUp(){
-         libraryUI.getSearchBar().addKeyListener(new EnterKeyListener());
+    public void setUp() {
+        libraryUI.getSearchBar().addKeyListener(new EnterKeyListener());
     }
 
     public void typedChar(char typedChar) {
@@ -278,7 +278,7 @@ public class GridSearch {
                                                                            .getRealImageHeight()));
         }
 
-        if (results == 1 || results == 0) {
+        if (results == 1) {
             libraryUI.getLblSearchResultsInfo().setText("Result");
         } else {
             libraryUI.getLblSearchResultsInfo().setText("Results");
@@ -422,8 +422,6 @@ public class GridSearch {
 
         }
 
-        SearchManager.getGrid(0).revalidate();
-        SearchManager.getGrid(0).repaint();
         SearchManager.addPlaceHolders(foundGame.getImageWidth(), foundGame
                                       .getImageHeight());
 
@@ -480,11 +478,11 @@ public class GridSearch {
 
         libraryUI.getGridSplit().unselectPrevious();
 
-        libraryUI.getGamesContainer().revalidate();
-        libraryUI.getGamesContainer().repaint();
-
         setUpGrid();
 
+
+        libraryUI.getGamesContainer().revalidate();
+        libraryUI.getGamesContainer().repaint();
     }
 
     public GridManager getGridManager() {

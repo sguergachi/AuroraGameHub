@@ -28,12 +28,12 @@ import aurora.engine.V1.Logic.AuroraScreenLogic;
 import aurora.engine.V1.UI.ACarouselPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import javax.swing.AbstractAction;
 import org.apache.log4j.Logger;
 
 /**
@@ -184,10 +184,18 @@ public class DashboardHandler implements AuroraScreenHandler {
      * | - Enter Key >>> Launch the current Carousel Pane in the center
      * |
      */
-    public class DashboardlKeyListener extends KeyAdapter {
+    public class DashboardlKeyListener extends AbstractAction {
+
+        private final int keyCode;
+
+        public DashboardlKeyListener(int KeyCode) {
+
+            this.keyCode = KeyCode;
+
+        }
 
         @Override
-        public final void keyPressed(final KeyEvent e) {
+        public final void actionPerformed(ActionEvent e) {
 
             AuroraStorage storage = dashboardUI.getStorage();
             final String soundEffectsSetting = storage.getStoredSettings()
@@ -197,14 +205,13 @@ public class DashboardHandler implements AuroraScreenHandler {
              * More responsive put here
              */
 
-            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_A) {
                 dashboardUI.getCarousel()
                         .setPostRightAnimation(new APostHandler() {
                             @Override
                             public void doAction() {
                                 if (soundEffectsSetting.equals("enabled")) {
-                                    ASound showSound = new ASound("click_1.wav",
-                                            false);
+                                    ASound showSound = new ASound("click_1.wav", false);
                                     showSound.Play();
                                 }
                             }
@@ -212,7 +219,7 @@ public class DashboardHandler implements AuroraScreenHandler {
                 dashboardUI.getCarousel().MoveRight();
             }
 
-            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D) {
 
                 dashboardUI.getCarousel()
                         .setPostLeftAnimation(new APostHandler() {
@@ -220,7 +227,7 @@ public class DashboardHandler implements AuroraScreenHandler {
                             public void doAction() {
                                 if (soundEffectsSetting.equals("enabled")) {
                                     ASound showSound = new ASound("click_3.wav",
-                                            false);
+                                                                  false);
                                     showSound.Play();
                                 }
                             }
@@ -229,15 +236,11 @@ public class DashboardHandler implements AuroraScreenHandler {
 
             }
 
-            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            if (keyCode == KeyEvent.VK_ESCAPE) {
                 dashboardUI.getCoreUI().showExitDialog();
             }
-        }
 
-        @Override
-        public final void keyReleased(final KeyEvent e) {
-
-            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (keyCode == KeyEvent.VK_ENTER) {
 
                 //*
                 // Check which Pane is current Center pane. Then Launch
@@ -249,8 +252,8 @@ public class DashboardHandler implements AuroraScreenHandler {
                 dashboardLogic.launchAuroraApp(pane);
 
             }
-
         }
+
     }
 
     /**
@@ -375,7 +378,7 @@ public class DashboardHandler implements AuroraScreenHandler {
                                 public void doAction() {
 
                                     ASound showSound = new ASound("click_3.wav",
-                                            false);
+                                                                  false);
                                     showSound.Play();
 
                                 }
@@ -390,7 +393,7 @@ public class DashboardHandler implements AuroraScreenHandler {
                                 public void doAction() {
 
                                     ASound showSound = new ASound("click_1.wav",
-                                            false);
+                                                                  false);
                                     showSound.Play();
                                 }
 
