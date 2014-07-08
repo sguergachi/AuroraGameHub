@@ -193,7 +193,7 @@ public class LibraryUI extends AuroraApp {
 
     private GridAnimation GridAnimate;
 
-    private JTextField txtGridSearchField;
+    private JTextField txtSearchBar;
 
     private final LibraryHandler libraryHandler;
 
@@ -413,7 +413,7 @@ public class LibraryUI extends AuroraApp {
         btnRemoveSearch = new AButton("library_btnCancelSearch_norm.png",
                                       "library_btnCancelSearch_down.png",
                                       "library_btnCancelSearch_over.png");
-        txtGridSearchField = new JTextField("Just Start Typing...");
+        txtSearchBar = new JTextField("Just Start Typing...");
         btnSearch = new AButton("library_btnSearch_norm.png",
                                 "library_btnSearch_down.png",
                                 "library_btnSearch_over.png");
@@ -559,15 +559,15 @@ public class LibraryUI extends AuroraApp {
                                                                      .getRealImageHeight()));
 
             // Search bar above grid
-            txtGridSearchField.setOpaque(false);
-            txtGridSearchField.setBorder(null);
-            txtGridSearchField.setBorder(BorderFactory.createEmptyBorder());
-            txtGridSearchField.setColumns(18);
-            txtGridSearchField.setForeground(Color.darkGray);
-            txtGridSearchField.setFont(coreUI.getDefaultFont()
+            txtSearchBar.setOpaque(false);
+            txtSearchBar.setBorder(null);
+            txtSearchBar.setBorder(BorderFactory.createEmptyBorder());
+            txtSearchBar.setColumns(18);
+            txtSearchBar.setForeground(Color.darkGray);
+            txtSearchBar.setFont(coreUI.getDefaultFont()
                     .deriveFont(Font.BOLD,
                                 gridSearchFontSize));
-            txtGridSearchField.setPreferredSize(new Dimension(700, 50));
+            txtSearchBar.setPreferredSize(new Dimension(700, 50));
 
             // Search button
             btnSearch.setPreferredSize(new Dimension(70, 51));
@@ -580,10 +580,10 @@ public class LibraryUI extends AuroraApp {
 
             // Text in search bar
             pnlSearchText.setOpaque(false);
-            pnlSearchText.add(txtGridSearchField, BorderLayout.CENTER);
+            pnlSearchText.add(txtSearchBar, BorderLayout.CENTER);
             pnlSearchText.add(pnlSearchResultsContainer,
                               BorderLayout.EAST);
-            pnlSearchText.setPreferredSize(new Dimension(txtGridSearchField
+            pnlSearchText.setPreferredSize(new Dimension(txtSearchBar
                     .getPreferredSize().width + pnlSearchResultsContainer
                     .getPreferredSize().width, coreUI.getFrameControlImagePane()
                                                          .getRealImageHeight()));
@@ -692,7 +692,7 @@ public class LibraryUI extends AuroraApp {
 
         // Add Components with listeners to volatile listener bank
         // ----------------------------------------------------------------.
-        addToVolatileListenerBank(txtGridSearchField);
+        addToVolatileListenerBank(txtSearchBar);
         addToVolatileListenerBank(coreUI.getBackgroundImagePane());
         addToVolatileListenerBank(coreUI.getBottomPane());
         addToVolatileListenerBank(coreUI.getCenterPanel());
@@ -802,14 +802,13 @@ public class LibraryUI extends AuroraApp {
         // Create Handlers
         searchBoxHandler = libraryHandler.new SearchBoxHandler();
         searchFocusHandler = libraryHandler.new SearchFocusHandler();
-        txtGridSearchField.addKeyListener(searchBoxHandler);
-        txtGridSearchField.addFocusListener(searchFocusHandler);
-        txtGridSearchField.addMouseListener(
+        txtSearchBar.addKeyListener(searchBoxHandler);
+        txtSearchBar.addFocusListener(searchFocusHandler);
+        txtSearchBar.addMouseListener(
                 libraryHandler.new SearchSelectHandler());
 
         moveLibraryLeftHandler = libraryHandler.new HoverButtonLeft();
         moveLibraryRightHandler = libraryHandler.new HoverButtonRight();
-
 
 
         // Attach Handlers
@@ -824,8 +823,6 @@ public class LibraryUI extends AuroraApp {
         coreUI.getFrame()
                 .addMouseWheelListener(
                         libraryHandler.new GridMouseWheelListener());
-
-
 
 
         pnlLibraryContainer.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
@@ -1458,7 +1455,7 @@ public class LibraryUI extends AuroraApp {
     }
 
     public JTextField getSearchBar() {
-        return txtGridSearchField;
+        return txtSearchBar;
     }
 
     public AImagePane getSearchBarBG() {
@@ -1583,7 +1580,7 @@ public class LibraryUI extends AuroraApp {
     }
 
     public JTextField getTxtGridSearchField() {
-        return txtGridSearchField;
+        return txtSearchBar;
     }
 
     public ASlickLabel getLblSearchResultsInfo() {

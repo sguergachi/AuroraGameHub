@@ -124,6 +124,9 @@ public class GridSearch {
         if (AppendedName.length() - 1 >= 0) {
             AppendedName = (String) AppendedName.subSequence(0, AppendedName
                                                              .length() - 1);
+            if (AppendedName.length() == 0) {
+                removeChar(typedChar);
+            }
 
         }
 
@@ -442,9 +445,9 @@ public class GridSearch {
         SearchManager.clearAllGrids();
         foundGameList.removeAll(foundGameList);
 
-        if (logger.isDebugEnabled()) {
-            logger.debug(foundGameList);
-        }
+        SearchManager.getGrid(0).revalidate();
+        SearchManager.getGrid(0).repaint();
+
 
     }
 
@@ -453,11 +456,10 @@ public class GridSearch {
      */
     public void clearGameGrid() {
 
+
         // show search results
         libraryUI.getPnlSearchResultsContainer().setVisible(true);
-
-        //Tells Every body here that this method has already been executed
-        clearedGrid = true;
+        libraryUI.getGridSplit().unselectPrevious();
 
         //Remove Favorite Side Image
         libraryUI.getGamesContainer().remove(0);
@@ -476,13 +478,15 @@ public class GridSearch {
 
         }
 
-        libraryUI.getGridSplit().unselectPrevious();
-
         setUpGrid();
 
 
         libraryUI.getGamesContainer().revalidate();
         libraryUI.getGamesContainer().repaint();
+
+        //Tells Every body here that this method has already been executed
+        clearedGrid = true;
+
     }
 
     public GridManager getGridManager() {

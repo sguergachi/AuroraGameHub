@@ -1151,15 +1151,19 @@ public class LibraryHandler implements
     public class SearchBoxHandler extends KeyAdapter {
         // Handles Typing In Search Box, when it is in focus
 
+        int count;
+
         @Override
-        public void keyReleased(KeyEvent e) {
+        public void keyPressed(KeyEvent e) {
+
+            count = 0;
 
             // This activates for any letter number or space key
             libraryUI.getSearchBar().setForeground(Color.gray);
             libraryUI.getSearchBarBG().setImage("library_searchBar_active.png");
             if (!libraryUI.isAddGameUIVisible()) {
-                if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode()
-                                                       == KeyEvent.VK_B
+                if (e.getKeyCode() == KeyEvent.VK_A
+                    || e.getKeyCode() == KeyEvent.VK_B
                     || e.getKeyCode() == KeyEvent.VK_C
                     || e.getKeyCode() == KeyEvent.VK_D
                     || e.getKeyCode() == KeyEvent.VK_E
@@ -1197,15 +1201,23 @@ public class LibraryHandler implements
                     || e.getKeyCode() == KeyEvent.VK_0
                     || e.getKeyCode() == KeyEvent.VK_QUOTE
                     || e.getKeyCode() == KeyEvent.VK_PERIOD) {
+
+                    count++;
+
                     //Sends the key to the search engine to be appended and check for match
                     libraryLogic.getGridSearch().typedChar(e.getKeyChar());
-
                 } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     // If backspace is pressed tell search engine to search for name - 1 character
                     libraryLogic.getGridSearch().removeChar(e.getKeyChar());
 
                 }
             }
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+           super.keyTyped(e);
         }
     }
 
@@ -1272,16 +1284,11 @@ public class LibraryHandler implements
                             || keyCode == KeyEvent.VK_S
                             || keyCode == KeyEvent.VK_D))) {
 
-                    //Set first character of Search Box to the key typed
-                    SearchBar.setText(String.valueOf(KeyEvent.getKeyText(keyCode).toLowerCase().toCharArray()[0]));
-                    libraryLogic.getGridSearch().typedChar(KeyEvent.getKeyText(keyCode).toLowerCase().toCharArray()[0]);
+                    SearchBar.setEnabled(false);
 
                     //Clear appended text if there is anything still in there
                     libraryLogic.getGridSearch().resetAppendedName();
-                    //clear and prep for search mode
-                    libraryLogic.getGridSearch().clearGameGrid();
-                    // Get focus of Search Box
-                    SearchBar.requestFocus();
+
 
                     libraryUI.getSearchBar().setForeground(Color.gray);
                     libraryUI.getSearchBarBG().setImage(
@@ -1292,6 +1299,33 @@ public class LibraryHandler implements
                     libraryUI.getRemoveSearchButton()
                             .addActionListener(
                                     new ResetSearchHandler());
+
+
+                    SearchBar.setText(String.valueOf(KeyEvent.getKeyText(keyCode).toLowerCase().toCharArray()[0]));
+                    //Set first character of Search Box to the key typed
+                    libraryLogic.getGridSearch().typedChar(KeyEvent.getKeyText(keyCode).toLowerCase().toCharArray()[0]);
+
+
+                    SearchBar.requestFocusInWindow();
+
+                    AThreadWorker pauseEnter = new AThreadWorker(new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            try {
+                                Thread.sleep(60);
+                            } catch (InterruptedException ex) {
+                                java.util.logging.Logger.getLogger(LibraryHandler.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+
+                            SearchBar.setEnabled(true);
+
+                        }
+                    });
+
+                    pauseEnter.startOnce();
+
                 }
             }
         }
