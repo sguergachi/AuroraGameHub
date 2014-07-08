@@ -265,6 +265,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private InteractiveListener gameClickListener;
 
+    private MouseAdapter overlayMouseListener;
+
     public Game() {
     }
 
@@ -369,9 +371,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlInteractivePane = new JPanel(new BorderLayout());
         pnlInteractivePane.setOpaque(false);
         pnlInteractivePane.setName("pnlInteractivePane");
-        gameClickListener = new InteractiveListener();
-        pnlInteractivePane.addMouseListener(gameClickListener);
-        this.addMouseListener(gameClickListener);
+
+
+        if (pnlInteractivePane.getKeyListeners().length == 0 || gameClickListener == null) {
+            gameClickListener = new InteractiveListener();
+            pnlInteractivePane.addMouseListener(gameClickListener);
+        }
+
         this.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ENTER"), "EnterKeyHandler");
         this.getActionMap().put("EnterKeyHandler", new Game.EnterKeyHandler());
         this.add(pnlInteractivePane);
@@ -725,6 +731,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         setSize();
         pnlInteractivePane.setVisible(true);
 
+
         // Sizes //
         imgSelectedGlow.setImageSize(width + 10,
                                      height + 10);
@@ -810,14 +817,20 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         btnAddCustomOverlay.setVisible(false);
         btnAddCustomOverlay.setMargin(new Insets(0, 0, 0, 0));
 
-        pnlInteractivePane.addMouseListener(new MouseAdapter() {
+        if (overlayMouseListener == null) {
+            overlayMouseListener = new MouseAdapter() {
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                btnAddCustomOverlay.setVisible(true);
-            }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    btnAddCustomOverlay.setVisible(true);
+                }
 
-        });
+            };
+        }
+
+        pnlInteractivePane.addMouseListener(overlayMouseListener);
+
+
 
         btnAddCustomOverlay.addMouseListener(new MouseAdapter() {
 
@@ -849,8 +862,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             addOverlayUI();
         }
 
-        pnlInteractivePane.addMouseListener(new Game.InteractiveListener());
-        this.addMouseListener(new Game.InteractiveListener());
+        if (pnlInteractivePane.getMouseListeners()[0].equals(overlayMouseListener)) {
+            pnlInteractivePane.removeMouseListener(overlayMouseListener);
+        }
+
+        pnlInteractivePane.addMouseListener(gameClickListener);
+
     }
 
     /**
