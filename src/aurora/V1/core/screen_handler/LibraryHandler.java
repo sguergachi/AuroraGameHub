@@ -1765,10 +1765,6 @@ public class LibraryHandler implements
                             gridManager.echoGame(game).showOverlayUI();
                         }
 
-                        // reset cover to blank cover
-                        gameSearch.getStaticGameCover().setCoverUrl(null);
-                        gameSearch.resetCover();
-
                     } else { // Save all selected games to storage
 
                         for (int i = 0; i < libraryLogic.getAutoAddCurrentList()

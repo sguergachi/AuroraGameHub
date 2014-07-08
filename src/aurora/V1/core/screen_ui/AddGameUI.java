@@ -261,7 +261,7 @@ public class AddGameUI {
         //
 
         gameFileChooser_addUI
-                = new JFileChooser(System.getProperty("user.home"));
+        = new JFileChooser(System.getProperty("user.home"));
 
         pnlManualAdd = new JPanel(new BorderLayout());
         pnlManualAdd.setOpaque(false);
@@ -527,7 +527,7 @@ public class AddGameUI {
 
                     return new Point(((JList) e.getSource())
                             .getLocation().x
-                                             + (pnlAddGamePane
+                                     + (pnlAddGamePane
                             .getRealImageWidth() / 2 - 50), e.getY());
 
 
@@ -719,7 +719,7 @@ public class AddGameUI {
 
             // Set Location for Add Game UI panels
             pnlAddGamePane.setLocation((coreUI.getFrame().getWidth() / 2)
-                                               - (pnlAddGamePane.getImgIcon()
+                                       - (pnlAddGamePane.getImgIcon()
                     .getIconWidth() / 2), -380);
             pnlAddGamePane
                     .setSize(
@@ -1075,7 +1075,7 @@ public class AddGameUI {
 
                             addGameAnimator.setInitialLocation(
                                     (coreUI.getFrame().getWidth() / 2)
-                                            - (pnlAddGamePane.getImgIcon()
+                                    - (pnlAddGamePane.getImgIcon()
                                     .getIconWidth() / 2), -390);
                         }
                     }, new ActionListener() {
@@ -1318,6 +1318,9 @@ public class AddGameUI {
         btnAddGameToLib_addUI.setVisible(false);
         btnAddGameToLib_addUI.repaint();
         addGameAnimator = null;
+
+        libraryLogic.getGameSearch_addUI().getStaticGameCover().setCoverUrl(null);
+        libraryLogic.getGameSearch_addUI().resetCover();
 
     }
 
