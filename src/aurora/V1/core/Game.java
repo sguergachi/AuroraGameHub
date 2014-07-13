@@ -162,7 +162,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private AButton denyButton;
 
-    private GridManager manager;
+    private GridManager gridManager;
 
     private AuroraCoreUI coreUI;
 
@@ -267,6 +267,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private MouseAdapter overlayMouseListener;
 
+    private AFileManager fileIO;
+
     public Game() {
     }
 
@@ -275,7 +277,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         this.dashboardUI = dashboardUi;
         this.coreUI = auroraCoreUI;
-        this.manager = gridManager;
+        this.gridManager = gridManager;
         this.setOpaque(false);
         this.setDoubleBuffered(true);
 
@@ -291,7 +293,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.dashboardUI = dashboard;
         this.coreUI = ui;
         this.storage = storage;
-        this.manager = manager;
+        this.gridManager = manager;
         this.setOpaque(false);
         this.setDoubleBuffered(true);
 
@@ -305,7 +307,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 final String CoverURL) {
 
         this.coreUI = ui;
-        this.manager = manager;
+        this.gridManager = manager;
         this.setOpaque(false);
         this.setDoubleBuffered(true);
         this.coverURL = CoverURL;
@@ -560,7 +562,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             }
 
-            AFileManager fileIO = dashboardUI.getStartUI().getFileIO();
+            fileIO = dashboardUI.getStartUI().getFileIO();
             localGameRootPath = fileIO.getPath() + "Game Data//";
 
             // Try to Get Image Locally //
@@ -917,8 +919,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      * <p/>
      */
     public final void unSelectPrevious() {
-        if (manager != null) {
-            manager.unselectPrevious();
+        if (gridManager != null) {
+            gridManager.unselectPrevious();
         }
 
     }
@@ -1259,7 +1261,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     }
 
     public GridManager getManager() {
-        return manager;
+        return gridManager;
     }
 
     private void tranisionBetweenGameInfoInLibraryStatusBar() {
@@ -2102,7 +2104,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                                         storage.getStoredLibrary().SaveFavState(
                                                 thisGame());
                                         animateUnFavouriteMove();
-                                        manager.moveUnfavorite(Game.this);
+                                        gridManager.moveUnfavorite(Game.this);
                                         thisGame().setVisible(true);
 
                                     }
@@ -2137,7 +2139,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                                         setUnFavorite();
                                         animateFavouriteMove();
                                         setFavorite();
-                                        manager.moveFavorite(Game.this);
+                                        gridManager.moveFavorite(Game.this);
                                         thisGame().setVisible(true);
 
                                     }
@@ -2189,7 +2191,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             } else {
 
                 final ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
-                                                 "Can't Find Game. Would You Like To REMOVE It From Library?      ",
+                                                 "Can't Find Game. Would You Like To REMOVE It From The Library?      ",
                                                  coreUI.getRegularFont()
                                                  .deriveFont(Font.BOLD, 23));
                 info.setOKButtonListener(new ActionListener() {
@@ -2264,6 +2266,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             isGameRemoveMode = true;
             imgOverlayBar.setVisible(true);
 
+//            requestFocusInWindow();
+            setSelected();
+
+
         }
     }
 
@@ -2310,12 +2316,22 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 public void actionPerformed(ActionEvent e) {
                     StoredLibrary libraryStorage = storage.getStoredLibrary();
                     if (libraryStorage.search(name)) {
+
+                        // Delete cached cover art
+                        try {
+                            fileIO.deleteFile(new File(coverImagePane.getImageURL()));
+                        } catch (IOException ex) {
+                            java.util.logging.Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
                         libraryStorage.removeGame(Game.this);
                         if (storage.getStoredProfile().getGameNames().size() > 0) {
                             storage.getStoredProfile().removeGameMetadata(
                                     Game.this);
                         }
 
+
+                        // Notify user game has been deleted
                         LibraryUI.lblLibraryStatus.setForeground(new Color(194,
                                                                            40,
                                                                            35));
@@ -2345,9 +2361,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             removeGame.startOnce();
             if (libraryManager != null) {
                 libraryManager.removeGame(libraryManager.echoGame(Game.this));
-                manager.removeGame(Game.this);
+                gridManager.removeGame(Game.this);
             } else {
-                manager.removeGame(Game.this);
+                gridManager.removeGame(Game.this);
             }
 
         }
@@ -2355,7 +2371,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private void select() {
 
-        manager.unselectPrevious();
+        gridManager.unselectPrevious();
         showOverlayUI();
         canShowGameInfoInLibraryStatusBar = true;
     }
@@ -2396,10 +2412,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         public void mouseEntered(final MouseEvent e) {
             // Mouse being dragged over game
 
-            if (!isSelected && !isRemoved) {
-//                unSelectPrevious();
-//                showOverlayUI();
-            }
 
             if (e.getModifiers() == MouseEvent.BUTTON1_MASK) {
 

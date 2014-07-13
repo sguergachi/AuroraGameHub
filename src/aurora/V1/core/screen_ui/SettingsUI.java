@@ -175,6 +175,16 @@ public class SettingsUI extends AuroraApp {
 
     private SettingsHandler.DisableSoundEffectsHandler disableSoundEffectsHandler;
 
+    private JPanel pnlTaskbarSetting;
+
+    private AImage imgTaskbarIcon;
+
+    private ARadioButton rdbTaskbar;
+
+    private JPanel pnlTaskbarLabel;
+
+    private ASlickTextPane lblTaskbarSetting;
+
     public SettingsUI(AuroraStorage auroraStorage, DashboardUI dashboardUI,
                       AuroraCoreUI auroraCoreUI) {
 
@@ -423,6 +433,35 @@ public class SettingsUI extends AuroraApp {
         pnlUpdateAuroraDBSearchLabel.add(lblUpdateAuroraDBSearchSetting);
 
 
+        // Minimize Aurora
+        pnlTaskbarSetting = new JPanel(new FlowLayout(FlowLayout.LEFT,
+                                                      15, 5));
+        pnlTaskbarSetting.setOpaque(false);
+
+
+        imgTaskbarIcon = new AImage("settings_img_minimize.png");
+
+
+        rdbTaskbar = new ARadioButton("settings_btn_notselected.png",
+                                      "settings_btn_selected.png");
+
+
+        pnlTaskbarLabel = new JPanel(
+                new FlowLayout(FlowLayout.CENTER, 0, 0));
+        pnlTaskbarLabel.setOpaque(false);
+        pnlTaskbarLabel.setPreferredSize(new Dimension(190,
+                                                       78));
+
+        lblTaskbarSetting = new ASlickTextPane("Minimize To Taskbar");
+        lblTaskbarSetting.setPreferredSize(pnlTaskbarLabel
+                .getPreferredSize());
+        lblTaskbarSetting.setForeground(new Color(218, 218, 234));
+        lblTaskbarSetting.setFont(coreUI.getRopaFont().deriveFont(
+                Font.PLAIN, 30));
+
+        pnlTaskbarLabel.add(lblTaskbarSetting);
+
+
 
     }
 
@@ -453,12 +492,20 @@ public class SettingsUI extends AuroraApp {
         pnlUpdateAuroraDBSearchSetting.add(btnUpdateAuroraDBSearch);
         pnlUpdateAuroraDBSearchSetting.revalidate();
 
+        // Minimize to Taskbar
+        pnlTaskbarSetting.add(imgTaskbarIcon);
+        pnlTaskbarSetting.add(pnlTaskbarLabel);
+        pnlTaskbarSetting.add(rdbTaskbar);
+        pnlTaskbarSetting.revalidate();
+
         pnlGeneralSettingsGrid.add(pnlSoundEffectsSetting);
         pnlGeneralSettingsGrid.add(pnlWASDNavigationSetting);
+        pnlGeneralSettingsGrid.add(pnlTaskbarSetting);
         pnlGeneralSettingsGrid.add(pnlBackgroundGameSearchSetting);
         pnlGeneralSettingsGrid.add(pnlUpdateAuroraDBSearchSetting);
 
-        pnlGeneralSettingsGrid.setLayout(new GridLayout(2, 2, padding_top,
+
+        pnlGeneralSettingsGrid.setLayout(new GridLayout(2, 3, padding_top,
                                                         padding_top));
         pnlGeneralSettingsGrid.revalidate();
 
@@ -529,8 +576,8 @@ public class SettingsUI extends AuroraApp {
             // Center Panel
             pnlSettingsCenter.setPreferredSize(new Dimension(settings_width,
                                                              settings_height * 2
-                                                                     + (title_size
-                                                                        + 10)));
+                                                             + (title_size
+                                                                + 10)));
             pnlSettingsCenter.add(Box.createHorizontalStrut(35));
 
             pnlSettingsCenterScroll.setPreferredSize(pnlSettingsCenter

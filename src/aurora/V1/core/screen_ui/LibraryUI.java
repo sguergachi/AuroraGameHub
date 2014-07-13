@@ -381,6 +381,7 @@ public class LibraryUI extends AuroraApp {
         imgEnterIco = new AImage("KeyboardKeys/enter.png", coreUI
                                  .getKeyIconWidth(), coreUI.getKeyIconHeight());
         lblEnterAction = new ASlickLabel();
+
         //
         // Library Status Pane
         //
@@ -396,6 +397,7 @@ public class LibraryUI extends AuroraApp {
         lblLibraryStatus.setFont(coreUI
                 .getDefaultFont().deriveFont(Font.PLAIN,
                                              gameNameFontSize));
+
         //
         // Add Game Button
         //
@@ -405,6 +407,7 @@ public class LibraryUI extends AuroraApp {
         btnOrganizeGames = new AButton("library_btn_organizeGame_norm.png",
                                        "library_btn_organizeGame_down.png",
                                        "library_btn_organizeGame_over.png");
+
         //
         // Search Bar
         //
@@ -428,6 +431,7 @@ public class LibraryUI extends AuroraApp {
         pnlSearchResultsContainer.setOpaque(false);
         lblSearchResults = new ASlickLabel();
         lblSearchResultsInfo = new ASlickLabel("Results");
+
         //
         // Set up grid
         //

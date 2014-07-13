@@ -967,7 +967,6 @@ public class LibraryHandler implements
             libraryUI.getSearchButtonBG().add(libraryUI.getSearchButton(),
                                               BorderLayout.NORTH);
             libraryUI.getSearchButtonBG().revalidate();
-            libraryUI.getCoreUI().getFrame().requestFocus();
             libraryUI.getGamesContainer().revalidate();
             libraryUI.getCoreUI().getBackgroundImagePane().requestFocusInWindow();
         }
@@ -1143,6 +1142,7 @@ public class LibraryHandler implements
                     libraryUI.getSearchButtonBG().removeAll();
                     libraryUI.getSearchButtonBG().add(libraryUI
                             .getSearchButton(), BorderLayout.NORTH);
+                    libraryUI.getCoreUI().getBackgroundImagePane().requestFocusInWindow();
                 }
             }
         }
