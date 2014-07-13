@@ -15,23 +15,24 @@
 
 **Additions:**
 
-++ Made a lot of little UI/UX improvements
-+ Reworked Aurora Launcher with improved timer and UI changes
-+ Reworked navigation with keyboard to be more reliable in library
-+ Custom games now have blank cover art overlaid to look like AuroraCoverDB cover art
-+ Selecting a game now shows game info in library info bar
-+ Pressing ENTER when searching for game in library launches the first game.
-+ Show "unsure" icon in auto searches that Aurora had to guess the cover art for
+* Made a lot of little UI/UX improvements
+* Reworked Aurora Launcher with improved timer and UI changes
+* Reworked navigation with keyboard to be more reliable in library
+* Custom games now have blank cover art overlaid to look like AuroraCoverDB cover art
+* Selecting a game now shows game info in library info bar
+* Pressing ENTER when searching for game in library launches the first game.
+* Show "unsure" icon in auto searches that Aurora had to guess the cover art for
 
 **Changes:**
 
 * Library search bar is centered for large screens (yeah, it was supposed to be centered)
-* Game Cover alternatives can be seen in AuroraCoverDB now.
+* Game Cover alternatives added to AuroraCoverDB .
 * No more random annoying resets to first grid when adding a game etc.
 * No more annoying game being unselected when trying to remove it.
+* Made edit cover UI less strict on being always on top
 * Improved loading speed to dashboard from welcome screen
 * Clicking on link in info feed now shows Aurora Mini
-* On Windows launching more than one instance of Aurora is blocked
+* On Windows launching more than one instance of Aurora is prevented
 * Major code refactoring and clean up
 * And a whole bunch of other little things. Yes, Details Matter.
 

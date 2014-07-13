@@ -28,6 +28,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,7 +80,7 @@ public class EditCoverUI {
 
     private JPanel pnlLeftPane_editCoverUI;
 
-    private JPanel pnlContent_editCoverUI;
+    private JPanel pnlContent;
 
     private AAnimate editGameCoverFrameAnimator;
 
@@ -181,8 +183,19 @@ public class EditCoverUI {
                                  fileDragedListener, supportedImages);
 
         // Content Panel
-        pnlContent_editCoverUI = new JPanel(new BorderLayout());
-        pnlContent_editCoverUI.setOpaque(false);
+        pnlContent = new JPanel(new BorderLayout());
+        pnlContent.setOpaque(false);
+        frameEditGameCoverPane.addMouseListener(new MouseHoverListener());
+    }
+
+    private class MouseHoverListener extends MouseAdapter {
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            frameEditGameCoverPane.setAlwaysOnTop(true);
+            frameEditGameCoverPane.requestFocusInWindow();
+            frameEditGameCoverPane.setAlwaysOnTop(false);
+        }
 
     }
 
@@ -196,7 +209,7 @@ public class EditCoverUI {
         if (!editGameCoverUILoaded) {
 
             // Set up glass panel
-            frameEditGameCoverPane.setAlwaysOnTop(true);
+//            frameEditGameCoverPane.setAlwaysOnTop(true);
             frameEditGameCoverPane.setAutoRequestFocus(true);
             frameEditGameCoverPane.setBackground(new Color(0, 0, 0, 0));
             frameEditGameCoverPane.setContentPane(new ShapedPane());
@@ -267,17 +280,17 @@ public class EditCoverUI {
                     .getPreferredSize());
 
             // Content Pane
-            pnlContent_editCoverUI.add(pnlCenterPane_editCoverUI,
-                                       BorderLayout.CENTER);
-            pnlContent_editCoverUI.add(pnlTopPane_editCoverUI,
-                                       BorderLayout.NORTH);
-            pnlContent_editCoverUI.add(pnlRightPane,
-                                       BorderLayout.EAST);
-            pnlContent_editCoverUI.add(pnlLeftPane_editCoverUI,
-                                       BorderLayout.WEST);
+            pnlContent.add(pnlCenterPane_editCoverUI,
+                           BorderLayout.CENTER);
+            pnlContent.add(pnlTopPane_editCoverUI,
+                           BorderLayout.NORTH);
+            pnlContent.add(pnlRightPane,
+                           BorderLayout.EAST);
+            pnlContent.add(pnlLeftPane_editCoverUI,
+                           BorderLayout.WEST);
 
             pnlEditGameCoverPane
-                    .add(pnlContent_editCoverUI, BorderLayout.CENTER);
+                    .add(pnlContent, BorderLayout.CENTER);
             pnlEditGameCoverPane.add(pnlBottomPane,
                                      BorderLayout.PAGE_END);
 
