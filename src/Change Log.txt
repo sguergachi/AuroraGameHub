@@ -5,12 +5,12 @@
 
 
 ---
-####
-Release: `Aurora_Alpha 10`
-Build:`8xx`
-Date: `xx/xx/2014`
-Author: Sammy Guergachi, Carlos Machado
-####
+
+- Release: `Aurora_Alpha 10`
+- Build:`8xx`
+- Date: `xx/xx/2014`
+- Author: Sammy Guergachi, Carlos Machado
+
 ---
 
 **Additions:**
@@ -26,9 +26,9 @@ Author: Sammy Guergachi, Carlos Machado
 **Changes:**
 
 * Library search bar is centered for large screens (yeah, it was supposed to be centered)
-
 * Game Cover alternatives can be seen in AuroraCoverDB now.
 * No more random annoying resets to first grid when adding a game etc.
+* No more annoying game being unselected when trying to remove it.
 * Improved loading speed to dashboard from welcome screen
 * Clicking on link in info feed now shows Aurora Mini
 * On Windows launching more than one instance of Aurora is blocked

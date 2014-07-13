@@ -1313,7 +1313,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         .log(Level.SEVERE, null, ex);
             }
 
-            if (canShowGameInfoInLibraryStatusBar && !gameRemoved) {
+            if (canShowGameInfoInLibraryStatusBar && !gameRemoved && isSelected) {
 
                 isTransisioningBetweenGameInfo = true;
 
@@ -2217,7 +2217,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-            topPanel.remove(btnRemove);
+
             imgConfirmPromptImagePane = new AImagePane(
                     "game_img_removeWarning.png");
             imgConfirmPromptImagePane
@@ -2228,8 +2228,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                                                     .getImgIcon()
                                                     .getImage().getHeight(
                                                             null)));
+            topPanel.remove(btnRemove);
             topPanel.add(imgConfirmPromptImagePane, BorderLayout.EAST);
-            topPanel.revalidate();
+
 
             pnlOverlayContainer.removeAll();
             confirmButton = new AButton("game_btn_removeYes_norm.png",
@@ -2262,13 +2263,21 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             pnlOverlayContainer.add(confirmPanel);
             pnlOverlayContainer.add(Box.createHorizontalStrut(5));
             imgOverlayBar.revalidate();
-            setUnselected();
+//            setUnselected();
             isGameRemoveMode = true;
-            imgOverlayBar.setVisible(true);
+//            imgOverlayBar.setVisible(true);
 
 //            requestFocusInWindow();
             setSelected();
 
+
+//            setUnselected();
+//            showOverlayUI();
+
+
+            topPanel.revalidate();
+
+            System.out.println("=> Is Selected? " + isSelected);
 
         }
     }
@@ -2381,9 +2390,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         if (logger.isDebugEnabled()) {
             logger.debug("GAME UNSELECTED");
-
-
-
         }
     }
 
@@ -2417,9 +2423,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                 if (!isRemoved) {
                     requestFocus();
-                    if (isSelected()) {
-                        hideOverlayUI();
-                    } else {
+                    if (!isSelected()) {
                         unSelectPrevious();
                         showOverlayUI();
                     }
