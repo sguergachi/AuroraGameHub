@@ -19,6 +19,7 @@ package aurora.V1.core.screen_handler;
 
 import aurora.V1.core.StoredSettings;
 import aurora.V1.core.screen_logic.LibraryLogic;
+import aurora.V1.core.screen_logic.SettingsLogic;
 import aurora.V1.core.screen_ui.SettingsUI;
 import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.AThreadWorker;
@@ -39,9 +40,9 @@ public class SettingsHandler implements AuroraScreenHandler {
 
     private SettingsUI settingsUI;
 
-    public static String WASD_SETTING = "wasd_navigation";
-    public static String BACKGROUNDLOAD_SETTING = "background_game_search";
-    public static String SOUNDFX_SETTING = "sound_effects";
+    public static String WASD_SETTING = SettingsLogic.WASD_NAV_SETTING;
+    public static String BACKGROUNDLOAD_SETTING = SettingsLogic.BACKGROUND_SEARCH_SETTING;
+    public static String SOUNDFX_SETTING = SettingsLogic.SFX_SETTING;
 
     private final StoredSettings storage;
 
@@ -60,7 +61,7 @@ public class SettingsHandler implements AuroraScreenHandler {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (storage.getSettingValue("sound_effects").equals(
+            if (storage.getSettingValue(SettingsLogic.SFX_SETTING).equals(
                     "enabled")) {
                 int num = (int) (Math.random() * (2 - 1)) + 1;
                 ASound sfx = new ASound("radio_on_" + num
@@ -131,7 +132,7 @@ public class SettingsHandler implements AuroraScreenHandler {
         public void actionPerformed(ActionEvent e) {
 
 
-            if (storage.getSettingValue("sound_effects").equals(
+            if (storage.getSettingValue(SettingsLogic.SFX_SETTING).equals(
                     "enabled")) {
                 int num = (int) (Math.random() * (2 - 1)) + 1;
                 ASound sfx = new ASound("radio_on_" + num
@@ -144,7 +145,7 @@ public class SettingsHandler implements AuroraScreenHandler {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    storage.saveSetting("background_game_search", "enabled");
+                    storage.saveSetting(SettingsLogic.BACKGROUND_SEARCH_SETTING, "enabled");
 
                     SettingsUI.lblSettingsStatus.setForeground(Color.GREEN);
                     SettingsUI.lblSettingsStatus.setText(
@@ -184,7 +185,7 @@ public class SettingsHandler implements AuroraScreenHandler {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (storage.getSettingValue("sound_effects").equals(
+            if (storage.getSettingValue(SettingsLogic.SFX_SETTING).equals(
                     "enabled")) {
                 int num = (int) (Math.random() * (2 - 1)) + 1;
                 ASound sfx = new ASound("radio_off_" + num
@@ -197,10 +198,7 @@ public class SettingsHandler implements AuroraScreenHandler {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-
-
-
-                    storage.saveSetting("background_game_search", "disabled");
+                    storage.saveSetting(SettingsLogic.BACKGROUND_SEARCH_SETTING, "disabled");
 
                     SettingsUI.lblSettingsStatus.setForeground(Color.red);
                     SettingsUI.lblSettingsStatus.setText(
@@ -238,7 +236,7 @@ public class SettingsHandler implements AuroraScreenHandler {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (storage.getSettingValue("sound_effects").equals(
+            if (storage.getSettingValue(SettingsLogic.SFX_SETTING).equals(
                     "enabled")) {
                 int num =  (int) (Math.random() * (2 - 1)) + 1 ;
                 ASound sfx = new ASound("radio_on_" + num
@@ -252,7 +250,7 @@ public class SettingsHandler implements AuroraScreenHandler {
                 public void actionPerformed(ActionEvent e) {
 
 
-                    storage.saveSetting("wasd_navigation", "enabled");
+                    storage.saveSetting(SettingsLogic.WASD_NAV_SETTING, "enabled");
 
                     SettingsUI.lblSettingsStatus.setForeground(Color.GREEN);
                     SettingsUI.lblSettingsStatus.setText(
@@ -289,7 +287,7 @@ public class SettingsHandler implements AuroraScreenHandler {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (storage.getSettingValue("sound_effects").equals(
+            if (storage.getSettingValue(SettingsLogic.SFX_SETTING).equals(
                     "enabled")) {
                 int num = (int) (Math.random() * (2 - 1)) + 1;
                 ASound sfx = new ASound("radio_off_" + num
@@ -303,7 +301,7 @@ public class SettingsHandler implements AuroraScreenHandler {
                 public void actionPerformed(ActionEvent e) {
 
 
-                    storage.saveSetting("wasd_navigation", "disabled");
+                    storage.saveSetting(SettingsLogic.WASD_NAV_SETTING, "disabled");
 
                     SettingsUI.lblSettingsStatus.setForeground(Color.red);
                     SettingsUI.lblSettingsStatus.setText(
@@ -355,7 +353,7 @@ public class SettingsHandler implements AuroraScreenHandler {
 
 
 
-                    storage.saveSetting("sound_effects", "enabled");
+                    storage.saveSetting(SettingsLogic.SFX_SETTING, "enabled");
 
                     SettingsUI.lblSettingsStatus.setForeground(Color.green);
                     SettingsUI.lblSettingsStatus.setText(
@@ -396,7 +394,7 @@ public class SettingsHandler implements AuroraScreenHandler {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    storage.saveSetting("sound_effects", "disabled");
+                    storage.saveSetting(SettingsLogic.SFX_SETTING, "disabled");
 
                     SettingsUI.lblSettingsStatus.setForeground(Color.red);
                     SettingsUI.lblSettingsStatus.setText(
@@ -413,6 +411,99 @@ public class SettingsHandler implements AuroraScreenHandler {
 
                     if (SettingsUI.lblSettingsStatus.getCurrentText().equals(
                             "Sound Effects Disabled")) {
+                        // Show default message after 1.5 seconds
+                        SettingsUI.lblSettingsStatus.setForeground(
+                                SettingsUI.DEFAULT_SETTINGS_COLOR);
+                        SettingsUI.lblSettingsStatus.setText(
+                                SettingsUI.DEAFULT_SETTINGS_STATUS);
+                    }
+
+                }
+            });
+
+
+            worker.startOnce();
+        }
+
+    } // End Sound Effects
+
+      //------------------------- Minimize To Taskbar -----------------------//
+    public class EnableMinimizeToTaskbarHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            int num = (int) (Math.random() * (2 - 1)) + 1;
+            ASound sfx = new ASound("radio_on_" + num
+                                    + ".wav", false);
+            sfx.Play();
+
+
+            AThreadWorker worker = new AThreadWorker(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+
+
+                    storage.saveSetting(SettingsLogic.TASKBAR_MINIMIZE_SETTING, "enabled");
+
+                    SettingsUI.lblSettingsStatus.setForeground(Color.green);
+                    SettingsUI.lblSettingsStatus.setText(
+                            "Minimize to Taskbar Enabled");
+
+                    try {
+                        Thread.sleep(1500);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(LibraryLogic.class
+                                .getName()).
+                                log(Level.SEVERE, null, ex);
+                    }
+
+                    if (SettingsUI.lblSettingsStatus.getCurrentText().equals(
+                            "Minimize to Taskbar Enabled")) {
+                        // Show default message after 1.5 seconds
+                        SettingsUI.lblSettingsStatus.setForeground(
+                                SettingsUI.DEFAULT_SETTINGS_COLOR);
+                        SettingsUI.lblSettingsStatus.setText(
+                                SettingsUI.DEAFULT_SETTINGS_STATUS);
+                    }
+
+                }
+            });
+
+
+            worker.startOnce();
+        }
+
+    }
+
+    public class DisableMinimizeToTaskbarHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            AThreadWorker worker = new AThreadWorker(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    storage.saveSetting(SettingsLogic.TASKBAR_MINIMIZE_SETTING, "disabled");
+
+                    SettingsUI.lblSettingsStatus.setForeground(Color.red);
+                    SettingsUI.lblSettingsStatus.setText(
+                            "Minimize to Taskbar Disabled");
+
+                    try {
+                        Thread.sleep(1500);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(LibraryLogic.class
+                                .getName()).
+                                log(Level.SEVERE, null, ex);
+                    }
+
+
+                    if (SettingsUI.lblSettingsStatus.getCurrentText().equals(
+                            "Minimize to Taskbar Disabled")) {
                         // Show default message after 1.5 seconds
                         SettingsUI.lblSettingsStatus.setForeground(
                                 SettingsUI.DEFAULT_SETTINGS_COLOR);

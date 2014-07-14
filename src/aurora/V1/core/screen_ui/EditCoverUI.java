@@ -209,7 +209,6 @@ public class EditCoverUI {
         if (!editGameCoverUILoaded) {
 
             // Set up glass panel
-//            frameEditGameCoverPane.setAlwaysOnTop(true);
             frameEditGameCoverPane.setAutoRequestFocus(true);
             frameEditGameCoverPane.setBackground(new Color(0, 0, 0, 0));
             frameEditGameCoverPane.setContentPane(new ShapedPane());
@@ -362,7 +361,7 @@ public class EditCoverUI {
                 frameEditGameCoverPane);
 
         String soundEffectsSetting = auroraStorage.getStoredSettings()
-                .getSettingValue("sound_effects");
+                .getSettingValue(SettingsLogic.SFX_SETTING);
         if (soundEffectsSetting == null) {
             soundEffectsSetting = SettingsLogic.DEFAULT_SFX_SETTING;
         }

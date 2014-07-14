@@ -184,6 +184,8 @@ public class SettingsUI extends AuroraApp {
     private JPanel pnlTaskbarLabel;
 
     private ASlickTextPane lblTaskbarSetting;
+    private SettingsHandler.EnableMinimizeToTaskbarHandler enableMinimizeToTaskbarHandler;
+    private SettingsHandler.DisableMinimizeToTaskbarHandler disableMinimizeToTaskbarHandler;
 
     public SettingsUI(AuroraStorage auroraStorage, DashboardUI dashboardUI,
                       AuroraCoreUI auroraCoreUI) {
@@ -716,18 +718,18 @@ public class SettingsUI extends AuroraApp {
         //
         // Sound effects
         //
-        if (storage.getStoredSettings().getSettingValue("sound_effects") != null) {
+        if (storage.getStoredSettings().getSettingValue(SettingsLogic.SFX_SETTING) != null) {
 
             rdbSoundEffects.clearHandlers();
 
-            if (storage.getStoredSettings().getSettingValue("sound_effects")
+            if (storage.getStoredSettings().getSettingValue(SettingsLogic.SFX_SETTING)
                     .equals("enabled")) {
 
                 rdbSoundEffects.setSelected();
 
 
             } else if (storage.getStoredSettings().getSettingValue(
-                    "sound_effects").equals("disabled")) {
+                    SettingsLogic.SFX_SETTING).equals("disabled")) {
 
                 rdbSoundEffects.setUnSelected();
 
@@ -735,7 +737,7 @@ public class SettingsUI extends AuroraApp {
 
         } else {
 
-            storage.getStoredSettings().saveSetting("sound_effects",
+            storage.getStoredSettings().saveSetting(SettingsLogic.SFX_SETTING,
                                                     SettingsLogic.DEFAULT_SFX_SETTING);
             checkSettingsValues();
 
@@ -745,17 +747,17 @@ public class SettingsUI extends AuroraApp {
         // WASD Navigation
         //
         if (storage.getStoredSettings()
-                .getSettingValue("wasd_navigation") != null) {
+                .getSettingValue(SettingsLogic.WASD_NAV_SETTING) != null) {
             rdbWASDNavigation.clearHandlers();
             if (storage.getStoredSettings().getSettingValue(
-                    "wasd_navigation")
+                    SettingsLogic.WASD_NAV_SETTING)
                     .equals("enabled")) {
 
                 rdbWASDNavigation.setSelected();
 
 
             } else if (storage.getStoredSettings().getSettingValue(
-                    "wasd_navigation").equals("disabled")) {
+                    SettingsLogic.WASD_NAV_SETTING).equals("disabled")) {
 
                 rdbWASDNavigation.setUnSelected();
 
@@ -763,7 +765,7 @@ public class SettingsUI extends AuroraApp {
 
         } else {
 
-            storage.getStoredSettings().saveSetting("wasd_navigation",
+            storage.getStoredSettings().saveSetting(SettingsLogic.WASD_NAV_SETTING,
                                                     SettingsLogic.DEFAULT_WASD_NAV_SETTING);
             checkSettingsValues();
 
@@ -774,19 +776,19 @@ public class SettingsUI extends AuroraApp {
         // Background search
         //
         if (storage.getStoredSettings()
-                .getSettingValue("background_game_search") != null) {
+                .getSettingValue(SettingsLogic.BACKGROUND_SEARCH_SETTING) != null) {
 
             rdbBackgroundGameSearch.clearHandlers();
 
             if (storage.getStoredSettings().getSettingValue(
-                    "background_game_search")
+                    SettingsLogic.BACKGROUND_SEARCH_SETTING)
                     .equals("enabled")) {
 
                 rdbBackgroundGameSearch.setSelected();
 
 
             } else if (storage.getStoredSettings().getSettingValue(
-                    "background_game_search").equals("disabled")) {
+                    SettingsLogic.BACKGROUND_SEARCH_SETTING).equals("disabled")) {
 
                 rdbBackgroundGameSearch.setUnSelected();
 
@@ -794,8 +796,38 @@ public class SettingsUI extends AuroraApp {
 
         } else {
 
-            storage.getStoredSettings().saveSetting("background_game_search",
+            storage.getStoredSettings().saveSetting(SettingsLogic.BACKGROUND_SEARCH_SETTING,
                                                     SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING);
+            checkSettingsValues();
+
+        }
+
+        //
+        // Minimize to Taskbar
+        //
+        if (storage.getStoredSettings()
+                .getSettingValue(SettingsLogic.TASKBAR_MINIMIZE_SETTING) != null) {
+
+            rdbTaskbar.clearHandlers();
+
+            if (storage.getStoredSettings().getSettingValue(
+                    SettingsLogic.TASKBAR_MINIMIZE_SETTING)
+                    .equals("enabled")) {
+
+                rdbTaskbar.setSelected();
+
+
+            } else if (storage.getStoredSettings().getSettingValue(
+                    SettingsLogic.TASKBAR_MINIMIZE_SETTING).equals("disabled")) {
+
+                rdbTaskbar.setUnSelected();
+
+            }
+
+        } else {
+
+            storage.getStoredSettings().saveSetting(SettingsLogic.TASKBAR_MINIMIZE_SETTING,
+                                                    SettingsLogic.DEFAULT_TASKBAR_MINIMIZE_SETTING);
             checkSettingsValues();
 
         }
@@ -817,6 +849,9 @@ public class SettingsUI extends AuroraApp {
         enableSoundEffectsHandler = settingsHandler.new EnableSoundEffectsHandler();
         disableSoundEffectsHandler = settingsHandler.new DisableSoundEffectsHandler();
 
+        enableMinimizeToTaskbarHandler = settingsHandler.new EnableMinimizeToTaskbarHandler();
+        disableMinimizeToTaskbarHandler = settingsHandler.new DisableMinimizeToTaskbarHandler();
+
 
         // Attach Handlers
         btnUpdateAuroraDBSearch.addActionListener(refreshAuroraDBHandler);
@@ -831,6 +866,9 @@ public class SettingsUI extends AuroraApp {
 
         rdbSoundEffects.setSelectedHandler(enableSoundEffectsHandler);
         rdbSoundEffects.setUnSelectedHandler(disableSoundEffectsHandler);
+
+        rdbTaskbar.setSelectedHandler(enableMinimizeToTaskbarHandler);
+        rdbTaskbar.setUnSelectedHandler(disableMinimizeToTaskbarHandler);
 
 
     }

@@ -17,6 +17,7 @@
  */
 package aurora.V1.core;
 
+import aurora.V1.core.screen_logic.SettingsLogic;
 import aurora.engine.V1.Logic.AFileManager;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.ANuance;
@@ -86,12 +87,12 @@ public class AuroraCoreUI {
      * Generate full Version string to be used at the bottom of UI.
      */
     private final String version
-                                 = "             //BUILD: "
-                                           + getResourceBundleToken(
+                         = "             //BUILD: "
+                           + getResourceBundleToken(
                     "BUILD")
-                                           + "  //REVISION: " + revision
-                                           + "  //AURORA.ENGINE.VERSION = 0.1."
-                                           + (Integer
+                           + "  //REVISION: " + revision
+                           + "  //AURORA.ENGINE.VERSION = 0.1."
+                           + (Integer
             .parseInt(revision));
 
     /**
@@ -448,7 +449,7 @@ public class AuroraCoreUI {
         taskbarHeight = screenHeight - winSize.height;
 
         logger.info("Current Screen Resolution: " + screenWidth + "x"
-                            + screenHeight);
+                    + screenHeight);
 
         //
         // Check the resolution (in pixels) of the screen to
@@ -479,17 +480,17 @@ public class AuroraCoreUI {
             regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                                           resources
                                           .getSurfacePath()
-                                                  + "/aurora/V1/resources/AGENCYR.TTF")
+                                          + "/aurora/V1/resources/AGENCYR.TTF")
                                           .openStream());
             boldFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                                        resources
                                        .getSurfacePath()
-                                               + "/aurora/V1/resources/AGENCYB.TTF")
+                                       + "/aurora/V1/resources/AGENCYB.TTF")
                                        .openStream());
             ropaFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                                        resources
                                        .getSurfacePath()
-                                               + "/aurora/V1/resources/RopaSans-Regular.TTF")
+                                       + "/aurora/V1/resources/RopaSans-Regular.TTF")
                                        .openStream());
         } catch (MalformedURLException ex) {
             try {
@@ -881,9 +882,9 @@ public class AuroraCoreUI {
      * .-----------------------------------------------------------------------
      * | showExitDialog()
      * .-----------------------------------------------------------------------
-     * | | This method displays the exit dialog | | After the user clicks on the
-     * Exit button, the user will be presented | with a warning dialog asking
-     * them if they are sure they want to exit | the application.
+     * This method displays the exit dialog After the user clicks on the
+     * Exit button, the user will be presented with a warning dialog asking
+     * them if they are sure they want to exit the application.
      * .........................................................................
      *
      */
@@ -891,7 +892,7 @@ public class AuroraCoreUI {
         if (warningDialog == null) {
             warningDialog = new ADialog(ADialog.aDIALOG_WARNING,
                                         "Are You " + vi.VI(vi.inx_Sure)
-                                                + " You Want To " + vi
+                                        + " You Want To " + vi
                                         .VI(vi.inx_Exit) + "?",
                                         regularFont.deriveFont(Font.BOLD, 28));
 
@@ -945,8 +946,8 @@ public class AuroraCoreUI {
      * .-----------------------------------------------------------------------.
      * | setCursor()
      * .-----------------------------------------------------------------------.
-     * | | This method sets the mouse pointer cursor and states | | Customize
-     * the look of the mouse pointer cursor in various states |
+     * This method sets the mouse pointer cursor and states Customize
+     * the look of the mouse pointer cursor in various states
      * .........................................................................
      *
      */
@@ -1101,9 +1102,19 @@ public class AuroraCoreUI {
 
         private String arg;
 
+        private Boolean showMiniMode;
+
+        private final AuroraStorage storage;
+
         public MinimizeListener(AuroraCoreUI ui, String arg) {
             this.ui = ui;
             this.arg = arg;
+
+            storage = new AuroraStorage();
+            storage.getStoredSettings().setUpDatabase(
+                    false,
+                    fileIO.getPath() + main.DATA_PATH + "/User Data/");
+
         }
 
         public void setArg(String arg) {
@@ -1111,9 +1122,20 @@ public class AuroraCoreUI {
         }
 
         public void actionPerformed(ActionEvent e) {
-            //ENABLE MINI MODE
-            minimizeAurora(arg);
+            storage.getStoredSettings().storeFromDatabase();
+            if (storage.getStoredSettings()
+                    .getSettingValue(SettingsLogic.TASKBAR_MINIMIZE_SETTING).equalsIgnoreCase("enabled")) {
+                showMiniMode = false;
+            } else {
+                showMiniMode = true;
+            }
 
+            if (showMiniMode) {
+                //ENABLE MINI MODE
+                minimizeAurora(arg);
+            } else {
+                frame.setState(JFrame.ICONIFIED);
+            }
         }
     }
 
