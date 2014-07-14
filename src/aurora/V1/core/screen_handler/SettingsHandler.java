@@ -28,6 +28,8 @@ import aurora.engine.V1.Logic.AuroraScreenLogic;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 
 /**
@@ -426,6 +428,88 @@ public class SettingsHandler implements AuroraScreenHandler {
         }
 
     } // End Sound Effects
+    
+  //-------------------- Open Log Data Folder ---------------------------//
+    public class OpenLogDataFolderHandler implements ActionListener {
+    	
+    	String logDataPath = System.getProperty("user.home") + "/AuroraData/Log Data";
+    			
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        	
+        	
+        	
+            try {
+            	if (System.getProperty("os.name").contains("Windows")) {
+            		Runtime.getRuntime().exec(new String[]{"explorer.exe", logDataPath}).waitFor();	
+            	} else {
+            		Runtime.getRuntime().exec(new String[]{"/usr/bin/open", logDataPath}).waitFor();	
+            	}
+				
+            } catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}  
+
+
+            AThreadWorker worker = new AThreadWorker(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+
+                    SettingsUI.lblSettingsStatus.setForeground(Color.cyan);
+                    SettingsUI.lblSettingsStatus.setText(
+                            "Opening log data folder...");
+                    
+                    File dir = new File(logDataPath);
+
+                    if (dir.exists()) {
+                        // display completion message in green
+                        SettingsUI.lblSettingsStatus.setForeground(Color.GREEN);
+                        SettingsUI.lblSettingsStatus.setText("Log data folder opened");
+                    } else {
+                        // display error in red
+                        SettingsUI.lblSettingsStatus.setForeground(Color.red);
+                        SettingsUI.lblSettingsStatus.setText(
+                                "Unable to open log data folder");
+                    }
+
+
+
+                    try {
+                        Thread.sleep(1500);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(LibraryLogic.class
+                                .getName()).
+                                log(Level.SEVERE, null, ex);
+                    }
+
+                    if (SettingsUI.lblSettingsStatus.getCurrentText().equals(
+                            "Log data folder opened") || SettingsUI.lblSettingsStatus
+                            .getCurrentText().equals(
+                                    "Unable to open log data folder")) {
+                        // Show default message after 1.5 seconds
+                        SettingsUI.lblSettingsStatus.setForeground(
+                                SettingsUI.DEFAULT_SETTINGS_COLOR);
+                        SettingsUI.lblSettingsStatus.setText(
+                                SettingsUI.DEAFULT_SETTINGS_STATUS);
+                    }
+
+                }
+            });
+
+
+            worker.startOnce();
+
+
+
+        }
+
+    }
 
       //------------------------- Minimize To Taskbar -----------------------//
     public class EnableMinimizeToTaskbarHandler implements ActionListener {
