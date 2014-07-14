@@ -391,7 +391,8 @@ public class DashboardLogic implements AuroraScreenLogic {
 
             @Override
             public void doAction() {
-                dashboardUI.getCoreUI().minimizeAurora("minimize");
+
+                dashboardUI.getCoreUI().getMinimizeHandler().actionPerformed(null);
             }
         });
 
