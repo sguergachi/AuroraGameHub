@@ -1217,7 +1217,7 @@ public class LibraryHandler implements
         @Override
         public void keyTyped(KeyEvent e) {
 
-            super.keyTyped(e);
+           super.keyTyped(e);
         }
     }
 
@@ -1707,7 +1707,8 @@ public class LibraryHandler implements
                 public void actionPerformed(ActionEvent e) {
 
                     // Save game being added to library
-
+                    currentPath = libraryUI.getAddGameUI()
+                            .getCurrentGameLocation();
                     gridManager = libraryUI.getGridSplit();
                     storage = libraryUI.getStorage();
                     GameBack = libraryUI.getGamesContainer();
@@ -1738,8 +1739,7 @@ public class LibraryHandler implements
 
                     // If in Manual mode Save current game to storage
                     if (libraryUI.getAddGameUI().isManualMode()) {
-                        currentPath = libraryUI.getAddGameUI()
-                                .getCurrentGameLocation();
+
                         game.setGamePath(currentPath);
                         game.setLibraryLogic(libraryLogic);
 
