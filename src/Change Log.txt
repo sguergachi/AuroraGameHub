@@ -32,7 +32,7 @@
 * Made edit cover UI less strict on being always on top
 * Improved loading speed to dashboard from welcome screen
 * Clicking on link in info feed now shows Aurora Mini
-* On Windows launching more than one instance of Aurora is prevented
+* On Windows, launching more than one instance of Aurora is prevented
 * Major code refactoring and clean up
 * And a whole bunch of other little things. Yes, Details Matter.
 

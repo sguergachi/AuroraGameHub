@@ -1233,10 +1233,10 @@ public class LibraryUI extends AuroraApp {
         }
 
         if (coreUI.isLargeScreen()) {
-            gameCoverHeight = coreUI.getFrame().getHeight() / 3 - (Ratio2 / 10)
-                              + 5;
             gameCoverWidth = coreUI.getFrame().getWidth() / 5 - (Ratio2 / 10)
                              - 5;
+
+
             selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
             selectedGameBarWidth = coreUI.getFrame().getWidth() / 3;
             addGameWidth = coreUI.getFrame().getWidth() / 3;
@@ -1250,8 +1250,7 @@ public class LibraryUI extends AuroraApp {
             bottomTopPadding = 10;
 
         } else {
-            gameCoverHeight = (int) ((coreUI.getFrame().getHeight() + (coreUI
-                    .getTopPanelHeight() * 2)) / (Ratio * 2.5));
+
             gameCoverWidth = (int) ((coreUI.getFrame().getWidth() + coreUI
                     .getTopPanelHeight()) / (Ratio * 3.5));
             addGameWidth = coreUI.getFrame().getWidth() / 3 - 20;
@@ -1262,11 +1261,13 @@ public class LibraryUI extends AuroraApp {
             gameNameFontSize = 30;
             SearchBarWidth = coreUI.getFrame().getWidth() / 2 + coreUI
                     .getControlWidth() / 2;
-            listFontSize = 19;
-            gridSearchFontSize = 35;
-            addGameFontSize = 28;
+            listFontSize = 18;
+            gridSearchFontSize = 34;
+            addGameFontSize = 27;
             bottomTopPadding = -5;
         }
+
+        gameCoverHeight = (int) ((double) gameCoverWidth / 1.043);
 
     }
 

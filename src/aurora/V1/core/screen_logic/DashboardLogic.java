@@ -143,9 +143,7 @@ public class DashboardLogic implements AuroraScreenLogic {
     public DashboardLogic(final DashboardUI dashboardUi) {
 
         this.dashboardUI = dashboardUi;
-
         this.storage = dashboardUI.getStorage();
-
         this.rssReader = new ARssReader();
 
         loadAuroraApps();
