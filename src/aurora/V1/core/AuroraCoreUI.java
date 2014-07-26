@@ -439,7 +439,6 @@ public class AuroraCoreUI {
                                      FontFormatException {
 
         // Determine Global Size based on Screen Size
-        // TODO work on Screen Gui Change
         screenWidth = GraphicsEnvironment.getLocalGraphicsEnvironment()
                 .getScreenDevices()[0].getDisplayMode().getWidth();
         screenHeight = GraphicsEnvironment.getLocalGraphicsEnvironment()
