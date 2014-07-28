@@ -60,7 +60,6 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -195,7 +194,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private ATextField txtGameType;
 
-    private AImagePane pnlShortcutContainer;
+    private AImagePane pnlShortcut;
 
     private JScrollPane pnlFlipScrollPane;
 
@@ -222,10 +221,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private AButton btnLearn;
 
     private JPanel pnlShortcutBtn;
-
-    private int flipShortcutWidth;
-
-    private int flipShortcutHeight;
 
     private int labelFontSize;
 
@@ -259,12 +254,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private int padding;
 
-    private JPanel pnlTopButtonContainer;
+    private JPanel pnlTopContainer;
     private JPanel pnlConfirmRemoveContainer;
     private JPanel pnlOverlayBarContainer;
     private JPanel pnlFavContainer;
     private int OVERLAY_HEIGHT;
     private int OVERLAY_WIDTH;
+    private JPanel pnlShortcutContainer;
 
     public Game() {
     }
@@ -483,6 +479,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         btnAward = new AButton("game_btn_award_norm.png",
                                "game_btn_award_down.png",
                                "game_btn_award_over.png");
+        btnAward.setBorder(null);
         if (main.LAUNCHES < 5) {
             btnAward.setToolTipText("Unavailable");
         }
@@ -492,6 +489,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                                  "game_btn_setting_down.png",
                                  "game_btn_setting_over.png");
         btnSetting.setPreferredSize(new Dimension(40, 40));
+        btnSetting.setBorder(null);
         if (main.LAUNCHES < 5) {
             btnSetting.setToolTipText("Settings");
         }
@@ -553,8 +551,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlTop.setPreferredSize(new Dimension(width - (2 * padding), 55));
         pnlTop.setName("pnlTop");
 
-        pnlTopButtonContainer = new JPanel(new BorderLayout());
-        pnlTopButtonContainer.setOpaque(false);
+        pnlTopContainer = new JPanel(new BorderLayout());
+        pnlTopContainer.setOpaque(false);
 
 
         btnRemove.setVisible(false);
@@ -562,11 +560,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         pnlFavContainer.add(imgFavIcon);
 
-        pnlTopButtonContainer.add(btnRemove, BorderLayout.EAST);
-        pnlTopButtonContainer.add(pnlFavContainer, BorderLayout.WEST);
+        pnlTopContainer.add(btnRemove, BorderLayout.EAST);
+        pnlTopContainer.add(pnlFavContainer, BorderLayout.WEST);
 
         pnlTop.add(Box.createHorizontalStrut(padding - 5), BorderLayout.EAST);
-        pnlTop.add(pnlTopButtonContainer, BorderLayout.CENTER);
+        pnlTop.add(pnlTopContainer, BorderLayout.CENTER);
         pnlTop.add(Box.createHorizontalStrut(padding), BorderLayout.WEST);
         pnlTop.validate();
 
@@ -792,15 +790,20 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlOverlayBar.setOpaque(false);
         pnlOverlayBar.validate();
 
+        pnlTopContainer.removeAll();
+        pnlTopContainer.add(btnRemove, BorderLayout.EAST);
+        pnlTopContainer.add(pnlFavContainer, BorderLayout.WEST);
+        pnlTopContainer.validate();
+
         pnlTop.removeAll();
         pnlTop.setPreferredSize(new Dimension(width - (2 * padding), 55));
         pnlTop.add(Box.createHorizontalStrut(padding - 5), BorderLayout.EAST);
-        pnlTop.add(pnlTopButtonContainer, BorderLayout.CENTER);
+        pnlTop.add(pnlTopContainer, BorderLayout.CENTER);
         pnlTop.add(Box.createHorizontalStrut(padding), BorderLayout.WEST);
         pnlTop.validate();
 
 
-//        pnlInteractivePane.removeAll();
+        pnlInteractivePane.remove(1);
 //        pnlInteractivePane.add(pnlTop, BorderLayout.NORTH);
 ////        pnlInteractivePane.add(pnlBottom, BorderLayout.SOUTH);
 //        pnlInteractivePane.revalidate();
@@ -1540,6 +1543,61 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
+    /**
+     * .-----------------------------------------------------------------------.
+     * | flipGame()
+     * .-----------------------------------------------------------------------.
+     * |
+     * | Shows the flip UI which has been loaded using the setUpFlipedUI()
+     * |
+     * .........................................................................
+     * <p/>
+     */
+    private void flipGame() {
+
+        canShowGameInfoInLibraryStatusBar = false;
+        LibraryUI.lblLibraryStatus.setForeground(
+                LibraryUI.DEFAULT_LIBRARY_COLOR);
+        LibraryUI.lblLibraryStatus.setText(getGameName());
+
+        pnlTopContainer.removeAll();
+        pnlTopContainer.revalidate();
+
+        pnlTopContainer.add(Box.createVerticalStrut(OVERLAY_HEIGHT / 5), BorderLayout.NORTH);
+        pnlTopContainer.add(pnlShortcutContainer, BorderLayout.CENTER);
+        pnlTopContainer.add(Box.createVerticalStrut(OVERLAY_HEIGHT / 10), BorderLayout.SOUTH);
+        pnlTop.setPreferredSize(pnlTopContainer.getPreferredSize());
+        pnlTopContainer.revalidate();
+
+        pnlInteractivePane.add(pnlFlipContainer, BorderLayout.CENTER, 1);
+        pnlInteractivePane.revalidate();
+
+        // Hours Played
+        // ----------------------------------------------------------------.
+        txtHoursPlayed.setText(parseTotalTimePlayed());
+        txtHoursPlayed.getTextBox().setEnabled(false);
+        txtHoursPlayed.revalidate();
+
+        // Occurences Played
+        // ----------------------------------------------------------------.
+        txtTimesPlayed.getTextBox().setEnabled(false);
+        txtTimesPlayed.setText(parseTotalOccurence());
+        txtTimesPlayed.revalidate();
+
+        // Last Time Played
+        // ----------------------------------------------------------------.
+        txtLastPlayed.getTextBox().setEnabled(false);
+
+        // Calculate days past //
+        txtLastPlayed.setText(parseLastTimePlayed());
+        txtLastPlayed.revalidate();
+
+        // Game Type
+        // ----------------------------------------------------------------.
+        txtGameType.setText(parseGameType());
+
+    }
+
     private int textBoxWidth;
 
     private int textBoxHeight;
@@ -1559,35 +1617,18 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Create main Panels
         // ----------------------------------------------------------------.
-        // Shortcut Pane //
-        pnlShortcutContainer = new AImagePane("game_flip_shortcutsBG.png",
-                                              flipShortcutWidth,
-                                              flipShortcutHeight, new BorderLayout());
-        pnlShortcutContainer.setPreferredSize(
-                new Dimension(flipShortcutWidth, flipShortcutHeight));
-        pnlShortcutContainer.setBorder(BorderFactory.createEmptyBorder(0, 5,
-                                                                       2, 5));
 
-        lblShortcut = new ASlickLabel(" Shortcut");
-        lblShortcut.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                                                                 11));
-        lblShortcut.setForeground(new Color(102, 102, 102));
-
-        pnlShortcutLbl = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        pnlShortcutLbl.setOpaque(false);
-        pnlShortcutLbl.setPreferredSize(new Dimension(width - width / 4, 10));
-
-        pnlShortcutBtn = new JPanel(new FlowLayout(FlowLayout.LEFT, -17, 0));
-        pnlShortcutBtn.setPreferredSize(new Dimension(width - width / 4, 60));
-        pnlShortcutBtn.setOpaque(false);
-
-        int btnWidth = flipShortcutWidth / 4 + 2;
-        int btnHeight = btnWidth - 2;
+        // Shortcut Pane
+        int flipShortcutWidth = pnlTopContainer.getSize().width - OVERLAY_WIDTH / 4;
+        int flipShortcutHeight = (int) ((double) flipShortcutWidth / 3.2);
+        int btnWidth = flipShortcutWidth / 4;
+        int btnHeight = (int) ((double) btnWidth / 1.063);
 
         btnWatch = new AButton("game_btn_watch_norm.png",
                                "game_btn_watch_down.png",
                                "game_btn_watch_over.png", btnWidth, btnHeight);
         btnWatch.addActionListener(new WatchListener());
+        btnWatch.setBorder(null);
         if (main.LAUNCHES < 5) {
             btnWatch.setToolTipText("Gameplay Videos");
         }
@@ -1596,6 +1637,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                              "game_btn_help_down.png",
                              "game_btn_help_over.png", btnWidth, btnHeight);
         btnFix.addActionListener(new FixListener());
+        btnFix.setBorder(null);
         if (main.LAUNCHES < 5) {
             btnFix.setToolTipText("PC Gaming Wiki");
         }
@@ -1604,23 +1646,60 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                                "game_btn_learn_down.png",
                                "game_btn_learn_over.png", btnWidth, btnHeight);
         btnLearn.addActionListener(new LearnListener());
+        btnLearn.setBorder(null);
         if (main.LAUNCHES < 5) {
             btnLearn.setToolTipText("Wikia");
         }
 
-        // Content Pane //
-        pnlFlipContentPane = new JPanel(new BorderLayout(0, 0));
+        pnlShortcutBtn = new JPanel(new FlowLayout(FlowLayout.CENTER, flipShortcutWidth / 25, 0));
+        pnlShortcutBtn.setOpaque(false);
+        pnlShortcutBtn.setPreferredSize(new Dimension(flipShortcutWidth,
+                                                      btnHeight));
+
+        // Add Shortcut buttons to panel
+        pnlShortcutBtn.add(btnWatch);
+        pnlShortcutBtn.add(btnFix);
+        pnlShortcutBtn.add(btnLearn);
+
+
+        // Shortcut label to bottom
+        lblShortcut = new ASlickLabel(" Shortcut");
+        lblShortcut.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                                                                 11));
+        lblShortcut.setForeground(new Color(102, 102, 102));
+
+        pnlShortcutLbl = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, -3));
+        pnlShortcutLbl.setOpaque(false);
+        pnlShortcutLbl.setPreferredSize(new Dimension(width - width / 4, 10));
+
+        pnlShortcutLbl.add(lblShortcut);
+
+        pnlShortcut = new AImagePane("game_flip_shortcutsBG.png",
+                                     flipShortcutWidth,
+                                     flipShortcutHeight);
+        pnlShortcut.setPreferredSize(
+                new Dimension(flipShortcutWidth, flipShortcutHeight));
+        pnlShortcut.setLayout(new BoxLayout(pnlShortcut, BoxLayout.Y_AXIS));
+        pnlShortcut.add(Box.createVerticalStrut(3));
+
+
+
+        // Set up Shortcut panel
+        pnlShortcut.add(pnlShortcutBtn);
+        pnlShortcut.add(pnlShortcutLbl);
+
+        pnlShortcutContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pnlShortcutContainer.setOpaque(false);
+
+        pnlShortcutContainer.add(pnlShortcut);
+        pnlShortcutContainer.add(Box.createHorizontalStrut(OVERLAY_WIDTH / 13));
+
+        // Content Pane
+        pnlFlipContentPane = new JPanel();
         pnlFlipContentPane.setOpaque(false);
-        pnlFlipContentPane.setBorder(BorderFactory.createEmptyBorder(5, 40,
-                                                                     5, 0));
         pnlFlipContentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlFlipContentPane.addMouseListener(gameClickListener);
 
-        // Right Pane //
-        pnlRightPane = new JPanel();
-        pnlRightPane.setLayout(new BoxLayout(pnlRightPane, BoxLayout.Y_AXIS));
-        pnlRightPane.setLayout(new GridLayout(4, 0, 0, 13));
-        pnlRightPane.setOpaque(false);
 
         // Scroll Bar and Scroll Panes
         // ----------------------------------------------------------------.
@@ -1642,7 +1721,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Labels and Textboxes
         // ----------------------------------------------------------------.
-        // Lables //
+        // Lables
         lblHoursPlayed = new ASlickLabel("Hours Played");
         lblHoursPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
                                                                     labelFontSize
@@ -1667,10 +1746,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                                                                  - 2));
         lblGameType.setForeground(new Color(202, 202, 217));
 
-        // Text boxes //
-
+        // Text boxes
         textBoxHeight = height / 12;
-
+        textBoxWidth = OVERLAY_WIDTH - OVERLAY_WIDTH / 5;
         txtHoursPlayed = new ATextField("game_textLabel_inactive.png",
                                         "game_textLabel_active.png");
         txtHoursPlayed.setTextboxSize(textBoxWidth, textBoxHeight);
@@ -1709,7 +1787,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Add To Panels
         // ----------------------------------------------------------------.
-        // Add to Right Panel //
+
+        // Right Pane
+        pnlRightPane = new JPanel();
+        pnlRightPane.setLayout(new GridLayout(4, 0, 0, 13));
+        pnlRightPane.setOpaque(false);
+
+        // Add to Right Panel
         lblHoursPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         txtHoursPlayed.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         JPanel pnlHoursPlayedLbl = new JPanel();
@@ -1750,40 +1834,21 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlGameTypeLbl.add(txtGameType);
         pnlRightPane.add(pnlGameTypeLbl);
 
-        // Add to Content Pane //
-        pnlFlipContentPane.add(Box.createHorizontalStrut(20));
+        // Add to Content Pane
         pnlFlipContentPane.add(pnlRightPane);
 
-        // Add scroll pane to container //
+        // Add scroll pane to container
         pnlFlipContainer = new JPanel();
         pnlFlipContainer.setLayout(new BorderLayout());
         pnlFlipContainer.setOpaque(false);
         pnlFlipContainer.setPreferredSize(pnlFlipContentPane.getPreferredSize());
         pnlFlipContainer.add(pnlFlipScrollPane, BorderLayout.CENTER);
-        pnlFlipContainer.add(Box.createHorizontalStrut(width / 3 - flipPadding),
+        pnlFlipContainer.add(Box.createHorizontalStrut(padding + padding / 3),
                              BorderLayout.EAST);
+        pnlFlipContainer.add(Box.createHorizontalStrut(padding + padding / 2 + 4),
+                             BorderLayout.WEST);
 
-        // Add Shortcut buttons to panel //
-        pnlShortcutBtn.add(btnWatch);
-        pnlShortcutBtn.add(btnFix);
-        pnlShortcutBtn.add(btnLearn);
-        pnlShortcutContainer.add(pnlShortcutBtn, BorderLayout.WEST);
 
-        // Set up Shortcut panel //
-        pnlShortcutLbl.add(lblShortcut);
-        pnlShortcutContainer.add(pnlShortcutLbl, BorderLayout.SOUTH);
-
-        pnlTopImageContainer = new JPanel(
-                new FlowLayout(FlowLayout.CENTER, 0, 0));
-        pnlTopImageContainer.setBorder(BorderFactory.createEmptyBorder(20, 0,
-                                                                       0, (width
-                                                                           / 5)));
-        pnlTopImageContainer.setPreferredSize(new Dimension(flipShortcutWidth,
-                                                            flipShortcutHeight
-                                                            + 25));
-        pnlTopImageContainer.setOpaque(false);
-
-        pnlTopImageContainer.add(pnlShortcutContainer, BorderLayout.CENTER);
 
         isFlipUIReady = true;
         flipGame();
@@ -2022,57 +2087,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         }
     }
 
-    /**
-     * .-----------------------------------------------------------------------.
-     * | flipGame()
-     * .-----------------------------------------------------------------------.
-     * |
-     * | Shows the flip UI which has been loaded using the setUpFlipedUI()
-     * |
-     * .........................................................................
-     * <p/>
-     */
-    private void flipGame() {
-
-        canShowGameInfoInLibraryStatusBar = false;
-        LibraryUI.lblLibraryStatus.setForeground(
-                LibraryUI.DEFAULT_LIBRARY_COLOR);
-        LibraryUI.lblLibraryStatus.setText(getGameName());
-
-        pnlTop.removeAll();
-        pnlTop.revalidate();
-        pnlTop.setPreferredSize(pnlTopImageContainer.getPreferredSize());
-        pnlTop.add(pnlTopImageContainer, BorderLayout.CENTER);
-        pnlTop.revalidate();
-
-        pnlInteractivePane.add(pnlFlipContainer, BorderLayout.CENTER, 1);
-        pnlInteractivePane.revalidate();
-
-        // Hours Played
-        // ----------------------------------------------------------------.
-        txtHoursPlayed.setText(parseTotalTimePlayed());
-        txtHoursPlayed.getTextBox().setEnabled(false);
-        txtHoursPlayed.revalidate();
-
-        // Occurences Played
-        // ----------------------------------------------------------------.
-        txtTimesPlayed.getTextBox().setEnabled(false);
-        txtTimesPlayed.setText(parseTotalOccurence());
-        txtTimesPlayed.revalidate();
-
-        // Last Time Played
-        // ----------------------------------------------------------------.
-        txtLastPlayed.getTextBox().setEnabled(false);
-
-        // Calculate days past //
-        txtLastPlayed.setText(parseLastTimePlayed());
-        txtLastPlayed.revalidate();
-
-        // Game Type
-        // ----------------------------------------------------------------.
-        txtGameType.setText(parseGameType());
-
-    }
     boolean isFavoriting;
 
     boolean isUnfavoriting;
@@ -2269,9 +2283,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             pnlConfirmRemoveContainer.add(pnlConfirmRemove);
 
 
-            pnlTopButtonContainer.remove(btnRemove);
+            pnlTopContainer.remove(btnRemove);
 //            pnlTopButtonContainer.add(Box.createVerticalStrut(height / 85), BorderLayout.NORTH);
-            pnlTopButtonContainer.add(pnlConfirmRemoveContainer, BorderLayout.CENTER);
+            pnlTopContainer.add(pnlConfirmRemoveContainer, BorderLayout.CENTER);
             pnlTop.revalidate();
 
 
@@ -2327,8 +2341,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            pnlTopButtonContainer.remove(pnlConfirmRemoveContainer);
-            pnlTopButtonContainer.add(btnRemove, BorderLayout.EAST);
+            pnlTopContainer.remove(pnlConfirmRemoveContainer);
+            pnlTopContainer.add(btnRemove, BorderLayout.EAST);
 
             pnlInteractivePane.setVisible(false);
 
@@ -2470,24 +2484,15 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             SIZE_TOPPANE_COMP = 5;
 
-            textBoxWidth = width / 2 + 22 + flipPadding;
 
-            flipShortcutWidth = (width / 2) + (width / 10);
-            flipShortcutHeight = height / 6 + 5;
             labelFontSize = 18;
-            flipPadding = 5;
         } else {
-            flipShortcutWidth = (width / 2) + (width / 10);
-            flipShortcutHeight = height / 6 + flipShortcutWidth / 12;
             removeButtonWidth = this.width / 2 - 32;
             removeButtonSeperation = -removeButtonWidth / 6 + 1;
 
             SIZE_TOPPANE_COMP = 0;
 
-            textBoxWidth = width / 2 + 22;
-
             labelFontSize = 17;
-            flipPadding = 3;
         }
 
     }
