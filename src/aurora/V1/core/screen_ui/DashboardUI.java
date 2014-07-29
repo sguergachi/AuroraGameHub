@@ -541,9 +541,8 @@ public class DashboardUI implements AuroraScreenUI {
         infoFeedFill.setPreferredSize(new Dimension(infoFeedWidth,
                                                     infoFeedHeight));
 
-        infoFeedFill.add(Box.createVerticalStrut(btnCarouselLeft.getPreferredSize().height / 2 - infoFeedHeight / 2
-        ),
-                         BorderLayout.NORTH);
+        infoFeedFill.add(Box.createVerticalStrut(btnCarouselLeft.getPreferredSize().height / 2
+                                                 - infoFeedHeight / 2), BorderLayout.NORTH);
 
         infoFeedContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         infoFeedContainer.setOpaque(false);
