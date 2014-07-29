@@ -804,9 +804,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
 
         pnlInteractivePane.remove(1);
-//        pnlInteractivePane.add(pnlTop, BorderLayout.NORTH);
-////        pnlInteractivePane.add(pnlBottom, BorderLayout.SOUTH);
-//        pnlInteractivePane.revalidate();
 
         // load selected and star
         afterLoad();

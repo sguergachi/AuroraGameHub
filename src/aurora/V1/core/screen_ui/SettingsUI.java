@@ -142,11 +142,10 @@ public class SettingsUI extends AuroraApp {
     private JPanel pnlUpdateAuroraDBSearchSetting;
 
     private AImage imgUpdateAuroraDBSearchIcon;
-    
+
     // Open log data folder
-    
     private AButton btnOpenLogDataFolder;
-    
+
     private ASlickTextPane lblOpenLogDataFolderSetting;
 
     private JPanel pnlOpenLogDataFolderLabel;
@@ -154,7 +153,7 @@ public class SettingsUI extends AuroraApp {
     private JPanel pnlOpenLogDataFolderSetting;
 
     private AImage imgOpenLogDataFolderIcon;
-    
+
     // GamePad setting UI components
     private ASlickTextPane lblUseGamePadSetting;
 
@@ -163,9 +162,9 @@ public class SettingsUI extends AuroraApp {
     private JPanel pnlUseGamePadSetting;
 
     private AImage imgUseGamePadIcon;
-    
+
     private ARadioButton rdbUseGamePad;
-    
+
     // Analytics setting UI components
     private ASlickTextPane lblAnalyticsSetting;
 
@@ -174,7 +173,7 @@ public class SettingsUI extends AuroraApp {
     private JPanel pnlAnalyticsSetting;
 
     private AImage imgAnalyticsIcon;
-    
+
     private ARadioButton rdbAnalytics;
 
     private int bottomTopPadding;
@@ -208,7 +207,7 @@ public class SettingsUI extends AuroraApp {
     private SettingsHandler.EnableSoundEffectsHandler enableSoundEffectsHandler;
 
     private SettingsHandler.DisableSoundEffectsHandler disableSoundEffectsHandler;
-    
+
     private SettingsHandler.OpenLogDataFolderHandler openLogDataFolderHandler;
 
     private JPanel pnlTaskbarSetting;
@@ -437,8 +436,8 @@ public class SettingsUI extends AuroraApp {
                 Font.PLAIN, 30));
 
         pnlBackgroundGameSearchLabel.add(lblBackgroundGameSearchSetting);
-        
-     // Download AuroraDB
+
+        // Download AuroraDB
         pnlUpdateAuroraDBSearchSetting = new JPanel(new FlowLayout(
                 FlowLayout.LEFT,
                 14, 5));
@@ -468,8 +467,8 @@ public class SettingsUI extends AuroraApp {
                 Font.PLAIN, 30));
 
         pnlUpdateAuroraDBSearchLabel.add(lblUpdateAuroraDBSearchSetting);
-        
-     // Open log data folder
+
+        // Open log data folder
         pnlOpenLogDataFolderSetting = new JPanel(new FlowLayout(
                 FlowLayout.LEFT,
                 14, 5));
@@ -478,16 +477,16 @@ public class SettingsUI extends AuroraApp {
         imgOpenLogDataFolderIcon = new AImage("settings_img_auroraCoverDB.png");
 
         btnOpenLogDataFolder = new AButton("settings_btn_select_norm.png",
-                                              "settings_btn_select_down.png",
-                                              "settings_btn_select_over.png");
+                                           "settings_btn_select_down.png",
+                                           "settings_btn_select_over.png");
         btnOpenLogDataFolder.setMargin(new Insets(0, 0,
-                                                     0, 0));
+                                                  0, 0));
 
         pnlOpenLogDataFolderLabel = new JPanel(
                 new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlOpenLogDataFolderLabel.setOpaque(false);
         pnlOpenLogDataFolderLabel.setPreferredSize(new Dimension(190,
-                                                                    78));
+                                                                 78));
 
         lblOpenLogDataFolderSetting = new ASlickTextPane(
                 "Open log data folder...");
@@ -499,10 +498,10 @@ public class SettingsUI extends AuroraApp {
                 Font.PLAIN, 30));
 
         pnlOpenLogDataFolderLabel.add(lblOpenLogDataFolderSetting);
-        
-     // Use GamePad
+
+        // Use GamePad
         pnlUseGamePadSetting = new JPanel(new FlowLayout(FlowLayout.LEFT,
-                                                             15, 5));
+                                                         15, 5));
         pnlUseGamePadSetting.setOpaque(false);
 
 
@@ -510,14 +509,14 @@ public class SettingsUI extends AuroraApp {
 
 
         rdbUseGamePad = new ARadioButton("settings_btn_notselected.png",
-                                             "settings_btn_selected.png");
+                                         "settings_btn_selected.png");
 
 
         pnlUseGamePadLabel = new JPanel(
                 new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlUseGamePadLabel.setOpaque(false);
         pnlUseGamePadLabel.setPreferredSize(new Dimension(190,
-                                                              78));
+                                                          78));
 
         lblUseGamePadSetting = new ASlickTextPane("Gamepad");
         lblUseGamePadSetting.setPreferredSize(pnlUseGamePadLabel
@@ -528,10 +527,10 @@ public class SettingsUI extends AuroraApp {
 
         pnlUseGamePadLabel.add(lblUseGamePadSetting);
 
-        
-     // Analytics toggle
+
+        // Analytics toggle
         pnlAnalyticsSetting = new JPanel(new FlowLayout(FlowLayout.LEFT,
-                                                             15, 5));
+                                                        15, 5));
         pnlAnalyticsSetting.setOpaque(false);
 
 
@@ -539,14 +538,14 @@ public class SettingsUI extends AuroraApp {
 
 
         rdbAnalytics = new ARadioButton("settings_btn_notselected.png",
-                                             "settings_btn_selected.png");
+                                        "settings_btn_selected.png");
 
 
         pnlAnalyticsLabel = new JPanel(
                 new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlAnalyticsLabel.setOpaque(false);
         pnlAnalyticsLabel.setPreferredSize(new Dimension(190,
-                                                              78));
+                                                         78));
 
         lblAnalyticsSetting = new ASlickTextPane("Analytics");
         lblAnalyticsSetting.setPreferredSize(pnlAnalyticsLabel
@@ -621,14 +620,14 @@ public class SettingsUI extends AuroraApp {
         pnlTaskbarSetting.add(pnlTaskbarLabel);
         pnlTaskbarSetting.add(rdbTaskbar);
         pnlTaskbarSetting.revalidate();
-   
-        
-     // Open log data folder
+
+
+        // Open log data folder
         pnlOpenLogDataFolderSetting.add(imgOpenLogDataFolderIcon);
         pnlOpenLogDataFolderSetting.add(pnlOpenLogDataFolderLabel);
         pnlOpenLogDataFolderSetting.add(btnOpenLogDataFolder);
         pnlOpenLogDataFolderSetting.revalidate();
-        
+
         // Use GamePad
         pnlUseGamePadSetting.add(imgUseGamePadIcon);
         pnlUseGamePadSetting.add(pnlUseGamePadLabel);
@@ -640,7 +639,7 @@ public class SettingsUI extends AuroraApp {
         pnlAnalyticsSetting.add(pnlAnalyticsLabel);
         pnlAnalyticsSetting.add(rdbAnalytics);
         pnlAnalyticsSetting.revalidate();
-        
+
         pnlGeneralSettingsGrid.add(pnlSoundEffectsSetting);
         pnlGeneralSettingsGrid.add(pnlWASDNavigationSetting);
         pnlGeneralSettingsGrid.add(pnlTaskbarSetting);
@@ -649,7 +648,7 @@ public class SettingsUI extends AuroraApp {
         pnlGeneralSettingsGrid.add(pnlUseGamePadSetting);
         pnlGeneralSettingsGrid.add(pnlAnalyticsSetting);
         pnlGeneralSettingsGrid.add(pnlOpenLogDataFolderSetting);
-        
+
 
 
         pnlGeneralSettingsGrid.setLayout(new GridLayout(2, 5, padding_top,
@@ -829,29 +828,29 @@ public class SettingsUI extends AuroraApp {
 
 
         // Info Feed
-        getDashboardUI().getInfoFeed().setImageSize(getCoreUI()
-                .getScreenWidth() - 20, getDashboardUI().getInfoFeed()
-                                                    .getImageHeight() - 5);
-        getDashboardUI().getInfoFeed()
-                .setPreferredSize(new Dimension(getDashboardUI().getInfoFeed()
-                                .getPreferredSize().width,
+        dashboardUI.getInfoFeed()
+                .setPreferredSize(new Dimension(coreUI.getBottomPane()
+                                .getPreferredSize().width - 24,
                                                 getDashboardUI().getInfoFeed()
-                                                .getImageHeight()));
+                                                .getPreferredSize().height));
+
+        dashboardUI.getInfoFeedContainer().setPreferredSize(new Dimension(coreUI.getBottomPane()
+                .getPreferredSize().width - 24, getDashboardUI().getInfoFeed().getPreferredSize().height));
 
         coreUI.getBottomContentPane().setLayout(new BorderLayout());
         coreUI.getBottomContentPane().setVisible(true);
 
         coreUI.getBottomContentPane().add(Box.createVerticalStrut(4),
                                           BorderLayout.NORTH);
-        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10),
+        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(12),
                                           BorderLayout.EAST);
         coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer(),
                                           BorderLayout.CENTER);
-        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10),
+        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(12),
                                           BorderLayout.WEST);
         coreUI.getBottomContentPane().setPreferredSize(new Dimension(dashboardUI
-                .getInfoFeed().getImageWidth(), dashboardUI.getInfoFeed()
-                                                                     .getImageHeight()));
+                .getInfoFeed().getPreferredSize().width, dashboardUI.getInfoFeed()
+                                                                     .getPreferredSize().height));
 
         coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER, coreUI
                                               .getBottomContentPane());
@@ -993,7 +992,7 @@ public class SettingsUI extends AuroraApp {
 
         enableSoundEffectsHandler = settingsHandler.new EnableSoundEffectsHandler();
         disableSoundEffectsHandler = settingsHandler.new DisableSoundEffectsHandler();
-        
+
         openLogDataFolderHandler = settingsHandler.new OpenLogDataFolderHandler();
 
         enableMinimizeToTaskbarHandler = settingsHandler.new EnableMinimizeToTaskbarHandler();
@@ -1013,7 +1012,7 @@ public class SettingsUI extends AuroraApp {
 
         rdbSoundEffects.setSelectedHandler(enableSoundEffectsHandler);
         rdbSoundEffects.setUnSelectedHandler(disableSoundEffectsHandler);
-        
+
         btnOpenLogDataFolder.addActionListener(openLogDataFolderHandler);
 
         rdbTaskbar.setSelectedHandler(enableMinimizeToTaskbarHandler);
@@ -1070,9 +1069,9 @@ public class SettingsUI extends AuroraApp {
     public ARadioButton getRdbBackgroundGameSearch() {
         return rdbBackgroundGameSearch;
     }
-    
+
     public AButton getBtnOpenLogDataFolder() {
-    	return btnOpenLogDataFolder;
+        return btnOpenLogDataFolder;
     }
 
 }

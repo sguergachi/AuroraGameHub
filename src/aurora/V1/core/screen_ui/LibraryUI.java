@@ -727,27 +727,27 @@ public class LibraryUI extends AuroraApp {
         coreUI.getBottomContentPane().setLayout(new BorderLayout());
         coreUI.getBottomContentPane().setVisible(true);
 
-        // Add InfoFeed to bottom //
-        getDashboardUI().getInfoFeed().setImageSize(getCoreUI()
-                .getScreenWidth() - 20, getDashboardUI().getInfoFeed()
-                                                    .getImageHeight() - 5);
-        getDashboardUI().getInfoFeed()
-                .setPreferredSize(new Dimension(getDashboardUI().getInfoFeed()
-                                .getPreferredSize().width,
+        // Add InfoFeed to bottom
+        dashboardUI.getInfoFeed()
+                .setPreferredSize(new Dimension(coreUI.getBottomPane()
+                                .getPreferredSize().width - 24,
                                                 getDashboardUI().getInfoFeed()
-                                                .getImageHeight()));
+                                                .getPreferredSize().height));
+
+        dashboardUI.getInfoFeedContainer().setPreferredSize(new Dimension(coreUI.getBottomPane()
+                .getPreferredSize().width - 24, getDashboardUI().getInfoFeed().getPreferredSize().height));
 
         coreUI.getBottomContentPane().add(Box.createVerticalStrut(4),
                                           BorderLayout.NORTH);
-        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10),
+        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(12),
                                           BorderLayout.EAST);
         coreUI.getBottomContentPane().add(dashboardUI.getInfoFeedContainer(),
                                           BorderLayout.CENTER);
-        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(10),
+        coreUI.getBottomContentPane().add(Box.createHorizontalStrut(12),
                                           BorderLayout.WEST);
         coreUI.getBottomContentPane().setPreferredSize(new Dimension(dashboardUI
-                .getInfoFeed().getImageWidth(), dashboardUI.getInfoFeed()
-                                                                     .getImageHeight()));
+                .getInfoFeed().getPreferredSize().width, dashboardUI.getInfoFeed()
+                                                                     .getPreferredSize().height));
         coreUI.getBottomContentPane().revalidate();
 
         // Set up Bottom Bar

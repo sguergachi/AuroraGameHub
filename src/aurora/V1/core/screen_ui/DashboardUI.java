@@ -36,6 +36,7 @@ import aurora.engine.V1.UI.AMarqueePanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -44,6 +45,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -322,13 +324,14 @@ public class DashboardUI implements AuroraScreenUI {
      */
     private boolean dashboardUiLoaded;
 
-    private JPanel infoFeedContainer;
+    private JPanel infoFeedFill;
 
     private AboutBox aboutBox;
 
     private ArrayList<JLabel> infoFeedLabelList;
 
     static final Logger logger = Logger.getLogger(DashboardUI.class);
+    private JPanel infoFeedContainer;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -522,18 +525,33 @@ public class DashboardUI implements AuroraScreenUI {
         // Info Feed
         // --------------------------------------------------------------------.
 
-        infoFeedContainer = new JPanel(new BorderLayout());
-        infoFeedContainer.setOpaque(false);
+        infoFeedFill = new JPanel(new BorderLayout());
+        infoFeedFill.setOpaque(false);
 
 
 
         // Marquee Panel Text
         // --------------------------------------------------------------------.
         infoFeed = new AMarqueePanel(infoFeedWidth, infoFeedHeight,
-                                     "dash_infoBar_bg.png");
+                                     new Color(38, 46, 60), new Color(16, 18, 29));
+        infoFeed.setPreferredSize(new Dimension(
+                infoFeedWidth,
+                infoFeedHeight));
         infoFeed.setVisible(false);
+        infoFeedFill.setPreferredSize(new Dimension(infoFeedWidth,
+                                                    infoFeedHeight));
+
+        infoFeedFill.add(Box.createVerticalStrut(btnCarouselLeft.getPreferredSize().height / 2 - infoFeedHeight / 2
+        ),
+                         BorderLayout.NORTH);
+
+        infoFeedContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        infoFeedContainer.setOpaque(false);
         infoFeedContainer.setPreferredSize(new Dimension(infoFeedWidth,
                                                          infoFeedHeight));
+        infoFeedContainer.add(infoFeed);
+
+
 
         AThreadWorker work = new AThreadWorker(new ActionListener() {
             @Override
@@ -568,7 +586,7 @@ public class DashboardUI implements AuroraScreenUI {
                         infoFeedHeight));
 
 
-                infoFeedContainer.revalidate();
+                infoFeedFill.revalidate();
                 infoFeed.repaint();
 
             }
@@ -718,22 +736,21 @@ public class DashboardUI implements AuroraScreenUI {
         // Add Carousel to Center Panel
         coreUI.getCenterPanel().add(BorderLayout.CENTER, carousel);
 
+        infoFeed.setPreferredSize(new Dimension(
+                infoFeedWidth,
+                infoFeedHeight));
+        infoFeedContainer.setPreferredSize(new Dimension(infoFeedWidth,
+                                                         infoFeedHeight));
+        infoFeedFill.add(infoFeedContainer, BorderLayout.CENTER);
+
+
         // Add To Bottom Panel  InfoFeed and both Carousel Buttons*//
         coreUI.getCenterFromBottomPanel().add(BorderLayout.EAST,
                                               btnCarouselRight);
         coreUI.getCenterFromBottomPanel().add(BorderLayout.CENTER,
-                                              infoFeedContainer);
+                                              infoFeedFill);
         coreUI.getCenterFromBottomPanel()
                 .add(BorderLayout.WEST, btnCarouselLeft);
-
-
-        infoFeedContainer.add(infoFeed, BorderLayout.NORTH);
-
-
-        infoFeed.setPreferredSize(new Dimension(
-                infoFeedWidth * 25,
-                infoFeedHeight));
-        infoFeed.setImageSize(infoFeedWidth, infoFeedHeight);
 
 
 
