@@ -55,6 +55,7 @@ public class GamePlaceholder extends AImagePane {
         this.allHeight = Height;
 
         this.setImage(BGimg, allHeight, allWidth);
+        this.setPreferredSize(new Dimension(allWidth, allHeight));
         this.revalidate();
         this.repaint();
         this.setOpaque(false);

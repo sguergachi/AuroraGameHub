@@ -180,7 +180,7 @@ public class AboutBox {
         pnlBottom.setPreferredSize(new Dimension(imgLogo.getRealImageWidth(),
                                                  pnlAboutPane
                                                  .getRealImageHeight()
-                                                         - pnlTop
+                                                 - pnlTop
                                                  .getPreferredSize().height
                                                  - pnlCenter
                                                  .getRealImageHeight()));
@@ -191,9 +191,9 @@ public class AboutBox {
         pnlAboutPane.add(pnlBottom, BorderLayout.SOUTH);
 
         pnlAboutPane.setLocation((coreUI.getFrame().getWidth() / 2)
-                                         - (pnlAboutPane.getImgIcon()
+                                 - (pnlAboutPane.getImgIcon()
                 .getIconWidth()
-                                                    / 2), -380);
+                                    / 2), -380);
         pnlAboutPane
                 .setSize(
                         new Dimension(pnlAboutPane.getImgIcon()
@@ -220,7 +220,7 @@ public class AboutBox {
         aboutBoxAnimator = new AAnimate(pnlAboutPane);
 
         aboutBoxAnimator.setInitialLocation((coreUI.getFrame().getWidth() / 2)
-                                                    - (pnlAboutPane.getImgIcon()
+                                            - (pnlAboutPane.getImgIcon()
                 .getIconWidth() / 2), -390);
         aboutBoxAnimator.moveVertical(0, 33);
 
@@ -242,7 +242,7 @@ public class AboutBox {
             showSound.Play();
 
             aboutBoxAnimator.moveVertical(-485, 33);
-             coreUI.getLogoImage().setVisible(true);
+            coreUI.getLogoImage().setVisible(true);
             aboutBoxAnimator.addPostAnimationListener(new APostHandler() {
                 @Override
                 public void doAction() {
@@ -351,6 +351,24 @@ public class AboutBox {
         lblScalr.setForeground(Color.WHITE);
         lblScalr.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        ASlickLabel lblJoda = new ASlickLabel(
+                "Joda-Time  - Quality Java Date & Time API.");
+        lblJoda.setLink(
+                "http://www.joda.org/joda-time/license.html");
+        lblJoda.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                                                        20));
+        lblJoda.setForeground(Color.WHITE);
+        lblJoda.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        ASlickLabel lblJXInput = new ASlickLabel(
+                "JXInput  - Allows for Gamepad Support.");
+        lblJXInput.setLink(
+                "http://www.hardcode.de/jxinput/");
+        lblJXInput.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+                                                           20));
+        lblJXInput.setForeground(Color.WHITE);
+        lblJXInput.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         pnlCodeCredit.add(lblCodeCreditTitle);
         pnlCodeCredit.add(Box.createVerticalStrut(30));
         pnlCodeCredit.add(lblRSSParser);
@@ -359,11 +377,17 @@ public class AboutBox {
         pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlCodeCredit.add(lblJSONParser);
         pnlCodeCredit.add(Box.createVerticalStrut(3));
+        pnlCodeCredit.add(lblJXInput);
+        pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlCodeCredit.add(lblLogger);
+        pnlCodeCredit.add(Box.createVerticalStrut(3));
+        pnlCodeCredit.add(lblJoda);
         pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlCodeCredit.add(lblScalr);
         pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlCodeCredit.add(lblMixpanel);
+
+
 
         pnlCenterContainer.add(pnlCodeCredit);
 
@@ -441,12 +465,12 @@ public class AboutBox {
 
         ASlickLabel lblLicenseText = new ASlickLabel(
                 "<html> This work is licensed under the <br>"
-                        + " Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.<br>"
+                + " Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.<br>"
                 + " To view a copy of this license, visit <br>"
-                        + "'http://creativecommons.org/licenses/by-nc-nd/3.0/' <br> "
+                + "'http://creativecommons.org/licenses/by-nc-nd/3.0/' <br> "
                 + " or send a letter to Creative Commons, 444 Castro Street, ScoreUIte 900, <br>"
                 + " Mountain View, California, 94041, USA.<br>"
-                        + " Unless required by applicable law or agreed to in writing, software<br>"
+                + " Unless required by applicable law or agreed to in writing, software<br>"
                 + " distributed under the License is distributed on an \"AS IS\" BASIS,<br>"
                 + " WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br>"
                 + " See the License for the specific language governing permissions and<br>"
@@ -476,10 +500,10 @@ public class AboutBox {
         pnlCenterContainer.revalidate();
         pnlCenterContainer.setPreferredSize(new Dimension(pnlCenter
                 .getRealImageWidth(), (pnlMadeBy.getPreferredSize().height
-                                               + pnlLicense.getPreferredSize().height
+                                       + pnlLicense.getPreferredSize().height
                                        + pnlSpecialThanks.getPreferredSize().height
                                        + imgThanks.getImgHeight() * 2
-                                               + pnlCodeCredit
+                                       + pnlCodeCredit
                                                           .getPreferredSize().height
                                        + 50)));
 
