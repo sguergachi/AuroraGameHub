@@ -905,9 +905,6 @@ public class LibraryHandler implements
 
         private GridManager gridManager;
 
-        public GridMouseWheelListener() {
-        }
-
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
 
@@ -936,6 +933,51 @@ public class LibraryHandler implements
 
                 }
             } else if (numberClicks > 0) {
+                if (currentIndex < (gridManager.getNumberOfGrids() - 1)) {
+                    libraryUI.moveGridRight();
+
+                }
+            }
+
+        }
+    }
+
+    public class GridMoveActionListener implements ActionListener {
+
+        private GridManager gridManager;
+        private final int key;
+
+        public GridMoveActionListener(int key) {
+            this.key = key;
+        }
+
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int currentIndex;
+            gridManager = libraryUI.getGridSplit();
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("Grid Move " + key);
+            }
+
+            // -
+            // Get The Index of The Current Panel Being Displayed
+            // Refer too GridManager array of All panels to find it
+            // GameBack is the Panel Containing all the game grids
+            // -
+            currentIndex = gridManager.getArray().indexOf(libraryUI
+                    .getGamesContainer()
+                    .getComponent(1));
+            libraryUI.setCurrentIndex(currentIndex);
+
+            if (key == KeyEvent.VK_KP_RIGHT) {
+                if (currentIndex > 0) {
+                    libraryUI.moveGridLeft();
+
+                }
+            } else if (key == KeyEvent.VK_KP_LEFT) {
                 if (currentIndex < (gridManager.getNumberOfGrids() - 1)) {
                     libraryUI.moveGridRight();
 
@@ -1217,7 +1259,7 @@ public class LibraryHandler implements
         @Override
         public void keyTyped(KeyEvent e) {
 
-           super.keyTyped(e);
+            super.keyTyped(e);
         }
     }
 
@@ -2194,8 +2236,8 @@ public class LibraryHandler implements
 
             JLabel label
                    = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane)
-                    ? ((JPanel) value).getComponent(0)
-                    : ((JPanel) value)
+                               ? ((JPanel) value).getComponent(0)
+                               : ((JPanel) value)
                     .getComponent(1));
 
             Color bg = null;
@@ -2266,8 +2308,8 @@ public class LibraryHandler implements
 
                 JLabel label
                        = (JLabel) (!(((JPanel) value).getComponent(0) instanceof AImagePane)
-                        ? ((JPanel) value).getComponent(0)
-                        : ((JPanel) value)
+                                   ? ((JPanel) value).getComponent(0)
+                                   : ((JPanel) value)
                         .getComponent(1));
 
                 String gameSelected = label.getText();

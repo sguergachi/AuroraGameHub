@@ -182,8 +182,6 @@ public class EditCoverUI {
                                  "editCoverUI_rejectBG.png", true,
                                  fileDragedListener, supportedImages);
 
-        pnlDrag_editCoverUI.addMouseListener(new MouseHoverListener());
-
         // Content Panel
         pnlContent = new JPanel(new BorderLayout());
         pnlContent.setOpaque(false);

@@ -23,6 +23,7 @@ import aurora.V1.core.AuroraStorage;
 import aurora.V1.core.screen_handler.DashboardHandler;
 import aurora.V1.core.screen_logic.DashboardLogic;
 import aurora.V1.core.screen_logic.SettingsLogic;
+import aurora.engine.V1.Logic.AJinputController;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenUI;
 import aurora.engine.V1.UI.AButton;
@@ -332,6 +333,7 @@ public class DashboardUI implements AuroraScreenUI {
 
     static final Logger logger = Logger.getLogger(DashboardUI.class);
     private JPanel infoFeedContainer;
+    private AJinputController inputController;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -484,6 +486,7 @@ public class DashboardUI implements AuroraScreenUI {
         carousel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Carousel_ESCAPE");
 
+
         carousel.getActionMap()
                 .put("Carousel_LEFT", handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
         carousel.getActionMap()
@@ -496,6 +499,9 @@ public class DashboardUI implements AuroraScreenUI {
                 .put("Carousel_ENTER", handler.new DashboardlKeyListener(KeyEvent.VK_ENTER));
         carousel.getActionMap()
                 .put("Carousel_ESCAPE", handler.new DashboardlKeyListener(KeyEvent.VK_ESCAPE));
+
+        inputController = new AJinputController();
+
 
 
 
@@ -751,8 +757,15 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getCenterFromBottomPanel()
                 .add(BorderLayout.WEST, btnCarouselLeft);
 
+        // Handlers
 
+        inputController.loadControllers();
 
+        inputController.clearAllListeners();
+        inputController.addListener_A_Button(handler.new DashboardlKeyListener(KeyEvent.VK_ENTER));
+        inputController.addListener_B_Button(handler.new DashboardlKeyListener(KeyEvent.VK_ESCAPE));
+        inputController.addListener_RB_Button(handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
+        inputController.addListener_LB_Button(handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
 
         // Check for Mouse Wheel Rotation
         carousel.
@@ -863,6 +876,10 @@ public class DashboardUI implements AuroraScreenUI {
 
         }
 
+    }
+
+    public AJinputController getInputController() {
+        return inputController;
     }
 
     /**

@@ -32,6 +32,7 @@ import aurora.V1.core.screen_handler.LibraryHandler.ShowAddGameUIHandler;
 import aurora.V1.core.screen_handler.SettingsHandler;
 import aurora.V1.core.screen_logic.LibraryLogic;
 import aurora.V1.core.screen_logic.SettingsLogic;
+import aurora.engine.V1.Logic.AJinputController;
 import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.UI.AButton;
 import aurora.engine.V1.UI.AFadeLabel;
@@ -916,8 +917,23 @@ public class LibraryUI extends AuroraApp {
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "GridNav_LEFT");
         pnlLibraryContainer.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "GridNav_RIGHT");
-        pnlLibraryContainer.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "GridNav_ESCAPE");
+//        pnlLibraryContainer.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+//                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "GridNav_ESCAPE");
+
+        AJinputController inputController = dashboardUI.getInputController();
+        inputController.clearAllListeners();
+
+        inputController.setListener_HAT_Right_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_RIGHT));
+        inputController.setListener_HAT_Left_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_LEFT));
+        inputController.setListener_HAT_Up_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_UP));
+        inputController.setListener_HAT_Down_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_DOWN));
+
+
+
+        inputController.addListener_RB_Button(libraryHandler.new GridMoveActionListener(KeyEvent.VK_KP_LEFT));
+        inputController.addListener_LB_Button(libraryHandler.new GridMoveActionListener(KeyEvent.VK_KP_RIGHT));
+        inputController.addListener_RB_Button(libraryHandler.new GridMoveActionListener(KeyEvent.VK_KP_LEFT));
+        inputController.addListener_B_Button(this.new BackButtonListener());
 
 
         pnlLibraryContainer.getActionMap()

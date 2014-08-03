@@ -87,7 +87,6 @@ public class DashboardLogic implements AuroraScreenLogic {
      */
     private final AuroraStorage storage;
 
-
     /**
      * Instance of the GameLibrary UI.
      */
@@ -203,7 +202,7 @@ public class DashboardLogic implements AuroraScreenLogic {
             while (dashboardUI.getStorage().
                     getStoredLibrary().getBoxArtPath().
                     get(randomNum).equals("library_noGameFound.png")
-                           && redo < dashboardUI.getStorage().getStoredLibrary()
+                   && redo < dashboardUI.getStorage().getStoredLibrary()
                     .getNumberGames()) {
 
                 randomNum = rand.nextInt(dashboardUI.getStorage().
@@ -461,8 +460,10 @@ public class DashboardLogic implements AuroraScreenLogic {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        libraryUI.clearUI(true);
-                        libraryUI.buildUI();
+                        if (!libraryUI.isInApp) {
+                            libraryUI.clearUI(true);
+                            libraryUI.buildUI();
+                        }
                     }
                 });
             }
@@ -470,16 +471,20 @@ public class DashboardLogic implements AuroraScreenLogic {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    profileUI.clearUI(true);
-                    profileUI.buildUI();
+                    if (!profileUI.isInApp) {
+                        profileUI.clearUI(true);
+                        profileUI.buildUI();
+                    }
                 }
             });
         } else if (pane == dashboardUI.getSettingsPane()) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    settingsUI.clearUI(true);
-                    settingsUI.buildUI();
+                    if (!settingsUI.isInApp) {
+                        settingsUI.clearUI(true);
+                        settingsUI.buildUI();
+                    }
                 }
             });
         } else if (pane == dashboardUI.getAuroraNetPane()) {

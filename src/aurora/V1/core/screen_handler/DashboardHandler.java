@@ -238,6 +238,7 @@ public class DashboardHandler implements AuroraScreenHandler {
 
             if (keyCode == KeyEvent.VK_ESCAPE) {
                 dashboardUI.getCoreUI().showExitDialog();
+
             }
 
             if (keyCode == KeyEvent.VK_ENTER) {
@@ -251,7 +252,9 @@ public class DashboardHandler implements AuroraScreenHandler {
 
                 dashboardLogic.launchAuroraApp(pane);
 
+
             }
+        
         }
 
     }

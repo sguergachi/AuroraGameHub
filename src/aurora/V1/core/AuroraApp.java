@@ -292,7 +292,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
         // Remove All Listeners from componentsContainingListeners and Frame
         removeAllListeners();
 
-        if (clearForApp) {
+        if (clearForApp && !isInApp) {
             setUpApp();
         }
 
@@ -339,7 +339,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
             }
             // Remove Mouse Wheel Listeners from Components ArrayList
             MouseWheelListener[] mouseWheelListeners
-                                         = componentsContainingListeners
+                                 = componentsContainingListeners
                     .get(i)
                     .getMouseWheelListeners();
 
@@ -352,7 +352,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
             // Maybe its a buttom, try to remove its ActionListeners.
             if (componentsContainingListeners.get(i) instanceof AButton) {
                 ActionListener[] actionListeners
-                                         = ((AButton) componentsContainingListeners
+                                 = ((AButton) componentsContainingListeners
                         .get(i)).getActionListeners();
                 for (int j = 0; j < actionListeners.length; j++) {
                     ((AButton) componentsContainingListeners.get(i))
@@ -471,7 +471,13 @@ public abstract class AuroraApp implements AuroraScreenUI {
             logger.debug("ADDED BACK BUTTON");
         }
 
-        if (getCoreUI().getFrameControlImagePane().getComponent(0) != btnBack) {
+        Boolean canAddBackButton = true;
+        for (int i = 0; i < getCoreUI().getFrameControlImagePane().getComponents().length; i++) {
+            if (getCoreUI().getFrameControlImagePane().getComponents()[i] == btnBack) {
+                canAddBackButton = false;
+            }
+        }
+        if (canAddBackButton) {
             getCoreUI().getFrameControlImagePane().add(btnBack, 0);
         }
 
@@ -486,7 +492,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
                             public boolean dispatchKeyEvent(KeyEvent e) {
 
                                 if (e.getKeyChar() == KeyEvent.VK_ESCAPE
-                                            && isInApp) {
+                                    || e.getKeyChar() == KeyEvent.VK_BACK_SPACE
+                                    && isInApp) {
                                     new BackButtonListener().actionPerformed(
                                             null);
                                     return true;
@@ -496,7 +503,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
                         });
     }
 
-    private class BackButtonListener implements ActionListener {
+    public class BackButtonListener implements ActionListener {
 
         public BackButtonListener() {
         }
