@@ -403,7 +403,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // ----------------------------------------------------------------.
 
         OVERLAY_WIDTH = width - (2 * padding) - 3;
-        OVERLAY_HEIGHT = OVERLAY_WIDTH / 6;
+        OVERLAY_HEIGHT = (height / 9) + (OVERLAY_WIDTH / 50);
 
 
         pnlBottom = new JPanel(new BorderLayout(0, 0));
@@ -464,7 +464,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlOverlayButtonContainer.setLayout(new FlowLayout(FlowLayout.CENTER, OVERLAY_WIDTH / 13,
                                                            -(btnFlip.getPreferredSize().height - OVERLAY_HEIGHT)
                                                            + (btnFlip.getPreferredSize().height - OVERLAY_HEIGHT) / 2
-                                                           - btnFlip.getPreferredSize().height / 14));
+                                                           - btnFlip.getPreferredSize().height / 15));
         pnlOverlayButtonContainer.setName("pnlOverlayButtonContainer");
 
 
