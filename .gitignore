@@ -16,6 +16,7 @@ local.properties
 .settings/
 .loadpath
 .jar
+project.properties
 
 nbproject/private/private.properties
 
