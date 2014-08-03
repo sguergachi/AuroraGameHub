@@ -87,12 +87,12 @@ public class AuroraCoreUI {
      * Generate full Version string to be used at the bottom of UI.
      */
     private final String version
-                         = "             //BUILD: "
-                           + getResourceBundleToken(
+                                 = "             //BUILD: "
+                                           + getResourceBundleToken(
                     "BUILD")
-                           + "  //REVISION: " + revision
-                           + "  //AURORA.ENGINE.VERSION = 0.1."
-                           + (Integer
+                                           + "  //REVISION: " + revision
+                                           + "  //AURORA.ENGINE.VERSION = 0.1."
+                                           + (Integer
             .parseInt(revision));
 
     /**
@@ -448,7 +448,7 @@ public class AuroraCoreUI {
         taskbarHeight = screenHeight - winSize.height;
 
         logger.info("Current Screen Resolution: " + screenWidth + "x"
-                    + screenHeight);
+                            + screenHeight);
 
         //
         // Check the resolution (in pixels) of the screen to
@@ -479,17 +479,17 @@ public class AuroraCoreUI {
             regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                                           resources
                                           .getSurfacePath()
-                                          + "/aurora/V1/resources/AGENCYR.TTF")
+                                                  + "/aurora/V1/resources/AGENCYR.TTF")
                                           .openStream());
             boldFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                                        resources
                                        .getSurfacePath()
-                                       + "/aurora/V1/resources/AGENCYB.TTF")
+                                               + "/aurora/V1/resources/AGENCYB.TTF")
                                        .openStream());
             ropaFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                                        resources
                                        .getSurfacePath()
-                                       + "/aurora/V1/resources/RopaSans-Regular.TTF")
+                                               + "/aurora/V1/resources/RopaSans-Regular.TTF")
                                        .openStream());
         } catch (MalformedURLException ex) {
             try {
@@ -891,7 +891,7 @@ public class AuroraCoreUI {
         if (warningDialog == null) {
             warningDialog = new ADialog(ADialog.aDIALOG_WARNING,
                                         "Are You " + vi.VI(vi.inx_Sure)
-                                        + " You Want To " + vi
+                                                + " You Want To " + vi
                                         .VI(vi.inx_Exit) + "?",
                                         regularFont.deriveFont(Font.BOLD, 28));
 
@@ -1122,8 +1122,15 @@ public class AuroraCoreUI {
 
         public void actionPerformed(ActionEvent e) {
             storage.getStoredSettings().storeFromDatabase();
-            if (storage.getStoredSettings()
-                    .getSettingValue(SettingsLogic.TASKBAR_MINIMIZE_SETTING).equalsIgnoreCase("enabled")) {
+            String taskbarMinimizedSetting
+                           = storage.getStoredSettings()
+                    .getSettingValue(SettingsLogic.TASKBAR_MINIMIZE_SETTING);
+            if (taskbarMinimizedSetting == null) {
+                taskbarMinimizedSetting
+                = SettingsLogic.DEFAULT_TASKBAR_MINIMIZE_SETTING;
+            }
+            if (taskbarMinimizedSetting
+                    .equalsIgnoreCase("enabled")) {
                 showMiniMode = false;
             } else {
                 showMiniMode = true;
