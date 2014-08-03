@@ -461,9 +461,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlOverlayButtonContainer = new JPanel();
         pnlOverlayButtonContainer.setOpaque(false);
         pnlOverlayButtonContainer.setBackground(Color.red);
-        pnlOverlayButtonContainer.setLayout(new FlowLayout(FlowLayout.CENTER, OVERLAY_WIDTH / 15,
+        pnlOverlayButtonContainer.setLayout(new FlowLayout(FlowLayout.CENTER, OVERLAY_WIDTH / 13,
                                                            -(btnFlip.getPreferredSize().height - OVERLAY_HEIGHT)
-                                                           + (btnFlip.getPreferredSize().height - OVERLAY_HEIGHT) / 2));
+                                                           + (btnFlip.getPreferredSize().height - OVERLAY_HEIGHT) / 2
+                                                           - btnFlip.getPreferredSize().height / 14));
         pnlOverlayButtonContainer.setName("pnlOverlayButtonContainer");
 
 
