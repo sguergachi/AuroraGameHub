@@ -360,14 +360,14 @@ public class AboutBox {
         lblJoda.setForeground(Color.WHITE);
         lblJoda.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        ASlickLabel lblJXInput = new ASlickLabel(
-                "JXInput  - Allows for Gamepad Support.");
-        lblJXInput.setLink(
-                "http://www.hardcode.de/jxinput/");
-        lblJXInput.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
+        ASlickLabel lblJInput = new ASlickLabel(
+                "JInput  - Allows for Gamepad Support.");
+        lblJInput.setLink(
+                "https://java.net/projects/jinput");
+        lblJInput.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
                                                            20));
-        lblJXInput.setForeground(Color.WHITE);
-        lblJXInput.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblJInput.setForeground(Color.WHITE);
+        lblJInput.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         pnlCodeCredit.add(lblCodeCreditTitle);
         pnlCodeCredit.add(Box.createVerticalStrut(30));
@@ -377,7 +377,7 @@ public class AboutBox {
         pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlCodeCredit.add(lblJSONParser);
         pnlCodeCredit.add(Box.createVerticalStrut(3));
-        pnlCodeCredit.add(lblJXInput);
+        pnlCodeCredit.add(lblJInput);
         pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlCodeCredit.add(lblLogger);
         pnlCodeCredit.add(Box.createVerticalStrut(3));
