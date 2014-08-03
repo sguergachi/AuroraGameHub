@@ -610,7 +610,7 @@ public class DashboardUI implements AuroraScreenUI {
         if (logger.isDebugEnabled()) {
             logger.debug("DashboardUI loaded");
         }
-
+        setAllToVisible();
         dashboardUiLoaded = true;
 
     }
@@ -673,7 +673,7 @@ public class DashboardUI implements AuroraScreenUI {
         // Add UI to Canvas
         addToCanvas();
 
-        setAllToVisible();
+
 
     }
 

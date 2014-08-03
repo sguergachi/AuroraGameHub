@@ -1499,22 +1499,22 @@ public class LibraryLogic implements AuroraScreenLogic {
 
         // Minimizes all and shows Desktop on Windows
         if (coreUI.getOS().contains("Windows")) {
-            try {
-                String loc = "\"" + System.getenv("APPDATA")
-                             + "\\Microsoft\\Internet Explorer\\Quick Launch\\Shows Desktop.lnk"
-                             + "\"";
-                Runtime.getRuntime().exec(
-                        new String[]{
-                            "cmd.exe",
-                            "/c", loc
-                        });
-
-
-            } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(LibraryLogic.class
-                        .getName())
-                        .log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                String loc = "\"" + System.getenv("APPDATA")
+//                             + "\\Microsoft\\Internet Explorer\\Quick Launch\\Shows Desktop.lnk"
+//                             + "\"";
+//                Runtime.getRuntime().exec(
+//                        new String[]{
+//                            "cmd.exe",
+//                            "/c", loc
+//                        });
+//
+//
+//            } catch (IOException ex) {
+//                java.util.logging.Logger.getLogger(LibraryLogic.class
+//                        .getName())
+//                        .log(Level.SEVERE, null, ex);
+//            }
         }
 
         // Show File Explorer

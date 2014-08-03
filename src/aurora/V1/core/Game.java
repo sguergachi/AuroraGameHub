@@ -107,8 +107,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private int height;
 
-    private int SIZE_TOPPANE_COMP;
-
     private Thread gameCoverThread;
 
     private boolean isFavorite;
@@ -165,10 +163,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private PlayButtonListener playButtonListener;
 
     private boolean isGameRemoveMode;
-
-    private int removeButtonWidth;
-
-    private int removeButtonSeperation;
 
     private boolean isFliped;
 
@@ -2477,18 +2471,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private void setSize() {
 
         if (coreUI.isLargeScreen()) {
-            removeButtonWidth = this.width / 2 - 35;
-            removeButtonSeperation = -removeButtonWidth / 6 + 2;
-
-            SIZE_TOPPANE_COMP = 5;
 
 
             labelFontSize = 18;
         } else {
-            removeButtonWidth = this.width / 2 - 32;
-            removeButtonSeperation = -removeButtonWidth / 6 + 1;
-
-            SIZE_TOPPANE_COMP = 0;
 
             labelFontSize = 17;
         }
