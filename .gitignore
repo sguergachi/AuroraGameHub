@@ -17,6 +17,7 @@ local.properties
 .loadpath
 .jar
 project.properties
+private.xml
 
 nbproject/private/private.properties
 
