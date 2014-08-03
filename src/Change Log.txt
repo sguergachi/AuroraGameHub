@@ -29,7 +29,7 @@
 * Game Cover alternatives added to AuroraCoverDB .
 * No more random annoying resets to first grid when adding a game etc.
 * No more annoying game being unselected when trying to remove it.
-* Made edit cover UI less strict on being always on top
+* Made small tweaks to edit cover UI and no longer make windows show desktop
 * Improved loading speed to dashboard from welcome screen
 * Clicking on link in info feed now shows Aurora Mini
 * On Windows, launching more than one instance of Aurora is prevented

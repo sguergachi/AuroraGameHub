@@ -196,7 +196,7 @@ public class EditCoverUI {
         public void mouseEntered(MouseEvent e) {
             frameEditGameCoverPane.setAlwaysOnTop(true);
             frameEditGameCoverPane.requestFocusInWindow();
-            frameEditGameCoverPane.setAlwaysOnTop(false);
+//            frameEditGameCoverPane.setAlwaysOnTop(false);
         }
 
     }
@@ -263,7 +263,7 @@ public class EditCoverUI {
             pnlRightPane.add(Box.createVerticalGlue());
             pnlRightPane.add(rightPaneContainer);
             pnlRightPane.setPreferredSize(new Dimension(
-                    (pnlEditGameCoverPane.getRealImageWidth() / 5),
+                    (pnlEditGameCoverPane.getRealImageWidth() / 4),
                     centerHeight));
 
             // Left
