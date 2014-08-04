@@ -926,12 +926,14 @@ public class LibraryUI extends AuroraApp {
         inputController.setListener_HAT_Up_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_UP));
         inputController.setListener_HAT_Down_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_DOWN));
 
+        inputController.setListener_ANALOG_Right_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_RIGHT));
+        inputController.setListener_ANALOG_Left_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_LEFT));
+        inputController.setListener_ANALOG_Up_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_UP));
+        inputController.setListener_ANALOG_Down_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_DOWN));
 
-
-        inputController.addListener_RB_Button(libraryHandler.new GridMoveActionListener(KeyEvent.VK_KP_LEFT));
-        inputController.addListener_LB_Button(libraryHandler.new GridMoveActionListener(KeyEvent.VK_KP_RIGHT));
-        inputController.addListener_RB_Button(libraryHandler.new GridMoveActionListener(KeyEvent.VK_KP_LEFT));
-        inputController.addListener_B_Button(this.new BackButtonListener());
+        inputController.setListener_RB_Button(libraryHandler.new GridMoveActionListener(KeyEvent.VK_KP_LEFT));
+        inputController.setListener_LB_Button(libraryHandler.new GridMoveActionListener(KeyEvent.VK_KP_RIGHT));
+        inputController.setListener_B_Button(this.new BackButtonListener());
 
 
         pnlLibraryContainer.getActionMap()

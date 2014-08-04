@@ -604,7 +604,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
         libraryUI.setIsGameLibraryKeyListenerAdded(false);
 
-        //Load Second Panel if exists -- SMART LOAD
+        // Load Next Panel if exists
         if (currentGrid < libraryUI.getGridSplit().getArray().size() - 1) {
             for (int i = 0; i
                             < libraryUI.getGridSplit().getGrid(

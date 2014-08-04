@@ -910,11 +910,11 @@ public class AuroraCoreUI {
                 frame.getWindowListeners()[0].windowClosed(null);
             }
         });
-        getInputController().addListener_A_Button(warningDialog.getOkButtonListener());
+        getInputController().setListener_A_Button(warningDialog.getOkButtonListener());
 
         warningDialog.showDialog();
 
-        getInputController().addListener_B_Button(warningDialog.getExitListener());
+        getInputController().setListener_B_Button(warningDialog.getExitListener());
         warningDialog.setPostExitListener(new APostHandler() {
 
             @Override

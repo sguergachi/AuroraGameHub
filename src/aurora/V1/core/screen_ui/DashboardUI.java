@@ -757,10 +757,18 @@ public class DashboardUI implements AuroraScreenUI {
         // Handlers
 
         coreUI.getInputController().clearAllListeners();
-        coreUI.getInputController().addListener_A_Button(handler.new DashboardlKeyListener(KeyEvent.VK_ENTER));
-        coreUI.getInputController().addListener_B_Button(handler.new DashboardlKeyListener(KeyEvent.VK_ESCAPE));
-        coreUI.getInputController().addListener_RB_Button(handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
-        coreUI.getInputController().addListener_LB_Button(handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
+
+        coreUI.getInputController().setListener_A_Button(handler.new DashboardlKeyListener(KeyEvent.VK_ENTER));
+        coreUI.getInputController().setListener_B_Button(handler.new DashboardlKeyListener(KeyEvent.VK_ESCAPE));
+
+        coreUI.getInputController().setListener_RB_Button(handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
+        coreUI.getInputController().setListener_LB_Button(handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
+
+        coreUI.getInputController().setListener_HAT_Left_Button(handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
+        coreUI.getInputController().setListener_HAT_Right_Button(handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
+
+        coreUI.getInputController().setListener_ANALOG_Left_Button(handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
+        coreUI.getInputController().setListener_ANALOG_Right_Button(handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
 
         // Check for Mouse Wheel Rotation
         carousel.

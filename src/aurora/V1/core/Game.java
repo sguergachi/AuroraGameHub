@@ -373,6 +373,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ENTER"), "EnterKeyHandler");
         this.getActionMap().put("EnterKeyHandler", new Game.EnterKeyHandler());
 
+
         this.add(pnlInteractivePane, BorderLayout.CENTER);
 
         this.revalidate();
@@ -798,7 +799,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlTop.validate();
 
 
-        pnlInteractivePane.remove(1);
+        if (pnlInteractivePane.getComponents().length > 1) {
+            pnlInteractivePane.remove(1);
+        }
 
         // load selected and star
         afterLoad();
@@ -988,6 +991,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             this.validate();
 
             libraryLogic.getLibraryUI().showEnterKeyIcon();
+            coreUI.getInputController().setListener_A_Button(new EnterKeyHandler());
 
             canShowGameInfoInLibraryStatusBar = true;
             tranisionBetweenGameInfoInLibraryStatusBar();
@@ -1011,7 +1015,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         if (isSelected) {
 
             if (isGameRemoveMode) {
-
                 new CancelRemoveGameHandler().actionPerformed(null);
                 pnlOverlayBar.setVisible(false);
             }
@@ -1024,6 +1027,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             this.revalidate();
 
             libraryLogic.getLibraryUI().hideEnterKeyIcon();
+            coreUI.getInputController().clearListener_A_Button();
 
         }
         canShowGameInfoInLibraryStatusBar = false;
