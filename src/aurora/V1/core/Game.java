@@ -395,7 +395,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Set Up Bottom Bar Content
         // ----------------------------------------------------------------.
-        OVERLAY_WIDTH = width - (2 * padding) - 3;
+        OVERLAY_WIDTH = width - (2 * padding) - 5;
         OVERLAY_HEIGHT = (height / 9) + (OVERLAY_WIDTH / 20);
 
 
@@ -407,7 +407,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // The Image Panel
         pnlOverlayBar = new AImagePane("game_overlay.png", OVERLAY_WIDTH, OVERLAY_HEIGHT);
-        pnlOverlayBar.setPreferredSize(new Dimension(OVERLAY_WIDTH + 1, OVERLAY_HEIGHT));
+        pnlOverlayBar.setPreferredSize(new Dimension(OVERLAY_WIDTH, OVERLAY_HEIGHT));
         pnlOverlayBar.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlOverlayBar.setBackground(Color.blue);
         pnlOverlayBar.setName("pnlOverlayBar");
@@ -508,7 +508,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
 
         // Add Bottom Pane to container
-        int bottomPadding = height / 27;
+        int bottomPadding = height / 27 + 1;
         pnlBottomContainer = new JPanel(new BorderLayout());
         pnlBottomContainer.setOpaque(false);
         pnlBottomContainer.setPreferredSize(new Dimension(pnlBottom.getPreferredSize().width,
@@ -517,7 +517,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         pnlBottom.add(Box.createHorizontalStrut(padding), BorderLayout.EAST);
         pnlBottom.add(pnlOverlayBarContainer, BorderLayout.CENTER);
-        pnlBottom.add(Box.createHorizontalStrut(padding), BorderLayout.WEST);
+        pnlBottom.add(Box.createHorizontalStrut(padding + 1), BorderLayout.WEST);
 
         pnlBottomContainer.add(pnlBottom, BorderLayout.CENTER);
         pnlBottomContainer.add(Box.createVerticalStrut(bottomPadding), BorderLayout.SOUTH);
@@ -570,7 +570,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlInteractivePane.add(pnlBottomContainer, BorderLayout.SOUTH);
         pnlInteractivePane.validate();
 
-        if (coverImagePane.getImageURL() == null || coverImagePane.getImageURL().equalsIgnoreCase("library_noGameFound.png")) {
+        if (coverImagePane.getImageURL() == null
+            || coverImagePane.getImageURL().equalsIgnoreCase("library_noGameFound.png")) {
             //Loading Thread
             gameCoverThread = null;
 
@@ -582,8 +583,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             //Start Loader
             gameCoverThread.start();
         }
-
-
 
         this.removeAll();
         this.add(pnlInteractivePane, BorderLayout.CENTER);
@@ -773,11 +772,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         isOverlayUIRemoved = false;
         setSize();
 
-        pnlInteractivePane.removeAll();
-        pnlInteractivePane.add(pnlTop, BorderLayout.NORTH);
-        pnlInteractivePane.add(pnlBottomContainer, BorderLayout.SOUTH);
-
-
         // Remove all and re-add
         pnlOverlayButtonContainer.removeAll();
         pnlOverlayButtonContainer.add(btnFavorite);
@@ -805,6 +799,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlTop.validate();
 
         pnlInteractivePane.setVisible(true);
+        pnlInteractivePane.removeAll();
+        pnlInteractivePane.add(pnlTop, BorderLayout.NORTH);
+        pnlInteractivePane.add(pnlBottomContainer, BorderLayout.SOUTH);
+
         if (pnlInteractivePane.getComponents().length > 2) {
             pnlInteractivePane.remove(1);
         }
@@ -2289,6 +2287,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
 
             pnlTopContainer.remove(btnRemove);
+            // This is to calculate top of game cover padding
 //            pnlTopButtonContainer.add(Box.createVerticalStrut(height / 85), BorderLayout.NORTH);
             pnlTopContainer.add(pnlConfirmRemoveContainer, BorderLayout.CENTER);
             pnlTop.revalidate();
@@ -2346,14 +2345,10 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-//            pnlTopContainer.remove(pnlConfirmRemoveContainer);
-//            pnlTopContainer.add(btnRemove, BorderLayout.EAST);
             showRemoveBtn();
-//            pnlInteractivePane.setVisible(false);
-            pnlOverlayBar.setVisible(true);
 
             reAddInteractive();
-
+            pnlOverlayBar.setVisible(true);
             isGameRemoveMode = false;
             setSelected();
         }
@@ -2450,7 +2445,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 requestFocus();
                 if (isSelected()) {
                     unselect();
-                    if (isFliped) {
+                    if (isFliped && SwingUtilities.isRightMouseButton(e)) {
                         btnFlip.getActionListeners()[0].actionPerformed(null);
                     }
                 } else {
