@@ -18,10 +18,13 @@
 * Made a lot of little UI/UX improvements
 * Reworked Aurora Launcher with improved timer and UI changes
 * Reworked navigation with keyboard to be more reliable in library
+* Added minimal support for gamepad (see settings)
+* Added a few more settings
 * Custom games now have blank cover art overlaid to look like AuroraCoverDB cover art
 * Selecting a game now shows game info in library info bar
 * Pressing ENTER when searching for game in library launches the first game.
 * Show "unsure" icon in auto searches that Aurora had to guess the cover art for
+* Right clicking games now flips them automatically
 
 **Changes:**
 

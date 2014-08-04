@@ -68,6 +68,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 /**
@@ -115,7 +116,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private boolean isSelected;
 
-    private boolean isRemoved = false;
+    private boolean isOverlayUIRemoved = false;
 
     private AProgressWheel progressWheel;
 
@@ -375,9 +376,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.getActionMap().put("EnterKeyHandler", new Game.EnterKeyHandler());
 
 
-        this.add(pnlInteractivePane, BorderLayout.CENTER);
-
-        this.revalidate();
 
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(width, height));
@@ -585,6 +583,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             gameCoverThread.start();
         }
 
+
+
+        this.removeAll();
+        this.add(pnlInteractivePane, BorderLayout.CENTER);
+        this.revalidate();
+        this.repaint();
+
     }
 
     @Override
@@ -765,10 +770,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      */
     public final void reAddInteractive() {
 
-        isRemoved = false;
+        isOverlayUIRemoved = false;
         setSize();
-        pnlInteractivePane.setPreferredSize(new Dimension(width, height));
-        pnlInteractivePane.setVisible(true);
+
+        pnlInteractivePane.removeAll();
+        pnlInteractivePane.add(pnlTop, BorderLayout.NORTH);
+        pnlInteractivePane.add(pnlBottomContainer, BorderLayout.SOUTH);
 
 
         // Remove all and re-add
@@ -797,17 +804,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlTop.add(Box.createHorizontalStrut(padding), BorderLayout.WEST);
         pnlTop.validate();
 
-        pnlInteractivePane.removeAll();
-        pnlInteractivePane.add(pnlTop, BorderLayout.NORTH);
-        pnlInteractivePane.add(pnlBottomContainer, BorderLayout.SOUTH);
-        pnlInteractivePane.validate();
-        if (pnlInteractivePane.getComponents().length > 1) {
+        pnlInteractivePane.setVisible(true);
+        if (pnlInteractivePane.getComponents().length > 2) {
             pnlInteractivePane.remove(1);
         }
         pnlInteractivePane.revalidate();
 
-        this.removeAll();
-        this.add(pnlInteractivePane);
 
         // load selected and star
         afterLoad();
@@ -831,7 +833,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         this.removeAll();
         this.revalidate();
-        if (isRemoved) {
+        if (isOverlayUIRemoved) {
             addOverlayUI();
         }
 
@@ -895,7 +897,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      */
     public final void disableEditCoverOverlay() {
 
-        if (isRemoved) {
+        if (isOverlayUIRemoved) {
             addOverlayUI();
         }
 
@@ -1105,12 +1107,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      */
     public final void removeOverlayUI() {
         this.remove(pnlInteractivePane);
-        this.isRemoved = true;
+        this.isOverlayUIRemoved = true;
     }
 
     public final void addOverlayUI() {
         this.add(pnlInteractivePane);
-        this.isRemoved = false;
+        this.isOverlayUIRemoved = false;
     }
 
     public final void setFavorite() {
@@ -2228,14 +2230,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             } else {
 
                 final ADialog info = new ADialog(ADialog.aDIALOG_WARNING,
-                                                 "Can't Find Game. Would You Like To REMOVE It From The Library?      ",
+                                                 "Can't Find Game. Would You Like To EDIT the Game Location?      ",
                                                  coreUI.getRegularFont()
                                                  .deriveFont(Font.BOLD, 23));
                 info.setOKButtonListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
-                        new RemoveGameHandler().actionPerformed(e);
+                        settingsListener.actionPerformed(e);
                         info.setVisible(false);
                     }
                 });
@@ -2344,14 +2346,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            pnlTopContainer.remove(pnlConfirmRemoveContainer);
-            pnlTopContainer.add(btnRemove, BorderLayout.EAST);
-
-            pnlInteractivePane.setVisible(false);
+//            pnlTopContainer.remove(pnlConfirmRemoveContainer);
+//            pnlTopContainer.add(btnRemove, BorderLayout.EAST);
+            showRemoveBtn();
+//            pnlInteractivePane.setVisible(false);
+            pnlOverlayBar.setVisible(true);
 
             reAddInteractive();
-            showRemoveBtn();
-            pnlOverlayBar.setVisible(true);
+
             isGameRemoveMode = false;
             setSelected();
         }
@@ -2444,14 +2446,20 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         @Override
         public void mousePressed(final MouseEvent e) {
-            if (!isRemoved) {
+            if (!isOverlayUIRemoved) {
                 requestFocus();
                 if (isSelected()) {
                     unselect();
+                    if (isFliped) {
+                        btnFlip.getActionListeners()[0].actionPerformed(null);
+                    }
                 } else {
                     unSelectPrevious();
                     showOverlayUI();
-
+                    if (SwingUtilities.isRightMouseButton(e)) {
+                        showOverlayUI();
+                        btnFlip.getActionListeners()[0].actionPerformed(null);
+                    }
                     if (logger.isDebugEnabled()) {
                         logger.debug("SELECTED");
                     }
@@ -2463,11 +2471,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         @Override
         public void mouseEntered(final MouseEvent e) {
             // Mouse being dragged over game
-
-
             if (e.getModifiers() == MouseEvent.BUTTON1_MASK) {
 
-                if (!isRemoved) {
+                if (!isOverlayUIRemoved) {
                     requestFocus();
                     if (!isSelected()) {
                         unSelectPrevious();
@@ -2482,11 +2488,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private void setSize() {
 
         if (coreUI.isLargeScreen()) {
-
-
             labelFontSize = 18;
         } else {
-
             labelFontSize = 17;
         }
 

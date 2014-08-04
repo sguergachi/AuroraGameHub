@@ -1861,8 +1861,6 @@ public class LibraryHandler implements
                                           libraryUI
                                           .getGameCoverHeight());
                         game.disableEditCoverOverlay();
-//                        game.reAddInteractive();
-
                         if (gridManager.addGame(game)) {
 
                             // ReOrder library grid if in alphabetic sorting
