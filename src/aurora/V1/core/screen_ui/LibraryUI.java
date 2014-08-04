@@ -917,10 +917,8 @@ public class LibraryUI extends AuroraApp {
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "GridNav_LEFT");
         pnlLibraryContainer.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "GridNav_RIGHT");
-//        pnlLibraryContainer.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-//                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "GridNav_ESCAPE");
 
-        AJinputController inputController = dashboardUI.getInputController();
+        AJinputController inputController = coreUI.getInputController();
         inputController.clearAllListeners();
 
         inputController.setListener_HAT_Right_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_RIGHT));

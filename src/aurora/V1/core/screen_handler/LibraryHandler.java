@@ -893,6 +893,7 @@ public class LibraryHandler implements
                         game.showOverlayUI();
                     }
                 } else if (keyCode == KeyEvent.VK_ESCAPE) {
+                    coreUI.getInputController().clearListener_A_Button();
                     coreUI.showExitDialog();
                 }
             }
@@ -950,8 +951,6 @@ public class LibraryHandler implements
         public GridMoveActionListener(int key) {
             this.key = key;
         }
-
-
 
         @Override
         public void actionPerformed(ActionEvent e) {

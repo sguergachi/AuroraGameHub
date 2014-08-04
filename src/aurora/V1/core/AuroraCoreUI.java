@@ -19,8 +19,10 @@ package aurora.V1.core;
 
 import aurora.V1.core.screen_logic.SettingsLogic;
 import aurora.engine.V1.Logic.AFileManager;
+import aurora.engine.V1.Logic.AJinputController;
 import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.ANuance;
+import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.ASound;
 import aurora.engine.V1.Logic.ASurface;
 import aurora.engine.V1.UI.AButton;
@@ -87,12 +89,12 @@ public class AuroraCoreUI {
      * Generate full Version string to be used at the bottom of UI.
      */
     private final String version
-                                 = "             //BUILD: "
-                                           + getResourceBundleToken(
+                         = "             //BUILD: "
+                           + getResourceBundleToken(
                     "BUILD")
-                                           + "  //REVISION: " + revision
-                                           + "  //AURORA.ENGINE.VERSION = 0.1."
-                                           + (Integer
+                           + "  //REVISION: " + revision
+                           + "  //AURORA.ENGINE.VERSION = 0.1."
+                           + (Integer
             .parseInt(revision));
 
     /**
@@ -385,6 +387,7 @@ public class AuroraCoreUI {
     static final Logger logger = Logger.getLogger(AuroraCoreUI.class);
 
     private int taskbarHeight;
+    private AJinputController inputController;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -448,7 +451,7 @@ public class AuroraCoreUI {
         taskbarHeight = screenHeight - winSize.height;
 
         logger.info("Current Screen Resolution: " + screenWidth + "x"
-                            + screenHeight);
+                    + screenHeight);
 
         //
         // Check the resolution (in pixels) of the screen to
@@ -479,17 +482,17 @@ public class AuroraCoreUI {
             regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                                           resources
                                           .getSurfacePath()
-                                                  + "/aurora/V1/resources/AGENCYR.TTF")
+                                          + "/aurora/V1/resources/AGENCYR.TTF")
                                           .openStream());
             boldFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                                        resources
                                        .getSurfacePath()
-                                               + "/aurora/V1/resources/AGENCYB.TTF")
+                                       + "/aurora/V1/resources/AGENCYB.TTF")
                                        .openStream());
             ropaFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                                        resources
                                        .getSurfacePath()
-                                               + "/aurora/V1/resources/RopaSans-Regular.TTF")
+                                       + "/aurora/V1/resources/RopaSans-Regular.TTF")
                                        .openStream());
         } catch (MalformedURLException ex) {
             try {
@@ -600,6 +603,10 @@ public class AuroraCoreUI {
                                   minimizeButtonWidth, minimizeButtonHeight);
         minimizeHandler = new MinimizeListener(this, AuroraMini.MINIMIZE_MODE);
         btnMinimize.addActionListener(minimizeHandler);
+
+        // Configure Gamepad Listener
+        inputController = new AJinputController();
+        inputController.loadControllers();
 
 
         // TOP PANEL
@@ -888,23 +895,35 @@ public class AuroraCoreUI {
      *
      */
     public void showExitDialog() {
-        if (warningDialog == null) {
-            warningDialog = new ADialog(ADialog.aDIALOG_WARNING,
-                                        "Are You " + vi.VI(vi.inx_Sure)
-                                                + " You Want To " + vi
-                                        .VI(vi.inx_Exit) + "?",
-                                        regularFont.deriveFont(Font.BOLD, 28));
 
-            warningDialog.setOKButtonListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
 
-                    frame.getWindowListeners()[0].windowClosing(null);
-                    frame.getWindowListeners()[0].windowClosed(null);
-                }
-            });
-            warningDialog.showDialog();
 
-        }
+        warningDialog = new ADialog(ADialog.aDIALOG_WARNING,
+                                    "Are You " + vi.VI(vi.inx_Sure)
+                                    + " You Want To " + vi
+                                    .VI(vi.inx_Exit) + "?",
+                                    regularFont.deriveFont(Font.BOLD, 28));
+
+        warningDialog.setOKButtonListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.getWindowListeners()[0].windowClosing(null);
+                frame.getWindowListeners()[0].windowClosed(null);
+            }
+        });
+        getInputController().addListener_A_Button(warningDialog.getOkButtonListener());
+
+        warningDialog.showDialog();
+
+        getInputController().addListener_B_Button(warningDialog.getExitListener());
+        warningDialog.setPostExitListener(new APostHandler() {
+
+            @Override
+            public void doAction() {
+
+            }
+        });
+
+
         warningDialog.setVisible(true);
 
     }
@@ -915,6 +934,10 @@ public class AuroraCoreUI {
 
     public JButton getBtnMinimize() {
         return btnMinimize;
+    }
+
+    public AJinputController getInputController() {
+        return inputController;
     }
 
     // Get Build Version Of Application
@@ -1123,7 +1146,7 @@ public class AuroraCoreUI {
         public void actionPerformed(ActionEvent e) {
             storage.getStoredSettings().storeFromDatabase();
             String taskbarMinimizedSetting
-                           = storage.getStoredSettings()
+                   = storage.getStoredSettings()
                     .getSettingValue(SettingsLogic.TASKBAR_MINIMIZE_SETTING);
             if (taskbarMinimizedSetting == null) {
                 taskbarMinimizedSetting
