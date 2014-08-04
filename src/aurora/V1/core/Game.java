@@ -2367,9 +2367,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                         // Delete cached cover art
                         try {
-                            fileIO.deleteFile(new File(coverImagePane.getImageURL()));
+                            Boolean deleted = fileIO.deleteFile(new File(fileIO.getPath() + "Game Data\\" + getBoxArtUrl()));
                         } catch (IOException ex) {
-                            java.util.logging.Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                            logger.error(ex);
                         }
 
                         libraryStorage.removeGame(Game.this);

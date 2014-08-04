@@ -710,11 +710,13 @@ public class LibraryLogic implements AuroraScreenLogic {
      * @throws MalformedURLException Exception
      */
     public void checkManualAddGameStatus() {
-
+        logger.info("checking Manuall Add Game Status");
         if (libraryUI.getAddGameUI().isCoverArtStatusIndicatorValid()
             && libraryUI.getAddGameUI().isGameLocationStatusValid()
             && !libraryUI
                 .getAddGameUI().getAddGameToLibraryButton().isVisible()) {
+
+            logger.info("- Showing Add Game Button");
 
             //Animate the Button below Add Game UI//
             animateAddButtonDown();
@@ -724,6 +726,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                 .isGameLocationStatusValid()) && libraryUI.getAddGameUI()
                 .getAddGameToLibraryButton().isVisible()) {
 
+            logger.info("- Hidding Add Game Button");
 
 
             //Animate up and hide it//
@@ -762,7 +765,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                             while (addGameToLibButtonAnimator.isAnimating()) {
 
                                 try {
-                                    Thread.sleep(100);
+                                    Thread.sleep(105);
                                 } catch (InterruptedException ex) {
                                     java.util.logging.Logger.getLogger(
                                             LibraryLogic.class.getName())
@@ -795,6 +798,19 @@ public class LibraryLogic implements AuroraScreenLogic {
                                         .getAddGameUI().getPnlAddGamePane()
                                         .getImgIcon()
                                         .getIconHeight() - 55, 22);
+
+                                addGameToLibButtonAnimator.addPostAnimationListener(new APostHandler() {
+
+                                    @Override
+                                    public void doAction() {
+                                        libraryUI
+                                        .getAddGameUI().getAddGameToLibraryButton().setLocation(libraryUI
+                                                .getAddGameUI().getAddGameToLibraryButton().getLocation().x, libraryUI
+                                                                                                .getAddGameUI().getPnlAddGamePane()
+                                                                                                .getImgIcon()
+                                                                                                .getIconHeight() - 55);
+                                    }
+                                });
 
                                 addGameToLibButtonAnimator
                                 .removeAllListeners();
