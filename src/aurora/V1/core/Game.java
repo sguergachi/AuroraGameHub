@@ -572,19 +572,17 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlInteractivePane.add(pnlBottomContainer, BorderLayout.SOUTH);
         pnlInteractivePane.validate();
 
-        //Loading Thread
-        gameCoverThread = null;
+        if (coverImagePane.getImageURL() == null || coverImagePane.getImageURL().equalsIgnoreCase("library_noGameFound.png")) {
+            //Loading Thread
+            gameCoverThread = null;
 
-        if (gameCoverThread == null) {
-            gameCoverThread = new Thread(this);
-        }
-        gameCoverThread.setName("Game Cover Thread");
+            if (gameCoverThread == null) {
+                gameCoverThread = new Thread(this);
+            }
+            gameCoverThread.setName("Game Cover Thread");
 
-        //Start Loader
-        gameCoverThread.start();
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("pane width " + width);
+            //Start Loader
+            gameCoverThread.start();
         }
 
     }
@@ -978,6 +976,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         this.width = coverWidth;
         this.height = coverHeight;
         this.setImageSize(width, height);
+        this.setPreferredSize(new Dimension(width, height));
         setSize();
     }
 
