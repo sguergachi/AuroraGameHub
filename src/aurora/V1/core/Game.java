@@ -508,7 +508,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
 
         // Add Bottom Pane to container
-        int bottomPadding = height / 27 + OVERLAY_HEIGHT/ 50;
+        int bottomPadding = height / 27 + OVERLAY_HEIGHT/ 45;
         pnlBottomContainer = new JPanel(new BorderLayout());
         pnlBottomContainer.setOpaque(false);
         pnlBottomContainer.setPreferredSize(new Dimension(pnlBottom.getPreferredSize().width,
@@ -999,6 +999,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             libraryLogic.getLibraryUI().showEnterKeyIcon();
             coreUI.getInputController().setListener_A_Button(new EnterKeyHandler());
+            coreUI.getInputController().setListener_Y_Button(new FlipButtonListener());
 
             canShowGameInfoInLibraryStatusBar = true;
             tranisionBetweenGameInfoInLibraryStatusBar();
@@ -1035,6 +1036,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
             libraryLogic.getLibraryUI().hideEnterKeyIcon();
             coreUI.getInputController().clearListener_A_Button();
+            coreUI.getInputController().clearListener_Y_Button();
 
         }
         canShowGameInfoInLibraryStatusBar = false;

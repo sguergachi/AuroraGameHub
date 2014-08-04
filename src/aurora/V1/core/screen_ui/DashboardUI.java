@@ -391,8 +391,7 @@ public class DashboardUI implements AuroraScreenUI {
         icoSetting = new AImage("dash_carousel_settingsIcon.png");
         icoNet = new AImage("ComingSoon.png");
         icoLibrary = dashboardLogic.getLibraryIcon();
-        icoLibrary.setPreferredSize(new Dimension(gameCoverWidth,
-                                                  gameCoverHeight));
+        icoLibrary.setPreferredSize(new Dimension(gameCoverWidth, gameCoverHeight));
 
         titleProfile = new ACarouselTitle(titleProfileNorm, titleProfileGlow);
         titleSetting = new ACarouselTitle(titleSettingNorm, titleSettingGlow);
@@ -503,7 +502,6 @@ public class DashboardUI implements AuroraScreenUI {
 
 
         // Handel mouse click
-
         icoSetting.addMouseListener(handler.new CarouselPaneMouseListener(
                 paneSettings));
         icoProfile.addMouseListener(handler.new CarouselPaneMouseListener(
@@ -555,7 +553,7 @@ public class DashboardUI implements AuroraScreenUI {
 
 
 
-        AThreadWorker work = new AThreadWorker(new ActionListener() {
+        AThreadWorker asynLoadInfofeed = new AThreadWorker(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -594,7 +592,7 @@ public class DashboardUI implements AuroraScreenUI {
             }
         });
 
-        work.startOnce();
+        asynLoadInfofeed.startOnce();
 
 
         // About Box
@@ -819,13 +817,13 @@ public class DashboardUI implements AuroraScreenUI {
             topHeight = coreUI.getCenterPanel().getHeight() / 8;
 
             carouselWidth = coreUI.getFrame().getWidth() / 42 * 16;
-            carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
-                    getFrame().getWidth() / 6);
+            carouselHeight = (int) (carouselWidth / 0.9942) + 25;
             gameCoverHeight = carouselHeight - (2 * carouselHeight / 5);
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
+
             carouselImageWidth = carouselHeight - (2 * carouselHeight / 6);
-            carouselImageHeight = (int) carouselWidth
-                                  - (int) (carouselWidth / 4) - 20;
+            carouselImageHeight =  (int) (carouselImageWidth / 0.9942);
+
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
@@ -847,15 +845,14 @@ public class DashboardUI implements AuroraScreenUI {
 
             carouselWidth = (coreUI.getFrame().getWidth() / 40 + topHeight / 55)
                             * 16;
-            carouselHeight = coreUI.getFrame().getHeight() - (coreUI.
-                    getFrame().getWidth() / 7);
+            carouselHeight = (int) (carouselWidth / 0.9942) + 25;
 
             gameCoverHeight = carouselHeight - (2 * carouselHeight / 5);
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 3);
 
             carouselImageWidth = (int) carouselWidth - 400 / 2;
-            carouselImageHeight = carouselHeight - (450 / 2)
-                                  - 55;
+            carouselImageHeight = (int) (carouselImageWidth / 0.9942);
+
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;
 
@@ -880,7 +877,6 @@ public class DashboardUI implements AuroraScreenUI {
         }
 
     }
-
 
     /**
      * .-----------------------------------------------------------------------.
