@@ -255,6 +255,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private int OVERLAY_HEIGHT;
     private int OVERLAY_WIDTH;
     private JPanel pnlShortcutContainer;
+    private JPanel pnlBottomContainer;
 
     public Game() {
     }
@@ -396,7 +397,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Set Up Bottom Bar Content
         // ----------------------------------------------------------------.
-
         OVERLAY_WIDTH = width - (2 * padding) - 3;
         OVERLAY_HEIGHT = (height / 9) + (OVERLAY_WIDTH / 20);
 
@@ -511,7 +511,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Add Bottom Pane to container
         int bottomPadding = height / 27;
-        JPanel pnlBottomContainer = new JPanel(new BorderLayout());
+        pnlBottomContainer = new JPanel(new BorderLayout());
         pnlBottomContainer.setOpaque(false);
         pnlBottomContainer.setPreferredSize(new Dimension(pnlBottom.getPreferredSize().width,
                                                           pnlBottom.getPreferredSize().height + bottomPadding));
@@ -769,10 +769,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         isRemoved = false;
         setSize();
+        pnlInteractivePane.setPreferredSize(new Dimension(width, height));
         pnlInteractivePane.setVisible(true);
 
 
-        // Remove all and re-add //
+        // Remove all and re-add
         pnlOverlayButtonContainer.removeAll();
         pnlOverlayButtonContainer.add(btnFavorite);
         pnlOverlayButtonContainer.add(btnPlay);
@@ -798,10 +799,17 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlTop.add(Box.createHorizontalStrut(padding), BorderLayout.WEST);
         pnlTop.validate();
 
-
+        pnlInteractivePane.removeAll();
+        pnlInteractivePane.add(pnlTop, BorderLayout.NORTH);
+        pnlInteractivePane.add(pnlBottomContainer, BorderLayout.SOUTH);
+        pnlInteractivePane.validate();
         if (pnlInteractivePane.getComponents().length > 1) {
             pnlInteractivePane.remove(1);
         }
+        pnlInteractivePane.revalidate();
+
+        this.removeAll();
+        this.add(pnlInteractivePane);
 
         // load selected and star
         afterLoad();
@@ -987,8 +995,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         isSelected = true;
         if (isLoaded) {
             this.add(imgSelectedGlow);
+            this.revalidate();
             this.repaint();
-            this.validate();
 
             libraryLogic.getLibraryUI().showEnterKeyIcon();
             coreUI.getInputController().setListener_A_Button(new EnterKeyHandler());
@@ -2367,7 +2375,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                         // Delete cached cover art
                         try {
-                            Boolean deleted = fileIO.deleteFile(new File(fileIO.getPath() + "Game Data\\" + getBoxArtUrl()));
+                            fileIO.deleteFile(new File(fileIO.getPath() + "Game Data\\" + getBoxArtUrl()));
                         } catch (IOException ex) {
                             logger.error(ex);
                         }
