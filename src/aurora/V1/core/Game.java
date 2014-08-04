@@ -508,7 +508,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
 
         // Add Bottom Pane to container
-        int bottomPadding = height / 27 + 1;
+        int bottomPadding = height / 27 + OVERLAY_HEIGHT/ 50;
         pnlBottomContainer = new JPanel(new BorderLayout());
         pnlBottomContainer.setOpaque(false);
         pnlBottomContainer.setPreferredSize(new Dimension(pnlBottom.getPreferredSize().width,
