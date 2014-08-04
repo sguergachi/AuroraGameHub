@@ -1374,7 +1374,7 @@ public class LibraryUI extends AuroraApp {
         return pnlSearchButton;
     }
 
-    public JPanel getGamesContainer() {
+    public JPanel getGameGridContainer() {
         return pnlLibraryContainer;
     }
 
@@ -1382,7 +1382,7 @@ public class LibraryUI extends AuroraApp {
         return GridAnimate;
     }
 
-    public GridManager getGridSplit() {
+    public GridManager getGridManager() {
         return libraryGridManager;
     }
 

@@ -278,7 +278,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                 if (!isLoaded) {
 
-                    game = new Game(libraryUI.getGridSplit(), coreUI,
+                    game = new Game(libraryUI.getGridManager(), coreUI,
                                     dashboardUI, libraryUI.getStorage());
                     game.setGameName(libraryUI.getStorage()
                             .getStoredLibrary()
@@ -308,7 +308,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                       libraryUI
                                       .getGameCoverHeight());
                 } else {
-                    game = libraryUI.getGridSplit().getGame(i);
+                    game = libraryUI.getGridManager().getGame(i);
                 }
 
 
@@ -319,7 +319,7 @@ public class LibraryLogic implements AuroraScreenLogic {
             }
 
             // Clear grids to start
-            libraryUI.getGridSplit().clearAllGrids();
+            libraryUI.getGridManager().clearAllGrids();
 
             // Add Metadata to games from database if it exists //
             if (!isLoaded) {
@@ -403,7 +403,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                     if (libHasFavourites && gamesList.get(i).isFavorite()) {
 
-                        libraryUI.getGridSplit().addGame(gamesList.get(i));
+                        libraryUI.getGridManager().addGame(gamesList.get(i));
                     }
                 }
 
@@ -413,7 +413,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                     if (!libHasFavourites || !gamesList.get(i).isFavorite()) {
 
-                        libraryUI.getGridSplit().addGame(gamesList.get(i));
+                        libraryUI.getGridManager().addGame(gamesList.get(i));
                     }
 
                 }
@@ -442,7 +442,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                     while (!gamesList.get(h).getName().equals(alphaArray[i])) {
                         h++;
                     }
-                    libraryUI.getGridSplit().addGame(gamesList.get(h));
+                    libraryUI.getGridManager().addGame(gamesList.get(h));
                     gamesList.remove(h); // remove to speed up
                 }
 
@@ -493,12 +493,12 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                 for (int i = 0; i <= librarySize;
                         i++) {
-                    libraryUI.getGridSplit().addGame(timeList.get(i));
+                    libraryUI.getGridManager().addGame(timeList.get(i));
                 }
 
             }
 
-            libraryUI.getGridSplit()
+            libraryUI.getGridManager()
                     .finalizeGrid(libraryHandler.new ShowAddGameUIHandler(),
                                   libraryUI
                                   .getGameCoverWidth(), libraryUI
@@ -511,8 +511,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     System.gc();
-                    libraryUI.getGamesContainer().repaint();
-                    libraryUI.getGamesContainer().validate();
+                    libraryUI.getGameGridContainer().repaint();
+                    libraryUI.getGameGridContainer().validate();
                 }
             });
 
@@ -553,12 +553,12 @@ public class LibraryLogic implements AuroraScreenLogic {
 
         //Load First Panels
         libraryUI.setIsGameLibraryKeyListenerAdded(false);
-        for (int i = 0; i < libraryUI.getGridSplit().getGrid(currentGrid)
+        for (int i = 0; i < libraryUI.getGridManager().getGrid(currentGrid)
                 .getArray().size();
                 i++) {
-            Game game = new Game(libraryUI.getGridSplit(), coreUI, dashboardUI);
+            Game game = new Game(libraryUI.getGridManager(), coreUI, dashboardUI);
             try {
-                game = (Game) libraryUI.getGridSplit().getGrid(currentGrid)
+                game = (Game) libraryUI.getGridManager().getGrid(currentGrid)
                         .getArray().get(i);
                 if (game.getLibraryLogic() == null) {
                     game.setLibraryLogic(this);
@@ -605,16 +605,16 @@ public class LibraryLogic implements AuroraScreenLogic {
         libraryUI.setIsGameLibraryKeyListenerAdded(false);
 
         // Load Next Panel if exists
-        if (currentGrid < libraryUI.getGridSplit().getArray().size() - 1) {
+        if (currentGrid < libraryUI.getGridManager().getArray().size() - 1) {
             for (int i = 0; i
-                            < libraryUI.getGridSplit().getGrid(
+                            < libraryUI.getGridManager().getGrid(
                             currentGrid + 1)
                     .getArray()
                     .size(); i++) {
-                Game game = new Game(libraryUI.getGridSplit(), coreUI,
+                Game game = new Game(libraryUI.getGridManager(), coreUI,
                                      dashboardUI);
                 try {
-                    game = (Game) libraryUI.getGridSplit().getGrid(currentGrid
+                    game = (Game) libraryUI.getGridManager().getGrid(currentGrid
                                                                    + 1)
                             .getArray()
                             .get(i);
@@ -1152,7 +1152,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                 .getPath());
 
 
-                        Game game = new Game(libraryUI.getGridSplit(),
+                        Game game = new Game(libraryUI.getGridManager(),
                                              coreUI, dashboardUI, libraryUI
                                              .getStorage());
 

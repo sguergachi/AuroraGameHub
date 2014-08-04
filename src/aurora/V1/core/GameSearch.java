@@ -127,7 +127,7 @@ public class GameSearch implements Runnable {
 
         if (staticGameCover == null || staticGameCover.getCoverURL() == null) {
             // Create the new GameCover object
-            staticGameCover = new Game(libraryUI.getGridSplit(), coreUI,
+            staticGameCover = new Game(libraryUI.getGridManager(), coreUI,
                             libraryUI
                             .getDashboardUI(), storage);
             staticGameCover.setCoverUrl("library_noGameFound.png");
@@ -266,7 +266,7 @@ public class GameSearch implements Runnable {
                 pnlGameCoverPane.removeAll();
                 if (staticGameCover == null) {
                     // Create the new GameCover object
-                    staticGameCover = new Game(libraryUI.getGridSplit(), coreUI,
+                    staticGameCover = new Game(libraryUI.getGridManager(), coreUI,
                                     libraryUI
                                     .getDashboardUI(), storage);
                     staticGameCover.setCoverUrl("library_noGameFound.png");
@@ -310,7 +310,7 @@ public class GameSearch implements Runnable {
 
                 pnlGameCoverPane.removeAll();
                 // Create the new GameCover object
-                foundGameCover = new Game(libraryUI.getGridSplit(), coreUI,
+                foundGameCover = new Game(libraryUI.getGridManager(), coreUI,
                                           libraryUI
                                           .getDashboardUI(), storage);
                 foundGameCover.setCoverUrl(gameImageName);
@@ -397,7 +397,7 @@ public class GameSearch implements Runnable {
                 pnlGameCoverPane.removeAll();
                 if (staticGameCover == null) {
                     // Create the new GameCover object
-                    staticGameCover = new Game(libraryUI.getGridSplit(), coreUI,
+                    staticGameCover = new Game(libraryUI.getGridManager(), coreUI,
                                     libraryUI
                                     .getDashboardUI(), storage);
                     staticGameCover.setCoverUrl("library_noGameFound.png");
@@ -444,7 +444,7 @@ public class GameSearch implements Runnable {
 
                 pnlGameCoverPane.removeAll();
                 // Create the new GameCover object
-                foundGameCover = new Game(libraryUI.getGridSplit(), coreUI,
+                foundGameCover = new Game(libraryUI.getGridManager(), coreUI,
                                           libraryUI
                                           .getDashboardUI(), storage);
                 foundGameCover.setCoverUrl(foundGame);
@@ -748,7 +748,7 @@ public class GameSearch implements Runnable {
                     pnlGameCoverPane.removeAll();
                     if (staticGameCover == null) {
                         // Create the new GameCover object
-                        staticGameCover = new Game(libraryUI.getGridSplit(),
+                        staticGameCover = new Game(libraryUI.getGridManager(),
                                         coreUI,
                                         libraryUI
                                         .getDashboardUI(), storage);
@@ -786,7 +786,7 @@ public class GameSearch implements Runnable {
                     pnlGameCoverPane.removeAll();
 
                     // Set up GameCover object with First Database item found
-                    foundGameCover = new Game(libraryUI.getGridSplit(), coreUI,
+                    foundGameCover = new Game(libraryUI.getGridManager(), coreUI,
                                               libraryUI.getDashboardUI(),
                                               storage);
                     foundGameCover.setCoverUrl(foundGame); //use seperate string
@@ -839,7 +839,7 @@ public class GameSearch implements Runnable {
 
                 if (staticGameCover == null) {
                     // Create the new GameCover object
-                    staticGameCover = new Game(libraryUI.getGridSplit(), coreUI,
+                    staticGameCover = new Game(libraryUI.getGridManager(), coreUI,
                                     libraryUI
                                     .getDashboardUI(), storage);
                     staticGameCover.setCoverUrl("library_noGameFound.png");

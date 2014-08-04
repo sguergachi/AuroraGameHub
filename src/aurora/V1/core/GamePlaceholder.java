@@ -24,7 +24,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.Box;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 
@@ -51,7 +50,7 @@ public class GamePlaceholder extends AImagePane {
     }
 
     public void setUp(int Width, int Height, String BGimg) {
-        this.allWidth = Width ;
+        this.allWidth = Width;
         this.allHeight = Height;
 
         this.setImage(BGimg, allHeight, allWidth);
@@ -60,7 +59,7 @@ public class GamePlaceholder extends AImagePane {
         this.repaint();
         this.setOpaque(false);
 
-        this.setLayout(new FlowLayout(FlowLayout.LEFT));
+        this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
     }
 
@@ -68,13 +67,13 @@ public class GamePlaceholder extends AImagePane {
                           ActionListener handler) {
 
 
-        buttonPadding = - (allWidth / 20) * ((allHeight) / 120) + (allWidth / 7);
+        buttonPadding = -(allWidth / 20) * ((allHeight) / 120) + (allWidth / 7);
 
 
-        button = new AButton(up, down, over, allWidth , allHeight);
+        button = new AButton(up, down, over, allWidth, allHeight);
         button.addActionListener(handler);
-        buttonPane = new JPanel(new FlowLayout(FlowLayout.LEFT, - buttonPadding,
-                0)); //Contains the Add Game Button
+        buttonPane = new JPanel(new FlowLayout(FlowLayout.LEFT, buttonPadding,
+                                               0)); //Contains the Add Game Button
         buttonPane.setOpaque(false);
 
 
@@ -82,10 +81,10 @@ public class GamePlaceholder extends AImagePane {
         button.addMouseListener(new ButtonMouseListener());
         this.addMouseListener(new ButtonMouseListener());
         buttonPane.addMouseListener(new ButtonMouseListener());
-        buttonPane.add(button);
-        buttonPane.add(Box.createHorizontalStrut(allWidth));
+//        buttonPane.add(button);
+//        buttonPane.add(Box.createHorizontalStrut(allWidth));
 
-        this.add(buttonPane);
+        this.add(button);
 
         this.revalidate();
         buttonPane.revalidate();
@@ -94,10 +93,7 @@ public class GamePlaceholder extends AImagePane {
     }
 
     public Boolean isContainsButton() {
-        if (button != null) {
-            return true;
-        }
-        return false;
+        return button != null;
     }
 
     public class ButtonMouseListener implements MouseListener {

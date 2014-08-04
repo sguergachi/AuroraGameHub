@@ -106,11 +106,11 @@ public class StoredLibrary extends AStorage {
         this.Library = library;
         if (Library != null) {
 
-            for (int a = 0; a < Library.getGridSplit().getArray().size(); a++) {
-                for (int b = 0; b < Library.getGridSplit().getGrid(a).getArray()
+            for (int a = 0; a < Library.getGridManager().getArray().size(); a++) {
+                for (int b = 0; b < Library.getGridManager().getGrid(a).getArray()
                         .size(); b++) {
 
-                    Game game = (Game) Library.getGridSplit().getGrid(a)
+                    Game game = (Game) Library.getGridManager().getGrid(a)
                             .getArray().get(b);
                     GameName = game.getGameName();
                     GamePath = game.getGamePath();
