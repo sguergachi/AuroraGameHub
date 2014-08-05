@@ -163,7 +163,7 @@ public class SettingsUI extends AuroraApp {
 
     private AImage imgUseGamePadIcon;
 
-    private ARadioButton rdbUseGamePad;
+    private ARadioButton rdbGamepadNavigation;
 
     // Analytics setting UI components
     private ASlickTextPane lblAnalyticsSetting;
@@ -221,6 +221,8 @@ public class SettingsUI extends AuroraApp {
     private ASlickTextPane lblTaskbarSetting;
     private SettingsHandler.EnableMinimizeToTaskbarHandler enableMinimizeToTaskbarHandler;
     private SettingsHandler.DisableMinimizeToTaskbarHandler disableMinimizeToTaskbarHandler;
+    private SettingsHandler.EnableGamepadNavigationHandler enableGamepadNavigationHandler;
+    private SettingsHandler.DisableGamepadNavigationHandler disableGamepadNavigationHandler;
 
     public SettingsUI(AuroraStorage auroraStorage, DashboardUI dashboardUI,
                       AuroraCoreUI auroraCoreUI) {
@@ -458,7 +460,7 @@ public class SettingsUI extends AuroraApp {
                                                                     78));
 
         lblUpdateAuroraDBSearchSetting = new ASlickTextPane(
-                "Update Aurora Cover Art DB");
+                "Update Aurora Cover Art DB...");
         lblUpdateAuroraDBSearchSetting.setPreferredSize(
                 pnlUpdateAuroraDBSearchLabel
                 .getPreferredSize());
@@ -474,7 +476,7 @@ public class SettingsUI extends AuroraApp {
                 14, 5));
         pnlOpenLogDataFolderSetting.setOpaque(false);
 
-        imgOpenLogDataFolderIcon = new AImage("settings_img_auroraCoverDB.png");
+        imgOpenLogDataFolderIcon = new AImage("settings_img_logger.png");
 
         btnOpenLogDataFolder = new AButton("settings_btn_select_norm.png",
                                            "settings_btn_select_down.png",
@@ -505,11 +507,11 @@ public class SettingsUI extends AuroraApp {
         pnlUseGamePadSetting.setOpaque(false);
 
 
-        imgUseGamePadIcon = new AImage("settings_img_keyboard.png");
+        imgUseGamePadIcon = new AImage("settings_img_gamepad.png");
 
 
-        rdbUseGamePad = new ARadioButton("settings_btn_notselected.png",
-                                         "settings_btn_selected.png");
+        rdbGamepadNavigation = new ARadioButton("settings_btn_notselected.png",
+                                                "settings_btn_selected.png");
 
 
         pnlUseGamePadLabel = new JPanel(
@@ -518,7 +520,7 @@ public class SettingsUI extends AuroraApp {
         pnlUseGamePadLabel.setPreferredSize(new Dimension(190,
                                                           78));
 
-        lblUseGamePadSetting = new ASlickTextPane("Gamepad");
+        lblUseGamePadSetting = new ASlickTextPane("Gamepad Navigation");
         lblUseGamePadSetting.setPreferredSize(pnlUseGamePadLabel
                 .getPreferredSize());
         lblUseGamePadSetting.setForeground(new Color(218, 218, 234));
@@ -526,35 +528,6 @@ public class SettingsUI extends AuroraApp {
                 Font.PLAIN, 30));
 
         pnlUseGamePadLabel.add(lblUseGamePadSetting);
-
-
-        // Analytics toggle
-        pnlAnalyticsSetting = new JPanel(new FlowLayout(FlowLayout.LEFT,
-                                                        15, 5));
-        pnlAnalyticsSetting.setOpaque(false);
-
-
-        imgAnalyticsIcon = new AImage("settings_img_keyboard.png");
-
-
-        rdbAnalytics = new ARadioButton("settings_btn_notselected.png",
-                                        "settings_btn_selected.png");
-
-
-        pnlAnalyticsLabel = new JPanel(
-                new FlowLayout(FlowLayout.CENTER, 0, 0));
-        pnlAnalyticsLabel.setOpaque(false);
-        pnlAnalyticsLabel.setPreferredSize(new Dimension(190,
-                                                         78));
-
-        lblAnalyticsSetting = new ASlickTextPane("Analytics");
-        lblAnalyticsSetting.setPreferredSize(pnlAnalyticsLabel
-                .getPreferredSize());
-        lblAnalyticsSetting.setForeground(new Color(218, 218, 234));
-        lblAnalyticsSetting.setFont(coreUI.getRopaFont().deriveFont(
-                Font.PLAIN, 30));
-
-        pnlAnalyticsLabel.add(lblAnalyticsSetting);
 
         // Minimize Aurora
         pnlTaskbarSetting = new JPanel(new FlowLayout(FlowLayout.LEFT,
@@ -631,24 +604,18 @@ public class SettingsUI extends AuroraApp {
         // Use GamePad
         pnlUseGamePadSetting.add(imgUseGamePadIcon);
         pnlUseGamePadSetting.add(pnlUseGamePadLabel);
-        pnlUseGamePadSetting.add(rdbUseGamePad);
+        pnlUseGamePadSetting.add(rdbGamepadNavigation);
         pnlUseGamePadSetting.revalidate();
-
-        // Analytics
-        pnlAnalyticsSetting.add(imgAnalyticsIcon);
-        pnlAnalyticsSetting.add(pnlAnalyticsLabel);
-        pnlAnalyticsSetting.add(rdbAnalytics);
-        pnlAnalyticsSetting.revalidate();
 
         pnlGeneralSettingsGrid.add(pnlSoundEffectsSetting);
         pnlGeneralSettingsGrid.add(pnlWASDNavigationSetting);
         pnlGeneralSettingsGrid.add(pnlTaskbarSetting);
+        if (coreUI.getInputController().isControllersDetected()) {
+            pnlGeneralSettingsGrid.add(pnlUseGamePadSetting);
+        }
         pnlGeneralSettingsGrid.add(pnlBackgroundGameSearchSetting);
-        pnlGeneralSettingsGrid.add(pnlUpdateAuroraDBSearchSetting);
-        pnlGeneralSettingsGrid.add(pnlUseGamePadSetting);
-        pnlGeneralSettingsGrid.add(pnlAnalyticsSetting);
         pnlGeneralSettingsGrid.add(pnlOpenLogDataFolderSetting);
-
+        pnlGeneralSettingsGrid.add(pnlUpdateAuroraDBSearchSetting);
 
 
         pnlGeneralSettingsGrid.setLayout(new GridLayout(2, 5, padding_top,
@@ -915,6 +882,31 @@ public class SettingsUI extends AuroraApp {
 
         }
 
+        //
+        // Gamepad Navigation
+        //
+        if (storage.getStoredSettings()
+                .getSettingValue(SettingsLogic.GAMEPAD_SETTING) != null) {
+            rdbGamepadNavigation.clearHandlers();
+            if (storage.getStoredSettings().getSettingValue(
+                    SettingsLogic.GAMEPAD_SETTING)
+                    .equals("enabled")) {
+
+                rdbGamepadNavigation.setSelected();
+
+            } else if (storage.getStoredSettings().getSettingValue(
+                    SettingsLogic.GAMEPAD_SETTING).equals("disabled")) {
+                rdbGamepadNavigation.setUnSelected();
+            }
+
+        } else {
+
+            storage.getStoredSettings().saveSetting(SettingsLogic.GAMEPAD_SETTING,
+                                                    SettingsLogic.DEFAULT_GAMEPAD_SETTING);
+            checkSettingsValues();
+
+        }
+
 
         //
         // Background search
@@ -990,6 +982,9 @@ public class SettingsUI extends AuroraApp {
         enableWASDNavigationHandler = settingsHandler.new EnableWASDNavigationHandler();
         disableWASDNavigationHandler = settingsHandler.new DisableWASDNavigationHandler();
 
+        enableGamepadNavigationHandler = settingsHandler.new EnableGamepadNavigationHandler();
+        disableGamepadNavigationHandler = settingsHandler.new DisableGamepadNavigationHandler();
+
         enableSoundEffectsHandler = settingsHandler.new EnableSoundEffectsHandler();
         disableSoundEffectsHandler = settingsHandler.new DisableSoundEffectsHandler();
 
@@ -1009,6 +1004,9 @@ public class SettingsUI extends AuroraApp {
 
         rdbWASDNavigation.setSelectedHandler(enableWASDNavigationHandler);
         rdbWASDNavigation.setUnSelectedHandler(disableWASDNavigationHandler);
+
+        rdbGamepadNavigation.setSelectedHandler(enableGamepadNavigationHandler);
+        rdbGamepadNavigation.setUnSelectedHandler(disableGamepadNavigationHandler);
 
         rdbSoundEffects.setSelectedHandler(enableSoundEffectsHandler);
         rdbSoundEffects.setUnSelectedHandler(disableSoundEffectsHandler);

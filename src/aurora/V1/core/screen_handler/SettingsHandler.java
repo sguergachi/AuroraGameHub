@@ -45,6 +45,7 @@ public class SettingsHandler implements AuroraScreenHandler {
     public static String WASD_SETTING = SettingsLogic.WASD_NAV_SETTING;
     public static String BACKGROUNDLOAD_SETTING = SettingsLogic.BACKGROUND_SEARCH_SETTING;
     public static String SOUNDFX_SETTING = SettingsLogic.SFX_SETTING;
+    public static String GAMEPAD_SETTING = SettingsLogic.SFX_SETTING;
 
     private final StoredSettings storage;
 
@@ -240,7 +241,7 @@ public class SettingsHandler implements AuroraScreenHandler {
         public void actionPerformed(ActionEvent e) {
             if (storage.getSettingValue(SettingsLogic.SFX_SETTING).equals(
                     "enabled")) {
-                int num =  (int) (Math.random() * (2 - 1)) + 1 ;
+                int num = (int) (Math.random() * (2 - 1)) + 1;
                 ASound sfx = new ASound("radio_on_" + num
                                         + ".wav", false);
                 sfx.Play();
@@ -319,6 +320,106 @@ public class SettingsHandler implements AuroraScreenHandler {
 
                     if (SettingsUI.lblSettingsStatus.getCurrentText().equals(
                             "WASD Navigation Disabled")) {
+                        // Show default message after 1.5 seconds
+                        SettingsUI.lblSettingsStatus.setForeground(
+                                SettingsUI.DEFAULT_SETTINGS_COLOR);
+                        SettingsUI.lblSettingsStatus.setText(
+                                SettingsUI.DEAFULT_SETTINGS_STATUS);
+                    }
+
+                }
+            });
+
+
+            worker.startOnce();
+
+        }
+
+    }
+
+    //----------------------- Gamepad Navigation --------------------------//
+    public class EnableGamepadNavigationHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (storage.getSettingValue(SettingsLogic.GAMEPAD_SETTING).equals("enabled")) {
+                int num = (int) (Math.random() * (2 - 1)) + 1;
+                ASound sfx = new ASound("radio_on_" + num + ".wav", false);
+                sfx.Play();
+            }
+
+            AThreadWorker worker = new AThreadWorker(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+
+                    storage.saveSetting(SettingsLogic.GAMEPAD_SETTING, "enabled");
+
+                    SettingsUI.lblSettingsStatus.setForeground(Color.GREEN);
+                    SettingsUI.lblSettingsStatus.setText("Gamepad Navigation Enabled");
+
+                    try {
+                        Thread.sleep(1500);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(LibraryLogic.class
+                                .getName()).
+                                log(Level.SEVERE, null, ex);
+                    }
+
+                    if (SettingsUI.lblSettingsStatus.getCurrentText().equals(
+                            "Gamepad Navigation Enabled")) {
+                        // Show default message after 1.5 seconds
+                        SettingsUI.lblSettingsStatus.setForeground(
+                                SettingsUI.DEFAULT_SETTINGS_COLOR);
+                        SettingsUI.lblSettingsStatus.setText(
+                                SettingsUI.DEAFULT_SETTINGS_STATUS);
+                    }
+
+                }
+            });
+
+
+            worker.startOnce();
+        }
+
+    }
+
+    public class DisableGamepadNavigationHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (storage.getSettingValue(SettingsLogic.GAMEPAD_SETTING).equals(
+                    "enabled")) {
+                int num = (int) (Math.random() * (2 - 1)) + 1;
+                ASound sfx = new ASound("radio_off_" + num
+                                        + ".wav", false);
+                sfx.Play();
+            }
+
+            AThreadWorker worker = new AThreadWorker(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+
+                    storage.saveSetting(SettingsLogic.GAMEPAD_SETTING, "disabled");
+
+                    SettingsUI.lblSettingsStatus.setForeground(Color.red);
+                    SettingsUI.lblSettingsStatus.setText(
+                            "Gamepad Navigation Disabled");
+
+                    try {
+                        Thread.sleep(1500);
+                    } catch (InterruptedException ex) {
+                        java.util.logging.Logger.getLogger(LibraryLogic.class
+                                .getName()).
+                                log(Level.SEVERE, null, ex);
+                    }
+
+                    if (SettingsUI.lblSettingsStatus.getCurrentText().equals(
+                            "Gamepad Navigation Disabled")) {
                         // Show default message after 1.5 seconds
                         SettingsUI.lblSettingsStatus.setForeground(
                                 SettingsUI.DEFAULT_SETTINGS_COLOR);
@@ -428,31 +529,31 @@ public class SettingsHandler implements AuroraScreenHandler {
         }
 
     } // End Sound Effects
-    
-  //-------------------- Open Log Data Folder ---------------------------//
+
+    //-------------------- Open Log Data Folder ---------------------------//
     public class OpenLogDataFolderHandler implements ActionListener {
-    	
-    	String logDataPath = System.getProperty("user.home") + "/AuroraData/Log Data";
-    			
+
+        String logDataPath = System.getProperty("user.home") + "/AuroraData/Log Data";
+
         @Override
         public void actionPerformed(ActionEvent e) {
-        	
-        	
-        	
+
+
+
             try {
-            	if (System.getProperty("os.name").contains("Windows")) {
-            		Runtime.getRuntime().exec(new String[]{"explorer.exe", logDataPath}).waitFor();	
-            	} else {
-            		Runtime.getRuntime().exec(new String[]{"/usr/bin/open", logDataPath}).waitFor();	
-            	}
-				
+                if (System.getProperty("os.name").contains("Windows")) {
+                    Runtime.getRuntime().exec(new String[]{"explorer.exe", logDataPath}).waitFor();
+                } else {
+                    Runtime.getRuntime().exec(new String[]{"/usr/bin/open", logDataPath}).waitFor();
+                }
+
             } catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}  
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
 
             AThreadWorker worker = new AThreadWorker(new ActionListener() {
@@ -464,7 +565,7 @@ public class SettingsHandler implements AuroraScreenHandler {
                     SettingsUI.lblSettingsStatus.setForeground(Color.cyan);
                     SettingsUI.lblSettingsStatus.setText(
                             "Opening log data folder...");
-                    
+
                     File dir = new File(logDataPath);
 
                     if (dir.exists()) {
@@ -511,7 +612,7 @@ public class SettingsHandler implements AuroraScreenHandler {
 
     }
 
-      //------------------------- Minimize To Taskbar -----------------------//
+    //------------------------- Minimize To Taskbar -----------------------//
     public class EnableMinimizeToTaskbarHandler implements ActionListener {
 
         @Override

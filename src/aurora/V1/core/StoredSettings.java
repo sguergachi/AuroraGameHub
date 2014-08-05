@@ -17,14 +17,12 @@
  */
 package aurora.V1.core;
 
-import static aurora.V1.core.StoredProfile.logger;
 import aurora.engine.V1.Logic.ASimpleDB;
-import org.apache.log4j.Logger;
-
 import aurora.engine.V1.Logic.AStorage;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
+import org.apache.log4j.Logger;
 
 /**
  * Contains all of the Settings Attributes set by the user

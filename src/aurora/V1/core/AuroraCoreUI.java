@@ -390,6 +390,8 @@ public class AuroraCoreUI {
 
     private AJinputController inputController;
 
+    private AuroraStorage storage;
+
     /**
      * .-----------------------------------------------------------------------.
      * | AuroraCoreUI(JFrame)
@@ -912,13 +914,23 @@ public class AuroraCoreUI {
                 frame.getWindowListeners()[0].windowClosed(null);
             }
         });
-        getInputController().setListener_A_Button(warningDialog
-                .getOkButtonListener());
-
         warningDialog.showDialog();
+        if ((storage.getStoredSettings()
+                .getSettingValue(SettingsLogic.GAMEPAD_SETTING) != null)
+            && storage.getStoredSettings()
+                .getSettingValue(SettingsLogic.GAMEPAD_SETTING).equalsIgnoreCase("enabled")) {
+            getInputController().setListener_A_Button(warningDialog
+                    .getOkButtonListener());
 
-        getInputController().setListener_B_Button(warningDialog
-                .getExitListener());
+            getInputController().setListener_B_Button(warningDialog
+                    .getExitListener());
+           } else if (storage.getStoredSettings()
+                .getSettingValue(SettingsLogic.GAMEPAD_SETTING) == null) {
+
+            storage.getStoredSettings().saveSetting(SettingsLogic.GAMEPAD_SETTING,
+                                                    SettingsLogic.DEFAULT_GAMEPAD_SETTING);
+        }
+
         warningDialog.setPostExitListener(new APostHandler() {
 
             @Override
@@ -1129,8 +1141,6 @@ public class AuroraCoreUI {
         private String arg;
 
         private Boolean showMiniMode;
-
-        private final AuroraStorage storage;
 
         public MinimizeListener(AuroraCoreUI ui, String arg) {
             this.ui = ui;

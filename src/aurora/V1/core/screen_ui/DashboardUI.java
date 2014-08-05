@@ -754,20 +754,32 @@ public class DashboardUI implements AuroraScreenUI {
 
         // Handlers
 
+
+
         coreUI.getInputController().clearAllListeners();
+        if ((storage.getStoredSettings()
+                .getSettingValue(SettingsLogic.GAMEPAD_SETTING) != null)
+            && storage.getStoredSettings()
+                .getSettingValue(SettingsLogic.GAMEPAD_SETTING).equalsIgnoreCase("enabled")) {
 
-        coreUI.getInputController().setListener_A_Button(handler.new DashboardlKeyListener(KeyEvent.VK_ENTER));
-        coreUI.getInputController().setListener_B_Button(handler.new DashboardlKeyListener(KeyEvent.VK_ESCAPE));
+            coreUI.getInputController().setListener_A_Button(handler.new DashboardlKeyListener(KeyEvent.VK_ENTER));
+            coreUI.getInputController().setListener_B_Button(handler.new DashboardlKeyListener(KeyEvent.VK_ESCAPE));
 
-        coreUI.getInputController().setListener_RB_Button(handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
-        coreUI.getInputController().setListener_LB_Button(handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
+            coreUI.getInputController().setListener_RB_Button(handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
+            coreUI.getInputController().setListener_LB_Button(handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
 
-        coreUI.getInputController().setListener_HAT_Left_Button(handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
-        coreUI.getInputController().setListener_HAT_Right_Button(handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
+            coreUI.getInputController().setListener_HAT_Left_Button(handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
+            coreUI.getInputController().setListener_HAT_Right_Button(handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
 
-        coreUI.getInputController().setListener_ANALOG_Left_Button(handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
-        coreUI.getInputController().setListener_ANALOG_Right_Button(handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
+            coreUI.getInputController().setListener_ANALOG_Left_Button(handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
+            coreUI.getInputController().setListener_ANALOG_Right_Button(handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
 
+        } else if (storage.getStoredSettings()
+                .getSettingValue(SettingsLogic.GAMEPAD_SETTING) == null) {
+
+            storage.getStoredSettings().saveSetting(SettingsLogic.GAMEPAD_SETTING,
+                                                    SettingsLogic.DEFAULT_GAMEPAD_SETTING);
+        }
         // Check for Mouse Wheel Rotation
         carousel.
                 addMouseWheelListener(
@@ -822,7 +834,7 @@ public class DashboardUI implements AuroraScreenUI {
             gameCoverWidth = (int) carouselWidth - (int) (carouselWidth / 4);
 
             carouselImageWidth = carouselHeight - (2 * carouselHeight / 6);
-            carouselImageHeight =  (int) (carouselImageWidth / 0.9942);
+            carouselImageHeight = (int) (carouselImageWidth / 0.9942);
 
             logoHeight = topHeight / 2 + 20;
             logoWidth = coreUI.getFrame().getWidth() / 2 + 20;

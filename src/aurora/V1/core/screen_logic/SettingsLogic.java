@@ -38,7 +38,11 @@ public class SettingsLogic implements AuroraScreenLogic {
 
     public final static String TASKBAR_MINIMIZE_SETTING = "taskbar_minimize";
 
+    public final static String GAMEPAD_SETTING = "gamepad_navigation";
+
     public static String DEFAULT_SFX_SETTING = "enabled";
+    
+    public static String DEFAULT_GAMEPAD_SETTING = "enabled";
 
     public static String DEFAULT_BACKGROUND_SEARCH_SETTING = "enabled";
 

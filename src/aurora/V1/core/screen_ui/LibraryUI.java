@@ -921,20 +921,31 @@ public class LibraryUI extends AuroraApp {
         AJinputController inputController = coreUI.getInputController();
         inputController.clearAllListeners();
 
-        inputController.setListener_HAT_Right_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_RIGHT));
-        inputController.setListener_HAT_Left_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_LEFT));
-        inputController.setListener_HAT_Up_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_UP));
-        inputController.setListener_HAT_Down_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_DOWN));
+        if ((storage.getStoredSettings()
+                .getSettingValue(SettingsLogic.GAMEPAD_SETTING) != null)
+            && storage.getStoredSettings()
+                .getSettingValue(SettingsLogic.GAMEPAD_SETTING).equalsIgnoreCase("enabled")) {
 
-        inputController.setListener_ANALOG_Right_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_RIGHT));
-        inputController.setListener_ANALOG_Left_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_LEFT));
-        inputController.setListener_ANALOG_Up_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_UP));
-        inputController.setListener_ANALOG_Down_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_DOWN));
+            inputController.setListener_HAT_Right_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_RIGHT));
+            inputController.setListener_HAT_Left_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_LEFT));
+            inputController.setListener_HAT_Up_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_UP));
+            inputController.setListener_HAT_Down_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_DOWN));
 
-        inputController.setListener_RB_Button(libraryHandler.new GridMoveActionListener(KeyEvent.VK_KP_LEFT));
-        inputController.setListener_LB_Button(libraryHandler.new GridMoveActionListener(KeyEvent.VK_KP_RIGHT));
-        inputController.setListener_B_Button(this.new BackButtonListener());
+            inputController.setListener_ANALOG_Right_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_RIGHT));
+            inputController.setListener_ANALOG_Left_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_LEFT));
+            inputController.setListener_ANALOG_Up_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_UP));
+            inputController.setListener_ANALOG_Down_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_DOWN));
 
+            inputController.setListener_RB_Button(libraryHandler.new GridMoveActionListener(KeyEvent.VK_KP_LEFT));
+            inputController.setListener_LB_Button(libraryHandler.new GridMoveActionListener(KeyEvent.VK_KP_RIGHT));
+            inputController.setListener_B_Button(this.new BackButtonListener());
+
+
+        } else if (storage.getStoredSettings()
+                .getSettingValue(SettingsLogic.GAMEPAD_SETTING) == null) {
+            storage.getStoredSettings().saveSetting(SettingsLogic.GAMEPAD_SETTING,
+                                                    SettingsLogic.DEFAULT_GAMEPAD_SETTING);
+        }
 
         pnlLibraryContainer.getActionMap()
                 .put("GridNav_W", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_W));
