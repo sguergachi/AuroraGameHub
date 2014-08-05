@@ -111,7 +111,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
             private int c = 0;
 
             // Scale of Hex Image growning
-            private int scale = 55;
+            private int scale = 60;
             private double originalHexHeight;
 
             @Override
