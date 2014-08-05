@@ -197,7 +197,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         coreUI.getCenterPanel().add(BorderLayout.CENTER, imgHexPane);
 
         // Set Up Prompter and Scrolling Animation
-        imgHexPane.StartLoop();
+        imgHexPane.StartLoop(coreUI.getCenterPanel().getPreferredSize().height);
 
         // Add Escape Key Listener to frame
         frame.addKeyListener(startKeyHandler);

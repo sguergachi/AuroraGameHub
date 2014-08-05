@@ -111,7 +111,8 @@ public class WelcomeLogic implements AuroraScreenLogic {
             private int c = 0;
 
             // Scale of Hex Image growning
-            private int scale = 0;
+            private int scale = 55;
+            private double originalHexHeight;
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -132,11 +133,14 @@ public class WelcomeLogic implements AuroraScreenLogic {
                     imgHexPane.setCenterToFrame(coreUI.getFrame());
                     imgHexPane.repaint();
 
+                    originalHexHeight = imgHexPane.getImageHeight();
+
                 } else {
                     // Change Size Values
+
                     scale++;
+                    centerHeight+= 5;
                     topHeight--;
-                    centerHeight += 5;
 
                     // Change Component Sizes
                     imgHexPane.grow(scale);
@@ -163,17 +167,17 @@ public class WelcomeLogic implements AuroraScreenLogic {
                     }
 
                     // Check if Reached Proper Size to stop
-                    if (scale == 37) {
+                    if (imgHexPane.getImageHeight() >= originalHexHeight * 3) {
 
                         showDashdoard();
                         animateTransision.stop();
                     }
 
                 }
-
-
             }
-        }, 18);
+
+
+        }, 16);
 
         animateTransision.start();
 
