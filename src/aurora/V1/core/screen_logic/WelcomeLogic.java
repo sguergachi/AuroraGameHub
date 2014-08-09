@@ -112,6 +112,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
 
             // Scale of Hex Image growning
             private int scale = 60;
+
             private double originalHexHeight;
 
             @Override
@@ -139,7 +140,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
                     // Change Size Values
 
                     scale++;
-                    centerHeight+= 5;
+                    centerHeight += 5;
                     topHeight--;
 
                     // Change Component Sizes
@@ -299,8 +300,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
 
     }
 
-    public void moveAuroraDB(APrompter promptDisplay) {
-        logger.info("Moving AuroraDB to AuroraData folder...");
+    public void checkAuroraCoverDB(APrompter promptDisplay) {
 
         String installPath = WelcomeUI.class.getProtectionDomain()
                 .getCodeSource().getLocation().getPath().replaceFirst(
@@ -311,18 +311,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
         logger.info(" >>> installPath Path " + installPath);
 
         if (!fileIO.checkFile(fileIO
-                .getPath() + "AuroraDB.h2.db")
-                    || fileIO.checkFile(installPath + "/updateDB")) {
-
-            if (fileIO.checkFile(installPath + "/updateDB")) {
-                try {
-                    fileIO.deleteFile(new File(installPath + "/updateDB"));
-                } catch (IOException ex) {
-                    java.util.logging.Logger
-                            .getLogger(WelcomeUI.class.getName()).
-                            log(Level.SEVERE, null, ex);
-                }
-            }
+                .getPath() + "AuroraDB.h2.db")) {
 
             if (fileIO.checkFile(auroraDbPath)) {
                 try {

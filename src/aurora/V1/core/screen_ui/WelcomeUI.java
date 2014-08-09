@@ -376,6 +376,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 } else if (!logic.checkDBFiles()) {
                     FirstTimeLoad = false;
                     fileIO.setPath(fileIO.getPath() + main.DATA_PATH);
+                    logic.checkAuroraCoverDB(promptDisplay);
                     System.out.println("Moved AuroraDB");
                     if (!logic.checkDBFiles()) {
                         FirstTimeLoad = true;
