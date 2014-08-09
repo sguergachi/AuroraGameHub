@@ -367,7 +367,7 @@ public class LibraryUI extends AuroraApp {
         //
         String value = storage.getStoredSettings().getSettingValue(
                 SettingsHandler.WASD_SETTING);
-        if (value.equals("enabled")) {
+        if (value != null && value.equals("enabled")) {
             imgArrowIco = new AImage("KeyboardKeys/wasd.png", coreUI
                                      .getKeyIconWidth(), coreUI
                                      .getKeyIconHeight());

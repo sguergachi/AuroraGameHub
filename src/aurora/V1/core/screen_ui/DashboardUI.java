@@ -467,6 +467,9 @@ public class DashboardUI implements AuroraScreenUI {
         carousel.addPane(paneProfile);
         carousel.addPane(paneNet);
 
+        if(storage.getStoredSettings().getSettingValue(SettingsLogic.WASD_NAV_SETTING) == null){
+            storage.getStoredSettings().saveSetting(SettingsLogic.WASD_NAV_SETTING,SettingsLogic.DEFAULT_GAMEPAD_SETTING);
+        }
         if (storage.getStoredSettings().getSettingValue(SettingsLogic.WASD_NAV_SETTING).equalsIgnoreCase("enabled")) {
             carousel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                     .put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), "Carousel_D");
