@@ -459,7 +459,7 @@ public class GridSearch {
 
         // show search results
         libraryUI.getPnlSearchResultsContainer().setVisible(true);
-        libraryUI.getGridManager().unselectPrevious();
+        libraryUI.getGridManager().unselectPrevious(null);
 
         //Remove Favorite Side Image
         libraryUI.getGameGridContainer().remove(0);
