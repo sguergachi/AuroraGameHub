@@ -553,7 +553,7 @@ public class LibraryHandler implements
                                 if (!(comp.get(i - 4) instanceof GamePlaceholder)) {
                                     game.hideOverlayUI();
                                     Game newGame = (Game) comp.get(i - 4);
-                                    gridManager.unselectPrevious();
+                                    gridManager.unselectPrevious(null);
                                     newGame.showOverlayUI();
                                 }
 
@@ -562,7 +562,7 @@ public class LibraryHandler implements
                                 if (!(comp.get(i + (4 * 1)) instanceof GamePlaceholder)) {
                                     game.hideOverlayUI();
                                     Game newGame = (Game) comp.get(i + (4 * 1));
-                                    gridManager.unselectPrevious();
+                                    gridManager.unselectPrevious(null);
                                     newGame.showOverlayUI();
                                 }
                             } else {
@@ -622,7 +622,7 @@ public class LibraryHandler implements
                                 if (!(comp.get(i + 4) instanceof GamePlaceholder)) {
                                     game.hideOverlayUI();
                                     Game newGame = (Game) comp.get(i + 4);
-                                    gridManager.unselectPrevious();
+                                    gridManager.unselectPrevious(null);
                                     newGame.showOverlayUI();
                                 }
 
@@ -632,7 +632,7 @@ public class LibraryHandler implements
                                 if (!(comp.get(i - (4 * 1)) instanceof GamePlaceholder)) {
                                     game.hideOverlayUI();
                                     Game newGame = (Game) comp.get(i - (4 * 1));
-                                    gridManager.unselectPrevious();
+                                    gridManager.unselectPrevious(null);
                                     newGame.showOverlayUI();
                                 }
                             } else {
@@ -706,7 +706,7 @@ public class LibraryHandler implements
 
                             game.hideOverlayUI();
                             Game newGame = (Game) comp.get(i - 1);
-                            gridManager.unselectPrevious();
+                            gridManager.unselectPrevious(null);
                             newGame.showOverlayUI();
                             cursorMoved = true;
                         } else if (col == 1 && row == 1) {
@@ -747,7 +747,7 @@ public class LibraryHandler implements
                                     game.hideOverlayUI();
                                     Game newGame = (Game) comp.get(comp.size()
                                                                    - 1);
-                                    gridManager.unselectPrevious();
+                                    gridManager.unselectPrevious(null);
                                     newGame.showOverlayUI();
                                 }
                             } else {
@@ -825,7 +825,7 @@ public class LibraryHandler implements
                                 }
 
                                 newGame = (Game) obj;
-                                gridManager.unselectPrevious();
+                                gridManager.unselectPrevious(null);
                                 newGame.showOverlayUI();
                                 cursorMoved = true;
                             } else {
@@ -1912,7 +1912,7 @@ public class LibraryHandler implements
                                                 @Override
                                                 public void doAction() {
                                                     gridManager
-                                                    .unselectPrevious();
+                                                    .unselectPrevious(null);
                                                     GridMove = new MoveToGrid(
                                                             game);
 
@@ -2745,7 +2745,7 @@ public class LibraryHandler implements
                             GridMove = new MoveToGrid(libraryUI
                                     .getEditGameUI().getCurrentGame_editUI());
 
-                            libraryUI.getGridManager().unselectPrevious();
+                            libraryUI.getGridManager().unselectPrevious(null);
                         } else {
                             ADialog info = new ADialog(
                                     ADialog.aDIALOG_WARNING,
@@ -2790,7 +2790,7 @@ public class LibraryHandler implements
 
                     LibraryUI.lblLibraryStatus.setForeground(
                             LibraryUI.DEFAULT_LIBRARY_COLOR);
-                    libraryUI.getGridManager().unselectPrevious();
+                    libraryUI.getGridManager().unselectPrevious(null);
                     libraryUI.getEditGameUI().getCurrentGame_editUI()
                             .showOverlayUI();
 

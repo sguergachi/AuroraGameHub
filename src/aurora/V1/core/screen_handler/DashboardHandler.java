@@ -198,20 +198,27 @@ public class DashboardHandler implements AuroraScreenHandler {
         public final void actionPerformed(ActionEvent e) {
 
             AuroraStorage storage = dashboardUI.getStorage();
-            final String soundEffectsSetting = storage.getStoredSettings()
-                    .getSettingValue("sound_effects");
 
-            /*
-             * More responsive put here
-             */
+            if (storage.getStoredSettings()
+                    .getSettingValue(SettingsLogic.SFX_SETTING) == null) {
+                storage.getStoredSettings().saveSetting(
+                        SettingsLogic.SFX_SETTING,
+                        SettingsLogic.DEFAULT_SFX_SETTING);
+            }
 
+            final String soundEffectsSetting
+                                 = storage.getStoredSettings()
+                    .getSettingValue(SettingsLogic.SFX_SETTING);
+
+           
             if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_A) {
                 dashboardUI.getCarousel()
                         .setPostRightAnimation(new APostHandler() {
                             @Override
                             public void doAction() {
                                 if (soundEffectsSetting.equals("enabled")) {
-                                    ASound showSound = new ASound("click_1.wav", false);
+                                    ASound showSound = new ASound("click_1.wav",
+                                                                  false);
                                     showSound.Play();
                                 }
                             }
@@ -254,7 +261,7 @@ public class DashboardHandler implements AuroraScreenHandler {
 
 
             }
-        
+
         }
 
     }

@@ -296,6 +296,11 @@ public class LibraryUI extends AuroraApp {
 
     private AImage imgEnterIco;
 
+    private AImage imgBackIco;
+
+    private AImage imgFlipIco;
+    private ASlickLabel lblFlipAction;
+
     /**
      * .-----------------------------------------------------------------------.
      * | LibraryUI(AuroraStorage, DashboardUI, AuroraCoreUI)
@@ -367,11 +372,11 @@ public class LibraryUI extends AuroraApp {
         //
         String value = storage.getStoredSettings().getSettingValue(
                 SettingsHandler.WASD_SETTING);
-        if (value != null && value.equals("enabled")) {
+        if (!coreUI.isUseGamePad() && value != null && value.equals("enabled")) {
             imgArrowIco = new AImage("KeyboardKeys/wasd.png", coreUI
                                      .getKeyIconWidth(), coreUI
                                      .getKeyIconHeight());
-        } else {
+        } else if (!coreUI.isUseGamePad()) {
             imgArrowIco = new AImage("KeyboardKeys/arrows.png", coreUI
                                      .getKeyIconWidth(), coreUI
                                      .getKeyIconHeight());
@@ -379,9 +384,21 @@ public class LibraryUI extends AuroraApp {
         lbArrowAction = new ASlickLabel();
 
 
-        imgEnterIco = new AImage("KeyboardKeys/enter.png", coreUI
-                                 .getKeyIconWidth(), coreUI.getKeyIconHeight());
+        if (coreUI.isUseGamePad()) {
+            imgEnterIco = new AImage("KeyboardKeys/a.png", coreUI
+                                     .getKeyIconWidth(), coreUI
+                                     .getKeyIconHeight());
+            imgFlipIco = new AImage("KeyboardKeys/y.png", coreUI
+                                    .getKeyIconWidth(), coreUI
+                                    .getKeyIconHeight());
+        } else {
+            imgEnterIco = new AImage("KeyboardKeys/enter.png", coreUI
+                                     .getKeyIconWidth(), coreUI
+                                     .getKeyIconHeight());
+        }
         lblEnterAction = new ASlickLabel();
+        lblFlipAction = new ASlickLabel();
+
 
         //
         // Library Status Pane
@@ -478,11 +495,19 @@ public class LibraryUI extends AuroraApp {
             lbArrowAction.setForeground(new Color(0, 178, 178));
             lbArrowAction.setText(" Move");
 
-            lblEnterAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
-                                                                      coreUI
-                                                                      .getKeysFontSize()));
+            lblEnterAction.setFont(coreUI.getDefaultFont()
+                    .deriveFont(Font.PLAIN,
+                                coreUI
+                                .getKeysFontSize()));
             lblEnterAction.setForeground(new Color(0, 178, 178));
             lblEnterAction.setText(" Play");
+
+            lblFlipAction.setFont(coreUI.getDefaultFont()
+                    .deriveFont(Font.PLAIN,
+                                coreUI
+                                .getKeysFontSize()));
+            lblFlipAction.setForeground(new Color(0, 178, 178));
+            lblFlipAction.setText(" Flip");
 
 
             // Bottom Center Bar
@@ -506,7 +531,7 @@ public class LibraryUI extends AuroraApp {
             lblLibraryStatus.setSize(new Dimension(imgLibraryStatusPane
                     .getRealImageWidth(), imgLibraryStatusPane
                                                    .getRealImageHeight()
-                                          / 2 + gameNameFontSize / 2));
+                                                  / 2 + gameNameFontSize / 2));
 
             lblLibraryStatus.validate();
             pnlLibraryStatusContainer.validate();
@@ -658,7 +683,7 @@ public class LibraryUI extends AuroraApp {
                                 "background_game_search");
                         if (backgroundGameSearch == null) {
                             backgroundGameSearch
-                            = SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING;
+                                    = SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING;
                         }
 
                         if (backgroundGameSearch.equals("enabled")) {
@@ -735,8 +760,10 @@ public class LibraryUI extends AuroraApp {
                                                 getDashboardUI().getInfoFeed()
                                                 .getPreferredSize().height));
 
-        dashboardUI.getInfoFeedContainer().setPreferredSize(new Dimension(coreUI.getBottomPane()
-                .getPreferredSize().width - 24, getDashboardUI().getInfoFeed().getPreferredSize().height));
+        dashboardUI.getInfoFeedContainer().setPreferredSize(new Dimension(coreUI
+                .getBottomPane()
+                .getPreferredSize().width - 24, getDashboardUI().getInfoFeed()
+                                                                          .getPreferredSize().height));
 
         coreUI.getBottomContentPane().add(Box.createVerticalStrut(4),
                                           BorderLayout.NORTH);
@@ -747,7 +774,8 @@ public class LibraryUI extends AuroraApp {
         coreUI.getBottomContentPane().add(Box.createHorizontalStrut(12),
                                           BorderLayout.WEST);
         coreUI.getBottomContentPane().setPreferredSize(new Dimension(dashboardUI
-                .getInfoFeed().getPreferredSize().width, dashboardUI.getInfoFeed()
+                .getInfoFeed().getPreferredSize().width, dashboardUI
+                                                                     .getInfoFeed()
                                                                      .getPreferredSize().height));
         coreUI.getBottomContentPane().revalidate();
 
@@ -759,8 +787,13 @@ public class LibraryUI extends AuroraApp {
                                               .getBottomContentPane());
 
         // Add To Key Action Panel
-        coreUI.getKeyToPressPanel().add(imgArrowIco);
-        coreUI.getKeyToPressPanel().add(lbArrowAction);
+        if (imgArrowIco != null) {
+            coreUI.getKeyToPressPanel().add(imgArrowIco);
+            coreUI.getKeyToPressPanel().add(lbArrowAction);
+        }
+
+
+
         coreUI.getHeaderOfCenterFromBottomPanel()
                 .setPreferredSize(new Dimension(coreUI.getFrame().getWidth(), 5));
         coreUI.getHeaderOfCenterFromBottomPanel().revalidate();
@@ -771,7 +804,8 @@ public class LibraryUI extends AuroraApp {
 
         // Check if WASD setting changed
         if (getStorage().getStoredSettings()
-                .getSettingValue(SettingsLogic.WASD_NAV_SETTING).equals("enabled")) {
+                .getSettingValue(SettingsLogic.WASD_NAV_SETTING).equals(
+                        "enabled")) {
 
             pnlLibraryContainer.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                     .put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), "GridNav_W");
@@ -903,9 +937,11 @@ public class LibraryUI extends AuroraApp {
         pnlLibraryContainer.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_0, 0), "SearchFocus_0");
         pnlLibraryContainer.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_QUOTE, 0), "SearchFocus_QUOTE");
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_QUOTE, 0),
+                     "SearchFocus_QUOTE");
         pnlLibraryContainer.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_PERIOD, 0), "SearchFocus_PERIOD");
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_PERIOD, 0),
+                     "SearchFocus_PERIOD");
 
 
 
@@ -916,132 +952,203 @@ public class LibraryUI extends AuroraApp {
         pnlLibraryContainer.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "GridNav_LEFT");
         pnlLibraryContainer.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "GridNav_RIGHT");
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0),
+                     "GridNav_RIGHT");
 
         AJinputController inputController = coreUI.getInputController();
         inputController.clearAllListeners();
 
         if ((storage.getStoredSettings()
                 .getSettingValue(SettingsLogic.GAMEPAD_SETTING) != null)
-            && storage.getStoredSettings()
-                .getSettingValue(SettingsLogic.GAMEPAD_SETTING).equalsIgnoreCase("enabled")) {
+                    && storage.getStoredSettings()
+                .getSettingValue(SettingsLogic.GAMEPAD_SETTING)
+                .equalsIgnoreCase("enabled")) {
 
-            inputController.setListener_HAT_Right_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_RIGHT));
-            inputController.setListener_HAT_Left_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_LEFT));
-            inputController.setListener_HAT_Up_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_UP));
-            inputController.setListener_HAT_Down_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_DOWN));
+            inputController.setListener_HAT_Right_Button(
+                    libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_RIGHT));
+            inputController.setListener_HAT_Left_Button(
+                    libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_LEFT));
+            inputController.setListener_HAT_Up_Button(
+                    libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_UP));
+            inputController.setListener_HAT_Down_Button(
+                    libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_DOWN));
 
-            inputController.setListener_ANALOG_Right_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_RIGHT));
-            inputController.setListener_ANALOG_Left_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_LEFT));
-            inputController.setListener_ANALOG_Up_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_UP));
-            inputController.setListener_ANALOG_Down_Button(libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_DOWN));
+            inputController.setListener_ANALOG_Right_Button(
+                    libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_RIGHT));
+            inputController.setListener_ANALOG_Left_Button(
+                    libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_LEFT));
+            inputController.setListener_ANALOG_Up_Button(
+                    libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_UP));
+            inputController.setListener_ANALOG_Down_Button(
+                    libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_DOWN));
 
-            inputController.setListener_RB_Button(libraryHandler.new GridMoveActionListener(KeyEvent.VK_KP_LEFT));
-            inputController.setListener_LB_Button(libraryHandler.new GridMoveActionListener(KeyEvent.VK_KP_RIGHT));
+            inputController.setListener_RB_Button(
+                    libraryHandler.new GridMoveActionListener(
+                            KeyEvent.VK_KP_LEFT));
+            inputController.setListener_LB_Button(
+                    libraryHandler.new GridMoveActionListener(
+                            KeyEvent.VK_KP_RIGHT));
             inputController.setListener_B_Button(this.new BackButtonListener());
 
 
         } else if (storage.getStoredSettings()
                 .getSettingValue(SettingsLogic.GAMEPAD_SETTING) == null) {
-            storage.getStoredSettings().saveSetting(SettingsLogic.GAMEPAD_SETTING,
-                                                    SettingsLogic.DEFAULT_GAMEPAD_SETTING);
+            storage.getStoredSettings().saveSetting(
+                    SettingsLogic.GAMEPAD_SETTING,
+                    SettingsLogic.DEFAULT_GAMEPAD_SETTING);
         }
 
         pnlLibraryContainer.getActionMap()
-                .put("GridNav_W", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_W));
+                .put("GridNav_W",
+                     (Action) libraryHandler.new GameLibraryKeyListener(
+                             KeyEvent.VK_W));
         pnlLibraryContainer.getActionMap()
-                .put("GridNav_UP", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_UP));
+                .put("GridNav_UP",
+                     (Action) libraryHandler.new GameLibraryKeyListener(
+                             KeyEvent.VK_UP));
         pnlLibraryContainer.getActionMap()
-                .put("GridNav_S", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_S));
+                .put("GridNav_S",
+                     (Action) libraryHandler.new GameLibraryKeyListener(
+                             KeyEvent.VK_S));
         pnlLibraryContainer.getActionMap()
-                .put("GridNav_DOWN", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_DOWN));
+                .put("GridNav_DOWN",
+                     (Action) libraryHandler.new GameLibraryKeyListener(
+                             KeyEvent.VK_DOWN));
         pnlLibraryContainer.getActionMap()
-                .put("GridNav_A", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_A));
+                .put("GridNav_A",
+                     (Action) libraryHandler.new GameLibraryKeyListener(
+                             KeyEvent.VK_A));
         pnlLibraryContainer.getActionMap()
-                .put("GridNav_LEFT", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_LEFT));
+                .put("GridNav_LEFT",
+                     (Action) libraryHandler.new GameLibraryKeyListener(
+                             KeyEvent.VK_LEFT));
         pnlLibraryContainer.getActionMap()
-                .put("GridNav_D", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_D));
+                .put("GridNav_D",
+                     (Action) libraryHandler.new GameLibraryKeyListener(
+                             KeyEvent.VK_D));
         pnlLibraryContainer.getActionMap()
-                .put("GridNav_RIGHT", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_RIGHT));
+                .put("GridNav_RIGHT",
+                     (Action) libraryHandler.new GameLibraryKeyListener(
+                             KeyEvent.VK_RIGHT));
         pnlLibraryContainer.getActionMap()
-                .put("GridNav_ESCAPE", (Action) libraryHandler.new GameLibraryKeyListener(KeyEvent.VK_ESCAPE));
+                .put("GridNav_ESCAPE",
+                     (Action) libraryHandler.new GameLibraryKeyListener(
+                             KeyEvent.VK_ESCAPE));
 
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_W", libraryHandler.new SearchRefocusListener(KeyEvent.VK_W));
+                .put("SearchFocus_W", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_W));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_S", libraryHandler.new SearchRefocusListener(KeyEvent.VK_S));
+                .put("SearchFocus_S", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_S));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_A", libraryHandler.new SearchRefocusListener(KeyEvent.VK_A));
+                .put("SearchFocus_A", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_A));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_D", libraryHandler.new SearchRefocusListener(KeyEvent.VK_D));
+                .put("SearchFocus_D", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_D));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_B", libraryHandler.new SearchRefocusListener(KeyEvent.VK_B));
+                .put("SearchFocus_B", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_B));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_C", libraryHandler.new SearchRefocusListener(KeyEvent.VK_C));
+                .put("SearchFocus_C", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_C));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_E", libraryHandler.new SearchRefocusListener(KeyEvent.VK_E));
+                .put("SearchFocus_E", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_E));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_F", libraryHandler.new SearchRefocusListener(KeyEvent.VK_F));
+                .put("SearchFocus_F", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_F));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_G", libraryHandler.new SearchRefocusListener(KeyEvent.VK_G));
+                .put("SearchFocus_G", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_G));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_H", libraryHandler.new SearchRefocusListener(KeyEvent.VK_H));
+                .put("SearchFocus_H", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_H));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_I", libraryHandler.new SearchRefocusListener(KeyEvent.VK_I));
+                .put("SearchFocus_I", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_I));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_J", libraryHandler.new SearchRefocusListener(KeyEvent.VK_J));
+                .put("SearchFocus_J", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_J));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_K", libraryHandler.new SearchRefocusListener(KeyEvent.VK_K));
+                .put("SearchFocus_K", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_K));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_L", libraryHandler.new SearchRefocusListener(KeyEvent.VK_L));
+                .put("SearchFocus_L", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_L));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_M", libraryHandler.new SearchRefocusListener(KeyEvent.VK_M));
+                .put("SearchFocus_M", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_M));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_N", libraryHandler.new SearchRefocusListener(KeyEvent.VK_N));
+                .put("SearchFocus_N", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_N));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_O", libraryHandler.new SearchRefocusListener(KeyEvent.VK_O));
+                .put("SearchFocus_O", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_O));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_P", libraryHandler.new SearchRefocusListener(KeyEvent.VK_P));
+                .put("SearchFocus_P", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_P));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_Q", libraryHandler.new SearchRefocusListener(KeyEvent.VK_Q));
+                .put("SearchFocus_Q", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_Q));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_R", libraryHandler.new SearchRefocusListener(KeyEvent.VK_R));
+                .put("SearchFocus_R", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_R));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_T", libraryHandler.new SearchRefocusListener(KeyEvent.VK_T));
+                .put("SearchFocus_T", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_T));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_U", libraryHandler.new SearchRefocusListener(KeyEvent.VK_U));
+                .put("SearchFocus_U", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_U));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_V", libraryHandler.new SearchRefocusListener(KeyEvent.VK_V));
+                .put("SearchFocus_V", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_V));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_X", libraryHandler.new SearchRefocusListener(KeyEvent.VK_X));
+                .put("SearchFocus_X", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_X));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_Y", libraryHandler.new SearchRefocusListener(KeyEvent.VK_Y));
+                .put("SearchFocus_Y", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_Y));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_Z", libraryHandler.new SearchRefocusListener(KeyEvent.VK_Z));
+                .put("SearchFocus_Z", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_Z));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_1", libraryHandler.new SearchRefocusListener(KeyEvent.VK_1));
+                .put("SearchFocus_1", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_1));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_2", libraryHandler.new SearchRefocusListener(KeyEvent.VK_2));
+                .put("SearchFocus_2", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_2));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_3", libraryHandler.new SearchRefocusListener(KeyEvent.VK_3));
+                .put("SearchFocus_3", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_3));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_4", libraryHandler.new SearchRefocusListener(KeyEvent.VK_4));
+                .put("SearchFocus_4", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_4));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_5", libraryHandler.new SearchRefocusListener(KeyEvent.VK_5));
+                .put("SearchFocus_5", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_5));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_6", libraryHandler.new SearchRefocusListener(KeyEvent.VK_6));
+                .put("SearchFocus_6", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_6));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_7", libraryHandler.new SearchRefocusListener(KeyEvent.VK_7));
+                .put("SearchFocus_7", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_7));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_8", libraryHandler.new SearchRefocusListener(KeyEvent.VK_8));
+                .put("SearchFocus_8", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_8));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_9", libraryHandler.new SearchRefocusListener(KeyEvent.VK_9));
+                .put("SearchFocus_9", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_9));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_0", libraryHandler.new SearchRefocusListener(KeyEvent.VK_0));
+                .put("SearchFocus_0", libraryHandler.new SearchRefocusListener(
+                             KeyEvent.VK_0));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_QUOTE", libraryHandler.new SearchRefocusListener(KeyEvent.VK_QUOTE));
+                .put("SearchFocus_QUOTE",
+                     libraryHandler.new SearchRefocusListener(KeyEvent.VK_QUOTE));
         pnlLibraryContainer.getActionMap()
-                .put("SearchFocus_PERIOD", libraryHandler.new SearchRefocusListener(KeyEvent.VK_PERIOD));
+                .put("SearchFocus_PERIOD",
+                     libraryHandler.new SearchRefocusListener(KeyEvent.VK_PERIOD));
 
 
 
@@ -1196,7 +1303,7 @@ public class LibraryUI extends AuroraApp {
 
                 //of on last Grid then dont show right arrow button
                 if (!(currentIndex + 1 < libraryGridManager.getArray().size()
-                                         - 1)) {
+                                                 - 1)) {
 
                     pnlLibraryContainer.remove(pnlMoveRightContainer);
                     pnlLibraryContainer.add(Box.createHorizontalStrut(140),
@@ -1231,15 +1338,23 @@ public class LibraryUI extends AuroraApp {
         }
 
         libraryGridManager.unFlipAll();
-        libraryGridManager.unselectPrevious();
+        libraryGridManager.unselectPrevious(null);
     }
 
     public void showEnterKeyIcon() {
+        if (coreUI.useGamePad) {
+            coreUI.getKeyToPressPanel().add(imgFlipIco);
+            coreUI.getKeyToPressPanel().add(lblFlipAction);
+        }
         coreUI.getKeyToPressPanel().add(imgEnterIco);
         coreUI.getKeyToPressPanel().add(lblEnterAction);
     }
 
     public void hideEnterKeyIcon() {
+        if (coreUI.useGamePad) {
+            coreUI.getKeyToPressPanel().remove(imgFlipIco);
+            coreUI.getKeyToPressPanel().remove(lblFlipAction);
+        }
         coreUI.getKeyToPressPanel().remove(imgEnterIco);
         coreUI.getKeyToPressPanel().remove(lblEnterAction);
     }
@@ -1261,7 +1376,7 @@ public class LibraryUI extends AuroraApp {
 
         if (coreUI.isLargeScreen()) {
             gameCoverWidth = coreUI.getFrame().getWidth() / 5 - (Ratio2 / 10)
-                             - 5;
+                                     - 5;
 
 
             selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
@@ -1636,7 +1751,8 @@ public class LibraryUI extends AuroraApp {
     }
 
     public boolean isAnyOverlayVisible() {
-        if (isAddGameUIVisible() || isEditGameUIVisible() || isEditGameCoverUIVisible()) {
+        if (isAddGameUIVisible() || isEditGameUIVisible()
+                    || isEditGameCoverUIVisible()) {
             return true;
         }
         return false;

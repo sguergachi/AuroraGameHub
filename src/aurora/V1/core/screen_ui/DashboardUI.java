@@ -197,12 +197,12 @@ public class DashboardUI implements AuroraScreenUI {
     /**
      * Image of Keyboard Arrows indicating ability to use keyboard to navigate.
      */
-    private AImage keyArrows;
+    private AImage imgKeyArrows;
 
     /**
      * Label describing what the Keyboard Icon will do.
      */
-    private JLabel lblKeyActionArrow;
+    private JLabel lblKeyAction;
 
     /**
      * the InfoFeed which displays news etc. at the bottom of the Dashboard
@@ -331,7 +331,10 @@ public class DashboardUI implements AuroraScreenUI {
     private ArrayList<JLabel> infoFeedLabelList;
 
     static final Logger logger = Logger.getLogger(DashboardUI.class);
+
     private JPanel infoFeedContainer;
+
+    private AImage imgKeyBack;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -391,7 +394,8 @@ public class DashboardUI implements AuroraScreenUI {
         icoSetting = new AImage("dash_carousel_settingsIcon.png");
         icoNet = new AImage("ComingSoon.png");
         icoLibrary = dashboardLogic.getLibraryIcon();
-        icoLibrary.setPreferredSize(new Dimension(gameCoverWidth, gameCoverHeight));
+        icoLibrary.setPreferredSize(new Dimension(gameCoverWidth,
+                                                  gameCoverHeight));
 
         titleProfile = new ACarouselTitle(titleProfileNorm, titleProfileGlow);
         titleSetting = new ACarouselTitle(titleSettingNorm, titleSettingGlow);
@@ -422,7 +426,7 @@ public class DashboardUI implements AuroraScreenUI {
         paneLibrary.setVisible(false);
 
         paneNet = new ACarouselPane("dash_carousel_bg.png", (int) carouselWidth
-                                                            + 25,
+                                                                    + 25,
                                     carouselHeight - 25, true, titleAuroraNet,
                                     "auroranet");
         paneNet.setVisible(false);
@@ -467,10 +471,14 @@ public class DashboardUI implements AuroraScreenUI {
         carousel.addPane(paneProfile);
         carousel.addPane(paneNet);
 
-        if(storage.getStoredSettings().getSettingValue(SettingsLogic.WASD_NAV_SETTING) == null){
-            storage.getStoredSettings().saveSetting(SettingsLogic.WASD_NAV_SETTING,SettingsLogic.DEFAULT_GAMEPAD_SETTING);
+        if (storage.getStoredSettings().getSettingValue(
+                SettingsLogic.WASD_NAV_SETTING) == null) {
+            storage.getStoredSettings().saveSetting(
+                    SettingsLogic.WASD_NAV_SETTING,
+                    SettingsLogic.DEFAULT_GAMEPAD_SETTING);
         }
-        if (storage.getStoredSettings().getSettingValue(SettingsLogic.WASD_NAV_SETTING).equalsIgnoreCase("enabled")) {
+        if (storage.getStoredSettings().getSettingValue(
+                SettingsLogic.WASD_NAV_SETTING).equalsIgnoreCase("enabled")) {
             carousel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                     .put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), "Carousel_D");
             carousel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
@@ -478,27 +486,37 @@ public class DashboardUI implements AuroraScreenUI {
         }
 
         carousel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "Carousel_LEFT");
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0),
+                     "Carousel_LEFT");
         carousel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "Carousel_RIGHT");
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0),
+                     "Carousel_RIGHT");
         carousel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "Carousel_ENTER");
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
+                     "Carousel_ENTER");
         carousel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Carousel_ESCAPE");
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                     "Carousel_ESCAPE");
 
 
         carousel.getActionMap()
-                .put("Carousel_LEFT", handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
+                .put("Carousel_LEFT", handler.new DashboardlKeyListener(
+                             KeyEvent.VK_LEFT));
         carousel.getActionMap()
-                .put("Carousel_RIGHT", handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
+                .put("Carousel_RIGHT", handler.new DashboardlKeyListener(
+                             KeyEvent.VK_RIGHT));
         carousel.getActionMap()
-                .put("Carousel_D", handler.new DashboardlKeyListener(KeyEvent.VK_D));
+                .put("Carousel_D", handler.new DashboardlKeyListener(
+                             KeyEvent.VK_D));
         carousel.getActionMap()
-                .put("Carousel_A", handler.new DashboardlKeyListener(KeyEvent.VK_A));
+                .put("Carousel_A", handler.new DashboardlKeyListener(
+                             KeyEvent.VK_A));
         carousel.getActionMap()
-                .put("Carousel_ENTER", handler.new DashboardlKeyListener(KeyEvent.VK_ENTER));
+                .put("Carousel_ENTER", handler.new DashboardlKeyListener(
+                             KeyEvent.VK_ENTER));
         carousel.getActionMap()
-                .put("Carousel_ESCAPE", handler.new DashboardlKeyListener(KeyEvent.VK_ESCAPE));
+                .put("Carousel_ESCAPE", handler.new DashboardlKeyListener(
+                             KeyEvent.VK_ESCAPE));
 
 
 
@@ -537,7 +555,8 @@ public class DashboardUI implements AuroraScreenUI {
         // Marquee Panel Text
         // --------------------------------------------------------------------.
         infoFeed = new AMarqueePanel(infoFeedWidth, infoFeedHeight,
-                                     new Color(38, 46, 60), new Color(16, 18, 29));
+                                     new Color(38, 46, 60),
+                                     new Color(16, 18, 29));
         infoFeed.setPreferredSize(new Dimension(
                 infoFeedWidth,
                 infoFeedHeight));
@@ -545,8 +564,10 @@ public class DashboardUI implements AuroraScreenUI {
         infoFeedFill.setPreferredSize(new Dimension(infoFeedWidth,
                                                     infoFeedHeight));
 
-        infoFeedFill.add(Box.createVerticalStrut(btnCarouselLeft.getPreferredSize().height / 2
-                                                 - infoFeedHeight / 2), BorderLayout.NORTH);
+        infoFeedFill.add(Box.createVerticalStrut(btnCarouselLeft
+                .getPreferredSize().height / 2
+                                                         - infoFeedHeight / 2),
+                         BorderLayout.NORTH);
 
         infoFeedContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         infoFeedContainer.setOpaque(false);
@@ -556,44 +577,48 @@ public class DashboardUI implements AuroraScreenUI {
 
 
 
-        AThreadWorker asynLoadInfofeed = new AThreadWorker(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                infoFeedLabelList = dashboardLogic.createRssFeed();
-                dashboardLogic.loadInfoFeed(infoFeed, infoFeedLabelList);
-
-
-                infoFeed.setPostCycleListener(new ActionListener() {
+        AThreadWorker asynLoadInfofeed = new AThreadWorker(
+                new ActionListener() {
                     @Override
-                    public void actionPerformed(final ActionEvent e) {
+                    public void actionPerformed(ActionEvent e) {
 
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("Refreshing feed");
-                        }
+                        infoFeedLabelList = dashboardLogic.createRssFeed();
+                        dashboardLogic.loadInfoFeed(infoFeed,
+                                                    infoFeedLabelList);
 
-                        infoFeed.removeAll();
-                        infoFeedLabelList = dashboardLogic.refreshRssFeed(
-                                infoFeedLabelList);
-                        dashboardLogic.loadInfoFeed(infoFeed, infoFeedLabelList);
+
+                        infoFeed.setPostCycleListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(final ActionEvent e) {
+
+                                if (logger.isDebugEnabled()) {
+                                    logger.debug("Refreshing feed");
+                                }
+
+                                infoFeed.removeAll();
+                                infoFeedLabelList = dashboardLogic
+                                .refreshRssFeed(
+                                        infoFeedLabelList);
+                                dashboardLogic.loadInfoFeed(infoFeed,
+                                                            infoFeedLabelList);
+                                infoFeed.startScrolling();
+
+
+                            }
+                        });
+
                         infoFeed.startScrolling();
 
+                        infoFeed.setPreferredSize(new Dimension(
+                                        infoFeed.getPreferredSize().width,
+                                        infoFeedHeight));
+
+
+                        infoFeedFill.revalidate();
+                        infoFeed.repaint();
 
                     }
                 });
-
-                infoFeed.startScrolling();
-
-                infoFeed.setPreferredSize(new Dimension(
-                        infoFeed.getPreferredSize().width,
-                        infoFeedHeight));
-
-
-                infoFeedFill.revalidate();
-                infoFeed.repaint();
-
-            }
-        });
 
         asynLoadInfofeed.startOnce();
 
@@ -606,10 +631,12 @@ public class DashboardUI implements AuroraScreenUI {
         // Finalize
         // --------------------------------------------------------------------.
 
-        keyArrows = new AImage("KeyboardKeys/arrows.png", coreUI.
-                               getKeyIconWidth(), coreUI.getKeyIconHeight());
-
-        lblKeyActionArrow = new JLabel();
+        if (coreUI.isUseGamePad()) {
+            imgKeyBack = new AImage("KeyboardKeys/b.png");
+        } else {
+            imgKeyArrows = new AImage("KeyboardKeys/arrows.png");
+        }
+        lblKeyAction = new JLabel();
 
         if (logger.isDebugEnabled()) {
             logger.debug("DashboardUI loaded");
@@ -710,16 +737,15 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getTopPane().setPreferredSize(new Dimension(coreUI
                 .getTopPane().
                 getWidth(), coreUI.getTopPane().getImageHeight()
-                            + coreUI.getFrameControlContainerPanel()
+                                    + coreUI.getFrameControlContainerPanel()
                                                            .getHeight()));
         coreUI.getSouthFromTopPanel().revalidate();
 
         // Set Font of Keyboard Action Label
-        lblKeyActionArrow.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
-                                                                     coreUI
-                                                                     .getKeysFontSize()));
-        lblKeyActionArrow.setForeground(new Color(0, 178, 178));
-        lblKeyActionArrow.setText(" Move ");
+        lblKeyAction.setFont(coreUI.getDefaultFont().deriveFont(Font.PLAIN,
+                                                                coreUI
+                                                                .getKeysFontSize()));
+        lblKeyAction.setForeground(new Color(0, 178, 178));
 
         coreUI.getLblKeyActionEnter().setText(" Launch ");
 
@@ -729,8 +755,15 @@ public class DashboardUI implements AuroraScreenUI {
         // Add  Components to CoreUI
 
         // Add Arrow Keys Icons
-        coreUI.getKeyToPressPanel().add(keyArrows);
-        coreUI.getKeyToPressPanel().add(lblKeyActionArrow);
+        if (imgKeyArrows != null) {
+            lblKeyAction.setText(" Move");
+            coreUI.getKeyToPressPanel().add(imgKeyArrows);
+            coreUI.getKeyToPressPanel().add(lblKeyAction);
+        } else {
+            lblKeyAction.setText(" Exit");
+            coreUI.getKeyToPressPanel().add(imgKeyBack);
+            coreUI.getKeyToPressPanel().add(lblKeyAction);
+        }
 
         // Add Enter Key Icons
         coreUI.getKeyToPressPanel().add(coreUI.getKeyIconImage());
@@ -762,26 +795,36 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getInputController().clearAllListeners();
         if ((storage.getStoredSettings()
                 .getSettingValue(SettingsLogic.GAMEPAD_SETTING) != null)
-            && storage.getStoredSettings()
-                .getSettingValue(SettingsLogic.GAMEPAD_SETTING).equalsIgnoreCase("enabled")) {
+                    && storage.getStoredSettings()
+                .getSettingValue(SettingsLogic.GAMEPAD_SETTING)
+                .equalsIgnoreCase("enabled")) {
 
-            coreUI.getInputController().setListener_A_Button(handler.new DashboardlKeyListener(KeyEvent.VK_ENTER));
-            coreUI.getInputController().setListener_B_Button(handler.new DashboardlKeyListener(KeyEvent.VK_ESCAPE));
+            coreUI.getInputController().setListener_A_Button(
+                    handler.new DashboardlKeyListener(KeyEvent.VK_ENTER));
+            coreUI.getInputController().setListener_B_Button(
+                    handler.new DashboardlKeyListener(KeyEvent.VK_ESCAPE));
 
-            coreUI.getInputController().setListener_RB_Button(handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
-            coreUI.getInputController().setListener_LB_Button(handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
+            coreUI.getInputController().setListener_RB_Button(
+                    handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
+            coreUI.getInputController().setListener_LB_Button(
+                    handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
 
-            coreUI.getInputController().setListener_HAT_Left_Button(handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
-            coreUI.getInputController().setListener_HAT_Right_Button(handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
+            coreUI.getInputController().setListener_HAT_Left_Button(
+                    handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
+            coreUI.getInputController().setListener_HAT_Right_Button(
+                    handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
 
-            coreUI.getInputController().setListener_ANALOG_Left_Button(handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
-            coreUI.getInputController().setListener_ANALOG_Right_Button(handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
+            coreUI.getInputController().setListener_ANALOG_Left_Button(
+                    handler.new DashboardlKeyListener(KeyEvent.VK_LEFT));
+            coreUI.getInputController().setListener_ANALOG_Right_Button(
+                    handler.new DashboardlKeyListener(KeyEvent.VK_RIGHT));
 
         } else if (storage.getStoredSettings()
                 .getSettingValue(SettingsLogic.GAMEPAD_SETTING) == null) {
 
-            storage.getStoredSettings().saveSetting(SettingsLogic.GAMEPAD_SETTING,
-                                                    SettingsLogic.DEFAULT_GAMEPAD_SETTING);
+            storage.getStoredSettings().saveSetting(
+                    SettingsLogic.GAMEPAD_SETTING,
+                    SettingsLogic.DEFAULT_GAMEPAD_SETTING);
         }
         // Check for Mouse Wheel Rotation
         carousel.
@@ -849,7 +892,7 @@ public class DashboardUI implements AuroraScreenUI {
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
             infoFeedWidth = coreUI.getFrame().getSize().width
-                            - (carouselButtonWidth * 2) - 70;
+                                    - (carouselButtonWidth * 2) - 70;
             infoFeedHeight = 55;
 
 
@@ -859,7 +902,7 @@ public class DashboardUI implements AuroraScreenUI {
             btnBackHeight = 35;
 
             carouselWidth = (coreUI.getFrame().getWidth() / 40 + topHeight / 55)
-                            * 16;
+                                    * 16;
             carouselHeight = (int) (carouselWidth / 0.9942) + 25;
 
             gameCoverHeight = carouselHeight - (2 * carouselHeight / 5);
@@ -878,9 +921,9 @@ public class DashboardUI implements AuroraScreenUI {
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
             infoFeedWidth = coreUI.getFrame().getSize().width
-                            - (carouselButtonWidth * 2) - 70;
+                                    - (carouselButtonWidth * 2) - 70;
             infoFeedHeight = carouselButtonHeight
-                             - (bottomPaneHeightAdjust / 18);
+                                     - (bottomPaneHeightAdjust / 18);
 
 
             if (logger.isDebugEnabled()) {
@@ -1196,7 +1239,7 @@ public class DashboardUI implements AuroraScreenUI {
      * @return AImage
      */
     public final AImage getImgKeyIco() {
-        return keyArrows;
+        return imgKeyArrows;
     }
 
     /**
@@ -1205,7 +1248,7 @@ public class DashboardUI implements AuroraScreenUI {
      * @param aImgKeyIco AImage
      */
     public final void setImgKeyIco(final AImage aImgKeyIco) {
-        this.keyArrows = aImgKeyIco;
+        this.imgKeyArrows = aImgKeyIco;
     }
 
     /**
@@ -1214,7 +1257,7 @@ public class DashboardUI implements AuroraScreenUI {
      * @return JLabel
      */
     public final JLabel getLblKeyActionArrow() {
-        return lblKeyActionArrow;
+        return lblKeyAction;
     }
 
     /**
@@ -1223,7 +1266,7 @@ public class DashboardUI implements AuroraScreenUI {
      * @param aLblKeyAction JLabel
      */
     public final void setLblKeyAction(final JLabel aLblKeyAction) {
-        this.lblKeyActionArrow = aLblKeyAction;
+        this.lblKeyAction = aLblKeyAction;
     }
 
     /**

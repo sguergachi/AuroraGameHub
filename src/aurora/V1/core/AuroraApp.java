@@ -20,8 +20,12 @@ package aurora.V1.core;
 import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.engine.V1.Logic.AuroraScreenUI;
 import aurora.engine.V1.UI.AButton;
+import aurora.engine.V1.UI.AImage;
+import aurora.engine.V1.UI.ASlickLabel;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
@@ -32,6 +36,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelListener;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import javax.swing.Box;
 import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
@@ -91,6 +96,10 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
     static final Logger logger = Logger.getLogger(AuroraApp.class);
 
+    private final ASlickLabel lbKeyAction;
+
+    private AImage imgBackIco;
+
     /**
      * .-----------------------------------------------------------------------.
      * | AuroraApp()
@@ -106,6 +115,12 @@ public abstract class AuroraApp implements AuroraScreenUI {
      */
     public AuroraApp() {
         componentsContainingListeners = new ArrayList<JComponent>();
+
+
+        lbKeyAction = new ASlickLabel();
+
+
+        lbKeyAction.setForeground(new Color(0, 178, 178));
 
     }
 
@@ -173,6 +188,8 @@ public abstract class AuroraApp implements AuroraScreenUI {
                 "dash_frameControl_bg.png");
 
         getCoreUI().getFrame().requestFocusInWindow();
+
+
 
     }
 
@@ -247,6 +264,9 @@ public abstract class AuroraApp implements AuroraScreenUI {
         getCoreUI().getCenterPanel().removeAll();
         getCoreUI().getBottomContentPane().removeAll();
         getCoreUI().getCenterFromBottomPanel().removeAll();
+
+        getCoreUI().getKeyToPressPanel().add(Box.createHorizontalStrut(10));
+
 
 
         // Remove All from top of bottom pane and re-add CoreUI components
@@ -339,7 +359,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
             }
             // Remove Mouse Wheel Listeners from Components ArrayList
             MouseWheelListener[] mouseWheelListeners
-                                 = componentsContainingListeners
+                                         = componentsContainingListeners
                     .get(i)
                     .getMouseWheelListeners();
 
@@ -352,7 +372,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
             // Maybe its a buttom, try to remove its ActionListeners.
             if (componentsContainingListeners.get(i) instanceof AButton) {
                 ActionListener[] actionListeners
-                                 = ((AButton) componentsContainingListeners
+                                         = ((AButton) componentsContainingListeners
                         .get(i)).getActionListeners();
                 for (int j = 0; j < actionListeners.length; j++) {
                     ((AButton) componentsContainingListeners.get(i))
@@ -472,8 +492,10 @@ public abstract class AuroraApp implements AuroraScreenUI {
         }
 
         Boolean canAddBackButton = true;
-        for (int i = 0; i < getCoreUI().getFrameControlImagePane().getComponents().length; i++) {
-            if (getCoreUI().getFrameControlImagePane().getComponents()[i] == btnBack) {
+        for (int i = 0; i < getCoreUI().getFrameControlImagePane()
+                .getComponents().length; i++) {
+            if (getCoreUI().getFrameControlImagePane().getComponents()[i]
+                        == btnBack) {
                 canAddBackButton = false;
             }
         }
@@ -485,6 +507,26 @@ public abstract class AuroraApp implements AuroraScreenUI {
             btnBack.addActionListener(new BackButtonListener());
         }
 
+        // Set Key Icon for gamepad
+
+        if (getCoreUI().isUseGamePad()) {
+
+            lbKeyAction.setFont(getCoreUI().getDefaultFont()
+                    .deriveFont(Font.PLAIN,
+                                getCoreUI()
+                                .getKeysFontSize()));
+
+            imgBackIco
+                    = new AImage("KeyboardKeys/b.png", getCoreUI()
+                                 .getKeyIconWidth(), getCoreUI()
+                                 .getKeyIconHeight());
+
+            lbKeyAction.setText(" Back");
+
+            getCoreUI().getKeyToPressPanel().add(imgBackIco);
+            getCoreUI().getKeyToPressPanel().add(lbKeyAction);
+        }
+
         // Ability to go use Backspace to go back to dashboard
         KeyboardFocusManager.getCurrentKeyboardFocusManager()
                 .addKeyEventDispatcher(
@@ -492,7 +534,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
                             public boolean dispatchKeyEvent(KeyEvent e) {
 
                                 if (e.getKeyChar() == KeyEvent.VK_ESCAPE
-                                    && isInApp) {
+                                            && isInApp) {
                                     new BackButtonListener().actionPerformed(
                                             null);
                                     return true;
