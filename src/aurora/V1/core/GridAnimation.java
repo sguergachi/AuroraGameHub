@@ -18,6 +18,7 @@
 package aurora.V1.core;
 
 import aurora.engine.V1.Logic.AAnimate;
+import aurora.engine.V1.Logic.APostHandler;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
@@ -38,7 +39,7 @@ public class GridAnimation {
     private AAnimate animator1;
 
     private AAnimate animator2;
-    
+
     static final Logger logger = Logger.getLogger(GridAnimation.class);
 
     public GridAnimation(GridManager GridSplit, JPanel ContentPanel) {
@@ -58,22 +59,25 @@ public class GridAnimation {
 
 
         animator1.moveHorizontal(1900, 65);
+        animator1.addPostAnimationListener(new APostHandler() {
+
+            @Override
+            public void doAction() {
+                GridSplit.getGrid(currentPanel + 1).setVisible(true);
+            }
+        });
 
         //Add to GridManager
         GridSplit.getGrid(currentPanel + 1).setVisible(false);
         contentPanel.add(GridSplit.getGrid(currentPanel + 1),
                 BorderLayout.CENTER, 1);
 
-        /**
-         * *******
-         * added by Carlos
-         */
         GridSplit.incrementVisibleGridIndex();
 
         //Move Second Panel To Center
 
         animator2.setInitialLocation((-1800), 0);
-        animator2.moveHorizontal(185, 85);
+//        animator2.moveHorizontal(185, 85);
         contentPanel.revalidate();
         contentPanel.repaint();
 
@@ -88,22 +92,25 @@ public class GridAnimation {
 
 
         animator1.moveHorizontal((-1900), 65);
+        animator1.addPostAnimationListener(new APostHandler() {
+
+            @Override
+            public void doAction() {
+                GridSplit.getGrid(currentPanel - 1).setVisible(true);
+            }
+        });
 
         //Add to GridManager
         GridSplit.getGrid(currentPanel - 1).setVisible(false);
         contentPanel.add(GridSplit.getGrid(currentPanel - 1),
                 BorderLayout.CENTER, 1);
 
-        /**
-         * *******
-         * added by Carlos
-         */
         GridSplit.decrementVisibleGridIndex();
 
         //Move Second Grid Towards Center
 
         animator2.setInitialLocation((1800), 0);
-        animator2.moveHorizontal(185, -86);
+//        animator2.moveHorizontal(185, -86);
         contentPanel.revalidate();
         contentPanel.repaint();
     }

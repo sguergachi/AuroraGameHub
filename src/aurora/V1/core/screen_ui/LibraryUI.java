@@ -1312,9 +1312,9 @@ public class LibraryUI extends AuroraApp {
                 }
             }
 
-            coreUI.getCenterPanel().removeAll();
-            coreUI.getCenterPanel().add(BorderLayout.CENTER,
-                                        pnlLibraryContainer);
+//            coreUI.getCenterPanel().removeAll();
+//            coreUI.getCenterPanel().add(BorderLayout.CENTER,
+//                                        pnlLibraryContainer);
 
             pnlLibraryContainer.repaint();
             pnlLibraryContainer.revalidate();
