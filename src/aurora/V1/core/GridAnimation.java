@@ -58,7 +58,7 @@ public class GridAnimation {
         animator2 = new AAnimate(GridSplit.getGrid(currentPanel + 1));
 
 
-        animator1.moveHorizontal(1900, 65);
+        animator1.moveHorizontal(1900, 75);
         animator1.addPostAnimationListener(new APostHandler() {
 
             @Override
@@ -75,9 +75,8 @@ public class GridAnimation {
         GridSplit.incrementVisibleGridIndex();
 
         //Move Second Panel To Center
-
         animator2.setInitialLocation((-1800), 0);
-//        animator2.moveHorizontal(185, 85);
+        animator2.moveHorizontal(185, 95);
         contentPanel.revalidate();
         contentPanel.repaint();
 
@@ -91,7 +90,7 @@ public class GridAnimation {
         animator2 = new AAnimate(GridSplit.getGrid(currentPanel - 1));
 
 
-        animator1.moveHorizontal((-1900), 65);
+        animator1.moveHorizontal((-1900), 75);
         animator1.addPostAnimationListener(new APostHandler() {
 
             @Override
@@ -110,7 +109,7 @@ public class GridAnimation {
         //Move Second Grid Towards Center
 
         animator2.setInitialLocation((1800), 0);
-//        animator2.moveHorizontal(185, -86);
+        animator2.moveHorizontal(185, -95);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
