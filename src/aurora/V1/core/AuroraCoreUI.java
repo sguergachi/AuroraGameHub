@@ -89,12 +89,12 @@ public class AuroraCoreUI {
      * Generate full Version string to be used at the bottom of UI.
      */
     private final String version
-                                 = "             //BUILD: "
-                                           + getResourceBundleToken(
+                         = "             //BUILD: "
+                           + getResourceBundleToken(
                     "BUILD")
-                                           + "  //REVISION: " + revision
-                                           + "  //AURORA.ENGINE.VERSION = 0.1."
-                                           + (Integer
+                           + "  //REVISION: " + revision
+                           + "  //AURORA.ENGINE.VERSION = 0.1."
+                           + (Integer
             .parseInt(revision));
 
     /**
@@ -459,7 +459,7 @@ public class AuroraCoreUI {
         taskbarHeight = screenHeight - winSize.height;
 
         logger.info("Current Screen Resolution: " + screenWidth + "x"
-                            + screenHeight);
+                    + screenHeight);
 
         //
         // Check the resolution (in pixels) of the screen to
@@ -490,17 +490,17 @@ public class AuroraCoreUI {
             regularFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                                           resources
                                           .getSurfacePath()
-                                                  + "/aurora/V1/resources/AGENCYR.TTF")
+                                          + "/aurora/V1/resources/AGENCYR.TTF")
                                           .openStream());
             boldFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                                        resources
                                        .getSurfacePath()
-                                               + "/aurora/V1/resources/AGENCYB.TTF")
+                                       + "/aurora/V1/resources/AGENCYB.TTF")
                                        .openStream());
             ropaFont = Font.createFont(Font.TRUETYPE_FONT, new URL(
                                        resources
                                        .getSurfacePath()
-                                               + "/aurora/V1/resources/RopaSans-Regular.TTF")
+                                       + "/aurora/V1/resources/RopaSans-Regular.TTF")
                                        .openStream());
         } catch (MalformedURLException ex) {
             try {
@@ -710,7 +710,7 @@ public class AuroraCoreUI {
         paneKeyToPress.setOpaque(false);
         paneKeyToPress.add(Box.createHorizontalStrut(10));
 
-        if (useGamePad) {
+        if (isUseGamePad()) {
             imgKeyIcon = new AImage("KeyboardKeys/a.png");
         } else {
             imgKeyIcon = new AImage("KeyboardKeys/enter.png");
@@ -917,7 +917,7 @@ public class AuroraCoreUI {
 
         warningDialog = new ADialog(ADialog.aDIALOG_WARNING,
                                     "Are You " + vi.VI(vi.inx_Sure)
-                                            + " You Want To " + vi
+                                    + " You Want To " + vi
                                     .VI(vi.inx_Exit) + "?",
                                     regularFont.deriveFont(Font.BOLD, 28));
 
@@ -930,7 +930,7 @@ public class AuroraCoreUI {
         warningDialog.showDialog();
         if ((storage.getStoredSettings()
                 .getSettingValue(SettingsLogic.GAMEPAD_SETTING) != null)
-                    && storage.getStoredSettings()
+            && storage.getStoredSettings()
                 .getSettingValue(SettingsLogic.GAMEPAD_SETTING)
                 .equalsIgnoreCase("enabled")) {
             getInputController().setListener_A_Button(warningDialog
@@ -1013,7 +1013,7 @@ public class AuroraCoreUI {
     }
 
     public boolean isUseGamePad() {
-        return useGamePad;
+        return inputController.isControllersDetected();
     }
 
     private class FrameListener implements WindowListener {
@@ -1179,11 +1179,11 @@ public class AuroraCoreUI {
         public void actionPerformed(ActionEvent e) {
             storage.getStoredSettings().storeFromDatabase();
             String taskbarMinimizedSetting
-                           = storage.getStoredSettings()
+                   = storage.getStoredSettings()
                     .getSettingValue(SettingsLogic.TASKBAR_MINIMIZE_SETTING);
             if (taskbarMinimizedSetting == null) {
                 taskbarMinimizedSetting
-                        = SettingsLogic.DEFAULT_TASKBAR_MINIMIZE_SETTING;
+                = SettingsLogic.DEFAULT_TASKBAR_MINIMIZE_SETTING;
             }
             if (taskbarMinimizedSetting
                     .equalsIgnoreCase("enabled")) {

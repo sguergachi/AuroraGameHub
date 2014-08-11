@@ -43,6 +43,7 @@ import aurora.engine.V1.UI.AProgressWheel;
 import aurora.engine.V1.UI.ASlickLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -300,6 +301,7 @@ public class LibraryUI extends AuroraApp {
 
     private AImage imgFlipIco;
     private ASlickLabel lblFlipAction;
+    private Component keyBox;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -531,7 +533,7 @@ public class LibraryUI extends AuroraApp {
             lblLibraryStatus.setSize(new Dimension(imgLibraryStatusPane
                     .getRealImageWidth(), imgLibraryStatusPane
                                                    .getRealImageHeight()
-                                                  / 2 + gameNameFontSize / 2));
+                                          / 2 + gameNameFontSize / 2));
 
             lblLibraryStatus.validate();
             pnlLibraryStatusContainer.validate();
@@ -683,7 +685,7 @@ public class LibraryUI extends AuroraApp {
                                 "background_game_search");
                         if (backgroundGameSearch == null) {
                             backgroundGameSearch
-                                    = SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING;
+                            = SettingsLogic.DEFAULT_BACKGROUND_SEARCH_SETTING;
                         }
 
                         if (backgroundGameSearch.equals("enabled")) {
@@ -960,7 +962,7 @@ public class LibraryUI extends AuroraApp {
 
         if ((storage.getStoredSettings()
                 .getSettingValue(SettingsLogic.GAMEPAD_SETTING) != null)
-                    && storage.getStoredSettings()
+            && storage.getStoredSettings()
                 .getSettingValue(SettingsLogic.GAMEPAD_SETTING)
                 .equalsIgnoreCase("enabled")) {
 
@@ -1303,7 +1305,7 @@ public class LibraryUI extends AuroraApp {
 
                 //of on last Grid then dont show right arrow button
                 if (!(currentIndex + 1 < libraryGridManager.getArray().size()
-                                                 - 1)) {
+                                         - 1)) {
 
                     pnlLibraryContainer.remove(pnlMoveRightContainer);
                     pnlLibraryContainer.add(Box.createHorizontalStrut(140),
@@ -1342,18 +1344,26 @@ public class LibraryUI extends AuroraApp {
     }
 
     public void showEnterKeyIcon() {
-        if (coreUI.useGamePad) {
+        keyBox = Box.createHorizontalStrut(6);
+
+        if (coreUI.isUseGamePad()) {
             coreUI.getKeyToPressPanel().add(imgFlipIco);
             coreUI.getKeyToPressPanel().add(lblFlipAction);
+            getCoreUI().getKeyToPressPanel().add(keyBox);
+
+
         }
         coreUI.getKeyToPressPanel().add(imgEnterIco);
         coreUI.getKeyToPressPanel().add(lblEnterAction);
     }
 
     public void hideEnterKeyIcon() {
-        if (coreUI.useGamePad) {
+        getCoreUI().getKeyToPressPanel().remove(keyBox);
+
+        if (coreUI.isUseGamePad()) {
             coreUI.getKeyToPressPanel().remove(imgFlipIco);
             coreUI.getKeyToPressPanel().remove(lblFlipAction);
+
         }
         coreUI.getKeyToPressPanel().remove(imgEnterIco);
         coreUI.getKeyToPressPanel().remove(lblEnterAction);
@@ -1376,7 +1386,7 @@ public class LibraryUI extends AuroraApp {
 
         if (coreUI.isLargeScreen()) {
             gameCoverWidth = coreUI.getFrame().getWidth() / 5 - (Ratio2 / 10)
-                                     - 5;
+                             - 5;
 
 
             selectedGameBarHeight = coreUI.getBottomPane().getHeight() / 3;
@@ -1752,7 +1762,7 @@ public class LibraryUI extends AuroraApp {
 
     public boolean isAnyOverlayVisible() {
         if (isAddGameUIVisible() || isEditGameUIVisible()
-                    || isEditGameCoverUIVisible()) {
+            || isEditGameCoverUIVisible()) {
             return true;
         }
         return false;

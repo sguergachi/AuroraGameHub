@@ -359,7 +359,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
             }
             // Remove Mouse Wheel Listeners from Components ArrayList
             MouseWheelListener[] mouseWheelListeners
-                                         = componentsContainingListeners
+                                 = componentsContainingListeners
                     .get(i)
                     .getMouseWheelListeners();
 
@@ -372,7 +372,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
             // Maybe its a buttom, try to remove its ActionListeners.
             if (componentsContainingListeners.get(i) instanceof AButton) {
                 ActionListener[] actionListeners
-                                         = ((AButton) componentsContainingListeners
+                                 = ((AButton) componentsContainingListeners
                         .get(i)).getActionListeners();
                 for (int j = 0; j < actionListeners.length; j++) {
                     ((AButton) componentsContainingListeners.get(i))
@@ -495,7 +495,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
         for (int i = 0; i < getCoreUI().getFrameControlImagePane()
                 .getComponents().length; i++) {
             if (getCoreUI().getFrameControlImagePane().getComponents()[i]
-                        == btnBack) {
+                == btnBack) {
                 canAddBackButton = false;
             }
         }
@@ -517,14 +517,16 @@ public abstract class AuroraApp implements AuroraScreenUI {
                                 .getKeysFontSize()));
 
             imgBackIco
-                    = new AImage("KeyboardKeys/b.png", getCoreUI()
-                                 .getKeyIconWidth(), getCoreUI()
-                                 .getKeyIconHeight());
+            = new AImage("KeyboardKeys/b.png", getCoreUI()
+                         .getKeyIconWidth(), getCoreUI()
+                         .getKeyIconHeight());
 
             lbKeyAction.setText(" Back");
 
             getCoreUI().getKeyToPressPanel().add(imgBackIco);
             getCoreUI().getKeyToPressPanel().add(lbKeyAction);
+            getCoreUI().getKeyToPressPanel().add(Box.createHorizontalStrut(6));
+
         }
 
         // Ability to go use Backspace to go back to dashboard
@@ -534,7 +536,7 @@ public abstract class AuroraApp implements AuroraScreenUI {
                             public boolean dispatchKeyEvent(KeyEvent e) {
 
                                 if (e.getKeyChar() == KeyEvent.VK_ESCAPE
-                                            && isInApp) {
+                                    && isInApp) {
                                     new BackButtonListener().actionPerformed(
                                             null);
                                     return true;

@@ -426,7 +426,7 @@ public class DashboardUI implements AuroraScreenUI {
         paneLibrary.setVisible(false);
 
         paneNet = new ACarouselPane("dash_carousel_bg.png", (int) carouselWidth
-                                                                    + 25,
+                                                            + 25,
                                     carouselHeight - 25, true, titleAuroraNet,
                                     "auroranet");
         paneNet.setVisible(false);
@@ -566,7 +566,7 @@ public class DashboardUI implements AuroraScreenUI {
 
         infoFeedFill.add(Box.createVerticalStrut(btnCarouselLeft
                 .getPreferredSize().height / 2
-                                                         - infoFeedHeight / 2),
+                                                 - infoFeedHeight / 2),
                          BorderLayout.NORTH);
 
         infoFeedContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -737,7 +737,7 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getTopPane().setPreferredSize(new Dimension(coreUI
                 .getTopPane().
                 getWidth(), coreUI.getTopPane().getImageHeight()
-                                    + coreUI.getFrameControlContainerPanel()
+                            + coreUI.getFrameControlContainerPanel()
                                                            .getHeight()));
         coreUI.getSouthFromTopPanel().revalidate();
 
@@ -764,6 +764,7 @@ public class DashboardUI implements AuroraScreenUI {
             coreUI.getKeyToPressPanel().add(imgKeyBack);
             coreUI.getKeyToPressPanel().add(lblKeyAction);
         }
+        coreUI.getKeyToPressPanel().add(Box.createHorizontalStrut(6));
 
         // Add Enter Key Icons
         coreUI.getKeyToPressPanel().add(coreUI.getKeyIconImage());
@@ -795,7 +796,7 @@ public class DashboardUI implements AuroraScreenUI {
         coreUI.getInputController().clearAllListeners();
         if ((storage.getStoredSettings()
                 .getSettingValue(SettingsLogic.GAMEPAD_SETTING) != null)
-                    && storage.getStoredSettings()
+            && storage.getStoredSettings()
                 .getSettingValue(SettingsLogic.GAMEPAD_SETTING)
                 .equalsIgnoreCase("enabled")) {
 
@@ -892,7 +893,7 @@ public class DashboardUI implements AuroraScreenUI {
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
             infoFeedWidth = coreUI.getFrame().getSize().width
-                                    - (carouselButtonWidth * 2) - 70;
+                            - (carouselButtonWidth * 2) - 70;
             infoFeedHeight = 55;
 
 
@@ -902,7 +903,7 @@ public class DashboardUI implements AuroraScreenUI {
             btnBackHeight = 35;
 
             carouselWidth = (coreUI.getFrame().getWidth() / 40 + topHeight / 55)
-                                    * 16;
+                            * 16;
             carouselHeight = (int) (carouselWidth / 0.9942) + 25;
 
             gameCoverHeight = carouselHeight - (2 * carouselHeight / 5);
@@ -921,9 +922,9 @@ public class DashboardUI implements AuroraScreenUI {
             carouselButtonWidth = coreUI.getFrame().getWidth() / 12;
             carouselButtonHeight = coreUI.getFrame().getHeight() / 15;
             infoFeedWidth = coreUI.getFrame().getSize().width
-                                    - (carouselButtonWidth * 2) - 70;
+                            - (carouselButtonWidth * 2) - 70;
             infoFeedHeight = carouselButtonHeight
-                                     - (bottomPaneHeightAdjust / 18);
+                             - (bottomPaneHeightAdjust / 18);
 
 
             if (logger.isDebugEnabled()) {
