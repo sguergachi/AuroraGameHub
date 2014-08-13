@@ -18,7 +18,6 @@
 package aurora.V1.core;
 
 import aurora.engine.V1.Logic.AAnimate;
-import aurora.engine.V1.Logic.APostHandler;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
@@ -55,28 +54,22 @@ public class GridAnimation {
 
         //Move Panel To Right
         animator1 = new AAnimate(GridSplit.getGrid(currentPanel));
-        animator2 = new AAnimate(GridSplit.getGrid(currentPanel + 1));
-
-
-        animator1.moveHorizontal(1900, 75);
-        animator1.addPostAnimationListener(new APostHandler() {
-
-            @Override
-            public void doAction() {
-                GridSplit.getGrid(currentPanel + 1).setVisible(true);
-            }
-        });
+        animator1.setAllowVisibleNow(true);
+        GridSplit.getGrid(currentPanel).setVisible(true);
+        animator1.moveHorizontal(1900, 62);
 
         //Add to GridManager
-        GridSplit.getGrid(currentPanel + 1).setVisible(false);
         contentPanel.add(GridSplit.getGrid(currentPanel + 1),
-                BorderLayout.CENTER, 1);
+                         BorderLayout.CENTER, 1);
 
         GridSplit.incrementVisibleGridIndex();
 
         //Move Second Panel To Center
+
+        animator2 = new AAnimate(GridSplit.getGrid(currentPanel + 1));
+
         animator2.setInitialLocation((-1800), 0);
-        animator2.moveHorizontal(185, 95);
+        animator2.moveHorizontal(185, 84);
         contentPanel.revalidate();
         contentPanel.repaint();
 
@@ -87,29 +80,21 @@ public class GridAnimation {
 
         //Move Panel to Left
         animator1 = new AAnimate(GridSplit.getGrid(currentPanel));
-        animator2 = new AAnimate(GridSplit.getGrid(currentPanel - 1));
-
-
-        animator1.moveHorizontal((-1900), 75);
-        animator1.addPostAnimationListener(new APostHandler() {
-
-            @Override
-            public void doAction() {
-                GridSplit.getGrid(currentPanel - 1).setVisible(true);
-            }
-        });
+        animator1.setAllowVisibleNow(true);
+        GridSplit.getGrid(currentPanel).setVisible(true);
+        animator1.moveHorizontal((-1900), 62);
 
         //Add to GridManager
-        GridSplit.getGrid(currentPanel - 1).setVisible(false);
         contentPanel.add(GridSplit.getGrid(currentPanel - 1),
-                BorderLayout.CENTER, 1);
+                         BorderLayout.CENTER, 1);
 
         GridSplit.decrementVisibleGridIndex();
 
         //Move Second Grid Towards Center
+        animator2 = new AAnimate(GridSplit.getGrid(currentPanel - 1));
 
         animator2.setInitialLocation((1800), 0);
-        animator2.moveHorizontal(185, -95);
+        animator2.moveHorizontal(185, -84);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
