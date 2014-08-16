@@ -194,7 +194,6 @@ public class EditCoverUI {
         public void mouseEntered(MouseEvent e) {
             frameEditGameCoverPane.setAlwaysOnTop(true);
             frameEditGameCoverPane.requestFocusInWindow();
-//            frameEditGameCoverPane.setAlwaysOnTop(false);
         }
 
     }

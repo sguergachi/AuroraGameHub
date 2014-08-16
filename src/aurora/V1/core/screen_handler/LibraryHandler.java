@@ -52,8 +52,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -2926,6 +2926,7 @@ public class LibraryHandler implements
         private final AImage statusIcon;
 
         private String coverFileName;
+        private int GridBagConstraints;
 
         public EditCoverUIDragedListener(AImagePane DragPane, AImage statusIcon) {
             this.dragPane = DragPane;
@@ -2941,12 +2942,12 @@ public class LibraryHandler implements
                     .setLayout(new BorderLayout(0, 0));
 
             // Content Pane
-            final JPanel contentContainer = new JPanel(new FlowLayout(
-                    FlowLayout.CENTER, -30, 5));
+            final JPanel contentContainer = new JPanel(new GridBagLayout());
+
+
             contentContainer.setOpaque(false);
 
-            contentContainer.add(Box.createVerticalStrut(220));
-            contentContainer.add(progressWheel);
+            contentContainer.add(progressWheel, GridBagConstraints);
             contentContainer.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 
             // Reset Button
