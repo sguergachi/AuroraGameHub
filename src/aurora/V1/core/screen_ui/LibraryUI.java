@@ -301,7 +301,9 @@ public class LibraryUI extends AuroraApp {
 
     private AImage imgFlipIco;
     private ASlickLabel lblFlipAction;
-    private Component keyBox;
+    private Component keyBox = Box.createHorizontalStrut(6);
+
+    ;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -1343,22 +1345,25 @@ public class LibraryUI extends AuroraApp {
         libraryGridManager.unselectPrevious(null);
     }
 
+    boolean isComponentInPanel(Component component, JPanel panel) {
+        return java.util.Arrays.asList(panel.getComponents())
+                .contains(component);
+    }
+
     public void showEnterKeyIcon() {
-        keyBox = Box.createHorizontalStrut(6);
 
         if (coreUI.isUseGamePad()) {
             coreUI.getKeyToPressPanel().add(imgFlipIco);
             coreUI.getKeyToPressPanel().add(lblFlipAction);
-            getCoreUI().getKeyToPressPanel().add(keyBox);
 
 
         }
         coreUI.getKeyToPressPanel().add(imgEnterIco);
         coreUI.getKeyToPressPanel().add(lblEnterAction);
+        coreUI.getKeyToPressPanel().revalidate();
     }
 
     public void hideEnterKeyIcon() {
-        getCoreUI().getKeyToPressPanel().remove(keyBox);
 
         if (coreUI.isUseGamePad()) {
             coreUI.getKeyToPressPanel().remove(imgFlipIco);

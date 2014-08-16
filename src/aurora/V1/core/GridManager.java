@@ -283,7 +283,7 @@ public class GridManager {
             for (int j = 0; j < Grids.get(i).getArray().size(); j++) {
                 if (!(Grids.get(i).getArray().get(j) instanceof GamePlaceholder)) {
                     Game game = (Game) Grids.get(i).getArray().get(j);
-                    if (game.isSelected() && game != ignoreGame) {
+                    if (game.isSelected()) {
                         game.setUnselected();
                         game.getGameBar().setVisible(false);
                         game.revalidate();

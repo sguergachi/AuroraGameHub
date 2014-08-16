@@ -54,7 +54,6 @@ public class GridAnimation {
 
         //Move Panel To Right
         animator1 = new AAnimate(GridSplit.getGrid(currentPanel));
-        animator1.setAllowVisibleNow(true);
         GridSplit.getGrid(currentPanel).setVisible(true);
         animator1.moveHorizontal(1900, 62);
 
@@ -70,6 +69,8 @@ public class GridAnimation {
 
         animator2.setInitialLocation((-1800), 0);
         animator2.moveHorizontal(185, 84);
+        animator2.setAllowVisibleNow(false);
+
         contentPanel.revalidate();
         contentPanel.repaint();
 
@@ -80,7 +81,6 @@ public class GridAnimation {
 
         //Move Panel to Left
         animator1 = new AAnimate(GridSplit.getGrid(currentPanel));
-        animator1.setAllowVisibleNow(true);
         GridSplit.getGrid(currentPanel).setVisible(true);
         animator1.moveHorizontal((-1900), 62);
 
@@ -95,6 +95,8 @@ public class GridAnimation {
 
         animator2.setInitialLocation((1800), 0);
         animator2.moveHorizontal(185, -84);
+        animator2.setAllowVisibleNow(false);
+
         contentPanel.revalidate();
         contentPanel.repaint();
     }

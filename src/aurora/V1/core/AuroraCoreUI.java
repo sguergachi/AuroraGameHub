@@ -941,9 +941,11 @@ public class AuroraCoreUI {
         } else if (storage.getStoredSettings()
                 .getSettingValue(SettingsLogic.GAMEPAD_SETTING) == null) {
 
-            storage.getStoredSettings().saveSetting(
-                    SettingsLogic.GAMEPAD_SETTING,
-                    SettingsLogic.DEFAULT_GAMEPAD_SETTING);
+            getInputController().setListener_A_Button(warningDialog
+                    .getOkButtonListener());
+
+            getInputController().setListener_B_Button(warningDialog
+                    .getExitListener());
         }
 
         warningDialog.setPostExitListener(new APostHandler() {

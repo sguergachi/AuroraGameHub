@@ -159,7 +159,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     private AuroraStorage storage;
 
     private final String rootCoverDBPath
-                                 = "https://s3.amazonaws.com/CoverArtDB/";
+                         = "https://s3.amazonaws.com/CoverArtDB/";
 
     private PlayButtonListener playButtonListener;
 
@@ -375,7 +375,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
 
         if (pnlInteractivePane.getKeyListeners().length == 0
-                    || gameClickListener == null) {
+            || gameClickListener == null) {
             gameClickListener = new InteractiveListener();
             pnlInteractivePane.addMouseListener(gameClickListener);
         }
@@ -472,13 +472,13 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                                                            -(btnFlip
                                                            .getPreferredSize().height
                                                              - OVERLAY_HEIGHT)
-                                                                   + (btnFlip
+                                                           + (btnFlip
                                                            .getPreferredSize().height
-                                                                      - OVERLAY_HEIGHT)
-                                                                     / 2
-                                                                   + btnFlip
+                                                              - OVERLAY_HEIGHT)
+                                                             / 2
+                                                           + btnFlip
                                                            .getPreferredSize().height
-                                                                     / 30));
+                                                             / 30));
         pnlOverlayButtonContainer.setName("pnlOverlayButtonContainer");
 
 
@@ -515,9 +515,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlOverlayButtonContainer.add(btnFlip);
         pnlOverlayButtonContainer.setPreferredSize(
                 new Dimension(btnFavorite.getPreferredSize().width
-                                      + btnPlay.getPreferredSize().width
-                                      + btnFlip.getPreferredSize().width
-                                      + 100,
+                              + btnPlay.getPreferredSize().width
+                              + btnFlip.getPreferredSize().width
+                              + 100,
                               pnlOverlayBar.getPreferredSize().height));
 
         // Add Overlay Image to the Container, which is not visible by default
@@ -560,7 +560,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlFavContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 10));
         pnlFavContainer.setOpaque(false);
         pnlFavContainer.setPreferredSize(new Dimension((int) ((double) padding
-                                                                      / 1.4), 55));
+                                                              / 1.4), 55));
 
 
         btnRemove = new AButton("game_btn_remove_norm.png",
@@ -599,7 +599,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         pnlInteractivePane.validate();
 
         if (coverImagePane.getImageURL() == null
-                    || coverImagePane.getImageURL().equalsIgnoreCase(
+            || coverImagePane.getImageURL().equalsIgnoreCase(
                         "library_noGameFound.png")) {
             //Loading Thread
             gameCoverThread = null;
@@ -1338,7 +1338,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
     public void setCanShowGameInfoInLibraryStatusBar(
             boolean canShowGameInfoInLibraryStatusBar) {
         this.canShowGameInfoInLibraryStatusBar
-                = canShowGameInfoInLibraryStatusBar;
+        = canShowGameInfoInLibraryStatusBar;
     }
 
     public void setGameRemoved(boolean gameRemoved) {
@@ -1400,7 +1400,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                             count = 3;
                         } else {
                             LibraryUI.lblLibraryStatus.setText("Played - "
-                                                                       + timesPlayed);
+                                                               + timesPlayed);
                         }
 
                         break;
@@ -1414,7 +1414,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         LibraryUI.lblLibraryStatus.setForeground(
                                 LibraryUI.DEFAULT_LIBRARY_COLOR);
                         LibraryUI.lblLibraryStatus.setText("Played for - "
-                                                                   + parseTotalTimePlayed());
+                                                           + parseTotalTimePlayed());
 
                         break;
                     case 3: // Last Played
@@ -1426,7 +1426,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         LibraryUI.lblLibraryStatus.setForeground(
                                 LibraryUI.DEFAULT_LIBRARY_COLOR);
                         LibraryUI.lblLibraryStatus.setText("Last Played - "
-                                                                   + parseLastTimePlayed());
+                                                           + parseLastTimePlayed());
 
                         break;
                     case 4:
@@ -1659,7 +1659,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
         // Shortcut Pane
         int flipShortcutWidth = pnlTopContainer.getSize().width - OVERLAY_WIDTH
-                                                                          / 4;
+                                                                  / 4;
         int flipShortcutHeight = (int) ((double) flipShortcutWidth / 3.2);
         int btnWidth = flipShortcutWidth / 4;
         int btnHeight = (int) ((double) btnWidth / 1.063);
@@ -1772,7 +1772,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         lblLastPlayed = new ASlickLabel("Last Played");
         lblLastPlayed.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
                                                                    labelFontSize
-                                                                           - 2));
+                                                                   - 2));
         lblLastPlayed.setForeground(new Color(202, 202, 217));
 
         lblTimesPlayed = new ASlickLabel("Times Played");
@@ -1784,7 +1784,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         lblGameType = new ASlickLabel("Game Genre");
         lblGameType.setFont(this.coreUI.getRopaFont().deriveFont(Font.PLAIN,
                                                                  labelFontSize
-                                                                         - 2));
+                                                                 - 2));
         lblGameType.setForeground(new Color(202, 202, 217));
 
         // Text boxes
@@ -2020,7 +2020,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             String hoursPlayed = timePlayed
                     .substring(0, timePlayed.indexOf(":"));
             String minutesPlayed = timePlayed.substring(timePlayed.indexOf(':')
-                                                                + 1,
+                                                        + 1,
                                                         timePlayed.length());
 
             if (!hoursPlayed.equals("0")) {
@@ -2060,8 +2060,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
             } else {
 
                 return hoursPlayed + hourTxt + " "
-                               + minutesPlayed
-                               + minTxt;
+                       + minutesPlayed
+                       + minTxt;
             }
         } else {
             return "None";
@@ -2175,8 +2175,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                                     // Check if still favourited
                                     if (!isFavorite && !isFavoriting
-                                                && prevState
-                                                           != isFavorite) {
+                                        && prevState
+                                           != isFavorite) {
                                         storage.getStoredLibrary().SaveFavState(
                                                 thisGame());
                                         animateUnFavouriteMove();
@@ -2208,8 +2208,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
                                     // Check if still favourited
                                     if (isFavorite && !isUnfavoriting
-                                                && prevState
-                                                           != isFavorite) {
+                                        && prevState
+                                           != isFavorite) {
                                         storage.getStoredLibrary().SaveFavState(
                                                 thisGame());
                                         setUnFavorite();
@@ -2322,9 +2322,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
 
             int centerPadding = (OVERLAY_WIDTH / 2)
-                                        - pnlConfirmRemove.getPreferredSize().width
-                                          / 2
-                                        - pnlFavContainer.getPreferredSize().width;
+                                - pnlConfirmRemove.getPreferredSize().width
+                                  / 2
+                                - pnlFavContainer.getPreferredSize().width;
             pnlConfirmRemoveContainer.add(Box.createHorizontalStrut(
                     centerPadding));
             pnlConfirmRemoveContainer.add(pnlConfirmRemove);
@@ -2343,7 +2343,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                                         "game_btn_removeYes_down.png",
                                         "game_btn_removeYes_over.png",
                                         pnlOverlayBar.getPreferredSize().width
-                                                / 2,
+                                        / 2,
                                         pnlOverlayBar.getPreferredSize().height);
             confirmButton.addActionListener(new RemoveGameHandler());
             confirmButton.setBorder(null);
@@ -2417,8 +2417,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         // Delete cached cover art
                         try {
                             fileIO.deleteFile(new File(fileIO.getPath()
-                                                               + "Game Data\\"
-                                                               + getBoxArtUrl()));
+                                                       + "Game Data\\"
+                                                       + getBoxArtUrl()));
                         } catch (IOException ex) {
                             logger.error(ex);
                         }
@@ -2470,7 +2470,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
 
     private void select() {
 
-        gridManager.unselectPrevious(this);
+        unSelectPrevious();
         showOverlayUI();
         canShowGameInfoInLibraryStatusBar = true;
     }
@@ -2482,6 +2482,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         public void mousePressed(final MouseEvent e) {
             if (!isOverlayUIRemoved) {
                 requestFocus();
+                unSelectPrevious();
+
 
                 if (SwingUtilities.isRightMouseButton(e)) {
                     btnFlip.getActionListeners()[0].actionPerformed(null);
@@ -2491,7 +2493,6 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                     if (isSelected) {
                         hideOverlayUI();
                     } else {
-                        unSelectPrevious();
                         showOverlayUI();
                         if (logger.isDebugEnabled()) {
                             logger.debug("SELECTED");

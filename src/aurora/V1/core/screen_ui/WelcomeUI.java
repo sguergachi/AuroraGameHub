@@ -276,7 +276,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
         }
 
         auroraVI = new ANuance(System.getProperty("user.home")
-                                       + "/AuroraData/User Data/AIDictionary.txt");
+                               + "/AuroraData/User Data/AIDictionary.txt");
 
         ArrayList<String> toDisplayList = new ArrayList<String>();
         if (logic.checkUser()) {
@@ -293,7 +293,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
             toDisplayList
                     .add(
                             auroraVI.VI(ANuance.inx_Welcome)
-                                    + " to Aurora Game Hub");
+                            + " to Aurora Game Hub");
 
             toDisplayList.add(
                     auroraVI.VI(ANuance.inx_Preparing) + " for First Time Use");
@@ -381,16 +381,18 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                     if (!logic.checkDBFiles()) {
                         FirstTimeLoad = true;
                         promptDisplay.add("Creating Missing Database Files...");
+                        
                         //Load Databases
                         auroraStorage.getStoredLibrary()
-                                .setUpDatabase(FirstTimeLoad,
+                                .setUpDatabase(!fileIO.checkFile(fileIO.getPath() + "/Game Data/Game.h2.db"),
                                                fileIO.getPath() + "/Game Data/");
                         auroraStorage.getStoredProfile()
-                                .setUpDatabase(FirstTimeLoad,
+                                .setUpDatabase(!fileIO.checkFile(fileIO.getPath() + "/User Data/User.h2.db"),
                                                fileIO.getPath() + "/User Data/");
                         auroraStorage.getStoredSettings().setUpDatabase(
-                                FirstTimeLoad,
+                                !fileIO.checkFile(fileIO.getPath() + "/User Data/User.h2.db"),
                                 fileIO.getPath() + "/User Data/");
+
                     }
                 } else {
                     fileIO.setPath(fileIO.getPath() + main.DATA_PATH);
@@ -473,7 +475,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                         coreUI.setVi(new ANuance(
                                 "https://s3.amazonaws.com/AuroraStorage/AIDictionary.txt",
                                 System.getProperty("user.home") + "/"
-                                        + "AuroraData/User Data/AIDictionary.txt"));
+                                + "AuroraData/User Data/AIDictionary.txt"));
                     }
 
                     if (main.LAUNCHES < 5) {
