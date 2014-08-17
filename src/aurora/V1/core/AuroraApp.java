@@ -508,7 +508,6 @@ public abstract class AuroraApp implements AuroraScreenUI {
         }
 
         // Set Key Icon for gamepad
-
         if (getCoreUI().isUseGamePad()) {
 
             lbKeyAction.setFont(getCoreUI().getDefaultFont()
@@ -516,12 +515,14 @@ public abstract class AuroraApp implements AuroraScreenUI {
                                 getCoreUI()
                                 .getKeysFontSize()));
 
-            imgBackIco
-            = new AImage("KeyboardKeys/b.png", getCoreUI()
-                         .getKeyIconWidth(), getCoreUI()
-                         .getKeyIconHeight());
+            imgBackIco = new AImage("KeyboardKeys/b.png", getCoreUI()
+                                    .getKeyIconWidth(), getCoreUI()
+                                    .getKeyIconHeight());
 
             lbKeyAction.setText(" Back");
+
+            getCoreUI().getInputController().setListener_B_Button(new BackButtonListener());
+
 
             getCoreUI().getKeyToPressPanel().add(imgBackIco);
             getCoreUI().getKeyToPressPanel().add(lbKeyAction);
@@ -529,16 +530,14 @@ public abstract class AuroraApp implements AuroraScreenUI {
 
         }
 
-        // Ability to go use Backspace to go back to dashboard
+        // Ability to go use Escape to go back to dashboard
         KeyboardFocusManager.getCurrentKeyboardFocusManager()
                 .addKeyEventDispatcher(
                         new KeyEventDispatcher() {
                             public boolean dispatchKeyEvent(KeyEvent e) {
 
-                                if (e.getKeyChar() == KeyEvent.VK_ESCAPE
-                                    && isInApp) {
-                                    new BackButtonListener().actionPerformed(
-                                            null);
+                                if (e.getKeyChar() == KeyEvent.VK_ESCAPE && isInApp) {
+                                    new BackButtonListener().actionPerformed(null);
                                     return true;
                                 }
                                 return false;

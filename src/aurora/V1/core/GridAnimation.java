@@ -51,11 +51,12 @@ public class GridAnimation {
 
     public void moveRight(int currentIndex) {
         this.currentPanel = currentIndex;
-
+        contentPanel.setDoubleBuffered(false);
         //Move Panel To Right
         animator1 = new AAnimate(GridSplit.getGrid(currentPanel));
         GridSplit.getGrid(currentPanel).setVisible(true);
         animator1.moveHorizontal(1900, 62);
+
 
         //Add to GridManager
         contentPanel.add(GridSplit.getGrid(currentPanel + 1),
@@ -64,7 +65,6 @@ public class GridAnimation {
         GridSplit.incrementVisibleGridIndex();
 
         //Move Second Panel To Center
-
         animator2 = new AAnimate(GridSplit.getGrid(currentPanel + 1));
 
         animator2.setInitialLocation((-1800), 0);
@@ -78,6 +78,8 @@ public class GridAnimation {
 
     public void moveLeft(int currentIndex) {
         this.currentPanel = currentIndex;
+        contentPanel.setDoubleBuffered(false);
+
 
         //Move Panel to Left
         animator1 = new AAnimate(GridSplit.getGrid(currentPanel));

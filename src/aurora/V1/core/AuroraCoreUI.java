@@ -928,6 +928,10 @@ public class AuroraCoreUI {
             }
         });
         warningDialog.showDialog();
+
+
+        getInputController().stashCurrentListeners();
+
         if ((storage.getStoredSettings()
                 .getSettingValue(SettingsLogic.GAMEPAD_SETTING) != null)
             && storage.getStoredSettings()
@@ -952,6 +956,7 @@ public class AuroraCoreUI {
 
             @Override
             public void doAction() {
+                getInputController().revertToStashedListeners();
 
             }
         });

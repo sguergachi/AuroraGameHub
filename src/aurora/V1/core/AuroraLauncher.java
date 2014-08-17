@@ -41,7 +41,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -369,7 +368,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
 
         // Set Game Cover Image
-        imgGameCover.setImage(game);
+        imgGameCover.setImage(game.getCoverImagePane());
         imgGameCover.setImageHeight(launchPane.getHeight() / 3 + 80);
         imgGameCover.setImageWidth(imgGameCover.getImageHeight()
                                    - imgGameCover.getImageHeight() / 15);
@@ -421,6 +420,10 @@ public class AuroraLauncher implements Runnable, MouseListener {
         launchPane.setAlwaysOnTop(true);
         launchPane.requestFocusInWindow();
         launchPane.setAlwaysOnTop(false);
+
+
+        coreUI.getInputController().stashCurrentListeners();
+        coreUI.getInputController().clearAllListeners();
     }
 
     public void launchGame(Game game) {
@@ -627,7 +630,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
 
         pnlTitle.add(lblManualMode, BorderLayout.SOUTH);
         pnlTitle.revalidate();
-//        launchPane.requestFocusInWindow();
     }
 
     private void launchGameProcess(ProcessBuilder processBuild) {
@@ -754,10 +756,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
                                   + minDiff + "min  ");
         }
 
-//        launchPane.setAlwaysOnTop(true);
-//        launchPane.requestFocusInWindow();
-//        launchPane.setAlwaysOnTop(false);
-
         // Add to total time played this game //
         game.addTime(minDiff, hoursDiff);
 
@@ -867,6 +865,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
         manualMode = false;
 
         game.showOverlayUI();
+        coreUI.getInputController().revertToStashedListeners();
         pnlCenter.setLayout(new FlowLayout(FlowLayout.CENTER));
     }
 
@@ -949,34 +948,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
         }
     }
 
-    private class LaunchFrameFocusListener implements WindowFocusListener {
-
-        public LaunchFrameFocusListener() {
-        }
-
-        @Override
-        public void windowGainedFocus(WindowEvent e) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("LAUNCH FRAME FOCUS GAINED");
-            }
-
-        }
-
-        @Override
-        public void windowLostFocus(WindowEvent e) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("LAUNCH FRAME FOCUS LOST");
-            }
-
-            if (manualMode) {
-                pnlTop.removeAll();
-                pnlTop.validate();
-                pnlTop.add(pnlTopContainer);
-                pnlTop.revalidate();
-            }
-
-        }
-    }
 
     /**
      * .-----------------------------------------------------------------------.

@@ -165,17 +165,6 @@ public class SettingsUI extends AuroraApp {
 
     private ARadioButton rdbGamepadNavigation;
 
-    // Analytics setting UI components
-    private ASlickTextPane lblAnalyticsSetting;
-
-    private JPanel pnlAnalyticsLabel;
-
-    private JPanel pnlAnalyticsSetting;
-
-    private AImage imgAnalyticsIcon;
-
-    private ARadioButton rdbAnalytics;
-
     private int bottomTopPadding;
 
     private AImagePane pnlSettingsStatusPane;
@@ -556,8 +545,6 @@ public class SettingsUI extends AuroraApp {
                 Font.PLAIN, 30));
 
         pnlTaskbarLabel.add(lblTaskbarSetting);
-
-
 
     }
 

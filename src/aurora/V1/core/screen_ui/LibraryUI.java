@@ -992,7 +992,8 @@ public class LibraryUI extends AuroraApp {
             inputController.setListener_LB_Button(
                     libraryHandler.new GridMoveActionListener(
                             KeyEvent.VK_KP_RIGHT));
-            inputController.setListener_B_Button(this.new BackButtonListener());
+            getCoreUI().getInputController().setListener_B_Button(new BackButtonListener());
+
 
 
         } else if (storage.getStoredSettings()
@@ -1316,9 +1317,6 @@ public class LibraryUI extends AuroraApp {
                 }
             }
 
-//            coreUI.getCenterPanel().removeAll();
-//            coreUI.getCenterPanel().add(BorderLayout.CENTER,
-//                                        pnlLibraryContainer);
 
             pnlLibraryContainer.repaint();
             pnlLibraryContainer.revalidate();
