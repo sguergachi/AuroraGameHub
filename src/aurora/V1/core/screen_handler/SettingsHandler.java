@@ -26,11 +26,13 @@ import aurora.engine.V1.Logic.AThreadWorker;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -43,8 +45,11 @@ public class SettingsHandler implements AuroraScreenHandler {
     private SettingsUI settingsUI;
 
     public static String WASD_SETTING = SettingsLogic.WASD_NAV_SETTING;
+
     public static String BACKGROUNDLOAD_SETTING = SettingsLogic.BACKGROUND_SEARCH_SETTING;
+
     public static String SOUNDFX_SETTING = SettingsLogic.SFX_SETTING;
+
     public static String GAMEPAD_SETTING = SettingsLogic.SFX_SETTING;
 
     private final StoredSettings storage;
@@ -538,24 +543,6 @@ public class SettingsHandler implements AuroraScreenHandler {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-
-
-            try {
-                if (System.getProperty("os.name").contains("Windows")) {
-                    Runtime.getRuntime().exec(new String[]{"explorer.exe", logDataPath}).waitFor();
-                } else {
-                    Runtime.getRuntime().exec(new String[]{"/usr/bin/open", logDataPath}).waitFor();
-                }
-
-            } catch (InterruptedException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-
-
             AThreadWorker worker = new AThreadWorker(new ActionListener() {
 
                 @Override
@@ -566,7 +553,23 @@ public class SettingsHandler implements AuroraScreenHandler {
                     SettingsUI.lblSettingsStatus.setText(
                             "Opening log data folder...");
 
+//                    try {
+//                        if (System.getProperty("os.name").contains("Windows")) {
+//                            Runtime.getRuntime().exec(new String[]{"explorer.exe","/select," + logDataPath}).waitFor();
+//                        } else {
+//                            Runtime.getRuntime().exec(new String[]{"/usr/bin/open", logDataPath}).waitFor();
+//                        }
+//
+//                    } catch (InterruptedException | IOException e1) {
+//                    }
+
                     File dir = new File(logDataPath);
+                    Desktop desktop = Desktop.getDesktop();
+                    try {
+                        desktop.open(dir);
+                    } catch (IOException ex) {
+                        Logger.getLogger(SettingsHandler.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                     if (dir.exists()) {
                         // display completion message in green
@@ -605,8 +608,6 @@ public class SettingsHandler implements AuroraScreenHandler {
 
 
             worker.startOnce();
-
-
 
         }
 
