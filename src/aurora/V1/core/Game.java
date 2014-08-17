@@ -1919,8 +1919,8 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         public void actionPerformed(ActionEvent e) {
 
             String url = "http://www.youtube.com/results?search_query=";
-            String gameName = getName().replace(" ", "+").replace("'", "");;
-            url += gameName;
+            String gameName = getName().replace(" ", "+").replace("'", "");
+            url += gameName + "+gameplay";
 
             try {
                 try {
@@ -1994,9 +1994,9 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            String url = "http://www.google.com/search?q=";
-            String gameName = getName().trim().replace(" ", "+");
-            url = url + gameName + "+wikia&btnI";
+            String url = "http://gaming.wikia.com/wiki/" ;
+            String gameName = getName().trim().replace(" ", "_");
+            url = url + gameName ;
 
             try {
                 try {

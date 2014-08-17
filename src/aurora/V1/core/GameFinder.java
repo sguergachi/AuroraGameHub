@@ -76,7 +76,7 @@ public final class GameFinder {
             int steamExeIndex = vals.indexOf("steam.exe");
             if (steamExeIndex > 0) {
                 String steamPath = vals.substring(1, steamExeIndex);
-                steamPath = steamPath + "\\steamapps\\common";
+                steamPath += "\\steamapps\\common";
                 steamFile = new File(steamPath);
             }
         } catch (Exception ex) {
@@ -361,7 +361,7 @@ public final class GameFinder {
      *         array "GameProviders")
      */
     public static ArrayList<String> getNameOfGamesOnDrive() {
-        ArrayList<String> r = new ArrayList<String>();
+        ArrayList<String> r = new ArrayList<>();
         { //Steam
             File gameFolder = fetchSteamDir();
             if (gameFolder != null && gameFolder.exists() && gameFolder
@@ -484,10 +484,10 @@ public final class GameFinder {
                 if (mainDir.getAbsolutePath().substring(mainDir
                         .getAbsolutePath().lastIndexOf(".") + 1).compareTo(
                                 extensionOnly) == 0) {
-                    if (mainDir.getName().indexOf("install") < 0
-                        && mainDir.getName().indexOf("unin") < 0
-                        && mainDir.getName().indexOf("downloader") < 0
-                        && mainDir.getName().indexOf("Downloader") < 0) {
+                    if (!mainDir.getName().contains("install")
+                        && !mainDir.getName().contains("unin")
+                        && !mainDir.getName().contains("downloader")
+                        && !mainDir.getName().contains("Downloader")) {
                         r.add(new Files(mainDir, 0));
                     }
                 }
@@ -503,9 +503,8 @@ public final class GameFinder {
                                 if (f.getAbsolutePath().substring(f
                                         .getAbsolutePath().lastIndexOf(".") + 1)
                                         .compareTo(extensionOnly) == 0) {
-                                    if (f.getName().indexOf("install") < 0
-                                        && mainDir.getName().indexOf("unins")
-                                           < 0) {
+                                    if (!f.getName().contains("install")
+                                        && !mainDir.getName().contains("unins")) {
                                         r.add(new Files(f, 1));
                                     }
                                 }
@@ -518,9 +517,8 @@ public final class GameFinder {
                                             .getAbsolutePath().lastIndexOf(".")
                                                                        + 1)
                                             .compareTo(extensionOnly) == 0) {
-                                        if (ff.getName().indexOf("install") < 0
-                                            && mainDir.getName()
-                                                .indexOf("unins") < 0) {
+                                        if (!ff.getName().contains("install")
+                                            && !mainDir.getName().contains("unins")) {
                                             r.add(ff);
                                         }
                                     }
@@ -551,7 +549,7 @@ public final class GameFinder {
      */
     public static ArrayList<Files> getAllFilesInSubDirectories(File mainDir,
                                                                int iteration) {
-        ArrayList<Files> r = new ArrayList<Files>();
+        ArrayList<Files> r = new ArrayList<>();
         if (!mainDir.isDirectory()) {
             r.add(new Files(mainDir, iteration));
         } else {
@@ -613,7 +611,7 @@ public final class GameFinder {
             Files curr = possibles.get(i);
             StringTokenizer tokens = new StringTokenizer(gameName);
             while (tokens.hasMoreTokens()) {
-                if (curr.getName().indexOf(tokens.nextToken()) >= 0) {
+                if (curr.getName().contains(tokens.nextToken())) {
                     return curr;
                 }
             }
@@ -630,7 +628,7 @@ public final class GameFinder {
      *         smallest depth in the Array denoted by the variable possibles
      */
     public static ArrayList<Files> getSmallestDepth(ArrayList<Files> possibles) {
-        ArrayList<Files> r = new ArrayList<Files>();
+        ArrayList<Files> r = new ArrayList<>();
         if (possibles.size() > 0) {
             Files first = possibles.get(0); //this is just here for efficiency
             int currDepth = first.depth;
