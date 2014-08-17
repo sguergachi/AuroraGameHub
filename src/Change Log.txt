@@ -15,12 +15,12 @@
 
 **Additions:**
 
-* Made a lot of little UI/UX improvements
+* Basic Gamepad support (tested on Xbox 360 wired controller)
+* Made a lot of UI/UX improvements
 * Reworked Aurora Launcher with improved timer and UI changes
 * Reworked navigation with keyboard to be more reliable in library
-* Added minimal support for gamepad (see settings)
 * Added a few more settings
-* Custom games now have blank cover art overlaid to look like AuroraCoverDB cover art
+* Custom games now have blank cover art overlaid to look like AuroraCoverDB cover art (need to delete games images in Game Data folder and readd via Aurora)
 * Selecting a game now shows game info in library info bar
 * Pressing ENTER when searching for game in library launches the first game.
 * Show "unsure" icon in auto searches that Aurora had to guess the cover art for
@@ -34,6 +34,7 @@
 * No more annoying game being unselected when trying to remove it.
 * Made small tweaks to edit cover UI and no longer make windows show desktop
 * Improved loading speed to dashboard from welcome screen
+* Changed how library grid animation works, hopefully it improves things
 * Clicking on link in info feed now shows Aurora Mini
 * On Windows, launching more than one instance of Aurora is prevented
 * Major code refactoring and clean up
