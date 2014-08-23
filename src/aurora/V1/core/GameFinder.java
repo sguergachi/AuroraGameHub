@@ -258,7 +258,7 @@ public final class GameFinder {
                 for (String providers : GameProviders) {
 
                     {
-                        File gameFolder = new File("C:\\Program Files (x86)\\"
+                        File gameFolder = new File(drives + "Program Files (x86)\\"
                                                    + providers);
                         if (gameFolder.exists() && gameFolder.isDirectory()) {
                             File[] games = gameFolder.listFiles();
@@ -289,8 +289,8 @@ public final class GameFinder {
                     }
 
                     {
-                        //Check in C drive
-                        File gameFolder = new File("C:\\" + providers);
+                        //Check in drives
+                        File gameFolder = new File(drives + providers);
                         if (gameFolder.exists() && gameFolder.isDirectory()) {
                             File[] games = gameFolder.listFiles();
                             for (File game : games) {
@@ -321,7 +321,7 @@ public final class GameFinder {
 
                     {
 
-                        File gameFolder = new File("C:\\Program Files\\" + providers);
+                        File gameFolder = new File(drives + "Program Files\\" + providers);
                         if (gameFolder.exists() && gameFolder.isDirectory()) {
                             File[] games = gameFolder.listFiles();
                             for (File game : games) {
