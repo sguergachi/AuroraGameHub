@@ -43,11 +43,11 @@ public final class GameFinder {
         final Class clz = userRoot.getClass();
         try {
             final Method openKey = clz.getDeclaredMethod("openKey",
-                    byte[].class, int.class, int.class);
+                                                         byte[].class, int.class, int.class);
             openKey.setAccessible(true);
             final Method closeKey = clz
                     .getDeclaredMethod("closeKey",
-                            int.class);
+                                       int.class);
             closeKey.setAccessible(true);
             final Method winRegQueryValue = clz.getDeclaredMethod(
                     "WindowsRegQueryValueEx", int.class,
@@ -66,11 +66,11 @@ public final class GameFinder {
             Integer handle;
             key = "Software\\Classes\\steam\\Shell\\Open\\Command";
             handle = (Integer) openKey.invoke(systemRoot,
-                    toCstr(key),
-                    KEY_READ, KEY_READ);
+                                              toCstr(key),
+                                              KEY_READ, KEY_READ);
             valb = (byte[]) winRegQueryValue.invoke(systemRoot,
-                    handle,
-                    toCstr(""));
+                                                    handle,
+                                                    toCstr(""));
             vals = (valb != null ? new String(valb).trim() : null);
             closeKey.invoke(Preferences.systemRoot(), handle);
             int steamExeIndex = vals.indexOf("steam.exe");
@@ -100,11 +100,11 @@ public final class GameFinder {
         final Class clz = userRoot.getClass();
         try {
             final Method openKey = clz.getDeclaredMethod("openKey",
-                    byte[].class, int.class, int.class);
+                                                         byte[].class, int.class, int.class);
             openKey.setAccessible(true);
             final Method closeKey = clz
                     .getDeclaredMethod("closeKey",
-                            int.class);
+                                       int.class);
             closeKey.setAccessible(true);
             final Method winRegQueryValue = clz.getDeclaredMethod(
                     "WindowsRegQueryValueEx", int.class,
@@ -123,11 +123,11 @@ public final class GameFinder {
             Integer handle;
             key = "Software\\Classes\\origin\\Shell\\Open\\Command";
             handle = (Integer) openKey.invoke(systemRoot,
-                    toCstr(key),
-                    KEY_READ, KEY_READ);
+                                              toCstr(key),
+                                              KEY_READ, KEY_READ);
             valb = (byte[]) winRegQueryValue.invoke(systemRoot,
-                    handle,
-                    toCstr(""));
+                                                    handle,
+                                                    toCstr(""));
             vals = (valb != null ? new String(valb).trim() : null);
             closeKey.invoke(Preferences.systemRoot(), handle);
             int originExeIndex = vals.indexOf("\\Origin\\Origin.exe");
@@ -178,7 +178,7 @@ public final class GameFinder {
                         ArrayList<Files> possibles = getAllFilesInSubDirectories(
                                 game, "exe");
                         Files f = getSimilarNamedFile(possibles, gameNames.get(r
-                                .size()));
+                                                      .size()));
                         if (f != null) {
                             r.add(f);
                         } else {
@@ -206,7 +206,7 @@ public final class GameFinder {
                         ArrayList<Files> possibles = getAllFilesInSubDirectories(
                                 game, "exe");
                         Files f = getSimilarNamedFile(possibles, gameNames.get(r
-                                .size()));
+                                                      .size()));
                         if (f != null) {
                             r.add(f);
                         } else {
@@ -236,7 +236,7 @@ public final class GameFinder {
                             ArrayList<Files> possibles = getAllFilesInSubDirectories(
                                     game, "exe");
                             Files f = getSimilarNamedFile(possibles, gameNames
-                                    .get(r.size()));
+                                                          .get(r.size()));
                             if (f != null) {
                                 r.add(f);
                             } else {
@@ -270,7 +270,7 @@ public final class GameFinder {
                                     ArrayList<Files> possibles = getAllFilesInSubDirectories(
                                             game, "exe");
                                     Files f = getSimilarNamedFile(possibles,
-                                            gameNames.get(r.size()));
+                                                                  gameNames.get(r.size()));
                                     if (f != null) {
                                         r.add(f);
                                     } else {
@@ -301,7 +301,7 @@ public final class GameFinder {
                                     ArrayList<Files> possibles = getAllFilesInSubDirectories(
                                             game, "exe");
                                     Files f = getSimilarNamedFile(possibles,
-                                            gameNames.get(r.size()));
+                                                                  gameNames.get(r.size()));
                                     if (f != null) {
                                         r.add(f);
                                     } else {
@@ -332,7 +332,7 @@ public final class GameFinder {
                                     ArrayList<Files> possibles = getAllFilesInSubDirectories(
                                             game, "exe");
                                     Files f = getSimilarNamedFile(possibles,
-                                            gameNames.get(r.size()));
+                                                                  gameNames.get(r.size()));
                                     if (f != null) {
                                         r.add(f);
                                     } else {
@@ -415,46 +415,48 @@ public final class GameFinder {
         }
         { //General Game Providers
             for (String providers : GameProviders) {
-                {
-                    File gameFolder = new File("C:\\Program Files (x86)\\"
-                                               + providers);
-                    if (gameFolder.exists() && gameFolder.isDirectory()) {
-                        File[] games = gameFolder.listFiles();
-                        for (File game : games) {
-                            String n = game.getName();
-                            int index1 = n.indexOf("launcher"), index2 = n
-                                    .indexOf("Launcher");
-                            if (index1 < 0 && index2 < 0) {
-                                r.add(n);
+                for (File drives : File.listRoots()) { // Look in each hard drive
+                    {
+                        File gameFolder = new File( drives + "Program Files (x86)\\"
+                                                   + providers);
+                        if (gameFolder.exists() && gameFolder.isDirectory()) {
+                            File[] games = gameFolder.listFiles();
+                            for (File game : games) {
+                                String n = game.getName();
+                                int index1 = n.indexOf("launcher"), index2 = n
+                                        .indexOf("Launcher");
+                                if (index1 < 0 && index2 < 0) {
+                                    r.add(n);
+                                }
                             }
                         }
                     }
-                }
-                {
-                    File gameFolder = new File("C:\\Program Files\\" + providers);
-                    if (gameFolder.exists() && gameFolder.isDirectory()) {
-                        File[] games = gameFolder.listFiles();
-                        for (File game : games) {
-                            String n = game.getName();
-                            int index1 = n.indexOf("launcher"), index2 = n
-                                    .indexOf("Launcher");
-                            if (index1 < 0 && index2 < 0) {
-                                r.add(n);
+                    {
+                        File gameFolder = new File(drives + "Program Files\\" + providers);
+                        if (gameFolder.exists() && gameFolder.isDirectory()) {
+                            File[] games = gameFolder.listFiles();
+                            for (File game : games) {
+                                String n = game.getName();
+                                int index1 = n.indexOf("launcher"), index2 = n
+                                        .indexOf("Launcher");
+                                if (index1 < 0 && index2 < 0) {
+                                    r.add(n);
+                                }
                             }
                         }
                     }
-                }
 
-                {
-                    File gameFolder = new File("C:\\" + providers);
-                    if (gameFolder.exists() && gameFolder.isDirectory()) {
-                        File[] games = gameFolder.listFiles();
-                        for (File game : games) {
-                            String n = game.getName();
-                            int index1 = n.indexOf("launcher"), index2 = n
-                                    .indexOf("Launcher");
-                            if (index1 < 0 && index2 < 0) {
-                                r.add(n);
+                    {
+                        File gameFolder = new File(drives +  providers);
+                        if (gameFolder.exists() && gameFolder.isDirectory()) {
+                            File[] games = gameFolder.listFiles();
+                            for (File game : games) {
+                                String n = game.getName();
+                                int index1 = n.indexOf("launcher"), index2 = n
+                                        .indexOf("Launcher");
+                                if (index1 < 0 && index2 < 0) {
+                                    r.add(n);
+                                }
                             }
                         }
                     }
@@ -563,7 +565,7 @@ public final class GameFinder {
                             r.add(new Files(f, iteration + 1));
                         } else {
                             for (Files ff : getAllFilesInSubDirectories(f,
-                                    iteration + 2)) {
+                                                                        iteration + 2)) {
                                 r.add(ff);
                             }
                         }
