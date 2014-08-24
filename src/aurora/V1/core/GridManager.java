@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 
 /**
@@ -621,13 +622,12 @@ public class GridManager {
         } else if (index > 0) {
             // alternative to remove the game
             grid.removeComp(game);
-
             AGridPanel firstGrid = this.getGrid(0);
 
             for (int i = index - 1; i >= 0; i--) {
                 AGridPanel currentGrid = this.getGrid(i);
                 AGridPanel previousGrid = this.getGrid(i + 1);
-                Game lastGame = (Game) currentGrid.getComponent(7);
+                Game lastGame = (Game) ((JPanel) currentGrid.getComponent(7)).getComponent(0);
                 currentGrid.removeComp(lastGame);
                 currentGrid.update();
                 previousGrid.addToGrid(lastGame, 0);
@@ -680,7 +680,7 @@ public class GridManager {
         while ((i < Grids.size()) && !firstUnfavouriteFound) {
             currentGrid = this.getGrid(i);
             lastGameIndex = currentGrid.getLastIndexOf(Game.class);
-            Game lastGame = (Game) currentGrid.getComponent(lastGameIndex);
+            Game lastGame = (Game) ((JPanel) currentGrid.getComponent(lastGameIndex)).getComponent(0);
 
             if (!lastGame.isFavorite()) {
                 // -
@@ -689,7 +689,7 @@ public class GridManager {
                 // -
 
                 while ((j <= lastGameIndex) && !firstUnfavouriteFound) {
-                    Game g = (Game) currentGrid.getComponent(j);
+                    Game g = (Game) ((JPanel) currentGrid.getComponent(j)).getComponent(0);
                     if (!g.isFavorite()) {
                         firstUnfavouriteFound = true;
                         firstUnfavoriteGridIndex = i;
@@ -746,7 +746,7 @@ public class GridManager {
                         currGrid = this.getGrid(k);
                         // get the first game of the next grid and move
                         // it to the previous grid
-                        Game tempGame = (Game) currGrid.getComponent(0);
+                        Game tempGame = (Game) ((JPanel)currGrid.getComponent(0)).getComponent(0);
                         currGrid.removeComp(tempGame);
                         currGrid.update();
                         prevGrid.addToGrid(tempGame, 7);
@@ -770,7 +770,7 @@ public class GridManager {
 
                     // get the first game of the next grid and move
                     // it to the previous grid
-                    Game tempGame = (Game) currGrid.getComponent(0);
+                    Game tempGame = (Game) ((JPanel)currGrid.getComponent(0)).getComponent(0);
                     currGrid.removeComp(tempGame);
                     currGrid.update();
                     prevGrid.addToGrid(tempGame, 7);

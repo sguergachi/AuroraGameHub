@@ -59,6 +59,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
@@ -398,15 +399,33 @@ public class LibraryLogic implements AuroraScreenLogic {
                 }
 
                 // Reverse Add Games Marked Fav first
-                for (int i = librarySize; i >= 0;
-                        i--) {
+                List<String> favGameListName = new ArrayList<>();
+                int c = 0;
 
-                    if (libHasFavourites && gamesList.get(i).isFavorite()) {
+                if (libHasFavourites) {
+                    for (int i = librarySize; i >= 0;
+                            i--) {
 
-                        libraryUI.getGridManager().addGame(gamesList.get(i));
+                        if (gamesList.get(i).isFavorite() && gamesList.get(i).getGameName() != null) {
+                            c++;
+                            favGameListName.add(gamesList.get(i).getGameName());
+
+                        }
+                    }
+                    // alphabetically sort and add fav to games
+                    String[] array = favGameListName.toArray(new String[favGameListName.size()]);
+                    Arrays.sort(array);
+                    for (int i = 0; i < favGameListName.size(); i++) {
+
+                        int h = 0;
+                        while (!gamesList.get(h).getName().equals(array[i])) {
+                            h++;
+                        }
+                        if (gamesList.get(h).isFavorite()) {
+                            libraryUI.getGridManager().addGame(gamesList.get(h));
+                        }
                     }
                 }
-
                 // Add Non-Fav games after
                 for (int i = 0; i <= librarySize;
                         i++) {
@@ -415,6 +434,7 @@ public class LibraryLogic implements AuroraScreenLogic {
 
                         libraryUI.getGridManager().addGame(gamesList.get(i));
                     }
+
 
                 }
 
@@ -615,7 +635,7 @@ public class LibraryLogic implements AuroraScreenLogic {
                                      dashboardUI);
                 try {
                     game = (Game) libraryUI.getGridManager().getGrid(currentGrid
-                                                                   + 1)
+                                                                     + 1)
                             .getArray()
                             .get(i);
 

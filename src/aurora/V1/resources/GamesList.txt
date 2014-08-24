@@ -3758,3 +3758,41 @@ WSOP Full House Pro
 XAM
 XAM Founder Pack
 XAM Elite Founder Pack
+
+# Game Apps
+
+3DMark
+3DMark 11
+3DMark Vantage
+AIDA64 Business
+AIDA64 Engineer
+AIDA64 Extreme
+AIDA64 Network Audit
+AMD
+AMD Gaming Evolved Client
+AMD OverDrive
+Catzilla
+CPU-Z
+CPU-Z Validator
+EVGA Precision X
+Fraps
+GeForce Experience
+HWMonitor
+HWMonitor PRO
+Intel
+Logitech Gaming Software
+MSI Afterburner
+PCMark 7
+PCMark 8
+PCMark Vantage
+PC Wizard
+PerfMonitor 2
+Powermark
+Raptr
+Razer Comms
+Razer Game Booster
+Razer Surround
+Razer Synapse 2.0
+TeamSpeak
+TMonitor
+Ventrilo
