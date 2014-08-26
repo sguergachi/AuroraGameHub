@@ -332,6 +332,9 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 auroraStorage = new AuroraStorage();
                 Boolean FirstTimeLoad = false;
 
+                logic.checkAuroraCoverDB(promptDisplay);
+
+
                 // Check if Main Folder "AuroraData" Exists //
                 if (!logic.checkMainDir()) {
 
@@ -376,12 +379,11 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                 } else if (!logic.checkDBFiles()) {
                     FirstTimeLoad = false;
                     fileIO.setPath(fileIO.getPath() + main.DATA_PATH);
-                    logic.checkAuroraCoverDB(promptDisplay);
-                    System.out.println("Moved AuroraDB");
+
                     if (!logic.checkDBFiles()) {
                         FirstTimeLoad = true;
                         promptDisplay.add("Creating Missing Database Files...");
-                        
+
                         //Load Databases
                         auroraStorage.getStoredLibrary()
                                 .setUpDatabase(!fileIO.checkFile(fileIO.getPath() + "/Game Data/Game.h2.db"),

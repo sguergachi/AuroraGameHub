@@ -475,7 +475,7 @@ public class DashboardUI implements AuroraScreenUI {
                 SettingsLogic.WASD_NAV_SETTING) == null) {
             storage.getStoredSettings().saveSetting(
                     SettingsLogic.WASD_NAV_SETTING,
-                    SettingsLogic.DEFAULT_GAMEPAD_SETTING);
+                    SettingsLogic.DEFAULT_WASD_NAV_SETTING);
         }
         if (storage.getStoredSettings().getSettingValue(
                 SettingsLogic.WASD_NAV_SETTING).equalsIgnoreCase("enabled")) {

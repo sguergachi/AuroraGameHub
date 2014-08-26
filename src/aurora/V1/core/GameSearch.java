@@ -128,8 +128,8 @@ public class GameSearch implements Runnable {
         if (staticGameCover == null || staticGameCover.getCoverURL() == null) {
             // Create the new GameCover object
             staticGameCover = new Game(libraryUI.getGridManager(), coreUI,
-                            libraryUI
-                            .getDashboardUI(), storage);
+                                       libraryUI
+                                       .getDashboardUI(), storage);
             staticGameCover.setCoverUrl("library_noGameFound.png");
 
             staticGameCover.setCoverSize(imgBlankCover
@@ -267,8 +267,8 @@ public class GameSearch implements Runnable {
                 if (staticGameCover == null) {
                     // Create the new GameCover object
                     staticGameCover = new Game(libraryUI.getGridManager(), coreUI,
-                                    libraryUI
-                                    .getDashboardUI(), storage);
+                                               libraryUI
+                                               .getDashboardUI(), storage);
                     staticGameCover.setCoverUrl("library_noGameFound.png");
 
                     staticGameCover.setCoverSize(imgBlankCover
@@ -398,8 +398,8 @@ public class GameSearch implements Runnable {
                 if (staticGameCover == null) {
                     // Create the new GameCover object
                     staticGameCover = new Game(libraryUI.getGridManager(), coreUI,
-                                    libraryUI
-                                    .getDashboardUI(), storage);
+                                               libraryUI
+                                               .getDashboardUI(), storage);
                     staticGameCover.setCoverUrl("library_noGameFound.png");
 
                     staticGameCover.setCoverSize(imgBlankCover
@@ -579,7 +579,9 @@ public class GameSearch implements Runnable {
         if (possibleGameName == null) {
             returnArray = null;
         }
-        db.CloseConnection();
+        if (db != null) {
+            db.CloseConnection();
+        }
         return returnArray;
     }
 
@@ -749,9 +751,9 @@ public class GameSearch implements Runnable {
                     if (staticGameCover == null) {
                         // Create the new GameCover object
                         staticGameCover = new Game(libraryUI.getGridManager(),
-                                        coreUI,
-                                        libraryUI
-                                        .getDashboardUI(), storage);
+                                                   coreUI,
+                                                   libraryUI
+                                                   .getDashboardUI(), storage);
                         staticGameCover.setCoverUrl("library_noGameFound.png");
 
                         staticGameCover.setCoverSize(imgBlankCover
@@ -840,8 +842,8 @@ public class GameSearch implements Runnable {
                 if (staticGameCover == null) {
                     // Create the new GameCover object
                     staticGameCover = new Game(libraryUI.getGridManager(), coreUI,
-                                    libraryUI
-                                    .getDashboardUI(), storage);
+                                               libraryUI
+                                               .getDashboardUI(), storage);
                     staticGameCover.setCoverUrl("library_noGameFound.png");
 
                     staticGameCover.setCoverSize(imgBlankCover

@@ -323,7 +323,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
                             log(Level.SEVERE, null, ex);
                 }
             } else {
-                logger.info("Did Not Move AuroraDB to AuroraData");
+                logger.info("Downloading AuroraCoverDB...");
                 promptDisplay
                         .add("Downloading AuroraCoverDB...", new Color(0, 191,
                                                                        255));
@@ -339,7 +339,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
         try {
             fileIO.downloadFile(new URL(
                     "http://s3.amazonaws.com/AuroraStorage/AuroraDB.h2.db"),
-                                new File(fileIO.getPath() + "/AuroraDB.h2.db"));
+                                new File(fileIO.getPath() + main.DATA_PATH + "/AuroraDB.h2.db"));
 
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(WelcomeUI.class.getName()).
