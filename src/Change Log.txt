@@ -2,15 +2,15 @@
 
 
 - Release: `Aurora_Alpha 10`
-- Build:`8xx`
-- Date: `xx/xx/2014`
+- Build:`882`
+- Date: `8/30/2014`
 - Authors: Sammy Guergachi, Carlos Machado
 
 ---
 
 **Additions:**
 
-* Basic Gamepad support (tested on Xbox 360 wired controller)
+* Basic Gamepad support (Windows only, tested on Xbox 360 wired controller)
 * Reworked navigation with keyboard to be more reliable
 * Made a lot of UI/UX improvements
 * Reworked Aurora Launcher with more accurate timer and simpler UI
@@ -35,6 +35,7 @@
 * Intro animation is now properly centered
 * Clicking on link in info feed now shows Aurora Mini
 * On Windows, launching more than one instance of Aurora is prevented
+* Added PC Gamer, Rock Paper Shotgun and Steam News to RSS feed
 * Major code refactoring and clean up
 * And a whole bunch of other little things. Yes, details matter.
 

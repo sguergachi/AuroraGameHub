@@ -29,7 +29,6 @@ import aurora.engine.V1.UI.ATimeLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -44,10 +43,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.logging.Level;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -242,7 +238,7 @@ public class AuroraLauncher implements Runnable, MouseListener {
         btnWatch = new AButton("game_btn_watch_norm.png",
                                "game_btn_watch_down.png",
                                "game_btn_watch_over.png");
-        btnWatch.addActionListener(new WatchListener());
+
         btnWatch.setMargin(new Insets(0, 0, 0, 0));
         btnWatch.setBorder(null);
         btnWatch.setBorderPainted(false);
@@ -250,7 +246,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
         btnFix = new AButton("game_btn_help_norm.png",
                              "game_btn_help_down.png",
                              "game_btn_help_over.png");
-        btnFix.addActionListener(new FixListener());
         btnFix.setMargin(new Insets(0, 0, 0, 0));
         btnFix.setBorder(null);
         btnFix.setBorderPainted(false);
@@ -258,7 +253,6 @@ public class AuroraLauncher implements Runnable, MouseListener {
         btnLearn = new AButton("game_btn_learn_norm.png",
                                "game_btn_learn_down.png",
                                "game_btn_learn_over.png");
-        btnLearn.addActionListener(new LearnListener());
         btnLearn.setMargin(new Insets(0, 0, 0, 0));
         btnLearn.setBorder(null);
         btnLearn.setBorderPainted(false);
@@ -392,6 +386,11 @@ public class AuroraLauncher implements Runnable, MouseListener {
         pnlCenter.add(pnlTimePlayed);
 
         // Bottom Panel
+
+        btnWatch.addActionListener(game.new WatchListener());
+        btnFix.addActionListener(game.new FixListener());
+        btnLearn.addActionListener(game.new LearnListener());
+
         pnlShortcuts.add(btnWatch);
         pnlShortcuts.add(btnFix);
         pnlShortcuts.add(btnLearn);
@@ -948,115 +947,4 @@ public class AuroraLauncher implements Runnable, MouseListener {
         }
     }
 
-
-    /**
-     * .-----------------------------------------------------------------------.
-     * | WatchListener
-     * .-----------------------------------------------------------------------.
-     * |
-     * | Listener for the Watch shortcut button to link to the Youtube search
-     * | results for the game
-     * |
-     * .........................................................................
-     * <p/>
-     */
-    private class WatchListener implements ActionListener {
-
-        public WatchListener() {
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            String url = "http://www.youtube.com/results?search_query=";
-            String gameName = game.getName().replace(" ", "+").replace("'", "");;
-            url += gameName;
-
-            try {
-                try {
-                    Desktop.getDesktop().browse(new URI(url));
-                } catch (URISyntaxException ex) {
-                    java.util.logging.Logger.getLogger(Game.class.getName()).
-                            log(Level.SEVERE, null, ex);
-                }
-            } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(Game.class.getName()).
-                        log(Level.SEVERE, null, ex);
-            }
-
-        }
-    }
-
-    /**
-     * .-----------------------------------------------------------------------.
-     * | FixListener
-     * .-----------------------------------------------------------------------.
-     * |
-     * | Listener for the Watch shortcut button to link to the PCgamingWiki
-     * | search results for the game
-     * |
-     * .........................................................................
-     * <p/>
-     */
-    private class FixListener implements ActionListener {
-
-        public FixListener() {
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            String url = "http://pcgamingwiki.com/wiki/";
-            String gameName = game.getName().replace(" ", "_").replace("'", "");
-            url += gameName;
-
-            try {
-                try {
-                    Desktop.getDesktop().browse(new URI(url));
-                } catch (URISyntaxException ex) {
-                    java.util.logging.Logger.getLogger(Game.class.getName()).
-                            log(Level.SEVERE, null, ex);
-                }
-            } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(Game.class.getName()).
-                        log(Level.SEVERE, null, ex);
-            }
-
-        }
-    }
-
-    /**
-     * .-----------------------------------------------------------------------.
-     * | LearnListener
-     * .-----------------------------------------------------------------------.
-     * |
-     * | Listener for the Watch shortcut button to link to the Wikia
-     * | search results for the game
-     * |
-     * .........................................................................
-     * <p/>
-     */
-    private class LearnListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            String url = "http://www.google.com/search?q=";
-            String gameName = game.getName().trim().replace(" ", "+");
-            url = url + gameName + "+wiki&btnI";
-
-            try {
-                try {
-                    Desktop.getDesktop().browse(new URI(url));
-                } catch (URISyntaxException ex) {
-                    java.util.logging.Logger.getLogger(Game.class.getName()).
-                            log(Level.SEVERE, null, ex);
-                }
-            } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(Game.class.getName()).
-                        log(Level.SEVERE, null, ex);
-            }
-
-        }
-    }
 }

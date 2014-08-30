@@ -139,6 +139,7 @@ public class AboutBox {
         pnlVersion.setLayout(new BoxLayout(pnlVersion, BoxLayout.Y_AXIS));
 
         lblVersion = new ASlickLabel(main.VERSION);
+        lblVersion.setLink("https://dl.dropboxusercontent.com/u/1186703/Change%20Log.html");
         lblBuild = new ASlickLabel("build: " + buildNumber.trim() + "   ");
 
     }
@@ -334,7 +335,7 @@ public class AboutBox {
         lblLogger.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblMixpanel = new ASlickLabel(
-                "Mixpanel for Java  - Statistics and Analytics Library.");
+                "Mixpanel for Java - Statistics and Analytics Library.");
         lblMixpanel.setLink(
                 "https://github.com/mixpanel/mixpanel-java/blob/master/LICENSE");
         lblMixpanel.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
@@ -343,7 +344,7 @@ public class AboutBox {
         lblMixpanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblScalr = new ASlickLabel(
-                "Imgscalr  - Best Java Image Scaling Library Ever.");
+                "Imgscalr - Best Java Image Scaling Library Ever.");
         lblScalr.setLink(
                 "https://github.com/thebuzzmedia/imgscalr/blob/master/LICENSE");
         lblScalr.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
@@ -352,7 +353,7 @@ public class AboutBox {
         lblScalr.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblJoda = new ASlickLabel(
-                "Joda-Time  - Quality Java Date & Time API.");
+                "Joda-Time - Quality Java Date & Time API.");
         lblJoda.setLink(
                 "http://www.joda.org/joda-time/license.html");
         lblJoda.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
@@ -361,11 +362,11 @@ public class AboutBox {
         lblJoda.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ASlickLabel lblJInput = new ASlickLabel(
-                "JInput  - Allows for Gamepad Support.");
+                "JInput - Allows for Gamepad Support.");
         lblJInput.setLink(
                 "https://java.net/projects/jinput");
         lblJInput.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,
-                                                           20));
+                                                          20));
         lblJInput.setForeground(Color.WHITE);
         lblJInput.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -375,9 +376,9 @@ public class AboutBox {
         pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlCodeCredit.add(lblh2Database);
         pnlCodeCredit.add(Box.createVerticalStrut(3));
-        pnlCodeCredit.add(lblJSONParser);
-        pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlCodeCredit.add(lblJInput);
+        pnlCodeCredit.add(Box.createVerticalStrut(3));
+        pnlCodeCredit.add(lblJSONParser);
         pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlCodeCredit.add(lblLogger);
         pnlCodeCredit.add(Box.createVerticalStrut(3));

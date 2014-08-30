@@ -1521,11 +1521,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         if (!isFliped) { // Flip Game
 
             // Sound FX
-
             if (soundEffectsSetting.equals("enabled")) {
                 ASound flipSFX = new ASound("tick_3.wav", false);
                 flipSFX.Play();
             }
+
+
 
             // Replace Game Cover art with Fliped image //
             tempGame = thisGame();
@@ -1634,6 +1635,12 @@ public class Game extends AImagePane implements Runnable, Cloneable {
         // Game Type
         // ----------------------------------------------------------------.
         txtGameType.setText(parseGameType());
+
+        // analytics
+        libraryLogic.getLibraryUI().getDashboardUI().getDashboardLogic().getAnalytics()
+                .addProperty("Game Fliped", this.name);
+        libraryLogic.getLibraryUI().getDashboardUI().getDashboardLogic().getAnalytics()
+                .sendEventProperty("Fliped Game");
 
     }
 
@@ -1910,7 +1917,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      * .........................................................................
      * <p/>
      */
-    private class WatchListener implements ActionListener {
+    public class WatchListener implements ActionListener {
 
         public WatchListener() {
         }
@@ -1934,6 +1941,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         log(Level.SEVERE, null, ex);
             }
 
+            libraryLogic.getLibraryUI().getDashboardUI().getDashboardLogic().getAnalytics()
+                    .addProperty("Watch Shortcut", name);
+            libraryLogic.getLibraryUI().getDashboardUI().getDashboardLogic().getAnalytics()
+                    .sendEventProperty("Game Shortcut Launched");
+
         }
     }
 
@@ -1948,10 +1960,7 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      * .........................................................................
      * <p/>
      */
-    private class FixListener implements ActionListener {
-
-        public FixListener() {
-        }
+    public class FixListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1972,6 +1981,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                         log(Level.SEVERE, null, ex);
             }
 
+            libraryLogic.getLibraryUI().getDashboardUI().getDashboardLogic().getAnalytics()
+                    .addProperty("Fix Shortcut", name);
+            libraryLogic.getLibraryUI().getDashboardUI().getDashboardLogic().getAnalytics()
+                    .sendEventProperty("Game Shortcut Launched");
+
         }
     }
 
@@ -1986,17 +2000,14 @@ public class Game extends AImagePane implements Runnable, Cloneable {
      * .........................................................................
      * <p/>
      */
-    private class LearnListener implements ActionListener {
-
-        public LearnListener() {
-        }
+    public class LearnListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            String url = "http://gaming.wikia.com/wiki/" ;
+            String url = "http://gaming.wikia.com/wiki/";
             String gameName = getName().trim().replace(" ", "_");
-            url = url + gameName ;
+            url = url + gameName;
 
             try {
                 try {
@@ -2009,6 +2020,11 @@ public class Game extends AImagePane implements Runnable, Cloneable {
                 java.util.logging.Logger.getLogger(Game.class.getName()).
                         log(Level.SEVERE, null, ex);
             }
+
+            libraryLogic.getLibraryUI().getDashboardUI().getDashboardLogic().getAnalytics()
+                    .addProperty("Learn Shortcut", name);
+            libraryLogic.getLibraryUI().getDashboardUI().getDashboardLogic().getAnalytics()
+                    .sendEventProperty("Game Shortcut Launched");
 
         }
     }

@@ -24,6 +24,7 @@ import aurora.V1.core.screen_ui.DashboardUI;
 import aurora.V1.core.screen_ui.LibraryUI;
 import aurora.V1.core.screen_ui.ProfileUI;
 import aurora.V1.core.screen_ui.SettingsUI;
+import aurora.engine.V1.Logic.AMixpanelAnalytics;
 import aurora.engine.V1.Logic.APostHandler;
 import aurora.engine.V1.Logic.ARssReader;
 import aurora.engine.V1.Logic.ARssReader.Feed;
@@ -115,6 +116,7 @@ public class DashboardLogic implements AuroraScreenLogic {
     static final Logger logger = Logger.getLogger(DashboardLogic.class);
 
     private boolean isRssLoaded;
+    private final AMixpanelAnalytics analytics;
 
     /**
      * .-----------------------------------------------------------------------.
@@ -144,6 +146,9 @@ public class DashboardLogic implements AuroraScreenLogic {
         this.dashboardUI = dashboardUi;
         this.storage = dashboardUI.getStorage();
         this.rssReader = new ARssReader();
+
+        analytics = new AMixpanelAnalytics(
+                "f5f777273e62089193a68f99f4885a55");
 
         loadAuroraApps();
     }
@@ -257,7 +262,8 @@ public class DashboardLogic implements AuroraScreenLogic {
 
             logger.info("Connecting to RSS mixer!");
             ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
-                    "http://www.rssmix.com/u/3635025/rss.xml");
+                    //                    "http://www.rssmix.com/u/3635025/rss.xml");
+                    "http://www.rssmix.com/u/4442197/rss.xml");
             auroraGameHubFeed = auroraGameHubParser.readFeed();
 
             // catch the exception if there is a problem reading the RSS feed
@@ -275,7 +281,7 @@ public class DashboardLogic implements AuroraScreenLogic {
 
                 // if the Internet is up, then we try to read our backup RSS feed
                 ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
-                        "http://www.gamespot.com/rss/game_updates.php?platform=5");
+                        "http://feeds.ign.com/ign/pc-all?format=xml");
                 auroraGameHubFeed = auroraGameHubParser.readFeed();
                 rssFeedAvailable = true;
 
@@ -311,13 +317,18 @@ public class DashboardLogic implements AuroraScreenLogic {
                 message.setTitle(message.getTitle().replace("amp;", ""));
 
                 // Set up label item for the Info Feed
-                AInfoFeedLabel label = new AInfoFeedLabel(message
-                        .getTitle(),
-                                                          message.getLink());
+                final AInfoFeedLabel label = new AInfoFeedLabel(message.getTitle(),
+                                                                message.getLink());
 
                 // Determine the source of the news article //
                 String url = message.getLink();
-                if (url.contains("www")) {
+                if (url.contains("pcgamer")) {
+                    sourceName = "PC Gamer";
+                } else if (url.contains("steam")) {
+                    sourceName = "Steam News";
+                } else if (url.contains("RockPaperShotgun")) {
+                    sourceName = "Rock Paper Shotgun";
+                } else if (url.contains("www")) {
                     int i = url.indexOf(".");
                     int j = url.indexOf('.', i + 1);
                     sourceName = url.substring(i + 1, j);
@@ -367,6 +378,14 @@ public class DashboardLogic implements AuroraScreenLogic {
                     }
                 }
 
+                label.addLinkClickAction(new APostHandler() {
+
+                    @Override
+                    public void doAction() {
+
+                    }
+                });
+
             }
         }
 
@@ -383,13 +402,18 @@ public class DashboardLogic implements AuroraScreenLogic {
         String seperator = "dash_infoBar_seperator.png";
         Iterator<JLabel> it = labelList.iterator();
 
-        // Set aurora to minimize when link clicked
         infoFeed.setPreOnReleaseAction(new APostHandler() {
 
             @Override
             public void doAction() {
-
+                // Set aurora to minimize when link clicked
                 dashboardUI.getCoreUI().getMinimizeHandler().actionPerformed(null);
+
+                // add analytics to links
+                analytics.addProperty("Link Source", ((AInfoFeedLabel) this.getObj()).getSourceName());
+                analytics.addProperty("Link Description", ((AInfoFeedLabel) this.getObj()).getText());
+                analytics.addProperty("Link URL", ((AInfoFeedLabel) this.getObj()).getUrl());
+                analytics.sendEventProperty("Link Clicked");
             }
         });
 
@@ -577,5 +601,9 @@ public class DashboardLogic implements AuroraScreenLogic {
 
         asyncLoad.startOnce();
 
+    }
+
+    public AMixpanelAnalytics getAnalytics() {
+        return analytics;
     }
 }

@@ -111,7 +111,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
             private int c = 0;
 
             // Scale of Hex Image growning
-            private int scale = 60;
+            private int scale = 80;
 
             private double originalHexHeight;
 
@@ -139,6 +139,8 @@ public class WelcomeLogic implements AuroraScreenLogic {
                 } else {
                     // Change Size Values
 
+                    scale++;
+                    scale++;
                     scale++;
                     centerHeight += 5;
                     topHeight--;
@@ -305,13 +307,13 @@ public class WelcomeLogic implements AuroraScreenLogic {
         String installPath = WelcomeUI.class.getProtectionDomain()
                 .getCodeSource().getLocation().getPath().replaceFirst(
                         "AuroraGameHub.jar", "").replaceAll("%20", " ");
-        String auroraDbPath = installPath + "/lib/AuroraDB.h2.db";
+        String auroraDbPath = installPath + "lib/AuroraDB.h2.db";
 
         logger.info(" >>> auroraDB Path " + auroraDbPath);
         logger.info(" >>> installPath Path " + installPath);
 
         if (!fileIO.checkFile(fileIO
-                .getPath() + "AuroraDB.h2.db")) {
+                .getPath() + main.DATA_PATH + "AuroraDB.h2.db")) {
 
             if (fileIO.checkFile(auroraDbPath)) {
                 try {
