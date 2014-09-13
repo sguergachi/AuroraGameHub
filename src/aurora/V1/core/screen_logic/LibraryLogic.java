@@ -1611,8 +1611,8 @@ public class LibraryLogic implements AuroraScreenLogic {
                                                                      SCALE_WIDTH_PARAM,
                                                                      SCALE_HEIGHT_PARAM);
 
-                AImage blankCover = new AImage("Blank-Case.png", SCALE_WIDTH_PARAM_BLANK, SCALE_HEIGHT_PARAM_BLANK);
-                BufferedImage overlay = ImageIO.read(new File(blankCover.getImagePath()));
+                AImage blankCover = new AImage("Blank-Case.png");
+                BufferedImage overlay = AImage.toBufferedImage(blankCover.getImgIcon().getImage());
 
 
 
