@@ -24,6 +24,11 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/resources/GameDB.txt</file>
+            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/screen_handler/LibraryHandler.java</file>
+            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/resources/GamesList.txt</file>
+            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/screen_logic/LibraryLogic.java</file>
+        </group>
     </open-files>
 </project-private>
