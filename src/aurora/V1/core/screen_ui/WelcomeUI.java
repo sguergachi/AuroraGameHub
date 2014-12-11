@@ -82,7 +82,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
 
     private int displayYpos;
 
-    public static boolean Online = false;
+    public static boolean isOnline = false;
 
     private JPanel loadingPane;
 
@@ -404,43 +404,43 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
                     coreUI.minimizeAurora(AuroraMini.LOADING_MODE);
                 }
 
-                // Check if Online
-                if (!logic.checkOnline("http://aws.amazon.com")) {
-                    Online = false;
-                    promptDisplay.add(
-                            "Can't Connect To AuroraDB, Let Me Try Again...",
-                            Color.RED);
-
-                    //
-                    // Check if its Users Internet is down
-                    // or Aurora Servers are down
-                    //
-                    if (logic.checkOnline("http://google.com") && !logic
-                            .checkOnline(
-                                    "https://s3.amazonaws.com")) {
-                        promptDisplay
-                                .add(
-                                        "Well, It Seems Our Servers Are Down, Try Again In A Bit.",
-                                        Color.RED);
-
-                        //The User is having internet problems
-                    } else if (!logic.checkOnline("http://google.com")) {
-                        promptDisplay.add("Can't Connect To Google...");
-                        promptDisplay
-                                .add(
-                                        "Either The Universe Exploded OR You Don't Have Internet...",
-                                        Color.RED);
-                        promptDisplay.add("Running In Offline Mode...");
-                    } else {
-                        promptDisplay
-                                .add(
-                                        "I Seem To Have Finally Established Connection...");
-                        Online = true;
-                    }
-                } else {
-                    Online = true;
-
-                }
+//                // Check if isOnline
+//                if (!logic.checkOnline("http://aws.amazon.com")) {
+//                    isOnline = false;
+//                    promptDisplay.add(
+//                            "Can't Connect To AuroraDB, Let Me Try Again...",
+//                            Color.RED);
+//
+//                    //
+//                    // Check if its Users Internet is down
+//                    // or Aurora Servers are down
+//                    //
+//                    if (logic.checkOnline("http://google.com") && !logic
+//                            .checkOnline(
+//                                    "https://s3.amazonaws.com")) {
+//                        promptDisplay
+//                                .add(
+//                                        "Well, It Seems Our Servers Are Down, Try Again In A Bit.",
+//                                        Color.RED);
+//
+//                        //The User is having internet problems
+//                    } else if (!logic.checkOnline("http://google.com")) {
+//                        promptDisplay.add("Can't Connect To Google...");
+//                        promptDisplay
+//                                .add(
+//                                        "Either The Universe Exploded OR You Don't Have Internet...",
+//                                        Color.RED);
+//                        promptDisplay.add("Running In Offline Mode...");
+//                    } else {
+//                        promptDisplay
+//                                .add(
+//                                        "I Seem To Have Finally Established Connection...");
+//                        isOnline = true;
+//                    }
+//                } else {
+//                    isOnline = true;
+//
+//                }
 
                 logic.sendAnalytics();
 
@@ -564,7 +564,7 @@ public final class WelcomeUI implements Runnable, AuroraScreenUI {
     }
 
     public static boolean isOnline() {
-        return Online;
+        return isOnline;
     }
 
     public boolean isLoaded() {
