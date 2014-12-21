@@ -341,7 +341,7 @@ public class WelcomeLogic implements AuroraScreenLogic {
         try {
             fileIO.downloadFile(new URL(
                     "http://s3.amazonaws.com/AuroraStorage/AuroraDB.h2.db"),
-                                new File(fileIO.getPath() + main.DATA_PATH + "/AuroraDB.h2.db"));
+                                new File(fileIO.getPath() + "/AuroraDB.h2.db"));
 
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(WelcomeUI.class.getName()).

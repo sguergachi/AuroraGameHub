@@ -1,12 +1,31 @@
-# Aurora Game Hub Change Log
+Aurora Game Hub Change Log
+==========================
 
 
-- Release: `Aurora_Alpha 10`
-- Build:`882`
-- Date: `8/30/2014`
-- Authors: Sammy Guergachi, Carlos Machado
+## Release: `Aurora_Alpha 10`
+## Build:`885`
+## Date: ` `
+## Authors: Sammy Guergachi
 
----
+**Additions**
+
+
+**Changes**
+
+- Removed online check to potentially speed up startup
+
+
+**Fixed**
+
+- Bug that prevented loading custom cover art
+
+
+
+
+## Release: `Aurora_Alpha 10`
+## Build:`882`
+## Date: `8/30/2014`
+## Authors: Sammy Guergachi, Carlos Machado
 
 **Additions:**
 
