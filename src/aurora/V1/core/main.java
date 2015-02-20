@@ -157,7 +157,7 @@ public class main {
             }
         }
 
-        if (okToRun) {
+        if (true) {
             // Start Aurora
             logger.info("Running Java Version: " + System.getProperty(
                     "java.version"));

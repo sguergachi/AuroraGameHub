@@ -17,12 +17,9 @@
  */
 package aurora.V1.core.screen_handler;
 
-import aurora.V1.core.main;
 import aurora.V1.core.screen_ui.WelcomeUI;
 import aurora.engine.V1.Logic.AuroraScreenHandler;
 import aurora.engine.V1.Logic.AuroraScreenLogic;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
