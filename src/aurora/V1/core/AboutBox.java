@@ -153,11 +153,8 @@ public class AboutBox {
         lblVersion.setForeground(Color.white);
         lblBuild.setForeground(Color.white);
 
-
-
         lblVersion.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblBuild.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 
         pnlVersion.add(lblVersion, BorderLayout.CENTER);
         pnlVersion.add(lblBuild, BorderLayout.SOUTH);
@@ -207,29 +204,29 @@ public class AboutBox {
 
     public void showAboutBox() {
 
-        int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
-        ASound showSound = new ASound("swoop_" + num + ".wav", false);
-        showSound.Play();
+        if (!isAboutVisible) {
+            int num = 1 + (int) (Math.random() * ((3 - 1) + 1));
+            ASound showSound = new ASound("swoop_" + num + ".wav", false);
+            showSound.Play();
 
+            pnlGlass.add(pnlAboutPane, JLayeredPane.MODAL_LAYER);
+            pnlGlass.setLayout(null);
+            pnlGlass.setOpaque(false);
+            pnlGlass.setVisible(true);
 
+            aboutBoxAnimator = new AAnimate(pnlAboutPane);
 
-        pnlGlass.add(pnlAboutPane, JLayeredPane.MODAL_LAYER);
-        pnlGlass.setLayout(null);
-        pnlGlass.setOpaque(false);
-        pnlGlass.setVisible(true);
+            aboutBoxAnimator.setInitialLocation((coreUI.getFrame().getWidth() / 2)
+                                                - (pnlAboutPane.getImgIcon()
+                    .getIconWidth() / 2), -390);
+            aboutBoxAnimator.moveVertical(0, 33);
 
-        aboutBoxAnimator = new AAnimate(pnlAboutPane);
+            coreUI.getLogoImage().setVisible(false);
+            pnlAboutPane.revalidate();
 
-        aboutBoxAnimator.setInitialLocation((coreUI.getFrame().getWidth() / 2)
-                                            - (pnlAboutPane.getImgIcon()
-                .getIconWidth() / 2), -390);
-        aboutBoxAnimator.moveVertical(0, 33);
-
-        coreUI.getLogoImage().setVisible(false);
-        pnlAboutPane.revalidate();
-
-        isAboutVisible = true;
-        pnlAboutPane.requestFocusInWindow();
+            isAboutVisible = true;
+            pnlAboutPane.requestFocusInWindow();
+        }
 
     }
 
@@ -256,8 +253,6 @@ public class AboutBox {
     }
 
     private void addContent() {
-
-
 
         // Made By //
         JPanel pnlMadeBy = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -387,8 +382,6 @@ public class AboutBox {
         pnlCodeCredit.add(lblScalr);
         pnlCodeCredit.add(Box.createVerticalStrut(3));
         pnlCodeCredit.add(lblMixpanel);
-
-
 
         pnlCenterContainer.add(pnlCodeCredit);
 

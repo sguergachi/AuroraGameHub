@@ -30,12 +30,6 @@
             <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/resources/GamesList.txt</file>
             <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/screen_logic/LibraryLogic.java</file>
         </group>
-        <group name="AuroraGameHub">
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/screen_ui/WelcomeUI.java</file>
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/screen_logic/WelcomeLogic.java</file>
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/version.properties</file>
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/Change%20Log.md</file>
-            <file>file:/C:/Users/Sammy/Documents/Aurora/AuroraGameHub/src/aurora/V1/core/main.java</file>
-        </group>
+        <group name="AuroraGameHub"/>
     </open-files>
 </project-private>
