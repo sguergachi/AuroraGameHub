@@ -420,7 +420,7 @@ public class AboutBox {
 
         ASlickLabel lblUsers = new ASlickLabel(
                 "Our Passionate Users -  We Love You! <3");
-        lblUsers.setLink(
+        lblUsers.setUrl(
                 "http://www.facebook.com/pages/Aurora-Game-Hub/588939407788712",
                 Color.red);
         lblUsers.setFont(coreUI.getRopaFont().deriveFont(Font.PLAIN,

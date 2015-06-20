@@ -246,8 +246,8 @@ public class DashboardLogic implements AuroraScreenLogic {
 
             logger.info("Connecting to RSS mixer!");
             ARssReader.RSSFeedParser auroraGameHubParser = rssReader.new RSSFeedParser(
-                    //                    "http://www.rssmix.com/u/3635025/rss.xml");
-                    "http://www.rssmix.com/u/4442197/rss.xml");
+                                        "http://www.rssmix.com/u/3635025/rss.xml");
+//                    "http://www.rssmix.com/u/4442197/rss.xml");
             auroraGameHubFeed = auroraGameHubParser.readFeed();
 
             // catch the exception if there is a problem reading the RSS feed
@@ -362,13 +362,7 @@ public class DashboardLogic implements AuroraScreenLogic {
                     }
                 }
 
-                label.addLinkClickAction(new APostHandler() {
-
-                    @Override
-                    public void doAction() {
-
-                    }
-                });
+            
 
             }
         }
@@ -386,6 +380,7 @@ public class DashboardLogic implements AuroraScreenLogic {
         String seperator = "dash_infoBar_seperator.png";
         Iterator<JLabel> it = labelList.iterator();
 
+        // Send to Mixpanel when link clicked
         infoFeed.setPreOnReleaseAction(new APostHandler() {
 
             @Override

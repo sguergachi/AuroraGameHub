@@ -55,17 +55,13 @@ import org.apache.log4j.Logger;
 /**
  * .------------------------------------------------------------------------. |
  * DashboardUI :: Aurora App Class
- * .------------------------------------------------------------------------.
- * |
- * | This class contains the UI for the Dashboard Screen associated with an
- * | appropriate *Handler* and *Logic* class which handle the actions caused
- * | by the UI components found here
- * |
- * | This class must follow the rules stated in the AuroraScreenUI
- * | Interface found in the Aurora Engine. The *Handler* and *Logic* classes
- * | The Handler class is called: DashboardHandler
- * | The Logic class is called: DashboardLogic
- * |
+ * .------------------------------------------------------------------------. |
+ * | This class contains the UI for the Dashboard Screen associated with an |
+ * appropriate *Handler* and *Logic* class which handle the actions caused | by
+ * the UI components found here | | This class must follow the rules stated in
+ * the AuroraScreenUI | Interface found in the Aurora Engine. The *Handler* and
+ * *Logic* classes | The Handler class is called: DashboardHandler | The Logic
+ * class is called: DashboardLogic |
  * .........................................................................
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
@@ -340,15 +336,12 @@ public class DashboardUI implements AuroraScreenUI {
      * .-----------------------------------------------------------------------.
      * | DashboardUI(AuroraCoreUI, WelcomeUI)
      * .-----------------------------------------------------------------------.
-     * |
-     * | This is the Constructor of the Dashboard UI class.
-     * |
-     * | The Constructor of Screen Classes must initialize/create both a
-     * | Handler and a Logic object which should contain the UI as a parameter
-     * |
+     * | | This is the Constructor of the Dashboard UI class. | | The
+     * Constructor of Screen Classes must initialize/create both a | Handler and
+     * a Logic object which should contain the UI as a parameter |
      * .........................................................................
      *
-     * @param auroraCoreUi  AuroraCoreUI
+     * @param auroraCoreUi AuroraCoreUI
      * @param startScreenUi WelcomeUI
      *
      */
@@ -360,7 +353,6 @@ public class DashboardUI implements AuroraScreenUI {
 
         // Core UI Canvas
         this.coreUI = auroraCoreUi;
-
 
         // The Dashboard Handler + Logic
         this.handler = new DashboardHandler(this);
@@ -377,7 +369,6 @@ public class DashboardUI implements AuroraScreenUI {
 
         // Initialize Carousel
         // --------------------------------------------------------------------.
-
         titleSettingGlow = new AImage("dash_carousel_settings_glow.png");
         titleSettingNorm = new AImage("dash_carousel_settings_norm.png");
 
@@ -443,18 +434,13 @@ public class DashboardUI implements AuroraScreenUI {
                                        carouselButtonWidth, carouselButtonHeight);
         btnCarouselRight.setVisible(false);
 
-
-
         // Setup Carousel
         // --------------------------------------------------------------------.
-
-
         // Set ID For each Panel and add ENTER Key Listener
         paneSettings.setName("settingsPane");
         paneProfile.setName("profilePane");
         paneLibrary.setName("libraryPane");
         paneNet.setName("auroraNetPane");
-
 
         // Set ID For each Panel and add ENTER Key Listener
         paneSettings.addContent(icoSetting, TitleType.NORMAL);
@@ -463,9 +449,7 @@ public class DashboardUI implements AuroraScreenUI {
         // Initially set to Glow state
         paneLibrary.addContent(icoLibrary, TitleType.GLOW);
 
-
         // Add each Pane to the Carousel
-
         carousel.addPane(paneSettings);
         carousel.addPane(paneLibrary);
         carousel.addPane(paneProfile);
@@ -498,7 +482,6 @@ public class DashboardUI implements AuroraScreenUI {
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
                      "Carousel_ESCAPE");
 
-
         carousel.getActionMap()
                 .put("Carousel_LEFT", handler.new DashboardlKeyListener(
                              KeyEvent.VK_LEFT));
@@ -518,10 +501,6 @@ public class DashboardUI implements AuroraScreenUI {
                 .put("Carousel_ESCAPE", handler.new DashboardlKeyListener(
                              KeyEvent.VK_ESCAPE));
 
-
-
-
-
         // Handel mouse click
         icoSetting.addMouseListener(handler.new CarouselPaneMouseListener(
                 paneSettings));
@@ -532,7 +511,6 @@ public class DashboardUI implements AuroraScreenUI {
         icoLibrary.addMouseListener(handler.new CarouselPaneMouseListener(
                 paneLibrary));
 
-
         paneProfile
                 .addMouseListener(handler.new CarouselPaneMouseListener(null));
         paneSettings.addMouseListener(
@@ -541,16 +519,10 @@ public class DashboardUI implements AuroraScreenUI {
                 .addMouseListener(handler.new CarouselPaneMouseListener(null));
         paneNet.addMouseListener(handler.new CarouselPaneMouseListener(null));
 
-
-
-
         // Info Feed
         // --------------------------------------------------------------------.
-
         infoFeedFill = new JPanel(new BorderLayout());
         infoFeedFill.setOpaque(false);
-
-
 
         // Marquee Panel Text
         // --------------------------------------------------------------------.
@@ -575,8 +547,6 @@ public class DashboardUI implements AuroraScreenUI {
                                                          infoFeedHeight));
         infoFeedContainer.add(infoFeed);
 
-
-
         AThreadWorker asynLoadInfofeed = new AThreadWorker(
                 new ActionListener() {
                     @Override
@@ -585,7 +555,6 @@ public class DashboardUI implements AuroraScreenUI {
                         infoFeedLabelList = dashboardLogic.createRssFeed();
                         dashboardLogic.loadInfoFeed(infoFeed,
                                                     infoFeedLabelList);
-
 
                         infoFeed.setPostCycleListener(new ActionListener() {
                             @Override
@@ -596,13 +565,10 @@ public class DashboardUI implements AuroraScreenUI {
                                 }
 
                                 infoFeed.removeAll();
-                                infoFeedLabelList = dashboardLogic
-                                .refreshRssFeed(
-                                        infoFeedLabelList);
+                                infoFeedLabelList = dashboardLogic.refreshRssFeed(infoFeedLabelList);
                                 dashboardLogic.loadInfoFeed(infoFeed,
                                                             infoFeedLabelList);
                                 infoFeed.startScrolling();
-
 
                             }
                         });
@@ -613,7 +579,6 @@ public class DashboardUI implements AuroraScreenUI {
                                         infoFeed.getPreferredSize().width,
                                         infoFeedHeight));
 
-
                         infoFeedFill.revalidate();
                         infoFeed.repaint();
 
@@ -622,7 +587,6 @@ public class DashboardUI implements AuroraScreenUI {
 
         asynLoadInfofeed.startOnce();
 
-
         // About Box
         aboutBox = new AboutBox(coreUI);
         coreUI.getLogoImage().addMouseListener(new HeaderMouseListener());
@@ -630,7 +594,6 @@ public class DashboardUI implements AuroraScreenUI {
 
         // Finalize
         // --------------------------------------------------------------------.
-
         if (coreUI.isUseGamePad()) {
             imgKeyBack = new AImage("KeyboardKeys/b.png");
         } else {
@@ -696,7 +659,6 @@ public class DashboardUI implements AuroraScreenUI {
         // Indicate to User DashboardUI is loading.
         coreUI.getTitleLabel().setText("  " + ".: Loading :.");
 
-
         // Set bigger Logo to Header
         coreUI.getLogoImage().setImgURl("dash_header_logo.png");
         coreUI.getLogoImage().setImageSize(logoWidth, logoHeight);
@@ -704,18 +666,13 @@ public class DashboardUI implements AuroraScreenUI {
         // Add UI to Canvas
         addToCanvas();
 
-
-
     }
 
     @Override
     public final void addToCanvas() {
 
-
         // CoreUI
         // --------------------------------------------------------------------.
-
-
         // Set size of Bottom panel in CoreUI
         coreUI.getBottomPane().setPreferredSize(new Dimension(coreUI
                 .getBottomPane().getWidth(), bottomPaneHeightAdjust));
@@ -749,11 +706,7 @@ public class DashboardUI implements AuroraScreenUI {
 
         coreUI.getLblKeyActionEnter().setText(" Launch ");
 
-
-
-
         // Add  Components to CoreUI
-
         // Add Arrow Keys Icons
         if (imgKeyArrows != null) {
             lblKeyAction.setText(" Move");
@@ -780,7 +733,6 @@ public class DashboardUI implements AuroraScreenUI {
                                                          infoFeedHeight));
         infoFeedFill.add(infoFeedContainer, BorderLayout.CENTER);
 
-
         // Add To Bottom Panel  InfoFeed and both Carousel Buttons*//
         coreUI.getCenterFromBottomPanel().add(BorderLayout.EAST,
                                               btnCarouselRight);
@@ -790,9 +742,6 @@ public class DashboardUI implements AuroraScreenUI {
                 .add(BorderLayout.WEST, btnCarouselLeft);
 
         // Handlers
-
-
-
         coreUI.getInputController().clearAllListeners();
         if ((storage.getStoredSettings()
                 .getSettingValue(SettingsLogic.GAMEPAD_SETTING) != null)
@@ -832,28 +781,21 @@ public class DashboardUI implements AuroraScreenUI {
                 addMouseWheelListener(
                         handler.new CarouselPaneMouseWheelListener());
 
-
         // Add Listeners to the Left and Right Carousel Buttons
         btnCarouselLeft.addActionListener(handler.new LeftButtonListener());
 
         btnCarouselRight.addActionListener(handler.new RightButtonListener());
 
-
         // CoreUI Listeners
-
         // Remove ENTER KeyListener attached to frame.
         coreUI.getFrame().removeKeyListener(startUI.getStartKeyHandler());
-
 
         // Finished loading so change text
         coreUI.getTitleLabel().setText("  " + " Dashboard ");
 
-
-
         // Final Refresh and Refocus
         coreUI.getFrame().repaint();
         coreUI.getFrame().requestFocus();
-
 
     }
 
@@ -861,16 +803,12 @@ public class DashboardUI implements AuroraScreenUI {
      * .-----------------------------------------------------------------------.
      * | setSizes()
      * .-----------------------------------------------------------------------.
-     * |
-     * | This method generates the initial size of each component in this UI
-     * |
+     * | | This method generates the initial size of each component in this UI |
      * | The set size uses some trial and error based calculations to determine
-     * | sizes for large screens and for small screens. This method is not
-     * | Perfect but its an improvement on previous implementations
-     * |
+     * | sizes for large screens and for small screens. This method is not |
+     * Perfect but its an improvement on previous implementations |
      */
     private void setSizes() {
-
 
         if (coreUI.isLargeScreen()) {
             topHeight = coreUI.getCenterPanel().getHeight() / 8;
@@ -895,7 +833,6 @@ public class DashboardUI implements AuroraScreenUI {
             infoFeedWidth = coreUI.getFrame().getSize().width
                             - (carouselButtonWidth * 2) - 70;
             infoFeedHeight = 55;
-
 
         } else {
             topHeight = coreUI.getCenterPanel().getHeight() / 8;
@@ -926,7 +863,6 @@ public class DashboardUI implements AuroraScreenUI {
             infoFeedHeight = carouselButtonHeight
                              - (bottomPaneHeightAdjust / 18);
 
-
             if (logger.isDebugEnabled()) {
                 logger.debug("INFO FEED WIDTH = " + infoFeedWidth);
                 logger.debug("INFO FEED HEIGHT = " + infoFeedHeight);
@@ -941,10 +877,8 @@ public class DashboardUI implements AuroraScreenUI {
      * .-----------------------------------------------------------------------.
      * | HeaderMouseListener()
      * .-----------------------------------------------------------------------.
-     * |
-     * | This is a MouseListener for when you click on the Header icon
-     * | this is used to open the About box
-     * |
+     * | | This is a MouseListener for when you click on the Header icon | this
+     * is used to open the About box |
      */
     private class HeaderMouseListener extends MouseAdapter {
 
