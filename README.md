@@ -8,8 +8,10 @@ built from ground up to enable PC gamers to better *manage*, *play* and *experie
 
 **Screenshots**
 --------------
+![image](https://github.com/sguergachi/AuroraGameHub/assets/615386/6bc68b4c-2145-4834-954e-d813210e1093)
 ![image](https://github.com/sguergachi/AuroraGameHub/assets/615386/8dc66135-667b-487a-a124-375157cbfa38)
-![image](https://github.com/sguergachi/AuroraGameHub/assets/615386/8cd15fd3-8b76-49e1-8187-de43a5329331)
+![image](https://github.com/sguergachi/AuroraGameHub/assets/615386/41b88220-e6b9-4631-80c2-7c9c7723ed3e)
+
 
 
 
